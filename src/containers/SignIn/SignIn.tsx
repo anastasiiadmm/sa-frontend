@@ -1,28 +1,28 @@
 import { Button, Checkbox, Col, Form, Row } from 'antd';
+import bem from 'easy-bem';
 import React from 'react';
 
 import image from 'assets/images/tracktor.jpeg';
 import FormField from 'components/FormField/FormField';
+import 'containers/SignIn/_signIn.scss';
 
 const SignIn: React.FC = () => {
+  const b = bem('SignIn');
+
   const onFinish = () => {};
   return (
-    <Row
-      justify='space-between'
-      data-testid='sign-in'
-      style={{ position: 'relative', height: '100vh', overflow: 'hidden' }}
-    >
+    <Row className={b()} justify='space-between' data-testid='sign-in'>
       <Col
-        style={{ position: 'absolute' }}
+        className={b('img-position')}
         xs={{ span: 6, offset: 0 }}
         lg={{ span: 6, offset: 0 }}
         md={{ span: 6, offset: 0 }}
       >
-        <img style={{ width: 1500 }} src={image} alt='image2' />
+        <img className={b('img-styles')} src={image} alt='image2' />
       </Col>
       <Col xs={{ span: 12, offset: 6 }} lg={{ span: 6, offset: 9 }} md={{ span: 12, offset: 6 }}>
         <Form
-          style={{ margin: '160px auto' }}
+          className={b('form-styles')}
           layout='vertical'
           name='basic'
           initialValues={{ remember: true }}
@@ -47,7 +47,7 @@ const SignIn: React.FC = () => {
             placeholder='Введите пароль'
           />
           <Form.Item name='remember' valuePropName='checked' wrapperCol={{ offset: 17 }}>
-            <Checkbox style={{ color: '#fff' }}>Запомнить</Checkbox>
+            <Checkbox className={b('checkbox-styles')}>Запомнить</Checkbox>
           </Form.Item>
           <Form.Item wrapperCol={{ offset: 9 }}>
             <Button type='primary' htmlType='submit'>

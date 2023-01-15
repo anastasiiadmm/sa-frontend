@@ -1,0 +1,21 @@
+.SignIn {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+
+  &__img-position {
+    position: absolute;
+  }
+
+  &__img-styles {
+    width: 1500px;
+  }
+
+  &__form-styles {
+    margin: 160px auto;
+  }
+
+  &__checkbox-styles {
+    color: #fff
+  }
+}
