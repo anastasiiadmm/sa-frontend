@@ -2,8 +2,8 @@ import { Form, Input } from 'antd';
 import React from 'react';
 
 interface Props {
-  label: string;
-  name: string;
+  label?: string;
+  name?: string;
   placeholder?: string;
 }
 

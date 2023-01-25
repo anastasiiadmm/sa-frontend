@@ -1,0 +1,72 @@
+@use "assets/scss/_themes.scss";
+
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+
+// antd styles
+
+// inputs styles
+:where(.css-dev-only-do-not-override-sk7ap8).ant-btn-primary:disabled {
+  border-color: themes.$disabled-color;
+  background-color: themes.$disabled-color;
+}
+:where(.css-dev-only-do-not-override-sk7ap8).ant-input-affix-wrapper:not(:where(.css-dev-only-do-not-override-sk7ap8).ant-input-affix-wrapper-disabled):hover {
+  border-color: themes.$primary-color;
+}
+:where(.css-dev-only-do-not-override-sk7ap8).ant-input-affix-wrapper:focus, :where(.css-dev-only-do-not-override-sk7ap8).ant-input-affix-wrapper-focused {
+  border-color: themes.$primary-color;
+}
+:where(.css-dev-only-do-not-override-sk7ap8).ant-input:hover {
+  border-color: themes.$primary-color;
+}
+:where(.css-dev-only-do-not-override-sk7ap8).ant-input:focus, :where(.css-dev-only-do-not-override-sk7ap8).ant-input-focused {
+  border-color: themes.$primary-color;
+}
+:where(.css-dev-only-do-not-override-sk7ap8).ant-btn-primary:not(:disabled):hover {
+  background: themes.$disabled-color;
+}
+:where(.css-dev-only-do-not-override-sk7ap8).ant-checkbox-checked .ant-checkbox-inner {
+  background-color: themes.$primary-color;
+  border-color: themes.$primary-color;
+}
+:where(.css-dev-only-do-not-override-1n7nwfa).ant-btn-link:not(:disabled):hover {
+  color: themes.$disabled-color;
+}
+:where(.css-dev-only-do-not-override-1n7nwfa).ant-btn-primary:not(:disabled):hover {
+  background: themes.$disabled-color;
+}
+:where(.css-dev-only-do-not-override-sk7ap8).ant-btn-link {
+  color: themes.$primary-color;
+  font-weight: bold;
+}
+:where(.css-dev-only-do-not-override-sk7ap8).ant-btn-link:not(:disabled):hover {
+  color: themes.$disabled-color;
+}
+
+//modal styles
+:where(.css-dev-only-do-not-override-sk7ap8).ant-modal .ant-modal-content {
+  border-radius: themes.$border-radius;
+}
+:where(.css-dev-only-do-not-override-sk7ap8).ant-modal .ant-modal-title {
+  font-weight: 400;
+}
+
+// buttons styles
+:where(.css-dev-only-do-not-override-sk7ap8).ant-btn-primary {
+  background-color: themes.$primary-color;
+}
+

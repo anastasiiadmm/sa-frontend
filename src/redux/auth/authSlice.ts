@@ -25,7 +25,7 @@ const INITIAL_STATE: AuthState = {
   errors: null,
   commonError: null,
   success: null,
-  loading: null,
+  loading: false,
 };
 
 export const authSlice = createSlice({

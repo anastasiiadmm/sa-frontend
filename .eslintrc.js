@@ -39,7 +39,7 @@ module.exports = {
     'function-paren-newline': 'off',
     'no-plusplus': 'off',
     'space-before-function-paren': 0,
-    'max-len': ['error', 100, 2, { ignoreUrls: true }],
+    'max-len': ['error', 130, 2, { ignoreUrls: true }],
     'no-console': 'error',
     'no-alert': 'error',
     'no-param-reassign': 'off',
