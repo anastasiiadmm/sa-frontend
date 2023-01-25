@@ -1,21 +1,46 @@
+@use "assets/scss/_themes.scss";
+
 .SignIn {
-  position: relative;
   height: 100vh;
-  overflow: hidden;
+  overflow-y: hidden;
 
-  &__img-position {
-    position: absolute;
+  @media (max-width: 1333px) {
+    overflow-y: auto;
   }
 
-  &__img-styles {
-    width: 1500px;
+  &__image-styles {
+    width: 100%;
   }
 
-  &__form-styles {
-    margin: 160px auto;
+  &__main-colum-styles {
+    z-index: 10;
+    margin: 90px auto 40px auto;
   }
 
-  &__checkbox-styles {
-    color: #fff
+  &__subtitle {
+    margin: 30px 0 5px 0;
+  }
+
+  &__title {
+    margin: 0 0 30px 0;
+  }
+
+  &__login-form-button {
+    background: themes.$primary-color;
+  }
+
+  &__buttons-col {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    margin-top: 20px;
+    > button > a {
+      padding: 4px 15px 4px 0;
+      color: themes.$primary-color;
+      font-weight: bold;
+      &:hover {
+        color: themes.$disabled-color;
+      }
+    }
   }
 }
