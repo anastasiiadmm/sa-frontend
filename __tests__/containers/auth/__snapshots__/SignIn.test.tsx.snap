@@ -7,12 +7,12 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
   style={Object {}}
 >
   <div
-    className="ant-col SignIn__img-position ant-col-xs-6 ant-col-xs-offset-0 ant-col-md-6 ant-col-md-offset-0 ant-col-lg-6 ant-col-lg-offset-0 css-dev-only-do-not-override-sk7ap8"
+    className="ant-col ant-col-xs-24 ant-col-xs-offset-0 ant-col-md-24 ant-col-md-offset-0 ant-col-lg-12 ant-col-lg-offset-0 css-dev-only-do-not-override-sk7ap8"
     style={Object {}}
   >
     <img
-      alt="image2"
-      className="SignIn__img-styles"
+      alt="tractor"
+      className="SignIn__image-styles"
       src={
         Object {
           "process": [Function],
@@ -21,13 +21,36 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
     />
   </div>
   <div
-    className="ant-col ant-col-xs-12 ant-col-xs-offset-6 ant-col-md-12 ant-col-md-offset-6 ant-col-lg-6 ant-col-lg-offset-9 css-dev-only-do-not-override-sk7ap8"
+    className="ant-col SignIn__main-colum-styles ant-col-xs-13 ant-col-xs-offset-5 ant-col-md-13 ant-col-md-offset-5 ant-col-lg-7 ant-col-lg-offset-1 css-dev-only-do-not-override-sk7ap8"
     style={Object {}}
   >
+    <img
+      alt="logo"
+      src={
+        Object {
+          "process": [Function],
+        }
+      }
+    />
+    <p
+      className="SignIn__subtitle"
+    >
+      Добро пожаловать
+    </p>
+    <h1
+      className="ant-typography SignIn__title css-dev-only-do-not-override-sk7ap8"
+      data-testid="sign_in_test"
+      style={
+        Object {
+          "WebkitLineClamp": undefined,
+        }
+      }
+    >
+      Вход в аккаунт
+    </h1>
     <form
       autoComplete="off"
-      className="ant-form ant-form-vertical css-dev-only-do-not-override-sk7ap8 SignIn__form-styles"
-      id="basic"
+      className="ant-form ant-form-vertical css-dev-only-do-not-override-sk7ap8 login-form"
       onReset={[Function]}
       onSubmit={[Function]}
     >
@@ -44,7 +67,7 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
           >
             <label
               className="ant-form-item-required"
-              htmlFor="basic_email"
+              htmlFor="email"
               title="Логин"
             >
               Логин
@@ -63,12 +86,12 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
                 <input
                   aria-required="true"
                   className="ant-input css-dev-only-do-not-override-sk7ap8"
-                  id="basic_email"
+                  id="email"
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
                   onKeyDown={[Function]}
-                  placeholder="Введите логин"
+                  placeholder="Логин"
                   type="text"
                   value=""
                 />
@@ -90,7 +113,7 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
           >
             <label
               className="ant-form-item-required"
-              htmlFor="basic_password"
+              htmlFor="remember"
               title="Пароль"
             >
               Пароль
@@ -114,15 +137,15 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
                     aria-required="true"
                     className="ant-input css-dev-only-do-not-override-sk7ap8"
                     hidden={null}
-                    id="basic_password"
+                    id="remember"
                     onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     onKeyDown={[Function]}
-                    placeholder="Введите пароль"
+                    placeholder="Пароль"
                     style={null}
                     type="password"
-                    value=""
+                    value="true"
                   />
                   <span
                     className="ant-input-suffix"
@@ -168,7 +191,7 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
           style={Object {}}
         >
           <div
-            className="ant-col ant-col-offset-17 ant-form-item-control css-dev-only-do-not-override-sk7ap8"
+            className="ant-col ant-col-16 ant-form-item-control css-dev-only-do-not-override-sk7ap8"
             style={Object {}}
           >
             <div
@@ -178,7 +201,7 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
                 className="ant-form-item-control-input-content"
               >
                 <label
-                  className="ant-checkbox-wrapper ant-checkbox-wrapper-checked ant-checkbox-wrapper-in-form-item SignIn__checkbox-styles css-dev-only-do-not-override-sk7ap8"
+                  className="ant-checkbox-wrapper ant-checkbox-wrapper-checked ant-checkbox-wrapper-in-form-item css-dev-only-do-not-override-sk7ap8"
                 >
                   <span
                     className="ant-checkbox css-dev-only-do-not-override-sk7ap8 ant-checkbox-checked"
@@ -188,7 +211,7 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
                       checked={true}
                       className="ant-checkbox-input"
                       disabled={false}
-                      id="basic_remember"
+                      id="remember"
                       onBlur={[Function]}
                       onChange={[Function]}
                       onFocus={[Function]}
@@ -202,7 +225,7 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
                     />
                   </span>
                   <span>
-                    Запомнить
+                    Запомнить меня
                   </span>
                 </label>
               </div>
@@ -210,39 +233,51 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
           </div>
         </div>
       </div>
-      <div
-        className="ant-form-item css-dev-only-do-not-override-sk7ap8"
+      <button
+        className="ant-btn css-dev-only-do-not-override-sk7ap8 ant-btn-primary SignIn__login-form-button"
+        disabled={false}
+        onClick={[Function]}
+        style={
+          Object {
+            "borderRadius": 4,
+            "width": "100%",
+          }
+        }
+        type="button"
       >
-        <div
-          className="ant-row ant-form-item-row css-dev-only-do-not-override-sk7ap8"
-          style={Object {}}
-        >
-          <div
-            className="ant-col ant-col-offset-9 ant-form-item-control css-dev-only-do-not-override-sk7ap8"
-            style={Object {}}
-          >
-            <div
-              className="ant-form-item-control-input"
-            >
-              <div
-                className="ant-form-item-control-input-content"
-              >
-                <button
-                  className="ant-btn css-dev-only-do-not-override-sk7ap8 ant-btn-primary"
-                  disabled={false}
-                  onClick={[Function]}
-                  type="submit"
-                >
-                  <span>
-                    Войти
-                  </span>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+        <span>
+          Продолжить
+        </span>
+      </button>
     </form>
+    <div
+      className="ant-row SignIn__buttons-col css-dev-only-do-not-override-sk7ap8"
+      style={Object {}}
+    >
+      <button
+        className="ant-btn css-dev-only-do-not-override-sk7ap8 ant-btn-link"
+        disabled={false}
+        onClick={[Function]}
+        type="button"
+      >
+        <a
+          href="/"
+          onClick={[Function]}
+        >
+          Зарегистрироваться
+        </a>
+      </button>
+      <button
+        className="ant-btn css-dev-only-do-not-override-sk7ap8 ant-btn-link"
+        disabled={false}
+        onClick={[Function]}
+        type="button"
+      >
+        <span>
+          Восстановить пароль
+        </span>
+      </button>
+    </div>
   </div>
 </div>
 `;
