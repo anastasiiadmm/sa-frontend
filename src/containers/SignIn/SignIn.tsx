@@ -25,7 +25,7 @@ const SignIn: React.FC = () => {
     setIsModalOpen(true);
   };
 
-  const handleOk = () => {
+  const handleOk = ()=> {
     setIsModalOpen(false);
   };
 
