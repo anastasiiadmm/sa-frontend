@@ -12,7 +12,20 @@ interface Props {
 
 const EmailField: React.FC<Props> = ({ label, name, placeholder }) => {
   return (
-    <Form.Item label={label} name={name} rules={[{ required: true, message: 'Введите логин' }]}>
+    <Form.Item
+      label={label}
+      name={name}
+      rules={[
+        {
+          type: 'email',
+          message: 'Введите валидный E-mail!',
+        },
+        {
+          required: true,
+          message: 'Введите E-mail!',
+        },
+      ]}
+    >
       <Input placeholder={placeholder} />
     </Form.Item>
   );
