@@ -1,9 +1,6 @@
-import axios from 'axios';
+import axios from "axios";
+import {apiURL} from "utils/config";
 
-import { apiURL } from 'utils/config';
-
-const axiosApi = axios.create({
+export const axiosApi = axios.create({
   baseURL: apiURL,
 });
-
-export default axiosApi;
