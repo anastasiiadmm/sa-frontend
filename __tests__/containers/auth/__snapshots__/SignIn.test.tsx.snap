@@ -4,17 +4,17 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
 <div
   className="ant-row ant-row-space-between SignIn css-dev-only-do-not-override-sk7ap8"
   data-testid="sign-in"
-  style={Object {}}
+  style={{}}
 >
   <div
     className="ant-col ant-col-xs-24 ant-col-xs-offset-0 ant-col-md-24 ant-col-md-offset-0 ant-col-lg-12 ant-col-lg-offset-0 css-dev-only-do-not-override-sk7ap8"
-    style={Object {}}
+    style={{}}
   >
     <img
       alt="tractor"
       className="SignIn__image-styles"
       src={
-        Object {
+        {
           "process": [Function],
         }
       }
@@ -22,12 +22,12 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
   </div>
   <div
     className="ant-col SignIn__main-colum-styles ant-col-xs-13 ant-col-xs-offset-5 ant-col-md-13 ant-col-md-offset-5 ant-col-lg-7 ant-col-lg-offset-1 css-dev-only-do-not-override-sk7ap8"
-    style={Object {}}
+    style={{}}
   >
     <img
       alt="logo"
       src={
-        Object {
+        {
           "process": [Function],
         }
       }
@@ -41,7 +41,7 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
       className="ant-typography SignIn__title css-dev-only-do-not-override-sk7ap8"
       data-testid="sign_in_test"
       style={
-        Object {
+        {
           "WebkitLineClamp": undefined,
         }
       }
@@ -51,6 +51,7 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
     <form
       autoComplete="off"
       className="ant-form ant-form-vertical css-dev-only-do-not-override-sk7ap8 login-form"
+      id="register"
       onReset={[Function]}
       onSubmit={[Function]}
     >
@@ -59,15 +60,15 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
       >
         <div
           className="ant-row ant-form-item-row css-dev-only-do-not-override-sk7ap8"
-          style={Object {}}
+          style={{}}
         >
           <div
             className="ant-col ant-form-item-label css-dev-only-do-not-override-sk7ap8"
-            style={Object {}}
+            style={{}}
           >
             <label
               className="ant-form-item-required"
-              htmlFor="email"
+              htmlFor="register_email"
               title="Логин"
             >
               Логин
@@ -75,7 +76,7 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
           </div>
           <div
             className="ant-col ant-form-item-control css-dev-only-do-not-override-sk7ap8"
-            style={Object {}}
+            style={{}}
           >
             <div
               className="ant-form-item-control-input"
@@ -86,7 +87,7 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
                 <input
                   aria-required="true"
                   className="ant-input css-dev-only-do-not-override-sk7ap8"
-                  id="email"
+                  id="register_email"
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
@@ -105,15 +106,15 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
       >
         <div
           className="ant-row ant-form-item-row css-dev-only-do-not-override-sk7ap8"
-          style={Object {}}
+          style={{}}
         >
           <div
             className="ant-col ant-form-item-label css-dev-only-do-not-override-sk7ap8"
-            style={Object {}}
+            style={{}}
           >
             <label
               className="ant-form-item-required"
-              htmlFor="remember"
+              htmlFor="register_remember"
               title="Пароль"
             >
               Пароль
@@ -121,7 +122,7 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
           </div>
           <div
             className="ant-col ant-form-item-control css-dev-only-do-not-override-sk7ap8"
-            style={Object {}}
+            style={{}}
           >
             <div
               className="ant-form-item-control-input"
@@ -137,7 +138,7 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
                     aria-required="true"
                     className="ant-input css-dev-only-do-not-override-sk7ap8"
                     hidden={null}
-                    id="remember"
+                    id="register_remember"
                     onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
@@ -188,11 +189,11 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
       >
         <div
           className="ant-row ant-form-item-row css-dev-only-do-not-override-sk7ap8"
-          style={Object {}}
+          style={{}}
         >
           <div
             className="ant-col ant-col-16 ant-form-item-control css-dev-only-do-not-override-sk7ap8"
-            style={Object {}}
+            style={{}}
           >
             <div
               className="ant-form-item-control-input"
@@ -205,13 +206,13 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
                 >
                   <span
                     className="ant-checkbox css-dev-only-do-not-override-sk7ap8 ant-checkbox-checked"
-                    style={Object {}}
+                    style={{}}
                   >
                     <input
                       checked={true}
                       className="ant-checkbox-input"
                       disabled={false}
-                      id="remember"
+                      id="register_remember"
                       onBlur={[Function]}
                       onChange={[Function]}
                       onFocus={[Function]}
@@ -238,12 +239,12 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
         disabled={false}
         onClick={[Function]}
         style={
-          Object {
+          {
             "borderRadius": 4,
             "width": "100%",
           }
         }
-        type="button"
+        type="submit"
       >
         <span>
           Продолжить
@@ -252,7 +253,7 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
     </form>
     <div
       className="ant-row SignIn__buttons-col css-dev-only-do-not-override-sk7ap8"
-      style={Object {}}
+      style={{}}
     >
       <button
         className="ant-btn css-dev-only-do-not-override-sk7ap8 ant-btn-link"
@@ -261,7 +262,7 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
         type="button"
       >
         <a
-          href="/"
+          href="/sign-up/"
           onClick={[Function]}
         >
           Зарегистрироваться
