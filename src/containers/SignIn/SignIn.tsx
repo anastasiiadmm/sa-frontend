@@ -17,6 +17,7 @@ const { Title } = Typography;
 const SignIn: React.FC = () => {
   const b = bem('SignIn');
   const dispatch = useDispatch();
+  const [form] = Form.useForm();
   const { loading, commonError, user, success } = useSelector(authSelector);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -32,7 +33,9 @@ const SignIn: React.FC = () => {
     setIsModalOpen(false);
   };
 
-  const onFinish = () => {};
+  const onFinish = (values: any) => {
+    console.log('Received values of form: ', values);
+  };
 
   return (
     <>
@@ -53,6 +56,8 @@ const SignIn: React.FC = () => {
           </Title>
 
           <Form
+            form={form}
+            name="register"
             initialValues={{ remember: true }}
             onFinish={onFinish}
             className='login-form'
@@ -88,6 +93,7 @@ const SignIn: React.FC = () => {
             <Button
               disabled={!!commonError}
               type='primary'
+              htmlType='submit'
               loading={!!loading}
               style={{ width: '100%', borderRadius: 4 }}
               className={b('login-form-button')}
@@ -105,7 +111,7 @@ const SignIn: React.FC = () => {
             className={b('buttons-col')}
           >
             <Button type='link'>
-              <Link to={'/'}>Зарегистрироваться</Link>
+              <Link to='/sign-up/'>Зарегистрироваться</Link>
             </Button>
             <Button type='link' onClick={showModal}>
               Восстановить пароль
