@@ -6,7 +6,7 @@ import EmailField from 'components/Fields/EmailField/EmailField';
 import PasswordField from 'components/Fields/PasswordField/PasswordField';
 
 interface Props {
-  type: string;
+  type?: string;
   [p: string]: any;
 }
 
