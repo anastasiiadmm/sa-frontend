@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 import { RootState } from 'redux/store';
-import { axiosApi } from 'utils/axios-api';
+import axiosApi from 'utils/axios-api';
 import { defaultError } from 'utils/config';
 
 interface AuthState {
@@ -18,7 +18,7 @@ interface AuthState {
 
 const nameSpace = 'auth';
 
-const INITIAL_STATE: AuthState = {
+const INITIAL_STATE = {
   user: null,
   tokens: {
     access: '',
@@ -28,7 +28,7 @@ const INITIAL_STATE: AuthState = {
   commonError: {},
   success: null,
   loading: false,
-};
+} as AuthState;
 
 export const resetUserPasswordSendEmail = createAsyncThunk<void, Object>(
   `${nameSpace}/resetUserPasswordSendEmail`,
