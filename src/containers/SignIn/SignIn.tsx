@@ -1,7 +1,6 @@
 import { Button, Col, Form, Row, Typography } from 'antd';
 import bem from 'easy-bem';
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import logo from 'assets/images/logo.png';
@@ -10,14 +9,16 @@ import FormField from 'components/FormField/FormField';
 import ModalPasswordReset from 'components/ModalComponent/ModalChildrenComponents/ModalPasswordReset/ModalPasswordReset';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import { authSelector } from 'redux/auth/authSlice';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import 'containers/SignIn/_signIn.scss';
 
 const { Title } = Typography;
 
 const SignIn: React.FC = () => {
   const b = bem('SignIn');
-  const dispatch = useDispatch();
-  const { loading, commonError, user, success } = useSelector(authSelector);
+  const dispatch = useAppDispatch();
+  const [form] = Form.useForm();
+  const { loading, commonError, user, success } = useAppSelector(authSelector);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showModal = () => {
@@ -32,7 +33,7 @@ const SignIn: React.FC = () => {
     setIsModalOpen(false);
   };
 
-  const onFinish = () => {};
+  const onFinish = (values: any) => {};
 
   return (
     <>
@@ -53,6 +54,8 @@ const SignIn: React.FC = () => {
           </Title>
 
           <Form
+            form={form}
+            name='register'
             initialValues={{ remember: true }}
             onFinish={onFinish}
             className='login-form'
@@ -88,6 +91,7 @@ const SignIn: React.FC = () => {
             <Button
               disabled={!!commonError}
               type='primary'
+              htmlType='submit'
               loading={!!loading}
               style={{ width: '100%', borderRadius: 4 }}
               className={b('login-form-button')}
@@ -105,7 +109,7 @@ const SignIn: React.FC = () => {
             className={b('buttons-col')}
           >
             <Button type='link'>
-              <Link to={'/'}>Зарегистрироваться</Link>
+              <Link to='/sign-up/'>Зарегистрироваться</Link>
             </Button>
             <Button type='link' onClick={showModal}>
               Восстановить пароль

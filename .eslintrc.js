@@ -45,6 +45,7 @@ module.exports = {
     'no-param-reassign': 'off',
     'react/require-default-props': 'off',
     'react/forbid-prop-types': 'off',
+    'no-nested-ternary': 'off',
     radix: 'off',
     'prefer-destructuring': 'off',
     'react/no-find-dom-node': 'off',

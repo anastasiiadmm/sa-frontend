@@ -1,13 +1,14 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { Route, Routes } from 'react-router';
 
 import AppRouter from 'AppRouter/AppRouter';
+import Registration from 'containers/Registration/Registration';
 import SignIn from 'containers/SignIn/SignIn';
 import { authSelector } from 'redux/auth/authSlice';
+import { useAppSelector } from 'redux/hooks';
 
 const App: React.FC = () => {
-  const { success, user, tokens } = useSelector(authSelector);
+  const { success, user, tokens } = useAppSelector(authSelector);
 
   return (
     <div>
@@ -15,6 +16,7 @@ const App: React.FC = () => {
         <AppRouter />
       ) : (
         <Routes>
+          <Route path='/sign-up/' element={<Registration />} />
           {success && user && tokens ? null : <Route path='*' element={<SignIn />} />}
         </Routes>
       )}
