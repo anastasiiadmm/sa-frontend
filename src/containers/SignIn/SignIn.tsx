@@ -57,7 +57,7 @@ const SignIn: React.FC = () => {
 
           <Form
             form={form}
-            name="register"
+            name='register'
             initialValues={{ remember: true }}
             onFinish={onFinish}
             className='login-form'

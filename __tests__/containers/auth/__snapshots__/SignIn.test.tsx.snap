@@ -2,12 +2,12 @@
 
 exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
 <div
-  className="ant-row ant-row-space-between SignIn css-dev-only-do-not-override-sk7ap8"
+  className="ant-row ant-row-space-between SignIn css-dev-only-do-not-override-ixblex"
   data-testid="sign-in"
   style={{}}
 >
   <div
-    className="ant-col ant-col-xs-24 ant-col-xs-offset-0 ant-col-md-24 ant-col-md-offset-0 ant-col-lg-12 ant-col-lg-offset-0 css-dev-only-do-not-override-sk7ap8"
+    className="ant-col ant-col-xs-24 ant-col-xs-offset-0 ant-col-md-24 ant-col-md-offset-0 ant-col-lg-12 ant-col-lg-offset-0 css-dev-only-do-not-override-ixblex"
     style={{}}
   >
     <img
@@ -21,7 +21,7 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
     />
   </div>
   <div
-    className="ant-col SignIn__main-colum-styles ant-col-xs-13 ant-col-xs-offset-5 ant-col-md-13 ant-col-md-offset-5 ant-col-lg-7 ant-col-lg-offset-1 css-dev-only-do-not-override-sk7ap8"
+    className="ant-col SignIn__main-colum-styles ant-col-xs-13 ant-col-xs-offset-5 ant-col-md-13 ant-col-md-offset-5 ant-col-lg-7 ant-col-lg-offset-1 css-dev-only-do-not-override-ixblex"
     style={{}}
   >
     <img
@@ -38,7 +38,7 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
       Добро пожаловать
     </p>
     <h1
-      className="ant-typography SignIn__title css-dev-only-do-not-override-sk7ap8"
+      className="ant-typography SignIn__title css-dev-only-do-not-override-ixblex"
       data-testid="sign_in_test"
       style={
         {
@@ -50,20 +50,20 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
     </h1>
     <form
       autoComplete="off"
-      className="ant-form ant-form-vertical css-dev-only-do-not-override-sk7ap8 login-form"
+      className="ant-form ant-form-vertical css-dev-only-do-not-override-ixblex login-form"
       id="register"
       onReset={[Function]}
       onSubmit={[Function]}
     >
       <div
-        className="ant-form-item css-dev-only-do-not-override-sk7ap8"
+        className="ant-form-item css-dev-only-do-not-override-ixblex"
       >
         <div
-          className="ant-row ant-form-item-row css-dev-only-do-not-override-sk7ap8"
+          className="ant-row ant-form-item-row css-dev-only-do-not-override-ixblex"
           style={{}}
         >
           <div
-            className="ant-col ant-form-item-label css-dev-only-do-not-override-sk7ap8"
+            className="ant-col ant-form-item-label css-dev-only-do-not-override-ixblex"
             style={{}}
           >
             <label
@@ -75,7 +75,7 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
             </label>
           </div>
           <div
-            className="ant-col ant-form-item-control css-dev-only-do-not-override-sk7ap8"
+            className="ant-col ant-form-item-control css-dev-only-do-not-override-ixblex"
             style={{}}
           >
             <div
@@ -86,7 +86,8 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
               >
                 <input
                   aria-required="true"
-                  className="ant-input css-dev-only-do-not-override-sk7ap8"
+                  className="ant-input css-dev-only-do-not-override-ixblex"
+                  disabled={false}
                   id="register_email"
                   onBlur={[Function]}
                   onChange={[Function]}
@@ -102,14 +103,14 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
         </div>
       </div>
       <div
-        className="ant-form-item css-dev-only-do-not-override-sk7ap8"
+        className="ant-form-item css-dev-only-do-not-override-ixblex"
       >
         <div
-          className="ant-row ant-form-item-row css-dev-only-do-not-override-sk7ap8"
+          className="ant-row ant-form-item-row css-dev-only-do-not-override-ixblex"
           style={{}}
         >
           <div
-            className="ant-col ant-form-item-label css-dev-only-do-not-override-sk7ap8"
+            className="ant-col ant-form-item-label css-dev-only-do-not-override-ixblex"
             style={{}}
           >
             <label
@@ -121,7 +122,7 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
             </label>
           </div>
           <div
-            className="ant-col ant-form-item-control css-dev-only-do-not-override-sk7ap8"
+            className="ant-col ant-form-item-control css-dev-only-do-not-override-ixblex"
             style={{}}
           >
             <div
@@ -131,12 +132,13 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
                 className="ant-form-item-control-input-content"
               >
                 <span
-                  className="ant-input-affix-wrapper ant-input-password css-dev-only-do-not-override-sk7ap8"
+                  className="ant-input-affix-wrapper ant-input-password css-dev-only-do-not-override-ixblex"
                   onClick={[Function]}
                 >
                   <input
                     aria-required="true"
-                    className="ant-input css-dev-only-do-not-override-sk7ap8"
+                    className="ant-input css-dev-only-do-not-override-ixblex"
+                    disabled={false}
                     hidden={null}
                     id="register_remember"
                     onBlur={[Function]}
@@ -185,14 +187,14 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
         </div>
       </div>
       <div
-        className="ant-form-item css-dev-only-do-not-override-sk7ap8"
+        className="ant-form-item css-dev-only-do-not-override-ixblex"
       >
         <div
-          className="ant-row ant-form-item-row css-dev-only-do-not-override-sk7ap8"
+          className="ant-row ant-form-item-row css-dev-only-do-not-override-ixblex"
           style={{}}
         >
           <div
-            className="ant-col ant-col-16 ant-form-item-control css-dev-only-do-not-override-sk7ap8"
+            className="ant-col ant-col-16 ant-form-item-control css-dev-only-do-not-override-ixblex"
             style={{}}
           >
             <div
@@ -202,10 +204,10 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
                 className="ant-form-item-control-input-content"
               >
                 <label
-                  className="ant-checkbox-wrapper ant-checkbox-wrapper-checked ant-checkbox-wrapper-in-form-item css-dev-only-do-not-override-sk7ap8"
+                  className="ant-checkbox-wrapper ant-checkbox-wrapper-checked ant-checkbox-wrapper-in-form-item css-dev-only-do-not-override-ixblex"
                 >
                   <span
-                    className="ant-checkbox css-dev-only-do-not-override-sk7ap8 ant-checkbox-checked"
+                    className="ant-checkbox css-dev-only-do-not-override-ixblex ant-checkbox-checked"
                     style={{}}
                   >
                     <input
@@ -235,7 +237,7 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
         </div>
       </div>
       <button
-        className="ant-btn css-dev-only-do-not-override-sk7ap8 ant-btn-primary SignIn__login-form-button"
+        className="ant-btn css-dev-only-do-not-override-ixblex ant-btn-primary SignIn__login-form-button"
         disabled={false}
         onClick={[Function]}
         style={
@@ -252,11 +254,11 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
       </button>
     </form>
     <div
-      className="ant-row SignIn__buttons-col css-dev-only-do-not-override-sk7ap8"
+      className="ant-row SignIn__buttons-col css-dev-only-do-not-override-ixblex"
       style={{}}
     >
       <button
-        className="ant-btn css-dev-only-do-not-override-sk7ap8 ant-btn-link"
+        className="ant-btn css-dev-only-do-not-override-ixblex ant-btn-link"
         disabled={false}
         onClick={[Function]}
         type="button"
@@ -269,7 +271,7 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
         </a>
       </button>
       <button
-        className="ant-btn css-dev-only-do-not-override-sk7ap8 ant-btn-link"
+        className="ant-btn css-dev-only-do-not-override-ixblex ant-btn-link"
         disabled={false}
         onClick={[Function]}
         type="button"
