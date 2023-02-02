@@ -1,7 +1,6 @@
 import { Button, Col, Form, Row, Typography } from 'antd';
 import bem from 'easy-bem';
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import logo from 'assets/images/logo.png';
@@ -10,15 +9,16 @@ import FormField from 'components/FormField/FormField';
 import ModalPasswordReset from 'components/ModalComponent/ModalChildrenComponents/ModalPasswordReset/ModalPasswordReset';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import { authSelector } from 'redux/auth/authSlice';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import 'containers/SignIn/_signIn.scss';
 
 const { Title } = Typography;
 
 const SignIn: React.FC = () => {
   const b = bem('SignIn');
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [form] = Form.useForm();
-  const { loading, commonError, user, success } = useSelector(authSelector);
+  const { loading, commonError, user, success } = useAppSelector(authSelector);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showModal = () => {
@@ -33,9 +33,7 @@ const SignIn: React.FC = () => {
     setIsModalOpen(false);
   };
 
-  const onFinish = (values: any) => {
-    console.log('Received values of form: ', values);
-  };
+  const onFinish = (values: any) => {};
 
   return (
     <>

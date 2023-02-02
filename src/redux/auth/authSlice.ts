@@ -18,7 +18,7 @@ interface AuthState {
 
 const nameSpace = 'auth';
 
-const INITIAL_STATE: AuthState = {
+const INITIAL_STATE = {
   user: null,
   tokens: {
     access: '',
@@ -28,7 +28,22 @@ const INITIAL_STATE: AuthState = {
   commonError: {},
   success: null,
   loading: false,
-};
+} as AuthState;
+
+export const resetUserPasswordSendEmail = createAsyncThunk<void, Object>(
+  `${nameSpace}/resetUserPasswordSendEmail`,
+  async (data, { rejectWithValue }) => {
+    try {
+      await axiosApi.post('/accounts/password-reset/', data);
+    } catch (e: any) {
+      let error = e?.response?.data;
+      if (!e.response) {
+        error = defaultError;
+      }
+      return rejectWithValue(error);
+    }
+  },
+);
 
 export const resetUserPasswordSendEmail = createAsyncThunk<void, Object>(
   `${nameSpace}/resetUserPasswordSendEmail`,
