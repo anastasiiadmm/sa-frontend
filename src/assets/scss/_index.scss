@@ -49,12 +49,9 @@ code {
 :where(.css-dev-only-do-not-override-1n7nwfa).ant-btn-primary:not(:disabled):hover {
   background: themes.$disabled-color;
 }
-:where(.css-dev-only-do-not-override-sk7ap8).ant-btn-link {
-  color: themes.$primary-color;
-  font-weight: bold;
-}
-:where(.css-dev-only-do-not-override-sk7ap8).ant-btn-link:not(:disabled):hover {
-  color: themes.$disabled-color;
+.ant-checkbox-checked .ant-checkbox-inner {
+  background-color: themes.$primary-color;
+  border-color: themes.$primary-color;
 }
 
 //modal styles
@@ -68,5 +65,34 @@ code {
 // buttons styles
 :where(.css-dev-only-do-not-override-sk7ap8).ant-btn-primary {
   background-color: themes.$primary-color;
+}
+
+:where(.css-dev-only-do-not-override-sk7ap8).ant-layout .ant-layout-sider {
+  background: white;
+}
+
+.ant-layout-content {
+  overflow: auto;
+  padding: 0 !important;
+}
+
+:where(.css-dev-only-do-not-override-ixblex).ant-pagination .ant-pagination-item-active {
+  border-color: themes.$primary-color;
+}
+
+:where(.css-dev-only-do-not-override-ixblex).ant-pagination .ant-pagination-item-active a {
+  color: themes.$primary-color;
+}
+
+:where(.css-dev-only-do-not-override-ixblex).ant-pagination .ant-pagination-item-active:hover {
+  color: themes.$disabled-color;
+}
+
+:where(.css-dev-only-do-not-override-ixblex).ant-pagination .ant-pagination-item-active:hover {
+  border-color: themes.$disabled-color;
+}
+
+:where(.css-dev-only-do-not-override-ixblex).ant-pagination .ant-pagination-item:focus-visible {
+  outline: 2px solid themes.$disabled-color;
 }
 

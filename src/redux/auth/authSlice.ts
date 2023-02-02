@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 import { RootState } from 'redux/store';
-import { axiosApi } from 'utils/axios-api';
+import axiosApi from 'utils/axios-api';
 import { defaultError } from 'utils/config';
 
 interface AuthState {
