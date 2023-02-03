@@ -1,0 +1,22 @@
+@use "assets/scss/_themes.scss";
+
+.Users {
+  &__cards {
+    display: flex;
+    flex-wrap: wrap;
+    > div {
+      margin: 15px;
+    }
+  }
+
+  &__table {
+    padding: 16px;
+  }
+
+  &__profile-link {
+    color: themes.$primary-color;
+    &:hover {
+      color: themes.$disabled-color;
+    }
+  }
+}

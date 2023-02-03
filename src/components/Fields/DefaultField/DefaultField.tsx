@@ -1,9 +1,7 @@
+import { Form, Input } from 'antd';
 import React from 'react';
-import {Form, Input} from "antd";
 
-interface Rule {
-
-}
+interface Rule {}
 
 interface Props {
   id?: string;
@@ -15,13 +13,9 @@ interface Props {
   inputClassName?: string;
 }
 
-const DefaultField: React.FC<Props> = ({label, name, rules, placeholder, }) => {
+const DefaultField: React.FC<Props> = ({ label, name, rules, placeholder }) => {
   return (
-    <Form.Item
-      label={label}
-      name={name}
-      rules={rules}
-    >
+    <Form.Item label={label} name={name} rules={rules}>
       <Input placeholder={placeholder} />
     </Form.Item>
   );
