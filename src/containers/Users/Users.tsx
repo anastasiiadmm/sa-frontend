@@ -95,9 +95,7 @@ const Users: React.FC = () => {
     },
   ];
 
-  const onChange: TableProps<DataType>['onChange'] = (pagination, filters, sorter, extra) => {
-    console.log('params', pagination, filters, sorter, extra);
-  };
+  const onChange: TableProps<DataType>['onChange'] = (pagination, filters, sorter, extra) => {};
 
   return (
     <div className={b()}>
