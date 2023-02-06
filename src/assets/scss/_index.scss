@@ -16,6 +16,19 @@ code {
     monospace;
 }
 
+.layout {
+  width: 100%;
+  height: 100%;
+  background: themes.$white-color;
+  overflow: auto;
+  padding-bottom: 30px;
+}
+
+.title {
+  margin: 0;
+  padding: 16px 0 15px 0;
+}
+
 
 // antd styles
 
@@ -51,6 +64,22 @@ code {
 }
 .ant-checkbox-checked .ant-checkbox-inner {
   background-color: themes.$primary-color;
+  border-color: themes.$primary-color;
+}
+
+:where(.css-dev-only-do-not-override-ixblex).ant-input:hover {
+  border-color: themes.$primary-color;
+}
+
+:where(.css-dev-only-do-not-override-ixblex).ant-input:focus, :where(.css-dev-only-do-not-override-ixblex).ant-input-focused {
+  border-color: themes.$primary-color;
+}
+
+:where(.css-dev-only-do-not-override-ixblex).ant-input-affix-wrapper:not(.ant-input-affix-wrapper-disabled):hover {
+  border-color: themes.$primary-color;
+}
+
+:where(.css-dev-only-do-not-override-ixblex).ant-input-affix-wrapper:focus, :where(.css-dev-only-do-not-override-ixblex).ant-input-affix-wrapper-focused {
   border-color: themes.$primary-color;
 }
 

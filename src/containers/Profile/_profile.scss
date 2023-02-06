@@ -1,0 +1,9 @@
+.Profile {
+  &__form-block {
+    display: flex;
+    gap: 13px;
+    > div {
+      width: 100%;
+    }
+  }
+}
