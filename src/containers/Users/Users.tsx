@@ -1,10 +1,12 @@
-import { Table } from 'antd';
+import { Table, Typography } from 'antd';
 import type { ColumnsType, TableProps } from 'antd/es/table';
 import bem from 'easy-bem';
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import 'containers/Users/_users.scss';
-import { Link } from 'react-router-dom';
+
+const { Title } = Typography;
 
 interface DataType {
   key: React.Key;
@@ -100,6 +102,10 @@ const Users: React.FC = () => {
   return (
     <div className={b()}>
       <div className={b('table')}>
+        <Title level={3} data-testid='sign_in_test' className={b('title')}>
+          Пользователи
+        </Title>
+
         <Table
           scroll={{
             x: 950,
