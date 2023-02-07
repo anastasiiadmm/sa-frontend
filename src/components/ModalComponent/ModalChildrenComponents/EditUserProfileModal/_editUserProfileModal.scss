@@ -1,0 +1,29 @@
+@use "assets/scss/_themes.scss";
+
+.EditUserProfileModal {
+  &__form-modal-block {
+    display: flex;
+    gap: 13px;
+    > div {
+      width: 100%;
+    }
+  }
+
+  &__save-button {
+    margin-top: 20px;
+  }
+
+  :where(.css-dev-only-do-not-override-sk7ap8).ant-form-vertical .ant-form-item-label, :where(.css-dev-only-do-not-override-sk7ap8).ant-col-24.ant-form-item-label, :where(.css-dev-only-do-not-override-sk7ap8).ant-col-xl-24.ant-form-item-label {
+    padding: 0;
+  }
+
+  :where(.css-dev-only-do-not-override-sk7ap8).ant-form-item {
+    margin-bottom: 12px;
+  }
+}
+
+:where(.css-dev-only-do-not-override-sk7ap8).ant-modal .ant-modal-title {
+  font-size: 18px !important;
+  font-weight: 700 !important;
+  color: themes.$font-title-color !important;
+}
