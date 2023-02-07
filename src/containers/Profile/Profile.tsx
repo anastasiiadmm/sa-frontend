@@ -22,7 +22,7 @@ const Profile: React.FC = () => {
         lg={{ span: 11, offset: 1 }}
       >
         <Title level={3} data-testid='sign_in_test' className='title'>
-          Петр В.И
+          Иванов И.И
         </Title>
 
         <Form

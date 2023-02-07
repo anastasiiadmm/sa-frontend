@@ -8,9 +8,10 @@ interface Props {
   name?: string;
   placeholder?: string;
   inputClassName?: string;
+  bordered?: boolean;
 }
 
-const EmailField: React.FC<Props> = ({ label, name, placeholder }) => {
+const EmailField: React.FC<Props> = ({ label, name, placeholder, bordered = false }) => {
   return (
     <Form.Item
       label={label}
@@ -26,7 +27,7 @@ const EmailField: React.FC<Props> = ({ label, name, placeholder }) => {
         },
       ]}
     >
-      <Input placeholder={placeholder} />
+      <Input bordered={bordered} placeholder={placeholder} />
     </Form.Item>
   );
 };

@@ -10,13 +10,14 @@ interface Props {
   name?: string;
   rules?: Rule[];
   placeholder?: string;
+  bordered?: boolean;
   inputClassName?: string;
 }
 
-const DefaultField: React.FC<Props> = ({ label, name, rules, placeholder }) => {
+const DefaultField: React.FC<Props> = ({ label, name, rules, placeholder, bordered = false }) => {
   return (
     <Form.Item label={label} name={name} rules={rules}>
-      <Input placeholder={placeholder} />
+      <Input bordered={bordered} placeholder={placeholder} />
     </Form.Item>
   );
 };

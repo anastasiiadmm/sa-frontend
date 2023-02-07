@@ -8,6 +8,7 @@ interface Props {
   name?: string;
   placeholder?: string;
   className?: string;
+  bordered?: boolean;
   dependencies?: string[] | undefined;
 }
 
@@ -18,6 +19,7 @@ const PasswordField: React.FC<Props> = ({
   placeholder,
   className,
   dependencies,
+  bordered = false,
 }) => {
   const b = bem('PasswordField');
 
@@ -43,7 +45,11 @@ const PasswordField: React.FC<Props> = ({
         }),
       ]}
     >
-      <Input.Password placeholder={placeholder} style={{ borderRadius: '7px' }} />
+      <Input.Password
+        bordered={bordered}
+        placeholder={placeholder}
+        style={{ borderRadius: '7px' }}
+      />
     </Form.Item>
   ) : (
     <Form.Item
@@ -68,7 +74,11 @@ const PasswordField: React.FC<Props> = ({
         },
       ]}
     >
-      <Input.Password placeholder={placeholder} style={{ borderRadius: '7px' }} />
+      <Input.Password
+        bordered={bordered}
+        placeholder={placeholder}
+        style={{ borderRadius: '7px' }}
+      />
     </Form.Item>
   );
 };
