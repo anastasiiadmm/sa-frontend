@@ -62,6 +62,12 @@ code {
 :where(.css-dev-only-do-not-override-1n7nwfa).ant-btn-primary:not(:disabled):hover {
   background: themes.$disabled-color;
 }
+:where(.css-dev-only-do-not-override-sk7ap8).ant-menu-light:not(.ant-menu-horizontal) .ant-menu-submenu-title:active {
+  background-color: themes.$active-menu_background;
+}
+:where(.css-dev-only-do-not-override-sk7ap8).ant-menu-light:not(.ant-menu-horizontal) .ant-menu-item:not(.ant-menu-item-selected):active {
+  background-color: themes.$active-menu_background;
+}
 .ant-checkbox-checked .ant-checkbox-inner {
   background-color: themes.$primary-color;
   border-color: themes.$primary-color;
@@ -81,6 +87,14 @@ code {
 
 :where(.css-dev-only-do-not-override-ixblex).ant-input-affix-wrapper:focus, :where(.css-dev-only-do-not-override-ixblex).ant-input-affix-wrapper-focused {
   border-color: themes.$primary-color;
+}
+
+:where(.css-dev-only-do-not-override-sk7ap8).ant-card {
+  border-radius: 4px;
+}
+
+:where(.css-dev-only-do-not-override-sk7ap8).ant-card .ant-card-body {
+  border-radius: 4px;
 }
 
 //modal styles

@@ -1,0 +1,13 @@
+.NewUser {
+  &__subtext {
+    padding-bottom: 12px;
+  }
+
+  &__form-block {
+    display: flex;
+    gap: 13px;
+    > div {
+      width: 100%;
+    }
+  }
+}
