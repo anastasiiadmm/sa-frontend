@@ -33,6 +33,7 @@ const Profile: React.FC = () => {
           layout='vertical'
         >
           <FormField
+            disabled
             bordered
             data-testid='username_id'
             id='username_id'

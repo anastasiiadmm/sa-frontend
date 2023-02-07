@@ -93,6 +93,7 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
                   onFocus={[Function]}
                   onKeyDown={[Function]}
                   placeholder="Логин"
+                  readOnly={false}
                   type="text"
                   value=""
                 />
@@ -149,6 +150,7 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
                     onFocus={[Function]}
                     onKeyDown={[Function]}
                     placeholder="Пароль"
+                    readOnly={false}
                     style={null}
                     type="password"
                     value="true"

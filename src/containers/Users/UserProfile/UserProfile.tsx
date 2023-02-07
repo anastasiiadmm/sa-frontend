@@ -47,6 +47,7 @@ const UserProfile: React.FC = () => {
           layout='vertical'
         >
           <FormField
+            readOnly
             data-testid='username_id'
             id='username_id'
             inputClassName={b('username')}
@@ -57,6 +58,7 @@ const UserProfile: React.FC = () => {
 
           <div className={b('form-block')}>
             <FormField
+              readOnly
               id='password_id'
               type='password'
               name='password'
@@ -67,6 +69,7 @@ const UserProfile: React.FC = () => {
 
           <div className={b('form-block')}>
             <FormField
+              readOnly
               data-testid='last_name_id'
               id='last_name_id'
               label='Фамилия'
@@ -74,6 +77,7 @@ const UserProfile: React.FC = () => {
               placeholder='Фамилия'
             />
             <FormField
+              readOnly
               data-testid='first_name_id'
               id='first_name_id'
               label='Имя'
@@ -81,6 +85,7 @@ const UserProfile: React.FC = () => {
               placeholder='Имя'
             />
             <FormField
+              readOnly
               data-testid='surname_id'
               id='surname_id'
               label='Отчество'
@@ -91,6 +96,7 @@ const UserProfile: React.FC = () => {
 
           <div className={b('form-block')}>
             <FormField
+              readOnly
               data-testid='email_id_login'
               type='email'
               id='email_id'
@@ -101,6 +107,7 @@ const UserProfile: React.FC = () => {
             />
 
             <FormField
+              readOnly
               type='phone'
               className='username'
               name='phone'
@@ -110,6 +117,7 @@ const UserProfile: React.FC = () => {
           </div>
 
           <FormField
+            readOnly
             data-testid='username_id'
             id='username_id'
             label='Название колхоза/фермы/компании'
@@ -118,6 +126,7 @@ const UserProfile: React.FC = () => {
           />
 
           <FormField
+            readOnly
             data-testid='username_id'
             id='username_id'
             label='Регион расположения'
@@ -126,6 +135,7 @@ const UserProfile: React.FC = () => {
           />
 
           <FormField
+            readOnly
             data-testid='username_id'
             id='username_id'
             label='Количество оплаченных блоков автопилота'
