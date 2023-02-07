@@ -1,0 +1,65 @@
+@use 'assets/scss/_themes.scss';
+
+.UserProfile {
+  &__form-block {
+    display: flex;
+    gap: 13px;
+  }
+
+  &__user-card-style {
+    width: 160px;
+    background: themes.$light-blue-color;
+    border: 1px solid themes.$info-color;
+    border-radius: 4px;
+    margin-bottom: 30px;
+    > div {
+      display: flex;
+      gap: 11px;
+    }
+  }
+
+  &__card-content {
+    > h5 {
+      margin: 0;
+      font-weight: 700;
+      font-size: 14px;
+      color: themes.$font-title-color;
+    }
+    > p {
+      margin: 0;
+    }
+  }
+
+  &__profile-buttons {
+    display: flex;
+    gap: 30px;
+  }
+
+  &__delete-profile-button {
+    background: themes.$red-color !important;
+  }
+
+  :where(.css-dev-only-do-not-override-sk7ap8).ant-form-vertical .ant-form-item-label, :where(.css-dev-only-do-not-override-sk7ap8).ant-col-24.ant-form-item-label, :where(.css-dev-only-do-not-override-sk7ap8).ant-col-xl-24.ant-form-item-label {
+    padding: 0;
+  }
+
+  :where(.css-dev-only-do-not-override-sk7ap8).ant-input {
+    padding: 0;
+  }
+
+  :where(.css-dev-only-do-not-override-sk7ap8).ant-form-item {
+    margin-bottom: 15px;
+  }
+
+  :where(.css-dev-only-do-not-override-sk7ap8).ant-form-item .ant-form-item-label >label.ant-form-item-required:not(.ant-form-item-required-mark-optional)::before {
+    display: none;
+  }
+
+  :where(.css-dev-only-do-not-override-sk7ap8).ant-form-item .ant-form-item-label >label {
+    color: themes.$gray-color;
+  }
+
+  :where(.css-dev-only-do-not-override-sk7ap8).ant-input {
+    color: themes.$font-title-color
+  }
+}

@@ -86,13 +86,14 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
               >
                 <input
                   aria-required="true"
-                  className="ant-input css-dev-only-do-not-override-sk7ap8"
+                  className="ant-input ant-input-borderless css-dev-only-do-not-override-sk7ap8"
                   id="register_email"
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
                   onKeyDown={[Function]}
                   placeholder="Логин"
+                  readOnly={false}
                   type="text"
                   value=""
                 />
@@ -131,7 +132,7 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
                 className="ant-form-item-control-input-content"
               >
                 <span
-                  className="ant-input-affix-wrapper ant-input-password ant-input-affix-wrapper-has-feedback css-dev-only-do-not-override-sk7ap8"
+                  className="ant-input-affix-wrapper ant-input-password ant-input-affix-wrapper-borderless ant-input-affix-wrapper-has-feedback css-dev-only-do-not-override-sk7ap8"
                   onClick={[Function]}
                   style={
                     {
@@ -141,7 +142,7 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
                 >
                   <input
                     aria-required="true"
-                    className="ant-input css-dev-only-do-not-override-sk7ap8"
+                    className="ant-input ant-input-borderless css-dev-only-do-not-override-sk7ap8"
                     hidden={null}
                     id="register_remember"
                     onBlur={[Function]}
@@ -149,6 +150,7 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
                     onFocus={[Function]}
                     onKeyDown={[Function]}
                     placeholder="Пароль"
+                    readOnly={false}
                     style={null}
                     type="password"
                     value="true"

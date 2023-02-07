@@ -9,6 +9,7 @@ import Profile from 'containers/Profile/Profile';
 import NewUser from 'containers/Users/NewUser/NewUser';
 import UserProfile from 'containers/Users/UserProfile/UserProfile';
 import Users from 'containers/Users/Users';
+import UserTechnique from 'containers/Users/UserTechnique/UserTechnique';
 
 const { Header, Content } = Layout;
 
@@ -41,6 +42,7 @@ const AppRouter: React.FC = () => {
             <Route path='/add-new-user' element={<NewUser />} />
             <Route path='/profile' element={<Profile />} />
             <Route path='/user-profile' element={<UserProfile />} />
+            <Route path='/user-technique' element={<UserTechnique />} />
           </Routes>
         </Content>
       </Layout>
