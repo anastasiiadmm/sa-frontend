@@ -33,6 +33,7 @@ const Profile: React.FC = () => {
           layout='vertical'
         >
           <FormField
+            bordered
             data-testid='username_id'
             id='username_id'
             inputClassName={b('username')}
@@ -43,6 +44,7 @@ const Profile: React.FC = () => {
 
           <div className={b('form-block')}>
             <FormField
+              bordered
               id='password_id'
               type='password'
               className='username'
@@ -52,6 +54,7 @@ const Profile: React.FC = () => {
             />
 
             <FormField
+              bordered
               id='password_confirm'
               type='password'
               className='username'
@@ -64,6 +67,7 @@ const Profile: React.FC = () => {
 
           <div className={b('form-block')}>
             <FormField
+              bordered
               data-testid='first_name_id'
               id='first_name_id'
               inputClassName={b('username')}
@@ -73,6 +77,7 @@ const Profile: React.FC = () => {
             />
 
             <FormField
+              bordered
               data-testid='last_name_id'
               id='last_name_id'
               inputClassName={b('username')}
@@ -83,6 +88,7 @@ const Profile: React.FC = () => {
           </div>
 
           <FormField
+            bordered
             data-testid='surname_id'
             id='surname_id'
             inputClassName={b('username')}
@@ -93,6 +99,7 @@ const Profile: React.FC = () => {
 
           <div className={b('form-block')}>
             <FormField
+              bordered
               data-testid='email_id_login'
               type='email'
               id='email_id'
@@ -103,6 +110,7 @@ const Profile: React.FC = () => {
             />
 
             <FormField
+              bordered
               type='phone'
               className='username'
               name='phone'

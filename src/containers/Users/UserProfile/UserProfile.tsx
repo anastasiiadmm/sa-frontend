@@ -1,8 +1,11 @@
+import { Button, Card, Col, Form, Typography } from 'antd';
 import bem from 'easy-bem';
-import { Button, Col, Form, Typography } from 'antd';
 import React from 'react';
+import { Link } from 'react-router-dom';
 
+import tractorBlue from 'assets/images/icons/tractor-blue.svg';
 import FormField from 'components/FormField/FormField';
+import 'containers/Users/UserProfile/_UserProfile.scss';
 
 const { Title } = Typography;
 
@@ -16,13 +19,25 @@ const UserProfile: React.FC = () => {
     <div className='layout'>
       <Col
         className={b('')}
-        xs={{ span: 13, offset: 5 }}
-        md={{ span: 9, offset: 5 }}
+        xs={{ span: 20, offset: 2 }}
+        md={{ span: 18, offset: 3 }}
         lg={{ span: 11, offset: 1 }}
       >
         <Title level={3} data-testid='sign_in_test' className='title'>
           Петр В.И
         </Title>
+
+        <Link to='/user-technique'>
+          <Card className={b('user-card-style')} bordered={false} style={{ width: 350 }}>
+            <img src={tractorBlue} alt='tractorBlue' />
+            <div className={b('card-content')}>
+              <Title level={5} data-testid='sign_in_test'>
+                Техника пользователя
+              </Title>
+              <p className={b('subtext')}>Добавить или удалить технику</p>
+            </div>
+          </Card>
+        </Link>
 
         <Form
           form={form}
@@ -44,51 +59,35 @@ const UserProfile: React.FC = () => {
             <FormField
               id='password_id'
               type='password'
-              className='username'
               name='password'
               label='Пароль'
               placeholder='Пароль'
-            />
-
-            <FormField
-              id='password_confirm'
-              type='password'
-              className='username'
-              name='confirm_password'
-              dependencies={['password']}
-              label='Повторите пароль'
-              placeholder='Повторите пароль'
             />
           </div>
 
           <div className={b('form-block')}>
             <FormField
-              data-testid='first_name_id'
-              id='first_name_id'
-              inputClassName={b('username')}
-              label='Фамилия'
-              name='first_name'
-              placeholder='Фамилия'
-            />
-
-            <FormField
               data-testid='last_name_id'
               id='last_name_id'
-              inputClassName={b('username')}
-              label='Имя'
+              label='Фамилия'
               name='last_name'
+              placeholder='Фамилия'
+            />
+            <FormField
+              data-testid='first_name_id'
+              id='first_name_id'
+              label='Имя'
+              name='first_name'
               placeholder='Имя'
             />
+            <FormField
+              data-testid='surname_id'
+              id='surname_id'
+              label='Отчество'
+              name='surname'
+              placeholder='Отчество'
+            />
           </div>
-
-          <FormField
-            data-testid='surname_id'
-            id='surname_id'
-            inputClassName={b('username')}
-            label='Отчество'
-            name='surname'
-            placeholder='Отчество'
-          />
 
           <div className={b('form-block')}>
             <FormField
@@ -110,16 +109,52 @@ const UserProfile: React.FC = () => {
             />
           </div>
 
-          <Button
-            // disabled={!!commonError}
-            type='primary'
-            htmlType='submit'
-            // loading={!!loading}
-            style={{ width: '100%', borderRadius: 4 }}
-            className={b('login-form-button')}
-          >
-            Сохранить изменения
-          </Button>
+          <FormField
+            data-testid='username_id'
+            id='username_id'
+            label='Название колхоза/фермы/компании'
+            name='username'
+            placeholder='Название колхоза/фермы/компании'
+          />
+
+          <FormField
+            data-testid='username_id'
+            id='username_id'
+            label='Регион расположения'
+            name='username'
+            placeholder='Регион расположения'
+          />
+
+          <FormField
+            data-testid='username_id'
+            id='username_id'
+            label='Количество оплаченных блоков автопилота'
+            name='username'
+            placeholder='Количество оплаченных блоков автопилота'
+          />
+
+          <div className={b('profile-buttons')}>
+            <Button
+              // disabled={!!commonError}
+              type='primary'
+              htmlType='submit'
+              // loading={!!loading}
+              style={{ width: '100%', borderRadius: 4 }}
+              className={b('delete-profile-button')}
+            >
+              Удалить
+            </Button>
+            <Button
+              // disabled={!!commonError}
+              type='primary'
+              htmlType='submit'
+              // loading={!!loading}
+              style={{ width: '100%', borderRadius: 4 }}
+              className={b('edit-profile-button')}
+            >
+              Редактировать
+            </Button>
+          </div>
         </Form>
       </Col>
     </div>

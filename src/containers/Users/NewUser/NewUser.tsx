@@ -34,6 +34,7 @@ const NewUser: React.FC = () => {
           layout='vertical'
         >
           <FormField
+            bordered
             data-testid='username_id'
             id='username_id'
             inputClassName={b('username')}
@@ -44,6 +45,7 @@ const NewUser: React.FC = () => {
 
           <div className={b('form-block')}>
             <FormField
+              bordered
               id='password_id'
               type='password'
               className='username'
@@ -53,6 +55,7 @@ const NewUser: React.FC = () => {
             />
 
             <FormField
+              bordered
               id='password_confirm'
               type='password'
               className='username'
@@ -65,6 +68,7 @@ const NewUser: React.FC = () => {
 
           <div className={b('form-block')}>
             <FormField
+              bordered
               data-testid='first_name_id'
               id='first_name_id'
               inputClassName={b('username')}
@@ -74,6 +78,7 @@ const NewUser: React.FC = () => {
             />
 
             <FormField
+              bordered
               data-testid='last_name_id'
               id='last_name_id'
               inputClassName={b('username')}
@@ -84,6 +89,7 @@ const NewUser: React.FC = () => {
           </div>
 
           <FormField
+            bordered
             data-testid='surname_id'
             id='surname_id'
             inputClassName={b('username')}
@@ -94,6 +100,7 @@ const NewUser: React.FC = () => {
 
           <div className={b('form-block')}>
             <FormField
+              bordered
               data-testid='email_id_login'
               type='email'
               id='email_id'
@@ -104,6 +111,7 @@ const NewUser: React.FC = () => {
             />
 
             <FormField
+              bordered
               type='phone'
               className='username'
               name='phone'
@@ -113,6 +121,7 @@ const NewUser: React.FC = () => {
           </div>
 
           <FormField
+            bordered
             data-testid='name_of_farm_id'
             id='name_of_farm_id'
             inputClassName={b('username')}
@@ -122,6 +131,7 @@ const NewUser: React.FC = () => {
           />
 
           <FormField
+            bordered
             data-testid='region_id'
             id='region_id'
             inputClassName={b('username')}
