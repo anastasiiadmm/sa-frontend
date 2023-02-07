@@ -1,9 +1,11 @@
-import { Table, Typography } from 'antd';
+import { Card, Table, Typography } from 'antd';
 import type { ColumnsType, TableProps } from 'antd/es/table';
 import bem from 'easy-bem';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import people from 'assets/images/icons/group-active.svg';
+import tractorBlue from 'assets/images/icons/tractor-blue.svg';
 import 'containers/Users/_users.scss';
 
 const { Title } = Typography;
@@ -14,7 +16,6 @@ interface DataType {
   address: string;
   phone: string;
   blocks: string;
-  profile: React.ReactNode;
 }
 
 const Users: React.FC = () => {
@@ -27,6 +28,7 @@ const Users: React.FC = () => {
       width: '20%',
       sorter: true,
       fixed: 'left',
+      render: (text: string) => <p className={b('name-column-style')}>{text}</p>,
     },
     {
       title: 'Название компании',
@@ -53,6 +55,11 @@ const Users: React.FC = () => {
       dataIndex: 'profile',
       filterSearch: true,
       width: '30%',
+      render: (text: string) => (
+        <Link className={b('profile-link')} to='/user-profile'>
+          Просмотреть профиль
+        </Link>
+      ),
     },
   ];
 
@@ -63,11 +70,6 @@ const Users: React.FC = () => {
       address: 'New York No. 1 Lake Park',
       phone: '+78889932',
       blocks: '5',
-      profile: (
-        <Link className={b('profile-link')} to='/user-profile'>
-          Просмотреть профиль
-        </Link>
-      ),
     },
     {
       key: '2',
@@ -75,11 +77,6 @@ const Users: React.FC = () => {
       address: 'London No. 1 Lake Park',
       phone: '+78889932',
       blocks: '11',
-      profile: (
-        <Link className={b('profile-link')} to='/user-profile'>
-          Просмотреть профиль
-        </Link>
-      ),
     },
     {
       key: '3',
@@ -87,11 +84,6 @@ const Users: React.FC = () => {
       address: 'Sydney No. 1 Lake Park',
       phone: '+78889932',
       blocks: '6',
-      profile: (
-        <Link className={b('profile-link')} to='/user-profile'>
-          Просмотреть профиль
-        </Link>
-      ),
     },
   ];
 
@@ -99,6 +91,22 @@ const Users: React.FC = () => {
 
   return (
     <div className={b()}>
+      <div className={b('card-block')}>
+        <Card className={b('card-style')} bordered={false} style={{ width: 300 }}>
+          <Title className={b('card-title')}>Добавлено пользователей</Title>
+          <div className={b('card-content')}>
+            <img src={people} alt='group' />
+            <p>48</p>
+          </div>
+        </Card>
+        <Card className={b('card-style')} bordered={false} style={{ width: 300 }}>
+          <Title className={b('card-title')}>Добавлено Техники</Title>
+          <div className={b('card-content')}>
+            <img src={tractorBlue} alt='group' />
+            <p>122</p>
+          </div>
+        </Card>
+      </div>
       <div className={b('table')}>
         <Title level={3} data-testid='sign_in_test' className={b('title')}>
           Пользователи
