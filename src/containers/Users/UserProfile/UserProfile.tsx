@@ -132,7 +132,6 @@ const UserProfile: React.FC = () => {
                 data-testid='email_id_login'
                 type='email'
                 id='email_id'
-                inputClassName={b('username')}
                 label='Email'
                 name='email'
                 placeholder='Email'
@@ -141,7 +140,6 @@ const UserProfile: React.FC = () => {
               <FormField
                 readOnly
                 type='phone'
-                className='username'
                 name='phone'
                 label='Номер телефона'
                 placeholder='Номер телефона'
@@ -150,28 +148,28 @@ const UserProfile: React.FC = () => {
 
             <FormField
               readOnly
-              data-testid='username_id'
-              id='username_id'
+              data-testid='name_of_company_id'
+              id='name_of_company_id'
               label='Название колхоза/фермы/компании'
-              name='username'
+              name='name_of_company'
               placeholder='Название колхоза/фермы/компании'
             />
 
             <FormField
               readOnly
-              data-testid='username_id'
-              id='username_id'
+              data-testid='name_of_region_id'
+              id='name_of_region_id'
               label='Регион расположения'
-              name='username'
+              name='name_of_region'
               placeholder='Регион расположения'
             />
 
             <FormField
               readOnly
-              data-testid='username_id'
-              id='username_id'
+              data-testid='amount_id'
+              id='amount_id'
               label='Количество оплаченных блоков автопилота'
-              name='username'
+              name='amount'
               placeholder='Количество оплаченных блоков автопилота'
             />
 
