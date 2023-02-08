@@ -1,0 +1,39 @@
+.UserTechnique {
+  &__table {
+    padding: 16px;
+    background: #ffffff;
+  }
+
+  &__arrow-left {
+    padding: 0 10px;
+    cursor: pointer;
+    width: 35px;
+  }
+
+  &__header {
+    margin-bottom: 33px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__header-title {
+    display: flex;
+    align-items: baseline;
+  }
+
+  &__title {
+    display: flex;
+    font-weight: 400 !important;
+  }
+
+  &__subtitle {
+    margin: 0;
+    padding-left: 7px;
+    font-weight: 700 !important;
+  }
+
+  &__save-button {
+
+  }
+}
