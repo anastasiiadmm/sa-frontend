@@ -67,12 +67,8 @@ const UserTechnique: React.FC = () => {
           <Link className={b('profile-link')} to='/user-profile'>
             Просмотр на карте
           </Link>
-          <Link to='/'>
-            <img src={edit} alt='edit' />
-          </Link>
-          <Link to='/'>
-            <img src={deleteIcon} alt='deleteIcon' />
-          </Link>
+          <img src={edit} alt='edit' />
+          <img src={deleteIcon} alt='deleteIcon' />
         </div>
       ),
     },
