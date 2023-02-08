@@ -2,7 +2,7 @@ import { Divider, Modal } from 'antd';
 import React from 'react';
 
 type Props = {
-  title: string;
+  title?: string;
   open: boolean;
   children?: React.ReactNode;
   handleOk: (params: any) => any;

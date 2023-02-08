@@ -12,6 +12,11 @@
     border: 1px solid themes.$info-color;
     border-radius: 4px;
     margin-bottom: 30px;
+
+    &:hover {
+      background: white !important;
+    }
+
     > div {
       display: flex;
       gap: 11px;
@@ -37,9 +42,14 @@
 
   &__delete-profile-button {
     background: themes.$red-color !important;
+    &:hover {
+      background: red !important;
+    }
   }
 
-  :where(.css-dev-only-do-not-override-sk7ap8).ant-form-vertical .ant-form-item-label, :where(.css-dev-only-do-not-override-sk7ap8).ant-col-24.ant-form-item-label, :where(.css-dev-only-do-not-override-sk7ap8).ant-col-xl-24.ant-form-item-label {
+  :where(.css-dev-only-do-not-override-sk7ap8).ant-form-vertical .ant-form-item-label,
+  :where(.css-dev-only-do-not-override-sk7ap8).ant-col-24.ant-form-item-label,
+  :where(.css-dev-only-do-not-override-sk7ap8).ant-col-xl-24.ant-form-item-label {
     padding: 0;
   }
 
@@ -51,15 +61,22 @@
     margin-bottom: 15px;
   }
 
-  :where(.css-dev-only-do-not-override-sk7ap8).ant-form-item .ant-form-item-label >label.ant-form-item-required:not(.ant-form-item-required-mark-optional)::before {
+  :where(.css-dev-only-do-not-override-sk7ap8).ant-form-item
+    .ant-form-item-label
+    > label.ant-form-item-required:not(.ant-form-item-required-mark-optional)::before {
     display: none;
   }
 
-  :where(.css-dev-only-do-not-override-sk7ap8).ant-form-item .ant-form-item-label >label {
+  :where(.css-dev-only-do-not-override-sk7ap8).ant-form-item .ant-form-item-label > label {
     color: themes.$gray-color;
   }
 
   :where(.css-dev-only-do-not-override-sk7ap8).ant-input {
-    color: themes.$font-title-color
+    color: themes.$font-title-color;
+    cursor: default;
+  }
+
+  :where(.css-dev-only-do-not-override-sk7ap8).ant-input-affix-wrapper {
+    padding: 0;
   }
 }
