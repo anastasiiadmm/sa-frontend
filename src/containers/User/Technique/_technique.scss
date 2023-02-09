@@ -1,0 +1,46 @@
+@use 'assets/scss/_themes.scss';
+
+.Technique {
+  &__table {
+    padding: 16px;
+    background: themes.$white-color;
+  }
+
+  &__card-block {
+    padding-bottom: 15px;
+  }
+
+  &__title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    > h3 {
+      margin: 0;
+    }
+
+    margin-bottom: 28px;
+  }
+
+  &__card-style {
+    height: 128px;
+  }
+
+  &__card-title {
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase;
+    margin-bottom: 18px !important;
+  }
+
+  &__card-content {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 12px;
+
+    > p {
+      margin: 0;
+      font-size: 24px;
+      font-weight: 700;
+    }
+  }
+}
