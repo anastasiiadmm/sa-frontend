@@ -65,7 +65,10 @@ const UserItems: MenuItem[] = [
     </p>,
     'sub1',
     <Avatar className='avatar-profile' size='large' icon={<UserOutlined />} />,
-    [getItem('Профиль', '/profile', <HomeOutlined />), getItem('Выход', '6', <ImportOutlined />)],
+    [
+      getItem('Профиль', '/user-profile', <HomeOutlined />),
+      getItem('Выход', '6', <ImportOutlined />),
+    ],
   ),
   { type: 'divider' },
   getItem(
