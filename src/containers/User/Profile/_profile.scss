@@ -1,0 +1,96 @@
+@use 'assets/scss/_themes.scss';
+
+.Profile {
+  &__card-block {
+    padding-bottom: 15px;
+  }
+
+  &__title {
+    margin-bottom: 30px;
+  }
+
+  &__card-style {
+    padding-left: 23px;
+    height: 139px;
+  }
+
+  &__card-title {
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase;
+    margin-bottom: 18px !important;
+  }
+
+  &__card-content {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 12px;
+
+    > p {
+      margin: 0;
+      font-size: 24px;
+      font-weight: 700;
+    }
+  }
+
+  &__form-block {
+    display: flex;
+    gap: 13px;
+  }
+
+  :where(.css-dev-only-do-not-override-sk7ap8).ant-btn-link {
+    color: themes.$primary-color;
+    padding: 0;
+  }
+
+  :where(.css-dev-only-do-not-override-sk7ap8).ant-btn-link:not(:disabled):hover {
+    color: themes.$disabled-color;
+  }
+
+  :where(.css-dev-only-do-not-override-sk7ap8).ant-form-vertical .ant-form-item-label, :where(.css-dev-only-do-not-override-sk7ap8).ant-col-24.ant-form-item-label, :where(.css-dev-only-do-not-override-sk7ap8).ant-col-xl-24.ant-form-item-label {
+    padding: 0;
+  }
+
+  :where(.css-dev-only-do-not-override-sk7ap8).ant-input {
+    padding: 0;
+  }
+
+  :where(.css-dev-only-do-not-override-sk7ap8).ant-form-item .ant-form-item-label >label.ant-form-item-required:not(.ant-form-item-required-mark-optional)::before {
+    display: none;
+  }
+
+  :where(.css-dev-only-do-not-override-sk7ap8).ant-input-affix-wrapper {
+    padding: 0;
+  }
+
+  :where(.css-dev-only-do-not-override-sk7ap8).ant-form-vertical .ant-form-item-label,
+  :where(.css-dev-only-do-not-override-sk7ap8).ant-col-24.ant-form-item-label,
+  :where(.css-dev-only-do-not-override-sk7ap8).ant-col-xl-24.ant-form-item-label {
+    padding: 0;
+  }
+
+  :where(.css-dev-only-do-not-override-sk7ap8).ant-input {
+    padding: 0;
+  }
+
+  :where(.css-dev-only-do-not-override-sk7ap8).ant-form-item {
+    margin-bottom: 15px;
+  }
+
+  :where(.css-dev-only-do-not-override-sk7ap8).ant-form-item .ant-form-item-label > label.ant-form-item-required:not(.ant-form-item-required-mark-optional)::before {
+    display: none;
+  }
+
+  :where(.css-dev-only-do-not-override-sk7ap8).ant-form-item .ant-form-item-label > label {
+    color: themes.$gray-color;
+  }
+
+  :where(.css-dev-only-do-not-override-sk7ap8).ant-input {
+    color: themes.$font-title-color;
+    cursor: default;
+  }
+
+  :where(.css-dev-only-do-not-override-sk7ap8).ant-input-affix-wrapper {
+    padding: 0;
+  }
+}
