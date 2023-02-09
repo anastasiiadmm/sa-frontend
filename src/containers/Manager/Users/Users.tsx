@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 
 import people from 'assets/images/icons/group-active.svg';
 import tractorBlue from 'assets/images/icons/tractor-blue.svg';
-import 'containers/Users/_users.scss';
+import 'containers/Manager/Users/_users.scss';
 
 const { Title } = Typography;
 
@@ -55,7 +55,7 @@ const Users: React.FC = () => {
       dataIndex: 'profile',
       filterSearch: true,
       width: '30%',
-      render: (text: string) => (
+      render: () => (
         <Link className={b('profile-link')} to='/user-profile'>
           Просмотреть профиль
         </Link>

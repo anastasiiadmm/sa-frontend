@@ -139,3 +139,6 @@ code {
   outline: 2px solid themes.$disabled-color;
 }
 
+:where(.css-dev-only-do-not-override-sk7ap8).ant-menu-light .ant-menu-submenu-selected >.ant-menu-submenu-title {
+  color: themes.$primary-color;
+}

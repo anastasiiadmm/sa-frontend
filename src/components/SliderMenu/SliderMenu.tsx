@@ -6,7 +6,7 @@ import React from 'react';
 import { useNavigate } from 'react-router';
 
 import logo from 'assets/images/logo.png';
-import 'components/SiderMenu/_siderMenu.scss';
+import 'components/SliderMenu/_sliderMenu.scss';
 
 const { Sider } = Layout;
 
@@ -32,7 +32,7 @@ function getItem(
   } as MenuItem;
 }
 
-const items: MenuItem[] = [
+/* const ManagerItems: MenuItem[] = [
   getItem(
     <p className='menuItem'>
       Петр В.И.<span>Менеджер</span>
@@ -56,10 +56,29 @@ const items: MenuItem[] = [
     ],
     'group',
   ),
+]; */
+
+const UserItems: MenuItem[] = [
+  getItem(
+    <p className='menuItem'>
+      Иванов И.И<span>Пользователь</span>
+    </p>,
+    'sub1',
+    <Avatar className='avatar-profile' size='large' icon={<UserOutlined />} />,
+    [getItem('Профиль', '/profile', <HomeOutlined />), getItem('Выход', '6', <ImportOutlined />)],
+  ),
+  { type: 'divider' },
+  getItem(
+    '',
+    'grp',
+    null,
+    [getItem('Техника', '/', <div className='icon-styles technics-icon' />)],
+    'group',
+  ),
 ];
 
-const SiderMenu: React.FC<Props> = ({ collapsed }) => {
-  const b = bem('SiderMenu');
+const SliderMenu: React.FC<Props> = ({ collapsed }) => {
+  const b = bem('SliderMenu');
   const push = useNavigate();
 
   const pushLinks: MenuProps['onClick'] = (e) => {
@@ -77,11 +96,11 @@ const SiderMenu: React.FC<Props> = ({ collapsed }) => {
         defaultSelectedKeys={['/']}
         defaultOpenKeys={['/']}
         theme='light'
-        items={items}
+        items={UserItems}
         onClick={pushLinks}
       />
     </Sider>
   );
 };
 
-export default SiderMenu;
+export default SliderMenu;
