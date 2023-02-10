@@ -4,13 +4,14 @@ import bem from 'easy-bem';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import 'containers/Users/UserTechnique/_userTechnique.scss';
 import arrowLeft from 'assets/images/icons/arrow-left.svg';
 import deleteIcon from 'assets/images/icons/delete.svg';
 import edit from 'assets/images/icons/edit.svg';
 import tractor from 'assets/images/icons/tractor-image.svg';
+import tractorBlue from 'assets/images/icons/tractor-blue.svg';
 import AddNewTechnique from 'components/ModalComponent/ModalChildrenComponents/AddNewTechnique/AddNewTechnique';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
+import 'containers/Manager/Users/UserTechnique/_userTechnique.scss';
 
 const { Title } = Typography;
 
@@ -76,14 +77,15 @@ const UserTechnique: React.FC = () => {
     {
       dataIndex: 'profile',
       filterSearch: true,
-      width: '30%',
+      width: '40%',
       render: () => (
         <div style={{ display: 'flex', gap: 37 }}>
           <Link className={b('profile-link')} to='/user-profile'>
             Просмотр на карте
           </Link>
-          <img src={edit} alt='edit' />
-          <img src={deleteIcon} alt='deleteIcon' />
+          <img src={edit} alt='edit' className='link-icons' />
+          <img src={tractorBlue} alt='tractorBlue' className={b('tractor-blue link-icons')} />
+          <img src={deleteIcon} alt='deleteIcon' className='link-icons' />
         </div>
       ),
     },

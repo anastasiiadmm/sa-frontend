@@ -20,11 +20,12 @@ const DefaultField: React.FC<Props> = ({
   name,
   rules,
   placeholder,
+  className,
   bordered = false,
   readOnly = false,
 }) => {
   return (
-    <Form.Item label={label} name={name} rules={rules}>
+    <Form.Item label={label} name={name} rules={rules} className={className}>
       <Input readOnly={readOnly} bordered={bordered} placeholder={placeholder} />
     </Form.Item>
   );
