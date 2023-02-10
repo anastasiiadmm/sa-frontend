@@ -39,7 +39,7 @@ const UploadImageComponent = () => {
 
   return (
     <div style={fileList.length ? { margin: 0 } : { margin: '51px 0px 45px 66px' }}>
-      <ImgCrop rotate>
+      <ImgCrop aspect={233 / 162}>
         <Upload
           className={b('upload-field')}
           action='https://www.mocky.io/v2/5cc8019d300000980a055e76'
