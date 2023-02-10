@@ -3,12 +3,12 @@ import bem from 'easy-bem';
 import React from 'react';
 
 import FormField from 'components/FormField/FormField';
-import 'containers/Profile/_profile.scss';
+import 'containers/Manager/Users/NewUser/_NewUser.scss';
 
 const { Title } = Typography;
 
-const Profile: React.FC = () => {
-  const b = bem('Profile');
+const NewUser: React.FC = () => {
+  const b = bem('NewUser');
   const [form] = Form.useForm();
 
   const onFinish = (values: any) => {};
@@ -21,9 +21,10 @@ const Profile: React.FC = () => {
         md={{ span: 9, offset: 5 }}
         lg={{ span: 11, offset: 1 }}
       >
-        <Title level={3} data-testid='sign_in_test' className='title'>
-          Иванов И.И
+        <Title level={3} data-testid='sign_in_test'>
+          Добавить нового пользователя
         </Title>
+        <p className={b('subtext')}>Создать учетную запись нового пользователя и добавить его.</p>
 
         <Form
           form={form}
@@ -33,7 +34,6 @@ const Profile: React.FC = () => {
           layout='vertical'
         >
           <FormField
-            disabled
             bordered
             data-testid='username_id'
             id='username_id'
@@ -120,6 +120,26 @@ const Profile: React.FC = () => {
             />
           </div>
 
+          <FormField
+            bordered
+            data-testid='name_of_farm_id'
+            id='name_of_farm_id'
+            inputClassName={b('username')}
+            label='Название колхоза/фермы/компании'
+            name='name_of_farm'
+            placeholder='Название колхоза/фермы/компании'
+          />
+
+          <FormField
+            bordered
+            data-testid='region_id'
+            id='region_id'
+            inputClassName={b('username')}
+            label='Регион расположения'
+            name='region'
+            placeholder='Регион расположения'
+          />
+
           <Button
             // disabled={!!commonError}
             type='primary'
@@ -128,7 +148,7 @@ const Profile: React.FC = () => {
             style={{ width: '100%', borderRadius: 4 }}
             className={b('login-form-button')}
           >
-            Сохранить изменения
+            Добавить нового пользователя
           </Button>
         </Form>
       </Col>
@@ -136,4 +156,4 @@ const Profile: React.FC = () => {
   );
 };
 
-export default Profile;
+export default NewUser;

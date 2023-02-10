@@ -8,7 +8,7 @@ import FormField from 'components/FormField/FormField';
 import DeleteUserModal from 'components/ModalComponent/ModalChildrenComponents/DeleteUserModal/DeleteUserModal';
 import EditUserProfileModal from 'components/ModalComponent/ModalChildrenComponents/EditUserProfileModal/EditUserProfileModal';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
-import 'containers/Users/UserProfile/_UserProfile.scss';
+import 'containers/Manager/Users/UserProfile/_UserProfile.scss';
 
 const { Title } = Typography;
 
