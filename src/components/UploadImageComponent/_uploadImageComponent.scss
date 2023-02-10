@@ -1,0 +1,21 @@
+.UploadImageComponent {
+  &__upload-field {
+    > div > div {
+      width: 300px;
+      height: 300px;
+    }
+  }
+}
+
+:where(.css-dev-only-do-not-override-sk7ap8).ant-upload-wrapper .ant-upload-list.ant-upload-list-picture .ant-upload-list-item-error, :where(.css-dev-only-do-not-override-sk7ap8).ant-upload-wrapper .ant-upload-list.ant-upload-list-picture-card .ant-upload-list-item-error {
+  border-color: lightgray;
+}
+
+:where(.css-dev-only-do-not-override-sk7ap8).ant-upload-wrapper.ant-upload-picture-card-wrapper .ant-upload-list.ant-upload-list-picture-card .ant-upload-list-item-thumbnail, :where(.css-dev-only-do-not-override-sk7ap8).ant-upload-wrapper.ant-upload-picture-card-wrapper .ant-upload-list.ant-upload-list-picture-card .ant-upload-list-item-thumbnail img {
+  object-fit: cover;
+}
+
+.ant-upload-list-item-container {
+  width: 233px !important;
+  height: 162px !important;
+}
