@@ -1,7 +1,7 @@
 import { Button, Table, Typography } from 'antd';
 import { ColumnsType, TableProps } from 'antd/es/table';
 import bem from 'easy-bem';
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import 'containers/Users/UserTechnique/_userTechnique.scss';
@@ -9,6 +9,8 @@ import arrowLeft from 'assets/images/icons/arrow-left.svg';
 import deleteIcon from 'assets/images/icons/delete.svg';
 import edit from 'assets/images/icons/edit.svg';
 import tractor from 'assets/images/icons/tractor-image.svg';
+import AddNewTechnique from 'components/ModalComponent/ModalChildrenComponents/AddNewTechnique/AddNewTechnique';
+import ModalComponent from 'components/ModalComponent/ModalComponent';
 
 const { Title } = Typography;
 
@@ -22,6 +24,19 @@ interface DataType {
 
 const UserTechnique: React.FC = () => {
   const b = bem('UserTechnique');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
 
   const columns: ColumnsType<DataType> = [
     {
@@ -101,33 +116,46 @@ const UserTechnique: React.FC = () => {
   const onChange: TableProps<DataType>['onChange'] = (pagination, filters, sorter, extra) => {};
 
   return (
-    <div className={b()}>
-      <div className={b('table')}>
-        <div className={b('header')}>
-          <div className={b('header-title')}>
-            <Link to='/user-profile'>
-              <img className={b('arrow-left')} src={arrowLeft} alt='arrow' />
-            </Link>
-            <Title level={3} data-testid='sign_in_test' className={b('title')}>
-              Техника пользователя - <p className={b('subtitle')}> Иванов И.И</p>
-            </Title>
+    <>
+      <div className={b()}>
+        <div className={b('table')}>
+          <div className={b('header')}>
+            <div className={b('header-title')}>
+              <Link to='/user-profile'>
+                <img className={b('arrow-left')} src={arrowLeft} alt='arrow' />
+              </Link>
+              <Title level={3} data-testid='sign_in_test' className={b('title')}>
+                Техника пользователя - <p className={b('subtitle')}> Иванов И.И</p>
+              </Title>
+            </div>
+
+            <div>
+              <Button type='primary' onClick={showModal}>
+                Добавить технику
+              </Button>
+            </div>
           </div>
 
-          <div>
-            <Button type='primary'>Добавить технику</Button>
-          </div>
+          <Table
+            scroll={{
+              x: 950,
+            }}
+            columns={columns}
+            dataSource={data}
+            onChange={onChange}
+          />
         </div>
-
-        <Table
-          scroll={{
-            x: 950,
-          }}
-          columns={columns}
-          dataSource={data}
-          onChange={onChange}
-        />
       </div>
-    </div>
+
+      <ModalComponent
+        title='Добавить технику'
+        open={isModalOpen}
+        handleOk={handleOk}
+        handleCancel={handleCancel}
+      >
+        <AddNewTechnique />
+      </ModalComponent>
+    </>
   );
 };
 
