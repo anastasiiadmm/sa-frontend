@@ -84,7 +84,9 @@ const UserTechnique: React.FC = () => {
             Просмотр на карте
           </Link>
           <img src={edit} alt='edit' className='link-icons' />
-          <img src={tractorBlue} alt='tractorBlue' className={b('tractor-blue link-icons')} />
+          <Link to='/profile-technique'>
+            <img src={tractorBlue} alt='tractorBlue' className={b('tractor-blue link-icons')} />
+          </Link>
           <img src={deleteIcon} alt='deleteIcon' className='link-icons' />
         </div>
       ),
@@ -126,7 +128,7 @@ const UserTechnique: React.FC = () => {
               <Link to='/user-profile'>
                 <img className={b('arrow-left')} src={arrowLeft} alt='arrow' />
               </Link>
-              <Title level={3} data-testid='sign_in_test' className={b('title')}>
+              <Title level={3} className={b('title')}>
                 Техника пользователя - <p className={b('subtitle')}> Иванов И.И</p>
               </Title>
             </div>
