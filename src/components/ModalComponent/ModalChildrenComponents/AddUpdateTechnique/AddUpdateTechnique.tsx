@@ -5,6 +5,8 @@ import React from 'react';
 import FormField from 'components/FormField/FormField';
 import UploadImageComponent from 'components/UploadImageComponent/UploadImageComponent';
 import 'components/ModalComponent/ModalChildrenComponents/AddUpdateTechnique/_addUpdateTechnique.scss';
+/* import ResultComponent from 'components/ResultComponent/ResultComponent';
+import successIcon from 'assets/images/icons/success.svg'; */
 
 const { Title } = Typography;
 
@@ -18,6 +20,22 @@ const AddUpdateTechnique: React.FC<Props> = ({ isEdit = false }) => {
   const [form] = Form.useForm();
 
   const onFinish = (values: any) => {};
+
+  /*  const successAddTechniqueModal = (
+    <>
+      <ResultComponent
+        icon={<img src={successIcon} alt='success' />}
+        status='info'
+        title='Техника добавлена'
+      />
+      <Button
+        type='primary'
+        style={{ width: '100%', borderRadius: 4 }}
+      >
+        Хорошо
+      </Button>
+    </>
+  ); */
 
   return (
     <Col
