@@ -1,6 +1,5 @@
 import { Result } from 'antd';
 import { ResultStatusType } from 'antd/es/result';
-import bem from 'easy-bem';
 import React from 'react';
 
 interface Props {
@@ -12,10 +11,8 @@ interface Props {
 }
 
 const ResultComponent: React.FC<Props> = ({ status, icon, title, subTitle, techniqueName }) => {
-  const b = bem('ResultComponent');
-
   return (
-    <Result status={status} icon={icon} title={title} subTitle={subTitle} className={b()}>
+    <Result status={status} icon={icon} title={title} subTitle={subTitle}>
       <p>{techniqueName}</p>
     </Result>
   );
