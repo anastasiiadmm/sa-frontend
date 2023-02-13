@@ -32,7 +32,7 @@ function getItem(
   } as MenuItem;
 }
 
- const ManagerItems: MenuItem[] = [
+const ManagerItems: MenuItem[] = [
   getItem(
     <p className='menuItem'>
       Петр В.И.<span>Менеджер</span>
@@ -58,7 +58,7 @@ function getItem(
   ),
 ];
 
-/*const UserItems: MenuItem[] = [
+/* const UserItems: MenuItem[] = [
   getItem(
     <p className='menuItem'>
       Иванов И.И<span>Пользователь</span>
@@ -78,7 +78,7 @@ function getItem(
     [getItem('Техника', '/', <div className='icon-styles technics-icon' />)],
     'group',
   ),
-];*/
+]; */
 
 const SliderMenu: React.FC<Props> = ({ collapsed }) => {
   const b = bem('SliderMenu');

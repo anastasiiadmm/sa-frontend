@@ -95,7 +95,6 @@ const AddNewTechnique = () => {
             name='first_name'
             placeholder='Имя'
           />
-
         </div>
 
         <FormField
