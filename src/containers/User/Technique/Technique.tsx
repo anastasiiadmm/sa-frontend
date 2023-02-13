@@ -9,8 +9,8 @@ import edit from 'assets/images/icons/edit.svg';
 import tractorBlue from 'assets/images/icons/tractor-blue.svg';
 import tractor from 'assets/images/icons/tractor-image.svg';
 import 'containers/User/Technique/_technique.scss';
-import ModalComponent from 'components/ModalComponent/ModalComponent';
 import AddUpdateTechnique from 'components/ModalComponent/ModalChildrenComponents/AddUpdateTechnique/AddUpdateTechnique';
+import ModalComponent from 'components/ModalComponent/ModalComponent';
 
 const { Title } = Typography;
 

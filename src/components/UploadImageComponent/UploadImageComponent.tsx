@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
 import { Upload } from 'antd';
 import ImgCrop from 'antd-img-crop';
 import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
 import bem from 'easy-bem';
+import React, { useState } from 'react';
 
 import plug from 'assets/images/icons/image-plug.svg';
 import 'components/UploadImageComponent/_uploadImageComponent.scss';
