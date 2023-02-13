@@ -8,7 +8,7 @@ interface Props {
   icon?: React.ReactNode;
   title?: string;
   subTitle?: string;
-  techniqueName: string;
+  techniqueName?: string;
 }
 
 const ResultComponent: React.FC<Props> = ({ status, icon, title, subTitle, techniqueName }) => {
