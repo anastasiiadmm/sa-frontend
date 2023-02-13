@@ -21,6 +21,20 @@ const AddUpdateTechnique: React.FC<Props> = ({ isEdit = false }) => {
 
   const onFinish = (values: any) => {};
 
+  /*  const requestAddTechniqueModal = (
+    <>
+      <ResultComponent
+        icon={<img src={warningIcon} alt='success' />}
+        status='info'
+        title='Запрос отправлен!'
+        subTitle='Ваш запрос принят в обработку. Мы свяжемся с вами в течении трех рабочих дней. Благодарим за обращение.'
+      />
+      <Button type='primary' style={{ width: '100%', borderRadius: 4 }}>
+        Продолжить работу
+      </Button>
+    </>
+  ); */
+
   /*  const successAddTechniqueModal = (
     <>
       <ResultComponent

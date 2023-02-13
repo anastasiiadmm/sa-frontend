@@ -32,7 +32,7 @@ function getItem(
   } as MenuItem;
 }
 
-const ManagerItems: MenuItem[] = [
+/* const ManagerItems: MenuItem[] = [
   getItem(
     <p className='menuItem'>
       Петр В.И.<span>Менеджер</span>
@@ -56,9 +56,9 @@ const ManagerItems: MenuItem[] = [
     ],
     'group',
   ),
-];
+]; */
 
-/* const UserItems: MenuItem[] = [
+const UserItems: MenuItem[] = [
   getItem(
     <p className='menuItem'>
       Иванов И.И<span>Пользователь</span>
@@ -78,7 +78,7 @@ const ManagerItems: MenuItem[] = [
     [getItem('Техника', '/', <div className='icon-styles technics-icon' />)],
     'group',
   ),
-]; */
+];
 
 const SliderMenu: React.FC<Props> = ({ collapsed }) => {
   const b = bem('SliderMenu');
@@ -99,7 +99,7 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
         defaultSelectedKeys={['/']}
         defaultOpenKeys={['/']}
         theme='light'
-        items={ManagerItems}
+        items={UserItems}
         onClick={pushLinks}
       />
     </Sider>
