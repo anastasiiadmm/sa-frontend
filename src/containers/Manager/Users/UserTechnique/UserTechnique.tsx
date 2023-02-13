@@ -7,9 +7,10 @@ import { Link } from 'react-router-dom';
 import arrowLeft from 'assets/images/icons/arrow-left.svg';
 import deleteIcon from 'assets/images/icons/delete.svg';
 import edit from 'assets/images/icons/edit.svg';
-import tractor from 'assets/images/icons/tractor-image.svg';
 import tractorBlue from 'assets/images/icons/tractor-blue.svg';
-import AddNewTechnique from 'components/ModalComponent/ModalChildrenComponents/AddNewTechnique/AddNewTechnique';
+import tractor from 'assets/images/icons/tractor-image.svg';
+import AddUpdateTechnique from 'components/ModalComponent/ModalChildrenComponents/AddUpdateTechnique/AddUpdateTechnique';
+import DeleteTechniqueModal from 'components/ModalComponent/ModalChildrenComponents/DeleteTechniqueModal/DeleteTechniqueModal';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import 'containers/Manager/Users/UserTechnique/_userTechnique.scss';
 
@@ -26,6 +27,8 @@ interface DataType {
 const UserTechnique: React.FC = () => {
   const b = bem('UserTechnique');
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteEditModalOpen] = useState(false);
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -38,6 +41,32 @@ const UserTechnique: React.FC = () => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+
+  const showEditModal = () => {
+    setIsEditModalOpen(true);
+  };
+
+  const handleEditOk = () => {
+    setIsEditModalOpen(false);
+  };
+
+  const handleEditCancel = () => {
+    setIsEditModalOpen(false);
+  };
+
+  const showDeleteModal = () => {
+    setIsDeleteEditModalOpen(true);
+  };
+
+  const handleDeleteOk = () => {
+    setIsDeleteEditModalOpen(false);
+  };
+
+  const handleDeleteCancel = () => {
+    setIsDeleteEditModalOpen(false);
+  };
+
+  const deleteTechniqueHandler = () => {};
 
   const columns: ColumnsType<DataType> = [
     {
@@ -57,7 +86,7 @@ const UserTechnique: React.FC = () => {
       title: 'Название',
       dataIndex: 'name',
       filterSearch: true,
-      width: '30%',
+      width: '20%',
       sorter: true,
     },
     {
@@ -79,15 +108,21 @@ const UserTechnique: React.FC = () => {
       filterSearch: true,
       width: '40%',
       render: () => (
-        <div style={{ display: 'flex', gap: 37 }}>
+        <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
           <Link className={b('profile-link')} to='/user-profile'>
             Просмотр на карте
           </Link>
-          <img src={edit} alt='edit' className='link-icons' />
+          <Button type='text' onClick={showEditModal}>
+            <img src={edit} alt='edit' className='link-icons' />
+          </Button>
           <Link to='/profile-technique'>
-            <img src={tractorBlue} alt='tractorBlue' className={b('tractor-blue link-icons')} />
+            <Button type='text'>
+              <img src={tractorBlue} alt='tractorBlue' className={b('tractor-blue link-icons')} />
+            </Button>
           </Link>
-          <img src={deleteIcon} alt='deleteIcon' className='link-icons' />
+          <Button type='text' onClick={showDeleteModal}>
+            <img src={deleteIcon} alt='deleteIcon' className='link-icons' />
+          </Button>
         </div>
       ),
     },
@@ -157,7 +192,28 @@ const UserTechnique: React.FC = () => {
         handleOk={handleOk}
         handleCancel={handleCancel}
       >
-        <AddNewTechnique />
+        <AddUpdateTechnique />
+      </ModalComponent>
+
+      <ModalComponent
+        title='Редактировать технику'
+        open={isEditModalOpen}
+        handleOk={handleEditOk}
+        handleCancel={handleEditCancel}
+      >
+        <AddUpdateTechnique isEdit />
+      </ModalComponent>
+
+      <ModalComponent
+        dividerShow={false}
+        open={isDeleteModalOpen}
+        handleOk={handleDeleteOk}
+        handleCancel={handleDeleteCancel}
+      >
+        <DeleteTechniqueModal
+          handleDeleteCancel={handleDeleteCancel}
+          deleteTechniqueHandler={deleteTechniqueHandler}
+        />
       </ModalComponent>
     </>
   );

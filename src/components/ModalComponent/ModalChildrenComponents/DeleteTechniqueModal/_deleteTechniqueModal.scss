@@ -1,0 +1,18 @@
+@use 'assets/scss/_themes.scss';
+
+.DeleteTechniqueModal {
+  &__delete-modal-buttons {
+    display: flex;
+    gap: 12px;
+    padding-bottom: 20px;
+  }
+
+  &__cancel-profile-button {
+    color: themes.$font-title-color !important;
+    background-color: themes.$light-gray-color !important;
+  }
+
+  &__delete-profile-button {
+    background-color: themes.$red-color !important;
+  }
+}

@@ -142,3 +142,11 @@ code {
 :where(.css-dev-only-do-not-override-sk7ap8).ant-menu-light .ant-menu-submenu-selected >.ant-menu-submenu-title {
   color: themes.$primary-color;
 }
+
+:where(.css-dev-only-do-not-override-sk7ap8).ant-result .ant-result-content {
+  margin: 0;
+  padding: 0;
+  background-color: transparent;
+  text-align: center;
+  font-weight: bold;
+}

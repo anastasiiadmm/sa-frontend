@@ -4,15 +4,23 @@ import React from 'react';
 type Props = {
   title?: string;
   open: boolean;
+  dividerShow?: boolean;
   children?: React.ReactNode;
   handleOk: (params: any) => any;
   handleCancel: (params: any) => any;
 };
 
-const ModalComponent: React.FC<Props> = ({ title, open, children, handleOk, handleCancel }) => {
+const ModalComponent: React.FC<Props> = ({
+  title,
+  open,
+  dividerShow = true,
+  children,
+  handleOk,
+  handleCancel,
+}) => {
   return (
     <Modal title={title} open={open} onOk={handleOk} onCancel={handleCancel} footer={null}>
-      <Divider />
+      {dividerShow ? <Divider /> : null}
       {children}
     </Modal>
   );

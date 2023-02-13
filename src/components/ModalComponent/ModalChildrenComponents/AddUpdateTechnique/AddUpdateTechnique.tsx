@@ -4,12 +4,16 @@ import React from 'react';
 
 import FormField from 'components/FormField/FormField';
 import UploadImageComponent from 'components/UploadImageComponent/UploadImageComponent';
-import 'components/ModalComponent/ModalChildrenComponents/AddNewTechnique/_addNewTechnique.scss';
+import 'components/ModalComponent/ModalChildrenComponents/AddUpdateTechnique/_addUpdateTechnique.scss';
 
 const { Title } = Typography;
 
-const AddNewTechnique = () => {
-  const b = bem('AddNewTechnique');
+interface Props {
+  isEdit?: boolean;
+}
+
+const AddUpdateTechnique: React.FC<Props> = ({ isEdit = false }) => {
+  const b = bem('AddUpdateTechnique');
 
   const [form] = Form.useForm();
 
@@ -117,7 +121,7 @@ const AddNewTechnique = () => {
             style={{ width: '100%', borderRadius: 4 }}
             className={b('save-button')}
           >
-            Добавить технику
+            {isEdit ? 'Редактировать технику' : 'Добавить технику'}
           </Button>
         </div>
       </Form>
@@ -125,4 +129,4 @@ const AddNewTechnique = () => {
   );
 };
 
-export default AddNewTechnique;
+export default AddUpdateTechnique;
