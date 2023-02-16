@@ -99,14 +99,14 @@ const Technique = () => {
       area: '120 га',
     },
     {
-      key: '1',
+      key: '2',
       code: 'AVP123344',
       name: 'Беларус',
       fields: '2',
       area: '120 га',
     },
     {
-      key: '1',
+      key: '3',
       code: 'AVP123344',
       name: 'Беларус',
       fields: '1',
@@ -143,7 +143,7 @@ const Technique = () => {
             scroll={{
               x: 950,
             }}
-            rowKey='id'
+            rowKey='key'
             columns={columns}
             dataSource={data}
             onChange={onChange}

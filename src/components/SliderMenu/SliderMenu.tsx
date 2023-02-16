@@ -70,7 +70,7 @@ const UserItems: MenuItem[] = [
     <Avatar className='avatar-profile' size='large' icon={<UserOutlined />} />,
     [
       getItem('Профиль', '/user-profile-view', <HomeOutlined />),
-      getItem('Выход', '/', <ImportOutlined />),
+      getItem('Выход', '/sign-out', <ImportOutlined />),
     ],
   ),
   { type: 'divider' },

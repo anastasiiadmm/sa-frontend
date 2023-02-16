@@ -12,15 +12,12 @@ import tractorBlue from 'assets/images/icons/tractor-blue.svg';
 
 const { Title } = Typography;
 
-const center = [42.862779, 74.740029];
+const center = [42.503613, 78.50689];
 
 const polyline = [
-  [42.863659, 74.736402],
-  [42.86226, 74.737003],
-  [42.863549, 74.737389],
-  [42.862558, 74.738398],
-  [42.863628, 74.738977],
-  [42.862779, 74.740029],
+  [42.503816, 78.505621],
+  [42.50264, 78.506488],
+  [42.503613, 78.50689],
 ];
 
 const purpleOptions = { color: '#1358BF' };
@@ -51,15 +48,15 @@ const OpenMapComponent = () => {
       <div className={b('map-block')}>
         <MapContainer
           center={center as LatLngExpression}
-          zoom={18}
+          zoom={17}
           scrollWheelZoom={false}
           style={{ width: '100%', height: '100vh' }}
         >
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+            url='https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'
           />
-          <CircleMarker center={[42.862779, 74.740029]} pathOptions={redOptions} radius={10}>
+          <CircleMarker center={[42.503613, 78.50689]} pathOptions={redOptions} radius={10}>
             <Popup>Popup in CircleMarker</Popup>
           </CircleMarker>
           <Polyline pathOptions={purpleOptions} positions={polyline as LatLngExpression[]} />
