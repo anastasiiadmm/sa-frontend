@@ -33,6 +33,11 @@
     }
   }
 
+  &__request_link {
+    padding: 0;
+    color: themes.$primary-color;
+  }
+
   &__form-block {
     display: flex;
     gap: 13px;
