@@ -56,7 +56,7 @@ const OpenMapComponent = () => {
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url='https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'
           />
-          <CircleMarker center={[42.503613, 78.50689]} pathOptions={redOptions} radius={10}>
+          <CircleMarker center={center as LatLngExpression} pathOptions={redOptions} radius={10}>
             <Popup>Popup in CircleMarker</Popup>
           </CircleMarker>
           <Polyline pathOptions={purpleOptions} positions={polyline as LatLngExpression[]} />
