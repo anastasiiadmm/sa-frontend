@@ -110,6 +110,14 @@ code {
 }
 
 // buttons styles
+:where(.css-dev-only-do-not-override-diro6f).ant-btn-primary {
+  background-color: themes.$primary-color;
+}
+
+:where(.css-dev-only-do-not-override-diro6f).ant-btn-primary:not(:disabled):hover {
+  background-color: themes.$disabled-color;
+}
+
 :where(.css-dev-only-do-not-override-sk7ap8).ant-btn-primary {
   background-color: themes.$primary-color;
 }
@@ -153,4 +161,28 @@ code {
   background-color: transparent;
   text-align: center;
   font-weight: bold;
+}
+
+:where(.css-dev-only-do-not-override-diro6f).ant-layout .ant-layout-sider {
+  background-color: white;
+}
+
+:where(.css-dev-only-do-not-override-diro6f).ant-menu-light .ant-menu-item-selected {
+  background-color: themes.$active-menu_background;
+}
+
+:where(.css-dev-only-do-not-override-diro6f).ant-menu-light .ant-menu-item-selected {
+  color: themes.$font-title-color;
+}
+
+:where(.css-dev-only-do-not-override-diro6f).ant-menu-light .ant-menu-submenu-selected >.ant-menu-submenu-title {
+  color: themes.$font-title-color;
+}
+
+:where(.css-dev-only-do-not-override-diro6f).ant-menu .ant-menu-item .ant-menu-item-icon, :where(.css-dev-only-do-not-override-diro6f).ant-menu .ant-menu-submenu-title .ant-menu-item-icon {
+  display: inline-grid;
+}
+
+:where(.css-dev-only-do-not-override-diro6f).ant-form-item .ant-form-item-label >label.ant-form-item-required:not(.ant-form-item-required-mark-optional)::before {
+  display: none;
 }

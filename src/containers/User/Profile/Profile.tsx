@@ -56,7 +56,7 @@ const Profile = () => {
                 Для того чтобы изменить или добавить информацию в вашем профиле обратись к вашему
                 менеджеру.
               </p>
-              <Button onClick={showModal} type='link'>
+              <Button onClick={showModal} type='link' className={b('request_link')}>
                 Запрос на изменение личной информации
               </Button>
             </div>
