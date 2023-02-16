@@ -1,16 +1,19 @@
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import { Layout, theme } from 'antd';
 import React, { useState } from 'react';
-import { Route } from 'react-router';
+import { Route, useLocation } from 'react-router';
 import { Routes } from 'react-router-dom';
 
+import OpenMapComponent from 'components/OpenMapComponent/OpenMapComponent';
 import SliderMenu from 'components/SliderMenu/SliderMenu';
-/* import Profile from 'containers/Manager/Profile/Profile'; */
-/* import NewUser from 'containers/Manager/Users/NewUser/NewUser';
+import ManagerProfile from 'containers/Manager/Profile/Profile';
+import NewUser from 'containers/Manager/Users/NewUser/NewUser';
 import UserProfile from 'containers/Manager/Users/UserProfile/UserProfile';
+/*
 import Users from 'containers/Manager/Users/Users';
-import ProfileTechnique from 'containers/Manager/Users/UserTechnique/ProfileTechnique/ProfileTechnique';
-import UserTechnique from 'containers/Manager/Users/UserTechnique/UserTechnique'; */
+*/
+import UserTechnique from 'containers/Manager/Users/UserTechnique/UserTechnique';
+import ProfileTechnique from 'containers/Technique/ProfileTechnique/ProfileTechnique';
 import Profile from 'containers/User/Profile/Profile';
 import Technique from 'containers/User/Technique/Technique';
 
@@ -21,6 +24,7 @@ const AppRouter: React.FC = () => {
   const {
     token: { colorBgContainer },
   } = theme.useToken();
+  const { pathname } = useLocation();
 
   return (
     <Layout style={{ height: '100vh' }}>
@@ -34,7 +38,7 @@ const AppRouter: React.FC = () => {
         </Header>
         <Content
           style={{
-            margin: '24px 16px',
+            margin: pathname === '/open-map' ? 0 : '24px 16px',
             padding: 24,
             minHeight: 280,
             background: 'none',
@@ -42,14 +46,16 @@ const AppRouter: React.FC = () => {
         >
           <Routes>
             {/* <Route path='/' element={<Users />} /> */}
-            {/* <Route path='/add-new-user' element={<NewUser />} /> */}
-            {/* <Route path='/profile' element={<Profile />} /> */}
-            {/* <Route path='/user-profile' element={<UserProfile />} /> */}
-            {/* <Route path='/user-technique' element={<UserTechnique />} /> */}
-            {/* <Route path='/profile-technique' element={<ProfileTechnique />} /> */}
+            <Route path='/add-new-user' element={<NewUser />} />
+            <Route path='/manager-profile' element={<ManagerProfile />} />
+            <Route path='/user-profile' element={<UserProfile />} />
+            <Route path='/user-technique' element={<UserTechnique />} />
 
             <Route path='/' element={<Technique />} />
-            <Route path='/user-profile' element={<Profile />} />
+            <Route path='/user-profile-view' element={<Profile />} />
+            <Route path='/open-map' element={<OpenMapComponent />} />
+
+            <Route path='/profile-technique' element={<ProfileTechnique />} />
           </Routes>
         </Content>
       </Layout>
