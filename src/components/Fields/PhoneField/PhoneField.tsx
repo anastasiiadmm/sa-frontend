@@ -11,6 +11,7 @@ interface Props {
   readOnly?: boolean;
   bordered?: boolean | undefined;
   className?: string;
+  inputClassName?: string;
   dependencies?: string[] | undefined;
   formatter?: string;
 }
@@ -20,13 +21,19 @@ const PhoneField: React.FC<Props> = ({
   placeholder,
   label,
   defaultValue,
+  inputClassName,
   bordered = false,
   readOnly = false,
 }) => {
   return (
     <Form.Item name={name} label={label}>
       <InputMask readOnly={readOnly} mask='+7 (999) 999-99-99' autoComplete='off'>
-        <Input bordered={bordered} placeholder={placeholder} defaultValue='+7 (999) 999-99-99' />
+        <Input
+          className={inputClassName}
+          bordered={bordered}
+          placeholder={placeholder}
+          defaultValue='+7 (999) 999-99-99'
+        />
       </InputMask>
     </Form.Item>
   );

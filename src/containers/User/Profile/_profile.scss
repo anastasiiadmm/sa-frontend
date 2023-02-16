@@ -38,6 +38,10 @@
     gap: 13px;
   }
 
+  &__input-styles {
+    padding: 0;
+  }
+
   :where(.css-dev-only-do-not-override-sk7ap8).ant-btn-link {
     color: themes.$primary-color;
     padding: 0;
@@ -47,30 +51,8 @@
     color: themes.$disabled-color;
   }
 
-  :where(.css-dev-only-do-not-override-sk7ap8).ant-form-vertical .ant-form-item-label, :where(.css-dev-only-do-not-override-sk7ap8).ant-col-24.ant-form-item-label, :where(.css-dev-only-do-not-override-sk7ap8).ant-col-xl-24.ant-form-item-label {
-    padding: 0;
-  }
-
-  :where(.css-dev-only-do-not-override-sk7ap8).ant-input {
-    padding: 0;
-  }
-
   :where(.css-dev-only-do-not-override-sk7ap8).ant-form-item .ant-form-item-label >label.ant-form-item-required:not(.ant-form-item-required-mark-optional)::before {
     display: none;
-  }
-
-  :where(.css-dev-only-do-not-override-sk7ap8).ant-input-affix-wrapper {
-    padding: 0;
-  }
-
-  :where(.css-dev-only-do-not-override-sk7ap8).ant-form-vertical .ant-form-item-label,
-  :where(.css-dev-only-do-not-override-sk7ap8).ant-col-24.ant-form-item-label,
-  :where(.css-dev-only-do-not-override-sk7ap8).ant-col-xl-24.ant-form-item-label {
-    padding: 0;
-  }
-
-  :where(.css-dev-only-do-not-override-sk7ap8).ant-input {
-    padding: 0;
   }
 
   :where(.css-dev-only-do-not-override-sk7ap8).ant-form-item {
@@ -88,9 +70,5 @@
   :where(.css-dev-only-do-not-override-sk7ap8).ant-input {
     color: themes.$font-title-color;
     cursor: default;
-  }
-
-  :where(.css-dev-only-do-not-override-sk7ap8).ant-input-affix-wrapper {
-    padding: 0;
   }
 }
