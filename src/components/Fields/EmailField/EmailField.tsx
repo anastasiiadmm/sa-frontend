@@ -16,6 +16,7 @@ const EmailField: React.FC<Props> = ({
   label,
   name,
   placeholder,
+  inputClassName,
   bordered = false,
   readOnly = false,
 }) => {
@@ -34,7 +35,12 @@ const EmailField: React.FC<Props> = ({
         },
       ]}
     >
-      <Input readOnly={readOnly} bordered={bordered} placeholder={placeholder} />
+      <Input
+        className={inputClassName}
+        readOnly={readOnly}
+        bordered={bordered}
+        placeholder={placeholder}
+      />
     </Form.Item>
   );
 };

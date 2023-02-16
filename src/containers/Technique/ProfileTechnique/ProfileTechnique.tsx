@@ -5,7 +5,7 @@ import bem from 'easy-bem';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import 'containers/Manager/Users/UserTechnique/ProfileTechnique/_profileTechnique.scss';
+import 'containers/Technique/ProfileTechnique/_profileTechnique.scss';
 import arrowLeft from 'assets/images/icons/arrow-left.svg';
 import technique from 'assets/images/image-profile-technique.jpg';
 import FormField from 'components/FormField/FormField';
@@ -42,7 +42,7 @@ const ProfileTechnique = () => {
       width: '20%',
       render: () => (
         <div style={{ display: 'flex', gap: 37 }}>
-          <Link className={b('profile-link')} to='/'>
+          <Link className={b('profile-link')} to='/open-map'>
             Просмотр на карте
           </Link>
         </div>
@@ -84,9 +84,11 @@ const ProfileTechnique = () => {
           </div>
 
           <div>
-            <Button type='link' icon={<EyeOutlined />} size='large'>
-              Техника на карте
-            </Button>
+            <Link to='/open-map'>
+              <Button type='link' icon={<EyeOutlined />} size='large'>
+                Техника на карте
+              </Button>
+            </Link>
           </div>
         </div>
 

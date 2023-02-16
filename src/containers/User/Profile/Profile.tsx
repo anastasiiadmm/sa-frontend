@@ -72,7 +72,7 @@ const Profile = () => {
                 readOnly
                 data-testid='username_id'
                 id='username_id'
-                inputClassName={b('username')}
+                inputClassName={b('input-styles')}
                 label='Username'
                 name='username'
                 placeholder='Username'
@@ -81,6 +81,7 @@ const Profile = () => {
               <div className={b('form-block')}>
                 <FormField
                   readOnly
+                  inputClassName={b('input-styles password-width')}
                   id='password_id'
                   type='password'
                   name='password'
@@ -92,6 +93,7 @@ const Profile = () => {
               <div className={b('form-block')}>
                 <FormField
                   readOnly
+                  inputClassName={b('input-styles')}
                   data-testid='last_name_id'
                   id='last_name_id'
                   label='Фамилия'
@@ -100,6 +102,7 @@ const Profile = () => {
                 />
                 <FormField
                   readOnly
+                  inputClassName={b('input-styles')}
                   data-testid='first_name_id'
                   id='first_name_id'
                   label='Имя'
@@ -108,6 +111,7 @@ const Profile = () => {
                 />
                 <FormField
                   readOnly
+                  inputClassName={b('input-styles')}
                   data-testid='surname_id'
                   id='surname_id'
                   label='Отчество'
@@ -119,6 +123,7 @@ const Profile = () => {
               <div className={b('form-block')}>
                 <FormField
                   readOnly
+                  inputClassName={b('input-styles')}
                   data-testid='email_id_login'
                   type='email'
                   id='email_id'
@@ -129,6 +134,7 @@ const Profile = () => {
 
                 <FormField
                   readOnly
+                  inputClassName={b('input-styles')}
                   type='phone'
                   name='phone'
                   label='Номер телефона'
@@ -138,6 +144,7 @@ const Profile = () => {
 
               <FormField
                 readOnly
+                inputClassName={b('input-styles')}
                 data-testid='name_of_company_id'
                 id='name_of_company_id'
                 label='Название колхоза/фермы/компании'
@@ -147,6 +154,7 @@ const Profile = () => {
 
               <FormField
                 readOnly
+                inputClassName={b('input-styles')}
                 data-testid='name_of_region_id'
                 id='name_of_region_id'
                 label='Регион расположения'
@@ -156,6 +164,7 @@ const Profile = () => {
 
               <FormField
                 readOnly
+                inputClassName={b('input-styles')}
                 data-testid='amount_id'
                 id='amount_id'
                 label='Количество оплаченных блоков автопилота'

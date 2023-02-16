@@ -39,7 +39,10 @@ function getItem(
     </p>,
     'sub1',
     <Avatar className='avatar-profile' size='large' icon={<UserOutlined />} />,
-    [getItem('Профиль', '/profile', <HomeOutlined />), getItem('Выход', '6', <ImportOutlined />)],
+    [
+      getItem('Профиль', '/manager-profile', <HomeOutlined />),
+      getItem('Выход', '/', <ImportOutlined />),
+    ],
   ),
   { type: 'divider' },
   getItem(
@@ -66,8 +69,8 @@ const UserItems: MenuItem[] = [
     'sub1',
     <Avatar className='avatar-profile' size='large' icon={<UserOutlined />} />,
     [
-      getItem('Профиль', '/user-profile', <HomeOutlined />),
-      getItem('Выход', '6', <ImportOutlined />),
+      getItem('Профиль', '/user-profile-view', <HomeOutlined />),
+      getItem('Выход', '/', <ImportOutlined />),
     ],
   ),
   { type: 'divider' },

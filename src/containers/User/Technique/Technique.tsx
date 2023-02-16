@@ -4,8 +4,6 @@ import bem from 'easy-bem';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import deleteIcon from 'assets/images/icons/delete.svg';
-import edit from 'assets/images/icons/edit.svg';
 import tractorBlue from 'assets/images/icons/tractor-blue.svg';
 import tractor from 'assets/images/icons/tractor-image.svg';
 import 'containers/User/Technique/_technique.scss';
@@ -78,12 +76,15 @@ const Technique = () => {
       filterSearch: true,
       width: '30%',
       render: () => (
-        <div style={{ display: 'flex', gap: 37 }}>
-          <Link className={b('profile-link')} to='/user-profile'>
+        <div style={{ display: 'flex', gap: 37, alignItems: 'center' }}>
+          <Link className={b('profile-link')} to='/open-map'>
             Просмотр на карте
           </Link>
-          <img src={edit} alt='edit' />
-          <img src={deleteIcon} alt='deleteIcon' />
+          <Link to='/profile-technique'>
+            <Button type='text'>
+              <img style={{ width: 27 }} src={tractorBlue} alt='tractorBlue' />
+            </Button>
+          </Link>
         </div>
       ),
     },

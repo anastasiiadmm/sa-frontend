@@ -10,6 +10,7 @@ interface Props {
   className?: string;
   bordered?: boolean;
   readOnly?: boolean;
+  inputClassName?: string;
   dependencies?: string[] | undefined;
 }
 
@@ -20,6 +21,7 @@ const PasswordField: React.FC<Props> = ({
   placeholder,
   className,
   dependencies,
+  inputClassName,
   bordered = false,
   readOnly = false,
 }) => {
@@ -51,6 +53,7 @@ const PasswordField: React.FC<Props> = ({
         readOnly={readOnly}
         bordered={bordered}
         placeholder={placeholder}
+        className={inputClassName}
         style={{ borderRadius: '7px' }}
       />
     </Form.Item>
@@ -81,6 +84,7 @@ const PasswordField: React.FC<Props> = ({
         readOnly={readOnly}
         bordered={bordered}
         placeholder={placeholder}
+        className={inputClassName}
         style={{ borderRadius: '7px' }}
       />
     </Form.Item>
