@@ -1,0 +1,49 @@
+.OpenMapComponent {
+  position: relative;
+
+  &__card-block {
+    position: fixed;
+    margin: 0 30px 0 55px;
+    top: 87px;
+    z-index: 999;
+    width: 76%;
+  }
+
+  &__card-style {
+    display: flex;
+  }
+
+  &__arrow-left {
+    padding: 0 10px;
+    cursor: pointer;
+    width: 35px;
+  }
+
+  &__header-title {
+    display: flex;
+    align-items: center;
+  }
+
+  &__title {
+    display: flex;
+    align-items: baseline;
+    margin: 0 !important;
+    font-weight: 400 !important;
+  }
+
+  &__img-title {
+    margin: 0 10px 0 22px;
+    width: 15px;
+  }
+
+  &__subtitle {
+    margin: 0 !important;
+    padding-left: 7px;
+    padding-right: 7px;
+    font-weight: 700 !important;
+  }
+}
+
+.img-tractor {
+  width: 20px;
+}
