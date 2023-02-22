@@ -33,6 +33,15 @@ code {
   width: 35%;
 }
 
+.input-styles {
+  &:hover {
+    border-color: themes.$disabled-color !important;
+  }
+  &:focus {
+    border-color: themes.$disabled-color !important;
+  }
+}
+
 
 // antd styles
 

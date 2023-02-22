@@ -48,4 +48,11 @@
       }
     }
   }
+
+  &__button-links {
+    font-weight: bold;
+    &:hover {
+      color: themes.$disabled-color !important;
+    }
+  }
 }

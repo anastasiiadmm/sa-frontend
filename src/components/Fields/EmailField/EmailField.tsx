@@ -21,22 +21,9 @@ const EmailField: React.FC<Props> = ({
   readOnly = false,
 }) => {
   return (
-    <Form.Item
-      label={label}
-      name={name}
-      rules={[
-        {
-          type: 'email',
-          message: 'Введите валидный E-mail!',
-        },
-        {
-          required: true,
-          message: 'Введите E-mail!',
-        },
-      ]}
-    >
+    <Form.Item label={label} name={name}>
       <Input
-        className={inputClassName}
+        className={`input-styles ${inputClassName}`}
         readOnly={readOnly}
         bordered={bordered}
         placeholder={placeholder}

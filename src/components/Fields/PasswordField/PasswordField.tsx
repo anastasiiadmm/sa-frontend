@@ -53,7 +53,7 @@ const PasswordField: React.FC<Props> = ({
         readOnly={readOnly}
         bordered={bordered}
         placeholder={placeholder}
-        className={inputClassName}
+        className={`input-styles ${inputClassName}`}
         style={{ borderRadius: '7px' }}
       />
     </Form.Item>
@@ -84,7 +84,7 @@ const PasswordField: React.FC<Props> = ({
         readOnly={readOnly}
         bordered={bordered}
         placeholder={placeholder}
-        className={inputClassName}
+        className={`input-styles ${inputClassName}`}
         style={{ borderRadius: '7px' }}
       />
     </Form.Item>

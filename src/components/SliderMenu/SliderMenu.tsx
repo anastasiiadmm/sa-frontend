@@ -7,6 +7,8 @@ import { useNavigate } from 'react-router';
 
 import logo from 'assets/images/logo.png';
 import 'components/SliderMenu/_sliderMenu.scss';
+import {authSelector} from "redux/auth/authSlice";
+import {useAppSelector} from "../../redux/hooks";
 
 const { Sider } = Layout;
 
@@ -41,7 +43,7 @@ function getItem(
     <Avatar className='avatar-profile' size='large' icon={<UserOutlined />} />,
     [
       getItem('Профиль', '/manager-profile', <HomeOutlined />),
-      getItem('Выход', '/', <ImportOutlined />),
+      getItem('Выход', '/sign-out', <ImportOutlined />),
     ],
   ),
   { type: 'divider' },
@@ -61,31 +63,32 @@ function getItem(
   ),
 ]; */
 
-const UserItems: MenuItem[] = [
-  getItem(
-    <p className='menuItem'>
-      Иванов И.И<span>Пользователь</span>
-    </p>,
-    'sub1',
-    <Avatar className='avatar-profile' size='large' icon={<UserOutlined />} />,
-    [
-      getItem('Профиль', '/user-profile-view', <HomeOutlined />),
-      getItem('Выход', '/sign-out', <ImportOutlined />),
-    ],
-  ),
-  { type: 'divider' },
-  getItem(
-    '',
-    'grp',
-    null,
-    [getItem('Техника', '/', <div className='icon-styles technics-icon' />)],
-    'group',
-  ),
-];
-
 const SliderMenu: React.FC<Props> = ({ collapsed }) => {
   const b = bem('SliderMenu');
   const push = useNavigate();
+  const { success, user, tokens } = useAppSelector(authSelector);
+
+  const menuItems: MenuItem[] = [
+    getItem(
+      <p className='menuItem'>
+        Иванов И.И<span>Пользователь</span>
+      </p>,
+      'sub1',
+      <Avatar className='avatar-profile' size='large' icon={<UserOutlined />} />,
+      [
+        getItem('Профиль', '/user-profile-view', <HomeOutlined />),
+        getItem('Выход', '/sign-out', <ImportOutlined />),
+      ],
+    ),
+    { type: 'divider' },
+    getItem(
+      '',
+      'grp',
+      null,
+      [getItem('Техника', '/', <div className='icon-styles technics-icon' />)],
+      'group',
+    ),
+  ];
 
   const pushLinks: MenuProps['onClick'] = (e) => {
     push(e.key);
@@ -102,7 +105,7 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
         defaultSelectedKeys={['/']}
         defaultOpenKeys={['/']}
         theme='light'
-        items={UserItems}
+        items={menuItems}
         onClick={pushLinks}
       />
     </Sider>

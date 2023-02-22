@@ -10,10 +10,10 @@ interface Props {
   inputClassName?: string;
 }
 
-const CheckboxField: React.FC<Props> = ({ name, valuePropName, label }) => {
+const CheckboxField: React.FC<Props> = ({ id, name, valuePropName, label }) => {
   return (
     <Form.Item name={name} valuePropName={valuePropName} wrapperCol={{ offset: 0, span: 16 }}>
-      <Checkbox>{label}</Checkbox>
+      <Checkbox id={id}>{label}</Checkbox>
     </Form.Item>
   );
 };
