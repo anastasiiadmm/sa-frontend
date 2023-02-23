@@ -86,7 +86,7 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
               >
                 <input
                   aria-required="true"
-                  className="ant-input ant-input-borderless css-dev-only-do-not-override-sk7ap8"
+                  className="ant-input ant-input-borderless css-dev-only-do-not-override-sk7ap8 SignIn__username"
                   id="register_email"
                   onBlur={[Function]}
                   onChange={[Function]}
