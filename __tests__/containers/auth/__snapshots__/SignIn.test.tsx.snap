@@ -208,14 +208,14 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
                 className="ant-form-item-control-input-content"
               >
                 <label
-                  className="ant-checkbox-wrapper ant-checkbox-wrapper-in-form-item css-dev-only-do-not-override-sk7ap8"
+                  className="ant-checkbox-wrapper ant-checkbox-wrapper-checked ant-checkbox-wrapper-in-form-item css-dev-only-do-not-override-sk7ap8"
                 >
                   <span
-                    className="ant-checkbox css-dev-only-do-not-override-sk7ap8"
+                    className="ant-checkbox css-dev-only-do-not-override-sk7ap8 ant-checkbox-checked"
                     style={{}}
                   >
                     <input
-                      checked={false}
+                      checked={true}
                       className="ant-checkbox-input"
                       disabled={false}
                       id="remember_id"

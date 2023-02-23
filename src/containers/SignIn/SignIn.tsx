@@ -1,6 +1,7 @@
 import { Button, Col, Form, message, Row, Typography } from 'antd';
+import { CheckboxChangeEvent } from 'antd/es/checkbox';
 import bem from 'easy-bem';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 
 import logo from 'assets/images/logo.png';
@@ -20,6 +21,7 @@ const SignIn: React.FC = () => {
   const [form] = Form.useForm();
   const { success, loading, user } = useAppSelector(authSelector);
   const history = useNavigate();
+  const [checked, setChecked] = useState(true);
 
   const onFinish = async (values: LoginMutation) => {
     try {
@@ -27,6 +29,10 @@ const SignIn: React.FC = () => {
     } catch (e) {
       await message.error(`${e?.detail}`);
     }
+  };
+
+  const onChangeCheckbox = (e: CheckboxChangeEvent) => {
+    setChecked(e.target.checked);
   };
 
   const pushToMainPage = () => {
@@ -88,7 +94,9 @@ const SignIn: React.FC = () => {
             id='remember_id'
             type='checkbox'
             label='Запомнить меня'
-            valuePropName='checked'
+            valuePropName='password'
+            checked={checked}
+            onChange={onChangeCheckbox}
           />
 
           <Button
