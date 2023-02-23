@@ -2,7 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 
 import authReducer from 'redux/auth/authSlice';
 
-export const store = configureStore({
+export default configureStore({
   reducer: {
     auth: authReducer,
   },
@@ -11,6 +11,3 @@ export const store = configureStore({
       serializableCheck: false,
     }),
 });
-
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;

@@ -9,17 +9,18 @@ import SliderMenu from 'components/SliderMenu/SliderMenu';
 import ManagerProfile from 'containers/Manager/Profile/Profile';
 import NewUser from 'containers/Manager/Users/NewUser/NewUser';
 import UserProfile from 'containers/Manager/Users/UserProfile/UserProfile';
-/*
 import Users from 'containers/Manager/Users/Users';
-*/
 import UserTechnique from 'containers/Manager/Users/UserTechnique/UserTechnique';
 import ProfileTechnique from 'containers/Technique/ProfileTechnique/ProfileTechnique';
 import Profile from 'containers/User/Profile/Profile';
 import Technique from 'containers/User/Technique/Technique';
+import { authSelector } from 'redux/auth/authSlice';
+import { useAppSelector } from 'redux/hooks';
 
 const { Header, Content } = Layout;
 
 const AppRouter: React.FC = () => {
+  const { user } = useAppSelector(authSelector);
   const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer },
@@ -45,16 +46,21 @@ const AppRouter: React.FC = () => {
           }}
         >
           <Routes>
-            {/* <Route path='/' element={<Users />} /> */}
-            <Route path='/add-new-user' element={<NewUser />} />
-            <Route path='/manager-profile' element={<ManagerProfile />} />
-            <Route path='/user-profile' element={<UserProfile />} />
-            <Route path='/user-technique' element={<UserTechnique />} />
-
-            <Route path='/' element={<Technique />} />
-            <Route path='/user-profile-view' element={<Profile />} />
-            <Route path='/open-map' element={<OpenMapComponent />} />
-
+            {user?.is_manager ? (
+              <>
+                <Route path='/' index element={<Users />} />
+                <Route path='/add-new-user' element={<NewUser />} />
+                <Route path='/manager-profile' element={<ManagerProfile />} />
+                <Route path='/user-profile' element={<UserProfile />} />
+                <Route path='/user-technique' element={<UserTechnique />} />
+              </>
+            ) : (
+              <>
+                <Route path='/' index element={<Technique />} />
+                <Route path='/user-profile-view' element={<Profile />} />
+                <Route path='/open-map' element={<OpenMapComponent />} />
+              </>
+            )}
             <Route path='/profile-technique' element={<ProfileTechnique />} />
           </Routes>
         </Content>

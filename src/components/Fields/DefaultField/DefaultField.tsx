@@ -31,7 +31,7 @@ const DefaultField: React.FC<Props> = ({
         readOnly={readOnly}
         bordered={bordered}
         placeholder={placeholder}
-        className={inputClassName}
+        className={`input-styles ${inputClassName}`}
       />
     </Form.Item>
   );
