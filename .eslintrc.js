@@ -34,6 +34,7 @@ module.exports = {
     'linebreak-style': 'off',
     'arrow-parens': 'off',
     'object-curly-newline': 'off',
+    "import/prefer-default-export": "off",
     'no-mixed-operators': 'off',
     'arrow-body-style': 'off',
     'function-paren-newline': 'off',

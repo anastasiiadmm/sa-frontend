@@ -5,8 +5,10 @@ import { BrowserRouter } from 'react-router-dom';
 import 'leaflet/dist/leaflet.css';
 
 import App from 'App';
-import { store } from 'redux/store';
+import configureStore from 'redux/store';
 import 'assets/scss/_index.scss';
+
+export const store = configureStore();
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(

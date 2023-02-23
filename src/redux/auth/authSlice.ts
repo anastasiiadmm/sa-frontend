@@ -1,9 +1,9 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-import { RootState } from 'redux/store';
-import axiosApi from 'utils/axios-api';
+import { RootState } from 'redux/hooks';
 import { ITokens, IUser, LoginMutation, loginResponse, ValidationError } from 'types';
 import { addCookies } from 'utils/addCookies/addCookies';
+import axiosApi from 'utils/axios-api';
 import { defaultError } from 'utils/config';
 
 interface AuthState {

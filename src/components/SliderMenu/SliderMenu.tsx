@@ -3,12 +3,14 @@ import type { MenuProps } from 'antd';
 import { Avatar, Layout, Menu } from 'antd';
 import bem from 'easy-bem';
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 
 import logo from 'assets/images/logo.png';
+import { authSelector, logoutUser } from 'redux/auth/authSlice';
+import { useAppSelector } from 'redux/hooks';
 import 'components/SliderMenu/_sliderMenu.scss';
-import {authSelector} from "redux/auth/authSlice";
-import {useAppSelector} from "../../redux/hooks";
+import { logoutLocalStorage } from 'utils/token';
 
 const { Sider } = Layout;
 
@@ -34,64 +36,62 @@ function getItem(
   } as MenuItem;
 }
 
-/* const ManagerItems: MenuItem[] = [
-  getItem(
-    <p className='menuItem'>
-      Петр В.И.<span>Менеджер</span>
-    </p>,
-    'sub1',
-    <Avatar className='avatar-profile' size='large' icon={<UserOutlined />} />,
-    [
-      getItem('Профиль', '/manager-profile', <HomeOutlined />),
-      getItem('Выход', '/sign-out', <ImportOutlined />),
-    ],
-  ),
-  { type: 'divider' },
-  getItem(
-    '',
-    'grp',
-    null,
-    [
-      getItem('Пользователи', '/', <div className='icon-styles users-icon' />),
-      getItem(
-        'Добавить нового пользователя',
-        '/add-new-user',
-        <div className='icon-styles add-icon' />,
-      ),
-    ],
-    'group',
-  ),
-]; */
-
 const SliderMenu: React.FC<Props> = ({ collapsed }) => {
   const b = bem('SliderMenu');
   const push = useNavigate();
-  const { success, user, tokens } = useAppSelector(authSelector);
+  const { user } = useAppSelector(authSelector);
+  const dispatch = useDispatch();
 
   const menuItems: MenuItem[] = [
     getItem(
       <p className='menuItem'>
-        Иванов И.И<span>Пользователь</span>
+        {`${user?.last_name} ${user?.first_name.charAt(0)}. ${user?.middle_name.charAt(0)}.`}
+        <span>{user?.is_manager ? 'Менеджер' : 'Пользователь'}</span>
       </p>,
       'sub1',
       <Avatar className='avatar-profile' size='large' icon={<UserOutlined />} />,
       [
-        getItem('Профиль', '/user-profile-view', <HomeOutlined />),
+        getItem(
+          'Профиль',
+          user?.is_manager ? '/manager-profile' : '/user-profile-view',
+          <HomeOutlined />,
+        ),
         getItem('Выход', '/sign-out', <ImportOutlined />),
       ],
     ),
     { type: 'divider' },
-    getItem(
-      '',
-      'grp',
-      null,
-      [getItem('Техника', '/', <div className='icon-styles technics-icon' />)],
-      'group',
-    ),
+    user?.is_manager
+      ? getItem(
+          '',
+          'grp',
+          null,
+          [
+            getItem('Пользователи', '/', <div className='icon-styles users-icon' />),
+            getItem(
+              'Добавить нового пользователя',
+              '/add-new-user',
+              <div className='icon-styles add-icon' />,
+            ),
+          ],
+          'group',
+        )
+      : getItem(
+          '',
+          'grp',
+          null,
+          [getItem('Техника', '/', <div className='icon-styles technics-icon' />)],
+          'group',
+        ),
   ];
 
   const pushLinks: MenuProps['onClick'] = (e) => {
-    push(e.key);
+    if (e.key === '/sign-out') {
+      logoutLocalStorage();
+      dispatch(logoutUser());
+      window.location.reload();
+    } else {
+      push(e.key);
+    }
   };
 
   return (

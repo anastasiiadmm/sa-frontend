@@ -7,10 +7,10 @@ import logo from 'assets/images/logo.png';
 import tractor from 'assets/images/tracktor.png';
 import FormField from 'components/FormField/FormField';
 import { authSelector, loginUser } from 'redux/auth/authSlice';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { LoginMutation } from 'types';
 import { userLocalStorage } from 'utils/token';
 import 'containers/SignIn/_signIn.scss';
-import {useAppDispatch, useAppSelector} from "../../redux/hooks";
 
 const { Title } = Typography;
 

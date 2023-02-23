@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import AlertComponent from 'components/AlertComponent/AlertComponent';
 import FormField from 'components/FormField/FormField';
 import { authSelector, resetUserPasswordSendEmail } from 'redux/auth/authSlice';
-import { AppDispatch } from 'redux/store';
+import {AppDispatch} from "redux/hooks";
 import { ResetEmail } from 'types';
 import 'containers/SignIn/_signIn.scss';
 

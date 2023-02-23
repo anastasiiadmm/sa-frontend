@@ -1,9 +1,9 @@
 import axios from 'axios';
 
-import {checkForTokens, logoutUser} from 'redux/auth/authSlice';
-import {apiURL} from 'utils/config';
-import {logoutLocalStorage} from 'utils/token';
-import {store} from "../redux/store";
+import { store } from 'index';
+import { checkForTokens, logoutUser } from 'redux/auth/authSlice';
+import { apiURL } from 'utils/config';
+import { logoutLocalStorage } from 'utils/token';
 
 const axiosApi = axios.create({
   baseURL: apiURL,
@@ -16,7 +16,7 @@ axiosApi.interceptors.request.use(async (config) => {
     config.headers = {
       ...config.headers,
       Authorization: `Bearer ${key}`,
-      'Content-Type':  'application/json',
+      'Content-Type': 'application/json',
     } as any;
   }
   return config;
