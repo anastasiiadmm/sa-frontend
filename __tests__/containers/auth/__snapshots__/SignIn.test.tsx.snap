@@ -67,8 +67,8 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
             style={{}}
           >
             <label
-              className="ant-form-item-required"
-              htmlFor="register_email"
+              className=""
+              htmlFor="register_username"
               title="Логин"
             >
               Логин
@@ -85,9 +85,8 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
                 className="ant-form-item-control-input-content"
               >
                 <input
-                  aria-required="true"
-                  className="ant-input ant-input-borderless css-dev-only-do-not-override-sk7ap8 SignIn__username"
-                  id="register_email"
+                  className="ant-input css-dev-only-do-not-override-sk7ap8 input-styles undefined"
+                  id="register_username"
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
@@ -103,7 +102,7 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
         </div>
       </div>
       <div
-        className="ant-form-item username css-dev-only-do-not-override-sk7ap8"
+        className="ant-form-item PasswordField css-dev-only-do-not-override-sk7ap8"
       >
         <div
           className="ant-row ant-form-item-row css-dev-only-do-not-override-sk7ap8"
@@ -115,7 +114,7 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
           >
             <label
               className="ant-form-item-required"
-              htmlFor="register_remember"
+              htmlFor="register_password"
               title="Пароль"
             >
               Пароль
@@ -132,7 +131,7 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
                 className="ant-form-item-control-input-content"
               >
                 <span
-                  className="ant-input-affix-wrapper ant-input-password ant-input-affix-wrapper-borderless ant-input-affix-wrapper-has-feedback css-dev-only-do-not-override-sk7ap8"
+                  className="ant-input-affix-wrapper ant-input-password input-styles undefined ant-input-affix-wrapper-has-feedback css-dev-only-do-not-override-sk7ap8"
                   onClick={[Function]}
                   style={
                     {
@@ -142,9 +141,9 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
                 >
                   <input
                     aria-required="true"
-                    className="ant-input ant-input-borderless css-dev-only-do-not-override-sk7ap8"
+                    className="ant-input css-dev-only-do-not-override-sk7ap8"
                     hidden={null}
-                    id="register_remember"
+                    id="register_password"
                     onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
@@ -153,7 +152,7 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
                     readOnly={false}
                     style={null}
                     type="password"
-                    value="true"
+                    value=""
                   />
                   <span
                     className="ant-input-suffix"
@@ -209,17 +208,17 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
                 className="ant-form-item-control-input-content"
               >
                 <label
-                  className="ant-checkbox-wrapper ant-checkbox-wrapper-checked ant-checkbox-wrapper-in-form-item css-dev-only-do-not-override-sk7ap8"
+                  className="ant-checkbox-wrapper ant-checkbox-wrapper-in-form-item css-dev-only-do-not-override-sk7ap8"
                 >
                   <span
-                    className="ant-checkbox css-dev-only-do-not-override-sk7ap8 ant-checkbox-checked"
+                    className="ant-checkbox css-dev-only-do-not-override-sk7ap8"
                     style={{}}
                   >
                     <input
-                      checked={true}
+                      checked={false}
                       className="ant-checkbox-input"
                       disabled={false}
-                      id="register_remember"
+                      id="remember_id"
                       onBlur={[Function]}
                       onChange={[Function]}
                       onFocus={[Function]}
@@ -258,34 +257,6 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
         </span>
       </button>
     </form>
-    <div
-      className="ant-row SignIn__buttons-col css-dev-only-do-not-override-sk7ap8"
-      style={{}}
-    >
-      <button
-        className="ant-btn css-dev-only-do-not-override-sk7ap8 ant-btn-link"
-        disabled={false}
-        onClick={[Function]}
-        type="button"
-      >
-        <a
-          href="/sign-up/"
-          onClick={[Function]}
-        >
-          Зарегистрироваться
-        </a>
-      </button>
-      <button
-        className="ant-btn css-dev-only-do-not-override-sk7ap8 ant-btn-link"
-        disabled={false}
-        onClick={[Function]}
-        type="button"
-      >
-        <span>
-          Восстановить пароль
-        </span>
-      </button>
-    </div>
   </div>
 </div>
 `;

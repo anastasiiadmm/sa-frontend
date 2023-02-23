@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-import { store } from 'index';
 import { checkForTokens, logoutUser } from 'redux/auth/authSlice';
+import store from 'redux/store';
 import { apiURL } from 'utils/config';
 import { logoutLocalStorage } from 'utils/token';
 
