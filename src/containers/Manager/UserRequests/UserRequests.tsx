@@ -72,7 +72,7 @@ const UserRequests = () => {
       render: (text, row) => {
         return (
           <img
-            alt="info"
+            alt='info'
             src={
               row?.type === 'Личная информация'
                 ? user
