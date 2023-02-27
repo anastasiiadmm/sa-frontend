@@ -9,8 +9,26 @@
     }
   }
 
+  &__username-info {
+    padding: 0;
+  }
+
+  &__profile-buttons {
+    margin-top: 35px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  &__delete-button {
+    background: themes.$red-color !important;
+    &:hover {
+      background: rgba(193, 16, 48, 0.6) !important;
+    }
+  }
+
   &__save-button {
-    margin-top: 20px;
+    background: themes.$primary-color;
   }
 
   :where(.css-dev-only-do-not-override-sk7ap8).ant-form-vertical .ant-form-item-label, :where(.css-dev-only-do-not-override-sk7ap8).ant-col-24.ant-form-item-label, :where(.css-dev-only-do-not-override-sk7ap8).ant-col-xl-24.ant-form-item-label {

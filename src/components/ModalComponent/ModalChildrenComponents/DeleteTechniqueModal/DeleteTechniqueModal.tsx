@@ -7,21 +7,30 @@ import ResultComponent from 'components/ResultComponent/ResultComponent';
 import 'components/ModalComponent/ModalChildrenComponents/DeleteTechniqueModal/_deleteTechniqueModal.scss';
 
 interface Props {
+  title: string;
+  subTitle: string;
+  techniqueName?: string;
   handleDeleteCancel?: () => void;
-  deleteTechniqueHandler?: () => void;
+  deleteRejectTechniqueHandler?: () => void;
 }
 
-const DeleteTechniqueModal: React.FC<Props> = ({ handleDeleteCancel, deleteTechniqueHandler }) => {
-  const b = bem('DeleteTechniqueModal');
+const DeleteRejectTechniqueModal: React.FC<Props> = ({
+  title,
+  subTitle,
+  techniqueName,
+  handleDeleteCancel,
+  deleteRejectTechniqueHandler,
+}) => {
+  const b = bem('DeleteRejectTechniqueModal');
 
   return (
     <>
       <ResultComponent
         status='error'
         icon={<img src={warning} alt='warning' />}
-        title='Удалить?'
-        subTitle='Вы уверены, что хотите удалить'
-        techniqueName='Камаз 6595?'
+        title={title}
+        subTitle={subTitle}
+        techniqueName={techniqueName}
       />
       <div className={b('delete-modal-buttons')}>
         <Button
@@ -37,7 +46,7 @@ const DeleteTechniqueModal: React.FC<Props> = ({ handleDeleteCancel, deleteTechn
           htmlType='submit'
           style={{ width: '100%', borderRadius: 4 }}
           className={b('delete-profile-button')}
-          onClick={deleteTechniqueHandler}
+          onClick={deleteRejectTechniqueHandler}
         >
           Удалить
         </Button>
@@ -46,4 +55,4 @@ const DeleteTechniqueModal: React.FC<Props> = ({ handleDeleteCancel, deleteTechn
   );
 };
 
-export default DeleteTechniqueModal;
+export default DeleteRejectTechniqueModal;
