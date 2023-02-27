@@ -45,7 +45,7 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
   const menuItems: MenuItem[] = [
     getItem(
       <p className='menuItem'>
-        {`${user?.last_name} ${user?.first_name.charAt(0)}. ${user?.middle_name.charAt(0)}.`}
+        {`${user?.last_name} ${user?.first_name?.charAt(0)}. ${user?.middle_name?.charAt(0)}.`}
         <span>{user?.is_manager ? 'Менеджер' : 'Пользователь'}</span>
       </p>,
       'sub1',
@@ -72,6 +72,7 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
               '/add-new-user',
               <div className='icon-styles add-icon' />,
             ),
+            getItem('Запросы', '/user-requests', <div className='icon-styles request-icon' />),
           ],
           'group',
         )

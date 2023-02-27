@@ -1,0 +1,16 @@
+@use 'assets/scss/_themes.scss';
+
+.UserRequests {
+
+  &__table {
+    padding: 16px;
+    background: themes.$white-color;
+  }
+
+  &__profile-link {
+    color: themes.$info-color;
+    &:hover {
+      color: themes.$info-hover-color;
+    }
+  }
+}

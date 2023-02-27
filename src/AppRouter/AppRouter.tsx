@@ -7,6 +7,7 @@ import { Routes } from 'react-router-dom';
 import OpenMapComponent from 'components/OpenMapComponent/OpenMapComponent';
 import SliderMenu from 'components/SliderMenu/SliderMenu';
 import ManagerProfile from 'containers/Manager/Profile/Profile';
+import UserRequests from 'containers/Manager/UserRequests/UserRequests';
 import NewUser from 'containers/Manager/Users/NewUser/NewUser';
 import UserProfile from 'containers/Manager/Users/UserProfile/UserProfile';
 import Users from 'containers/Manager/Users/Users';
@@ -53,6 +54,7 @@ const AppRouter: React.FC = () => {
                 <Route path='/manager-profile' element={<ManagerProfile />} />
                 <Route path='/user-profile' element={<UserProfile />} />
                 <Route path='/user-technique' element={<UserTechnique />} />
+                <Route path='/user-requests' element={<UserRequests />} />
               </>
             ) : (
               <>

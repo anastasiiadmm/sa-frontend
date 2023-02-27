@@ -10,7 +10,7 @@ import edit from 'assets/images/icons/edit.svg';
 import tractorBlue from 'assets/images/icons/tractor-blue.svg';
 import tractor from 'assets/images/icons/tractor-image.svg';
 import AddUpdateTechnique from 'components/ModalComponent/ModalChildrenComponents/AddUpdateTechnique/AddUpdateTechnique';
-import DeleteTechniqueModal from 'components/ModalComponent/ModalChildrenComponents/DeleteTechniqueModal/DeleteTechniqueModal';
+import DeleteRejectTechniqueModal from 'components/ModalComponent/ModalChildrenComponents/DeleteTechniqueModal/DeleteTechniqueModal';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import 'containers/Manager/Users/UserTechnique/_userTechnique.scss';
 
@@ -210,9 +210,12 @@ const UserTechnique: React.FC = () => {
         handleOk={handleDeleteOk}
         handleCancel={handleDeleteCancel}
       >
-        <DeleteTechniqueModal
+        <DeleteRejectTechniqueModal
+          title='Удалить?'
+          subTitle='Вы уверены, что хотите удалить'
+          techniqueName='Камаз 6595?'
           handleDeleteCancel={handleDeleteCancel}
-          deleteTechniqueHandler={deleteTechniqueHandler}
+          deleteRejectTechniqueHandler={deleteTechniqueHandler}
         />
       </ModalComponent>
     </>

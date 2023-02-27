@@ -125,23 +125,17 @@ const SignIn: React.FC = () => {
               Продолжить
             </Button>
           </Form>
-          <Row
-            gutter={{
-              xs: 0,
-              sm: 0,
-              md: 0,
-              lg: 0,
-            }}
-            className={b('buttons-col')}
-          >
-            <Button type='link' onClick={showModal}>
-              Хотите стать клиентом? Зарегистрироваться
+          <Row className={b('buttons-row')}>
+            <p>Хотите стать клиентом?</p>
+            <Button type='primary' onClick={showModal}>
+              Зарегистрироваться
             </Button>
           </Row>
         </Col>
       </Row>
 
       <ModalComponent
+        dividerShow={false}
         title='Отправить запрос на регистрацию'
         open={isModalOpen}
         handleOk={handleOk}

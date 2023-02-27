@@ -5,7 +5,17 @@ import React from 'react';
 import FormField from 'components/FormField/FormField';
 import 'components/ModalComponent/ModalChildrenComponents/EditUserProfileModal/_editUserProfileModal.scss';
 
-const EditUserProfileModal = () => {
+interface Props {
+  changeUserInfoRequest?: boolean;
+  handleOkCancel?: () => void;
+  showRejectModal?: () => void;
+}
+
+const EditUserProfileModal: React.FC<Props> = ({
+  changeUserInfoRequest = false,
+  handleOkCancel,
+  showRejectModal,
+}) => {
   const b = bem('EditUserProfileModal');
   const [form] = Form.useForm();
 
@@ -14,9 +24,9 @@ const EditUserProfileModal = () => {
   return (
     <Col
       className={b('')}
-      xs={{ span: 20, offset: 2 }}
-      md={{ span: 18, offset: 3 }}
-      lg={{ span: 22, offset: 1 }}
+      xs={{ span: 24, offset: 0 }}
+      md={{ span: 24, offset: 0 }}
+      lg={{ span: 24, offset: 0 }}
     >
       <Form
         form={form}
@@ -25,6 +35,38 @@ const EditUserProfileModal = () => {
         autoComplete='off'
         layout='vertical'
       >
+        {changeUserInfoRequest ? (
+          <div className={b('form-modal-block')}>
+            <FormField
+              readOnly
+              data-testid='name_id'
+              id='name_id'
+              inputClassName={b('username-info')}
+              label='ФИО'
+              name='name'
+              placeholder='ФИО'
+            />
+            <FormField
+              readOnly
+              data-testid='email_id'
+              id='email_id'
+              inputClassName={b('username-info')}
+              label='Email'
+              name='email'
+              placeholder='Email'
+            />
+            <FormField
+              readOnly
+              type='phone'
+              className='username'
+              name='phone_number'
+              label='Номер телефона'
+              placeholder='Номер телефона'
+              inputClassName={b('username-info')}
+            />
+          </div>
+        ) : null}
+
         <FormField
           bordered
           data-testid='username_id'
@@ -142,16 +184,47 @@ const EditUserProfileModal = () => {
         />
 
         <div className={b('profile-buttons')}>
-          <Button
-            // disabled={!!commonError}
-            type='primary'
-            htmlType='submit'
-            // loading={!!loading}
-            style={{ width: '100%', borderRadius: 4 }}
-            className={b('save-button')}
-          >
-            Сохранить изменения
-          </Button>
+          {changeUserInfoRequest ? (
+            <>
+              <Button
+                type='primary'
+                style={{ width: '100%', borderRadius: 4 }}
+                className={b('delete-button')}
+                onClick={() => {
+                  if (showRejectModal) {
+                    showRejectModal();
+                  }
+                  if (handleOkCancel) {
+                    handleOkCancel();
+                  }
+                }}
+              >
+                Отклонить запрос
+              </Button>
+
+              <Button
+                // disabled={!!commonError}
+                type='primary'
+                htmlType='submit'
+                // loading={!!loading}
+                style={{ width: '100%', borderRadius: 4 }}
+                className={b('save-button')}
+              >
+                Подтвердить запрос
+              </Button>
+            </>
+          ) : (
+            <Button
+              // disabled={!!commonError}
+              type='primary'
+              htmlType='submit'
+              // loading={!!loading}
+              style={{ width: '100%', borderRadius: 4 }}
+              className={b('save-button')}
+            >
+              Сохранить изменения
+            </Button>
+          )}
         </div>
       </Form>
     </Col>

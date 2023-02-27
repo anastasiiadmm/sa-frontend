@@ -258,17 +258,20 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
       </button>
     </form>
     <div
-      className="ant-row SignIn__buttons-col css-dev-only-do-not-override-sk7ap8"
+      className="ant-row SignIn__buttons-row css-dev-only-do-not-override-sk7ap8"
       style={{}}
     >
+      <p>
+        Хотите стать клиентом?
+      </p>
       <button
-        className="ant-btn css-dev-only-do-not-override-sk7ap8 ant-btn-link"
+        className="ant-btn css-dev-only-do-not-override-sk7ap8 ant-btn-primary"
         disabled={false}
         onClick={[Function]}
         type="button"
       >
         <span>
-          Хотите стать клиентом? Зарегистрироваться
+          Зарегистрироваться
         </span>
       </button>
     </div>

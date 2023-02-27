@@ -31,10 +31,11 @@ const RequestRegisterModal = () => {
   return (
     <Col
       className={b('')}
-      xs={{ span: 20, offset: 2 }}
-      md={{ span: 22, offset: 1 }}
-      lg={{ span: 22, offset: 1 }}
+      xs={{ span: 24, offset: 0 }}
+      md={{ span: 24, offset: 0 }}
+      lg={{ span: 24, offset: 0 }}
     >
+      <p style={{ marginBottom: 25 }}>После отправки заявки с вами свяжется наш менеджер.</p>
       <Form
         form={form}
         initialValues={{ remember: true }}
@@ -118,15 +119,6 @@ const RequestRegisterModal = () => {
 
         <div className={b('form-modal-buttons')}>
           <Button
-            type='primary'
-            style={{ width: '100%', borderRadius: 4 }}
-            className={b('delete-profile-button')}
-            // onClick={deleteUserHandler}
-          >
-            Отмена
-          </Button>
-
-          <Button
             // disabled={!!commonError}
             type='primary'
             htmlType='submit'
@@ -134,7 +126,7 @@ const RequestRegisterModal = () => {
             style={{ width: '100%', borderRadius: 4 }}
             className={b('login-form-button')}
           >
-            Отправить
+            Отправить запрос
           </Button>
         </div>
       </Form>
