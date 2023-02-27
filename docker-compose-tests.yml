@@ -4,7 +4,7 @@ services:
   sa-frontend:
     build:
       context: .
-      dockerfile: Dockerfile.test
+      dockerfile: dockerfiles/Dockerfile.test
     environment:
       - REACT_APP_ENVIRONMENT=testing
       - REACT_APP_API_URL=0.0.0.0:8000
