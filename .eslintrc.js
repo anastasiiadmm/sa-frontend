@@ -40,7 +40,7 @@ module.exports = {
     'function-paren-newline': 'off',
     'no-plusplus': 'off',
     'space-before-function-paren': 0,
-    'max-len': ['error', 150, 2, { ignoreUrls: true }],
+    'max-len': ['error', 130, 2, { ignoreUrls: true, ignorePattern: '^import\\s.+\\sfrom\\s.+;$' }],
     'no-console': 'error',
     'no-alert': 'error',
     'no-param-reassign': 'off',

@@ -10,9 +10,9 @@ import edit from 'assets/images/icons/edit.svg';
 import tractorBlue from 'assets/images/icons/tractor-blue.svg';
 import tractor from 'assets/images/icons/tractor-image.svg';
 import AddUpdateTechnique from 'components/ModalComponent/ModalChildrenComponents/AddUpdateTechnique/AddUpdateTechnique';
+import DeleteRejectTechniqueModal from 'components/ModalComponent/ModalChildrenComponents/DeleteTechniqueModal/DeleteTechniqueModal';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import 'containers/Manager/Users/UserTechnique/_userTechnique.scss';
-import DeleteRejectTechniqueModal from 'components/ModalComponent/ModalChildrenComponents/DeleteTechniqueModal/DeleteTechniqueModal';
 
 const { Title } = Typography;
 
