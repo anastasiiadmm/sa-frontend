@@ -1,0 +1,24 @@
+variables:
+  DEPLOY_USER: "gitlab-runner-user"
+  SERVICE_NAME: "sa-frontend"
+
+stages:
+  - test
+
+test:
+  image: docker/compose:latest
+  tags:
+    - $RUNNER_TAG
+  stage: test
+  environment:
+    name: testing
+  before_script:
+    - docker-compose -f docker-compose-tests.yml down
+    - docker system prune -f
+  script:
+    - echo "Running tests"
+    - docker-compose -f docker-compose-tests.yml build $SERVICE_NAME
+    - docker-compose -f docker-compose-tests.yml up --abort-on-container-exit --exit-code-from $SERVICE_NAME --quiet-pull $SERVICE_NAME
+  after_script:
+    - docker-compose -f docker-compose-tests.yml down --volumes
+
