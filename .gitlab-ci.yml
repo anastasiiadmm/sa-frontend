@@ -1,0 +1,18 @@
+variables:
+  DEPLOY_USER: "gitlab-runner-user"
+  SERVICE_NAME: "sa-frontend"
+
+stages:
+  - test
+
+test:
+  image: docker/compose:latest
+  tags:
+    - $RUNNER_TAG
+  stage: test
+  environment:
+    name: testing
+  script:
+    - echo "Running tests"
+    - docker-compose -f docker-compose-tests.yml run --rm $SERVICE_NAME
+
