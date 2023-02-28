@@ -14,6 +14,5 @@ test:
     name: testing
   script:
     - echo "Running tests"
-    - docker-compose -f docker-compose-tests.yml -p $CI_COMMIT_SHA build $SERVICE_NAME
-    - docker-compose -f docker-compose-tests.yml -p $CI_COMMIT_SHA run --rm $SERVICE_NAME
+    - docker-compose -f docker-compose-tests.yml run --rm $SERVICE_NAME
 
