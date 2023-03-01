@@ -2,8 +2,17 @@ variables:
   DEPLOY_USER: "gitlab-runner-user"
   SERVICE_NAME: "sa-frontend"
 
+.build-and-push-script: &build-and-push
+  - docker build -t $SERVICE_NAME --cache-from $CI_REGISTRY_IMAGE/latest -f dockerfiles/Dockerfile --build-arg REACT_APP_ENVIRONMENT=$REACT_APP_ENVIRONMENT .
+  - docker tag $SERVICE_NAME $CI_REGISTRY_IMAGE/$CI_COMMIT_SHORT_SHA
+  - docker tag $SERVICE_NAME $CI_REGISTRY_IMAGE/latest
+  - docker push $CI_REGISTRY_IMAGE/$CI_COMMIT_SHORT_SHA
+  - docker push $CI_REGISTRY_IMAGE/latest
+  - echo $CI_REGISTRY/$CI_COMMIT_SHORT_SHA
+
 stages:
   - test
+  - build
 
 test:
   image: docker/compose:latest
@@ -16,3 +25,17 @@ test:
     - echo "Running tests"
     - docker-compose -f docker-compose-tests.yml run --rm $SERVICE_NAME
 
+build&push-dev:
+  image: docker:stable
+  tags:
+    - $RUNNER_TAG
+  stage: build
+#  only:
+#    refs:
+#      - dev
+  variables:
+    REACT_APP_ENVIRONMENT: development
+  before_script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+  script:
+    *build-and-push
