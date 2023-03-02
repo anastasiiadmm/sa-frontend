@@ -39,3 +39,15 @@ export interface ValidationError {
   _name: string;
   message: string;
 }
+
+export interface IManager {
+  id: string;
+  username: string;
+  password: string;
+  first_name: string;
+  middle_name: string;
+  last_name: string;
+  email: string;
+  phone: string;
+}
+

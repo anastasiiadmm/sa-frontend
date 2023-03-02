@@ -28,6 +28,7 @@ const DefaultField: React.FC<Props> = ({
   return (
     <Form.Item label={label} name={name} rules={rules} className={className}>
       <Input
+        name={name}
         readOnly={readOnly}
         bordered={bordered}
         placeholder={placeholder}

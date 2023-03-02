@@ -141,6 +141,7 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
                 >
                   <input
                     aria-required="true"
+                    autoComplete="on"
                     className="ant-input css-dev-only-do-not-override-sk7ap8"
                     hidden={null}
                     id="register_password"
