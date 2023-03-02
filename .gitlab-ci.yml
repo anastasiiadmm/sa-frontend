@@ -34,7 +34,6 @@ build&push-dev:
   only:
     refs:
       - dev
-  when: manual
   variables:
     REACT_APP_ENVIRONMENT: development
     REACT_APP_API_URL: $REACT_APP_API_URL_DEV

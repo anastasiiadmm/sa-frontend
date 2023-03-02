@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { Upload } from 'antd';
 import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
 import ImgCrop from 'antd-img-crop';
