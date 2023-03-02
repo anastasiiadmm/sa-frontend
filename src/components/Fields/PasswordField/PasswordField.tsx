@@ -55,6 +55,7 @@ const PasswordField: React.FC<Props> = ({
         placeholder={placeholder}
         className={`input-styles ${inputClassName}`}
         style={{ borderRadius: '7px' }}
+        autoComplete='on'
       />
     </Form.Item>
   ) : (
@@ -86,6 +87,7 @@ const PasswordField: React.FC<Props> = ({
         placeholder={placeholder}
         className={`input-styles ${inputClassName}`}
         style={{ borderRadius: '7px' }}
+        autoComplete='on'
       />
     </Form.Item>
   );

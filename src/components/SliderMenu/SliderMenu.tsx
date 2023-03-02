@@ -3,12 +3,11 @@ import type { MenuProps } from 'antd';
 import { Avatar, Layout, Menu } from 'antd';
 import bem from 'easy-bem';
 import React from 'react';
-import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 
 import logo from 'assets/images/logo.png';
 import { authSelector, logoutUser } from 'redux/auth/authSlice';
-import { useAppSelector } from 'redux/hooks';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import 'components/SliderMenu/_sliderMenu.scss';
 import { logoutLocalStorage } from 'utils/token';
 
@@ -40,7 +39,7 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
   const b = bem('SliderMenu');
   const push = useNavigate();
   const { user } = useAppSelector(authSelector);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const menuItems: MenuItem[] = [
     getItem(
