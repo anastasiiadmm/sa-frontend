@@ -1,4 +1,4 @@
-FROM node:16-alpine3.11 as builder
+FROM node:16-alpine3.11 as build
 
 ARG REACT_APP_ENVIRONMENT
 ARG REACT_APP_API_URL
@@ -8,13 +8,17 @@ ENV REACT_APP_ENVIRONMENT=${REACT_APP_ENVIRONMENT:-local}
 ENV REACT_APP_API_URL=${REACT_APP_API_URL}
 ENV REACT_APP_SENTRY_DSN=${REACT_APP_SENTRY_DSN}
 
-WORKDIR /app
+WORKDIR /app_build
 
-COPY package.json .
+COPY . /app_build
 
 RUN yarn install
 
-COPY . .
-
 RUN yarn build
-CMD [ "yarn start" ]
+RUN yarn global add serve
+
+FROM umputun/nginx-le:latest
+
+WORKDIR /app
+
+COPY --from=build /app_build /app
