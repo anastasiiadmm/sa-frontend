@@ -27,6 +27,9 @@
 
   &__login-form-button {
     background: themes.$primary-color;
+    &:hover {
+      background-color: themes.$disabled-color !important;
+    }
   }
 
   &__buttons-col {
