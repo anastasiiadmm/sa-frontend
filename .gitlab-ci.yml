@@ -2,17 +2,46 @@ variables:
   DEPLOY_USER: "gitlab-runner-user"
   SERVICE_NAME: "sa-frontend"
 
+.add-ssh-private-key-script: &add-ssh-private-key
+  - apk update
+  - apk add -qq
+  - 'which ssh-agent || ( apk add -qq openssh-client )'
+  - eval $(ssh-agent -s)
+  - echo "$SSH_PRIVATE_KEY" | ssh-add -
+  - mkdir -p ~/.ssh
+  - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+  - ssh-keyscan -p 22 -H $DEPLOY_SERVER >> ~/.ssh/known_hosts
+
 .build-and-push-script: &build-and-push
   - docker build -t $SERVICE_NAME --cache-from $CI_REGISTRY_IMAGE/latest -f dockerfiles/Dockerfile --build-arg REACT_APP_API_URL=$REACT_APP_API_URL --build-arg REACT_APP_ENVIRONMENT=$REACT_APP_ENVIRONMENT --build-arg REACT_APP_SENTRY_DSN=$REACT_APP_SENTRY_DSN .
   - docker tag $SERVICE_NAME $CI_REGISTRY_IMAGE/$CI_COMMIT_SHORT_SHA
   - docker tag $SERVICE_NAME $CI_REGISTRY_IMAGE/latest
   - docker push $CI_REGISTRY_IMAGE/$CI_COMMIT_SHORT_SHA
   - docker push $CI_REGISTRY_IMAGE/latest
-  - echo $CI_REGISTRY/$CI_COMMIT_SHORT_SHA
+  - echo $CI_REGISTRY_IMAGE/$CI_COMMIT_SHORT_SHA
+
+.create-and-copy-compose-script: &create_and_copy_compose
+  - apk update
+  - apk add bash && apk add gettext
+
+  - envsubst < docker-compose.yml.template > docker-compose.yml
+
+  - ssh -T $DEPLOY_USER@$DEPLOY_SERVER "mkdir -p nginx/ssl"
+  - ssh -T $DEPLOY_USER@$DEPLOY_SERVER "mkdir -p nginx/conf"
+
+  - scp -r docker-compose.yml $DEPLOY_USER@$DEPLOY_SERVER:/home/$DEPLOY_USER/docker-compose.yml
+  - scp -r webserver.template.conf $DEPLOY_USER@$DEPLOY_SERVER:nginx/conf/service.conf
+
+.deploy-script: &deploy_compose
+  - ssh -T $DEPLOY_USER@$DEPLOY_SERVER "docker rm -f $SERVICE_NAME"
+  - ssh -T $DEPLOY_USER@$DEPLOY_SERVER "docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY"
+  - ssh -T $DEPLOY_USER@$DEPLOY_SERVER "docker pull $CI_REGISTRY_IMAGE/$CI_COMMIT_SHORT_SHA"
+  - ssh -T $DEPLOY_USER@$DEPLOY_SERVER "docker-compose run -d --name $SERVICE_NAME -p 7000:7000 -p 443:443 frontend"
 
 stages:
   - test
   - build
+  - deploy
 
 test:
   image: docker/compose:latest
@@ -31,9 +60,9 @@ build&push-dev:
   tags:
     - $RUNNER_TAG
   stage: build
-  only:
-    refs:
-      - dev
+#  only:
+#    refs:
+#      - dev
   variables:
     REACT_APP_ENVIRONMENT: development
     REACT_APP_API_URL: $REACT_APP_API_URL_DEV
@@ -42,3 +71,20 @@ build&push-dev:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
   script:
     *build-and-push
+
+deploy-dev:
+  image: docker:git
+  tags:
+    - $RUNNER_TAG
+  stage: deploy
+#  only:
+#    refs:
+#      - dev
+  variables:
+    DEPLOY_SERVER: $DEPLOY_SERVER_DEV
+    EXTRA_SERVICE_PARAMS: $EXTRA_SERVICE_PARAMS_DEV
+  before_script:
+    - *add-ssh-private-key
+  script:
+    - *create_and_copy_compose
+    - *deploy_compose
