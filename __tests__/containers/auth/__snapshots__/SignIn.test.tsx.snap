@@ -87,6 +87,7 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
                 <input
                   className="ant-input css-dev-only-do-not-override-sk7ap8 input-styles undefined"
                   id="register_username"
+                  name="username"
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
@@ -145,6 +146,7 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
                     className="ant-input css-dev-only-do-not-override-sk7ap8"
                     hidden={null}
                     id="register_password"
+                    name="password"
                     onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}

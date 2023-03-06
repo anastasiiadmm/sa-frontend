@@ -102,6 +102,7 @@ const Profile: React.FC = () => {
                 <div className={b('changed-password-buttons')}>
                   <div className={b('form-block form-block-buttons')}>
                     <FormField
+                      data-testid='new_password'
                       bordered
                       id='password_id'
                       type='password'
@@ -147,7 +148,11 @@ const Profile: React.FC = () => {
                     placeholder='Пароль'
                   />
 
-                  <Button type='link' onClick={() => setIsChangePassword(true)}>
+                  <Button
+                    data-testid='button_change_password'
+                    type='link'
+                    onClick={() => setIsChangePassword(true)}
+                  >
                     Сменить пароль
                   </Button>
                 </div>
@@ -213,6 +218,7 @@ const Profile: React.FC = () => {
               </div>
 
               <Button
+                data-testid='button_change'
                 disabled={validateForm}
                 type='primary'
                 htmlType='submit'
