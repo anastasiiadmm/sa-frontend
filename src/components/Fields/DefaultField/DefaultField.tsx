@@ -13,6 +13,7 @@ interface Props {
   bordered?: boolean;
   readOnly?: boolean;
   inputClassName?: string;
+  onChange?: () => void;
 }
 
 const DefaultField: React.FC<Props> = ({
@@ -24,6 +25,7 @@ const DefaultField: React.FC<Props> = ({
   inputClassName,
   bordered = false,
   readOnly = false,
+  onChange,
 }) => {
   return (
     <Form.Item label={label} name={name} rules={rules} className={className}>
@@ -33,6 +35,7 @@ const DefaultField: React.FC<Props> = ({
         bordered={bordered}
         placeholder={placeholder}
         className={`input-styles ${inputClassName}`}
+        onChange={onChange}
       />
     </Form.Item>
   );

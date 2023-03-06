@@ -10,8 +10,10 @@ interface Props {
   className?: string;
   bordered?: boolean;
   readOnly?: boolean;
+  required?: boolean;
   inputClassName?: string;
   dependencies?: string[] | undefined;
+  onChange?: () => void;
 }
 
 const PasswordField: React.FC<Props> = ({
@@ -24,6 +26,8 @@ const PasswordField: React.FC<Props> = ({
   inputClassName,
   bordered = false,
   readOnly = false,
+  onChange,
+  required = true,
 }) => {
   const b = bem('PasswordField');
 
@@ -37,7 +41,7 @@ const PasswordField: React.FC<Props> = ({
       rules={[
         {
           required: true,
-          message: 'Введите пароль',
+          message: 'Подтвердите пароль',
         },
         ({ getFieldValue }) => ({
           validator(_, value) {
@@ -56,6 +60,21 @@ const PasswordField: React.FC<Props> = ({
         className={`input-styles ${inputClassName}`}
         style={{ borderRadius: '7px' }}
         autoComplete='on'
+        onChange={onChange}
+        name={name}
+      />
+    </Form.Item>
+  ) : !required ? (
+    <Form.Item id={id} className={className || b()} label={label} name={name} hasFeedback>
+      <Input.Password
+        readOnly={readOnly}
+        bordered={bordered}
+        placeholder={placeholder}
+        className={`input-styles ${inputClassName}`}
+        style={{ borderRadius: '7px' }}
+        autoComplete='on'
+        onChange={onChange}
+        name={name}
       />
     </Form.Item>
   ) : (
@@ -88,6 +107,8 @@ const PasswordField: React.FC<Props> = ({
         className={`input-styles ${inputClassName}`}
         style={{ borderRadius: '7px' }}
         autoComplete='on'
+        onChange={onChange}
+        name={name}
       />
     </Form.Item>
   );

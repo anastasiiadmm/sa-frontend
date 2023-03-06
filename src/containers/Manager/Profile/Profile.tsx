@@ -1,10 +1,17 @@
 import { Button, Col, Form, Typography } from 'antd';
 import bem from 'easy-bem';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import FormField from 'components/FormField/FormField';
 import SkeletonBlock from 'components/SkeletonBlock/SkeletonBlock';
-import { accountsSelector, fetchManager } from 'redux/accounts/accountsSlice';
+import { isObjectChangeValidate, removeEmptyValuesFromObject } from 'helper';
+import {
+  accountsSelector,
+  fetchManager,
+  managerChangeProfileHandler,
+  managerProfileUpdate,
+  setManagerProfile,
+} from 'redux/accounts/accountsSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import 'containers/Manager/Profile/_profile.scss';
 
@@ -12,8 +19,11 @@ const { Title } = Typography;
 
 const Profile: React.FC = () => {
   const b = bem('Profile');
-  const { fetchLoadingManager, manager } = useAppSelector(accountsSelector);
+  const { fetchLoadingManager, manager, updateManagerData, updateManagerDataLoading } =
+    useAppSelector(accountsSelector);
   const dispatch = useAppDispatch();
+  const [validateForm, setValidateForm] = useState(false);
+  const [isChangePassword, setIsChangePassword] = useState(false);
   const [form] = Form.useForm();
 
   useEffect(() => {
@@ -24,7 +34,7 @@ const Profile: React.FC = () => {
     if (manager) {
       form.setFieldsValue({
         username: manager?.username,
-        password: manager?.password,
+        old_password: manager?.password,
         first_name: manager?.first_name,
         last_name: manager?.last_name,
         middle_name: manager?.middle_name,
@@ -34,7 +44,30 @@ const Profile: React.FC = () => {
     }
   }, [manager, form]);
 
-  const onFinish = (values: any) => {};
+  useEffect(() => {
+    if (manager) {
+      dispatch(setManagerProfile(manager));
+    }
+  }, [manager, dispatch]);
+
+  useEffect(() => {
+    if (manager) {
+      const validate = isObjectChangeValidate(manager, updateManagerData);
+      setValidateForm(validate);
+    }
+  }, [manager, updateManagerData]);
+
+  const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    dispatch(managerChangeProfileHandler({ [name]: value }));
+  };
+
+  const onFinish = () => {
+    if (updateManagerData) {
+      const data = removeEmptyValuesFromObject(updateManagerData);
+      dispatch(managerProfileUpdate({ data }));
+    }
+  };
 
   return (
     <div className='layout' data-testid='accounts-id'>
@@ -62,30 +95,63 @@ const Profile: React.FC = () => {
                 label='Username'
                 name='username'
                 placeholder='Username'
+                onChange={inputChangeHandler}
               />
 
-              <div className={b('form-block')}>
-                <FormField
-                  bordered
-                  id='password_id'
-                  type='password'
-                  className='username'
-                  name='password'
-                  label='Пароль'
-                  placeholder='Пароль'
-                />
+              {isChangePassword ? (
+                <div className={b('changed-password-buttons')}>
+                  <div className={b('form-block form-block-buttons')}>
+                    <FormField
+                      bordered
+                      id='password_id'
+                      type='password'
+                      className='username'
+                      name='password'
+                      label='Новый пароль'
+                      placeholder='Новый пароль'
+                      onChange={inputChangeHandler}
+                    />
 
-                <FormField
-                  bordered
-                  id='password_confirm'
-                  type='password'
-                  className='username'
-                  name='confirm_password'
-                  dependencies={['password']}
-                  label='Повторите пароль'
-                  placeholder='Повторите пароль'
-                />
-              </div>
+                    <FormField
+                      bordered
+                      id='password_confirm'
+                      type='password'
+                      className='username'
+                      name='confirm_password'
+                      dependencies={['password']}
+                      label='Повторите пароль'
+                      placeholder='Повторите пароль'
+                      onChange={inputChangeHandler}
+                    />
+                  </div>
+                  <Button
+                    type='link'
+                    onClick={() => {
+                      dispatch(setManagerProfile(manager));
+                      setIsChangePassword(false);
+                    }}
+                  >
+                    Отменить
+                  </Button>
+                </div>
+              ) : (
+                <div className={b('form-block form-block-password')}>
+                  <FormField
+                    required={false}
+                    readOnly
+                    id='old_password_id'
+                    type='password'
+                    className='username'
+                    name='old_password'
+                    label='Пароль'
+                    placeholder='Пароль'
+                  />
+
+                  <Button type='link' onClick={() => setIsChangePassword(true)}>
+                    Сменить пароль
+                  </Button>
+                </div>
+              )}
 
               <div className={b('form-block')}>
                 <FormField
@@ -96,6 +162,7 @@ const Profile: React.FC = () => {
                   label='Фамилия'
                   name='last_name'
                   placeholder='Фамилия'
+                  onChange={inputChangeHandler}
                 />
 
                 <FormField
@@ -106,6 +173,7 @@ const Profile: React.FC = () => {
                   label='Имя'
                   name='first_name'
                   placeholder='Имя'
+                  onChange={inputChangeHandler}
                 />
               </div>
 
@@ -117,6 +185,7 @@ const Profile: React.FC = () => {
                 label='Отчество'
                 name='middle_name'
                 placeholder='Отчество'
+                onChange={inputChangeHandler}
               />
 
               <div className={b('form-block')}>
@@ -129,6 +198,7 @@ const Profile: React.FC = () => {
                   label='Email'
                   name='email'
                   placeholder='Email'
+                  onChange={inputChangeHandler}
                 />
 
                 <FormField
@@ -138,15 +208,16 @@ const Profile: React.FC = () => {
                   name='phone'
                   label='Номер телефона'
                   placeholder='Номер телефона'
+                  onChange={inputChangeHandler}
                 />
               </div>
 
               <Button
-                // disabled={!!commonError}
+                disabled={validateForm}
                 type='primary'
                 htmlType='submit'
-                // loading={!!loading}
-                style={{ width: '100%', borderRadius: 4 }}
+                loading={updateManagerDataLoading}
+                style={{ width: '100%', borderRadius: 4, marginTop: 30 }}
                 className={b('login-form-button')}
               >
                 Сохранить изменения

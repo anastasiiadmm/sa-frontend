@@ -8,11 +8,16 @@
   }
 
   &__cancel-profile-button {
-    color: themes.$font-title-color !important;
-    background-color: themes.$light-gray-color !important;
+    background: themes.$gray-color !important;
+    &:hover {
+      background: rgb(112, 121, 136) !important;
+    }
   }
 
   &__delete-profile-button {
-    background-color: themes.$red-color !important;
+    background: themes.$red-color !important;
+    &:hover {
+      background: rgba(193, 16, 48, 0.6) !important;
+    }
   }
 }

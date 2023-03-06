@@ -14,20 +14,27 @@ interface Props {
   inputClassName?: string;
   dependencies?: string[] | undefined;
   formatter?: string;
+  onChange?: () => void;
 }
 
 const PhoneField: React.FC<Props> = ({
   name,
   placeholder,
   label,
-  defaultValue,
   inputClassName,
   bordered = false,
   readOnly = false,
+  onChange,
 }) => {
   return (
     <Form.Item name={name} label={label}>
-      <InputMask readOnly={readOnly} mask='+7 (999) 999-99-99' autoComplete='off'>
+      <InputMask
+        name={name}
+        onChange={onChange}
+        readOnly={readOnly}
+        mask='+7 (999) 999-99-99'
+        autoComplete='off'
+      >
         <Input
           className={inputClassName}
           bordered={bordered}
