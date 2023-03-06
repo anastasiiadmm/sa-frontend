@@ -7,7 +7,7 @@ services:
       - ./nginx/ssl:/etc/nginx/ssl:rw
       - ./nginx/conf/service.conf:/etc/nginx/service.conf:ro
     networks:
-      - sa_network
+      - $NETWORK
     environment:
       - TZ=Asia/Bishkek
       - LETSENCRYPT=true
@@ -15,4 +15,4 @@ services:
       - LE_FQDN=agri.ltestl.com
 
 networks:
-  sa_network:
+  $NETWORK:
