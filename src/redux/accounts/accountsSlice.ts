@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { message } from 'antd';
 
 import { RootState } from 'redux/hooks';
 import {
@@ -64,9 +65,11 @@ interface updateManagerParams {
 
 export const managerProfileUpdate = createAsyncThunk<void, updateManagerParams>(
   `${nameSpace}/managerProfileUpdate`,
-  async ({ data }, { rejectWithValue }) => {
+  async ({ data }, { rejectWithValue, dispatch }) => {
     try {
       const resp = await axiosApi.patch(`/accounts/manager/`, data);
+      message.success('Данные успешно изменены!');
+      await dispatch(fetchManager());
       return resp.data;
     } catch (e) {
       let error = e?.response?.data;
@@ -87,7 +90,7 @@ const accountsSlice = createSlice({
       action: PayloadAction<ValidationUpdateManagerProfile>,
     ) => {
       const keys = Object.keys(action.payload);
-      if (keys[0] === 'confirm_password') {
+      if (keys[0] === 'confirm_password' || keys[0] === 'old_password') {
         delete keys[0];
       } else {
         state.updateManagerData[keys[0]] = action.payload[keys[0]];
@@ -101,18 +104,6 @@ const accountsSlice = createSlice({
       state.updateManagerData.last_name = action.payload.last_name;
       state.updateManagerData.email = action.payload.email;
       state.updateManagerData.phone = action.payload.phone;
-    },
-    clearUpdateManager: (state) => {
-      state.updateManagerData = {
-        username: '',
-        password: '',
-        confirm_password: '',
-        first_name: '',
-        middle_name: '',
-        last_name: '',
-        email: '',
-        phone: '',
-      };
     },
   },
   extraReducers: (builder) => {
@@ -145,7 +136,6 @@ const accountsSlice = createSlice({
   },
 });
 
-export const { clearUpdateManager, managerChangeProfileHandler, setManagerProfile } =
-  accountsSlice.actions;
+export const { managerChangeProfileHandler, setManagerProfile } = accountsSlice.actions;
 export const accountsSelector = (state: RootState) => state.accounts;
 export default accountsSlice.reducer;

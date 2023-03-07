@@ -51,8 +51,6 @@ export interface IManager {
   phone: string;
 }
 
-export type ApiManager = Omit<IManager, 'id'>;
-
 export interface IManagerMutation {
   username?: string;
   password?: string;
@@ -70,7 +68,7 @@ export interface ValidationUpdateManagerProfile {
 
 export interface updateManagerDataMutation {
   username: string;
-  password: string;
+  password?: string;
   confirm_password?: string;
   first_name: string;
   middle_name: string;
