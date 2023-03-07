@@ -42,6 +42,10 @@ code {
   }
 }
 
+button:disabled {
+  background-color: themes.$disabled-color !important;
+}
+
 
 // antd styles
 
@@ -61,9 +65,6 @@ code {
 }
 :where(.css-dev-only-do-not-override-sk7ap8).ant-input:focus, :where(.css-dev-only-do-not-override-sk7ap8).ant-input-focused {
   border-color: themes.$primary-color;
-}
-:where(.css-dev-only-do-not-override-sk7ap8).ant-btn-primary:not(:disabled):hover {
-  background: themes.$disabled-color;
 }
 :where(.css-dev-only-do-not-override-sk7ap8).ant-checkbox-checked .ant-checkbox-inner {
   background-color: themes.$primary-color;
@@ -129,10 +130,6 @@ code {
 
 :where(.css-dev-only-do-not-override-sk7ap8).ant-btn-primary {
   background-color: themes.$primary-color;
-}
-
-:where(.css-dev-only-do-not-override-sk7ap8).ant-layout .ant-layout-sider {
-  background: white;
 }
 
 .ant-layout-content {
