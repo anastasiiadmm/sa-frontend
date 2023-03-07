@@ -12,7 +12,7 @@ services:
       - TZ=Asia/Bishkek
       - LETSENCRYPT=true
       - LE_EMAIL=project.smartagriculture@gmail.com
-      - LE_FQDN=agri.ltestl.com
+      - LE_FQDN=$SERVER_NAME
 
 networks:
   $NETWORK:

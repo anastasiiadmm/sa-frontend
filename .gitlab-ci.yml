@@ -1,6 +1,7 @@
 variables:
   DEPLOY_USER: "gitlab-runner-user"
   SERVICE_NAME: "sa-frontend"
+  SERVER_NAME: "agri.ltestl.com"
 
 .add-ssh-private-key-script: &add-ssh-private-key
   - apk update
