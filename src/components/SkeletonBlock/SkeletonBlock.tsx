@@ -4,7 +4,7 @@ import React from 'react';
 
 type Props = {
   active: boolean;
-  titleBool: boolean;
+  titleBool?: boolean;
   num: number;
 };
 

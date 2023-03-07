@@ -1,13 +1,14 @@
 import { HomeOutlined, ImportOutlined, UserOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
-import { Avatar, Layout, Menu } from 'antd';
+import { Avatar, Layout, Menu, Skeleton } from 'antd';
 import bem from 'easy-bem';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router';
 
 import logo from 'assets/images/logo.png';
 import { authSelector, logoutUser } from 'redux/auth/authSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { accountsSelector, fetchManager } from 'redux/accounts/accountsSlice';
 import { logoutLocalStorage } from 'utils/token';
 import 'components/SliderMenu/_sliderMenu.scss';
 
@@ -39,12 +40,23 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
   const b = bem('SliderMenu');
   const push = useNavigate();
   const { user } = useAppSelector(authSelector);
+  const { manager, updateManagerDataLoading } = useAppSelector(accountsSelector);
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fetchManager());
+  }, [dispatch]);
 
   const menuItems: MenuItem[] = [
     getItem(
       <p className='menuItem'>
-        {`${user?.last_name} ${user?.first_name?.charAt(0)}. ${user?.middle_name?.charAt(0)}.`}
+        {updateManagerDataLoading ? (
+          <Skeleton />
+        ) : (
+          `${manager?.last_name} ${manager?.first_name?.charAt(0)}. ${manager?.middle_name?.charAt(
+            0,
+          )}.`
+        )}
         <span>{user?.is_manager ? 'Менеджер' : 'Пользователь'}</span>
       </p>,
       'sub1',
