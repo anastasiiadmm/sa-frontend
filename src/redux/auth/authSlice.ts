@@ -48,8 +48,8 @@ export const loginUser = createAsyncThunk<
     );
     return resp.data;
   } catch (e) {
-    let error = e?.response?.data;
-    if (!e.response) {
+    let error = e?.message;
+    if (!e.message) {
       error = defaultError;
     }
     return rejectWithValue(error);
