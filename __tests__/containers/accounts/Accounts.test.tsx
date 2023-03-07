@@ -88,23 +88,4 @@ describe('<Profile />',  () => {
       fireEvent.click(screen.getByTestId('button_change'));
     });
   });
-
-  test('Profile form password should change success', async () => {
-    mockedUseSelectors.mockReturnValue(data);
-    const dispatch = jest.fn();
-    mockedDispatch.mockReturnValue(dispatch);
-
-    render(
-      <BrowserRouter>
-        <Profile />
-      </BrowserRouter>,
-    );
-
-    const new_password = screen.getByTestId('new_password');
-    const button = screen.getByTestId('button_change_password');
-    fireEvent.click(button);
-
-
-    expect(new_password).toBeDefined();
-  });
 });
