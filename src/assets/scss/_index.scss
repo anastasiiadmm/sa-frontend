@@ -128,10 +128,6 @@ code {
   background-color: themes.$primary-color;
 }
 
-:where(.css-dev-only-do-not-override-sk7ap8).ant-layout .ant-layout-sider {
-  background: white;
-}
-
 .ant-layout-content {
   overflow: auto;
   padding: 0 !important;

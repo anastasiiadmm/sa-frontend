@@ -3,6 +3,7 @@ import { Layout, theme } from 'antd';
 import React, { useState } from 'react';
 import { Route, useLocation } from 'react-router';
 import { Routes } from 'react-router-dom';
+import bem from 'easy-bem';
 
 import OpenMapComponent from 'components/OpenMapComponent/OpenMapComponent';
 import SliderMenu from 'components/SliderMenu/SliderMenu';
@@ -17,10 +18,12 @@ import Profile from 'containers/User/Profile/Profile';
 import Technique from 'containers/User/Technique/Technique';
 import { authSelector } from 'redux/auth/authSlice';
 import { useAppSelector } from 'redux/hooks';
+import 'AppRouter/appRouter.scss';
 
 const { Header, Content } = Layout;
 
 const AppRouter: React.FC = () => {
+  const b = bem('AppRouter');
   const { user } = useAppSelector(authSelector);
   const [collapsed, setCollapsed] = useState(false);
   const {
@@ -29,7 +32,7 @@ const AppRouter: React.FC = () => {
   const { pathname } = useLocation();
 
   return (
-    <Layout style={{ height: '100vh' }}>
+    <Layout style={{ height: '100vh' }} className={b('')}>
       <SliderMenu collapsed={collapsed} />
       <Layout className='site-layout'>
         <Header style={{ padding: 0, background: colorBgContainer }}>

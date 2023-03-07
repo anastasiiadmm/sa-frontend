@@ -9,15 +9,7 @@
       max-width: 100px;
     }
   }
-  :where(.css-dev-only-do-not-override-sk7ap8).ant-avatar-lg.ant-avatar-icon > .anticon {
-    margin: 0 auto;
-  }
-  :where(.css-dev-only-do-not-override-sk7ap8).ant-menu-light .ant-menu-item-selected {
-    background: themes.$active-menu_background;
-  }
-  :where(.css-dev-only-do-not-override-sk7ap8).ant-menu-light .ant-menu-item-selected {
-    color: themes.$primary-color;
-  }
+
   :where(.css-dev-only-do-not-override-sk7ap8).ant-menu-light.ant-menu-inline.ant-menu-sub.ant-menu-inline {
     background: none;
   }
@@ -45,6 +37,9 @@
   padding: 0 !important;
   position: absolute;
   left: 18px;
+  > span {
+    margin: 0 auto !important;
+  }
 }
 
 .icon-styles {
