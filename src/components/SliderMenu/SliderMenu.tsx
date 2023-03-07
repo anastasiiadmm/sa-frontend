@@ -8,8 +8,8 @@ import { useNavigate } from 'react-router';
 import logo from 'assets/images/logo.png';
 import { authSelector, logoutUser } from 'redux/auth/authSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import 'components/SliderMenu/_sliderMenu.scss';
 import { logoutLocalStorage } from 'utils/token';
+import 'components/SliderMenu/_sliderMenu.scss';
 
 const { Sider } = Layout;
 
