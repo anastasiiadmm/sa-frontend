@@ -1,14 +1,14 @@
 import { HomeOutlined, ImportOutlined, UserOutlined } from '@ant-design/icons';
-import type { MenuProps } from 'antd';
 import { Avatar, Layout, Menu, Skeleton } from 'antd';
+import type { MenuProps } from 'antd';
 import bem from 'easy-bem';
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router';
 
 import logo from 'assets/images/logo.png';
+import { accountsSelector, fetchManager } from 'redux/accounts/accountsSlice';
 import { authSelector, logoutUser } from 'redux/auth/authSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { accountsSelector, fetchManager } from 'redux/accounts/accountsSlice';
 import { logoutLocalStorage } from 'utils/token';
 import 'components/SliderMenu/_sliderMenu.scss';
 

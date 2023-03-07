@@ -1,9 +1,9 @@
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import { Layout, theme } from 'antd';
+import bem from 'easy-bem';
 import React, { useState } from 'react';
 import { Route, useLocation } from 'react-router';
 import { Routes } from 'react-router-dom';
-import bem from 'easy-bem';
 
 import OpenMapComponent from 'components/OpenMapComponent/OpenMapComponent';
 import SliderMenu from 'components/SliderMenu/SliderMenu';

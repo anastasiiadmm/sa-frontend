@@ -42,6 +42,10 @@ code {
   }
 }
 
+button:disabled {
+  background-color: themes.$disabled-color !important;
+}
+
 
 // antd styles
 
