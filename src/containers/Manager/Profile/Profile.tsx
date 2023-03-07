@@ -82,7 +82,7 @@ const Profile: React.FC = () => {
         ) : (
           <>
             <Title level={3} data-testid='sign_in_test' className='title'>
-              Иванов И.И
+              {`${manager?.last_name} ${manager?.first_name?.charAt(0)}. ${manager?.middle_name?.charAt(0)}.`}
             </Title>
 
             <Form form={form} initialValues={{ manager }} onFinish={onFinish} layout='vertical'>
