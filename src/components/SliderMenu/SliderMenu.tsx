@@ -114,7 +114,7 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
       <Menu
         className='menu-items'
         mode='inline'
-        defaultSelectedKeys={[window.location.pathname]}
+        defaultSelectedKeys={['/']}
         defaultOpenKeys={['/']}
         selectedKeys={[window.location.pathname]}
         theme='light'

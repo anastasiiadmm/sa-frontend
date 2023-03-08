@@ -89,17 +89,6 @@ const Profile: React.FC = () => {
             </Title>
 
             <Form form={form} initialValues={{ manager }} onFinish={onFinish} layout='vertical'>
-              <FormField
-                disabled
-                bordered
-                data-testid='username_id'
-                id='username_id'
-                inputClassName={b('username')}
-                label='Username'
-                name='username'
-                placeholder='Username'
-                onChange={inputChangeHandler}
-              />
 
               <div className={b('form-block')}>
                 <FormField
@@ -159,6 +148,18 @@ const Profile: React.FC = () => {
                   onChange={inputChangeHandler}
                 />
               </div>
+
+              <FormField
+                disabled
+                bordered
+                data-testid='username_id'
+                id='username_id'
+                inputClassName={b('username')}
+                label='Username'
+                name='username'
+                placeholder='Username'
+                onChange={inputChangeHandler}
+              />
 
               {isChangePassword ? (
                 <div className={b('changed-password-buttons')}>
