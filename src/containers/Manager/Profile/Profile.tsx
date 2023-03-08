@@ -89,7 +89,6 @@ const Profile: React.FC = () => {
             </Title>
 
             <Form form={form} initialValues={{ manager }} onFinish={onFinish} layout='vertical'>
-
               <div className={b('form-block')}>
                 <FormField
                   bordered

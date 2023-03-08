@@ -90,25 +90,22 @@ export const managerProfileUpdate = createAsyncThunk<void, updateManagerParams>(
   },
 );
 
-export const fetchUser = createAsyncThunk(
-  'accounts/fetchUser',
-  async (_, { rejectWithValue }) => {
-    try {
-      const resp = await axiosApi.get<IUserAccount | null>('/accounts/user/');
-      const user = resp.data;
-      if (user === null) {
-        throw new Error('Not Found!');
-      }
-      return user;
-    } catch (e) {
-      let error = e?.response?.data;
-      if (!e.response) {
-        error = defaultError;
-      }
-      return rejectWithValue(error);
+export const fetchUser = createAsyncThunk('accounts/fetchUser', async (_, { rejectWithValue }) => {
+  try {
+    const resp = await axiosApi.get<IUserAccount | null>('/accounts/user/');
+    const user = resp.data;
+    if (user === null) {
+      throw new Error('Not Found!');
     }
-  },
-);
+    return user;
+  } catch (e) {
+    let error = e?.response?.data;
+    if (!e.response) {
+      error = defaultError;
+    }
+    return rejectWithValue(error);
+  }
+});
 
 const accountsSlice = createSlice({
   name: nameSpace,
