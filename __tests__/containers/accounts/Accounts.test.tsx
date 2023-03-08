@@ -6,7 +6,6 @@ import '../../../__mocks__/utils';
 import { mockedDispatch, mockedUseSelectors } from "../../../__mocks__/utils";
 
 import Profile from "../../../src/containers/Manager/Profile/Profile";
-import userEvent from "@testing-library/user-event";
 
 afterEach(cleanup);
 
@@ -34,7 +33,6 @@ describe('<Profile />',  () => {
 
     const promotionTitle = screen.getByTestId('accounts-id');
     const username = screen.getByLabelText('Username');
-    const password = screen.getByLabelText('Пароль');
     const last_name = screen.getByLabelText('Фамилия');
     const first_name = screen.getByLabelText('Имя');
     const middle_name = screen.getByLabelText('Отчество');
@@ -44,7 +42,6 @@ describe('<Profile />',  () => {
     await waitFor(() => {
       expect(promotionTitle).toBeInTheDocument();
       expect(username).toBeInTheDocument();
-      expect(password).toBeInTheDocument();
       expect(last_name).toBeInTheDocument();
       expect(first_name).toBeInTheDocument();
       expect(middle_name).toBeInTheDocument();

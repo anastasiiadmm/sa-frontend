@@ -60,6 +60,7 @@
   }
 
   &__profile-link {
+    float: right;
     color: themes.$info-color;
     &:hover {
       color: themes.$info-hover-color;

@@ -19,7 +19,8 @@ root.render(
           token: {
             colorPrimary: '#689F3A',
           },
-        }}      >
+        }}
+      >
         <App />
       </ConfigProvider>
     </BrowserRouter>

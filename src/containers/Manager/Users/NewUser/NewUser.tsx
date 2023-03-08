@@ -17,8 +17,8 @@ const NewUser: React.FC = () => {
     <div className='layout'>
       <Col
         className={b('')}
-        xs={{ span: 13, offset: 5 }}
-        md={{ span: 9, offset: 5 }}
+        xs={{ span: 20, offset: 2 }}
+        md={{ span: 20, offset: 2 }}
         lg={{ span: 11, offset: 1 }}
       >
         <Title level={3} data-testid='sign_in_test'>

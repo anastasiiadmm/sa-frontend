@@ -53,11 +53,11 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
         {updateManagerDataLoading ? (
           <Skeleton />
         ) : (
-          `${manager?.last_name} ${manager?.first_name?.charAt(0)}. ${manager?.middle_name?.charAt(
-            0,
-          )}.`
+          <>
+            {manager?.last_name} {manager?.first_name?.charAt(0)}. {manager?.middle_name?.charAt(0)}
+            .<span>{user?.is_manager ? 'Менеджер' : 'Пользователь'}</span>
+          </>
         )}
-        <span>{user?.is_manager ? 'Менеджер' : 'Пользователь'}</span>
       </p>,
       'sub1',
       <Avatar className='avatar-profile' size='large' icon={<UserOutlined />} />,
@@ -114,8 +114,9 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
       <Menu
         className='menu-items'
         mode='inline'
-        defaultSelectedKeys={['/']}
+        defaultSelectedKeys={[window.location.pathname]}
         defaultOpenKeys={['/']}
+        selectedKeys={[window.location.pathname]}
         theme='light'
         items={menuItems}
         onClick={pushLinks}

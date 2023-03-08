@@ -101,66 +101,6 @@ const Profile: React.FC = () => {
                 onChange={inputChangeHandler}
               />
 
-              {isChangePassword ? (
-                <div className={b('changed-password-buttons')}>
-                  <div className={b('form-block form-block-buttons')}>
-                    <FormField
-                      data-testid='new_password'
-                      bordered
-                      id='password_id'
-                      type='password'
-                      className='username'
-                      name='password'
-                      label='Новый пароль'
-                      placeholder='Новый пароль'
-                      onChange={inputChangeHandler}
-                    />
-
-                    <FormField
-                      bordered
-                      id='password_confirm'
-                      type='password'
-                      className='username'
-                      name='confirm_password'
-                      dependencies={['password']}
-                      label='Повторите пароль'
-                      placeholder='Повторите пароль'
-                      onChange={inputChangeHandler}
-                    />
-                  </div>
-                  <Button
-                    type='link'
-                    onClick={() => {
-                      dispatch(setManagerProfile(manager));
-                      setIsChangePassword(false);
-                    }}
-                  >
-                    Отменить
-                  </Button>
-                </div>
-              ) : (
-                <div className={b('form-block form-block-password')}>
-                  <FormField
-                    required={false}
-                    readOnly
-                    id='old_password_id'
-                    type='password'
-                    className='username'
-                    name='old_password'
-                    label='Пароль'
-                    placeholder='Пароль'
-                  />
-
-                  <Button
-                    data-testid='button_change_password'
-                    type='link'
-                    onClick={() => setIsChangePassword(true)}
-                  >
-                    Сменить пароль
-                  </Button>
-                </div>
-              )}
-
               <div className={b('form-block')}>
                 <FormField
                   bordered
@@ -219,6 +159,55 @@ const Profile: React.FC = () => {
                   onChange={inputChangeHandler}
                 />
               </div>
+
+              {isChangePassword ? (
+                <div className={b('changed-password-buttons')}>
+                  <div className={b('form-block form-block-buttons')}>
+                    <FormField
+                      data-testid='new_password'
+                      bordered
+                      id='password_id'
+                      type='password'
+                      className='username'
+                      name='password'
+                      label='Новый пароль'
+                      placeholder='Новый пароль'
+                      onChange={inputChangeHandler}
+                    />
+
+                    <FormField
+                      bordered
+                      id='password_confirm'
+                      type='password'
+                      className='username'
+                      name='confirm_password'
+                      dependencies={['password']}
+                      label='Повторите пароль'
+                      placeholder='Повторите пароль'
+                      onChange={inputChangeHandler}
+                    />
+                  </div>
+                  <Button
+                    type='link'
+                    onClick={() => {
+                      dispatch(setManagerProfile(manager));
+                      setIsChangePassword(false);
+                    }}
+                  >
+                    Отменить
+                  </Button>
+                </div>
+              ) : (
+                <div className={b('form-block form-block-password')}>
+                  <Button
+                    data-testid='button_change_password'
+                    type='link'
+                    onClick={() => setIsChangePassword(true)}
+                  >
+                    Сменить пароль
+                  </Button>
+                </div>
+              )}
 
               <Button
                 data-testid='button_change'
