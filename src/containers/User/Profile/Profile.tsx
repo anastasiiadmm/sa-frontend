@@ -52,7 +52,7 @@ const Profile = () => {
 
   return (
     <>
-      <div className={b()}>
+      <div className={b()} data-testid='user-profile-id'>
         <div className={b('card-block')}>
           {fetchLoadingUser ? (
             <SkeletonBlock active={fetchLoadingUser} num={1} titleBool />
