@@ -76,3 +76,21 @@ export interface updateManagerDataMutation {
   email: string;
   phone: string;
 }
+
+export interface IUserAccount {
+  id: number;
+  name: string;
+  location: string;
+  autopilots_amount: number;
+  vehicles_amount: number;
+  user: {
+    id: number;
+    username: string;
+    password: string;
+    first_name: string;
+    middle_name: string;
+    last_name: string;
+    email: string;
+    phone: string;
+  }
+}
