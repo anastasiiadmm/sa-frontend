@@ -98,6 +98,7 @@ const Profile = () => {
               >
                 <FormField
                   readOnly
+                  className='label-styles'
                   data-testid='username_id'
                   id='username_id'
                   inputClassName={b('input-styles')}
@@ -109,6 +110,7 @@ const Profile = () => {
                 <div className={b('form-block')}>
                   <FormField
                     readOnly
+                    className='label-styles'
                     inputClassName={b('input-styles')}
                     data-testid='last_name_id'
                     id='last_name_id'
