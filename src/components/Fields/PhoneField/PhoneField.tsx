@@ -20,6 +20,7 @@ interface Props {
 const PhoneField: React.FC<Props> = ({
   name,
   placeholder,
+  className,
   label,
   inputClassName,
   bordered = false,
@@ -27,7 +28,7 @@ const PhoneField: React.FC<Props> = ({
   onChange,
 }) => {
   return (
-    <Form.Item name={name} label={label}>
+    <Form.Item name={name} label={label} className={className}>
       <InputMask
         name={name}
         onChange={onChange}

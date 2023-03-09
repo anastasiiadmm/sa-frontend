@@ -5,6 +5,7 @@ import { RootState } from 'redux/hooks';
 import {
   IManager,
   IManagerMutation,
+  IUserAccount,
   updateManagerDataMutation,
   ValidationUpdateManagerProfile,
 } from 'types';
@@ -20,6 +21,10 @@ interface AccountsState {
   updateManagerData: updateManagerDataMutation;
   updateManagerDataLoading: boolean;
   updateManagerDataError: null;
+
+  user: IUserAccount | null;
+  fetchLoadingUser: boolean;
+  fetchLoadingUserError: Object | null;
 }
 
 const INITIAL_STATE = {
@@ -37,6 +42,10 @@ const INITIAL_STATE = {
   },
   updateManagerDataLoading: false,
   updateManagerDataError: null,
+
+  user: null,
+  fetchLoadingUser: false,
+  fetchLoadingUserError: null,
 } as AccountsState;
 
 export const fetchManager = createAsyncThunk(
@@ -80,6 +89,23 @@ export const managerProfileUpdate = createAsyncThunk<void, updateManagerParams>(
     }
   },
 );
+
+export const fetchUser = createAsyncThunk('accounts/fetchUser', async (_, { rejectWithValue }) => {
+  try {
+    const resp = await axiosApi.get<IUserAccount | null>('/accounts/user/');
+    const user = resp.data;
+    if (user === null) {
+      throw new Error('Not Found!');
+    }
+    return user;
+  } catch (e) {
+    let error = e?.response?.data;
+    if (!e.response) {
+      error = defaultError;
+    }
+    return rejectWithValue(error);
+  }
+});
 
 const accountsSlice = createSlice({
   name: nameSpace,
@@ -132,6 +158,20 @@ const accountsSlice = createSlice({
     builder.addCase(managerProfileUpdate.rejected, (state, { payload }: any) => {
       state.updateManagerDataLoading = false;
       state.updateManagerDataError = payload?.detail;
+    });
+
+    builder.addCase(fetchUser.pending, (state) => {
+      state.fetchLoadingUser = true;
+      state.fetchLoadingUserError = null;
+    });
+    builder.addCase(fetchUser.fulfilled, (state, { payload: user }) => {
+      state.fetchLoadingUser = false;
+      state.fetchLoadingUserError = null;
+      state.user = user;
+    });
+    builder.addCase(fetchUser.rejected, (state, { payload }: any) => {
+      state.fetchLoadingUserError = payload?.detail;
+      state.fetchLoadingUser = false;
     });
   },
 });

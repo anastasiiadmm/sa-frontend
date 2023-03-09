@@ -17,13 +17,14 @@ const EmailField: React.FC<Props> = ({
   label,
   name,
   placeholder,
+  className,
   inputClassName,
   onChange,
   bordered = false,
   readOnly = false,
 }) => {
   return (
-    <Form.Item label={label} name={name}>
+    <Form.Item label={label} name={name} className={className}>
       <Input
         className={`input-styles ${inputClassName}`}
         readOnly={readOnly}

@@ -5,15 +5,15 @@ html, body {
   height: 100%;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  monospace;
 }
 
 .layout {
@@ -37,8 +37,19 @@ code {
   &:hover {
     border-color: themes.$disabled-color !important;
   }
+
   &:focus {
     border-color: themes.$disabled-color !important;
+  }
+}
+
+.label-styles {
+  > div > div {
+    padding-bottom: 0 !important;
+  }
+
+  > div > div > label {
+    color: themes.$gray-color !important;
   }
 }
 
@@ -54,34 +65,44 @@ button:disabled {
   border-color: themes.$disabled-color;
   background-color: themes.$disabled-color;
 }
+
 :where(.css-dev-only-do-not-override-sk7ap8).ant-input-affix-wrapper:not(:where(.css-dev-only-do-not-override-sk7ap8).ant-input-affix-wrapper-disabled):hover {
   border-color: themes.$primary-color;
 }
+
 :where(.css-dev-only-do-not-override-sk7ap8).ant-input-affix-wrapper:focus, :where(.css-dev-only-do-not-override-sk7ap8).ant-input-affix-wrapper-focused {
   border-color: themes.$primary-color;
 }
+
 :where(.css-dev-only-do-not-override-sk7ap8).ant-input:hover {
   border-color: themes.$primary-color;
 }
+
 :where(.css-dev-only-do-not-override-sk7ap8).ant-input:focus, :where(.css-dev-only-do-not-override-sk7ap8).ant-input-focused {
   border-color: themes.$primary-color;
 }
+
 :where(.css-dev-only-do-not-override-sk7ap8).ant-checkbox-checked .ant-checkbox-inner {
   background-color: themes.$primary-color;
   border-color: themes.$primary-color;
 }
+
 :where(.css-dev-only-do-not-override-1n7nwfa).ant-btn-link:not(:disabled):hover {
   color: themes.$disabled-color;
 }
+
 :where(.css-dev-only-do-not-override-1n7nwfa).ant-btn-primary:not(:disabled):hover {
   background: themes.$disabled-color;
 }
+
 :where(.css-dev-only-do-not-override-sk7ap8).ant-menu-light:not(.ant-menu-horizontal) .ant-menu-submenu-title:active {
   background-color: themes.$active-menu_background;
 }
+
 :where(.css-dev-only-do-not-override-sk7ap8).ant-menu-light:not(.ant-menu-horizontal) .ant-menu-item:not(.ant-menu-item-selected):active {
   background-color: themes.$active-menu_background;
 }
+
 .ant-checkbox-checked .ant-checkbox-inner {
   background-color: themes.$primary-color;
   border-color: themes.$primary-color;
@@ -115,6 +136,7 @@ button:disabled {
 :where(.css-dev-only-do-not-override-sk7ap8).ant-modal .ant-modal-content {
   border-radius: themes.$border-radius;
 }
+
 :where(.css-dev-only-do-not-override-sk7ap8).ant-modal .ant-modal-title {
   font-weight: 400;
 }
@@ -157,7 +179,7 @@ button:disabled {
   outline: 2px solid themes.$disabled-color;
 }
 
-:where(.css-dev-only-do-not-override-sk7ap8).ant-menu-light .ant-menu-submenu-selected >.ant-menu-submenu-title {
+:where(.css-dev-only-do-not-override-sk7ap8).ant-menu-light .ant-menu-submenu-selected > .ant-menu-submenu-title {
   color: themes.$primary-color;
 }
 
@@ -181,7 +203,7 @@ button:disabled {
   color: themes.$font-title-color;
 }
 
-:where(.css-dev-only-do-not-override-diro6f).ant-menu-light .ant-menu-submenu-selected >.ant-menu-submenu-title {
+:where(.css-dev-only-do-not-override-diro6f).ant-menu-light .ant-menu-submenu-selected > .ant-menu-submenu-title {
   color: themes.$font-title-color;
 }
 
@@ -189,6 +211,6 @@ button:disabled {
   display: inline-grid;
 }
 
-:where(.css-dev-only-do-not-override-diro6f).ant-form-item .ant-form-item-label >label.ant-form-item-required:not(.ant-form-item-required-mark-optional)::before {
+:where(.css-dev-only-do-not-override-diro6f).ant-form-item .ant-form-item-label > label.ant-form-item-required:not(.ant-form-item-required-mark-optional)::before {
   display: none;
 }

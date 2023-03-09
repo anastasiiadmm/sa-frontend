@@ -34,16 +34,15 @@ const Users: React.FC = () => {
       title: 'Название компании',
       dataIndex: 'address',
       filterSearch: true,
-      width: '40%',
+      width: '30%',
       sorter: true,
     },
     {
       title: 'Номер телефона',
       dataIndex: 'phone',
       filterSearch: true,
-      width: '25%',
+      width: '30%',
       sorter: true,
-      render: (text: string) => <p className={b('center-column-style')}>{text}</p>,
     },
     {
       title: 'Блоки автопилота',
@@ -51,12 +50,11 @@ const Users: React.FC = () => {
       filterSearch: true,
       width: '25%',
       sorter: true,
-      render: (text: string) => <p className={b('center-column-style')}>{text}</p>,
     },
     {
       dataIndex: 'profile',
       filterSearch: true,
-      width: '25%',
+      width: '30%',
       render: () => (
         <Link className={b('profile-link')} to='/user-profile'>
           Просмотреть профиль

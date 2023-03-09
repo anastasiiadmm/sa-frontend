@@ -6,7 +6,7 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router';
 
 import logo from 'assets/images/logo.png';
-import { accountsSelector, fetchManager } from 'redux/accounts/accountsSlice';
+import { accountsSelector, fetchManager, fetchUser } from 'redux/accounts/accountsSlice';
 import { authSelector, logoutUser } from 'redux/auth/authSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { logoutLocalStorage } from 'utils/token';
@@ -40,22 +40,34 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
   const b = bem('SliderMenu');
   const push = useNavigate();
   const { user } = useAppSelector(authSelector);
-  const { manager, updateManagerDataLoading } = useAppSelector(accountsSelector);
+  const { manager, updateManagerDataLoading, user: userAccount } = useAppSelector(accountsSelector);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(fetchManager());
+    if (user?.is_manager) {
+      dispatch(fetchManager());
+    } else {
+      dispatch(fetchUser());
+    }
   }, [dispatch]);
 
   const menuItems: MenuItem[] = [
     getItem(
       <p className='menuItem'>
-        {updateManagerDataLoading ? (
-          <Skeleton />
+        {user?.is_manager ? (
+          updateManagerDataLoading ? (
+            <Skeleton />
+          ) : (
+            <>
+              {manager?.last_name} {manager?.first_name?.charAt(0)}.{' '}
+              {manager?.middle_name?.charAt(0)}.
+            </>
+          )
         ) : (
-          `${manager?.last_name} ${manager?.first_name?.charAt(0)}. ${manager?.middle_name?.charAt(
-            0,
-          )}.`
+          <>
+            {userAccount?.user?.last_name} {userAccount?.user?.first_name?.charAt(0)}.{' '}
+            {userAccount?.user?.middle_name?.charAt(0)}.
+          </>
         )}
         <span>{user?.is_manager ? 'Менеджер' : 'Пользователь'}</span>
       </p>,
@@ -116,6 +128,7 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
         mode='inline'
         defaultSelectedKeys={['/']}
         defaultOpenKeys={['/']}
+        selectedKeys={[window.location.pathname]}
         theme='light'
         items={menuItems}
         onClick={pushLinks}
