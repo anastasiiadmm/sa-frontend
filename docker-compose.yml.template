@@ -6,7 +6,6 @@ services:
     volumes:
       - ./nginx/ssl:/etc/nginx/ssl:rw
       - ./nginx/conf/service.conf:/etc/nginx/service.conf:ro
-      - ./data:/etc/data:rw
     networks:
       - $NETWORK
     environment:
