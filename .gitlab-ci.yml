@@ -61,9 +61,9 @@ build&push-dev:
   tags:
     - $RUNNER_TAG
   stage: build
-#  only:
-#    refs:
-#      - dev
+  only:
+    refs:
+      - dev
   variables:
     REACT_APP_ENVIRONMENT: development
     REACT_APP_API_URL: $REACT_APP_API_URL_DEV
@@ -78,9 +78,9 @@ deploy-dev:
   tags:
     - $RUNNER_TAG
   stage: deploy
-#  only:
-#    refs:
-#      - dev
+  only:
+    refs:
+      - dev
   variables:
     DEPLOY_SERVER: $DEPLOY_SERVER_DEV
   before_script:
