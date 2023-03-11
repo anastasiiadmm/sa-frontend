@@ -54,9 +54,6 @@ const INITIAL_STATE = {
   fetchLoadingUser: false,
   fetchLoadingUserError: null,
   userVehicles: null,
-  params: {
-    page: 1,
-  },
   userVehiclesPagination: null,
   fetchUserVehiclesLoading: false,
   fetchUserVehiclesError: null,

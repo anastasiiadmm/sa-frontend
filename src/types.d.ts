@@ -1,5 +1,3 @@
-import React from "react";
-
 export interface ResetEmail {
   email: string;
 }
@@ -94,7 +92,7 @@ export interface IUserAccount {
     last_name: string;
     email: string;
     phone: string;
-  }
+  };
 }
 
 export interface userVehicles {
@@ -110,11 +108,34 @@ export interface userVehicles {
   enterprise: string;
   vehicle_fields_data: {
     field_count: number;
-    processed_area: number
+    processed_area: number;
   };
 }
 
 export interface userVehiclesPagination {
+  count: number;
+  next: string;
+  previous: string;
+}
+
+export interface companiesList {
+  id: number;
+  name: string;
+  location: string;
+  autopilots_amount: number;
+  user: {
+    id: number;
+    username: string;
+    password: string;
+    first_name: string;
+    middle_name: string;
+    last_name: string;
+    email: string;
+    phone: string;
+  };
+}
+
+export interface usersListPagination {
   count: number;
   next: string;
   previous: string;
