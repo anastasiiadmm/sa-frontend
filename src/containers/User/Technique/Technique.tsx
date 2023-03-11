@@ -1,79 +1,107 @@
-import { Button, Card, Table, Typography } from 'antd';
-import { ColumnsType, TableProps } from 'antd/es/table';
+import { Button, Card, Typography } from 'antd';
+import { ColumnsType } from 'antd/es/table';
 import bem from 'easy-bem';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import tractorBlue from 'assets/images/icons/tractor-blue.svg';
 import tractor from 'assets/images/icons/tractor-image.svg';
-import 'containers/User/Technique/_technique.scss';
 import AddUpdateTechnique from 'components/ModalComponent/ModalChildrenComponents/AddUpdateTechnique/AddUpdateTechnique';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
+import SkeletonBlock from 'components/SkeletonBlock/SkeletonBlock';
+import TableComponent from 'components/TableComponent/TableComponent';
+import { accountsSelector, fetchUser, fetchUserVehicles } from 'redux/accounts/accountsSlice';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { userVehicles } from 'types';
+import 'containers/User/Technique/_technique.scss';
 
 const { Title } = Typography;
 
-interface DataType {
-  key: React.Key;
-  code: string;
-  name: string;
-  fields: string;
-  area: string;
-}
-
 const Technique = () => {
   const b = bem('Technique');
+  const {
+    user: userAccount,
+    fetchLoadingUser,
+    userVehicles,
+    fetchUserVehiclesLoading,
+    userVehiclesPagination,
+  } = useAppSelector(accountsSelector);
+  const dispatch = useAppDispatch();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [filters, setFilters] = useState({
+    page: 1,
+  });
+
+  useEffect(() => {
+    dispatch(fetchUser());
+  }, [dispatch]);
+
+  useEffect(() => {
+    const data = {
+      query: {
+        page: filters?.page,
+      },
+    };
+
+    dispatch(fetchUserVehicles({ data }));
+  }, [dispatch, filters]);
 
   const showModal = () => {
     setIsModalOpen(true);
   };
 
-  const handleOk = () => {
-    setIsModalOpen(false);
+  const handleOkCancel = () => {
+    setIsModalOpen(!isModalOpen);
   };
 
-  const handleCancel = () => {
-    setIsModalOpen(false);
+  const pagePrevHandler = () => {
+    setFilters({ ...filters, page: filters.page - 1 });
   };
 
-  const columns: ColumnsType<DataType> = [
+  const pageNextHandler = () => {
+    setFilters({ ...filters, page: filters.page + 1 });
+  };
+
+  const columns: ColumnsType<userVehicles> = [
     {
+      key: 'code',
       title: 'Код техники',
       dataIndex: 'code',
       width: '20%',
-      sorter: true,
       fixed: 'left',
-      render: (text: string) => (
+      render: (text: string, record) => (
         <div style={{ display: 'flex', gap: 12 }}>
-          <img src={tractor} alt='tractor' />
-          <p className={b('name-column-style')}>{text}</p>
+          <img src={record.image ? record.image : tractor} alt='tractor' />
+          <p className={b('name-column-style')}>{record.code}</p>
         </div>
       ),
     },
     {
+      key: 'description',
       title: 'Название',
-      dataIndex: 'name',
-      filterSearch: true,
+      dataIndex: 'description',
       width: '30%',
-      sorter: true,
     },
     {
+      key: 'field_count',
       title: 'Поля',
-      dataIndex: 'fields',
-      filterSearch: true,
+      dataIndex: 'field_count',
       width: '20%',
-      sorter: true,
+      render: (text: number, record) => (
+        <p className={b('name-column-style')}>{record?.vehicle_fields_data?.field_count}</p>
+      ),
     },
     {
+      key: 'processed_area',
       title: 'Общая Площадь',
-      dataIndex: 'area',
-      filterSearch: true,
+      dataIndex: 'processed_area',
       width: '20%',
-      sorter: true,
+      render: (text: number, record) => (
+        <p className={b('name-column-style')}>{record?.vehicle_fields_data?.processed_area}</p>
+      ),
     },
     {
       dataIndex: 'profile',
-      filterSearch: true,
       width: '30%',
       render: () => (
         <div style={{ display: 'flex', gap: 37, alignItems: 'center' }}>
@@ -90,42 +118,20 @@ const Technique = () => {
     },
   ];
 
-  const data: DataType[] = [
-    {
-      key: '1',
-      code: 'AVP123344',
-      name: 'Беларус',
-      fields: '3',
-      area: '120 га',
-    },
-    {
-      key: '2',
-      code: 'AVP123344',
-      name: 'Беларус',
-      fields: '2',
-      area: '120 га',
-    },
-    {
-      key: '3',
-      code: 'AVP123344',
-      name: 'Беларус',
-      fields: '1',
-      area: '120 га',
-    },
-  ];
-
-  const onChange: TableProps<DataType>['onChange'] = (pagination, filters, sorter, extra) => {};
-
   return (
     <>
-      <div className={b()}>
+      <div className={b()} data-testid='technique-id'>
         <div className={b('card-block')}>
           <Card className={b('card-style')} bordered={false}>
             <Title className={b('card-title')}>Количество техники</Title>
-            <div className={b('card-content')}>
-              <img src={tractorBlue} alt='group' />
-              <p>5</p>
-            </div>
+            {fetchLoadingUser ? (
+              <SkeletonBlock active={fetchLoadingUser} num={1} titleBool />
+            ) : (
+              <div className={b('card-content')}>
+                <img src={tractorBlue} alt='group' />
+                <p>{userAccount?.vehicles_amount}</p>
+              </div>
+            )}
           </Card>
         </div>
         <div className={b('table')}>
@@ -139,14 +145,14 @@ const Technique = () => {
             </Button>
           </div>
 
-          <Table
-            scroll={{
-              x: 950,
-            }}
-            rowKey='key'
+          <TableComponent
+            loading={fetchUserVehiclesLoading}
             columns={columns}
-            dataSource={data}
-            onChange={onChange}
+            data={userVehicles}
+            rowKey={(record: userVehicles) => record.id}
+            params={userVehiclesPagination}
+            pagePrevHandler={pagePrevHandler}
+            pageNextHandler={pageNextHandler}
           />
         </div>
       </div>
@@ -154,8 +160,8 @@ const Technique = () => {
       <ModalComponent
         title='Добавить технику'
         open={isModalOpen}
-        handleOk={handleOk}
-        handleCancel={handleCancel}
+        handleOk={handleOkCancel}
+        handleCancel={handleOkCancel}
       >
         <AddUpdateTechnique />
       </ModalComponent>
