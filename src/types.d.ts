@@ -1,3 +1,5 @@
+import React from "react";
+
 export interface ResetEmail {
   email: string;
 }
@@ -93,4 +95,27 @@ export interface IUserAccount {
     email: string;
     phone: string;
   }
+}
+
+export interface userVehicles {
+  id: number;
+  code: string;
+  vin_code: string;
+  image: string;
+  description: string;
+  state_number: string;
+  first_name: string;
+  middle_name: string;
+  last_name: string;
+  enterprise: string;
+  vehicle_fields_data: {
+    field_count: number;
+    processed_area: number
+  };
+}
+
+export interface userVehiclesPagination {
+  count: number;
+  next: string;
+  previous: string;
 }
