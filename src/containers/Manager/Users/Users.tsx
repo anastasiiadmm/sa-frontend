@@ -94,7 +94,7 @@ const Users: React.FC = () => {
   ];
 
   return (
-    <div className={b()}>
+    <div className={b()} data-testid='companies-id'>
       <div className={b('card-block')}>
         <Card className={b('card-style')} bordered={false} style={{ width: 300 }}>
           <Title className={b('card-title')}>Добавлено пользователей</Title>
