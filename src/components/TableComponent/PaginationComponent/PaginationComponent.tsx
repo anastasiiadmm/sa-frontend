@@ -1,10 +1,8 @@
+import { Button } from 'antd';
+import bem from 'easy-bem';
 import React from 'react';
 
-import bem from 'easy-bem';
-import { Button } from 'antd';
-
 import 'components/TableComponent/PaginationComponent/_paginationComponent.scss';
-
 import nextIcons from 'assets/images/icons/white-arrow.svg';
 
 interface Props {
@@ -13,11 +11,7 @@ interface Props {
   pageNextHandler: () => void;
 }
 
-const PaginationComponent: React.FC<Props> = ({
-  params,
-  pagePrevHandler,
-  pageNextHandler,
-}) => {
+const PaginationComponent: React.FC<Props> = ({ params, pagePrevHandler, pageNextHandler }) => {
   const b = bem('pagination');
 
   return (
