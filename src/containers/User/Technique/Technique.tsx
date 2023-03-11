@@ -149,7 +149,7 @@ const Technique = () => {
             loading={fetchUserVehiclesLoading}
             columns={columns}
             data={userVehicles}
-            rowKey={(record: userVehicles) => record.id}
+            rowKey={(record) => record.id}
             params={userVehiclesPagination}
             pagePrevHandler={pagePrevHandler}
             pageNextHandler={pageNextHandler}
