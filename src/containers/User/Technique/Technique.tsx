@@ -120,7 +120,7 @@ const Technique = () => {
 
   return (
     <>
-      <div className={b()}>
+      <div className={b()} data-testid='technique-id'>
         <div className={b('card-block')}>
           <Card className={b('card-style')} bordered={false}>
             <Title className={b('card-title')}>Количество техники</Title>
