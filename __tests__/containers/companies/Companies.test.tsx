@@ -5,6 +5,7 @@ import "@testing-library/jest-dom";
 import { mockedDispatch, mockedUseSelectors } from "../../../__mocks__/utils";
 
 import Users from "../../../src/containers/Manager/Users/Users";
+import NewUser from "../../../src/containers/Manager/Users/NewUser/NewUser";
 
 afterEach(cleanup);
 
@@ -24,6 +25,20 @@ const data = {
   vin_code: "FDG445"
 };
 
+// mock function после того как появится бэк
+/*const newUserData = {
+  location: "asd",
+  name: "Test",
+  user: {
+    email: "Test",
+    first_name: "Test",
+    last_name: "Test",
+    middle_name: "Test",
+    phone: "+7 (999) 999-31-23",
+    username: "testusername"
+  }
+};*/
+
 describe("<Users />", () => {
   test("Users table component should be in the document", async () => {
     mockedUseSelectors.mockReturnValue(data);
@@ -40,6 +55,24 @@ describe("<Users />", () => {
 
     await waitFor(() => {
       expect(companiesListComponent).toBeInTheDocument();
+    });
+  });
+
+  test("Create new user form component should be in the document", async () => {
+    mockedUseSelectors.mockReturnValue(data);
+    const dispatch = jest.fn();
+    mockedDispatch.mockReturnValue(dispatch);
+
+    render(
+      <BrowserRouter>
+        <NewUser />
+      </BrowserRouter>
+    );
+
+    const newUserComponent = screen.getByTestId("new_user_test");
+
+    await waitFor(() => {
+      expect(newUserComponent).toBeInTheDocument();
     });
   });
 
