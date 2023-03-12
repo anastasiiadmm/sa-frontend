@@ -1,7 +1,16 @@
 import { updateManagerDataMutation } from 'types';
 
 export const removeEmptyValuesFromObject = (obj: any) => {
-  return Object.fromEntries(Object.entries(obj).filter(([_, v]) => v !== ''));
+  for (let key in obj) {
+    const value = obj[key];
+    if (typeof value === 'object') {
+      removeEmptyValuesFromObject(value);
+    }
+    if (value === '' || value === undefined || value === null) {
+      delete obj[key];
+    }
+  }
+  return obj;
 };
 
 export const isObjectChangeValidate = (

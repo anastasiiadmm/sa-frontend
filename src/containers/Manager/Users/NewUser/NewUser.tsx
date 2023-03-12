@@ -1,17 +1,27 @@
 import { Button, Col, Form, Typography } from 'antd';
 import bem from 'easy-bem';
-import React from 'react';
+import React, { useState } from 'react';
 
 import FormField from 'components/FormField/FormField';
+import { removeEmptyValuesFromObject } from 'helper';
+import { userCreate } from 'redux/companies/companiesSlice';
+import { useAppDispatch } from 'redux/hooks';
 import 'containers/Manager/Users/NewUser/_NewUser.scss';
 
 const { Title } = Typography;
 
 const NewUser: React.FC = () => {
   const b = bem('NewUser');
+  const dispatch = useAppDispatch();
   const [form] = Form.useForm();
+  const [formValid, setFormValid] = useState(true);
 
-  const onFinish = (values: any) => {};
+  const onFinish = async (values: any) => {
+    if (values) {
+      const data = removeEmptyValuesFromObject(values);
+      dispatch(userCreate({ data }));
+    }
+  };
 
   return (
     <div className='layout'>
@@ -32,6 +42,9 @@ const NewUser: React.FC = () => {
           onFinish={onFinish}
           autoComplete='off'
           layout='vertical'
+          onValuesChange={() =>
+            setFormValid(form.getFieldsError().some((item) => item.errors.length > 0))
+          }
         >
           <FormField
             bordered
@@ -39,62 +52,42 @@ const NewUser: React.FC = () => {
             id='username_id'
             inputClassName={b('username')}
             label='Username'
-            name='username'
+            name={['user', 'username']}
             placeholder='Username'
+            rules={[{ required: true, message: 'Введите username' }]}
           />
 
           <div className={b('form-block')}>
             <FormField
               bordered
-              id='password_id'
-              type='password'
-              className='username'
-              name='password'
-              label='Пароль'
-              placeholder='Пароль'
+              data-testid='last_name_id'
+              id='last_name_id'
+              inputClassName={b('username')}
+              label='Фамилия'
+              name={['user', 'last_name']}
+              placeholder='Фамилия'
+              rules={[{ required: true, message: 'Введите фамилию' }]}
             />
 
-            <FormField
-              bordered
-              id='password_confirm'
-              type='password'
-              className='username'
-              name='confirm_password'
-              dependencies={['password']}
-              label='Повторите пароль'
-              placeholder='Повторите пароль'
-            />
-          </div>
-
-          <div className={b('form-block')}>
             <FormField
               bordered
               data-testid='first_name_id'
               id='first_name_id'
               inputClassName={b('username')}
-              label='Фамилия'
-              name='first_name'
-              placeholder='Фамилия'
-            />
-
-            <FormField
-              bordered
-              data-testid='last_name_id'
-              id='last_name_id'
-              inputClassName={b('username')}
               label='Имя'
-              name='last_name'
+              name={['user', 'first_name']}
               placeholder='Имя'
+              rules={[{ required: true, message: 'Введите имя' }]}
             />
           </div>
 
           <FormField
             bordered
-            data-testid='surname_id'
-            id='surname_id'
+            data-testid='middle_name_id'
+            id='middle_name_id'
             inputClassName={b('username')}
             label='Отчество'
-            name='surname'
+            name={['user', 'middle_name']}
             placeholder='Отчество'
           />
 
@@ -106,7 +99,7 @@ const NewUser: React.FC = () => {
               id='email_id'
               inputClassName={b('username')}
               label='Email'
-              name='email'
+              name={['user', 'email']}
               placeholder='Email'
             />
 
@@ -114,7 +107,7 @@ const NewUser: React.FC = () => {
               bordered
               type='phone'
               className='username'
-              name='phone'
+              name={['user', 'phone']}
               label='Номер телефона'
               placeholder='Номер телефона'
             />
@@ -122,26 +115,28 @@ const NewUser: React.FC = () => {
 
           <FormField
             bordered
-            data-testid='name_of_farm_id'
-            id='name_of_farm_id'
+            data-testid='name_id'
+            id='name_id'
             inputClassName={b('username')}
             label='Название колхоза/фермы/компании'
-            name='name_of_farm'
+            name='name'
             placeholder='Название колхоза/фермы/компании'
+            rules={[{ required: true, message: 'Введите название колхоза/фермы/компании' }]}
           />
 
           <FormField
             bordered
-            data-testid='region_id'
-            id='region_id'
+            data-testid='location_id'
+            id='location_id'
             inputClassName={b('username')}
             label='Регион расположения'
-            name='region'
+            name='location'
             placeholder='Регион расположения'
+            rules={[{ required: true, message: 'Введите регион расположения' }]}
           />
 
           <Button
-            // disabled={!!commonError}
+            disabled={formValid}
             type='primary'
             htmlType='submit'
             // loading={!!loading}
