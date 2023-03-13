@@ -7,10 +7,13 @@ import {
   IManagerMutation,
   IUserAccount,
   updateManagerDataMutation,
+  userVehicles,
+  userVehiclesPagination,
   ValidationUpdateManagerProfile,
 } from 'types';
 import axiosApi from 'utils/axios-api';
 import { defaultError } from 'utils/config';
+import toQueryParams from 'utils/toQueryParams';
 
 const nameSpace = 'accounts';
 
@@ -25,6 +28,10 @@ interface AccountsState {
   user: IUserAccount | null;
   fetchLoadingUser: boolean;
   fetchLoadingUserError: Object | null;
+  userVehicles: userVehicles[] | undefined;
+  userVehiclesPagination: userVehiclesPagination | null;
+  fetchUserVehiclesLoading: boolean;
+  fetchUserVehiclesError: Object | null;
 }
 
 const INITIAL_STATE = {
@@ -46,6 +53,13 @@ const INITIAL_STATE = {
   user: null,
   fetchLoadingUser: false,
   fetchLoadingUserError: null,
+  userVehicles: undefined,
+  params: {
+    page: 1,
+  },
+  userVehiclesPagination: null,
+  fetchUserVehiclesLoading: false,
+  fetchUserVehiclesError: null,
 } as AccountsState;
 
 export const fetchManager = createAsyncThunk(
@@ -106,6 +120,40 @@ export const fetchUser = createAsyncThunk('accounts/fetchUser', async (_, { reje
     return rejectWithValue(error);
   }
 });
+
+interface fetchUserVehiclesParams {
+  data: {
+    query: {
+      page: number;
+    };
+  };
+}
+
+export const fetchUserVehicles = createAsyncThunk<userVehicles, fetchUserVehiclesParams>(
+  'accounts/fetchUserVehicles',
+  async ({ data }, { rejectWithValue }) => {
+    try {
+      let query = '';
+      if (data?.query) {
+        query = toQueryParams(data.query);
+      }
+      const resp = await axiosApi.get<userVehicles | null>(`/accounts/user/vehicles/${query}`);
+      const userVehicles = resp.data;
+
+      if (userVehicles === null) {
+        throw new Error('Not Found!');
+      }
+
+      return userVehicles;
+    } catch (e) {
+      let error = e?.response?.data;
+      if (!e.response) {
+        error = defaultError;
+      }
+      return rejectWithValue(error);
+    }
+  },
+);
 
 const accountsSlice = createSlice({
   name: nameSpace,
@@ -172,6 +220,26 @@ const accountsSlice = createSlice({
     builder.addCase(fetchUser.rejected, (state, { payload }: any) => {
       state.fetchLoadingUserError = payload?.detail;
       state.fetchLoadingUser = false;
+    });
+
+    builder.addCase(fetchUserVehicles.pending, (state) => {
+      state.fetchUserVehiclesLoading = true;
+      state.fetchUserVehiclesError = null;
+    });
+    builder.addCase(fetchUserVehicles.fulfilled, (state, { payload }: any) => {
+      state.fetchUserVehiclesLoading = false;
+      state.fetchUserVehiclesError = null;
+      state.userVehicles = payload.results;
+      state.userVehiclesPagination = {
+        ...state.userVehiclesPagination,
+        count: payload.count,
+        next: payload.links.next,
+        previous: payload.links.previous,
+      };
+    });
+    builder.addCase(fetchUserVehicles.rejected, (state, { payload }: any) => {
+      state.fetchUserVehiclesLoading = false;
+      state.fetchUserVehiclesError = payload?.detail;
     });
   },
 });
