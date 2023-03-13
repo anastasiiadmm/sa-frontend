@@ -141,3 +141,18 @@ export interface usersListPagination {
   previous: string;
   vehicles_amount: number;
 }
+
+export interface ICompany {
+  name: string;
+  location: string;
+  autopilots_amount: number;
+  user: {
+    username: string;
+    password: string;
+    first_name: string;
+    middle_name: string;
+    last_name: string;
+    email: string;
+    phone: string;
+  };
+}

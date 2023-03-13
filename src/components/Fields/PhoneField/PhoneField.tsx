@@ -36,12 +36,7 @@ const PhoneField: React.FC<Props> = ({
         mask='+7 (999) 999-99-99'
         autoComplete='off'
       >
-        <Input
-          className={inputClassName}
-          bordered={bordered}
-          placeholder={placeholder}
-          defaultValue='+7 (999) 999-99-99'
-        />
+        <Input className={inputClassName} bordered={bordered} placeholder={placeholder} />
       </InputMask>
     </Form.Item>
   );

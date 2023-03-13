@@ -1,7 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { message } from 'antd';
 
 import { RootState } from 'redux/hooks';
-import { companiesList, usersListPagination } from 'types';
+import { companiesList, ICompany, usersListPagination } from 'types';
 import axiosApi from 'utils/axios-api';
 import { defaultError } from 'utils/config';
 import toQueryParams from 'utils/toQueryParams';
@@ -13,6 +14,8 @@ interface CompaniesState {
   fetchCompaniesLoading: boolean;
   fetchCompaniesError: Object | null;
   companiesListPagination: usersListPagination | null;
+  userCreateLoading: boolean;
+  userCreateError: Object | null;
 }
 
 const INITIAL_STATE = {
@@ -20,6 +23,9 @@ const INITIAL_STATE = {
   fetchCompaniesLoading: false,
   fetchCompaniesError: null,
   companiesListPagination: null,
+
+  userCreateLoading: false,
+  userCreateError: null,
 } as CompaniesState;
 
 interface fetchCompaniesParams {
@@ -56,6 +62,27 @@ export const fetchUsersList = createAsyncThunk<companiesList, fetchCompaniesPara
   },
 );
 
+interface userCreateParams {
+  data: ICompany;
+}
+
+export const userCreate = createAsyncThunk<void, userCreateParams>(
+  `${nameSpace}/userCreate`,
+  async ({ data }, { rejectWithValue }) => {
+    try {
+      const resp = await axiosApi.post(`/companies/`, data);
+      message.success('Новый пользователь успешно создан!');
+      return resp.data;
+    } catch (e) {
+      let error = e?.response?.data;
+      if (!e.response) {
+        error = defaultError;
+      }
+      return rejectWithValue(error);
+    }
+  },
+);
+
 const companiesSlice = createSlice({
   name: nameSpace,
   initialState: INITIAL_STATE,
@@ -80,6 +107,19 @@ const companiesSlice = createSlice({
     builder.addCase(fetchUsersList.rejected, (state, { payload }: any) => {
       state.fetchCompaniesLoading = false;
       state.fetchCompaniesError = payload?.detail;
+    });
+
+    builder.addCase(userCreate.pending, (state) => {
+      state.userCreateLoading = true;
+      state.userCreateError = null;
+    });
+    builder.addCase(userCreate.fulfilled, (state) => {
+      state.userCreateLoading = false;
+      state.userCreateError = null;
+    });
+    builder.addCase(userCreate.rejected, (state, { payload }: any) => {
+      state.userCreateLoading = false;
+      state.userCreateError = payload?.detail;
     });
   },
 });
