@@ -1,13 +1,12 @@
 import { Table } from 'antd';
-import { ColumnsType } from 'antd/es/table';
 import React, { Key } from 'react';
 
 import PaginationComponent from 'components/TableComponent/PaginationComponent/PaginationComponent';
 import { companiesList, userVehicles, userVehiclesPagination } from 'types';
 
 interface Props {
-  data: userVehicles[] | companiesList[] | any;
-  columns: ColumnsType<userVehicles> | ColumnsType<companiesList> | any;
+  data: any | undefined;
+  columns: any | null;
   rowKey: (record: userVehicles | companiesList) => Key;
   loading: boolean;
   onChange?: () => void;

@@ -47,7 +47,6 @@ const Users: React.FC = () => {
       title: 'ФИО',
       dataIndex: 'name',
       width: '30%',
-      sorter: true,
       fixed: 'left',
       render: (text: string, record: companiesList) => {
         return (
@@ -62,14 +61,12 @@ const Users: React.FC = () => {
       dataIndex: 'name',
       filterSearch: true,
       width: '30%',
-      sorter: true,
     },
     {
       title: 'Номер телефона',
       dataIndex: 'phone',
       filterSearch: true,
       width: '30%',
-      sorter: true,
       render: (text: string, record: companiesList) => {
         return <p>{record?.user?.phone}</p>;
       },
@@ -79,7 +76,6 @@ const Users: React.FC = () => {
       dataIndex: 'autopilots_amount',
       filterSearch: true,
       width: '25%',
-      sorter: true,
     },
     {
       dataIndex: 'profile',
@@ -100,14 +96,14 @@ const Users: React.FC = () => {
           <Title className={b('card-title')}>Добавлено пользователей</Title>
           <div className={b('card-content')}>
             <img src={people} alt='group' />
-            <p>48</p>
+            <p>{companies?.length || 0}</p>
           </div>
         </Card>
         <Card className={b('card-style')} bordered={false} style={{ width: 300 }}>
           <Title className={b('card-title')}>Добавлено Техники</Title>
           <div className={b('card-content')}>
             <img src={tractorBlue} alt='group' />
-            <p>122</p>
+            <p>{companiesListPagination?.vehicles_amount || 0}</p>
           </div>
         </Card>
       </div>
