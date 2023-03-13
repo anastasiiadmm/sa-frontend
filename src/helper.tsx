@@ -2,12 +2,14 @@ import { updateManagerDataMutation } from 'types';
 
 export const removeEmptyValuesFromObject = (obj: any) => {
   for (const i in obj) {
-    const value = obj[i];
-    if (typeof value === 'object') {
-      removeEmptyValuesFromObject(value);
-    }
-    if (value === '' || value === undefined || value === null) {
-      delete obj[i];
+    if (obj) {
+      const value = obj[i];
+      if (typeof value === 'object') {
+        removeEmptyValuesFromObject(value);
+      }
+      if (value === '' || value === undefined || value === null) {
+        delete obj[i];
+      }
     }
   }
   return obj;
