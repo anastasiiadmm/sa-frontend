@@ -1,13 +1,13 @@
 import { updateManagerDataMutation } from 'types';
 
 export const removeEmptyValuesFromObject = (obj: any) => {
-  for (let key in obj) {
-    const value = obj[key];
+  for (let item in obj) {
+    const value = obj[item];
     if (typeof value === 'object') {
       removeEmptyValuesFromObject(value);
     }
     if (value === '' || value === undefined || value === null) {
-      delete obj[key];
+      delete obj[item];
     }
   }
   return obj;
