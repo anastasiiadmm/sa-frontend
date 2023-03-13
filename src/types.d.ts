@@ -108,7 +108,7 @@ export interface userVehicles {
   enterprise: string;
   vehicle_fields_data: {
     field_count: number;
-    processed_area: number
+    processed_area: number;
   };
 }
 

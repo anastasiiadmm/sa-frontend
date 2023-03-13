@@ -3,8 +3,8 @@ import { ColumnsType, TableProps } from 'antd/es/table';
 import bem from 'easy-bem';
 import React, { useState } from 'react';
 
-import new_user from 'assets/images/icons/new_user_request.svg';
-import tractor_request from 'assets/images/icons/tractor_request.svg';
+import newUser from 'assets/images/icons/new_user_request.svg';
+import tractorRequest from 'assets/images/icons/tractor_request.svg';
 import user from 'assets/images/icons/user_request.svg';
 import DeleteRejectTechniqueModal from 'components/ModalComponent/ModalChildrenComponents/DeleteTechniqueModal/DeleteTechniqueModal';
 import EditUserProfileModal from 'components/ModalComponent/ModalChildrenComponents/EditUserProfileModal/EditUserProfileModal';
@@ -77,8 +77,8 @@ const UserRequests = () => {
               row?.type === 'Личная информация'
                 ? user
                 : row?.type === 'Добавление техники'
-                ? tractor_request
-                : new_user
+                ? tractorRequest
+                : newUser
             }
           />
         );
