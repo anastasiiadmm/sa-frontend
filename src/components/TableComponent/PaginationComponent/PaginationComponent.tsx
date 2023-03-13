@@ -2,11 +2,12 @@ import { Button } from 'antd';
 import bem from 'easy-bem';
 import React from 'react';
 
-import 'components/TableComponent/PaginationComponent/_paginationComponent.scss';
 import nextIcons from 'assets/images/icons/white-arrow.svg';
+import { userVehiclesPagination } from 'types';
+import 'components/TableComponent/PaginationComponent/_paginationComponent.scss';
 
 interface Props {
-  params: any | undefined;
+  params: userVehiclesPagination | null | undefined;
   pagePrevHandler: () => void;
   pageNextHandler: () => void;
 }

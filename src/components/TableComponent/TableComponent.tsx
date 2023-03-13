@@ -6,7 +6,7 @@ import PaginationComponent from 'components/TableComponent/PaginationComponent/P
 import { userVehicles, userVehiclesPagination } from 'types';
 
 interface Props {
-  data: userVehicles[] | any;
+  data: userVehicles[] | undefined;
   columns: ColumnsType<userVehicles> | undefined;
   rowKey: (record: userVehicles) => Key;
   loading: boolean;

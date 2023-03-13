@@ -28,7 +28,7 @@ interface AccountsState {
   user: IUserAccount | null;
   fetchLoadingUser: boolean;
   fetchLoadingUserError: Object | null;
-  userVehicles: userVehicles | null;
+  userVehicles: userVehicles[] | undefined;
   userVehiclesPagination: userVehiclesPagination | null;
   fetchUserVehiclesLoading: boolean;
   fetchUserVehiclesError: Object | null;
@@ -53,7 +53,7 @@ const INITIAL_STATE = {
   user: null,
   fetchLoadingUser: false,
   fetchLoadingUserError: null,
-  userVehicles: null,
+  userVehicles: undefined,
   params: {
     page: 1,
   },
@@ -233,8 +233,8 @@ const accountsSlice = createSlice({
       state.userVehiclesPagination = {
         ...state.userVehiclesPagination,
         count: payload.count,
-        next: payload.next,
-        previous: payload.previous,
+        next: payload.links.next,
+        previous: payload.links.previous,
       };
     });
     builder.addCase(fetchUserVehicles.rejected, (state, { payload }: any) => {

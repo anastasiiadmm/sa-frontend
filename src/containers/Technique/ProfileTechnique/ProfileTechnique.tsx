@@ -75,7 +75,7 @@ const ProfileTechnique = () => {
       <div className={b('table')}>
         <div className={b('header')}>
           <div className={b('header-title')}>
-            <Link to='/user-technique'>
+            <Link to='/'>
               <img className={b('arrow-left')} src={arrowLeft} alt='arrow' />
             </Link>
             <Title level={3} className={b('title')}>
