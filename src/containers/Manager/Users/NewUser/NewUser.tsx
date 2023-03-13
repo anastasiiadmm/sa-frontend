@@ -1,11 +1,12 @@
 import { Button, Col, Form, Typography } from 'antd';
 import bem from 'easy-bem';
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router';
 
 import FormField from 'components/FormField/FormField';
 import { removeEmptyValuesFromObject } from 'helper';
-import { userCreate } from 'redux/companies/companiesSlice';
-import { useAppDispatch } from 'redux/hooks';
+import { companiesSelector, userCreate } from 'redux/companies/companiesSlice';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import 'containers/Manager/Users/NewUser/_NewUser.scss';
 
 const { Title } = Typography;
@@ -14,12 +15,15 @@ const NewUser: React.FC = () => {
   const b = bem('NewUser');
   const dispatch = useAppDispatch();
   const [form] = Form.useForm();
+  const history = useNavigate();
+  const { userCreateLoading } = useAppSelector(companiesSelector);
   const [formValid, setFormValid] = useState(true);
 
   const onFinish = async (values: any) => {
     if (values) {
       const data = removeEmptyValuesFromObject(values);
       dispatch(userCreate({ data }));
+      history('/');
     }
   };
 
@@ -56,6 +60,29 @@ const NewUser: React.FC = () => {
             placeholder='Username'
             rules={[{ required: true, message: 'Введите username' }]}
           />
+
+          <div className={b('form-block')}>
+            <FormField
+              bordered
+              id='password_id'
+              type='password'
+              className='username'
+              name={['user', 'password']}
+              label='Пароль'
+              placeholder='Пароль'
+            />
+
+            <FormField
+              bordered
+              id='password_confirm'
+              type='password'
+              className='username'
+              name='confirm_password'
+              dependencies={['password']}
+              label='Повторите пароль'
+              placeholder='Повторите пароль'
+            />
+          </div>
 
           <div className={b('form-block')}>
             <FormField
@@ -139,7 +166,7 @@ const NewUser: React.FC = () => {
             disabled={formValid}
             type='primary'
             htmlType='submit'
-            // loading={!!loading}
+            loading={userCreateLoading}
             style={{ width: '100%', borderRadius: 4 }}
             className={b('login-form-button')}
           >
