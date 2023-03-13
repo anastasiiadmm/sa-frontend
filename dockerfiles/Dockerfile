@@ -1,4 +1,4 @@
-FROM node:16-alpine3.11 as build
+FROM node:18-alpine3.11 as build
 
 ARG REACT_APP_ENVIRONMENT
 ARG REACT_APP_API_URL
