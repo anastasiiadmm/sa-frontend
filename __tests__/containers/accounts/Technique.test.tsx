@@ -1,27 +1,29 @@
 import { BrowserRouter } from "react-router-dom";
 import { screen, render, waitFor, cleanup } from "@testing-library/react";
-import "../../__mocks__/matchMedia.mock";
+import "../../../__mocks__/matchMedia.mock";
 import "@testing-library/jest-dom";
-import { mockedDispatch, mockedUseSelectors } from "../../__mocks__/utils";
+import { mockedDispatch, mockedUseSelectors } from "../../../__mocks__/utils";
 
-import Technique from "../../src/containers/User/Technique/Technique";
+import Technique from "../../../src/containers/User/Technique/Technique";
 
 afterEach(cleanup);
 
 const data = {
-  code: "wdRg83n4",
-  description: "Трактор поливалка",
-  enterprise: 2,
-  first_name: "Василий",
+  autopilots_amount: 2,
   id: 1,
-  image: "/media/vehicles/wdRg83n4/2022-04-10_22-00-18__18_.jpeg",
-  last_latitude: "0.000000",
-  last_longitude: "0.000000",
-  last_name: "Соколов",
-  middle_name: "Петрович",
-  state_number: "01KG123RRR",
-  vehicle_fields_data: { field_count: 1, processed_area: 3708.024 },
-  vin_code: "FDG445"
+  location: "Бишкек",
+  name: "ОсОО ОДА \"Дордой-Секьюрити\"",
+  user:
+    {
+      email: "borsh130894@gmail.com",
+      first_name: "Александр",
+      id: 3,
+      last_name: "Борщевский",
+      middle_name: "Сергеевич",
+      password: "pbkdf2_sha",
+      phone: "+996555130894",
+      username: "aleksandr"
+    }
 };
 
 describe("<Technique />", () => {
