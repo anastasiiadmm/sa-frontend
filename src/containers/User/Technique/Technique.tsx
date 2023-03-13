@@ -69,12 +69,18 @@ const Technique = () => {
       dataIndex: 'code',
       width: '20%',
       fixed: 'left',
-      render: (text: string, record) => (
-        <div style={{ display: 'flex', gap: 12 }}>
-          <img src={record.image ? record.image : tractor} alt='tractor' />
-          <p className={b('name-column-style')}>{record.code}</p>
-        </div>
-      ),
+      render: (text: string, record) => {
+        return (
+          <div style={{ display: 'flex', gap: 12 }}>
+            <img
+              className={b('image-styles')}
+              src={record.image ? `https://agri.ltestl.com${record.image}` : tractor}
+              alt='tractor'
+            />
+            <p className={b('name-column-style')}>{record.code}</p>
+          </div>
+        );
+      },
     },
     {
       key: 'description',
