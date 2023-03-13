@@ -72,8 +72,9 @@ const companiesSlice = createSlice({
       state.companiesListPagination = {
         ...state.companiesListPagination,
         count: payload.count,
-        next: payload.next,
-        previous: payload.previous,
+        next: payload.links.next,
+        previous: payload.links.previous,
+        vehicles_amount: payload.vehicles_amount,
       };
     });
     builder.addCase(fetchUsersList.rejected, (state, { payload }: any) => {

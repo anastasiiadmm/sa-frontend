@@ -139,4 +139,5 @@ export interface usersListPagination {
   count: number;
   next: string;
   previous: string;
+  vehicles_amount: number;
 }
