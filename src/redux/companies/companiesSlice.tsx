@@ -16,6 +16,9 @@ interface CompaniesState {
   companiesListPagination: usersListPagination | null;
   userCreateLoading: boolean;
   userCreateError: Object | null;
+  userInfo: companiesList | null;
+  userInfoLoading: boolean;
+  userInfoError: Object | null;
 }
 
 const INITIAL_STATE = {
@@ -26,12 +29,16 @@ const INITIAL_STATE = {
 
   userCreateLoading: false,
   userCreateError: null,
+
+  userInfo: null,
+  userInfoLoading: false,
+  userInfoError: null,
 } as CompaniesState;
 
 interface fetchCompaniesParams {
-  data: {
-    query: {
-      page: number;
+  data?: {
+    query?: {
+      page?: number | undefined;
     };
   };
 }
@@ -83,6 +90,34 @@ export const userCreate = createAsyncThunk<void, userCreateParams>(
   },
 );
 
+interface fetchCompanyParams {
+  data: {
+    id: string | undefined;
+  };
+}
+
+export const fetchUserInfo = createAsyncThunk<companiesList, fetchCompanyParams>(
+  'accounts/fetchUserInfo',
+  async ({ data }, { rejectWithValue }) => {
+    try {
+      const resp = await axiosApi.get<companiesList | null>(`/companies/${data?.id}/`);
+      const companyInfo = resp.data;
+
+      if (companyInfo === null) {
+        throw new Error('Not Found!');
+      }
+
+      return companyInfo;
+    } catch (e) {
+      let error = e?.response?.data;
+      if (!e.response) {
+        error = defaultError;
+      }
+      return rejectWithValue(error);
+    }
+  },
+);
+
 const companiesSlice = createSlice({
   name: nameSpace,
   initialState: INITIAL_STATE,
@@ -120,6 +155,19 @@ const companiesSlice = createSlice({
     builder.addCase(userCreate.rejected, (state, { payload }: any) => {
       state.userCreateLoading = false;
       state.userCreateError = payload?.detail;
+    });
+
+    builder.addCase(fetchUserInfo.pending, (state) => {
+      state.userInfoLoading = true;
+      state.userInfoError = null;
+    });
+    builder.addCase(fetchUserInfo.fulfilled, (state, { payload: companyInfo }: any) => {
+      state.userInfoLoading = false;
+      state.userInfo = companyInfo;
+    });
+    builder.addCase(fetchUserInfo.rejected, (state, { payload }: any) => {
+      state.userInfoLoading = false;
+      state.userInfoError = payload?.detail;
     });
   },
 });

@@ -6,6 +6,7 @@ import { mockedDispatch, mockedUseSelectors } from "../../../__mocks__/utils";
 
 import Users from "../../../src/containers/Manager/Users/Users";
 import NewUser from "../../../src/containers/Manager/Users/NewUser/NewUser";
+import UserProfile from "../../../src/containers/Manager/Users/UserProfile/UserProfile";
 
 afterEach(cleanup);
 
@@ -25,19 +26,23 @@ const data = {
   vin_code: "FDG445"
 };
 
-// mock function после того как появится бэк
-/*const newUserData = {
-  location: "asd",
-  name: "Test",
-  user: {
-    email: "Test",
-    first_name: "Test",
-    last_name: "Test",
-    middle_name: "Test",
-    phone: "+7 (999) 999-31-23",
-    username: "testusername"
-  }
-};*/
+const userDataInfo = {
+  autopilots_amount: 2,
+  id: 1,
+  location: "Бишкек",
+  name: "ОсОО ОДА \"Дордой-Секьюрити\"",
+  user:
+    {
+      email: "borsh130894@gmail.com",
+      first_name: "Александр",
+      id: 3,
+      last_name: "Борщевский",
+      middle_name: "Сергеевич",
+      password: "pbkdf2_sha2",
+      phone: "+996555130894",
+      username: "aleksandr"
+    }
+};
 
 describe("<Users />", () => {
   test("Users table component should be in the document", async () => {
@@ -73,6 +78,24 @@ describe("<Users />", () => {
 
     await waitFor(() => {
       expect(newUserComponent).toBeInTheDocument();
+    });
+  });
+
+  test("Users info component should be in the document", async () => {
+    mockedUseSelectors.mockReturnValue(userDataInfo);
+    const dispatch = jest.fn();
+    mockedDispatch.mockReturnValue(dispatch);
+
+    render(
+      <BrowserRouter>
+        <UserProfile />
+      </BrowserRouter>
+    );
+
+    const UserProfileComponent = screen.getByTestId("user-profile-id");
+
+    await waitFor(() => {
+      expect(UserProfileComponent).toBeInTheDocument();
     });
   });
 
