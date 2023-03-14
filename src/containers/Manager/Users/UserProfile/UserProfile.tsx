@@ -52,7 +52,6 @@ const UserProfile: React.FC = () => {
     location: '',
     autopilots_amount: 0,
   });
-
   const resultsObj = companies?.find((item) => item.id === +id) || userInfo;
 
   useEffect(() => {
