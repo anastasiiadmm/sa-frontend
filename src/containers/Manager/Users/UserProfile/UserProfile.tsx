@@ -74,7 +74,7 @@ const UserProfile: React.FC = () => {
 
   return (
     <>
-      <div className='layout'>
+      <div className='layout' data-testid='user-profile-id'>
         <Col
           className={b('')}
           xs={{ span: 20, offset: 2 }}
