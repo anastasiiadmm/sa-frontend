@@ -124,7 +124,7 @@ export interface companiesList {
   location: string;
   autopilots_amount: number;
   user: {
-    id: number;
+    id?: number;
     username: string;
     password: string;
     first_name: string;
@@ -132,6 +132,7 @@ export interface companiesList {
     last_name: string;
     email: string;
     phone: string;
+    image: string;
   };
 }
 
@@ -143,3 +144,7 @@ export interface usersListPagination {
 }
 
 export type ICompany = Omit<companiesList, 'id'>;
+
+interface ErrorObject {
+  [key: string]: string | string[] | ErrorObject;
+}

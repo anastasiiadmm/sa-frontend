@@ -57,6 +57,13 @@ button:disabled {
   background-color: themes.$disabled-color !important;
 }
 
+.form-block-password {
+  justify-content: end !important;
+  > div {
+    width: 50%;
+  }
+}
+
 
 // antd styles
 

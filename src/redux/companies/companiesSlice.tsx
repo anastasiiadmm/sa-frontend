@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { message } from 'antd';
 
 import { RootState } from 'redux/hooks';
@@ -19,6 +19,11 @@ interface CompaniesState {
   userInfo: companiesList | null;
   userInfoLoading: boolean;
   userInfoError: Object | null;
+  updateUserInfoLoading: boolean;
+  updateUserInfoError: Object | null;
+  updateUserData: ICompany | null | Object;
+  updateUserDataLoading: boolean;
+  updateUserDataError: Object | null;
 }
 
 const INITIAL_STATE = {
@@ -33,6 +38,26 @@ const INITIAL_STATE = {
   userInfo: null,
   userInfoLoading: false,
   userInfoError: null,
+
+  updateUserInfoLoading: false,
+  updateUserInfoError: null,
+
+  updateUserData: {
+    autopilots_amount: '',
+    location: '',
+    name: '',
+    user: {
+      username: '',
+      first_name: '',
+      last_name: '',
+      middle_name: '',
+      email: '',
+      phone: '',
+      password: '',
+    },
+  },
+  updateUserDataLoading: false,
+  updateUserDataError: null,
 } as CompaniesState;
 
 interface fetchCompaniesParams {
@@ -118,10 +143,50 @@ export const fetchUserInfo = createAsyncThunk<companiesList, fetchCompanyParams>
   },
 );
 
+interface updateUserInfoParams {
+  id: string | undefined;
+  data: ICompany;
+}
+
+export const updateUserInfo = createAsyncThunk<void, updateUserInfoParams>(
+  `${nameSpace}/updateUserInfo`,
+  async (data, { rejectWithValue, dispatch }) => {
+    try {
+      const resp = await axiosApi.patch(`/companies/${data?.id}/`, data?.data);
+      message.success('Данные успешно изменены!');
+
+      await dispatch(fetchUserInfo({ data }));
+
+      return resp.data;
+    } catch (e) {
+      let error = e?.response?.data;
+      if (!e.response) {
+        error = defaultError;
+      }
+      return rejectWithValue(error);
+    }
+  },
+);
+
 const companiesSlice = createSlice({
   name: nameSpace,
   initialState: INITIAL_STATE,
-  reducers: {},
+  reducers: {
+    setChangeUserProfile: (state: any, action: PayloadAction<companiesList>) => {
+      state.updateUserData.autopilots_amount = action.payload.autopilots_amount;
+      state.updateUserData.location = action.payload.location;
+      state.updateUserData.name = action.payload.name;
+      state.updateUserData.user = {
+        email: action.payload.user.email,
+        first_name: action.payload.user.first_name,
+        last_name: action.payload.user.last_name,
+        middle_name: action.payload.user.middle_name,
+        password: action.payload.user.password,
+        phone: action.payload.user.phone,
+        username: action.payload.user.username,
+      };
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchUsersList.pending, (state) => {
       state.fetchCompaniesLoading = true;
@@ -169,8 +234,22 @@ const companiesSlice = createSlice({
       state.userInfoLoading = false;
       state.userInfoError = payload?.detail;
     });
+
+    builder.addCase(updateUserInfo.pending, (state) => {
+      state.updateUserInfoLoading = true;
+      state.updateUserInfoError = null;
+    });
+    builder.addCase(updateUserInfo.fulfilled, (state) => {
+      state.updateUserInfoLoading = false;
+      state.updateUserInfoError = null;
+    });
+    builder.addCase(updateUserInfo.rejected, (state, { payload }: any) => {
+      state.updateUserInfoLoading = false;
+      state.updateUserInfoError = payload?.detail;
+    });
   },
 });
 
+export const { setChangeUserProfile } = companiesSlice.actions;
 export const companiesSelector = (state: RootState) => state.companies;
 export default companiesSlice.reducer;

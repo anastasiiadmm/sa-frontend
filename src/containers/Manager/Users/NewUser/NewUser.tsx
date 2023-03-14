@@ -1,10 +1,10 @@
-import { Button, Col, Form, Typography } from 'antd';
+import { Button, Col, Form, message, Typography } from 'antd';
 import bem from 'easy-bem';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
 
 import FormField from 'components/FormField/FormField';
-import { removeEmptyValuesFromObject } from 'helper';
+import { getErrorMessage, removeEmptyValuesFromObject } from 'helper';
 import { companiesSelector, userCreate } from 'redux/companies/companiesSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import 'containers/Manager/Users/NewUser/_NewUser.scss';
@@ -20,10 +20,15 @@ const NewUser: React.FC = () => {
   const [formValid, setFormValid] = useState(true);
 
   const onFinish = async (values: any) => {
-    if (values) {
-      const data = removeEmptyValuesFromObject(values);
-      dispatch(userCreate({ data }));
-      history('/');
+    try {
+      if (values) {
+        const data = removeEmptyValuesFromObject(values);
+        await dispatch(userCreate({ data })).unwrap();
+        history('/');
+      }
+    } catch (e) {
+      const errorMessage = getErrorMessage(e, 'username');
+      await message.error(`${errorMessage}`);
     }
   };
 
