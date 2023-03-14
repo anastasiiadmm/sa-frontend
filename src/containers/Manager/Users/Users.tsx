@@ -1,8 +1,8 @@
-import { Card, Typography } from 'antd';
+import { Button, Card, Typography } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import bem from 'easy-bem';
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 import people from 'assets/images/icons/group-active.svg';
 import tractorBlue from 'assets/images/icons/tractor-blue.svg';
@@ -16,6 +16,7 @@ const { Title } = Typography;
 
 const Users: React.FC = () => {
   const b = bem('Users');
+  const push = useNavigate();
   const { companies, fetchCompaniesLoading, companiesListPagination } =
     useAppSelector(companiesSelector);
   const dispatch = useAppDispatch();
@@ -39,6 +40,10 @@ const Users: React.FC = () => {
 
   const pageNextHandler = () => {
     setFilters({ ...filters, page: filters.page + 1 });
+  };
+
+  const nextBrowserUserInfoHandler = (id: number) => {
+    push(`/user-profile/${id}/`);
   };
 
   const columns: ColumnsType<companiesList> = [
@@ -81,10 +86,14 @@ const Users: React.FC = () => {
       dataIndex: 'profile',
       filterSearch: true,
       width: '30%',
-      render: () => (
-        <Link className={b('profile-link')} to='/user-profile'>
+      render: (text: string, record: companiesList) => (
+        <Button
+          type='link'
+          className={b('profile-link')}
+          onClick={() => nextBrowserUserInfoHandler(record?.id)}
+        >
           Просмотреть профиль
-        </Link>
+        </Button>
       ),
     },
   ];

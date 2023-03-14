@@ -6,6 +6,10 @@
     gap: 13px;
   }
 
+  &__username-info {
+    padding: 0;
+  }
+
   &__user-card-style {
     width: 160px;
     background: themes.$light-blue-color;
