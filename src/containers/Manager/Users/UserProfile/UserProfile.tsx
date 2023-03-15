@@ -1,6 +1,7 @@
-import { Button, Card, Col, Form, Typography } from 'antd';
+import { Button, Card, Col, Form, message, Typography } from 'antd';
 import bem from 'easy-bem';
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
 import { Link, useParams } from 'react-router-dom';
 
 import tractorBlue from 'assets/images/icons/tractor-blue.svg';
@@ -9,7 +10,18 @@ import DeleteUserModal from 'components/ModalComponent/ModalChildrenComponents/D
 import EditUserProfileModal from 'components/ModalComponent/ModalChildrenComponents/EditUserProfileModal/EditUserProfileModal';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import SkeletonBlock from 'components/SkeletonBlock/SkeletonBlock';
-import { companiesSelector, fetchUserInfo } from 'redux/companies/companiesSlice';
+import {
+  getErrorMessage,
+  isObjectChangeUserProfileValidate,
+  removeEmptyValuesFromObject,
+} from 'helper';
+import {
+  companiesSelector,
+  deleteUserInfo,
+  fetchUserInfo,
+  setChangeUserProfile,
+  updateUserInfo,
+} from 'redux/companies/companiesSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import 'containers/Manager/Users/UserProfile/_UserProfile.scss';
 
@@ -19,11 +31,34 @@ const UserProfile: React.FC = () => {
   const b = bem('UserProfile');
   const { id } = useParams() as { id: string };
   const [form] = Form.useForm();
+  const history = useNavigate();
   const dispatch = useAppDispatch();
-  const { companies, fetchCompaniesLoading, userInfo } = useAppSelector(companiesSelector);
+  const {
+    companies,
+    fetchCompaniesLoading,
+    userInfo,
+    updateUserData,
+    updateUserInfoLoading,
+    deleteUserInfoLoading,
+  } = useAppSelector(companiesSelector);
+  const [validateForm, setValidateForm] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
-
+  const [userData, setUserData] = useState({
+    user: {
+      username: '',
+      password: '',
+      last_name: '',
+      first_name: '',
+      middle_name: '',
+      email: '',
+      phone: '',
+      image: '',
+    },
+    name: '',
+    location: '',
+    autopilots_amount: 0,
+  });
   const resultsObj = companies?.find((item) => item.id === +id) || userInfo;
 
   useEffect(() => {
@@ -43,6 +78,7 @@ const UserProfile: React.FC = () => {
         last_name: resultsObj?.user?.last_name,
         first_name: resultsObj?.user?.first_name,
         middle_name: resultsObj?.user?.middle_name,
+        image: resultsObj?.user?.image,
         email: resultsObj?.user?.email,
         phone: resultsObj?.user?.phone,
         name: resultsObj?.name,
@@ -51,6 +87,20 @@ const UserProfile: React.FC = () => {
       });
     }
   }, [resultsObj, form]);
+
+  useEffect(() => {
+    if (resultsObj) {
+      dispatch(setChangeUserProfile(resultsObj));
+      setUserData(resultsObj);
+    }
+  }, [resultsObj, dispatch]);
+
+  useEffect(() => {
+    if (resultsObj) {
+      const validate = isObjectChangeUserProfileValidate(resultsObj, userData);
+      setValidateForm(validate);
+    }
+  }, [resultsObj, userData]);
 
   const showDeleteModal = () => {
     setIsModalDeleteOpen(true);
@@ -68,9 +118,49 @@ const UserProfile: React.FC = () => {
     setIsModalOpen(!isModalOpen);
   };
 
-  const deleteUserHandler = () => {};
+  const deleteUserHandler = async () => {
+    try {
+      await dispatch(deleteUserInfo(id));
+      history('/');
+    } catch (e) {
+      const errorMessage = getErrorMessage(e, 'password');
+      await message.error(`${errorMessage}`);
+    }
+  };
 
-  const onFinish = (values: any) => {};
+  const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    if (name.startsWith('user,')) {
+      const userKey = name.split(',')[1];
+      setUserData((prevUserData) => ({
+        ...prevUserData,
+        user: {
+          ...prevUserData.user,
+          [userKey]: value,
+        },
+      }));
+    } else if (name === 'autopilots_amount') {
+      setUserData((prevUserData) => ({
+        ...prevUserData,
+        autopilots_amount: Number(value),
+      }));
+    } else {
+      setUserData({ ...userData, [name]: value });
+    }
+  };
+
+  const onFinish = async () => {
+    try {
+      if (userData) {
+        const data = removeEmptyValuesFromObject(userData);
+        await dispatch(updateUserInfo({ id, data })).unwrap();
+        history('/');
+      }
+    } catch (e) {
+      const errorMessage = getErrorMessage(e, 'username');
+      await message.error(`${errorMessage}`);
+    }
+  };
 
   return (
     <>
@@ -242,7 +332,13 @@ const UserProfile: React.FC = () => {
         handleOk={handleOkCancel}
         handleCancel={handleOkCancel}
       >
-        <EditUserProfileModal />
+        <EditUserProfileModal
+          updateUserData={updateUserData}
+          onFinish={onFinish}
+          validateForm={validateForm}
+          inputChangeHandler={inputChangeHandler}
+          loading={updateUserInfoLoading}
+        />
       </ModalComponent>
 
       <ModalComponent
@@ -254,6 +350,7 @@ const UserProfile: React.FC = () => {
         <DeleteUserModal
           handleDeleteCancel={handleDeleteOkCancel}
           deleteUserHandler={deleteUserHandler}
+          loading={deleteUserInfoLoading}
         />
       </ModalComponent>
     </>

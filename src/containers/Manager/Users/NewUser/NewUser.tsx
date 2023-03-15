@@ -1,10 +1,10 @@
-import { Button, Col, Form, Typography } from 'antd';
+import { Button, Col, Form, message, Typography } from 'antd';
 import bem from 'easy-bem';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
 
 import FormField from 'components/FormField/FormField';
-import { removeEmptyValuesFromObject } from 'helper';
+import { getErrorMessage, removeEmptyValuesFromObject } from 'helper';
 import { companiesSelector, userCreate } from 'redux/companies/companiesSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import 'containers/Manager/Users/NewUser/_NewUser.scss';
@@ -20,10 +20,15 @@ const NewUser: React.FC = () => {
   const [formValid, setFormValid] = useState(true);
 
   const onFinish = async (values: any) => {
-    if (values) {
-      const data = removeEmptyValuesFromObject(values);
-      dispatch(userCreate({ data }));
-      history('/');
+    try {
+      if (values) {
+        const data = removeEmptyValuesFromObject(values);
+        await dispatch(userCreate({ data })).unwrap();
+        history('/');
+      }
+    } catch (e) {
+      const errorMessage = getErrorMessage(e, 'username');
+      await message.error(`${errorMessage}`);
     }
   };
 
@@ -50,40 +55,6 @@ const NewUser: React.FC = () => {
             setFormValid(form.getFieldsError().some((item) => item.errors.length > 0))
           }
         >
-          <FormField
-            bordered
-            data-testid='username_id'
-            id='username_id'
-            inputClassName={b('username')}
-            label='Username'
-            name={['user', 'username']}
-            placeholder='Username'
-            rules={[{ required: true, message: 'Введите username' }]}
-          />
-
-          <div className={b('form-block')}>
-            <FormField
-              bordered
-              id='password_id'
-              type='password'
-              className='username'
-              name={['user', 'password']}
-              label='Пароль'
-              placeholder='Пароль'
-            />
-
-            <FormField
-              bordered
-              id='password_confirm'
-              type='password'
-              className='username'
-              name='confirm_password'
-              dependencies={['password']}
-              label='Повторите пароль'
-              placeholder='Повторите пароль'
-            />
-          </div>
-
           <div className={b('form-block')}>
             <FormField
               bordered
@@ -128,6 +99,7 @@ const NewUser: React.FC = () => {
               label='Email'
               name={['user', 'email']}
               placeholder='Email'
+              rules={[{ required: true, message: 'Введите Email' }]}
             />
 
             <FormField

@@ -45,7 +45,8 @@ const PasswordField: React.FC<Props> = ({
         },
         ({ getFieldValue }) => ({
           validator(_, value) {
-            if (!value || getFieldValue(['user', 'password']) === value) {
+            const password = getFieldValue(['user', 'password']) || getFieldValue('password');
+            if (!value || password === value) {
               return Promise.resolve();
             }
             return Promise.reject(new Error('Пароли не совпадают'));
