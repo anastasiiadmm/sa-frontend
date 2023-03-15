@@ -56,36 +56,24 @@ const UserTechnique: React.FC = () => {
     setIsModalOpen(true);
   };
 
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
-
-  const handleCancel = () => {
-    setIsModalOpen(false);
+  const handleOkCancel = () => {
+    setIsModalOpen(!isModalOpen);
   };
 
   const showEditModal = () => {
     setIsEditModalOpen(true);
   };
 
-  const handleEditOk = () => {
-    setIsEditModalOpen(false);
-  };
-
-  const handleEditCancel = () => {
-    setIsEditModalOpen(false);
+  const handleEditOkCancel = () => {
+    setIsEditModalOpen(!isEditModalOpen);
   };
 
   const showDeleteModal = () => {
     setIsDeleteEditModalOpen(true);
   };
 
-  const handleDeleteOk = () => {
-    setIsDeleteEditModalOpen(false);
-  };
-
-  const handleDeleteCancel = () => {
-    setIsDeleteEditModalOpen(false);
+  const handleDeleteOkCancel = () => {
+    setIsDeleteEditModalOpen(!isDeleteModalOpen);
   };
 
   const deleteTechniqueHandler = () => {};
@@ -160,7 +148,7 @@ const UserTechnique: React.FC = () => {
 
   return (
     <>
-      <div className={b()}>
+      <div className={b()} data-testid='user-technique-id'>
         <div className={b('table')}>
           <div className={b('header')}>
             <div className={b('header-title')}>
@@ -194,8 +182,8 @@ const UserTechnique: React.FC = () => {
       <ModalComponent
         title='Добавить технику'
         open={isModalOpen}
-        handleOk={handleOk}
-        handleCancel={handleCancel}
+        handleOk={handleOkCancel}
+        handleCancel={handleOkCancel}
       >
         <AddUpdateTechnique />
       </ModalComponent>
@@ -203,8 +191,8 @@ const UserTechnique: React.FC = () => {
       <ModalComponent
         title='Редактировать технику'
         open={isEditModalOpen}
-        handleOk={handleEditOk}
-        handleCancel={handleEditCancel}
+        handleOk={handleEditOkCancel}
+        handleCancel={handleEditOkCancel}
       >
         <AddUpdateTechnique isEdit />
       </ModalComponent>
@@ -212,14 +200,14 @@ const UserTechnique: React.FC = () => {
       <ModalComponent
         dividerShow={false}
         open={isDeleteModalOpen}
-        handleOk={handleDeleteOk}
-        handleCancel={handleDeleteCancel}
+        handleOk={handleDeleteOkCancel}
+        handleCancel={handleDeleteOkCancel}
       >
         <DeleteRejectTechniqueModal
           title='Удалить?'
           subTitle='Вы уверены, что хотите удалить'
           techniqueName='Камаз 6595?'
-          handleDeleteCancel={handleDeleteCancel}
+          handleDeleteCancel={handleDeleteOkCancel}
           deleteRejectTechniqueHandler={deleteTechniqueHandler}
         />
       </ModalComponent>

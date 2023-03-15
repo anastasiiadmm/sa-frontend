@@ -7,6 +7,7 @@ import { mockedDispatch, mockedUseSelectors } from "../../../__mocks__/utils";
 import Users from "../../../src/containers/Manager/Users/Users";
 import NewUser from "../../../src/containers/Manager/Users/NewUser/NewUser";
 import UserProfile from "../../../src/containers/Manager/Users/UserProfile/UserProfile";
+import UserTechnique from "../../../src/containers/Manager/Users/UserTechnique/UserTechnique";
 
 afterEach(cleanup);
 
@@ -42,6 +43,25 @@ const userDataInfo = {
       phone: "+996555130894",
       username: "aleksandr"
     }
+};
+
+const UserTechniqueList = {
+  code: "1337",
+  description: "Трактор озеленитель",
+  enterprise: 2,
+  first_name: "Паша",
+  id: 2,
+  image: "/media/vehicles/1337/2.jpg",
+  last_latitude: "0.000000",
+  last_longitude: "0.000000",
+  last_name: "Петров",
+  middle_name: "Олегович",
+  state_number: "01KG123RRA",
+  vehicle_fields_data: {
+    field_count: 0,
+    processed_area: null
+  },
+  vin_code: "FDG445we"
 };
 
 describe("<Users />", () => {
@@ -96,6 +116,24 @@ describe("<Users />", () => {
 
     await waitFor(() => {
       expect(UserProfileComponent).toBeInTheDocument();
+    });
+  });
+
+  test("UserTechnique list component should be in the document", async () => {
+    mockedUseSelectors.mockReturnValue(UserTechniqueList);
+    const dispatch = jest.fn();
+    mockedDispatch.mockReturnValue(dispatch);
+
+    render(
+      <BrowserRouter>
+        <UserTechnique />
+      </BrowserRouter>
+    );
+
+    const UserTechniqueComponent = screen.getByTestId("user-technique-id");
+
+    await waitFor(() => {
+      expect(UserTechniqueComponent).toBeInTheDocument();
     });
   });
 
