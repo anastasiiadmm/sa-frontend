@@ -55,40 +55,6 @@ const NewUser: React.FC = () => {
             setFormValid(form.getFieldsError().some((item) => item.errors.length > 0))
           }
         >
-          <FormField
-            bordered
-            data-testid='username_id'
-            id='username_id'
-            inputClassName={b('username')}
-            label='Username'
-            name={['user', 'username']}
-            placeholder='Username'
-            rules={[{ required: true, message: 'Введите username' }]}
-          />
-
-          <div className={b('form-block')}>
-            <FormField
-              bordered
-              id='password_id'
-              type='password'
-              className='username'
-              name={['user', 'password']}
-              label='Пароль'
-              placeholder='Пароль'
-            />
-
-            <FormField
-              bordered
-              id='password_confirm'
-              type='password'
-              className='username'
-              name='confirm_password'
-              dependencies={['password']}
-              label='Повторите пароль'
-              placeholder='Повторите пароль'
-            />
-          </div>
-
           <div className={b('form-block')}>
             <FormField
               bordered
@@ -133,6 +99,7 @@ const NewUser: React.FC = () => {
               label='Email'
               name={['user', 'email']}
               placeholder='Email'
+              rules={[{ required: true, message: 'Введите Email' }]}
             />
 
             <FormField

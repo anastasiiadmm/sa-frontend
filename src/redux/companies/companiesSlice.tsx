@@ -24,6 +24,8 @@ interface CompaniesState {
   updateUserData: ICompany | null | Object;
   updateUserDataLoading: boolean;
   updateUserDataError: Object | null;
+  deleteUserInfoLoading: boolean;
+  deleteUserInfoError: Object | null;
 }
 
 const INITIAL_STATE = {
@@ -58,6 +60,9 @@ const INITIAL_STATE = {
   },
   updateUserDataLoading: false,
   updateUserDataError: null,
+
+  deleteUserInfoLoading: false,
+  deleteUserInfoError: null,
 } as CompaniesState;
 
 interface fetchCompaniesParams {
@@ -168,6 +173,24 @@ export const updateUserInfo = createAsyncThunk<void, updateUserInfoParams>(
   },
 );
 
+export const deleteUserInfo = createAsyncThunk<void, string>(
+  `${nameSpace}/deleteUserInfo`,
+  async (id, { rejectWithValue }) => {
+    try {
+      const resp = await axiosApi.delete(`/companies/${id}/`);
+      message.success('Данные успешно удалены!');
+
+      return resp.data;
+    } catch (e) {
+      let error = e?.response?.data;
+      if (!e.response) {
+        error = defaultError;
+      }
+      return rejectWithValue(error);
+    }
+  },
+);
+
 const companiesSlice = createSlice({
   name: nameSpace,
   initialState: INITIAL_STATE,
@@ -246,6 +269,18 @@ const companiesSlice = createSlice({
     builder.addCase(updateUserInfo.rejected, (state, { payload }: any) => {
       state.updateUserInfoLoading = false;
       state.updateUserInfoError = payload?.detail;
+    });
+
+    builder.addCase(deleteUserInfo.pending, (state) => {
+      state.deleteUserInfoLoading = true;
+      state.deleteUserInfoError = null;
+    });
+    builder.addCase(deleteUserInfo.fulfilled, (state) => {
+      state.deleteUserInfoLoading = false;
+    });
+    builder.addCase(deleteUserInfo.rejected, (state, { payload }: any) => {
+      state.deleteUserInfoLoading = false;
+      state.deleteUserInfoError = payload?.detail;
     });
   },
 });

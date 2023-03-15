@@ -17,6 +17,7 @@ import {
 } from 'helper';
 import {
   companiesSelector,
+  deleteUserInfo,
   fetchUserInfo,
   setChangeUserProfile,
   updateUserInfo,
@@ -32,8 +33,14 @@ const UserProfile: React.FC = () => {
   const [form] = Form.useForm();
   const history = useNavigate();
   const dispatch = useAppDispatch();
-  const { companies, fetchCompaniesLoading, userInfo, updateUserData, updateUserInfoLoading } =
-    useAppSelector(companiesSelector);
+  const {
+    companies,
+    fetchCompaniesLoading,
+    userInfo,
+    updateUserData,
+    updateUserInfoLoading,
+    deleteUserInfoLoading,
+  } = useAppSelector(companiesSelector);
   const [validateForm, setValidateForm] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
@@ -111,7 +118,15 @@ const UserProfile: React.FC = () => {
     setIsModalOpen(!isModalOpen);
   };
 
-  const deleteUserHandler = () => {};
+  const deleteUserHandler = async () => {
+    try {
+      await dispatch(deleteUserInfo(id));
+      history('/');
+    } catch (e) {
+      const errorMessage = getErrorMessage(e, 'password');
+      await message.error(`${errorMessage}`);
+    }
+  };
 
   const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -335,6 +350,7 @@ const UserProfile: React.FC = () => {
         <DeleteUserModal
           handleDeleteCancel={handleDeleteOkCancel}
           deleteUserHandler={deleteUserHandler}
+          loading={deleteUserInfoLoading}
         />
       </ModalComponent>
     </>

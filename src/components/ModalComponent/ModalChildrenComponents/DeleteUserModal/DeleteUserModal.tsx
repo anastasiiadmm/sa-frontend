@@ -8,15 +8,16 @@ import 'components/ModalComponent/ModalChildrenComponents/DeleteUserModal/_delet
 interface Props {
   handleDeleteCancel?: () => void;
   deleteUserHandler?: () => void;
+  loading?: boolean | { delay?: number | undefined; } | undefined;
 }
 
-const DeleteUserModal: React.FC<Props> = ({ handleDeleteCancel, deleteUserHandler }) => {
+const DeleteUserModal: React.FC<Props> = ({ handleDeleteCancel, deleteUserHandler, loading }) => {
   const b = bem('DeleteUserModal');
 
   return (
     <>
       <AlertComponent
-        message='Вы действительно хотите удалить профиль польхозователя? После удаления данные невозможно будет восстановить'
+        message='Вы действительно хотите удалить профиль пользователя? После удаления данные невозможно будет восстановить'
         type='error'
         showIcon
       />
@@ -31,6 +32,7 @@ const DeleteUserModal: React.FC<Props> = ({ handleDeleteCancel, deleteUserHandle
         </Button>
         <Button
           type='primary'
+          loading={loading}
           htmlType='submit'
           style={{ width: '100%', borderRadius: 4 }}
           className={b('delete-profile-button')}
