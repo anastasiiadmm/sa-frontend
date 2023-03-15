@@ -153,6 +153,7 @@ export interface vehicleList {
   id: number;
   image: string;
   processing_data: string;
+  code: string;
   vin_code: string;
   state_number: string;
   description: string;
@@ -162,4 +163,14 @@ export interface vehicleList {
   last_latitude: string;
   last_longitude: string;
   enterprise: number;
+  vehicle_fields_data: {
+    field_count: number;
+    processed_area: number | null;
+  };
+}
+
+export interface vehicleListPagination {
+  count: number;
+  next: string;
+  previous: string;
 }

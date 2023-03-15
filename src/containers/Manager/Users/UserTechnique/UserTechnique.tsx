@@ -1,7 +1,7 @@
-import { Button, Table, Typography } from 'antd';
-import { ColumnsType, TableProps } from 'antd/es/table';
+import { Button, Typography } from 'antd';
+import { ColumnsType } from 'antd/es/table';
 import bem from 'easy-bem';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
 import arrowLeft from 'assets/images/icons/arrow-left.svg';
@@ -12,25 +12,45 @@ import tractor from 'assets/images/icons/tractor-image.svg';
 import AddUpdateTechnique from 'components/ModalComponent/ModalChildrenComponents/AddUpdateTechnique/AddUpdateTechnique';
 import DeleteRejectTechniqueModal from 'components/ModalComponent/ModalChildrenComponents/DeleteTechniqueModal/DeleteTechniqueModal';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
+import TableComponent from 'components/TableComponent/TableComponent';
+import { companiesSelector, fetchUserVehicleList } from 'redux/companies/companiesSlice';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { vehicleList } from 'types';
 import 'containers/Manager/Users/UserTechnique/_userTechnique.scss';
 
 const { Title } = Typography;
 
-interface DataType {
-  key: React.Key;
-  code: string;
-  name: string;
-  fields: string;
-  area: string;
-}
-
 const UserTechnique: React.FC = () => {
   const b = bem('UserTechnique');
+  const dispatch = useAppDispatch();
   const { id } = useParams() as { id: string };
+  const { vehicleList, fetchVehicleListLoading, vehicleListPagination } =
+    useAppSelector(companiesSelector);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteEditModalOpen] = useState(false);
-  console.log(id);
+  const [filters, setFilters] = useState({
+    page: 1,
+  });
+
+  useEffect(() => {
+    const data = {
+      userId: id,
+      query: {
+        page: filters?.page,
+      },
+    };
+
+    dispatch(fetchUserVehicleList({ data }));
+  }, [dispatch, filters]);
+
+  const pagePrevHandler = () => {
+    setFilters({ ...filters, page: filters.page - 1 });
+  };
+
+  const pageNextHandler = () => {
+    setFilters({ ...filters, page: filters.page + 1 });
+  };
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -70,36 +90,48 @@ const UserTechnique: React.FC = () => {
 
   const deleteTechniqueHandler = () => {};
 
-  const columns: ColumnsType<DataType> = [
+  const columns: ColumnsType<vehicleList> = [
     {
       title: 'Код техники',
       dataIndex: 'code',
       width: '20%',
       fixed: 'left',
-      render: (text: string) => (
-        <div style={{ display: 'flex', gap: 12 }}>
-          <img src={tractor} alt='tractor' />
-          <p className={b('name-column-style')}>{text}</p>
-        </div>
-      ),
+      render: (text: string, record: vehicleList) => {
+        return (
+          <div style={{ display: 'flex', gap: 12 }}>
+            <img
+              className={b('image-styles')}
+              src={record.image ? `https://agri.ltestl.com${record.image}` : tractor}
+              alt='tractor'
+            />
+            <p className={b('name-column-style')}>{record.code}</p>
+          </div>
+        );
+      },
     },
     {
       title: 'Название',
-      dataIndex: 'name',
+      dataIndex: 'description',
       filterSearch: true,
       width: '20%',
     },
     {
       title: 'Поля',
-      dataIndex: 'fields',
+      dataIndex: 'field_count',
       filterSearch: true,
       width: '20%',
+      render: (text: string, record: vehicleList) => {
+        return <p>{record?.vehicle_fields_data?.field_count}</p>;
+      },
     },
     {
       title: 'Общая Площадь',
-      dataIndex: 'area',
+      dataIndex: 'processed_area',
       filterSearch: true,
       width: '20%',
+      render: (text: string, record: vehicleList) => {
+        return <p>{record?.vehicle_fields_data?.processed_area || 0}</p>;
+      },
     },
     {
       dataIndex: 'profile',
@@ -126,32 +158,6 @@ const UserTechnique: React.FC = () => {
     },
   ];
 
-  const data: DataType[] = [
-    {
-      key: '1',
-      code: 'AVP123344',
-      name: 'Беларус',
-      fields: '3',
-      area: '120 га',
-    },
-    {
-      key: '2',
-      code: 'AVP123344',
-      name: 'Беларус',
-      fields: '3',
-      area: '120 га',
-    },
-    {
-      key: '3',
-      code: 'AVP123344',
-      name: 'Беларус',
-      fields: '3',
-      area: '120 га',
-    },
-  ];
-
-  const onChange: TableProps<DataType>['onChange'] = (pagination, filters, sorter, extra) => {};
-
   return (
     <>
       <div className={b()}>
@@ -173,13 +179,14 @@ const UserTechnique: React.FC = () => {
             </div>
           </div>
 
-          <Table
-            scroll={{
-              x: 950,
-            }}
+          <TableComponent
+            rowKey={(record) => record.id}
+            loading={fetchVehicleListLoading}
             columns={columns}
-            dataSource={data}
-            onChange={onChange}
+            data={vehicleList}
+            params={vehicleListPagination}
+            pagePrevHandler={pagePrevHandler}
+            pageNextHandler={pageNextHandler}
           />
         </div>
       </div>
