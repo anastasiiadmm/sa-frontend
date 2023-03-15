@@ -8,7 +8,7 @@ import 'components/ModalComponent/ModalChildrenComponents/DeleteUserModal/_delet
 interface Props {
   handleDeleteCancel?: () => void;
   deleteUserHandler?: () => void;
-  loading?: boolean | { delay?: number | undefined; } | undefined;
+  loading?: boolean | { delay?: number | undefined } | undefined;
 }
 
 const DeleteUserModal: React.FC<Props> = ({ handleDeleteCancel, deleteUserHandler, loading }) => {
