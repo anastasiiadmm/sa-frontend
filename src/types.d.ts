@@ -148,3 +148,18 @@ export type ICompany = Omit<companiesList, 'id'>;
 interface ErrorObject {
   [key: string]: string | string[] | ErrorObject;
 }
+
+export interface vehicleList {
+  id: number;
+  image: string;
+  processing_data: string;
+  vin_code: string;
+  state_number: string;
+  description: string;
+  first_name: string;
+  middle_name: string;
+  last_name: string;
+  last_latitude: string;
+  last_longitude: string;
+  enterprise: number;
+}

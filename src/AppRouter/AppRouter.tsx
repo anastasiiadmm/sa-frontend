@@ -56,7 +56,7 @@ const AppRouter: React.FC = () => {
                 <Route path='/add-new-user' element={<NewUser />} />
                 <Route path='/manager-profile' element={<ManagerProfile />} />
                 <Route path='/user-profile/:id' element={<UserProfile />} />
-                <Route path='/user-technique' element={<UserTechnique />} />
+                <Route path='/user-technique/:id' element={<UserTechnique />} />
                 <Route path='/user-requests' element={<UserRequests />} />
               </>
             ) : (

@@ -2,7 +2,7 @@ import { Button, Table, Typography } from 'antd';
 import { ColumnsType, TableProps } from 'antd/es/table';
 import bem from 'easy-bem';
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 import arrowLeft from 'assets/images/icons/arrow-left.svg';
 import deleteIcon from 'assets/images/icons/delete.svg';
@@ -26,9 +26,11 @@ interface DataType {
 
 const UserTechnique: React.FC = () => {
   const b = bem('UserTechnique');
+  const { id } = useParams() as { id: string };
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteEditModalOpen] = useState(false);
+  console.log(id);
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -73,7 +75,6 @@ const UserTechnique: React.FC = () => {
       title: 'Код техники',
       dataIndex: 'code',
       width: '20%',
-      sorter: true,
       fixed: 'left',
       render: (text: string) => (
         <div style={{ display: 'flex', gap: 12 }}>
@@ -87,21 +88,18 @@ const UserTechnique: React.FC = () => {
       dataIndex: 'name',
       filterSearch: true,
       width: '20%',
-      sorter: true,
     },
     {
       title: 'Поля',
       dataIndex: 'fields',
       filterSearch: true,
       width: '20%',
-      sorter: true,
     },
     {
       title: 'Общая Площадь',
       dataIndex: 'area',
       filterSearch: true,
       width: '20%',
-      sorter: true,
     },
     {
       dataIndex: 'profile',
@@ -160,7 +158,7 @@ const UserTechnique: React.FC = () => {
         <div className={b('table')}>
           <div className={b('header')}>
             <div className={b('header-title')}>
-              <Link to='/user-profile'>
+              <Link to={`/user-profile/${id}`}>
                 <img className={b('arrow-left')} src={arrowLeft} alt='arrow' />
               </Link>
               <Title level={3} className={b('title')}>
