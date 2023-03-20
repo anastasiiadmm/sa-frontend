@@ -9,6 +9,7 @@ import tractor from 'assets/images/tracktor.png';
 import FormField from 'components/FormField/FormField';
 import RequestRegisterModal from 'components/ModalComponent/ModalChildrenComponents/RequestRegisterModal/RequestRegisterModal';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
+import { registerSuccessNull } from 'redux/accounts/accountsSlice';
 import { authSelector, loginUser } from 'redux/auth/authSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { LoginMutation } from 'types';
@@ -28,6 +29,7 @@ const SignIn: React.FC = () => {
 
   const showModal = () => {
     setIsModalOpen(true);
+    dispatch(registerSuccessNull());
   };
 
   const handleOk = () => {
@@ -141,7 +143,7 @@ const SignIn: React.FC = () => {
         handleOk={handleOk}
         handleCancel={handleCancel}
       >
-        <RequestRegisterModal />
+        <RequestRegisterModal onClose={() => setIsModalOpen(false)} />
       </ModalComponent>
     </>
   );

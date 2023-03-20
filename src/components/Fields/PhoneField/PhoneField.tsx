@@ -2,6 +2,8 @@ import { Form, Input } from 'antd';
 import React from 'react';
 import InputMask from 'react-input-mask';
 
+interface Rule {}
+
 interface Props {
   id?: string;
   label?: string;
@@ -15,6 +17,7 @@ interface Props {
   dependencies?: string[] | undefined;
   formatter?: string;
   onChange?: () => void;
+  rules?: Rule[];
 }
 
 const PhoneField: React.FC<Props> = ({
@@ -26,9 +29,10 @@ const PhoneField: React.FC<Props> = ({
   bordered = false,
   readOnly = false,
   onChange,
+  rules,
 }) => {
   return (
-    <Form.Item name={name} label={label} className={className}>
+    <Form.Item name={name} label={label} className={className} rules={rules}>
       <InputMask
         name={name}
         onChange={onChange}

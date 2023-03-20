@@ -6,6 +6,7 @@ import {
   IManager,
   IManagerMutation,
   IUserAccount,
+  IUserRegister,
   updateManagerDataMutation,
   userVehicles,
   userVehiclesPagination,
@@ -32,6 +33,9 @@ interface AccountsState {
   userVehiclesPagination: userVehiclesPagination | null;
   fetchUserVehiclesLoading: boolean;
   fetchUserVehiclesError: Object | null;
+  registerUserLoading: boolean;
+  registerUserError: Object | null;
+  registerUserSuccess: boolean | null;
 }
 
 const INITIAL_STATE = {
@@ -60,6 +64,9 @@ const INITIAL_STATE = {
   userVehiclesPagination: null,
   fetchUserVehiclesLoading: false,
   fetchUserVehiclesError: null,
+  registerUserLoading: false,
+  registerUserError: null,
+  registerUserSuccess: false,
 } as AccountsState;
 
 export const fetchManager = createAsyncThunk(
@@ -155,6 +162,28 @@ export const fetchUserVehicles = createAsyncThunk<userVehicles, fetchUserVehicle
   },
 );
 
+interface registerUserParams {
+  data: IUserRegister;
+}
+
+export const registerUser = createAsyncThunk<void, registerUserParams>(
+  `${nameSpace}/registerUser`,
+  async (data, { rejectWithValue }) => {
+    try {
+      const resp = await axiosApi.post(`/accounts/user/confirmation/create/`, data?.data);
+      message.success('Запрос успешно отправлен!');
+
+      return resp.data;
+    } catch (e) {
+      let error = e?.response?.data;
+      if (!e.response) {
+        error = defaultError;
+      }
+      return rejectWithValue(error);
+    }
+  },
+);
+
 const accountsSlice = createSlice({
   name: nameSpace,
   initialState: INITIAL_STATE,
@@ -178,6 +207,9 @@ const accountsSlice = createSlice({
       state.updateManagerData.last_name = action.payload.last_name;
       state.updateManagerData.email = action.payload.email;
       state.updateManagerData.phone = action.payload.phone;
+    },
+    registerSuccessNull: (state) => {
+      state.registerUserSuccess = false;
     },
   },
   extraReducers: (builder) => {
@@ -241,9 +273,25 @@ const accountsSlice = createSlice({
       state.fetchUserVehiclesLoading = false;
       state.fetchUserVehiclesError = payload?.detail;
     });
+    builder.addCase(registerUser.pending, (state) => {
+      state.registerUserLoading = true;
+      state.registerUserError = null;
+      state.registerUserSuccess = false;
+    });
+    builder.addCase(registerUser.fulfilled, (state) => {
+      state.registerUserLoading = false;
+      state.registerUserError = null;
+      state.registerUserSuccess = true;
+    });
+    builder.addCase(registerUser.rejected, (state, { payload }: any) => {
+      state.registerUserLoading = false;
+      state.registerUserError = payload;
+      state.registerUserSuccess = false;
+    });
   },
 });
 
-export const { managerChangeProfileHandler, setManagerProfile } = accountsSlice.actions;
+export const { managerChangeProfileHandler, setManagerProfile, registerSuccessNull } =
+  accountsSlice.actions;
 export const accountsSelector = (state: RootState) => state.accounts;
 export default accountsSlice.reducer;
