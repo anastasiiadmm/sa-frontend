@@ -1,7 +1,7 @@
-import { Button, Table, Typography } from 'antd';
-import { ColumnsType, TableProps } from 'antd/es/table';
+import { Button, Typography } from 'antd';
+import { ColumnsType } from 'antd/es/table';
 import bem from 'easy-bem';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import newUser from 'assets/images/icons/new_user_request.svg';
 import tractorRequest from 'assets/images/icons/tractor_request.svg';
@@ -11,15 +11,21 @@ import EditUserProfileModal from 'components/ModalComponent/ModalChildrenCompone
 import RequestAddTechnique from 'components/ModalComponent/ModalChildrenComponents/RequestsModals/RequestAddTechnique/RequestAddTechnique';
 import RequestRegisterUser from 'components/ModalComponent/ModalChildrenComponents/RequestsModals/RequestRegisterUser/RequestRegisterUser';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
+import TableComponent from 'components/TableComponent/TableComponent';
+
+import { accountsSelector, fetchRequests } from 'redux/accounts/accountsSlice';
+
 import 'containers/Manager/UserRequests/_userRequests.scss';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
 
 const { Title } = Typography;
 
 interface DataType {
   key: React.Key;
-  date: string;
-  type: string;
-  name: string;
+  created_at: string;
+  enterprise_name: string;
+  confirmation_type: number;
+  confirmation_type_text: string;
 }
 
 const UserRequests = () => {
@@ -28,6 +34,22 @@ const UserRequests = () => {
   const [isModalRegisterUserOpen, setIsModalRegisterUserTechniqueOpen] = useState(false);
   const [isModalRejectOpen, setIsModalRejectOpen] = useState(false);
   const [isModalUserInfoOpen, setIsModalUserInfoRejectOpen] = useState(false);
+  const dispatch = useAppDispatch();
+  const { requests, fetchRequestsLoading, requestsPagination } = useAppSelector(accountsSelector);
+
+  const [filters, setFilters] = useState({
+    page: 1,
+  });
+
+  useEffect(() => {
+    const data = {
+      query: {
+        page: filters?.page,
+      },
+    };
+
+    dispatch(fetchRequests({ data }));
+  }, [dispatch, filters]);
 
   const showRejectModal = () => {
     setIsModalRejectOpen(true);
@@ -63,6 +85,14 @@ const UserRequests = () => {
     setIsModalUserInfoRejectOpen(!isModalUserInfoOpen);
   };
 
+  const pagePrevHandler = () => {
+    setFilters({ ...filters, page: filters.page - 1 });
+  };
+
+  const pageNextHandler = () => {
+    setFilters({ ...filters, page: filters.page + 1 });
+  };
+
   const columns: ColumnsType<DataType> = [
     {
       dataIndex: 'type_request',
@@ -74,9 +104,9 @@ const UserRequests = () => {
           <img
             alt='info'
             src={
-              row?.type === 'Личная информация'
+              row?.confirmation_type === 2
                 ? user
-                : row?.type === 'Добавление техники'
+                : row?.confirmation_type === 3
                 ? tractorRequest
                 : newUser
             }
@@ -86,20 +116,20 @@ const UserRequests = () => {
     },
     {
       title: 'Дата запроса',
-      dataIndex: 'date',
+      dataIndex: 'created_at',
       width: '20%',
       sorter: true,
     },
     {
       title: 'Тип запроса',
-      dataIndex: 'type',
+      dataIndex: 'confirmation_type_text',
       filterSearch: true,
       width: '35%',
       sorter: true,
     },
     {
       title: 'Название компании',
-      dataIndex: 'name',
+      dataIndex: 'enterprise_name',
       filterSearch: true,
       width: '35%',
     },
@@ -111,9 +141,9 @@ const UserRequests = () => {
         <Button
           type='link'
           onClick={
-            row?.type === 'Личная информация'
+            row?.confirmation_type === 2
               ? showUserInfoModal
-              : row?.type === 'Добавление техники'
+              : row?.confirmation_type === 3
               ? showTechniqueModal
               : showRegisterUserModal
           }
@@ -124,44 +154,22 @@ const UserRequests = () => {
     },
   ];
 
-  const data: DataType[] = [
-    {
-      key: '1',
-      date: '20/02/2023',
-      type: 'Личная информация',
-      name: 'Иванов ИП',
-    },
-    {
-      key: '2',
-      date: '20/02/2023',
-      type: 'Добавление техники',
-      name: 'Иванов ИП',
-    },
-    {
-      key: '3',
-      date: '20/02/2023',
-      type: 'Регистрация нового профиля',
-      name: 'Иванов ИП',
-    },
-  ];
-
-  const onChange: TableProps<DataType>['onChange'] = (pagination, filters, sorter, extra) => {};
-
   return (
     <>
-      <div className={b()}>
+      <div className={b()} data-testid='requests-id'>
         <div className={b('table')}>
           <Title level={3} data-testid='sign_in_test' className={b('title')}>
             Запросы
           </Title>
 
-          <Table
-            scroll={{
-              x: 950,
-            }}
+          <TableComponent
+            loading={fetchRequestsLoading}
             columns={columns}
-            dataSource={data}
-            onChange={onChange}
+            data={requests}
+            rowKey={(record) => record.id}
+            params={requestsPagination}
+            pagePrevHandler={pagePrevHandler}
+            pageNextHandler={pageNextHandler}
           />
         </div>
       </div>

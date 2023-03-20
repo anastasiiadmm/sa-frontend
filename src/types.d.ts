@@ -155,6 +155,21 @@ export interface IUserRegister {
   };
 }
 
+export interface userRequest {
+  id: number;
+  created_at: string;
+  confirmation_type: number;
+  inquiry_id: number;
+  enterprise: number;
+  confirmation_type_text: string;
+}
+
+export interface userRequestPagination {
+  count: number;
+  next: string;
+  previous: string;
+}
+
 export type ICompany = Omit<companiesList, 'id'>;
 
 interface ErrorObject {
