@@ -1,17 +1,89 @@
-import { Button, Col, Form } from 'antd';
+import { Button, Col, Form, message } from 'antd';
 import bem from 'easy-bem';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
+import AlertComponent from 'components/AlertComponent/AlertComponent';
 import FormField from 'components/FormField/FormField';
 import 'components/ModalComponent/ModalChildrenComponents/RequestRegisterModal/_requestRegisterModal.scss';
+import { getErrorMessage, removeEmptyValuesFromObject } from 'helper';
+import { accountsSelector, registerUser } from 'redux/accounts/accountsSlice';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
 
-const RequestRegisterModal = () => {
+type Props = {
+  onClose: () => void;
+};
+
+const RequestRegisterModal: React.FC<Props> = ({ onClose }) => {
   const b = bem('RequestRegisterModal');
   const [form] = Form.useForm();
+  const dispatch = useAppDispatch();
+  const { registerUserLoading: loading, registerUserSuccess } = useAppSelector(accountsSelector);
+  const [userData, setUserData] = useState({
+    user: {
+      last_name: '',
+      first_name: '',
+      middle_name: '',
+      email: '',
+      phone: '',
+    },
+    name: '',
+    location: '',
+  });
 
-  const onFinish = (values: any) => {};
+  useEffect(() => {
+    if (userData) {
+      form.setFieldsValue({
+        first_name: userData?.user.first_name,
+        last_name: userData?.user.last_name,
+        middle_name: userData?.user.middle_name,
+        email: userData?.user.email,
+        phone: userData?.user.phone,
+        name: userData?.name,
+        location: userData?.location,
+      });
+    }
+  }, [userData, form]);
 
-  /*  const successSend = (
+  const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+
+    if (name === 'location' || name === 'name') {
+      setUserData({ ...userData, [name]: value });
+    } else {
+      setUserData((prevUserData) => ({
+        ...prevUserData,
+        user: {
+          ...prevUserData.user,
+          [name]: value,
+        },
+      }));
+    }
+  };
+
+  const onFinish = async () => {
+    try {
+      if (userData) {
+        const data = removeEmptyValuesFromObject(userData);
+        await dispatch(registerUser({ data })).unwrap();
+        setUserData({
+          user: {
+            last_name: '',
+            first_name: '',
+            middle_name: '',
+            email: '',
+            phone: '',
+          },
+          name: '',
+          location: '',
+        });
+      }
+    } catch (e) {
+      const errorMessage = getErrorMessage(e, 'username');
+      await message.error(`${errorMessage}`);
+    }
+  };
+
+  const successSend = (
     <>
       <AlertComponent
         message='Спасибо за заявку. Ваш запрос был отправлен модератору'
@@ -21,14 +93,17 @@ const RequestRegisterModal = () => {
       <Button
         className={b('close-form-button')}
         type='primary'
-        style={{ width: '100%', borderRadius: 4 }}
+        style={{ width: '100%', borderRadius: 4, marginTop: 6 }}
+        onClick={onClose}
       >
         Закрыть
       </Button>
     </>
-  ); */
+  );
 
-  return (
+  return registerUserSuccess ? (
+    successSend
+  ) : (
     <Col
       className={b('')}
       xs={{ span: 24, offset: 0 }}
@@ -50,8 +125,10 @@ const RequestRegisterModal = () => {
             id='first_name_id'
             inputClassName={b('username')}
             label='Фамилия'
-            name='first_name'
+            name='last_name'
             placeholder='Фамилия'
+            onChange={inputChangeHandler}
+            rules={[{ required: true, message: 'Введите фамилию' }]}
           />
 
           <FormField
@@ -60,8 +137,10 @@ const RequestRegisterModal = () => {
             id='last_name_id'
             inputClassName={b('username')}
             label='Имя'
-            name='last_name'
+            name='first_name'
             placeholder='Имя'
+            onChange={inputChangeHandler}
+            rules={[{ required: true, message: 'Введите имя' }]}
           />
         </div>
 
@@ -71,8 +150,10 @@ const RequestRegisterModal = () => {
           id='surname_id'
           inputClassName={b('username')}
           label='Отчество'
-          name='surname'
+          name='middle_name'
           placeholder='Отчество'
+          onChange={inputChangeHandler}
+          rules={[{ required: true, message: 'Введите отчество' }]}
         />
 
         <div className={b('form-block')}>
@@ -85,6 +166,8 @@ const RequestRegisterModal = () => {
             label='Email'
             name='email'
             placeholder='Email'
+            onChange={inputChangeHandler}
+            rules={[{ required: true, message: 'Введите email' }]}
           />
 
           <FormField
@@ -94,6 +177,8 @@ const RequestRegisterModal = () => {
             name='phone'
             label='Номер телефона'
             placeholder='Номер телефона'
+            onChange={inputChangeHandler}
+            rules={[{ required: true, message: 'Введите номер телефона' }]}
           />
         </div>
 
@@ -103,8 +188,10 @@ const RequestRegisterModal = () => {
           id='name_of_farm_id'
           inputClassName={b('username')}
           label='Название колхоза/фермы/компании'
-          name='name_of_farm'
+          name='name'
           placeholder='Название колхоза/фермы/компании'
+          onChange={inputChangeHandler}
+          rules={[{ required: true, message: 'Введите название' }]}
         />
 
         <FormField
@@ -113,8 +200,10 @@ const RequestRegisterModal = () => {
           id='region_id'
           inputClassName={b('username')}
           label='Регион расположения'
-          name='region'
+          name='location'
           placeholder='Регион расположения'
+          onChange={inputChangeHandler}
+          rules={[{ required: true, message: 'Введите регион' }]}
         />
 
         <div className={b('form-modal-buttons')}>
@@ -122,7 +211,7 @@ const RequestRegisterModal = () => {
             // disabled={!!commonError}
             type='primary'
             htmlType='submit'
-            // loading={!!loading}
+            loading={loading}
             style={{ width: '100%', borderRadius: 4 }}
             className={b('login-form-button')}
           >

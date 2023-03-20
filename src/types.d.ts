@@ -143,6 +143,18 @@ export interface usersListPagination {
   vehicles_amount: number;
 }
 
+export interface IUserRegister {
+  name: string;
+  location: string;
+  user: {
+    first_name: string;
+    middle_name: string;
+    last_name: string;
+    email: string;
+    phone: string;
+  };
+}
+
 export type ICompany = Omit<companiesList, 'id'>;
 
 interface ErrorObject {
