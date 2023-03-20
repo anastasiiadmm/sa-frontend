@@ -121,8 +121,8 @@ const RequestRegisterModal: React.FC<Props> = ({ onClose }) => {
         <div className={b('form-block')}>
           <FormField
             bordered
-            data-testid='first_name_id'
-            id='first_name_id'
+            data-testid='last_name_id'
+            id='last_name_id'
             inputClassName={b('username')}
             label='Фамилия'
             name='last_name'
@@ -133,8 +133,8 @@ const RequestRegisterModal: React.FC<Props> = ({ onClose }) => {
 
           <FormField
             bordered
-            data-testid='last_name_id'
-            id='last_name_id'
+            data-testid='first_name_id'
+            id='first_name_id'
             inputClassName={b('username')}
             label='Имя'
             name='first_name'
@@ -146,8 +146,8 @@ const RequestRegisterModal: React.FC<Props> = ({ onClose }) => {
 
         <FormField
           bordered
-          data-testid='surname_id'
-          id='surname_id'
+          data-testid='middle_name_id'
+          id='missle_name_id'
           inputClassName={b('username')}
           label='Отчество'
           name='middle_name'
@@ -196,8 +196,8 @@ const RequestRegisterModal: React.FC<Props> = ({ onClose }) => {
 
         <FormField
           bordered
-          data-testid='region_id'
-          id='region_id'
+          data-testid='location_id'
+          id='location_id'
           inputClassName={b('username')}
           label='Регион расположения'
           name='location'
