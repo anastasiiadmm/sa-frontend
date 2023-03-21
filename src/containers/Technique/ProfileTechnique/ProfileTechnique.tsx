@@ -8,6 +8,8 @@ import { Link, useParams } from 'react-router-dom';
 import arrowLeft from 'assets/images/icons/arrow-left.svg';
 import FormField from 'components/FormField/FormField';
 import TableComponent from 'components/TableComponent/TableComponent';
+import { accountsSelector, fetchVehicleInfo } from 'redux/accounts/accountsSlice';
+import { authSelector } from 'redux/auth/authSlice';
 import { companiesSelector, fetchUserVehicleInfo } from 'redux/companies/companiesSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { userVehicleInfo } from 'types';
@@ -20,12 +22,22 @@ const ProfileTechnique = () => {
   const b = bem('ProfileTechnique');
   const dispatch = useAppDispatch();
   const { userId, vehicleId } = useParams() as { userId: string; vehicleId: string };
-  const { userVehicleInfo, userVehicleInfoLoading } = useAppSelector(companiesSelector);
+  const { userVehicleInfo: managerVehicle, userVehicleInfoLoading: managerLoading } =
+    useAppSelector(companiesSelector);
+  const { userVehicleInfo: userVehicle, userVehicleInfoLoading: userLoading } =
+    useAppSelector(accountsSelector);
   const [form] = Form.useForm();
+  const { user } = useAppSelector(authSelector);
   const [state, setState] = useState<userVehicleInfo[]>([]);
+  const userVehicleInfo = user?.is_manager ? managerVehicle : userVehicle;
+  const userVehicleInfoLoading = user?.is_manager ? managerLoading : userLoading;
 
   useEffect(() => {
-    dispatch(fetchUserVehicleInfo({ userId, vehicleId }));
+    if (user?.is_manager) {
+      dispatch(fetchUserVehicleInfo({ userId, vehicleId }));
+    } else {
+      dispatch(fetchVehicleInfo({ vehicleId }));
+    }
   }, [dispatch]);
 
   useEffect(() => {
@@ -152,7 +164,7 @@ const ProfileTechnique = () => {
       <div className={b('table')}>
         <div className={b('header')}>
           <div className={b('header-title')}>
-            <Link to={`/user-technique/${userId}`}>
+            <Link to={user?.is_manager ? `/user-technique/${userId}` : '/'}>
               <img className={b('arrow-left')} src={arrowLeft} alt='arrow' />
             </Link>
             <Title level={3} className={b('title')}>
