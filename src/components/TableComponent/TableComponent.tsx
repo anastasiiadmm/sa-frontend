@@ -2,7 +2,7 @@ import { Table } from 'antd';
 import React, { Key } from 'react';
 
 import PaginationComponent from 'components/TableComponent/PaginationComponent/PaginationComponent';
-import { companiesList, userVehicleInfo, userVehicles, userVehiclesPagination } from "types";
+import { companiesList, userVehicleInfo, userVehicles, userVehiclesPagination } from 'types';
 
 interface Props {
   data: any | undefined;
@@ -13,6 +13,7 @@ interface Props {
   params?: userVehiclesPagination | undefined | null;
   pagePrevHandler?: () => void;
   pageNextHandler?: () => void;
+  disabledButton?: boolean;
 }
 
 const TableComponent: React.FC<Props> = ({
@@ -24,6 +25,7 @@ const TableComponent: React.FC<Props> = ({
   params,
   pagePrevHandler,
   pageNextHandler,
+  disabledButton,
 }) => {
   return (
     <>
@@ -42,6 +44,7 @@ const TableComponent: React.FC<Props> = ({
         params={params}
         pagePrevHandler={pagePrevHandler}
         pageNextHandler={pageNextHandler}
+        disabledButton={disabledButton}
       />
     </>
   );

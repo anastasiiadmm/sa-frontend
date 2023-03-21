@@ -109,13 +109,17 @@ const ProfileTechnique = () => {
       },
     },
     {
-      key: 'work_area',
+      key: 'leftRight',
       title: 'Смещение',
       dataIndex: 'description',
       filterSearch: true,
       width: '15%',
       render: (text: string, record) => {
-        return <p className={b('name-column-style')}>{record?.processing_data[0]?.work_area}</p>;
+        return (
+          <p className={b('name-column-style')}>
+            {record?.processing_data[0]?.attachments?.leftRight} м
+          </p>
+        );
       },
     },
     {
@@ -125,7 +129,7 @@ const ProfileTechnique = () => {
       filterSearch: true,
       width: '21%',
       render: (text: string, record) => {
-        return <p className={b('name-column-style')}>{record?.processing_data[0]?.work_area}</p>;
+        return <p className={b('name-column-style')}>{record?.processing_data[0]?.work_area} га</p>;
       },
     },
     {
@@ -241,6 +245,7 @@ const ProfileTechnique = () => {
           loading={userVehicleInfoLoading}
           columns={columns}
           data={state}
+          disabledButton
         />
       </div>
     </div>
