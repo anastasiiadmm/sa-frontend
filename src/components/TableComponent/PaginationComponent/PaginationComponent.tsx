@@ -8,8 +8,8 @@ import 'components/TableComponent/PaginationComponent/_paginationComponent.scss'
 
 interface Props {
   params: userVehiclesPagination | null | undefined;
-  pagePrevHandler: () => void;
-  pageNextHandler: () => void;
+  pagePrevHandler?: () => void;
+  pageNextHandler?: () => void;
 }
 
 const PaginationComponent: React.FC<Props> = ({ params, pagePrevHandler, pageNextHandler }) => {

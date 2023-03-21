@@ -125,24 +125,26 @@ const UserTechnique: React.FC = () => {
       dataIndex: 'profile',
       filterSearch: true,
       width: '40%',
-      render: () => (
-        <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
-          <Link className={b('profile-link')} to='/user-profile'>
-            Просмотр на карте
-          </Link>
-          <Button type='text' onClick={showEditModal}>
-            <img src={edit} alt='edit' className='link-icons' />
-          </Button>
-          <Link to='/profile-technique'>
-            <Button type='text'>
-              <img src={tractorBlue} alt='tractorBlue' className={b('tractor-blue link-icons')} />
+      render: (text: string, record: vehicleList) => {
+        return (
+          <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
+            <Link className={b('profile-link')} to='/user-profile'>
+              Просмотр на карте
+            </Link>
+            <Button type='text' onClick={showEditModal}>
+              <img src={edit} alt='edit' className='link-icons' />
             </Button>
-          </Link>
-          <Button type='text' onClick={showDeleteModal}>
-            <img src={deleteIcon} alt='deleteIcon' className='link-icons' />
-          </Button>
-        </div>
-      ),
+            <Link to={`/profile-technique/${id}/${record?.id}`}>
+              <Button type='text'>
+                <img src={tractorBlue} alt='tractorBlue' className={b('tractor-blue link-icons')} />
+              </Button>
+            </Link>
+            <Button type='text' onClick={showDeleteModal}>
+              <img src={deleteIcon} alt='deleteIcon' className='link-icons' />
+            </Button>
+          </div>
+        );
+      },
     },
   ];
 

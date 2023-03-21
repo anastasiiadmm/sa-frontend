@@ -6,6 +6,7 @@ import {
   companiesList,
   ICompany,
   usersListPagination,
+  userVehicleInfo,
   vehicleList,
   vehicleListPagination,
 } from 'types';
@@ -36,6 +37,9 @@ interface CompaniesState {
   fetchVehicleListLoading: boolean;
   fetchVehicleListError: Object | null;
   vehicleListPagination: vehicleListPagination | null;
+  userVehicleInfo: userVehicleInfo | null;
+  userVehicleInfoLoading: boolean;
+  userVehicleInfoError: Object | null;
 }
 
 const INITIAL_STATE = {
@@ -78,6 +82,10 @@ const INITIAL_STATE = {
   fetchVehicleListLoading: false,
   fetchVehicleListError: null,
   vehicleListPagination: null,
+
+  userVehicleInfo: null,
+  userVehicleInfoLoading: false,
+  userVehicleInfoError: null,
 } as CompaniesState;
 
 interface fetchCompaniesParams {
@@ -243,6 +251,36 @@ export const fetchUserVehicleList = createAsyncThunk<companiesList, fetchVehicle
   },
 );
 
+interface fetchUserVehicleInfoParams {
+  userId: string | undefined;
+  vehicleId: string | undefined;
+}
+
+export const fetchUserVehicleInfo = createAsyncThunk<userVehicleInfo, fetchUserVehicleInfoParams>(
+  `${nameSpace}/fetchUserVehicleInfo`,
+  async (data, { rejectWithValue }) => {
+    try {
+      const resp = await axiosApi.get<userVehicleInfo | null>(
+        `/companies/${data?.userId}/vehicle/${data?.vehicleId}/`,
+      );
+
+      const userVehicleInfo = resp.data;
+
+      if (userVehicleInfo === null) {
+        throw new Error('Not Found!');
+      }
+
+      return userVehicleInfo;
+    } catch (e) {
+      let error = e?.response?.data;
+      if (!e.response) {
+        error = defaultError;
+      }
+      return rejectWithValue(error);
+    }
+  },
+);
+
 const companiesSlice = createSlice({
   name: nameSpace,
   initialState: INITIAL_STATE,
@@ -353,6 +391,19 @@ const companiesSlice = createSlice({
     builder.addCase(fetchUserVehicleList.rejected, (state, { payload }: any) => {
       state.fetchVehicleListLoading = false;
       state.fetchVehicleListError = payload?.detail;
+    });
+
+    builder.addCase(fetchUserVehicleInfo.pending, (state) => {
+      state.userVehicleInfoLoading = true;
+      state.userVehicleInfoError = null;
+    });
+    builder.addCase(fetchUserVehicleInfo.fulfilled, (state, { payload: userVehicleInfo }: any) => {
+      state.userVehicleInfoLoading = false;
+      state.userVehicleInfo = userVehicleInfo;
+    });
+    builder.addCase(fetchUserVehicleInfo.rejected, (state, { payload }: any) => {
+      state.userVehicleInfoLoading = false;
+      state.userVehicleInfoError = payload?.detail;
     });
   },
 });
