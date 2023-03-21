@@ -72,7 +72,12 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
         <span>{user?.is_manager ? 'Менеджер' : 'Пользователь'}</span>
       </p>,
       'sub1',
-      <Avatar className='avatar-profile' size='large' icon={<UserOutlined />} />,
+      <Avatar
+        className='avatar-profile'
+        size='large'
+        src={user?.is_manager ? `https://agri.ltestl.com${manager?.image}` : null}
+        icon={<UserOutlined />}
+      />,
       [
         getItem(
           'Профиль',
