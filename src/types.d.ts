@@ -178,6 +178,7 @@ export interface vehicleListPagination {
 export interface userVehicleInfo {
   id: number;
   image: string;
+  code: string;
   processing_data: [
     {
       attachments: {

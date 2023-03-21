@@ -156,7 +156,7 @@ const ProfileTechnique = () => {
               <img className={b('arrow-left')} src={arrowLeft} alt='arrow' />
             </Link>
             <Title level={3} className={b('title')}>
-              Профиль техники - <p className={b('subtitle')}> {state[0]?.vin_code} </p> -{' '}
+              Профиль техники - <p className={b('subtitle')}> {state[0]?.code} </p> -{' '}
               {`${state[0]?.last_name} ${state[0]?.first_name?.charAt(
                 0,
               )}. ${state[0]?.middle_name?.charAt(0)}.`}
