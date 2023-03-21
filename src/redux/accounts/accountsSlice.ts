@@ -8,6 +8,8 @@ import {
   IUserAccount,
   IUserRegister,
   updateManagerDataMutation,
+  userRequest,
+  userRequestPagination,
   userVehicles,
   userVehiclesPagination,
   ValidationUpdateManagerProfile,
@@ -36,6 +38,10 @@ interface AccountsState {
   registerUserLoading: boolean;
   registerUserError: Object | null;
   registerUserSuccess: boolean | null;
+  requests: userRequest[] | undefined;
+  requestsPagination: userRequestPagination | null;
+  fetchRequestsLoading: boolean;
+  fetchRequestsError: Object | null;
 }
 
 const INITIAL_STATE = {
@@ -67,6 +73,10 @@ const INITIAL_STATE = {
   registerUserLoading: false,
   registerUserError: null,
   registerUserSuccess: false,
+  requests: undefined,
+  requestsPagination: null,
+  fetchRequestsLoading: false,
+  fetchRequestsError: null,
 } as AccountsState;
 
 export const fetchManager = createAsyncThunk(
@@ -184,6 +194,42 @@ export const registerUser = createAsyncThunk<void, registerUserParams>(
   },
 );
 
+interface fetchRequestsParams {
+  data?: {
+    query?: {
+      page?: number | undefined;
+    };
+  };
+}
+
+export const fetchRequests = createAsyncThunk<userRequest, fetchRequestsParams>(
+  'accounts/fetchRequests',
+  async ({ data }, { rejectWithValue }) => {
+    try {
+      let query = '';
+      if (data?.query) {
+        query = toQueryParams(data.query);
+      }
+      const resp = await axiosApi.get<userRequest | null>(
+        `/accounts/manager/confirmation/${query}`,
+      );
+      const requests = resp.data;
+
+      if (requests === null) {
+        throw new Error('Not Found!');
+      }
+
+      return requests;
+    } catch (e) {
+      let error = e?.response?.data;
+      if (!e.response) {
+        error = defaultError;
+      }
+      return rejectWithValue(error);
+    }
+  },
+);
+
 const accountsSlice = createSlice({
   name: nameSpace,
   initialState: INITIAL_STATE,
@@ -287,6 +333,25 @@ const accountsSlice = createSlice({
       state.registerUserLoading = false;
       state.registerUserError = payload;
       state.registerUserSuccess = false;
+    });
+    builder.addCase(fetchRequests.pending, (state) => {
+      state.fetchRequestsLoading = true;
+      state.fetchRequestsError = null;
+    });
+    builder.addCase(fetchRequests.fulfilled, (state, { payload }: any) => {
+      state.requests = payload.results;
+      state.fetchRequestsLoading = false;
+      state.fetchRequestsError = null;
+      state.requestsPagination = {
+        ...state.requestsPagination,
+        count: payload.count,
+        next: payload.links.next,
+        previous: payload.links.previous,
+      };
+    });
+    builder.addCase(fetchRequests.rejected, (state, { payload }: any) => {
+      state.fetchRequestsLoading = false;
+      state.fetchRequestsError = payload?.detail;
     });
   },
 });
