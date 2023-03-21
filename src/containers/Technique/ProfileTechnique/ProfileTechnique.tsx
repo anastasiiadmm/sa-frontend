@@ -11,6 +11,7 @@ import TableComponent from 'components/TableComponent/TableComponent';
 import { companiesSelector, fetchUserVehicleInfo } from 'redux/companies/companiesSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { userVehicleInfo } from 'types';
+import { apiUrlCrop } from 'utils/config';
 import 'containers/Technique/ProfileTechnique/_profileTechnique.scss';
 
 const { Title } = Typography;
@@ -29,7 +30,7 @@ const ProfileTechnique = () => {
 
   useEffect(() => {
     if (userVehicleInfo) {
-      setState((prevState) => [...prevState, userVehicleInfo]);
+      setState([userVehicleInfo]);
     }
   }, [userVehicleInfo]);
 
@@ -173,7 +174,7 @@ const ProfileTechnique = () => {
 
         <div className={b('technique-profile-info')}>
           <Image
-            src={`https://agri.ltestl.com${state[0]?.image}`}
+            src={apiUrlCrop + (state[0] ? state[0].image : '')}
             width={242}
             style={{ borderRadius: 4 }}
           />
