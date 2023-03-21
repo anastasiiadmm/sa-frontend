@@ -4,6 +4,14 @@
     background: #ffffff;
   }
 
+  &__image-styles {
+    width: 48px;
+    height: 50px;
+    overflow: clip;
+    border-radius: 3px;
+    object-fit: cover;
+  }
+
   &__arrow-left {
     padding: 0 10px;
     cursor: pointer;

@@ -13,6 +13,7 @@ import TableComponent from 'components/TableComponent/TableComponent';
 import { accountsSelector, fetchUser, fetchUserVehicles } from 'redux/accounts/accountsSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { userVehicles } from 'types';
+import { apiUrlCrop } from 'utils/config';
 import 'containers/User/Technique/_technique.scss';
 
 const { Title } = Typography;
@@ -74,7 +75,7 @@ const Technique = () => {
           <div style={{ display: 'flex', gap: 12 }}>
             <img
               className={b('image-styles')}
-              src={record.image ? `https://agri.ltestl.com${record.image}` : tractor}
+              src={record.image ? `${apiUrlCrop}${record.image}` : tractor}
               alt='tractor'
             />
             <p className={b('name-column-style')}>{record.code}</p>

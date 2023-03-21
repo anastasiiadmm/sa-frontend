@@ -176,3 +176,58 @@ export type ICompany = Omit<companiesList, 'id'>;
 interface ErrorObject {
   [key: string]: string | string[] | ErrorObject;
 }
+
+export interface vehicleList {
+  id: number;
+  image: string;
+  processing_data: string;
+  code: string;
+  vin_code: string;
+  state_number: string;
+  description: string;
+  first_name: string;
+  middle_name: string;
+  last_name: string;
+  last_latitude: string;
+  last_longitude: string;
+  enterprise: number;
+  vehicle_fields_data: {
+    field_count: number;
+    processed_area: number | null;
+  };
+}
+
+export interface vehicleListPagination {
+  count: number;
+  next: string;
+  previous: string;
+}
+
+export interface userVehicleInfo {
+  id: number;
+  image: string;
+  code: string;
+  processing_data: [
+    {
+      attachments: {
+        frontBack: string;
+        leftRight: string;
+        skipOverlap: string;
+        toolsName: string;
+        toolsWidth: string;
+        toolsWidthResult: string;
+      };
+      field_name: string;
+      work_area: number;
+    },
+  ];
+  vin_code: string;
+  state_number: string;
+  description: string;
+  first_name: string;
+  middle_name: string;
+  last_name: string;
+  last_latitude: string;
+  last_longitude: string;
+  enterprise: number;
+}

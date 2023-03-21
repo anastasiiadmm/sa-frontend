@@ -179,7 +179,7 @@ const UserProfile: React.FC = () => {
                 Петр В.И
               </Title>
 
-              <Link to='/user-technique'>
+              <Link to={`/user-technique/${id}`}>
                 <Card className={b('user-card-style')} bordered={false} style={{ width: 350 }}>
                   <img src={tractorBlue} alt='tractorBlue' />
                   <div className={b('card-content')}>

@@ -1,3 +1,5 @@
+@use 'assets/scss/_themes.scss';
+
 .ProfileTechnique {
   &__table {
     padding: 16px;
@@ -51,7 +53,17 @@
     margin-top: 0;
   }
 
-  :where(.css-dev-only-do-not-override-sk7ap8).ant-form-vertical .ant-form-item-label, :where(.css-dev-only-do-not-override-sk7ap8).ant-col-24.ant-form-item-label, :where(.css-dev-only-do-not-override-sk7ap8).ant-col-xl-24.ant-form-item-label {
+  .ant-input {
+    padding: 0;
+  }
+
+  .ant-form-item .ant-form-item-label > label {
+    color: themes.$gray-color;
+  }
+
+  :where(.css-dev-only-do-not-override-sk7ap8).ant-form-vertical .ant-form-item-label,
+  :where(.css-dev-only-do-not-override-sk7ap8).ant-col-24.ant-form-item-label,
+  :where(.css-dev-only-do-not-override-sk7ap8).ant-col-xl-24.ant-form-item-label {
     padding: 0;
   }
 

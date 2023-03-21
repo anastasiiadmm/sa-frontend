@@ -2,7 +2,14 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { message } from 'antd';
 
 import { RootState } from 'redux/hooks';
-import { companiesList, ICompany, usersListPagination } from 'types';
+import {
+  companiesList,
+  ICompany,
+  usersListPagination,
+  userVehicleInfo,
+  vehicleList,
+  vehicleListPagination,
+} from 'types';
 import axiosApi from 'utils/axios-api';
 import { defaultError } from 'utils/config';
 import toQueryParams from 'utils/toQueryParams';
@@ -26,6 +33,13 @@ interface CompaniesState {
   updateUserDataError: Object | null;
   deleteUserInfoLoading: boolean;
   deleteUserInfoError: Object | null;
+  vehicleList: vehicleList | null;
+  fetchVehicleListLoading: boolean;
+  fetchVehicleListError: Object | null;
+  vehicleListPagination: vehicleListPagination | null;
+  userVehicleInfo: userVehicleInfo | null;
+  userVehicleInfoLoading: boolean;
+  userVehicleInfoError: Object | null;
 }
 
 const INITIAL_STATE = {
@@ -63,6 +77,15 @@ const INITIAL_STATE = {
 
   deleteUserInfoLoading: false,
   deleteUserInfoError: null,
+
+  vehicleList: null,
+  fetchVehicleListLoading: false,
+  fetchVehicleListError: null,
+  vehicleListPagination: null,
+
+  userVehicleInfo: null,
+  userVehicleInfoLoading: false,
+  userVehicleInfoError: null,
 } as CompaniesState;
 
 interface fetchCompaniesParams {
@@ -191,6 +214,73 @@ export const deleteUserInfo = createAsyncThunk<void, string>(
   },
 );
 
+interface fetchVehicleParams {
+  data?: {
+    userId: string;
+    query?: {
+      page?: number | undefined;
+    };
+  };
+}
+
+export const fetchUserVehicleList = createAsyncThunk<companiesList, fetchVehicleParams>(
+  'accounts/fetchUserVehicleList',
+  async ({ data }, { rejectWithValue }) => {
+    try {
+      let query = '';
+      if (data?.query) {
+        query = toQueryParams(data.query);
+      }
+      const resp = await axiosApi.get<companiesList | null>(
+        `/companies/${data?.userId}/vehicles/${query}`,
+      );
+      const companies = resp.data;
+
+      if (companies === null) {
+        throw new Error('Not Found!');
+      }
+
+      return companies;
+    } catch (e) {
+      let error = e?.response?.data;
+      if (!e.response) {
+        error = defaultError;
+      }
+      return rejectWithValue(error);
+    }
+  },
+);
+
+interface fetchUserVehicleInfoParams {
+  userId: string | undefined;
+  vehicleId: string | undefined;
+}
+
+export const fetchUserVehicleInfo = createAsyncThunk<userVehicleInfo, fetchUserVehicleInfoParams>(
+  `${nameSpace}/fetchUserVehicleInfo`,
+  async (data, { rejectWithValue }) => {
+    try {
+      const resp = await axiosApi.get<userVehicleInfo | null>(
+        `/companies/${data?.userId}/vehicle/${data?.vehicleId}/`,
+      );
+
+      const userVehicleInfo = resp.data;
+
+      if (userVehicleInfo === null) {
+        throw new Error('Not Found!');
+      }
+
+      return userVehicleInfo;
+    } catch (e) {
+      let error = e?.response?.data;
+      if (!e.response) {
+        error = defaultError;
+      }
+      return rejectWithValue(error);
+    }
+  },
+);
+
 const companiesSlice = createSlice({
   name: nameSpace,
   initialState: INITIAL_STATE,
@@ -281,6 +371,39 @@ const companiesSlice = createSlice({
     builder.addCase(deleteUserInfo.rejected, (state, { payload }: any) => {
       state.deleteUserInfoLoading = false;
       state.deleteUserInfoError = payload?.detail;
+    });
+
+    builder.addCase(fetchUserVehicleList.pending, (state) => {
+      state.fetchVehicleListLoading = true;
+      state.fetchVehicleListError = null;
+    });
+    builder.addCase(fetchUserVehicleList.fulfilled, (state, { payload }: any) => {
+      state.fetchVehicleListLoading = false;
+      state.fetchVehicleListError = null;
+      state.vehicleList = payload.results;
+      state.vehicleListPagination = {
+        ...state.vehicleListPagination,
+        count: payload.count,
+        next: payload.links.next,
+        previous: payload.links.previous,
+      };
+    });
+    builder.addCase(fetchUserVehicleList.rejected, (state, { payload }: any) => {
+      state.fetchVehicleListLoading = false;
+      state.fetchVehicleListError = payload?.detail;
+    });
+
+    builder.addCase(fetchUserVehicleInfo.pending, (state) => {
+      state.userVehicleInfoLoading = true;
+      state.userVehicleInfoError = null;
+    });
+    builder.addCase(fetchUserVehicleInfo.fulfilled, (state, { payload: userVehicleInfo }: any) => {
+      state.userVehicleInfoLoading = false;
+      state.userVehicleInfo = userVehicleInfo;
+    });
+    builder.addCase(fetchUserVehicleInfo.rejected, (state, { payload }: any) => {
+      state.userVehicleInfoLoading = false;
+      state.userVehicleInfoError = payload?.detail;
     });
   },
 });

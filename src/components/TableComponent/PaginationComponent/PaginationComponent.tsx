@@ -8,11 +8,17 @@ import 'components/TableComponent/PaginationComponent/_paginationComponent.scss'
 
 interface Props {
   params: userVehiclesPagination | null | undefined;
-  pagePrevHandler: () => void;
-  pageNextHandler: () => void;
+  pagePrevHandler?: () => void;
+  pageNextHandler?: () => void;
+  disabledButton?: boolean;
 }
 
-const PaginationComponent: React.FC<Props> = ({ params, pagePrevHandler, pageNextHandler }) => {
+const PaginationComponent: React.FC<Props> = ({
+  params,
+  pagePrevHandler,
+  pageNextHandler,
+  disabledButton,
+}) => {
   const b = bem('pagination');
 
   return (
@@ -21,14 +27,14 @@ const PaginationComponent: React.FC<Props> = ({ params, pagePrevHandler, pageNex
         <div className='glav_pagination'>
           <div className='next_table'>
             <Button
-              disabled={params?.previous === null}
+              disabled={params?.previous === null || disabledButton}
               onClick={pagePrevHandler}
               icon={<img src={nextIcons} alt='backIcons' />}
               className='pagination_buttons pagination_buttons-prev'
             />
             <Button
               role='button'
-              disabled={params?.next === null}
+              disabled={params?.next === null || disabledButton}
               onClick={pageNextHandler}
               icon={<img src={nextIcons} alt='nextIcons' />}
               className='pagination_buttons pagination_buttons-next'
