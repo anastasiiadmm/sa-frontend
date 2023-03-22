@@ -1,4 +1,5 @@
-import { Button, Typography } from 'antd';
+import { EyeOutlined } from '@ant-design/icons';
+import { Button, Tooltip, Typography } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import bem from 'easy-bem';
 import React, { useEffect, useState } from 'react';
@@ -138,18 +139,24 @@ const UserRequests = () => {
       filterSearch: true,
       width: '20%',
       render: (text, row) => (
-        <Button
-          type='link'
-          onClick={
-            row?.confirmation_type === 2
-              ? showUserInfoModal
-              : row?.confirmation_type === 3
-              ? showTechniqueModal
-              : showRegisterUserModal
-          }
+        <Tooltip
+          title='Просмотреть запрос'
+          color='#BBBBBB'
+          overlayInnerStyle={{ padding: '5px 15px', borderRadius: 15 }}
         >
-          Просмотр запроса
-        </Button>
+          <Button
+            type='link'
+            onClick={
+              row?.confirmation_type === 2
+                ? showUserInfoModal
+                : row?.confirmation_type === 3
+                ? showTechniqueModal
+                : showRegisterUserModal
+            }
+          >
+            <EyeOutlined style={{ fontSize: '20px' }} />
+          </Button>
+        </Tooltip>
       ),
     },
   ];

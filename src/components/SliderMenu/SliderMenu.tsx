@@ -9,6 +9,7 @@ import logo from 'assets/images/logo.png';
 import { accountsSelector, fetchManager, fetchUser } from 'redux/accounts/accountsSlice';
 import { authSelector, logoutUser } from 'redux/auth/authSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { apiUrlCrop } from 'utils/config';
 import { logoutLocalStorage } from 'utils/token';
 import 'components/SliderMenu/_sliderMenu.scss';
 
@@ -75,7 +76,7 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
       <Avatar
         className='avatar-profile'
         size='large'
-        src={user?.is_manager ? `https://agri.ltestl.com${manager?.image}` : null}
+        src={user?.is_manager && manager?.image ? `${apiUrlCrop}${manager?.image}` : null}
         icon={<UserOutlined />}
       />,
       [

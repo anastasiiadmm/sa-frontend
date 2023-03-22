@@ -1,4 +1,5 @@
-import { Button, Typography } from 'antd';
+import { EyeOutlined } from '@ant-design/icons';
+import { Button, Tooltip, Typography } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import bem from 'easy-bem';
 import React, { useEffect, useState } from 'react';
@@ -128,21 +129,53 @@ const UserTechnique: React.FC = () => {
       width: '40%',
       render: (text: string, record: vehicleList) => {
         return (
-          <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
-            <Link className={b('profile-link')} to='/user-profile'>
-              Просмотр на карте
-            </Link>
-            <Button type='text' onClick={showEditModal}>
-              <img src={edit} alt='edit' className='link-icons' />
-            </Button>
-            <Link to={`/profile-technique/${id}/${record?.id}`}>
-              <Button type='text'>
-                <img src={tractorBlue} alt='tractorBlue' className={b('tractor-blue link-icons')} />
+          <div style={{ display: 'flex', gap: 10, alignItems: 'center', justifyContent: 'right' }}>
+            <Tooltip
+              title='Редактировать'
+              color='#BBBBBB'
+              overlayInnerStyle={{ padding: '5px 15px', borderRadius: 15 }}
+            >
+              <Button type='text' onClick={showEditModal}>
+                <img src={edit} alt='edit' className='link-icons' />
               </Button>
-            </Link>
-            <Button type='text' onClick={showDeleteModal}>
-              <img src={deleteIcon} alt='deleteIcon' className='link-icons' />
-            </Button>
+            </Tooltip>
+
+            <Tooltip
+              title='Просмотреть профиль'
+              color='#BBBBBB'
+              overlayInnerStyle={{ padding: '5px 15px', borderRadius: 15 }}
+            >
+              <Link to={`/profile-technique/${id}/${record?.id}`}>
+                <Button type='text'>
+                  <img
+                    src={tractorBlue}
+                    alt='tractorBlue'
+                    className={b('tractor-blue link-icons')}
+                  />
+                </Button>
+              </Link>
+            </Tooltip>
+
+            <Tooltip
+              title='Просмотреть на карте'
+              color='#BBBBBB'
+              overlayInnerStyle={{ padding: '5px 15px', borderRadius: 15 }}
+            >
+              <Link to='/open-map'>
+                <Button type='text' style={{ display: 'flex', alignItems: 'center' }}>
+                  <EyeOutlined style={{ fontSize: '27px', color: '#1358bf' }} />
+                </Button>
+              </Link>
+            </Tooltip>
+            <Tooltip
+              title='Удалить'
+              color='#BBBBBB'
+              overlayInnerStyle={{ padding: '5px 15px', borderRadius: 15 }}
+            >
+              <Button type='text' onClick={showDeleteModal}>
+                <img src={deleteIcon} alt='deleteIcon' className='link-icons' />
+              </Button>
+            </Tooltip>
           </div>
         );
       },

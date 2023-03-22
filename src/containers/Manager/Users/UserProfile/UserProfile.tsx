@@ -153,6 +153,7 @@ const UserProfile: React.FC = () => {
     try {
       if (userData) {
         const data = removeEmptyValuesFromObject(userData);
+        delete data.user.image;
         await dispatch(updateUserInfo({ id, data })).unwrap();
         history('/');
       }
