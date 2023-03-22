@@ -1,4 +1,3 @@
-import { EyeOutlined } from '@ant-design/icons';
 import { Button, Form, Image, Typography } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import bem from 'easy-bem';
@@ -6,6 +5,8 @@ import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
 import arrowLeft from 'assets/images/icons/arrow-left.svg';
+import planet from 'assets/images/icons/planet.svg';
+import tractorBlue from 'assets/images/icons/tractor-blue.svg';
 import FormField from 'components/FormField/FormField';
 import TableComponent from 'components/TableComponent/TableComponent';
 import { accountsSelector, fetchVehicleInfo } from 'redux/accounts/accountsSlice';
@@ -150,9 +151,9 @@ const ProfileTechnique = () => {
       filterSearch: true,
       width: '23%',
       render: () => (
-        <div style={{ display: 'flex', gap: 37 }}>
+        <div style={{ display: 'flex', gap: 37, justifyContent: 'right' }}>
           <Link className={b('profile-link')} to='/open-map'>
-            Просмотр на карте
+            <img src={planet} alt='Просмотреть на карте' width={20} />
           </Link>
         </div>
       ),
@@ -177,7 +178,12 @@ const ProfileTechnique = () => {
 
           <div>
             <Link to='/open-map'>
-              <Button type='link' icon={<EyeOutlined />} size='large'>
+              <Button
+                type='link'
+                icon={<img src={tractorBlue} alt='' width={18} />}
+                size='large'
+                className={b('open-map')}
+              >
                 Техника на карте
               </Button>
             </Link>
