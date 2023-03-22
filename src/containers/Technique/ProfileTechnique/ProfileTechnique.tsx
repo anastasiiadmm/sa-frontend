@@ -13,7 +13,7 @@ import { accountsSelector, fetchVehicleInfo } from 'redux/accounts/accountsSlice
 import { authSelector } from 'redux/auth/authSlice';
 import { companiesSelector, fetchUserVehicleInfo } from 'redux/companies/companiesSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { userVehicleInfo } from 'types';
+import { fieldsList, userVehicleInfo } from 'types';
 import { apiUrlCrop } from 'utils/config';
 import 'containers/Technique/ProfileTechnique/_profileTechnique.scss';
 
@@ -30,6 +30,7 @@ const ProfileTechnique = () => {
   const [form] = Form.useForm();
   const { user } = useAppSelector(authSelector);
   const [state, setState] = useState<userVehicleInfo[]>([]);
+  const [fields, setFields] = useState<fieldsList[]>([]);
   const userVehicleInfo = user?.is_manager ? managerVehicle : userVehicle;
   const userVehicleInfoLoading = user?.is_manager ? managerLoading : userLoading;
 
@@ -44,6 +45,7 @@ const ProfileTechnique = () => {
   useEffect(() => {
     if (userVehicleInfo) {
       setState([userVehicleInfo]);
+      setFields(userVehicleInfo.processing_data);
     }
   }, [userVehicleInfo]);
 
@@ -62,16 +64,13 @@ const ProfileTechnique = () => {
     }
   }, [state]);
 
-  const columns: ColumnsType<userVehicleInfo> = [
+  const columns: ColumnsType<fieldsList> = [
     {
       key: 'processing_data',
       title: 'Поля техники',
-      dataIndex: 'fields',
+      dataIndex: 'field_name',
       width: '18%',
       fixed: 'left',
-      render: (text: string, record) => {
-        return <p className={b('name-column-style')}>{record?.processing_data[0]?.field_name}</p>;
-      },
     },
     {
       key: 'description',
@@ -79,61 +78,48 @@ const ProfileTechnique = () => {
       dataIndex: 'description',
       filterSearch: true,
       width: '17%',
+      render: (text: string, record) => {
+        return <p className={b('name-column-style')}>{record?.attachments?.toolsName}</p>;
+      },
     },
     {
       key: 'toolsWidth',
       title: 'Обрабатываемая ширина',
-      dataIndex: 'description',
+      dataIndex: 'toolsWidth',
       filterSearch: true,
       width: '24%',
       render: (text: string, record) => {
-        return (
-          <p className={b('name-column-style')}>
-            {record?.processing_data[0]?.attachments?.toolsWidth} м
-          </p>
-        );
+        return <p className={b('name-column-style')}>{record?.attachments?.toolsWidth} м</p>;
       },
     },
     {
       key: 'skipOverlap',
       title: 'Ширина перекрытия',
-      dataIndex: 'description',
+      dataIndex: 'skipOverlap',
       filterSearch: true,
       width: '17%',
       render: (text: string, record) => {
-        return (
-          <p className={b('name-column-style')}>
-            {record?.processing_data[0]?.attachments?.skipOverlap} м
-          </p>
-        );
+        return <p className={b('name-column-style')}>{record?.attachments?.skipOverlap} м</p>;
       },
     },
     {
       key: 'toolsWidthResult',
       title: 'Итоговая ширина',
-      dataIndex: 'description',
+      dataIndex: 'toolsWidthResult',
       filterSearch: true,
       width: '15%',
       render: (text: string, record) => {
-        return (
-          <p className={b('name-column-style')}>
-            {record?.processing_data[0]?.attachments?.toolsWidthResult} м
-          </p>
-        );
+        return <p className={b('name-column-style')}>{record?.attachments?.toolsWidthResult} м</p>;
       },
     },
     {
       key: 'leftRight',
       title: 'Смещение',
-      dataIndex: 'description',
+      dataIndex: 'leftRight',
       filterSearch: true,
       width: '15%',
       render: (text: string, record) => {
-        return (
-          <p className={b('name-column-style')}>
-            {record?.processing_data[0]?.attachments?.leftRight} м
-          </p>
-        );
+        return <p className={b('name-column-style')}>{record?.attachments?.leftRight} м</p>;
       },
     },
     {
@@ -143,7 +129,7 @@ const ProfileTechnique = () => {
       filterSearch: true,
       width: '21%',
       render: (text: string, record) => {
-        return <p className={b('name-column-style')}>{record?.processing_data[0]?.work_area} га</p>;
+        return <p className={b('name-column-style')}>{record?.work_area} га</p>;
       },
     },
     {
@@ -263,7 +249,7 @@ const ProfileTechnique = () => {
           rowKey={(record) => record.id}
           loading={userVehicleInfoLoading}
           columns={columns}
-          data={state}
+          data={fields}
           disabledButton
         />
       </div>
