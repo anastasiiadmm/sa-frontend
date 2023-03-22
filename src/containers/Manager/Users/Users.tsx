@@ -1,4 +1,5 @@
-import { Button, Card, Typography } from 'antd';
+import { EyeOutlined } from '@ant-design/icons';
+import { Button, Card, Tooltip, Typography } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import bem from 'easy-bem';
 import React, { useEffect, useState } from 'react';
@@ -55,7 +56,7 @@ const Users: React.FC = () => {
       fixed: 'left',
       render: (text: string, record: companiesList) => {
         return (
-          <p>
+          <p className={b('user-name')}>
             {record?.user?.last_name} {record?.user?.first_name} {record?.user?.middle_name}
           </p>
         );
@@ -87,13 +88,20 @@ const Users: React.FC = () => {
       filterSearch: true,
       width: '30%',
       render: (text: string, record: companiesList) => (
-        <Button
-          type='link'
-          className={b('profile-link')}
-          onClick={() => nextBrowserUserInfoHandler(record?.id)}
+        <Tooltip
+          title='Просмотреть профиль'
+          color='#BBBBBB'
+          overlayInnerStyle={{ padding: '5px 15px', borderRadius: 15 }}
+          placement='topLeft'
         >
-          Просмотреть профиль
-        </Button>
+          <Button
+            type='link'
+            className={b('profile-link')}
+            onClick={() => nextBrowserUserInfoHandler(record?.id)}
+          >
+            <EyeOutlined style={{ fontSize: '23px' }} />
+          </Button>
+        </Tooltip>
       ),
     },
   ];
