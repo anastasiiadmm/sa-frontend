@@ -57,6 +57,12 @@
     padding: 0;
   }
 
+  &__open-map {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
   .ant-form-item .ant-form-item-label > label {
     color: themes.$gray-color;
   }

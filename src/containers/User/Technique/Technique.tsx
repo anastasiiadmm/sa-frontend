@@ -110,12 +110,12 @@ const Technique = () => {
     {
       dataIndex: 'profile',
       width: '30%',
-      render: () => (
+      render: (text: string, record) => (
         <div style={{ display: 'flex', gap: 37, alignItems: 'center' }}>
           <Link className={b('profile-link')} to='/open-map'>
             Просмотр на карте
           </Link>
-          <Link to='/profile-technique'>
+          <Link to={`/profile-technique/${userAccount?.id}/${record.id}`}>
             <Button type='text'>
               <img style={{ width: 27 }} src={tractorBlue} alt='tractorBlue' />
             </Button>
