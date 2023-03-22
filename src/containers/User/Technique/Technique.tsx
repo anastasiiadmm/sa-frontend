@@ -1,4 +1,5 @@
-import { Button, Card, Typography } from 'antd';
+import { EyeOutlined } from '@ant-design/icons';
+import { Button, Card, Tooltip, Typography } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import bem from 'easy-bem';
 import React, { useEffect, useState } from 'react';
@@ -111,15 +112,30 @@ const Technique = () => {
       dataIndex: 'profile',
       width: '30%',
       render: (text: string, record) => (
-        <div style={{ display: 'flex', gap: 37, alignItems: 'center' }}>
-          <Link className={b('profile-link')} to='/open-map'>
-            Просмотр на карте
-          </Link>
-          <Link to={`/profile-technique/${userAccount?.id}/${record.id}`}>
-            <Button type='text'>
-              <img style={{ width: 27 }} src={tractorBlue} alt='tractorBlue' />
-            </Button>
-          </Link>
+        <div style={{ display: 'flex', gap: 20, alignItems: 'center', justifyContent: 'right' }}>
+          <Tooltip
+            title='Просмотреть профиль'
+            color='#BBBBBB'
+            overlayInnerStyle={{ padding: '5px 15px', borderRadius: 15 }}
+          >
+            <Link to={`/profile-technique/${userAccount?.id}/${record.id}`}>
+              <Button type='text'>
+                <img style={{ width: 27 }} src={tractorBlue} alt='tractorBlue' />
+              </Button>
+            </Link>
+          </Tooltip>
+          <Tooltip
+            title='Просмотреть на карте'
+            color='#BBBBBB'
+            overlayInnerStyle={{ padding: '5px 15px', borderRadius: 15 }}
+            placement='topLeft'
+          >
+            <Link to='/open-map'>
+              <Button type='text' style={{ display: 'flex', alignItems: 'center' }}>
+                <EyeOutlined style={{ fontSize: '27px', color: '#1358bf' }} />
+              </Button>
+            </Link>
+          </Tooltip>
         </div>
       ),
     },

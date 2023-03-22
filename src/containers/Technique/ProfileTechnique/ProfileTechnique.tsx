@@ -1,4 +1,4 @@
-import { Button, Form, Image, Typography } from 'antd';
+import { Button, Form, Image, Skeleton, Tooltip, Typography } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import bem from 'easy-bem';
 import React, { useEffect, useState } from 'react';
@@ -138,9 +138,18 @@ const ProfileTechnique = () => {
       width: '23%',
       render: () => (
         <div style={{ display: 'flex', gap: 37, justifyContent: 'right' }}>
-          <Link className={b('profile-link')} to='/open-map'>
-            <img src={planet} alt='Просмотреть на карте' width={20} />
-          </Link>
+          <Tooltip
+            title='Просмотреть на карте'
+            color='#BBBBBB'
+            overlayInnerStyle={{ padding: '5px 15px', borderRadius: 15 }}
+            placement='topLeft'
+          >
+            <Link className={b('profile-link')} to='/open-map'>
+              <Button type='text'>
+                <img src={planet} alt='Просмотреть на карте' width={20} />
+              </Button>
+            </Link>
+          </Tooltip>
         </div>
       ),
     },
@@ -154,14 +163,19 @@ const ProfileTechnique = () => {
             <Link to={user?.is_manager ? `/user-technique/${userId}` : '/'}>
               <img className={b('arrow-left')} src={arrowLeft} alt='arrow' />
             </Link>
-            <Title level={3} className={b('title')}>
-              Профиль техники - <p className={b('subtitle')}> {state[0]?.code} </p> -{' '}
-              {`${state[0]?.last_name} ${state[0]?.first_name?.charAt(
-                0,
-              )}. ${state[0]?.middle_name?.charAt(0)}.`}
-            </Title>
+            {!userVehicleInfoLoading ? (
+              <Title level={3} className={b('title')}>
+                Профиль техники - <p className={b('subtitle')}> {state[0]?.code} </p> -{' '}
+                {`${state[0]?.last_name} ${state[0]?.first_name?.charAt(
+                  0,
+                )}. ${state[0]?.middle_name?.charAt(0)}.`}
+              </Title>
+            ) : (
+              <div style={{ margin: '30px 0' }}>
+                <Skeleton.Button active={userVehicleInfoLoading} style={{ width: 800 }} />
+              </div>
+            )}
           </div>
-
           <div>
             <Link to='/open-map'>
               <Button
@@ -175,75 +189,88 @@ const ProfileTechnique = () => {
             </Link>
           </div>
         </div>
+        {!userVehicleInfoLoading ? (
+          <div className={b('technique-profile-info')}>
+            <Image
+              src={apiUrlCrop + (state[0] ? state[0].image : '')}
+              width={242}
+              style={{ borderRadius: 4 }}
+            />
+            <div className={b('profile-info')}>
+              <Form form={form} initialValues={state[0]} layout='vertical'>
+                <Title level={5} className={b('profile-title')}>
+                  Информация о технике
+                </Title>
+                <div className={b('form-block')}>
+                  <FormField
+                    readOnly
+                    id='technique_name_id'
+                    label='Название техники'
+                    name='technique_name'
+                    placeholder='Название техники'
+                    defaultValue={state[0]?.vin_code}
+                  />
 
-        <div className={b('technique-profile-info')}>
-          <Image
-            src={apiUrlCrop + (state[0] ? state[0].image : '')}
-            width={242}
-            style={{ borderRadius: 4 }}
-          />
-          <div className={b('profile-info')}>
-            <Form form={form} initialValues={state[0]} layout='vertical'>
-              <Title level={5} className={b('profile-title')}>
-                Информация о технике
-              </Title>
-              <div className={b('form-block')}>
-                <FormField
-                  readOnly
-                  id='technique_name_id'
-                  label='Название техники'
-                  name='technique_name'
-                  placeholder='Название техники'
-                  defaultValue={state[0]?.vin_code}
-                />
+                  <FormField
+                    readOnly
+                    id='state_number_id'
+                    label='Гос номер'
+                    name='state_number'
+                    placeholder='Гос номер'
+                  />
 
-                <FormField
-                  readOnly
-                  id='state_number_id'
-                  label='Гос номер'
-                  name='state_number'
-                  placeholder='Гос номер'
-                />
+                  <FormField
+                    readOnly
+                    id='vin_code_id'
+                    label='VIN код'
+                    name='vin_code'
+                    placeholder='VIN код'
+                  />
+                </div>
+                <Title level={5} className={b('profile-title')}>
+                  Информация о механизаторе
+                </Title>
+                <div className={b('form-block')}>
+                  <FormField
+                    readOnly
+                    id='last_name_id'
+                    label='Фамилия'
+                    name='last_name'
+                    placeholder='Фамилия'
+                  />
 
-                <FormField
-                  readOnly
-                  id='vin_code_id'
-                  label='VIN код'
-                  name='vin_code'
-                  placeholder='VIN код'
-                />
-              </div>
-              <Title level={5} className={b('profile-title')}>
-                Информация о механизаторе
-              </Title>
-              <div className={b('form-block')}>
-                <FormField
-                  readOnly
-                  id='last_name_id'
-                  label='Фамилия'
-                  name='last_name'
-                  placeholder='Фамилия'
-                />
+                  <FormField
+                    readOnly
+                    id='first_name_id'
+                    label='Имя'
+                    name='first_name'
+                    placeholder='Имя'
+                  />
 
-                <FormField
-                  readOnly
-                  id='first_name_id'
-                  label='Имя'
-                  name='first_name'
-                  placeholder='Имя'
-                />
-
-                <FormField
-                  readOnly
-                  id='middle_name_id'
-                  label='Отчество'
-                  name='middle_name'
-                  placeholder='Отчество'
-                />
-              </div>
-            </Form>
+                  <FormField
+                    readOnly
+                    id='middle_name_id'
+                    label='Отчество'
+                    name='middle_name'
+                    placeholder='Отчество'
+                  />
+                </div>
+              </Form>
+            </div>
           </div>
-        </div>
+        ) : (
+          <div style={{ display: 'flex', gap: 20 }}>
+            <Skeleton.Button
+              size='large'
+              active={userVehicleInfoLoading}
+              style={{
+                height: 180,
+                width: 242,
+              }}
+            />
+            <Skeleton active={userVehicleInfoLoading} />
+          </div>
+        )}
 
         <TableComponent
           rowKey={(record) => record.id}
