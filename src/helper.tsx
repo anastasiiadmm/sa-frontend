@@ -1,4 +1,4 @@
-import { ErrorObject, ICompany, updateManagerDataMutation } from 'types';
+import { ErrorObject, ICompany, updateManagerDataMutation } from 'types/types';
 
 export const removeEmptyValuesFromObject = (obj: any) => {
   for (const i in obj) {

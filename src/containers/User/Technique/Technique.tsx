@@ -12,7 +12,7 @@ import SkeletonBlock from 'components/SkeletonBlock/SkeletonBlock';
 import TableComponent from 'components/TableComponent/TableComponent';
 import { accountsSelector, fetchUser, fetchUserVehicles } from 'redux/accounts/accountsSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { userVehicles } from 'types';
+import { userVehicles } from 'types/types';
 import { apiUrlCrop } from 'utils/config';
 import 'containers/User/Technique/_technique.scss';
 

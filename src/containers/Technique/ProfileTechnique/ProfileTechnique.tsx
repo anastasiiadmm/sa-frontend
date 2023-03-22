@@ -10,7 +10,7 @@ import FormField from 'components/FormField/FormField';
 import TableComponent from 'components/TableComponent/TableComponent';
 import { companiesSelector, fetchUserVehicleInfo } from 'redux/companies/companiesSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { userVehicleInfo } from 'types';
+import { userVehicleInfo } from 'types/types';
 import { apiUrlCrop } from 'utils/config';
 import 'containers/Technique/ProfileTechnique/_profileTechnique.scss';
 

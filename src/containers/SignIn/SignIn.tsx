@@ -12,7 +12,7 @@ import ModalComponent from 'components/ModalComponent/ModalComponent';
 import { registerSuccessNull } from 'redux/accounts/accountsSlice';
 import { authSelector, loginUser } from 'redux/auth/authSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { LoginMutation } from 'types';
+import { LoginMutation } from 'types/types';
 import { userLocalStorage } from 'utils/token';
 import 'containers/SignIn/_signIn.scss';
 

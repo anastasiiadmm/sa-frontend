@@ -2,7 +2,7 @@ import { Table } from 'antd';
 import React, { Key } from 'react';
 
 import PaginationComponent from 'components/TableComponent/PaginationComponent/PaginationComponent';
-import { companiesList, userVehicleInfo, userVehicles, userVehiclesPagination } from 'types';
+import { companiesList, userVehicleInfo, userVehicles, userVehiclesPagination } from 'types/types';
 
 interface Props {
   data: any | undefined;
