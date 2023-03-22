@@ -203,24 +203,24 @@ export interface vehicleListPagination {
   previous: string;
 }
 
+export interface fieldsList {
+  attachments: {
+    frontBack: string;
+    leftRight: string;
+    skipOverlap: string;
+    toolsName: string;
+    toolsWidth: string;
+    toolsWidthResult: string;
+  };
+  field_name: string;
+  work_area: number;
+}
+
 export interface userVehicleInfo {
   id: number;
   image: string;
   code: string;
-  processing_data: [
-    {
-      attachments: {
-        frontBack: string;
-        leftRight: string;
-        skipOverlap: string;
-        toolsName: string;
-        toolsWidth: string;
-        toolsWidthResult: string;
-      };
-      field_name: string;
-      work_area: number;
-    },
-  ];
+  processing_data: fieldsList[];
   vin_code: string;
   state_number: string;
   description: string;
