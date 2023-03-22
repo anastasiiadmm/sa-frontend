@@ -92,7 +92,7 @@ const Users: React.FC = () => {
           title='Просмотреть профиль'
           color='#BBBBBB'
           overlayInnerStyle={{ padding: '5px 15px', borderRadius: 15 }}
-          placement='topLeft'
+          placement='left'
         >
           <Button
             type='link'
