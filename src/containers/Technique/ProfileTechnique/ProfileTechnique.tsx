@@ -180,7 +180,7 @@ const ProfileTechnique = () => {
             <Link to='/open-map'>
               <Button
                 type='link'
-                icon={<img src={tractorBlue} alt='' width={18} />}
+                icon={<img src={tractorBlue} alt='Техника на карте' width={18} />}
                 size='large'
                 className={b('open-map')}
               >
