@@ -1,13 +1,34 @@
-export interface Station {
-  id: string;
+export interface Weather {
+  dates: string[];
+  data: WeatherDataEntry[];
+}
+
+interface WeatherDataEntry {
+  aggr: string[];
+  ch: number;
+  code: number;
+  decimals: number;
+  group: number;
+  mac: string;
   name: string;
-  latitude: number;
-  longitude: number;
-  altitude: number;
+  name_original: string;
+  registered: string;
+  serial: string;
+  type: string;
+  unit: string;
+  vals: any;
+  values: {
+    avg: number[];
+  };
 }
 
 export interface APIResponse {
-  stations: Station[];
+  stations: any[];
+}
+
+export interface APIWeatherResponse {
+  data: WeatherDataEntry[];
+  dates: string[];
 }
 
 export interface APIError {
@@ -15,13 +36,10 @@ export interface APIError {
 }
 
 export interface StationState {
-  stations: Station[];
+  stations: any;
   isLoading: boolean;
   error: APIError | null;
-}
-
-export interface FetchParams {
-  method: string;
-  request: string;
-  body?: BodyInit;
+  weather: Weather | null;
+  isWeatherLoading: boolean;
+  isWeatherError: any;
 }
