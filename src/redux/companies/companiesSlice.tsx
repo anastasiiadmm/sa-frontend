@@ -5,6 +5,7 @@ import { RootState } from 'redux/hooks';
 import {
   companiesList,
   ICompany,
+  PostNewUser,
   usersListPagination,
   userVehicleInfo,
   vehicleList,
@@ -21,6 +22,7 @@ interface CompaniesState {
   fetchCompaniesLoading: boolean;
   fetchCompaniesError: Object | null;
   companiesListPagination: usersListPagination | null;
+  userCreate: PostNewUser | null;
   userCreateLoading: boolean;
   userCreateError: Object | null;
   userInfo: companiesList | null;
@@ -48,6 +50,7 @@ const INITIAL_STATE = {
   fetchCompaniesError: null,
   companiesListPagination: null,
 
+  userCreate: null,
   userCreateLoading: false,
   userCreateError: null,
 
@@ -131,7 +134,7 @@ export const userCreate = createAsyncThunk<void, userCreateParams>(
   async ({ data }, { rejectWithValue }) => {
     try {
       const resp = await axiosApi.post(`/companies/`, data);
-      message.success('Новый пользователь успешно создан!');
+
       return resp.data;
     } catch (e) {
       let error = e?.response?.data;
@@ -326,9 +329,10 @@ const companiesSlice = createSlice({
       state.userCreateLoading = true;
       state.userCreateError = null;
     });
-    builder.addCase(userCreate.fulfilled, (state) => {
+    builder.addCase(userCreate.fulfilled, (state, { payload }: any) => {
       state.userCreateLoading = false;
       state.userCreateError = null;
+      state.userCreate = payload;
     });
     builder.addCase(userCreate.rejected, (state, { payload }: any) => {
       state.userCreateLoading = false;

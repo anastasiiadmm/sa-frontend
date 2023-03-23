@@ -96,6 +96,13 @@ export interface IUserAccount {
   };
 }
 
+export interface PostNewUser extends Omit<IUserAccount, 'user'> {
+  user: Omit<IUserAccount['user'], 'password'> & {
+    generated_password: string;
+    image: string;
+  };
+}
+
 export interface userVehicles {
   id: number;
   code: string;
