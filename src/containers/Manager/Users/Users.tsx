@@ -10,7 +10,7 @@ import tractorBlue from 'assets/images/icons/tractor-blue.svg';
 import TableComponent from 'components/TableComponent/TableComponent';
 import { companiesSelector, fetchUsersList } from 'redux/companies/companiesSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { companiesList } from 'types';
+import { companiesList } from 'types/types';
 import 'containers/Manager/Users/_users.scss';
 
 const { Title } = Typography;

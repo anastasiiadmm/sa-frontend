@@ -3,7 +3,7 @@ import bem from 'easy-bem';
 import React from 'react';
 
 import nextIcons from 'assets/images/icons/white-arrow.svg';
-import { userVehiclesPagination } from 'types';
+import { userVehiclesPagination } from 'types/types';
 import 'components/TableComponent/PaginationComponent/_paginationComponent.scss';
 
 interface Props {

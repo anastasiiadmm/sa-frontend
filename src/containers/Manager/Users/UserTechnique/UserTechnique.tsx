@@ -16,7 +16,7 @@ import ModalComponent from 'components/ModalComponent/ModalComponent';
 import TableComponent from 'components/TableComponent/TableComponent';
 import { companiesSelector, fetchUserVehicleList } from 'redux/companies/companiesSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { vehicleList } from 'types';
+import { vehicleList } from 'types/types';
 import { apiUrlCrop } from 'utils/config';
 import 'containers/Manager/Users/UserTechnique/_userTechnique.scss';
 

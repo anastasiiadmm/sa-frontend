@@ -5,6 +5,7 @@ import bem from 'easy-bem';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
+import cloudy from 'assets/images/icons/cloudy.svg';
 import tractorBlue from 'assets/images/icons/tractor-blue.svg';
 import tractor from 'assets/images/icons/tractor-image.svg';
 import AddUpdateTechnique from 'components/ModalComponent/ModalChildrenComponents/AddUpdateTechnique/AddUpdateTechnique';
@@ -13,7 +14,7 @@ import SkeletonBlock from 'components/SkeletonBlock/SkeletonBlock';
 import TableComponent from 'components/TableComponent/TableComponent';
 import { accountsSelector, fetchUser, fetchUserVehicles } from 'redux/accounts/accountsSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { userVehicles } from 'types';
+import { userVehicles } from 'types/types';
 import { apiUrlCrop } from 'utils/config';
 import 'containers/User/Technique/_technique.scss';
 
@@ -146,15 +147,33 @@ const Technique = () => {
       <div className={b()} data-testid='technique-id'>
         <div className={b('card-block')}>
           <Card className={b('card-style')} bordered={false}>
-            <Title className={b('card-title')}>Количество техники</Title>
-            {fetchLoadingUser ? (
-              <SkeletonBlock active={fetchLoadingUser} num={1} titleBool />
-            ) : (
-              <div className={b('card-content')}>
-                <img src={tractorBlue} alt='group' />
-                <p>{userAccount?.vehicles_amount}</p>
+            <div className={b('card-style-blocks')}>
+              <div>
+                <Title className={b('card-title')}>Количество техники</Title>
+                {fetchLoadingUser ? (
+                  <SkeletonBlock active={fetchLoadingUser} num={1} titleBool />
+                ) : (
+                  <div className={b('card-content')}>
+                    <img src={tractorBlue} alt='group' />
+                    <p>{userAccount?.vehicles_amount}</p>
+                  </div>
+                )}
               </div>
-            )}
+              <div>
+                <Card className={b('card-style-cloud')} bordered={false}>
+                  <div className={b('card-style-cloud-blocks')}>
+                    <div>
+                      <img src={cloudy} alt='cloudy' />
+                    </div>
+                    <div>
+                      <Title className={b('card-title meteo-h1')}>Подключите метеосервис</Title>
+                      <p className='meteo-h1'>Все про погоду и почву</p>
+                      <Button className={b('card-style-cloud-button')}>Отправить запрос</Button>
+                    </div>
+                  </div>
+                </Card>
+              </div>
+            </div>
           </Card>
         </div>
         <div className={b('table')}>

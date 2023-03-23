@@ -3,7 +3,7 @@ import bem from 'easy-bem';
 import React, { useEffect, useState } from 'react';
 
 import FormField from 'components/FormField/FormField';
-import { companiesList, ICompany } from 'types';
+import { companiesList, ICompany } from 'types/types';
 import 'components/ModalComponent/ModalChildrenComponents/EditUserProfileModal/_editUserProfileModal.scss';
 
 interface Props {

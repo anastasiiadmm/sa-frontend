@@ -14,7 +14,7 @@ import {
   userVehicles,
   userVehiclesPagination,
   ValidationUpdateManagerProfile,
-} from 'types';
+} from 'types/types';
 import axiosApi from 'utils/axios-api';
 import { defaultError } from 'utils/config';
 import toQueryParams from 'utils/toQueryParams';

@@ -13,7 +13,7 @@ import { accountsSelector, fetchVehicleInfo } from 'redux/accounts/accountsSlice
 import { authSelector } from 'redux/auth/authSlice';
 import { companiesSelector, fetchUserVehicleInfo } from 'redux/companies/companiesSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { fieldsList, userVehicleInfo } from 'types';
+import { fieldsList, userVehicleInfo } from 'types/types';
 import { apiUrlCrop } from 'utils/config';
 import 'containers/Technique/ProfileTechnique/_profileTechnique.scss';
 
