@@ -64,6 +64,9 @@ button:disabled {
   }
 }
 
+.ant-form-item .ant-form-item-label > label {
+  color: themes.$gray-color !important;
+}
 
 // antd styles
 
