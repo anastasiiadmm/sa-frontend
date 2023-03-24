@@ -93,6 +93,7 @@ export interface IUserAccount {
     last_name: string;
     email: string;
     phone: string;
+    image: string;
   };
 }
 
