@@ -1,4 +1,4 @@
-import { Button, Card, Col, Form, message, Typography } from 'antd';
+import { Button, Card, Col, Divider, Form, message, Typography } from 'antd';
 import bem from 'easy-bem';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
@@ -181,7 +181,7 @@ const UserProfile: React.FC = () => {
               </Title>
 
               <Link to={`/user-technique/${id}`}>
-                <Card className={b('user-card-style')} bordered={false} style={{ width: 350 }}>
+                <Card className={b('user-card-style')} bordered={false} style={{ width: '100%' }}>
                   <img src={tractorBlue} alt='tractorBlue' />
                   <div className={b('card-content')}>
                     <Title level={5} data-testid='sign_in_test'>
@@ -207,16 +207,6 @@ const UserProfile: React.FC = () => {
                   label='Username'
                   name='username'
                   placeholder='Username'
-                />
-
-                <FormField
-                  readOnly
-                  id='password_id'
-                  type='password'
-                  name='password'
-                  label='Пароль'
-                  placeholder='Пароль'
-                  inputClassName={b('username-info')}
                 />
 
                 <div className={b('form-block')}>
@@ -300,6 +290,11 @@ const UserProfile: React.FC = () => {
                   placeholder='Количество оплаченных блоков автопилота'
                   inputClassName={b('username-info')}
                 />
+
+                <Button type='text' className={b('password-button')}>
+                  Сгенерировать пароль
+                </Button>
+                <Divider />
 
                 <div className={b('profile-buttons')}>
                   <Button

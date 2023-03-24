@@ -142,7 +142,7 @@ const ProfileTechnique = () => {
             title='Просмотреть на карте'
             color='#BBBBBB'
             overlayInnerStyle={{ padding: '5px 15px', borderRadius: 15 }}
-            placement='topLeft'
+            placement='topRight'
           >
             <Link className={b('profile-link')} to='/open-map'>
               <Button type='text'>
