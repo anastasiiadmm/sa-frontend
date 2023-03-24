@@ -238,3 +238,7 @@ export interface userVehicleInfo {
   last_longitude: string;
   enterprise: number;
 }
+
+export interface generatedPassword {
+  generated_password: string;
+}

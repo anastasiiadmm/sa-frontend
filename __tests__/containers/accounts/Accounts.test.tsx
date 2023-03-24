@@ -7,6 +7,9 @@ import { mockedDispatch, mockedUseSelectors } from "../../../__mocks__/utils";
 
 import Profile from "../../../src/containers/Manager/Profile/Profile";
 import UserProfile from "../../../src/containers/User/Profile/Profile";
+import ModalComponent from "../../../src/components/ModalComponent/ModalComponent";
+import GeneratedPasswordModal
+  from "../../../src/components/ModalComponent/ModalChildrenComponents/GeneratedPasswordModal/GeneratedPasswordModal";
 
 afterEach(cleanup);
 
@@ -120,6 +123,28 @@ describe('<Profile />',  () => {
       expect(name).toBeInTheDocument();
       expect(location).toBeInTheDocument();
       expect(autopilots_amount).toBeInTheDocument();
+    });
+  });
+
+  it("Opening and closing generate password modal", async () => {
+    const handleClose = jest.fn();
+    const yesHandler = jest.fn();
+
+    render(
+      <ModalComponent open title='Пароль' handleOk={yesHandler} handleCancel={handleClose}>
+        <GeneratedPasswordModal onClose={handleClose} generatedPassword='test' />
+      </ModalComponent>
+    );
+
+    const generatedPassword = screen.getByTestId('generated-password');
+    const button = screen.getByTestId('ok-button');
+
+    await waitFor(() => {
+      expect(generatedPassword).toBeInTheDocument();
+    });
+
+    await act(async () => {
+      fireEvent.click(button);
     });
   });
 });

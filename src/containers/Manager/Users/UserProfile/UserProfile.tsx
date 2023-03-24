@@ -1,4 +1,5 @@
 import { Button, Card, Col, Divider, Form, message, Typography } from 'antd';
+
 import bem from 'easy-bem';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
@@ -8,6 +9,7 @@ import tractorBlue from 'assets/images/icons/tractor-blue.svg';
 import FormField from 'components/FormField/FormField';
 import DeleteUserModal from 'components/ModalComponent/ModalChildrenComponents/DeleteUserModal/DeleteUserModal';
 import EditUserProfileModal from 'components/ModalComponent/ModalChildrenComponents/EditUserProfileModal/EditUserProfileModal';
+import GeneratedPasswordModal from 'components/ModalComponent/ModalChildrenComponents/GeneratedPasswordModal/GeneratedPasswordModal';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import SkeletonBlock from 'components/SkeletonBlock/SkeletonBlock';
 import {
@@ -15,6 +17,7 @@ import {
   isObjectChangeUserProfileValidate,
   removeEmptyValuesFromObject,
 } from 'helper';
+import { accountsSelector, generateNewPassword } from 'redux/accounts/accountsSlice';
 import {
   companiesSelector,
   deleteUserInfo,
@@ -23,6 +26,7 @@ import {
   updateUserInfo,
 } from 'redux/companies/companiesSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
+
 import 'containers/Manager/Users/UserProfile/_UserProfile.scss';
 
 const { Title } = Typography;
@@ -41,9 +45,11 @@ const UserProfile: React.FC = () => {
     updateUserInfoLoading,
     deleteUserInfoLoading,
   } = useAppSelector(companiesSelector);
+  const { generatedPassword, generatePasswordLoading } = useAppSelector(accountsSelector);
   const [validateForm, setValidateForm] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
+  const [isModalPasswordOpen, setIsModalPasswordOpen] = useState(false);
   const [userData, setUserData] = useState({
     user: {
       username: '',
@@ -116,6 +122,15 @@ const UserProfile: React.FC = () => {
 
   const handleOkCancel = () => {
     setIsModalOpen(!isModalOpen);
+  };
+
+  const generatePassword = async () => {
+    await dispatch(generateNewPassword({ company_id: resultsObj?.id }));
+    setIsModalPasswordOpen(true);
+  };
+
+  const closePasswordModal = () => {
+    setIsModalPasswordOpen(false);
   };
 
   const deleteUserHandler = async () => {
@@ -291,7 +306,12 @@ const UserProfile: React.FC = () => {
                   inputClassName={b('username-info')}
                 />
 
-                <Button type='text' className={b('password-button')}>
+                <Button
+                  type='text'
+                  className={b('password-button')}
+                  onClick={generatePassword}
+                  loading={generatePasswordLoading}
+                >
                   Сгенерировать пароль
                 </Button>
                 <Divider />
@@ -347,6 +367,18 @@ const UserProfile: React.FC = () => {
           handleDeleteCancel={handleDeleteOkCancel}
           deleteUserHandler={deleteUserHandler}
           loading={deleteUserInfoLoading}
+        />
+      </ModalComponent>
+      <ModalComponent
+        title='Пароль'
+        open={isModalPasswordOpen}
+        dividerShow={false}
+        handleOk={closePasswordModal}
+        handleCancel={closePasswordModal}
+      >
+        <GeneratedPasswordModal
+          generatedPassword={generatedPassword}
+          onClose={closePasswordModal}
         />
       </ModalComponent>
     </>
