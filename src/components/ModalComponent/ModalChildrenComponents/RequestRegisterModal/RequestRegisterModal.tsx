@@ -93,7 +93,7 @@ const RequestRegisterModal: React.FC<Props> = ({ onClose }) => {
       <Button
         className={b('close-form-button')}
         type='primary'
-        style={{ width: '100%', borderRadius: 4, marginTop: 6 }}
+        style={{ width: '100%', borderRadius: 4, marginTop: 40 }}
         onClick={onClose}
       >
         Закрыть

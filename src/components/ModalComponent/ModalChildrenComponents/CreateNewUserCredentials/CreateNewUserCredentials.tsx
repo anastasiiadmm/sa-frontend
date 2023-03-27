@@ -3,15 +3,20 @@ import bem from 'easy-bem';
 import React, { useEffect } from 'react';
 
 import FormField from 'components/FormField/FormField';
-import { PostNewUser } from 'types/types';
+import { accountsManagerConfirmation, PostNewUser } from 'types/types';
 import 'components/ModalComponent/ModalChildrenComponents/CreateNewUserCredentials/_createNewUserCredentials.scss';
 
 interface Props {
-  userCreateData: PostNewUser | null;
+  userCreateData?: PostNewUser | null;
+  requestRegisterUserData?: accountsManagerConfirmation | null;
   handleOkCancel: () => void;
 }
 
-const CreateNewUserCredentials: React.FC<Props> = ({ handleOkCancel, userCreateData }) => {
+const CreateNewUserCredentials: React.FC<Props> = ({
+  handleOkCancel,
+  userCreateData,
+  requestRegisterUserData,
+}) => {
   const b = bem('CreateNewUserCredentials');
   const [form] = Form.useForm();
 
@@ -24,19 +29,31 @@ const CreateNewUserCredentials: React.FC<Props> = ({ handleOkCancel, userCreateD
         },
       });
     }
-  }, [userCreateData, form]);
+
+    if (requestRegisterUserData) {
+      form.setFieldsValue({
+        username: requestRegisterUserData?.username,
+        password: requestRegisterUserData?.password,
+      });
+    }
+  }, [userCreateData, requestRegisterUserData, form]);
 
   return (
     <div>
       <p style={{ marginBottom: 40 }}>Пожалуйста отправьте эти данные пользователю</p>
 
-      <Form form={form} initialValues={{ remember: true }} autoComplete='off' layout='vertical'>
+      <Form
+        form={form}
+        initialValues={userCreateData ? { userCreateData } : { requestRegisterUserData }}
+        autoComplete='off'
+        layout='vertical'
+      >
         <FormField
           readOnly
           data-testid='username_id'
           id='username_id'
           label='Логин'
-          name={['user', 'username']}
+          name={userCreateData ? ['user', 'username'] : 'username'}
           placeholder='Логин'
           inputClassName={b('username-info')}
         />
@@ -46,7 +63,7 @@ const CreateNewUserCredentials: React.FC<Props> = ({ handleOkCancel, userCreateD
           data-testid='generated_password_id'
           id='generated_password_id'
           label='Пароль'
-          name={['user', 'generated_password']}
+          name={userCreateData ? ['user', 'generated_password'] : 'password'}
           placeholder='Пароль'
           inputClassName={b('username-info')}
         />

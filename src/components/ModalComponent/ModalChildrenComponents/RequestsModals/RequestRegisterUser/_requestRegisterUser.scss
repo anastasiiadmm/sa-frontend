@@ -9,10 +9,6 @@
     }
   }
 
-  &__username-info {
-    padding: 0;
-  }
-
   &__profile-buttons {
     margin-top: 35px;
     display: flex;
@@ -29,13 +25,9 @@
   &__save-button {
     background: themes.$primary-color;
   }
-
-  &__email-input {
-    width: 50% !important;
-  }
 }
 
 .info-block {
-  width: 50%;
+  width: 100%;
 }
 

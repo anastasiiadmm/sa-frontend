@@ -26,6 +26,7 @@ import {
   updateUserInfo,
 } from 'redux/companies/companiesSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { companiesList } from 'types/types';
 
 import 'containers/Manager/Users/UserProfile/_UserProfile.scss';
 
@@ -50,7 +51,8 @@ const UserProfile: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
   const [isModalPasswordOpen, setIsModalPasswordOpen] = useState(false);
-  const [userData, setUserData] = useState({
+
+  const [userData, setUserData] = useState<companiesList>({
     user: {
       username: '',
       password: '',

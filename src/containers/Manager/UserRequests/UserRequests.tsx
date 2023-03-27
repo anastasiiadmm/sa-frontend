@@ -13,34 +13,25 @@ import RequestAddTechnique from 'components/ModalComponent/ModalChildrenComponen
 import RequestRegisterUser from 'components/ModalComponent/ModalChildrenComponents/RequestsModals/RequestRegisterUser/RequestRegisterUser';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import TableComponent from 'components/TableComponent/TableComponent';
-
 import { accountsSelector, fetchRequests } from 'redux/accounts/accountsSlice';
-
-import 'containers/Manager/UserRequests/_userRequests.scss';
+import { companiesSelector, fetchUserInfo } from 'redux/companies/companiesSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { Request, UserIds } from 'types/types';
+import 'containers/Manager/UserRequests/_userRequests.scss';
 
 const { Title } = Typography;
 
-interface DataType {
-  key: React.Key;
-  created_at: string;
-  enterprise_name: string;
-  confirmation_type: number;
-  confirmation_type_text: string;
-}
-
 const UserRequests = () => {
   const b = bem('UserRequests');
+  const dispatch = useAppDispatch();
+  const { requests, fetchRequestsLoading, requestsPagination } = useAppSelector(accountsSelector);
+  const { userInfo, userInfoLoading } = useAppSelector(companiesSelector);
   const [isModalTechniqueOpen, setIsModalTechniqueOpen] = useState(false);
   const [isModalRegisterUserOpen, setIsModalRegisterUserTechniqueOpen] = useState(false);
   const [isModalRejectOpen, setIsModalRejectOpen] = useState(false);
   const [isModalUserInfoOpen, setIsModalUserInfoRejectOpen] = useState(false);
-  const dispatch = useAppDispatch();
-  const { requests, fetchRequestsLoading, requestsPagination } = useAppSelector(accountsSelector);
-
-  const [filters, setFilters] = useState({
-    page: 1,
-  });
+  const [filters, setFilters] = useState({ page: 1 });
+  const [userIds, setUserIds] = useState<UserIds | null>({ requestId: null, userId: null });
 
   useEffect(() => {
     const data = {
@@ -51,6 +42,15 @@ const UserRequests = () => {
 
     dispatch(fetchRequests({ data }));
   }, [dispatch, filters]);
+
+  useEffect(() => {
+    const data = {
+      id: userIds?.userId,
+    };
+    if (userIds?.userId) {
+      dispatch(fetchUserInfo({ data }));
+    }
+  }, [dispatch, userIds?.userId]);
 
   const showRejectModal = () => {
     setIsModalRejectOpen(true);
@@ -94,7 +94,7 @@ const UserRequests = () => {
     setFilters({ ...filters, page: filters.page + 1 });
   };
 
-  const columns: ColumnsType<DataType> = [
+  const columns: ColumnsType<Request> = [
     {
       dataIndex: 'type_request',
       filterSearch: true,
@@ -138,26 +138,38 @@ const UserRequests = () => {
       dataIndex: 'profile',
       filterSearch: true,
       width: '20%',
-      render: (text, row) => (
-        <Tooltip
-          title='Просмотреть запрос'
-          color='#BBBBBB'
-          overlayInnerStyle={{ padding: '5px 15px', borderRadius: 15 }}
-        >
-          <Button
-            type='link'
-            onClick={
-              row?.confirmation_type === 2
-                ? showUserInfoModal
-                : row?.confirmation_type === 3
-                ? showTechniqueModal
-                : showRegisterUserModal
-            }
+      render: (text, row) => {
+        return (
+          <Tooltip
+            title='Просмотреть запрос'
+            color='#BBBBBB'
+            overlayInnerStyle={{ padding: '5px 15px', borderRadius: 15 }}
           >
-            <EyeOutlined style={{ fontSize: '20px' }} />
-          </Button>
-        </Tooltip>
-      ),
+            <Button
+              type='link'
+              onClick={
+                row?.confirmation_type === 2
+                  ? () => {
+                      showUserInfoModal();
+                    }
+                  : row?.confirmation_type === 3
+                  ? () => {
+                      showTechniqueModal();
+                    }
+                  : () => {
+                      showRegisterUserModal();
+                      setUserIds({
+                        requestId: row?.id.toString(),
+                        userId: row?.enterprise.toString(),
+                      });
+                    }
+              }
+            >
+              <EyeOutlined style={{ fontSize: '20px' }} />
+            </Button>
+          </Tooltip>
+        );
+      },
     },
   ];
 
@@ -173,7 +185,7 @@ const UserRequests = () => {
             loading={fetchRequestsLoading}
             columns={columns}
             data={requests}
-            rowKey={(record) => record.id}
+            rowKey={(record) => record.id as number}
             params={requestsPagination}
             pagePrevHandler={pagePrevHandler}
             pageNextHandler={pageNextHandler}
@@ -202,6 +214,9 @@ const UserRequests = () => {
         handleCancel={handleOkRegisterUserCancel}
       >
         <RequestRegisterUser
+          userInfo={userInfo}
+          userIds={userIds}
+          userInfoLoading={userInfoLoading}
           handleOkCancel={handleOkRegisterUserCancel}
           showRejectModal={showRejectModal}
         />
