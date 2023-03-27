@@ -273,7 +273,7 @@ const ProfileTechnique = () => {
         )}
 
         <TableComponent
-          rowKey={(record) => record.id}
+          rowKey={(record) => record.id as number}
           loading={userVehicleInfoLoading}
           columns={columns}
           data={fields}
