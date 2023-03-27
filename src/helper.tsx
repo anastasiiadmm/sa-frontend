@@ -135,22 +135,32 @@ export const mergeAndRemoveDuplicateValues = (obj1: any, obj2: any) => {
   const result: Record<string, any> = {};
 
   for (const key in obj1) {
-    if (obj1.hasOwnProperty(key) && !obj2.hasOwnProperty(key)) {
+    if (
+      Object.prototype.hasOwnProperty.call(obj1, key) &&
+      !Object.prototype.hasOwnProperty.call(obj2, key)
+    ) {
       result[key] = obj1[key];
     } else if (
-      obj1.hasOwnProperty(key) &&
-      obj2.hasOwnProperty(key) &&
+      Object.prototype.hasOwnProperty.call(obj1, key) &&
+      Object.prototype.hasOwnProperty.call(obj2, key) &&
       typeof obj1[key] === 'object' &&
       typeof obj2[key] === 'object'
     ) {
       result[key] = mergeAndRemoveDuplicateValues(obj1[key], obj2[key]);
-    } else if (obj1.hasOwnProperty(key) && obj2.hasOwnProperty(key) && obj1[key] !== obj2[key]) {
+    } else if (
+      Object.prototype.hasOwnProperty.call(obj1, key) &&
+      Object.prototype.hasOwnProperty.call(obj2, key) &&
+      obj1[key] !== obj2[key]
+    ) {
       result[key] = obj2[key];
     }
   }
 
   for (const key in obj2) {
-    if (obj2.hasOwnProperty(key) && !obj1.hasOwnProperty(key)) {
+    if (
+      Object.prototype.hasOwnProperty.call(obj2, key) &&
+      !Object.prototype.hasOwnProperty.call(obj1, key)
+    ) {
       result[key] = obj2[key];
     }
   }
