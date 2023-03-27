@@ -167,7 +167,7 @@ const NewUser: React.FC = () => {
         open={isModalOpen}
         dividerShow={false}
         handleOk={handleOkCancel}
-        handleCancel={handleOkCancel}
+        handleCancel={() => setIsModalOpen(false)}
       >
         <CreateNewUserCredentials handleOkCancel={handleOkCancel} userCreateData={userCreateData} />
       </ModalComponent>

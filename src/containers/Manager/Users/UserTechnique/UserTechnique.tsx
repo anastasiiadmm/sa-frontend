@@ -204,7 +204,7 @@ const UserTechnique: React.FC = () => {
           </div>
 
           <TableComponent
-            rowKey={(record) => record.id}
+            rowKey={(record) => record.id as number}
             loading={fetchVehicleListLoading}
             columns={columns}
             data={vehicleList}

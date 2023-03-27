@@ -1,5 +1,6 @@
 import { Table } from 'antd';
-import React, { Key } from 'react';
+import React from 'react';
+import { Key } from 'antd/lib/table/interface';
 
 import PaginationComponent from 'components/TableComponent/PaginationComponent/PaginationComponent';
 import { companiesList, userVehicleInfo, userVehicles, userVehiclesPagination } from 'types/types';

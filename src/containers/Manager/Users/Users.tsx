@@ -97,7 +97,7 @@ const Users: React.FC = () => {
           <Button
             type='link'
             className={b('profile-link')}
-            onClick={() => nextBrowserUserInfoHandler(record?.id)}
+            onClick={() => nextBrowserUserInfoHandler(record?.id as number)}
           >
             <EyeOutlined style={{ fontSize: '23px' }} />
           </Button>
@@ -130,7 +130,7 @@ const Users: React.FC = () => {
         </Title>
 
         <TableComponent
-          rowKey={(record) => record.id}
+          rowKey={(record) => record.id as number}
           loading={fetchCompaniesLoading}
           columns={columns}
           data={companies}
