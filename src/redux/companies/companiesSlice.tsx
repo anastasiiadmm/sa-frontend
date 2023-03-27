@@ -8,6 +8,7 @@ import {
   PostNewUser,
   usersListPagination,
   userVehicleInfo,
+  vehicleCreateData,
   vehicleList,
   vehicleListPagination,
 } from 'types/types';
@@ -42,6 +43,8 @@ interface CompaniesState {
   userVehicleInfo: userVehicleInfo | null;
   userVehicleInfoLoading: boolean;
   userVehicleInfoError: Object | null;
+  vehicleCreateLoading: boolean;
+  vehicleCreateError: Object | null;
 }
 
 const INITIAL_STATE = {
@@ -89,6 +92,9 @@ const INITIAL_STATE = {
   userVehicleInfo: null,
   userVehicleInfoLoading: false,
   userVehicleInfoError: null,
+
+  vehicleCreateLoading: false,
+  vehicleCreateError: null,
 } as CompaniesState;
 
 interface fetchCompaniesParams {
@@ -284,6 +290,28 @@ export const fetchUserVehicleInfo = createAsyncThunk<userVehicleInfo, fetchUserV
   },
 );
 
+interface vehicleCreateParams {
+  userId: string | undefined;
+  data: vehicleCreateData;
+}
+
+export const vehicleCreate = createAsyncThunk<void, vehicleCreateParams>(
+  `${nameSpace}/vehicleCreate`,
+  async ({ data }, { rejectWithValue }) => {
+    try {
+      const resp = await axiosApi.post(`/companies/${data?.userId}/vehicles/`, data?.data);
+
+      return resp.data;
+    } catch (e) {
+      let error = e?.response?.data;
+      if (!e.response) {
+        error = defaultError;
+      }
+      return rejectWithValue(error);
+    }
+  },
+);
+
 const companiesSlice = createSlice({
   name: nameSpace,
   initialState: INITIAL_STATE,
@@ -408,6 +436,19 @@ const companiesSlice = createSlice({
     builder.addCase(fetchUserVehicleInfo.rejected, (state, { payload }: any) => {
       state.userVehicleInfoLoading = false;
       state.userVehicleInfoError = payload?.detail;
+    });
+
+    builder.addCase(vehicleCreate.pending, (state) => {
+      state.vehicleCreateLoading = true;
+      state.vehicleCreateError = null;
+    });
+    builder.addCase(vehicleCreate.fulfilled, (state) => {
+      state.vehicleCreateLoading = false;
+      state.vehicleCreateError = null;
+    });
+    builder.addCase(vehicleCreate.rejected, (state, { payload }: any) => {
+      state.vehicleCreateLoading = false;
+      state.vehicleCreateError = payload?.detail;
     });
   },
 });
