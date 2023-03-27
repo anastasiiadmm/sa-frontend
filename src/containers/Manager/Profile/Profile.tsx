@@ -101,7 +101,7 @@ const Profile: React.FC = () => {
         ) : (
           <>
             <div className={b('form-header')}>
-              <Avatar src={`${apiUrlCrop}${manager?.image}`} size={64} />
+              <Avatar size={64} src={manager?.image ? `${apiUrlCrop}${manager?.image}` : null} />
               <Title level={3} data-testid='sign_in_test' className='title'>
                 {`${manager?.last_name} ${manager?.first_name?.charAt(
                   0,
