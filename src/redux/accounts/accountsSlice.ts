@@ -3,8 +3,8 @@ import { message } from 'antd';
 
 import { RootState } from 'redux/hooks';
 import {
-  generatedPassword,
   accountsManagerConfirmation,
+  generatedPassword,
   IManager,
   IManagerMutation,
   IUserAccount,
