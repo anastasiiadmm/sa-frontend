@@ -147,7 +147,6 @@ const RequestRegisterUser: React.FC<Props> = ({
         md={{ span: 24, offset: 0 }}
         lg={{ span: 24, offset: 0 }}
       >
-        <p>Для регистрации нового пользователя, присвойте ему username и пароль</p>
         {userInfoLoading ? (
           <SkeletonBlock active={userInfoLoading} num={1} titleBool />
         ) : (
