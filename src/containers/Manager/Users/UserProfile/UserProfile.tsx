@@ -40,11 +40,11 @@ const UserProfile: React.FC = () => {
   const dispatch = useAppDispatch();
   const {
     companies,
-    fetchCompaniesLoading,
     userInfo,
     updateUserData,
     updateUserInfoLoading,
     deleteUserInfoLoading,
+    userInfoLoading,
   } = useAppSelector(companiesSelector);
   const { generatedPassword, generatePasswordLoading } = useAppSelector(accountsSelector);
   const [validateForm, setValidateForm] = useState(false);
@@ -189,12 +189,14 @@ const UserProfile: React.FC = () => {
           md={{ span: 18, offset: 3 }}
           lg={{ span: 11, offset: 1 }}
         >
-          {fetchCompaniesLoading ? (
-            <SkeletonBlock active={fetchCompaniesLoading} num={1} titleBool />
+          {userInfoLoading ? (
+            <SkeletonBlock active={userInfoLoading} num={1} titleBool />
           ) : (
             <>
               <Title level={3} data-testid='sign_in_test' className='title'>
-                Петр В.И
+                {`${resultsObj?.user.last_name} ${resultsObj?.user.first_name?.charAt(0)}. ${
+                  resultsObj?.user.middle_name ? `${resultsObj?.user.middle_name?.charAt(0)}.` : ''
+                }`}
               </Title>
 
               <Link to={`/user-technique/${id}`}>
@@ -379,6 +381,7 @@ const UserProfile: React.FC = () => {
         handleCancel={closePasswordModal}
       >
         <GeneratedPasswordModal
+          subtitle='Новый пароль пользователя'
           generatedPassword={generatedPassword}
           onClose={closePasswordModal}
         />
