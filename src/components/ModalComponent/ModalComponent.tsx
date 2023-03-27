@@ -2,6 +2,7 @@ import { Divider, Modal } from 'antd';
 import React from 'react';
 
 type Props = {
+  userId: string | null;
   title?: string;
   open: boolean;
   dividerShow?: boolean;

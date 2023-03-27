@@ -44,6 +44,7 @@ interface CompaniesState {
   userVehicleInfoLoading: boolean;
   userVehicleInfoError: Object | null;
   vehicleCreateLoading: boolean;
+  vehicleCreateSuccess: boolean;
   vehicleCreateError: Object | null;
 }
 
@@ -94,6 +95,7 @@ const INITIAL_STATE = {
   userVehicleInfoError: null,
 
   vehicleCreateLoading: false,
+  vehicleCreateSuccess: false,
   vehicleCreateError: null,
 } as CompaniesState;
 
@@ -440,14 +442,17 @@ const companiesSlice = createSlice({
 
     builder.addCase(vehicleCreate.pending, (state) => {
       state.vehicleCreateLoading = true;
+      state.vehicleCreateSuccess = false;
       state.vehicleCreateError = null;
     });
     builder.addCase(vehicleCreate.fulfilled, (state) => {
       state.vehicleCreateLoading = false;
+      state.vehicleCreateSuccess = true;
       state.vehicleCreateError = null;
     });
     builder.addCase(vehicleCreate.rejected, (state, { payload }: any) => {
       state.vehicleCreateLoading = false;
+      state.vehicleCreateSuccess = false;
       state.vehicleCreateError = payload?.detail;
     });
   },

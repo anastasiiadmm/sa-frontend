@@ -1,10 +1,13 @@
 import { Button, Col, Form, Typography } from 'antd';
 import bem from 'easy-bem';
-import React from 'react';
+import React, { useState } from 'react';
 
 import FormField from 'components/FormField/FormField';
 import UploadImageComponent from 'components/UploadImageComponent/UploadImageComponent';
 import 'components/ModalComponent/ModalChildrenComponents/AddUpdateTechnique/_addUpdateTechnique.scss';
+import { useAppDispatch, useAppSelector } from "../../../../redux/hooks";
+import { companiesSelector, userCreate, vehicleCreate } from "../../../../redux/companies/companiesSlice";
+import { removeEmptyValuesFromObject } from "../../../../helper";
 /* import ResultComponent from 'components/ResultComponent/ResultComponent';
 import successIcon from 'assets/images/icons/success.svg'; */
 
@@ -16,10 +19,23 @@ interface Props {
 
 const AddUpdateTechnique: React.FC<Props> = ({ isEdit = false }) => {
   const b = bem('AddUpdateTechnique');
-
+  const dispatch = useAppDispatch();
+  const { vehicleCreateLoading, vehicleCreateSuccess } = useAppSelector(companiesSelector);
   const [form] = Form.useForm();
+  const [formValid, setFormValid] = useState(true);
 
-  const onFinish = (values: any) => {};
+  const onFinish = async (values: any) => {
+    try {
+      if (values) {
+        const data = removeEmptyValuesFromObject(values);
+        await dispatch(vehicleCreate({ userId:  })).unwrap();
+        await showModal();
+      }
+
+    } catch (e) {
+
+    }
+  };
 
   /*  const requestAddTechniqueModal = (
     <>
@@ -54,9 +70,9 @@ const AddUpdateTechnique: React.FC<Props> = ({ isEdit = false }) => {
   return (
     <Col
       className={b('')}
-      xs={{ span: 20, offset: 2 }}
-      md={{ span: 22, offset: 1 }}
-      lg={{ span: 22, offset: 1 }}
+      xs={{ span: 24, offset: 0 }}
+      md={{ span: 24, offset: 0 }}
+      lg={{ span: 24, offset: 0 }}
     >
       <Form
         form={form}
@@ -64,25 +80,23 @@ const AddUpdateTechnique: React.FC<Props> = ({ isEdit = false }) => {
         onFinish={onFinish}
         autoComplete='off'
         layout='vertical'
+        onValuesChange={() =>
+          setFormValid(form.getFieldsError().some((item) => item.errors.length > 0))
+        }
       >
-        <Title level={3} className={b('title')}>
-          Фото техники
-        </Title>
-
-        <UploadImageComponent />
-
         <Title level={3} className={b('title')}>
           Информация о технике
         </Title>
 
         <FormField
           bordered
-          data-testid='new_technique_id'
-          id='new_technique_id'
+          data-testid='description_id'
+          id='description_id'
           inputClassName={b('username')}
           label='Название техники'
-          name='new_technique'
+          name='description'
           placeholder='Название техники'
+          rules={[{ required: true, message: 'Введите название техники' }]}
         />
 
         <div className={b('form-block')}>
@@ -94,16 +108,18 @@ const AddUpdateTechnique: React.FC<Props> = ({ isEdit = false }) => {
             label='Гос номер'
             name='state_number'
             placeholder='Гос номер'
+            rules={[{ required: true, message: 'Введите гос номер' }]}
           />
 
           <FormField
             bordered
-            data-testid='new_technique_id'
-            id='new_technique_id'
+            data-testid='code_id'
+            id='code_id'
             inputClassName={b('username')}
             label='VIN код'
-            name='new_technique'
+            name='code'
             placeholder='VIN код'
+            rules={[{ required: true, message: 'Введите VIN код' }]}
           />
         </div>
 
@@ -120,6 +136,7 @@ const AddUpdateTechnique: React.FC<Props> = ({ isEdit = false }) => {
             label='Фамилия'
             name='last_name'
             placeholder='Фамилия'
+            rules={[{ required: true, message: 'Введите фамилию' }]}
           />
 
           <FormField
@@ -130,26 +147,28 @@ const AddUpdateTechnique: React.FC<Props> = ({ isEdit = false }) => {
             label='Имя'
             name='first_name'
             placeholder='Имя'
+            rules={[{ required: true, message: 'Введите имя' }]}
           />
         </div>
 
         <FormField
           bordered
-          data-testid='surname_id'
-          id='surname_id'
+          data-testid='middle_name_id'
+          id='middle_name_id'
           inputClassName={b('username')}
           className='form-fields'
           label='Отчество'
-          name='surname'
+          name='middle_name'
           placeholder='Отчество'
+          rules={[{ required: true, message: 'Введите отчество' }]}
         />
 
         <div className={b('profile-buttons')}>
           <Button
-            // disabled={!!commonError}
+            disabled={formValid}
             type='primary'
             htmlType='submit'
-            // loading={!!loading}
+            loading={vehicleCreateLoading}
             style={{ width: '100%', borderRadius: 4 }}
             className={b('save-button')}
           >

@@ -220,6 +220,7 @@ const UserTechnique: React.FC = () => {
         open={isModalOpen}
         handleOk={handleOkCancel}
         handleCancel={handleOkCancel}
+        userId={id}
       >
         <AddUpdateTechnique />
       </ModalComponent>
