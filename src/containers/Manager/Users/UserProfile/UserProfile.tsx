@@ -379,6 +379,7 @@ const UserProfile: React.FC = () => {
         handleCancel={closePasswordModal}
       >
         <GeneratedPasswordModal
+          subtitle='Новый пароль пользователя'
           generatedPassword={generatedPassword}
           onClose={closePasswordModal}
         />
