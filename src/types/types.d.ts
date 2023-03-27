@@ -258,6 +258,10 @@ export interface userVehicleInfo {
   enterprise: number;
 }
 
+export interface generatedPassword {
+  generated_password: string;
+}
+
 export interface Request {
   id: number;
   created_at: string;
@@ -267,6 +271,7 @@ export interface Request {
   confirmation_type_text: string;
   inquiry_id: number;
 }
+
 export interface accountsManagerConfirmation {
   created_at: string;
   confirmation_type: number;

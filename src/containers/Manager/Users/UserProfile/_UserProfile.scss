@@ -11,7 +11,6 @@
   }
 
   &__user-card-style {
-    width: 160px;
     background: themes.$light-blue-color;
     border: 1px solid themes.$info-color;
     border-radius: 4px;
@@ -51,6 +50,11 @@
     }
   }
 
+  &__password-button {
+    color: themes.$info-color !important;
+    padding: 0 3px;
+  }
+
   :where(.css-dev-only-do-not-override-sk7ap8).ant-form-vertical .ant-form-item-label,
   :where(.css-dev-only-do-not-override-sk7ap8).ant-col-24.ant-form-item-label,
   :where(.css-dev-only-do-not-override-sk7ap8).ant-col-xl-24.ant-form-item-label {
@@ -80,5 +84,9 @@
 
   :where(.css-dev-only-do-not-override-sk7ap8).ant-input-affix-wrapper {
     padding: 0;
+  }
+
+  .ant-card-body {
+    padding: 16px;
   }
 }
