@@ -227,7 +227,7 @@ export const deleteUserInfo = createAsyncThunk<void, string>(
 
 interface fetchVehicleParams {
   data?: {
-    userId: string;
+    userId?: string | null | undefined;
     query?: {
       page?: number | undefined;
     };
@@ -293,13 +293,13 @@ export const fetchUserVehicleInfo = createAsyncThunk<userVehicleInfo, fetchUserV
 );
 
 interface vehicleCreateParams {
-  userId: string | undefined;
+  userId: string | null | undefined;
   data: vehicleCreateData;
 }
 
 export const vehicleCreate = createAsyncThunk<void, vehicleCreateParams>(
   `${nameSpace}/vehicleCreate`,
-  async ({ data }, { rejectWithValue }) => {
+  async (data, { rejectWithValue }) => {
     try {
       const resp = await axiosApi.post(`/companies/${data?.userId}/vehicles/`, data?.data);
 
@@ -331,6 +331,9 @@ const companiesSlice = createSlice({
         phone: action.payload.user.phone,
         username: action.payload.user.username,
       };
+    },
+    setNullReducerVehicleCreate: (state) => {
+      state.vehicleCreateSuccess = false;
     },
   },
   extraReducers: (builder) => {
@@ -458,6 +461,6 @@ const companiesSlice = createSlice({
   },
 });
 
-export const { setChangeUserProfile } = companiesSlice.actions;
+export const { setChangeUserProfile, setNullReducerVehicleCreate } = companiesSlice.actions;
 export const companiesSelector = (state: RootState) => state.companies;
 export default companiesSlice.reducer;

@@ -29,6 +29,7 @@ const UserTechnique: React.FC = () => {
   const { vehicleList, fetchVehicleListLoading, vehicleListPagination } =
     useAppSelector(companiesSelector);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalCreateOpen, setIsModalCreateOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteEditModalOpen] = useState(false);
   const [filters, setFilters] = useState({
@@ -76,6 +77,14 @@ const UserTechnique: React.FC = () => {
 
   const handleDeleteOkCancel = () => {
     setIsDeleteEditModalOpen(!isDeleteModalOpen);
+  };
+
+  const showCreateSuccessModal = () => {
+    setIsModalCreateOpen(true);
+  };
+
+  const handleCreateOkCancel = () => {
+    setIsModalCreateOpen(!isModalCreateOpen);
   };
 
   const deleteTechniqueHandler = () => {};
@@ -220,9 +229,8 @@ const UserTechnique: React.FC = () => {
         open={isModalOpen}
         handleOk={handleOkCancel}
         handleCancel={handleOkCancel}
-        userId={id}
       >
-        <AddUpdateTechnique />
+        <AddUpdateTechnique handleOkCancel={handleOkCancel} userId={id} />
       </ModalComponent>
 
       <ModalComponent
@@ -231,7 +239,7 @@ const UserTechnique: React.FC = () => {
         handleOk={handleEditOkCancel}
         handleCancel={handleEditOkCancel}
       >
-        <AddUpdateTechnique isEdit />
+        <AddUpdateTechnique isEdit userId={id} />
       </ModalComponent>
 
       <ModalComponent
