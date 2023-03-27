@@ -74,7 +74,6 @@ const UserProfile: React.FC = () => {
     if (resultsObj) {
       form.setFieldsValue({
         username: resultsObj?.user?.username,
-        password: resultsObj?.user?.password,
         last_name: resultsObj?.user?.last_name,
         first_name: resultsObj?.user?.first_name,
         middle_name: resultsObj?.user?.middle_name,
@@ -177,7 +176,9 @@ const UserProfile: React.FC = () => {
           ) : (
             <>
               <Title level={3} data-testid='sign_in_test' className='title'>
-                Петр В.И
+                {`${resultsObj?.user?.last_name} ${resultsObj?.user?.first_name?.charAt(
+                  0,
+                )}. ${resultsObj?.user?.middle_name?.charAt(0)}.`}
               </Title>
 
               <Link to={`/user-technique/${id}`}>
@@ -207,16 +208,6 @@ const UserProfile: React.FC = () => {
                   label='Username'
                   name='username'
                   placeholder='Username'
-                />
-
-                <FormField
-                  readOnly
-                  id='password_id'
-                  type='password'
-                  name='password'
-                  label='Пароль'
-                  placeholder='Пароль'
-                  inputClassName={b('username-info')}
                 />
 
                 <div className={b('form-block')}>

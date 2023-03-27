@@ -14,10 +14,17 @@ import AddUpdateTechnique from 'components/ModalComponent/ModalChildrenComponent
 import DeleteRejectTechniqueModal from 'components/ModalComponent/ModalChildrenComponents/DeleteTechniqueModal/DeleteTechniqueModal';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import TableComponent from 'components/TableComponent/TableComponent';
-import { companiesSelector, fetchUserVehicleList } from 'redux/companies/companiesSlice';
+import {
+  companiesSelector,
+  fetchUserInfo,
+  fetchUserVehicleList,
+  setNullReducerVehicleCreate,
+} from 'redux/companies/companiesSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { vehicleList } from 'types/types';
 import { apiUrlCrop } from 'utils/config';
+import ResultComponent from 'components/ResultComponent/ResultComponent';
+import successIcon from 'assets/images/icons/success.svg';
 import 'containers/Manager/Users/UserTechnique/_userTechnique.scss';
 
 const { Title } = Typography;
@@ -26,8 +33,13 @@ const UserTechnique: React.FC = () => {
   const b = bem('UserTechnique');
   const dispatch = useAppDispatch();
   const { id } = useParams() as { id: string };
-  const { vehicleList, fetchVehicleListLoading, vehicleListPagination } =
-    useAppSelector(companiesSelector);
+  const {
+    vehicleList,
+    fetchVehicleListLoading,
+    vehicleListPagination,
+    userInfo,
+    vehicleCreateSuccess,
+  } = useAppSelector(companiesSelector);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalCreateOpen, setIsModalCreateOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -35,6 +47,8 @@ const UserTechnique: React.FC = () => {
   const [filters, setFilters] = useState({
     page: 1,
   });
+
+  console.log('vehicleCreateSuccess', vehicleCreateSuccess);
 
   useEffect(() => {
     const data = {
@@ -46,6 +60,20 @@ const UserTechnique: React.FC = () => {
 
     dispatch(fetchUserVehicleList({ data }));
   }, [dispatch, filters]);
+
+  useEffect(() => {
+    const data = {
+      id,
+    };
+    dispatch(fetchUserInfo({ data }));
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (vehicleCreateSuccess) {
+      showCreateSuccessModal();
+      handleOkCancel();
+    }
+  }, [vehicleCreateSuccess]);
 
   const pagePrevHandler = () => {
     setFilters({ ...filters, page: filters.page - 1 });
@@ -88,6 +116,19 @@ const UserTechnique: React.FC = () => {
   };
 
   const deleteTechniqueHandler = () => {};
+
+  const goToTechniqueListHandler = () => {
+    handleCreateOkCancel();
+    const data = {
+      userId: id,
+      query: {
+        page: 1,
+      },
+    };
+
+    dispatch(fetchUserVehicleList({ data }));
+    dispatch(setNullReducerVehicleCreate());
+  };
 
   const columns: ColumnsType<vehicleList> = [
     {
@@ -201,7 +242,13 @@ const UserTechnique: React.FC = () => {
                 <img className={b('arrow-left')} src={arrowLeft} alt='arrow' />
               </Link>
               <Title level={3} className={b('title')}>
-                Техника пользователя - <p className={b('subtitle')}> Иванов И.И</p>
+                Техника пользователя -{' '}
+                <p className={b('subtitle')}>
+                  {' '}
+                  {`${userInfo?.user?.last_name} ${userInfo?.user?.first_name?.charAt(
+                    0,
+                  )}. ${userInfo?.user?.middle_name?.charAt(0)}.`}
+                </p>
               </Title>
             </div>
 
@@ -255,6 +302,21 @@ const UserTechnique: React.FC = () => {
           handleDeleteCancel={handleDeleteOkCancel}
           deleteRejectTechniqueHandler={deleteTechniqueHandler}
         />
+      </ModalComponent>
+
+      <ModalComponent dividerShow={false} open={isModalCreateOpen} closable={false}>
+        <ResultComponent
+          icon={<img src={successIcon} alt='success' />}
+          status='info'
+          title='Техника добавлена'
+        />
+        <Button
+          type='primary'
+          style={{ width: '100%', borderRadius: 4 }}
+          onClick={goToTechniqueListHandler}
+        >
+          Хорошо
+        </Button>
       </ModalComponent>
     </>
   );
