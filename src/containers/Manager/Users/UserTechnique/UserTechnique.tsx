@@ -8,11 +8,13 @@ import { Link, useParams } from 'react-router-dom';
 import arrowLeft from 'assets/images/icons/arrow-left.svg';
 import deleteIcon from 'assets/images/icons/delete.svg';
 import edit from 'assets/images/icons/edit.svg';
+import successIcon from 'assets/images/icons/success.svg';
 import tractorBlue from 'assets/images/icons/tractor-blue.svg';
 import tractor from 'assets/images/icons/tractor-image.svg';
 import AddUpdateTechnique from 'components/ModalComponent/ModalChildrenComponents/AddUpdateTechnique/AddUpdateTechnique';
 import DeleteRejectTechniqueModal from 'components/ModalComponent/ModalChildrenComponents/DeleteTechniqueModal/DeleteTechniqueModal';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
+import ResultComponent from 'components/ResultComponent/ResultComponent';
 import TableComponent from 'components/TableComponent/TableComponent';
 import {
   companiesSelector,
@@ -23,8 +25,6 @@ import {
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { vehicleList } from 'types/types';
 import { apiUrlCrop } from 'utils/config';
-import ResultComponent from 'components/ResultComponent/ResultComponent';
-import successIcon from 'assets/images/icons/success.svg';
 import 'containers/Manager/Users/UserTechnique/_userTechnique.scss';
 
 const { Title } = Typography;
@@ -47,8 +47,6 @@ const UserTechnique: React.FC = () => {
   const [filters, setFilters] = useState({
     page: 1,
   });
-
-  console.log('vehicleCreateSuccess', vehicleCreateSuccess);
 
   useEffect(() => {
     const data = {
