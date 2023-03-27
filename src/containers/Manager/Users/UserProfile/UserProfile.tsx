@@ -194,9 +194,9 @@ const UserProfile: React.FC = () => {
           ) : (
             <>
               <Title level={3} data-testid='sign_in_test' className='title'>
-                {`${resultsObj?.user.last_name} ${resultsObj?.user.first_name?.charAt(
-                  0,
-                )}. ${resultsObj?.user.middle_name?.charAt(0)}.`}
+                {`${resultsObj?.user.last_name} ${resultsObj?.user.first_name?.charAt(0)}. ${
+                  resultsObj?.user.middle_name ? `${resultsObj?.user.middle_name?.charAt(0)}.` : ''
+                }`}
               </Title>
 
               <Link to={`/user-technique/${id}`}>
