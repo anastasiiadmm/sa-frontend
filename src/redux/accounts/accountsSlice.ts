@@ -6,7 +6,6 @@ import {
   accountsManagerConfirmation,
   generatedPassword,
   IManager,
-  IManagerMutation,
   IUserAccount,
   IUserRegister,
   updateManagerDataMutation,
@@ -126,7 +125,7 @@ export const fetchManager = createAsyncThunk(
 );
 
 interface updateManagerParams {
-  data: IManagerMutation;
+  data: FormData;
 }
 
 export const managerProfileUpdate = createAsyncThunk<void, updateManagerParams>(

@@ -29,4 +29,10 @@
       margin-bottom: 0;
     }
   }
+
+  &__image-upload {
+    >input {
+      display: none;
+    }
+  }
 }
