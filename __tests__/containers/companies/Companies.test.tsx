@@ -1,5 +1,7 @@
 import { BrowserRouter } from "react-router-dom";
-import { screen, render, waitFor, cleanup } from "@testing-library/react";
+import { screen, render, waitFor, cleanup, fireEvent } from "@testing-library/react";
+import { act } from 'react-dom/test-utils';
+import userEvent from '@testing-library/user-event';
 import "../../../__mocks__/matchMedia.mock";
 import "@testing-library/jest-dom";
 import { mockedDispatch, mockedUseSelectors } from "../../../__mocks__/utils";
@@ -8,6 +10,9 @@ import Users from "../../../src/containers/Manager/Users/Users";
 import NewUser from "../../../src/containers/Manager/Users/NewUser/NewUser";
 import UserProfile from "../../../src/containers/Manager/Users/UserProfile/UserProfile";
 import UserTechnique from "../../../src/containers/Manager/Users/UserTechnique/UserTechnique";
+import ModalComponent from "../../../src/components/ModalComponent/ModalComponent";
+import AddUpdateTechnique
+  from "../../../src/components/ModalComponent/ModalChildrenComponents/AddUpdateTechnique/AddUpdateTechnique";
 
 afterEach(cleanup);
 
@@ -134,6 +139,71 @@ describe("<Users />", () => {
 
     await waitFor(() => {
       expect(UserTechniqueComponent).toBeInTheDocument();
+    });
+  });
+
+  test("UserTechnique modal form should open success", async () => {
+    const dispatch = jest.fn();
+    mockedDispatch.mockReturnValue(dispatch);
+    const userId = '1';
+
+    render(
+      <BrowserRouter>
+        <ModalComponent open>
+          <AddUpdateTechnique userId={userId} />
+        </ModalComponent>
+      </BrowserRouter>,
+    );
+
+    const infoTitle = screen.getByTestId('title_id');
+    expect(infoTitle).toBeInTheDocument();
+    const description = screen.getByTitle('Название техники');
+    expect(description).toBeInTheDocument();
+    const stateNumber = screen.getByTitle('Гос номер');
+    expect(stateNumber).toBeInTheDocument();
+    const vinCode = screen.getByTitle('VIN код');
+    expect(vinCode).toBeInTheDocument();
+    const lastName = screen.getByTitle('Фамилия');
+    expect(lastName).toBeInTheDocument();
+    const firstName = screen.getByTitle('Имя');
+    expect(firstName).toBeInTheDocument();
+    const middleName = screen.getByTitle('Отчество');
+    expect(middleName).toBeInTheDocument();
+    const button = screen.getByTestId('button_id');
+    expect(button).toBeInTheDocument();
+    expect(button).toHaveTextContent('Добавить технику');
+    expect(button).toBeDisabled();
+  });
+
+  test("UserTechnique modal submits the form with valid values", async () => {
+    const dispatch = jest.fn();
+    mockedDispatch.mockReturnValue(dispatch);
+    const userId = '1';
+
+    render(
+      <BrowserRouter>
+        <ModalComponent open>
+          <AddUpdateTechnique userId={userId} />
+        </ModalComponent>
+      </BrowserRouter>,
+    );
+
+    const nameInput = screen.getByLabelText('Название техники');
+    const stateNumberInput = screen.getByLabelText('Гос номер');
+    const vinCodeInput = screen.getByLabelText('VIN код');
+    const lastNameInput = screen.getByLabelText('Фамилия');
+    const firstNameInput = screen.getByLabelText('Имя');
+    const middleNameInput = screen.getByLabelText('Отчество');
+    const submitButton = screen.getByRole('button', { name: /добавить технику/i });
+
+    await act(() => {
+      userEvent.type(nameInput, 'Test name');
+      userEvent.type(stateNumberInput, 'Test state number');
+      userEvent.type(vinCodeInput, 'Test vin code');
+      userEvent.type(lastNameInput, 'Test last name');
+      userEvent.type(firstNameInput, 'Test first name');
+      userEvent.type(middleNameInput, 'Test middle name');
+      fireEvent.click(submitButton);
     });
   });
 

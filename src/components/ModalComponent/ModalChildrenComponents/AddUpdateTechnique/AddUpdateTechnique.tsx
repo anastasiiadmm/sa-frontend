@@ -57,7 +57,7 @@ const AddUpdateTechnique: React.FC<Props> = ({ isEdit = false, userId }) => {
           setFormValid(form.getFieldsError().some((item) => item.errors.length > 0))
         }
       >
-        <Title level={3} className={b('title')}>
+        <Title level={3} className={b('title')} data-testid='title_id'>
           Информация о технике
         </Title>
 
@@ -138,6 +138,7 @@ const AddUpdateTechnique: React.FC<Props> = ({ isEdit = false, userId }) => {
 
         <div className={b('profile-buttons')}>
           <Button
+            data-testid='button_id'
             disabled={formValid}
             type='primary'
             htmlType='submit'
