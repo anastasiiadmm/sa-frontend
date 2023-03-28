@@ -4,7 +4,12 @@ import React, { useEffect, useState } from 'react';
 
 import FormField from 'components/FormField/FormField';
 import { getErrorMessage, removeEmptyValuesFromObject } from 'helper';
-import { companiesSelector, vehicleCreate } from 'redux/companies/companiesSlice';
+import {
+  companiesSelector,
+  fetchUserVehicleInfo,
+  patchUserVehicleInfo,
+  vehicleCreate,
+} from 'redux/companies/companiesSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import 'components/ModalComponent/ModalChildrenComponents/AddUpdateTechnique/_addUpdateTechnique.scss';
 
@@ -12,27 +17,56 @@ const { Title } = Typography;
 
 interface Props {
   userId: string | null | undefined;
+  vehicleId?: string | null | undefined;
   isEdit?: boolean;
 }
 
-const AddUpdateTechnique: React.FC<Props> = ({ isEdit = false, userId }) => {
+const AddUpdateTechnique: React.FC<Props> = ({ isEdit = false, userId, vehicleId }) => {
   const b = bem('AddUpdateTechnique');
   const dispatch = useAppDispatch();
-  const { vehicleCreateLoading, vehicleCreateSuccess } = useAppSelector(companiesSelector);
+  const {
+    vehicleCreateLoading,
+    vehicleCreateSuccess,
+    userVehicleInfo,
+    patchUserVehicleInfoLoading,
+  } = useAppSelector(companiesSelector);
   const [form] = Form.useForm();
   const [formValid, setFormValid] = useState(true);
 
   useEffect(() => {
-    if (!vehicleCreateSuccess) {
+    if (!vehicleCreateSuccess && !isEdit) {
       form.resetFields();
     }
-  }, [form, vehicleCreateSuccess]);
+  }, [form, vehicleCreateSuccess, isEdit]);
+
+  useEffect(() => {
+    if (isEdit) {
+      dispatch(fetchUserVehicleInfo({ userId, vehicleId }));
+    }
+  }, [dispatch, isEdit]);
+
+  useEffect(() => {
+    if (userVehicleInfo && isEdit) {
+      form.setFieldsValue({
+        description: userVehicleInfo?.description,
+        state_number: userVehicleInfo?.state_number,
+        vin_code: userVehicleInfo?.vin_code,
+        last_name: userVehicleInfo?.last_name,
+        first_name: userVehicleInfo?.first_name,
+        middle_name: userVehicleInfo?.middle_name,
+      });
+    }
+  }, [userVehicleInfo, form]);
 
   const onFinish = async (values: any) => {
     try {
       if (values) {
         const data = removeEmptyValuesFromObject(values);
-        await dispatch(vehicleCreate({ userId, data })).unwrap();
+        if (isEdit) {
+          await dispatch(patchUserVehicleInfo({ userId, vehicleId, data })).unwrap();
+        } else {
+          await dispatch(vehicleCreate({ userId, data })).unwrap();
+        }
       }
     } catch (e) {
       const errorMessage = getErrorMessage(e, 'username');
@@ -142,7 +176,7 @@ const AddUpdateTechnique: React.FC<Props> = ({ isEdit = false, userId }) => {
             disabled={formValid}
             type='primary'
             htmlType='submit'
-            loading={vehicleCreateLoading}
+            loading={vehicleCreateLoading || patchUserVehicleInfoLoading}
             style={{ width: '100%', borderRadius: 4 }}
             className={b('save-button')}
           >
