@@ -40,7 +40,6 @@ const UserProfile: React.FC = () => {
   const dispatch = useAppDispatch();
   const {
     companies,
-    fetchCompaniesLoading,
     userInfo,
     updateUserData,
     updateUserInfoLoading,
