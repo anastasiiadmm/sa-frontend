@@ -3,6 +3,7 @@ import { message } from 'antd';
 
 import { RootState } from 'redux/hooks';
 import {
+  accountsManagerConfirmation,
   IManager,
   IManagerMutation,
   IUserAccount,
@@ -46,6 +47,9 @@ interface AccountsState {
   userVehicleInfo: userVehicleInfo | null;
   userVehicleInfoLoading: boolean;
   userVehicleInfoError: Object | null;
+  accountManagerConfirmation: accountsManagerConfirmation | null;
+  accountManagerConfirmationLoading: boolean;
+  accountManagerConfirmationError: Object | null;
 }
 
 const INITIAL_STATE = {
@@ -87,6 +91,10 @@ const INITIAL_STATE = {
   userVehicleInfo: null,
   userVehicleInfoLoading: false,
   userVehicleInfoError: null,
+
+  accountManagerConfirmation: null,
+  accountManagerConfirmationLoading: false,
+  accountManagerConfirmationError: null,
 } as AccountsState;
 
 export const fetchManager = createAsyncThunk(
@@ -240,6 +248,34 @@ export const fetchRequests = createAsyncThunk<userRequest, fetchRequestsParams>(
   },
 );
 
+interface accountManagerConfirmationParams {
+  id: string | null | undefined;
+}
+
+export const accountManagerConfirmationRequest = createAsyncThunk<
+  accountsManagerConfirmation,
+  accountManagerConfirmationParams
+>('accounts/accountManagerConfirmationRequest', async (data, { rejectWithValue }) => {
+  try {
+    const resp = await axiosApi.patch<accountsManagerConfirmation | null>(
+      `/accounts/manager/confirmation/${data?.id}/`,
+    );
+    const accountManagerConfirmation = resp.data;
+
+    if (accountManagerConfirmation === null) {
+      throw new Error('Not Found!');
+    }
+
+    return accountManagerConfirmation;
+  } catch (e) {
+    let error = e?.response?.data;
+    if (!e.response) {
+      error = defaultError;
+    }
+    return rejectWithValue(error);
+  }
+});
+
 interface fetchVehicleInfoParams {
   vehicleId: string | undefined;
 }
@@ -357,6 +393,7 @@ const accountsSlice = createSlice({
       state.fetchUserVehiclesLoading = false;
       state.fetchUserVehiclesError = payload?.detail;
     });
+
     builder.addCase(registerUser.pending, (state) => {
       state.registerUserLoading = true;
       state.registerUserError = null;
@@ -372,6 +409,7 @@ const accountsSlice = createSlice({
       state.registerUserError = payload;
       state.registerUserSuccess = false;
     });
+
     builder.addCase(fetchRequests.pending, (state) => {
       state.fetchRequestsLoading = true;
       state.fetchRequestsError = null;
@@ -391,6 +429,7 @@ const accountsSlice = createSlice({
       state.fetchRequestsLoading = false;
       state.fetchRequestsError = payload?.detail;
     });
+
     builder.addCase(fetchVehicleInfo.pending, (state) => {
       state.userVehicleInfoLoading = true;
       state.userVehicleInfoError = null;
@@ -402,6 +441,22 @@ const accountsSlice = createSlice({
     builder.addCase(fetchVehicleInfo.rejected, (state, { payload }: any) => {
       state.userVehicleInfoLoading = false;
       state.userVehicleInfoError = payload?.detail;
+    });
+
+    builder.addCase(accountManagerConfirmationRequest.pending, (state) => {
+      state.accountManagerConfirmationLoading = true;
+      state.accountManagerConfirmationError = null;
+    });
+    builder.addCase(
+      accountManagerConfirmationRequest.fulfilled,
+      (state, { payload: accountManagerConfirmation }: any) => {
+        state.accountManagerConfirmationLoading = false;
+        state.accountManagerConfirmation = accountManagerConfirmation;
+      },
+    );
+    builder.addCase(accountManagerConfirmationRequest.rejected, (state, { payload }: any) => {
+      state.accountManagerConfirmationLoading = false;
+      state.accountManagerConfirmationError = payload?.detail;
     });
   },
 });

@@ -6,6 +6,7 @@ import {
   companiesList,
   ICompany,
   PostNewUser,
+  UpdatedCompaniesList,
   usersListPagination,
   userVehicleInfo,
   vehicleCreateData,
@@ -156,7 +157,7 @@ export const userCreate = createAsyncThunk<void, userCreateParams>(
 
 interface fetchCompanyParams {
   data: {
-    id: string | undefined;
+    id: string | null | undefined;
   };
 }
 
@@ -184,7 +185,7 @@ export const fetchUserInfo = createAsyncThunk<companiesList, fetchCompanyParams>
 
 interface updateUserInfoParams {
   id: string | undefined;
-  data: ICompany;
+  data: ICompany | UpdatedCompaniesList;
 }
 
 export const updateUserInfo = createAsyncThunk<void, updateUserInfoParams>(
@@ -192,8 +193,6 @@ export const updateUserInfo = createAsyncThunk<void, updateUserInfoParams>(
   async (data, { rejectWithValue, dispatch }) => {
     try {
       const resp = await axiosApi.patch(`/companies/${data?.id}/`, data?.data);
-      message.success('Данные успешно изменены!');
-
       await dispatch(fetchUserInfo({ data }));
 
       return resp.data;

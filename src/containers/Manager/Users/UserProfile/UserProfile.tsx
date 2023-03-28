@@ -23,6 +23,7 @@ import {
   updateUserInfo,
 } from 'redux/companies/companiesSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { companiesList } from 'types/types';
 import 'containers/Manager/Users/UserProfile/_UserProfile.scss';
 
 const { Title } = Typography;
@@ -44,7 +45,7 @@ const UserProfile: React.FC = () => {
   const [validateForm, setValidateForm] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
-  const [userData, setUserData] = useState({
+  const [userData, setUserData] = useState<companiesList>({
     user: {
       username: '',
       password: '',
