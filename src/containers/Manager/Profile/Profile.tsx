@@ -1,3 +1,4 @@
+import { UserOutlined } from '@ant-design/icons';
 import { Avatar, Button, Col, Form, Typography } from 'antd';
 import bem from 'easy-bem';
 import React, { useEffect, useState } from 'react';
@@ -18,6 +19,7 @@ import {
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import 'containers/Manager/Profile/_profile.scss';
 import { apiUrlCrop } from 'utils/config';
+import { fileSizeValidate, fileValidateImg } from 'utils/validate/validate';
 
 const { Title } = Typography;
 
@@ -104,8 +106,10 @@ const Profile: React.FC = () => {
   const onFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
     if (files) {
-      setImage(files[0]);
-      setValidateForm(false);
+      if (fileSizeValidate(files[0]) && fileValidateImg(files[0])) {
+        setImage(files[0]);
+        setValidateForm(false);
+      }
     }
   };
 
@@ -135,11 +139,13 @@ const Profile: React.FC = () => {
                       size={64}
                       src={manager?.image ? `${apiUrlCrop}${manager?.image}` : ''}
                       style={{ cursor: 'pointer' }}
+                      icon={<UserOutlined />}
                     />
                   )}
                 </label>
 
                 <input
+                  data-testid='image-input'
                   id='image-input'
                   type='file'
                   onChange={onFileChange}

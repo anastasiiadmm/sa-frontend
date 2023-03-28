@@ -58,6 +58,7 @@ describe('<Profile />',  () => {
     mockedUseSelectors.mockReturnValue(data);
     const dispatch = jest.fn();
     mockedDispatch.mockReturnValue(dispatch);
+    window.URL.createObjectURL = jest.fn();
 
     render(
       <BrowserRouter>
@@ -71,6 +72,9 @@ describe('<Profile />',  () => {
     const middle_name = screen.getByLabelText('Отчество');
     const email = screen.getByLabelText('Email');
     const phone = screen.getByLabelText('Номер телефона');
+    const fileInput = screen.getByTestId('image-input');
+
+    const file = new File(['test'], 'test.png', { type: 'image/png' });
 
     fireEvent.change(username, { target: { value: 'Test username' } });
     expect(username).toHaveDisplayValue('Test username');
@@ -84,6 +88,7 @@ describe('<Profile />',  () => {
     expect(email).toHaveDisplayValue('email@gmail.com');
     fireEvent.change(phone, { target: { value: '+7 (999) 999-99-99' } });
     expect(phone).toHaveDisplayValue('+7 (999) 999-99-99');
+    fireEvent.change(fileInput, { target: { files: [file] } });
 
     await act(async () => {
       fireEvent.click(screen.getByTestId('button_change'));
@@ -132,7 +137,7 @@ describe('<Profile />',  () => {
 
     render(
       <ModalComponent open title='Пароль' handleOk={yesHandler} handleCancel={handleClose}>
-        <GeneratedPasswordModal onClose={handleClose} generatedPassword='test' />
+        <GeneratedPasswordModal subtitle='test' onClose={handleClose} generatedPassword='test' />
       </ModalComponent>
     );
 
