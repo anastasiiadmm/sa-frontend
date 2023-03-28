@@ -76,7 +76,11 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
       <Avatar
         className='avatar-profile'
         size='large'
-        src={`${apiUrlCrop}${user?.is_manager ? manager?.image : userAccount?.user?.image}`}
+        src={
+          manager?.image || userAccount?.user?.image
+            ? `${apiUrlCrop}${user?.is_manager ? manager?.image : userAccount?.user?.image}`
+            : null
+        }
         icon={<UserOutlined />}
       />,
       [

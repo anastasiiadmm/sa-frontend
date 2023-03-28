@@ -4,6 +4,7 @@ import { message } from 'antd';
 import { RootState } from 'redux/hooks';
 import {
   accountsManagerConfirmation,
+  generatedPassword,
   IManager,
   IManagerMutation,
   IUserAccount,
@@ -47,6 +48,9 @@ interface AccountsState {
   userVehicleInfo: userVehicleInfo | null;
   userVehicleInfoLoading: boolean;
   userVehicleInfoError: Object | null;
+  generatePasswordLoading: boolean;
+  generatePasswordError: Object | null;
+  generatedPassword: string | null;
   accountManagerConfirmation: accountsManagerConfirmation | null;
   accountManagerConfirmationLoading: boolean;
   accountManagerConfirmationError: Object | null;
@@ -91,6 +95,10 @@ const INITIAL_STATE = {
   userVehicleInfo: null,
   userVehicleInfoLoading: false,
   userVehicleInfoError: null,
+
+  generatePasswordLoading: false,
+  generatePasswordError: null,
+  generatedPassword: null,
 
   accountManagerConfirmation: null,
   accountManagerConfirmationLoading: false,
@@ -304,6 +312,26 @@ export const fetchVehicleInfo = createAsyncThunk<userVehicleInfo, fetchVehicleIn
   },
 );
 
+interface generateNewPasswordParams {
+  company_id: number | undefined;
+}
+
+export const generateNewPassword = createAsyncThunk<generatedPassword, generateNewPasswordParams>(
+  `${nameSpace}/generateNewPassword`,
+  async (data, { rejectWithValue }) => {
+    try {
+      const resp = await axiosApi.post(`/accounts/user/generate_new_password/`, data);
+      return resp.data;
+    } catch (e) {
+      let error = e?.response?.data;
+      if (!e.response) {
+        error = defaultError;
+      }
+      return rejectWithValue(error);
+    }
+  },
+);
+
 const accountsSlice = createSlice({
   name: nameSpace,
   initialState: INITIAL_STATE,
@@ -442,7 +470,18 @@ const accountsSlice = createSlice({
       state.userVehicleInfoLoading = false;
       state.userVehicleInfoError = payload?.detail;
     });
-
+    builder.addCase(generateNewPassword.pending, (state) => {
+      state.generatePasswordLoading = true;
+      state.generatePasswordError = null;
+    });
+    builder.addCase(generateNewPassword.fulfilled, (state, { payload }: any) => {
+      state.generatePasswordLoading = false;
+      state.generatedPassword = payload.generated_password;
+    });
+    builder.addCase(generateNewPassword.rejected, (state, { payload }: any) => {
+      state.generatePasswordLoading = false;
+      state.generatePasswordError = payload?.detail;
+    });
     builder.addCase(accountManagerConfirmationRequest.pending, (state) => {
       state.accountManagerConfirmationLoading = true;
       state.accountManagerConfirmationError = null;

@@ -129,7 +129,7 @@ const Technique = () => {
             title='Просмотреть на карте'
             color='#BBBBBB'
             overlayInnerStyle={{ padding: '5px 15px', borderRadius: 15 }}
-            placement='topLeft'
+            placement='topRight'
           >
             <Link to='/open-map'>
               <Button type='text' style={{ display: 'flex', alignItems: 'center' }}>

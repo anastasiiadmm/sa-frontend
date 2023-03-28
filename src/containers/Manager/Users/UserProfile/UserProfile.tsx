@@ -1,4 +1,5 @@
-import { Button, Card, Col, Form, message, Typography } from 'antd';
+import { Button, Card, Col, Divider, Form, message, Typography } from 'antd';
+
 import bem from 'easy-bem';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
@@ -8,6 +9,7 @@ import tractorBlue from 'assets/images/icons/tractor-blue.svg';
 import FormField from 'components/FormField/FormField';
 import DeleteUserModal from 'components/ModalComponent/ModalChildrenComponents/DeleteUserModal/DeleteUserModal';
 import EditUserProfileModal from 'components/ModalComponent/ModalChildrenComponents/EditUserProfileModal/EditUserProfileModal';
+import GeneratedPasswordModal from 'components/ModalComponent/ModalChildrenComponents/GeneratedPasswordModal/GeneratedPasswordModal';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import SkeletonBlock from 'components/SkeletonBlock/SkeletonBlock';
 import {
@@ -15,6 +17,7 @@ import {
   isObjectChangeUserProfileValidate,
   removeEmptyValuesFromObject,
 } from 'helper';
+import { accountsSelector, generateNewPassword } from 'redux/accounts/accountsSlice';
 import {
   companiesSelector,
   deleteUserInfo,
@@ -24,6 +27,7 @@ import {
 } from 'redux/companies/companiesSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { companiesList } from 'types/types';
+
 import 'containers/Manager/Users/UserProfile/_UserProfile.scss';
 
 const { Title } = Typography;
@@ -41,10 +45,14 @@ const UserProfile: React.FC = () => {
     updateUserData,
     updateUserInfoLoading,
     deleteUserInfoLoading,
+    userInfoLoading,
   } = useAppSelector(companiesSelector);
+  const { generatedPassword, generatePasswordLoading } = useAppSelector(accountsSelector);
   const [validateForm, setValidateForm] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
+  const [isModalPasswordOpen, setIsModalPasswordOpen] = useState(false);
+
   const [userData, setUserData] = useState<companiesList>({
     user: {
       username: '',
@@ -118,6 +126,15 @@ const UserProfile: React.FC = () => {
     setIsModalOpen(!isModalOpen);
   };
 
+  const generatePassword = async () => {
+    await dispatch(generateNewPassword({ company_id: resultsObj?.id }));
+    setIsModalPasswordOpen(true);
+  };
+
+  const closePasswordModal = () => {
+    setIsModalPasswordOpen(false);
+  };
+
   const deleteUserHandler = async () => {
     try {
       await dispatch(deleteUserInfo(id));
@@ -172,18 +189,18 @@ const UserProfile: React.FC = () => {
           md={{ span: 18, offset: 3 }}
           lg={{ span: 11, offset: 1 }}
         >
-          {fetchCompaniesLoading ? (
-            <SkeletonBlock active={fetchCompaniesLoading} num={1} titleBool />
+          {userInfoLoading ? (
+            <SkeletonBlock active={userInfoLoading} num={1} titleBool />
           ) : (
             <>
               <Title level={3} data-testid='sign_in_test' className='title'>
-                {`${resultsObj?.user?.last_name} ${resultsObj?.user?.first_name?.charAt(
-                  0,
-                )}. ${resultsObj?.user?.middle_name?.charAt(0)}.`}
+                {`${resultsObj?.user.last_name} ${resultsObj?.user.first_name?.charAt(0)}. ${
+                  resultsObj?.user.middle_name ? `${resultsObj?.user.middle_name?.charAt(0)}.` : ''
+                }`}
               </Title>
 
               <Link to={`/user-technique/${id}`}>
-                <Card className={b('user-card-style')} bordered={false} style={{ width: 350 }}>
+                <Card className={b('user-card-style')} bordered={false} style={{ width: '100%' }}>
                   <img src={tractorBlue} alt='tractorBlue' />
                   <div className={b('card-content')}>
                     <Title level={5} data-testid='sign_in_test'>
@@ -293,6 +310,16 @@ const UserProfile: React.FC = () => {
                   inputClassName={b('username-info')}
                 />
 
+                <Button
+                  type='text'
+                  className={b('password-button')}
+                  onClick={generatePassword}
+                  loading={generatePasswordLoading}
+                >
+                  Сгенерировать пароль
+                </Button>
+                <Divider />
+
                 <div className={b('profile-buttons')}>
                   <Button
                     // disabled={!!commonError}
@@ -344,6 +371,19 @@ const UserProfile: React.FC = () => {
           handleDeleteCancel={handleDeleteOkCancel}
           deleteUserHandler={deleteUserHandler}
           loading={deleteUserInfoLoading}
+        />
+      </ModalComponent>
+      <ModalComponent
+        title='Пароль'
+        open={isModalPasswordOpen}
+        dividerShow={false}
+        handleOk={closePasswordModal}
+        handleCancel={closePasswordModal}
+      >
+        <GeneratedPasswordModal
+          subtitle='Новый пароль пользователя'
+          generatedPassword={generatedPassword}
+          onClose={closePasswordModal}
         />
       </ModalComponent>
     </>
