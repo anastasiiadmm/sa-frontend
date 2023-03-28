@@ -82,7 +82,6 @@ const UserProfile: React.FC = () => {
     if (resultsObj) {
       form.setFieldsValue({
         username: resultsObj?.user?.username,
-        password: resultsObj?.user?.password,
         last_name: resultsObj?.user?.last_name,
         first_name: resultsObj?.user?.first_name,
         middle_name: resultsObj?.user?.middle_name,

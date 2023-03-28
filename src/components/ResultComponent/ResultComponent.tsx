@@ -13,7 +13,7 @@ interface Props {
 const ResultComponent: React.FC<Props> = ({ status, icon, title, subTitle, techniqueName }) => {
   return (
     <Result status={status} icon={icon} title={title} subTitle={subTitle}>
-      <p>{techniqueName}</p>
+      {techniqueName ? <p>{techniqueName}</p> : null}
     </Result>
   );
 };

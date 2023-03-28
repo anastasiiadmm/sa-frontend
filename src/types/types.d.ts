@@ -258,6 +258,19 @@ export interface userVehicleInfo {
   enterprise: number;
 }
 
+export interface vehicleCreateData {
+  vin_code: string;
+  code: string;
+  state_number: string;
+  description: string;
+  first_name: string;
+  middle_name: string;
+  last_name: string;
+  last_latitude: string;
+  last_longitude: string;
+  enterprise: number;
+}
+
 export interface generatedPassword {
   generated_password: string;
 }

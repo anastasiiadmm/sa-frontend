@@ -9,6 +9,7 @@ import {
   UpdatedCompaniesList,
   usersListPagination,
   userVehicleInfo,
+  vehicleCreateData,
   vehicleList,
   vehicleListPagination,
 } from 'types/types';
@@ -43,6 +44,9 @@ interface CompaniesState {
   userVehicleInfo: userVehicleInfo | null;
   userVehicleInfoLoading: boolean;
   userVehicleInfoError: Object | null;
+  vehicleCreateLoading: boolean;
+  vehicleCreateSuccess: boolean;
+  vehicleCreateError: Object | null;
 }
 
 const INITIAL_STATE = {
@@ -90,6 +94,10 @@ const INITIAL_STATE = {
   userVehicleInfo: null,
   userVehicleInfoLoading: false,
   userVehicleInfoError: null,
+
+  vehicleCreateLoading: false,
+  vehicleCreateSuccess: false,
+  vehicleCreateError: null,
 } as CompaniesState;
 
 interface fetchCompaniesParams {
@@ -218,7 +226,7 @@ export const deleteUserInfo = createAsyncThunk<void, string>(
 
 interface fetchVehicleParams {
   data?: {
-    userId: string;
+    userId?: string | null | undefined;
     query?: {
       page?: number | undefined;
     };
@@ -283,6 +291,28 @@ export const fetchUserVehicleInfo = createAsyncThunk<userVehicleInfo, fetchUserV
   },
 );
 
+interface vehicleCreateParams {
+  userId: string | null | undefined;
+  data: vehicleCreateData;
+}
+
+export const vehicleCreate = createAsyncThunk<void, vehicleCreateParams>(
+  `${nameSpace}/vehicleCreate`,
+  async (data, { rejectWithValue }) => {
+    try {
+      const resp = await axiosApi.post(`/companies/${data?.userId}/vehicles/`, data?.data);
+
+      return resp.data;
+    } catch (e) {
+      let error = e?.response?.data;
+      if (!e.response) {
+        error = defaultError;
+      }
+      return rejectWithValue(error);
+    }
+  },
+);
+
 const companiesSlice = createSlice({
   name: nameSpace,
   initialState: INITIAL_STATE,
@@ -300,6 +330,9 @@ const companiesSlice = createSlice({
         phone: action.payload.user.phone,
         username: action.payload.user.username,
       };
+    },
+    setNullReducerVehicleCreate: (state) => {
+      state.vehicleCreateSuccess = false;
     },
   },
   extraReducers: (builder) => {
@@ -408,9 +441,25 @@ const companiesSlice = createSlice({
       state.userVehicleInfoLoading = false;
       state.userVehicleInfoError = payload?.detail;
     });
+
+    builder.addCase(vehicleCreate.pending, (state) => {
+      state.vehicleCreateLoading = true;
+      state.vehicleCreateSuccess = false;
+      state.vehicleCreateError = null;
+    });
+    builder.addCase(vehicleCreate.fulfilled, (state) => {
+      state.vehicleCreateLoading = false;
+      state.vehicleCreateSuccess = true;
+      state.vehicleCreateError = null;
+    });
+    builder.addCase(vehicleCreate.rejected, (state, { payload }: any) => {
+      state.vehicleCreateLoading = false;
+      state.vehicleCreateSuccess = false;
+      state.vehicleCreateError = payload?.detail;
+    });
   },
 });
 
-export const { setChangeUserProfile } = companiesSlice.actions;
+export const { setChangeUserProfile, setNullReducerVehicleCreate } = companiesSlice.actions;
 export const companiesSelector = (state: RootState) => state.companies;
 export default companiesSlice.reducer;
