@@ -304,12 +304,15 @@ interface patchUserVehicleInfoParams {
 
 export const patchUserVehicleInfo = createAsyncThunk<userVehicleInfo, patchUserVehicleInfoParams>(
   `${nameSpace}/patchUserVehicleInfo`,
-  async (data, { rejectWithValue }) => {
+  async (data, { rejectWithValue, dispatch }) => {
     try {
       const resp = await axiosApi.patch<userVehicleInfo | null>(
         `/companies/${data?.userId}/vehicle/${data?.vehicleId}/`,
         data?.data,
       );
+
+      await dispatch(fetchUserVehicleList({ data: { userId: data?.userId, query: { page: 1 } } }));
+      message.success('Данные успешно изменены!');
 
       const userVehicleInfo = resp.data;
 

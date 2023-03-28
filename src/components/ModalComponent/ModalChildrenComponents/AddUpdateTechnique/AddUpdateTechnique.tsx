@@ -19,9 +19,15 @@ interface Props {
   userId: string | null | undefined;
   vehicleId?: string | null | undefined;
   isEdit?: boolean;
+  handleEditOkCancel?: () => void;
 }
 
-const AddUpdateTechnique: React.FC<Props> = ({ isEdit = false, userId, vehicleId }) => {
+const AddUpdateTechnique: React.FC<Props> = ({
+  isEdit = false,
+  userId,
+  vehicleId,
+  handleEditOkCancel,
+}) => {
   const b = bem('AddUpdateTechnique');
   const dispatch = useAppDispatch();
   const {
@@ -64,6 +70,9 @@ const AddUpdateTechnique: React.FC<Props> = ({ isEdit = false, userId, vehicleId
         const data = removeEmptyValuesFromObject(values);
         if (isEdit) {
           await dispatch(patchUserVehicleInfo({ userId, vehicleId, data })).unwrap();
+          if (handleEditOkCancel) {
+            handleEditOkCancel();
+          }
         } else {
           await dispatch(vehicleCreate({ userId, data })).unwrap();
         }

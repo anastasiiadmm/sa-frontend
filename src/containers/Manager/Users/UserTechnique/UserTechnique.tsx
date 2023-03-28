@@ -289,7 +289,12 @@ const UserTechnique: React.FC = () => {
         handleOk={handleEditOkCancel}
         handleCancel={handleEditOkCancel}
       >
-        <AddUpdateTechnique isEdit userId={id} vehicleId={vehicleId} />
+        <AddUpdateTechnique
+          isEdit
+          userId={id}
+          vehicleId={vehicleId}
+          handleEditOkCancel={handleEditOkCancel}
+        />
       </ModalComponent>
 
       <ModalComponent
