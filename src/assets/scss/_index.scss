@@ -169,6 +169,11 @@ button:disabled {
   padding: 0 !important;
 }
 
+.ant-image-mask {
+  width: 242px;
+  height: 182px;
+}
+
 :where(.css-dev-only-do-not-override-ixblex).ant-pagination .ant-pagination-item-active {
   border-color: themes.$primary-color;
 }

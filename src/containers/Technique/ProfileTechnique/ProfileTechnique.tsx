@@ -192,6 +192,8 @@ const ProfileTechnique = () => {
         {!userVehicleInfoLoading ? (
           <div className={b('technique-profile-info')}>
             <Image
+              preview={false}
+              className={b('technique-image')}
               src={apiUrlCrop + (state[0] ? state[0].image : '')}
               width={242}
               style={{ borderRadius: 4 }}
