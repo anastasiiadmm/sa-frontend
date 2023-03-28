@@ -47,6 +47,8 @@ interface CompaniesState {
   vehicleCreateLoading: boolean;
   vehicleCreateSuccess: boolean;
   vehicleCreateError: Object | null;
+  patchUserVehicleInfoLoading: boolean;
+  patchUserVehicleInfoError: Object | null;
 }
 
 const INITIAL_STATE = {
@@ -98,6 +100,9 @@ const INITIAL_STATE = {
   vehicleCreateLoading: false,
   vehicleCreateSuccess: false,
   vehicleCreateError: null,
+
+  patchUserVehicleInfoLoading: false,
+  patchUserVehicleInfoError: null,
 } as CompaniesState;
 
 interface fetchCompaniesParams {
@@ -262,8 +267,8 @@ export const fetchUserVehicleList = createAsyncThunk<companiesList, fetchVehicle
 );
 
 interface fetchUserVehicleInfoParams {
-  userId: string | undefined;
-  vehicleId: string | undefined;
+  userId: string | null | undefined;
+  vehicleId: string | null | undefined;
 }
 
 export const fetchUserVehicleInfo = createAsyncThunk<userVehicleInfo, fetchUserVehicleInfoParams>(
@@ -273,6 +278,41 @@ export const fetchUserVehicleInfo = createAsyncThunk<userVehicleInfo, fetchUserV
       const resp = await axiosApi.get<userVehicleInfo | null>(
         `/companies/${data?.userId}/vehicle/${data?.vehicleId}/`,
       );
+
+      const userVehicleInfo = resp.data;
+
+      if (userVehicleInfo === null) {
+        throw new Error('Not Found!');
+      }
+
+      return userVehicleInfo;
+    } catch (e) {
+      let error = e?.response?.data;
+      if (!e.response) {
+        error = defaultError;
+      }
+      return rejectWithValue(error);
+    }
+  },
+);
+
+interface patchUserVehicleInfoParams {
+  userId: string | null | undefined;
+  vehicleId: string | null | undefined;
+  data: userVehicleInfo;
+}
+
+export const patchUserVehicleInfo = createAsyncThunk<userVehicleInfo, patchUserVehicleInfoParams>(
+  `${nameSpace}/patchUserVehicleInfo`,
+  async (data, { rejectWithValue, dispatch }) => {
+    try {
+      const resp = await axiosApi.patch<userVehicleInfo | null>(
+        `/companies/${data?.userId}/vehicle/${data?.vehicleId}/`,
+        data?.data,
+      );
+
+      await dispatch(fetchUserVehicleList({ data: { userId: data?.userId, query: { page: 1 } } }));
+      message.success('Данные успешно изменены!');
 
       const userVehicleInfo = resp.data;
 
@@ -456,6 +496,19 @@ const companiesSlice = createSlice({
       state.vehicleCreateLoading = false;
       state.vehicleCreateSuccess = false;
       state.vehicleCreateError = payload?.detail;
+    });
+
+    builder.addCase(patchUserVehicleInfo.pending, (state) => {
+      state.patchUserVehicleInfoLoading = true;
+      state.patchUserVehicleInfoError = null;
+    });
+    builder.addCase(patchUserVehicleInfo.fulfilled, (state) => {
+      state.patchUserVehicleInfoLoading = false;
+      state.patchUserVehicleInfoError = null;
+    });
+    builder.addCase(patchUserVehicleInfo.rejected, (state, { payload }: any) => {
+      state.patchUserVehicleInfoLoading = false;
+      state.patchUserVehicleInfoError = payload?.detail;
     });
   },
 });

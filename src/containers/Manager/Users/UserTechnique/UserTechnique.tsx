@@ -44,9 +44,8 @@ const UserTechnique: React.FC = () => {
   const [isModalCreateOpen, setIsModalCreateOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteEditModalOpen] = useState(false);
-  const [filters, setFilters] = useState({
-    page: 1,
-  });
+  const [vehicleId, setVehicleId] = useState<string | null>(null);
+  const [filters, setFilters] = useState({ page: 1 });
 
   useEffect(() => {
     const data = {
@@ -183,7 +182,13 @@ const UserTechnique: React.FC = () => {
               color='#BBBBBB'
               overlayInnerStyle={{ padding: '5px 15px', borderRadius: 15 }}
             >
-              <Button type='text' onClick={showEditModal}>
+              <Button
+                type='text'
+                onClick={() => {
+                  showEditModal();
+                  setVehicleId(record?.id.toString());
+                }}
+              >
                 <img src={edit} alt='edit' className='link-icons' />
               </Button>
             </Tooltip>
@@ -284,7 +289,12 @@ const UserTechnique: React.FC = () => {
         handleOk={handleEditOkCancel}
         handleCancel={handleEditOkCancel}
       >
-        <AddUpdateTechnique isEdit userId={id} />
+        <AddUpdateTechnique
+          isEdit
+          userId={id}
+          vehicleId={vehicleId}
+          handleEditOkCancel={handleEditOkCancel}
+        />
       </ModalComponent>
 
       <ModalComponent
