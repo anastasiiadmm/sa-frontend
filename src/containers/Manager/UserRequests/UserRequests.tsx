@@ -244,6 +244,7 @@ const UserRequests = () => {
       >
         <DeleteRejectTechniqueModal
           title='Отклонить?'
+          loading={false}
           subTitle='Вы уверены, что хотите отклонить запрос'
           techniqueName='Личная информация Иванов И.И?'
           handleDeleteCancel={handleOkRejectCancel}
