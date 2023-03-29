@@ -54,7 +54,7 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
 
   const menuItems: MenuItem[] = [
     getItem(
-      <p className='menuItem'>
+      <div className='menuItem'>
         {user?.is_manager ? (
           updateManagerDataLoading ? (
             <Skeleton />
@@ -71,7 +71,7 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
           </>
         )}
         <span>{user?.is_manager ? 'Менеджер' : 'Пользователь'}</span>
-      </p>,
+      </div>,
       'sub1',
       <Avatar
         className='avatar-profile'
