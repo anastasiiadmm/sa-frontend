@@ -325,7 +325,7 @@ const UserTechnique: React.FC = () => {
         <DeleteRejectTechniqueModal
           title='Удалить?'
           subTitle='Вы уверены, что хотите удалить'
-          techniqueName={`Камаз ${techniqueApiName}?`}
+          techniqueName={`${techniqueApiName}?`}
           loading={deleteUserVehicleLoading}
           handleDeleteCancel={handleDeleteOkCancel}
           deleteRejectTechniqueHandler={deleteTechniqueHandler}
