@@ -61,6 +61,7 @@ export interface IManagerMutation {
   last_name?: string;
   email?: string;
   phone?: string;
+  image?: string;
 }
 
 export interface ValidationUpdateManagerProfile {

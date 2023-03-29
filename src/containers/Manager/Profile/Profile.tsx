@@ -1,3 +1,4 @@
+import { UserOutlined } from '@ant-design/icons';
 import { Avatar, Button, Col, Form, Typography } from 'antd';
 import bem from 'easy-bem';
 import React, { useEffect, useState } from 'react';
@@ -18,6 +19,7 @@ import {
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import 'containers/Manager/Profile/_profile.scss';
 import { apiUrlCrop } from 'utils/config';
+import { fileSizeValidate, fileValidateImg } from 'utils/validate/validate';
 
 const { Title } = Typography;
 
@@ -33,6 +35,7 @@ const Profile: React.FC = () => {
   } = useAppSelector(accountsSelector);
   const dispatch = useAppDispatch();
   const [validateForm, setValidateForm] = useState(false);
+  const [image, setImage] = useState<File | null>(null);
   const [isModalPasswordOpen, setIsModalPasswordOpen] = useState(false);
   const [form] = Form.useForm();
 
@@ -75,7 +78,19 @@ const Profile: React.FC = () => {
   const onFinish = () => {
     if (updateManagerData) {
       const data = removeEmptyValuesFromObject(updateManagerData);
-      dispatch(managerProfileUpdate({ data }));
+      const formData = new FormData();
+
+      for (const name in data) {
+        if (name) {
+          formData.append(name, data[name]);
+        }
+      }
+
+      if (image) {
+        formData.append('image', image);
+      }
+
+      dispatch(managerProfileUpdate({ data: formData }));
     }
   };
 
@@ -86,6 +101,16 @@ const Profile: React.FC = () => {
 
   const closePasswordModal = () => {
     setIsModalPasswordOpen(false);
+  };
+
+  const onFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (files) {
+      if (fileSizeValidate(files[0]) && fileValidateImg(files[0])) {
+        setImage(files[0]);
+        setValidateForm(false);
+      }
+    }
   };
 
   return (
@@ -101,7 +126,32 @@ const Profile: React.FC = () => {
         ) : (
           <>
             <div className={b('form-header')}>
-              <Avatar size={64} src={manager?.image ? `${apiUrlCrop}${manager?.image}` : null} />
+              <div className={b('image-upload')}>
+                <label htmlFor='image-input'>
+                  {image ? (
+                    <Avatar
+                      size={64}
+                      src={URL.createObjectURL(image)}
+                      style={{ cursor: 'pointer' }}
+                    />
+                  ) : (
+                    <Avatar
+                      size={64}
+                      src={manager?.image ? `${apiUrlCrop}${manager?.image}` : ''}
+                      style={{ cursor: 'pointer' }}
+                      icon={<UserOutlined />}
+                    />
+                  )}
+                </label>
+
+                <input
+                  data-testid='image-input'
+                  id='image-input'
+                  type='file'
+                  onChange={onFileChange}
+                  accept='image/png, image/gif, image/jpeg'
+                />
+              </div>
               <Title level={3} data-testid='sign_in_test' className='title'>
                 {`${manager?.last_name} ${manager?.first_name?.charAt(
                   0,

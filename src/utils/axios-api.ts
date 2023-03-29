@@ -16,7 +16,6 @@ axiosApi.interceptors.request.use(async (config) => {
     config.headers = {
       ...config.headers,
       Authorization: `Bearer ${key}`,
-      'Content-Type': 'application/json',
     } as any;
   }
   return config;
