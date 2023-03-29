@@ -205,7 +205,7 @@ const Technique = () => {
         handleOk={handleOkCancel}
         handleCancel={handleOkCancel}
       >
-        <AddUpdateTechnique userId={null} />
+        <AddUpdateTechnique userId={null} isRequest handleEditOkCancel={handleOkCancel} />
       </ModalComponent>
     </>
   );
