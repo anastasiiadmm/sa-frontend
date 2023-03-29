@@ -9,6 +9,7 @@ import 'components/ModalComponent/ModalChildrenComponents/DeleteTechniqueModal/_
 interface Props {
   title: string;
   subTitle: string;
+  loading: boolean;
   techniqueName?: string;
   handleDeleteCancel?: () => void;
   deleteRejectTechniqueHandler?: () => void;
@@ -17,6 +18,7 @@ interface Props {
 const DeleteRejectTechniqueModal: React.FC<Props> = ({
   title,
   subTitle,
+  loading,
   techniqueName,
   handleDeleteCancel,
   deleteRejectTechniqueHandler,
@@ -43,7 +45,7 @@ const DeleteRejectTechniqueModal: React.FC<Props> = ({
         </Button>
         <Button
           type='primary'
-          htmlType='submit'
+          loading={loading}
           style={{ width: '100%', borderRadius: 4 }}
           className={b('delete-profile-button')}
           onClick={deleteRejectTechniqueHandler}

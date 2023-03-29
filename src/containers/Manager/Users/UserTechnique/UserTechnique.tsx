@@ -1,5 +1,5 @@
 import { EyeOutlined } from '@ant-design/icons';
-import { Button, Tooltip, Typography } from 'antd';
+import { Button, message, Tooltip, Typography } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import bem from 'easy-bem';
 import React, { useEffect, useState } from 'react';
@@ -16,8 +16,10 @@ import DeleteRejectTechniqueModal from 'components/ModalComponent/ModalChildrenC
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import ResultComponent from 'components/ResultComponent/ResultComponent';
 import TableComponent from 'components/TableComponent/TableComponent';
+import { getErrorMessage } from 'helper';
 import {
   companiesSelector,
+  deleteUserVehicle,
   fetchUserInfo,
   fetchUserVehicleList,
   setNullReducerVehicleCreate,
@@ -39,12 +41,14 @@ const UserTechnique: React.FC = () => {
     vehicleListPagination,
     userInfo,
     vehicleCreateSuccess,
+    deleteUserVehicleLoading,
   } = useAppSelector(companiesSelector);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalCreateOpen, setIsModalCreateOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteEditModalOpen] = useState(false);
   const [vehicleId, setVehicleId] = useState<string | null>(null);
+  const [techniqueApiName, setTechniqueApiName] = useState<string | null>(null);
   const [filters, setFilters] = useState({ page: 1 });
 
   useEffect(() => {
@@ -112,7 +116,15 @@ const UserTechnique: React.FC = () => {
     setIsModalCreateOpen(!isModalCreateOpen);
   };
 
-  const deleteTechniqueHandler = () => {};
+  const deleteTechniqueHandler = async () => {
+    try {
+      await dispatch(deleteUserVehicle({ userId: id, vehicleId })).unwrap();
+      await handleDeleteOkCancel();
+    } catch (e) {
+      const errorMessage = getErrorMessage(e, 'username');
+      await message.error(`${errorMessage}`);
+    }
+  };
 
   const goToTechniqueListHandler = () => {
     handleCreateOkCancel();
@@ -225,7 +237,14 @@ const UserTechnique: React.FC = () => {
               color='#BBBBBB'
               overlayInnerStyle={{ padding: '5px 15px', borderRadius: 15 }}
             >
-              <Button type='text' onClick={showDeleteModal}>
+              <Button
+                type='text'
+                onClick={() => {
+                  showDeleteModal();
+                  setVehicleId(record?.id.toString());
+                  setTechniqueApiName(record?.description);
+                }}
+              >
                 <img src={deleteIcon} alt='deleteIcon' className='link-icons' />
               </Button>
             </Tooltip>
@@ -306,7 +325,8 @@ const UserTechnique: React.FC = () => {
         <DeleteRejectTechniqueModal
           title='Удалить?'
           subTitle='Вы уверены, что хотите удалить'
-          techniqueName='Камаз 6595?'
+          techniqueName={`${techniqueApiName}?`}
+          loading={deleteUserVehicleLoading}
           handleDeleteCancel={handleDeleteOkCancel}
           deleteRejectTechniqueHandler={deleteTechniqueHandler}
         />

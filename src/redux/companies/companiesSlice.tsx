@@ -49,6 +49,8 @@ interface CompaniesState {
   vehicleCreateError: Object | null;
   patchUserVehicleInfoLoading: boolean;
   patchUserVehicleInfoError: Object | null;
+  deleteUserVehicleLoading: boolean;
+  deleteUserVehicleError: Object | null;
 }
 
 const INITIAL_STATE = {
@@ -103,6 +105,9 @@ const INITIAL_STATE = {
 
   patchUserVehicleInfoLoading: false,
   patchUserVehicleInfoError: null,
+
+  deleteUserVehicleLoading: false,
+  deleteUserVehicleError: null,
 } as CompaniesState;
 
 interface fetchCompaniesParams {
@@ -331,6 +336,31 @@ export const patchUserVehicleInfo = createAsyncThunk<userVehicleInfo, patchUserV
   },
 );
 
+interface deleteUserVehicleParams {
+  userId: string | null | undefined;
+  vehicleId: string | null | undefined;
+}
+
+export const deleteUserVehicle = createAsyncThunk<void, deleteUserVehicleParams>(
+  `${nameSpace}/deleteUserVehicle`,
+  async (data, { rejectWithValue, dispatch }) => {
+    try {
+      const resp = await axiosApi.delete(`/companies/${data?.userId}/vehicle/${data?.vehicleId}/`);
+
+      await dispatch(fetchUserVehicleList({ data: { userId: data?.userId, query: { page: 1 } } }));
+      message.success('Данные успешно удалены!');
+
+      return resp.data;
+    } catch (e) {
+      let error = e?.response?.data;
+      if (!e.response) {
+        error = defaultError;
+      }
+      return rejectWithValue(error);
+    }
+  },
+);
+
 interface vehicleCreateParams {
   userId: string | null | undefined;
   data: vehicleCreateData;
@@ -509,6 +539,19 @@ const companiesSlice = createSlice({
     builder.addCase(patchUserVehicleInfo.rejected, (state, { payload }: any) => {
       state.patchUserVehicleInfoLoading = false;
       state.patchUserVehicleInfoError = payload?.detail;
+    });
+
+    builder.addCase(deleteUserVehicle.pending, (state) => {
+      state.deleteUserVehicleLoading = true;
+      state.deleteUserVehicleError = null;
+    });
+    builder.addCase(deleteUserVehicle.fulfilled, (state) => {
+      state.deleteUserVehicleLoading = false;
+      state.deleteUserVehicleError = null;
+    });
+    builder.addCase(deleteUserVehicle.rejected, (state, { payload }: any) => {
+      state.deleteUserVehicleLoading = false;
+      state.deleteUserVehicleError = payload?.detail;
     });
   },
 });
