@@ -119,6 +119,7 @@ const UserTechnique: React.FC = () => {
   const deleteTechniqueHandler = async () => {
     try {
       await dispatch(deleteUserVehicle({ userId: id, vehicleId })).unwrap();
+      await handleDeleteOkCancel();
     } catch (e) {
       const errorMessage = getErrorMessage(e, 'username');
       await message.error(`${errorMessage}`);

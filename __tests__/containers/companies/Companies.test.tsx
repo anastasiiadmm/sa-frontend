@@ -13,6 +13,8 @@ import UserTechnique from "../../../src/containers/Manager/Users/UserTechnique/U
 import ModalComponent from "../../../src/components/ModalComponent/ModalComponent";
 import AddUpdateTechnique
   from "../../../src/components/ModalComponent/ModalChildrenComponents/AddUpdateTechnique/AddUpdateTechnique";
+import DeleteRejectTechniqueModal
+  from "../../../src/components/ModalComponent/ModalChildrenComponents/DeleteTechniqueModal/DeleteTechniqueModal";
 
 afterEach(cleanup);
 
@@ -205,6 +207,77 @@ describe("<Users />", () => {
       userEvent.type(middleNameInput, 'Test middle name');
       fireEvent.click(submitButton);
     });
+  });
+
+  test("UserTechnique delete modal form should open success", async () => {
+    const dispatch = jest.fn();
+    mockedDispatch.mockReturnValue(dispatch);
+
+    const props = {
+      title: 'Удалить?',
+      subTitle: 'Вы уверены, что хотите удалить',
+      techniqueName: 'Kamaz tech-1234',
+      loading: false,
+      handleDeleteCancel: jest.fn(),
+      deleteRejectTechniqueHandler: jest.fn(),
+    };
+
+    render(
+      <BrowserRouter>
+        <ModalComponent open>
+          <DeleteRejectTechniqueModal
+            {...props}
+          />
+        </ModalComponent>
+      </BrowserRouter>,
+    );
+  });
+
+  test('UserTechnique delete modal calls handleDeleteCancel when the "Отменить" button is clicked', () => {
+    const dispatch = jest.fn();
+    mockedDispatch.mockReturnValue(dispatch);
+
+    const props = {
+      title: 'Удалить?',
+      subTitle: 'Вы уверены, что хотите удалить',
+      techniqueName: 'Kamaz tech-1234',
+      loading: false,
+      handleDeleteCancel: jest.fn(),
+      deleteRejectTechniqueHandler: jest.fn(),
+    };
+
+    render(
+      <BrowserRouter>
+        <ModalComponent open>
+          <DeleteRejectTechniqueModal
+            {...props}
+          />
+        </ModalComponent>
+      </BrowserRouter>,
+    );
+
+    const cancelButton = screen.getByText('Отменить');
+    fireEvent.click(cancelButton);
+    expect(props.handleDeleteCancel).toHaveBeenCalled();
+  });
+
+  test('UserTechnique delete modal displays the loading indicator when loading is true', () => {
+    const dispatch = jest.fn();
+    mockedDispatch.mockReturnValue(dispatch);
+
+    const props = {
+      title: 'Удалить?',
+      subTitle: 'Вы уверены, что хотите удалить',
+      techniqueName: 'Kamaz tech-1234',
+      loading: false,
+      handleDeleteCancel: jest.fn(),
+      deleteRejectTechniqueHandler: jest.fn(),
+    };
+
+    const loadingProps = { ...props, loading: true };
+    render(<DeleteRejectTechniqueModal {...loadingProps} />);
+    const loadingIndicator = screen.getByLabelText('loading');
+    expect(loadingIndicator).toBeInTheDocument();
   });
 
 });
