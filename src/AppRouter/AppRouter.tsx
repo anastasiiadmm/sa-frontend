@@ -20,6 +20,8 @@ import Technique from 'containers/User/Technique/Technique';
 import { authSelector } from 'redux/auth/authSlice';
 import { useAppSelector } from 'redux/hooks';
 import 'AppRouter/appRouter.scss';
+import FieldClimateSideBar from 'components/FieldClimateSideBar/FieldClimateSideBar';
+import FieldClimateComponent from '../containers/FieldClimateComponent/FieldClimateComponent';
 
 const { Header, Content } = Layout;
 
@@ -65,6 +67,16 @@ const AppRouter: React.FC = () => {
                 <Route path='/' index element={<Technique />} />
                 <Route path='/user-profile-view' element={<Profile />} />
                 <Route path='/open-map' element={<OpenMapComponent />} />
+                <Route
+                  path='/field-climate'
+                  element={
+                    <FieldClimateSideBar>
+                      <Routes>
+                        <Route path='/main' element={<FieldClimateComponent />} />
+                      </Routes>
+                    </FieldClimateSideBar>
+                  }
+                />
               </>
             )}
             <Route path='/profile-technique/:userId/:vehicleId' element={<ProfileTechnique />} />

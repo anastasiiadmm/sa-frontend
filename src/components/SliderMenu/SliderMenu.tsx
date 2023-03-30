@@ -1,4 +1,4 @@
-import { HomeOutlined, ImportOutlined, UserOutlined } from '@ant-design/icons';
+import { CloudOutlined, HomeOutlined, ImportOutlined, UserOutlined } from '@ant-design/icons';
 import { Avatar, Layout, Menu, Skeleton } from 'antd';
 import type { MenuProps } from 'antd';
 import bem from 'easy-bem';
@@ -113,7 +113,10 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
           '',
           'grp',
           null,
-          [getItem('Техника', '/', <div className='icon-styles technics-icon' />)],
+          [
+            getItem('Техника', '/', <div className='icon-styles technics-icon' />),
+            getItem('FieldClimate', '/field-climate', <CloudOutlined style={{ fontSize: 23 }} />),
+          ],
           'group',
         ),
   ];
