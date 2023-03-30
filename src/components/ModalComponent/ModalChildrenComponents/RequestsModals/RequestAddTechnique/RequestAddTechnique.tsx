@@ -67,7 +67,7 @@ const RequestAddTechnique: React.FC<Props> = ({ handleOkCancel, showRejectModal 
           />
         </div>
 
-        <UploadImageComponent />
+        <UploadImageComponent fileList={[]} setFileList={() => {}} />
 
         <Title level={3} className={b('title')}>
           Информация о технике

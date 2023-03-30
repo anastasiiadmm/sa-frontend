@@ -1,16 +1,19 @@
-/* eslint-disable */
 import { Upload } from 'antd';
 import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
 import ImgCrop from 'antd-img-crop';
 import bem from 'easy-bem';
-import React, { useState } from 'react';
+import React from 'react';
 
 import plug from 'assets/images/icons/image-plug.svg';
 import 'components/UploadImageComponent/_uploadImageComponent.scss';
 
-const UploadImageComponent = () => {
+interface Props {
+  fileList: UploadFile[] | [];
+  setFileList: (fileList: UploadFile[]) => void;
+}
+
+const UploadImageComponent: React.FC<Props> = ({ fileList, setFileList }) => {
   const b = bem('UploadImageComponent');
-  const [fileList, setFileList] = useState<UploadFile[]>([]);
 
   const onChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
     setFileList(newFileList);
@@ -31,16 +34,24 @@ const UploadImageComponent = () => {
     imgWindow?.document.write(image.outerHTML);
   };
 
+  const customRequest = ({ file, onSuccess }: any) => {
+    setTimeout(() => {
+      onSuccess('ok');
+    }, 0);
+  };
+
   return (
     <div style={fileList.length ? { margin: 0 } : { margin: '51px 0px 45px 66px' }}>
       <ImgCrop aspect={233 / 162}>
         <Upload
+          data-testid='image-upload'
           className={b('upload-field')}
-          action='https://www.mocky.io/v2/5cc8019d300000980a055e76'
           listType='picture-card'
           fileList={fileList}
           onChange={onChange}
           onPreview={onPreview}
+          customRequest={customRequest}
+          accept='image/png, image/jpeg'
         >
           {fileList.length < 1 && <img src={plug} alt='plug' />}
         </Upload>
