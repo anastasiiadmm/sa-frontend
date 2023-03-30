@@ -51,7 +51,7 @@ const UploadImageComponent: React.FC<Props> = ({ fileList, setFileList }) => {
           onChange={onChange}
           onPreview={onPreview}
           customRequest={customRequest}
-          accept='image/png, image/gif, image/jpeg'
+          accept='image/png, image/jpeg'
         >
           {fileList.length < 1 && <img src={plug} alt='plug' />}
         </Upload>
