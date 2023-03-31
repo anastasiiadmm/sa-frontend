@@ -88,7 +88,7 @@ const AppRouter: React.FC = () => {
                 <>
                   <Route path='/' index element={<Technique />} />
                   <Route path='/user-profile-view' element={<Profile />} />
-                  <Route path='/open-map' element={<OpenMapComponent />} />
+                  <Route path='/open-map/:id/:vehicleId' element={<OpenMapComponent />} />
                   <Route path='/field-climate/' element={<FieldClimateDashboard />} />
                   <Route path='/field-climate/station' element={<FieldClimateStation />} />
                   <Route path='/field-climate/config' element={<FieldClimateConfigurations />} />
