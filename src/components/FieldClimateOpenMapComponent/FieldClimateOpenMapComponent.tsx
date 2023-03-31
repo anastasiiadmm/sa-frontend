@@ -25,7 +25,7 @@ const FieldClimateOpenMapComponent: React.FC<Props> = ({ markers }) => {
       center={[11.2773259, 46.3089513]}
       zoom={3}
       scrollWheelZoom
-      style={{ width: '100%', height: '90vh' }}
+      style={{ width: '100%', height: '94vh' }}
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
