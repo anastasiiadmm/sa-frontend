@@ -36,10 +36,18 @@ export interface APIError {
 }
 
 export interface StationState {
-  stations: any;
+  user: any;
   isLoading: boolean;
   error: APIError | null;
   weather: Weather | null;
   isWeatherLoading: boolean;
   isWeatherError: any;
+  stations: any;
+  stationsLoading: boolean;
+  stationsError: any;
+}
+
+export interface MarkerData {
+  position: [number, number];
+  name: string;
 }
