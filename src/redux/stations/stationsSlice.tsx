@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import CryptoJS from 'crypto-js';
 
+import { RootState } from 'redux/hooks';
 import {
   APIError,
   APIResponse,
@@ -35,17 +36,21 @@ const getAuthorizationHeader = (method: string, request: string) => {
 };
 
 const initialState: StationState = {
-  stations: [],
+  user: [],
   isLoading: false,
   error: null,
 
   weather: null,
   isWeatherLoading: false,
   isWeatherError: null,
+
+  stations: [],
+  stationsLoading: false,
+  stationsError: null,
 };
 
-export const fetchStations = createAsyncThunk<APIResponse, void, { rejectValue: APIError }>(
-  'stations/fetchStations',
+export const fetchUser = createAsyncThunk<APIResponse, void, { rejectValue: APIError }>(
+  'stations/fetchUser',
   async () => {
     const params = {
       method: 'GET',
@@ -92,21 +97,45 @@ export const fetchWeather = createAsyncThunk<APIWeatherResponse, void, { rejectV
   },
 );
 
+export const fetchStations = createAsyncThunk<APIWeatherResponse, void, { rejectValue: APIError }>(
+  'stations/fetchStations',
+  async (_, { rejectWithValue }) => {
+    const params = {
+      method: 'GET',
+      request: `/user/stations`,
+    };
+    const headers = {
+      ...getAuthorizationHeader(params.method, params.request),
+      Accept: 'application/json',
+    };
+    try {
+      const response = await axios.get(REACT_APP_CLIMATE_API_BASE_URL + params.request, {
+        headers,
+      });
+
+      const data: APIWeatherResponse = response.data;
+      return data;
+    } catch (error) {
+      return rejectWithValue({ message: 'Failed to fetch station data.' });
+    }
+  },
+);
+
 const stationSlice = createSlice({
   name: 'stations',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchStations.pending, (state) => {
+      .addCase(fetchUser.pending, (state) => {
         state.isLoading = true;
         state.error = null;
       })
-      .addCase(fetchStations.fulfilled, (state, action) => {
+      .addCase(fetchUser.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.stations = action.payload;
+        state.user = action.payload;
       })
-      .addCase(fetchStations.rejected, (state, action) => {
+      .addCase(fetchUser.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload!;
       });
@@ -128,7 +157,22 @@ const stationSlice = createSlice({
         state.isWeatherLoading = false;
         state.isWeatherError = action.payload ? action.payload : null;
       });
+
+    builder
+      .addCase(fetchStations.pending, (state) => {
+        state.stationsLoading = true;
+        state.stationsError = null;
+      })
+      .addCase(fetchStations.fulfilled, (state, action) => {
+        state.stationsLoading = false;
+        state.stations = action.payload;
+      })
+      .addCase(fetchStations.rejected, (state, action) => {
+        state.stationsLoading = false;
+        state.stationsError = action.payload!;
+      });
   },
 });
 
+export const stationsSelector = (state: RootState) => state.stations;
 export default stationSlice.reducer;

@@ -53,6 +53,9 @@ interface AccountsState {
   accountManagerConfirmation: accountsManagerConfirmation | null;
   accountManagerConfirmationLoading: boolean;
   accountManagerConfirmationError: Object | null;
+  vehicleCreateRequestLoading: boolean;
+  vehicleCreateRequestError: Object | null;
+  vehicleCreateRequestSuccess: boolean;
 }
 
 const INITIAL_STATE = {
@@ -102,6 +105,10 @@ const INITIAL_STATE = {
   accountManagerConfirmation: null,
   accountManagerConfirmationLoading: false,
   accountManagerConfirmationError: null,
+
+  vehicleCreateRequestLoading: false,
+  vehicleCreateRequestError: null,
+  vehicleCreateRequestSuccess: false,
 } as AccountsState;
 
 export const fetchManager = createAsyncThunk(
@@ -245,6 +252,28 @@ export const fetchRequests = createAsyncThunk<userRequest, fetchRequestsParams>(
       }
 
       return requests;
+    } catch (e) {
+      let error = e?.response?.data;
+      if (!e.response) {
+        error = defaultError;
+      }
+      return rejectWithValue(error);
+    }
+  },
+);
+
+interface vehicleCreateRequestParams {
+  data: FormData;
+}
+
+export const vehicleCreateRequest = createAsyncThunk<void, vehicleCreateRequestParams>(
+  `${nameSpace}/vehicleCreateRequest`,
+  async ({ data }, { rejectWithValue }) => {
+    try {
+      const resp = await axiosApi.post(`/accounts/user/confirmation/vehicle/`, data);
+      message.success('Запрос успешно отправлен!');
+
+      return resp.data;
     } catch (e) {
       let error = e?.response?.data;
       if (!e.response) {
@@ -495,6 +524,21 @@ const accountsSlice = createSlice({
     builder.addCase(accountManagerConfirmationRequest.rejected, (state, { payload }: any) => {
       state.accountManagerConfirmationLoading = false;
       state.accountManagerConfirmationError = payload?.detail;
+    });
+    builder.addCase(vehicleCreateRequest.pending, (state) => {
+      state.vehicleCreateRequestLoading = true;
+      state.vehicleCreateRequestSuccess = false;
+      state.vehicleCreateRequestError = null;
+    });
+    builder.addCase(vehicleCreateRequest.fulfilled, (state) => {
+      state.vehicleCreateRequestLoading = false;
+      state.vehicleCreateRequestSuccess = true;
+      state.vehicleCreateRequestError = null;
+    });
+    builder.addCase(vehicleCreateRequest.rejected, (state, { payload }: any) => {
+      state.vehicleCreateRequestLoading = false;
+      state.vehicleCreateRequestSuccess = false;
+      state.vehicleCreateRequestError = payload?.detail;
     });
   },
 });
