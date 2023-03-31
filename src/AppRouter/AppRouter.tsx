@@ -66,7 +66,7 @@ const AppRouter: React.FC = () => {
         </Header>
         <Content
           style={{
-            margin: pathname === '/open-map' ? 0 : '24px 16px',
+            margin: pathname === '/open-map' || pathname === '/field-climate' ? 0 : '24px 16px',
             padding: 24,
             minHeight: 280,
             background: 'none',
