@@ -1,10 +1,12 @@
 import { BrowserRouter } from "react-router-dom";
-import { screen, render, waitFor, cleanup } from "@testing-library/react";
+import { screen, render, waitFor, cleanup, act } from "@testing-library/react";
 import "../../../__mocks__/matchMedia.mock";
 import "@testing-library/jest-dom";
 import { mockedDispatch, mockedUseSelectors } from "../../../__mocks__/utils";
 
 import Technique from "../../../src/containers/User/Technique/Technique";
+import UploadImageComponent from "../../../src/components/UploadImageComponent/UploadImageComponent";
+import userEvent from "@testing-library/user-event";
 
 afterEach(cleanup);
 
@@ -45,4 +47,21 @@ describe("<Technique />", () => {
     });
   });
 
+  test('UploadImageComponent should render and upload image', async() => {
+    const dispatch = jest.fn();
+    mockedDispatch.mockReturnValue(dispatch);
+    const setFileList = jest.fn();
+
+    const file = new File(['test'], 'test.jpeg', { type: 'image/jpeg' });
+
+    render(
+      <UploadImageComponent fileList={[]} setFileList={setFileList}/>
+    );
+
+    const imageUpload = await waitFor(() => screen.getByTestId('image-upload'));
+
+    await act(() => {
+      userEvent.upload(imageUpload, file);
+    });
+  });
 });

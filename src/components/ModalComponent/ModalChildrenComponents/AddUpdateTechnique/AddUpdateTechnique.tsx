@@ -1,9 +1,12 @@
 import { Button, Col, Form, message, Typography } from 'antd';
+import { UploadFile } from 'antd/es/upload/interface';
 import bem from 'easy-bem';
 import React, { useEffect, useState } from 'react';
 
 import FormField from 'components/FormField/FormField';
+import UploadImageComponent from 'components/UploadImageComponent/UploadImageComponent';
 import { getErrorMessage, removeEmptyValuesFromObject } from 'helper';
+import { accountsSelector, vehicleCreateRequest } from 'redux/accounts/accountsSlice';
 import {
   companiesSelector,
   fetchUserVehicleInfo,
@@ -11,6 +14,7 @@ import {
   vehicleCreate,
 } from 'redux/companies/companiesSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
+
 import 'components/ModalComponent/ModalChildrenComponents/AddUpdateTechnique/_addUpdateTechnique.scss';
 
 const { Title } = Typography;
@@ -19,11 +23,13 @@ interface Props {
   userId: string | null | undefined;
   vehicleId?: string | null | undefined;
   isEdit?: boolean;
+  isRequest?: boolean;
   handleEditOkCancel?: () => void;
 }
 
 const AddUpdateTechnique: React.FC<Props> = ({
   isEdit = false,
+  isRequest = false,
   userId,
   vehicleId,
   handleEditOkCancel,
@@ -36,14 +42,18 @@ const AddUpdateTechnique: React.FC<Props> = ({
     userVehicleInfo,
     patchUserVehicleInfoLoading,
   } = useAppSelector(companiesSelector);
+  const { vehicleCreateRequestLoading, vehicleCreateRequestSuccess } =
+    useAppSelector(accountsSelector);
   const [form] = Form.useForm();
   const [formValid, setFormValid] = useState(true);
+  const [fileList, setFileList] = useState<UploadFile[]>([]);
 
   useEffect(() => {
-    if (!vehicleCreateSuccess && !isEdit) {
+    if (!isEdit && (!vehicleCreateSuccess || !vehicleCreateRequestSuccess)) {
       form.resetFields();
+      setFileList([]);
     }
-  }, [form, vehicleCreateSuccess, isEdit]);
+  }, [form, vehicleCreateSuccess, vehicleCreateRequestSuccess, isEdit]);
 
   useEffect(() => {
     if (isEdit) {
@@ -73,6 +83,28 @@ const AddUpdateTechnique: React.FC<Props> = ({
           if (handleEditOkCancel) {
             handleEditOkCancel();
           }
+        } else if (isRequest) {
+          const formData = new FormData();
+
+          for (const name in data) {
+            if (name) {
+              formData.append(name, data[name]);
+            }
+          }
+
+          if (fileList.length) {
+            const file = fileList[0]?.originFileObj;
+            if (file) {
+              const blob = new Blob([file]);
+              formData.append('image', blob, file.name);
+            }
+          }
+
+          await dispatch(vehicleCreateRequest({ data: formData })).unwrap();
+
+          if (handleEditOkCancel) {
+            handleEditOkCancel();
+          }
         } else {
           await dispatch(vehicleCreate({ userId, data })).unwrap();
         }
@@ -81,6 +113,10 @@ const AddUpdateTechnique: React.FC<Props> = ({
       const errorMessage = getErrorMessage(e, 'username');
       await message.error(`${errorMessage}`);
     }
+  };
+
+  const onFileChange = (newFileList: UploadFile[]) => {
+    setFileList(newFileList);
   };
 
   return (
@@ -100,6 +136,12 @@ const AddUpdateTechnique: React.FC<Props> = ({
           setFormValid(form.getFieldsError().some((item) => item.errors.length > 0))
         }
       >
+        <Title level={3} className={b('title')}>
+          Фото техники
+        </Title>
+
+        {isRequest ? <UploadImageComponent fileList={fileList} setFileList={onFileChange} /> : null}
+
         <Title level={3} className={b('title')} data-testid='title_id'>
           Информация о технике
         </Title>
@@ -185,7 +227,9 @@ const AddUpdateTechnique: React.FC<Props> = ({
             disabled={formValid}
             type='primary'
             htmlType='submit'
-            loading={vehicleCreateLoading || patchUserVehicleInfoLoading}
+            loading={
+              vehicleCreateLoading || patchUserVehicleInfoLoading || vehicleCreateRequestLoading
+            }
             style={{ width: '100%', borderRadius: 4 }}
             className={b('save-button')}
           >
