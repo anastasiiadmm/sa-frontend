@@ -1,4 +1,4 @@
-import { Card, Skeleton, Typography } from 'antd';
+import { Button, Card, Spin, Typography } from 'antd';
 import bem from 'easy-bem';
 import L, { LatLngExpression } from 'leaflet';
 import React, { useEffect } from 'react';
@@ -83,6 +83,16 @@ const OpenMapComponent = () => {
     return [0, 0];
   };
 
+  const renderHandler = () => {
+    dispatch(mapVehicleFetch(Number(id)));
+    const findResultsMap = vehicle.results?.processing_data.find(
+      (item) => item.id === Number(vehicleId),
+    );
+    if (findResultsMap) {
+      dispatch(dataExchangeFetchFetch({ id: Number(id), field_name: findResultsMap.field_name }));
+    }
+  };
+
   function getCoordinateByType(coordinates: number[][][], type: string): number[] {
     if (coordinates.length) {
       if (type === 'start') {
@@ -100,15 +110,9 @@ const OpenMapComponent = () => {
   if (vehicle.loading || field.loading) {
     return (
       <div className={b('loading')}>
-        <Skeleton.Node
-          active
-          style={{
-            width: '110vh',
-            height: '100vh',
-          }}
-        >
-          <img src={locale} alt='localeIcons' width={100} height={100} />
-        </Skeleton.Node>
+        <div>
+          <Spin size='large' />
+        </div>
       </div>
     );
   }
@@ -142,6 +146,9 @@ const OpenMapComponent = () => {
               </p>
               - Беларус / Трактор
             </Title>
+            <Button onClick={() => renderHandler()} className={b('render_btn')}>
+              Обновить данные
+            </Button>
           </div>
         </Card>
       </div>
