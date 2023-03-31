@@ -22,6 +22,7 @@ import Profile from 'containers/User/Profile/Profile';
 import Technique from 'containers/User/Technique/Technique';
 import { authSelector } from 'redux/auth/authSlice';
 import { useAppSelector } from 'redux/hooks';
+import { pathsWithoutMargin } from 'utils/constants';
 import 'AppRouter/appRouter.scss';
 
 const { Header, Content } = Layout;
@@ -66,7 +67,7 @@ const AppRouter: React.FC = () => {
         </Header>
         <Content
           style={{
-            margin: pathname === '/open-map' || pathname === '/field-climate' ? 0 : '24px 16px',
+            margin: pathsWithoutMargin.includes(pathname) ? 0 : '24px 16px',
             padding: 24,
             minHeight: 280,
             background: 'none',
