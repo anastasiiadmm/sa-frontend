@@ -2,6 +2,7 @@
 
 .SignIn {
   height: 100vh;
+  overflow: hidden;
 
   @media (max-width: 1333px) {
     overflow-y: auto;
