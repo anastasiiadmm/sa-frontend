@@ -3,7 +3,7 @@ import { Avatar, Layout, Menu, Skeleton } from 'antd';
 import type { MenuProps } from 'antd';
 import bem from 'easy-bem';
 import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 
 import logo from 'assets/images/logo.png';
 import { accountsSelector, fetchManager, fetchUser } from 'redux/accounts/accountsSlice';
@@ -40,9 +40,11 @@ function getItem(
 const SliderMenu: React.FC<Props> = ({ collapsed }) => {
   const b = bem('SliderMenu');
   const push = useNavigate();
+  const dispatch = useAppDispatch();
+  const location = useLocation();
   const { user } = useAppSelector(authSelector);
   const { manager, updateManagerDataLoading, user: userAccount } = useAppSelector(accountsSelector);
-  const dispatch = useAppDispatch();
+  const isFieldClimate = location.pathname.includes('/field-climate');
 
   useEffect(() => {
     if (user?.is_manager) {
@@ -141,7 +143,7 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
         mode='inline'
         defaultSelectedKeys={['/']}
         defaultOpenKeys={['/']}
-        selectedKeys={[window.location.pathname]}
+        selectedKeys={isFieldClimate ? ['/field-climate'] : [window.location.pathname]}
         theme='light'
         items={menuItems}
         onClick={pushLinks}

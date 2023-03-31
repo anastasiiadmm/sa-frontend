@@ -1,28 +1,54 @@
-import { Layout, Menu, MenuProps, theme } from 'antd';
-import { Header } from 'antd/es/layout/layout';
-import React, { ReactNode } from 'react';
+import { HomeOutlined, SettingOutlined, SnippetsOutlined } from '@ant-design/icons';
+import { Menu, MenuProps } from 'antd';
+import React from 'react';
+import { useMatch, useNavigate } from 'react-router';
 
-type Props = {
-  children: ReactNode;
-};
+const menuItems = [
+  {
+    label: 'Панель инструментов',
+    icon: <HomeOutlined />,
+    path: '/field-climate',
+  },
+  {
+    label: 'Данные станции',
+    icon: <SnippetsOutlined />,
+    path: '/field-climate/station',
+  },
+  {
+    label: 'Настройки устройства',
+    icon: <SettingOutlined />,
+    path: '/field-climate/config',
+  },
+];
 
-const items1: MenuProps['items'] = ['1', '2', '3'].map((key) => ({
-  key,
-  label: `nav ${key}`,
-}));
+const FieldClimateSideBar = () => {
+  const push = useNavigate();
 
-const FieldClimateSideBar: React.FC<Props> = ({ children }) => {
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken();
+  const pushLinks: MenuProps['onClick'] = (e) => {
+    push(e.key);
+  };
+
+  const GetItem = (label: string, path: string, icon: React.ReactNode) => {
+    const match = useMatch(path);
+    return {
+      key: path,
+      label,
+      icon,
+      path,
+      className: match ? 'ant-menu-item-selected' : '',
+    };
+  };
 
   return (
-    <Layout>
-      <Header className='header' style={{ padding: 0, background: colorBgContainer }}>
-        <Menu theme='light' mode='horizontal' defaultSelectedKeys={['2']} items={items1} />
-      </Header>
-      <Layout>{children}</Layout>
-    </Layout>
+    <Menu
+      theme='light'
+      mode='horizontal'
+      defaultSelectedKeys={['/field-climate']}
+      defaultOpenKeys={['/field-climate']}
+      selectedKeys={[window.location.pathname]}
+      items={menuItems.map((item) => GetItem(item.label, item.path, item.icon))}
+      onClick={pushLinks}
+    />
   );
 };
 

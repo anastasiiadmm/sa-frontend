@@ -1,13 +1,16 @@
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import { Layout, theme } from 'antd';
 import bem from 'easy-bem';
-import React, { useState } from 'react';
+import React, { PropsWithChildren, useState } from 'react';
 import { Route, useLocation } from 'react-router';
 import { Routes } from 'react-router-dom';
 
+import FieldClimateSideBar from 'components/FieldClimateSideBar/FieldClimateSideBar';
 import OpenMapComponent from 'components/OpenMapComponent/OpenMapComponent';
 import SliderMenu from 'components/SliderMenu/SliderMenu';
-import Stations from 'components/stations/Stations';
+import FieldClimateConfigurations from 'containers/FieldClimate/FieldClimateConfiguration/FieldClimateConfigurations';
+import FieldClimateDashboard from 'containers/FieldClimate/FieldClimateDashboard';
+import FieldClimateStation from 'containers/FieldClimate/FieldClimateStation/FieldClimateStation';
 import ManagerProfile from 'containers/Manager/Profile/Profile';
 import UserRequests from 'containers/Manager/UserRequests/UserRequests';
 import NewUser from 'containers/Manager/Users/NewUser/NewUser';
@@ -20,10 +23,27 @@ import Technique from 'containers/User/Technique/Technique';
 import { authSelector } from 'redux/auth/authSlice';
 import { useAppSelector } from 'redux/hooks';
 import 'AppRouter/appRouter.scss';
-import FieldClimateSideBar from 'components/FieldClimateSideBar/FieldClimateSideBar';
-import FieldClimateComponent from '../containers/FieldClimateComponent/FieldClimateComponent';
 
 const { Header, Content } = Layout;
+
+interface AppRouterWrapperProps extends PropsWithChildren<{}> {}
+
+const AppRouterWrapper: React.FC<AppRouterWrapperProps> = ({ children }) => {
+  const { pathname } = useLocation();
+
+  const shouldRenderSidebar = [
+    '/field-climate',
+    '/field-climate/station',
+    '/field-climate/config',
+  ].includes(pathname);
+
+  return (
+    <>
+      {shouldRenderSidebar && <FieldClimateSideBar />}
+      {children}
+    </>
+  );
+};
 
 const AppRouter: React.FC = () => {
   const b = bem('AppRouter');
@@ -52,36 +72,30 @@ const AppRouter: React.FC = () => {
             background: 'none',
           }}
         >
-          <Routes>
-            {user?.is_manager ? (
-              <>
-                <Route path='/' index element={<Users />} />
-                <Route path='/add-new-user' element={<NewUser />} />
-                <Route path='/manager-profile' element={<ManagerProfile />} />
-                <Route path='/user-profile/:id' element={<UserProfile />} />
-                <Route path='/user-technique/:id' element={<UserTechnique />} />
-                <Route path='/user-requests' element={<UserRequests />} />
-              </>
-            ) : (
-              <>
-                <Route path='/' index element={<Technique />} />
-                <Route path='/user-profile-view' element={<Profile />} />
-                <Route path='/open-map' element={<OpenMapComponent />} />
-                <Route
-                  path='/field-climate'
-                  element={
-                    <FieldClimateSideBar>
-                      <Routes>
-                        <Route path='/main' element={<FieldClimateComponent />} />
-                      </Routes>
-                    </FieldClimateSideBar>
-                  }
-                />
-              </>
-            )}
-            <Route path='/profile-technique/:userId/:vehicleId' element={<ProfileTechnique />} />
-            <Route path='/stations' element={<Stations />} />
-          </Routes>
+          <AppRouterWrapper>
+            <Routes>
+              {user?.is_manager ? (
+                <>
+                  <Route path='/' index element={<Users />} />
+                  <Route path='/add-new-user' element={<NewUser />} />
+                  <Route path='/manager-profile' element={<ManagerProfile />} />
+                  <Route path='/user-profile/:id' element={<UserProfile />} />
+                  <Route path='/user-technique/:id' element={<UserTechnique />} />
+                  <Route path='/user-requests' element={<UserRequests />} />
+                </>
+              ) : (
+                <>
+                  <Route path='/' index element={<Technique />} />
+                  <Route path='/user-profile-view' element={<Profile />} />
+                  <Route path='/open-map' element={<OpenMapComponent />} />
+                  <Route path='/field-climate/' element={<FieldClimateDashboard />} />
+                  <Route path='/field-climate/station' element={<FieldClimateStation />} />
+                  <Route path='/field-climate/config' element={<FieldClimateConfigurations />} />
+                </>
+              )}
+              <Route path='/profile-technique/:userId/:vehicleId' element={<ProfileTechnique />} />
+            </Routes>
+          </AppRouterWrapper>
         </Content>
       </Layout>
     </Layout>
