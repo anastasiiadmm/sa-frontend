@@ -131,7 +131,7 @@ const Technique = () => {
             overlayInnerStyle={{ padding: '5px 15px', borderRadius: 15 }}
             placement='topRight'
           >
-            <Link to='/open-map'>
+            <Link to='/'>
               <Button type='text' style={{ display: 'flex', alignItems: 'center' }}>
                 <EyeOutlined style={{ fontSize: '27px', color: '#1358bf' }} />
               </Button>

@@ -136,7 +136,7 @@ const ProfileTechnique = () => {
       dataIndex: 'profile',
       filterSearch: true,
       width: '23%',
-      render: () => (
+      render: (_, record: any) => (
         <div style={{ display: 'flex', gap: 37, justifyContent: 'right' }}>
           <Tooltip
             title='Просмотреть на карте'
@@ -144,7 +144,7 @@ const ProfileTechnique = () => {
             overlayInnerStyle={{ padding: '5px 15px', borderRadius: 15 }}
             placement='topRight'
           >
-            <Link className={b('profile-link')} to='/open-map'>
+            <Link className={b('profile-link')} to={`/open-map/${vehicleId}/${record?.id}`}>
               <Button type='text'>
                 <img src={planet} alt='Просмотреть на карте' width={20} />
               </Button>
