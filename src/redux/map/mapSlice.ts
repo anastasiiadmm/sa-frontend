@@ -67,7 +67,11 @@ export const dataExchangeFetchFetch = createAsyncThunk(
 const mapSlice = createSlice({
   name: 'map',
   initialState,
-  reducers: {},
+  reducers: {
+    clearField: (state) => {
+      state.field = initialState.field;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(mapVehicleFetch.pending, (state) => {
       state.vehicle.loading = true;
@@ -98,6 +102,8 @@ const mapSlice = createSlice({
     });
   },
 });
+
+export const { clearField } = mapSlice.actions;
 
 export const mapSelector = (state: RootState) => state.map;
 

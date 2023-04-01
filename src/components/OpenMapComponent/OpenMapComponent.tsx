@@ -16,7 +16,12 @@ import tractorBlue from 'assets/images/icons/tractor-blue.svg';
 import Errors from 'components/Errors/Errors';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 
-import { dataExchangeFetchFetch, mapSelector, mapVehicleFetch } from 'redux/map/mapSlice';
+import {
+  clearField,
+  dataExchangeFetchFetch,
+  mapSelector,
+  mapVehicleFetch,
+} from 'redux/map/mapSlice';
 
 const { Title } = Typography;
 
@@ -43,6 +48,8 @@ const OpenMapComponent = () => {
           field_name: findResultsMap?.field_name || 'NotFound',
         }),
       );
+    } else {
+      dispatch(clearField());
     }
   }, [vehicle.results?.processing_data]);
 
@@ -159,7 +166,7 @@ const OpenMapComponent = () => {
               Обновить данные
             </Button>
           </div>
-          {field.results.length ? null : (
+          {field.results.length || vehicleId === 'localTractor' ? null : (
             <Alert
               message='Кординаты для маршрута не найдено'
               type='error'

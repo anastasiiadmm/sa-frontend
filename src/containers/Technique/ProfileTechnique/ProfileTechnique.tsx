@@ -183,7 +183,7 @@ const ProfileTechnique = () => {
             )}
           </div>
           <div>
-            <Link to='/open-map'>
+            <Link to={`/open-map/${vehicleId}/localTractor`}>
               <Button
                 type='link'
                 icon={<img src={tractorBlue} alt='Техника на карте' width={18} />}
