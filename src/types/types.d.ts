@@ -1,3 +1,5 @@
+import React from "react";
+
 export interface ResetEmail {
   email: string;
 }
@@ -239,7 +241,7 @@ export interface fieldsList {
     toolsWidth: string;
     toolsWidthResult: string;
   };
-  field_name: string;
+  field_name: React.ReactNode;
   work_area: number;
 }
 

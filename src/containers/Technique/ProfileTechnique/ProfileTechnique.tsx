@@ -45,10 +45,16 @@ const ProfileTechnique = () => {
   useEffect(() => {
     if (userVehicleInfo) {
       setState([userVehicleInfo]);
-      setFields(userVehicleInfo.processing_data);
+      setFields(() =>
+        userVehicleInfo.processing_data.map((item) => {
+          return {
+            ...item,
+            field_name: <p className='text_hidden'>{item.field_name}</p>,
+          };
+        }),
+      );
     }
   }, [userVehicleInfo]);
-
   useEffect(() => {
     if (state) {
       form.setFieldsValue({
@@ -67,7 +73,7 @@ const ProfileTechnique = () => {
   const columns: ColumnsType<fieldsList> = [
     {
       key: 'processing_data',
-      title: 'Поля техники',
+      title: 'Наименование поля',
       dataIndex: 'field_name',
       width: '18%',
       fixed: 'left',
