@@ -1,7 +1,8 @@
-import { Table } from 'antd';
+import { Empty, Table } from 'antd';
 import { Key } from 'antd/lib/table/interface';
 import React from 'react';
 
+import notFoundImages from 'assets/images/notFound.svg';
 import PaginationComponent from 'components/TableComponent/PaginationComponent/PaginationComponent';
 import { companiesList, userVehicleInfo, userVehicles, userVehiclesPagination } from 'types/types';
 
@@ -28,6 +29,17 @@ const TableComponent: React.FC<Props> = ({
   pageNextHandler,
   disabledButton,
 }) => {
+  const locale = {
+    emptyText: (
+      <Empty
+        image={<img src={notFoundImages} alt='notFoundImages' />}
+        imageStyle={{
+          height: 300,
+        }}
+        description={<h2>Данные отсутствуют</h2>}
+      />
+    ),
+  };
   return (
     <>
       <Table
@@ -36,6 +48,7 @@ const TableComponent: React.FC<Props> = ({
         }}
         loading={loading}
         rowKey={rowKey}
+        locale={locale}
         columns={columns}
         dataSource={data}
         onChange={onChange}
