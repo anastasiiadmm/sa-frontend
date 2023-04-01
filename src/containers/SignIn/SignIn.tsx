@@ -45,7 +45,7 @@ const SignIn: React.FC = () => {
       await dispatch(loginUser(values)).unwrap();
     } catch (e) {
       if (e) {
-        if (e.includes(401)) {
+        if (typeof e === 'string' && e.includes('401')) {
           await message.error(`Не найдено активной учетной записи с указанными данными`);
         }
       } else {
