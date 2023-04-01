@@ -1,4 +1,4 @@
-import { Button, Card, Spin, Typography } from 'antd';
+import { Alert, Button, Card, Spin, Typography } from 'antd';
 import bem from 'easy-bem';
 import L, { LatLngExpression } from 'leaflet';
 import React, { useEffect } from 'react';
@@ -13,6 +13,7 @@ import locale from 'assets/images/icons/locale.svg';
 import map from 'assets/images/icons/map.svg';
 import startA from 'assets/images/icons/startA.svg';
 import tractorBlue from 'assets/images/icons/tractor-blue.svg';
+import Errors from 'components/Errors/Errors';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 
 import { dataExchangeFetchFetch, mapSelector, mapVehicleFetch } from 'redux/map/mapSlice';
@@ -36,7 +37,12 @@ const OpenMapComponent = () => {
       (item) => item.id === Number(vehicleId),
     );
     if (findResultsMap) {
-      dispatch(dataExchangeFetchFetch({ id: Number(id), field_name: findResultsMap.field_name }));
+      dispatch(
+        dataExchangeFetchFetch({
+          id: Number(id),
+          field_name: findResultsMap?.field_name || 'NotFound',
+        }),
+      );
     }
   }, [vehicle.results?.processing_data]);
 
@@ -120,7 +126,10 @@ const OpenMapComponent = () => {
   if (vehicle.errors || field.errors) {
     return (
       <div>
-        {vehicle.errors?.message} {field.errors?.message}
+        <Errors
+          status={vehicle.errors?.status || field.errors?.status}
+          detail={vehicle.errors?.detail || field.errors?.detail}
+        />
       </div>
     );
   }
@@ -150,6 +159,15 @@ const OpenMapComponent = () => {
               Обновить данные
             </Button>
           </div>
+          {field.results.length ? null : (
+            <Alert
+              message='Кординаты для маршрута не найдено'
+              type='error'
+              style={{
+                marginTop: 20,
+              }}
+            />
+          )}
         </Card>
       </div>
       <div className={b('map-block')}>

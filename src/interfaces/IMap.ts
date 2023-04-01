@@ -28,7 +28,8 @@ export interface Vehicle {
   enterprise: number;
 }
 export interface APIError {
-  message: string;
+  detail: string;
+  status: number;
 }
 
 export interface resultsAB {

@@ -1,5 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
+import { message } from 'antd';
+
 import { IMapState, resultsAB, Vehicle } from 'interfaces';
 import { RootState } from 'redux/hooks';
 import axiosApi from 'utils/axios-api';
@@ -26,7 +28,10 @@ export const mapVehicleFetch = createAsyncThunk(
       const response = await axiosApi.get(`/accounts/user/vehicle/${id}/`);
       return response.data;
     } catch (e) {
-      return rejectWithValue(e?.response?.data);
+      return rejectWithValue({
+        detail: e?.response?.data?.detail,
+        status: e?.response?.status,
+      });
     }
   },
 );
@@ -45,9 +50,16 @@ export const dataExchangeFetchFetch = createAsyncThunk(
   ) => {
     try {
       const response = await axiosApi.get(`data_exchange/route/${id}/?field_name=${field_name}`);
-      return response.data;
+      if (response.data.length) {
+        return response.data;
+      }
+      message.error('Кординаты для маршрута не найдено');
+      return [];
     } catch (e) {
-      return rejectWithValue(e?.response?.data);
+      return rejectWithValue({
+        detail: e?.response?.data?.detail,
+        status: e?.response?.data?.status,
+      });
     }
   },
 );
