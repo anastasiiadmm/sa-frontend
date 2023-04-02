@@ -1,6 +1,6 @@
 import { Button, Col, Form } from 'antd';
 import bem from 'easy-bem';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
 import FormField from 'components/FormField/FormField';
 import { companiesList, ICompany } from 'types/types';
@@ -29,7 +29,6 @@ const EditUserProfileModal: React.FC<Props> = ({
 }) => {
   const b = bem('EditUserProfileModal');
   const [form] = Form.useForm();
-  const [isChangePassword, setIsChangePassword] = useState(false);
 
   useEffect(() => {
     if (updateUserData) {
@@ -96,6 +95,18 @@ const EditUserProfileModal: React.FC<Props> = ({
             />
           </div>
         ) : null}
+
+        <FormField
+          bordered
+          data-testid='username_id'
+          id='username_id'
+          inputClassName={b('username')}
+          label='Username'
+          name={['user', 'username']}
+          placeholder='Username'
+          onChange={inputChangeHandler}
+          rules={[{ required: true, message: 'Введите username' }]}
+        />
 
         <div className={b('form-modal-block')}>
           <FormField
@@ -192,66 +203,6 @@ const EditUserProfileModal: React.FC<Props> = ({
           placeholder='Количество оплаченных блоков автопилота'
           onChange={inputChangeHandler}
         />
-
-        <FormField
-          bordered
-          data-testid='username_id'
-          id='username_id'
-          inputClassName={b('username')}
-          label='Username'
-          name={['user', 'username']}
-          placeholder='Username'
-          onChange={inputChangeHandler}
-          rules={[{ required: true, message: 'Введите username' }]}
-        />
-
-        {isChangePassword ? (
-          <div className={b('changed-password-buttons')}>
-            <div className={b('form-modal-block form-block-buttons')}>
-              <FormField
-                data-testid='new_password'
-                bordered
-                id='password_id'
-                type='password'
-                className='username'
-                name={['user', 'password']}
-                label='Новый пароль'
-                placeholder='Новый пароль'
-                onChange={inputChangeHandler}
-              />
-
-              <FormField
-                bordered
-                id='password_confirm'
-                type='password'
-                className='username'
-                name='confirm_password'
-                dependencies={['password']}
-                label='Повторите пароль'
-                placeholder='Повторите пароль'
-                onChange={inputChangeHandler}
-              />
-            </div>
-            <Button
-              type='link'
-              onClick={() => {
-                setIsChangePassword(false);
-              }}
-            >
-              Отменить
-            </Button>
-          </div>
-        ) : (
-          <div className={b('form-modal-block form-block-password')}>
-            <Button
-              data-testid='button_change_password'
-              type='link'
-              onClick={() => setIsChangePassword(true)}
-            >
-              Сменить пароль
-            </Button>
-          </div>
-        )}
 
         <div className={b('profile-buttons')}>
           {changeUserInfoRequest ? (
