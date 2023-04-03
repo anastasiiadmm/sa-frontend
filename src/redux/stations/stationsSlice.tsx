@@ -12,23 +12,23 @@ import {
 } from 'types/stationTypes';
 
 const {
-  REACT_APP_CLIMATE_API_BASE_URL_DEV,
-  REACT_APP_CLIMATE_API_PUBLIC_KEY_DEV,
-  REACT_APP_CLIMATE_API_PRIVATE_KEY_DEV,
-  REACT_APP_CLIMATE_STATION_ID_DEV,
+  REACT_APP_CLIMATE_API_BASE_URL,
+  REACT_APP_CLIMATE_API_PUBLIC_KEY,
+  REACT_APP_CLIMATE_API_PRIVATE_KEY,
+  REACT_APP_CLIMATE_STATION_ID,
 } = process.env;
 
 const timestamp = new Date().toUTCString();
 
 const signContent = (method: string, request: string, timestamp: string) => {
-  const contentToSign = method + request + timestamp + REACT_APP_CLIMATE_API_PUBLIC_KEY_DEV;
-  const privateKey = REACT_APP_CLIMATE_API_PRIVATE_KEY_DEV || '';
+  const contentToSign = method + request + timestamp + REACT_APP_CLIMATE_API_PUBLIC_KEY;
+  const privateKey = REACT_APP_CLIMATE_API_PRIVATE_KEY || '';
   return CryptoJS.HmacSHA256(contentToSign, privateKey);
 };
 
 const getAuthorizationHeader = (method: string, request: string) => {
   const signature = signContent(method, request, timestamp);
-  const hmacStr = `hmac ${REACT_APP_CLIMATE_API_PUBLIC_KEY_DEV}:${signature}`;
+  const hmacStr = `hmac ${REACT_APP_CLIMATE_API_PUBLIC_KEY}:${signature}`;
   return {
     Authorization: hmacStr,
     'Request-Date': timestamp,
@@ -61,7 +61,7 @@ export const fetchUser = createAsyncThunk<APIResponse, void, { rejectValue: APIE
       Accept: 'application/json',
     };
     try {
-      const response = await axios.get(REACT_APP_CLIMATE_API_BASE_URL_DEV + params.request, {
+      const response = await axios.get(REACT_APP_CLIMATE_API_BASE_URL + params.request, {
         headers,
       });
 
@@ -78,14 +78,14 @@ export const fetchWeather = createAsyncThunk<APIWeatherResponse, void, { rejectV
   async (_, { rejectWithValue }) => {
     const params = {
       method: 'GET',
-      request: `/data/${REACT_APP_CLIMATE_STATION_ID_DEV}/GROUP-BY/last/1`,
+      request: `/data/${REACT_APP_CLIMATE_STATION_ID}/GROUP-BY/last/1`,
     };
     const headers = {
       ...getAuthorizationHeader(params.method, params.request),
       Accept: 'application/json',
     };
     try {
-      const response = await axios.get(REACT_APP_CLIMATE_API_BASE_URL_DEV + params.request, {
+      const response = await axios.get(REACT_APP_CLIMATE_API_BASE_URL + params.request, {
         headers,
       });
 
@@ -109,7 +109,7 @@ export const fetchStations = createAsyncThunk<APIWeatherResponse, void, { reject
       Accept: 'application/json',
     };
     try {
-      const response = await axios.get(REACT_APP_CLIMATE_API_BASE_URL_DEV + params.request, {
+      const response = await axios.get(REACT_APP_CLIMATE_API_BASE_URL + params.request, {
         headers,
       });
 
