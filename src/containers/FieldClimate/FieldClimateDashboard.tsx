@@ -16,7 +16,7 @@ const FieldClimateDashboard = () => {
   }, []);
 
   useEffect(() => {
-    if (stations) {
+    if (stations && Array.isArray(stations)) {
       const transformedData = stations?.map((item: any) => ({
         position: item?.position?.geo?.coordinates,
         name: item?.name?.custom,
