@@ -8,6 +8,10 @@ services:
     environment:
       - REACT_APP_ENVIRONMENT=testing
       - REACT_APP_API_URL=0.0.0.0:8000
+      - REACT_APP_CLIMATE_API_BASE_URL_DEV=https://api.fieldclimate.com/v2
+      - REACT_APP_CLIMATE_API_PUBLIC_KEY_DEV=f729364b9d924fc8a4bb702085920b416a472e89d8e28dbb
+      - REACT_APP_CLIMATE_API_PRIVATE_KEY_DEV=87a853f12aa5344d768f0ecb5d79bdf49372e28bd218f2a3
+      - REACT_APP_CLIMATE_STATION_ID_DEV=00000146
     command: yarn test -u
     networks:
       - testing
