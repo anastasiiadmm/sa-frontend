@@ -1,4 +1,4 @@
-import { Alert, Button, Card, Spin, Typography } from 'antd';
+import { Alert, Button, Card, Spin, Tooltip, Typography } from 'antd';
 import bem from 'easy-bem';
 import L, { LatLngExpression } from 'leaflet';
 import React, { useEffect } from 'react';
@@ -22,8 +22,6 @@ import {
   mapSelector,
   mapVehicleFetch,
 } from 'redux/map/mapSlice';
-
-import { textSlice } from 'utils/textSlice/textSlice';
 
 const { Title } = Typography;
 
@@ -143,6 +141,9 @@ const OpenMapComponent = () => {
     );
   }
 
+  const findResults = vehicle.results?.processing_data.find(
+    (item) => item.id === Number(vehicleId),
+  );
   return (
     <div className={b()}>
       <div className={b('card-block')}>
@@ -153,17 +154,20 @@ const OpenMapComponent = () => {
             </Link>
             <Title level={3} className={b('title')}>
               <img src={locale} alt='locale' className={b('img-title')} />
-              <p className={b('subtitle')}>
-                {' '}
-                {vehicle.results?.last_latitude}-{vehicle.results?.last_longitude}
-              </p>
+              <Tooltip
+                title={findResults?.field_name}
+                color='#BBBBBB'
+                overlayInnerStyle={{ padding: '5px 15px', borderRadius: 15 }}
+                placement='topLeft'
+              >
+                <p className={b('subtitle')}>
+                  <span>{findResults?.field_name || 'Местоположение трактора'}</span>
+                </p>
+              </Tooltip>
             </Title>
             <Title level={3} className={b('title')}>
               <img src={tractorBlue} alt='tractor' className={b('img-title img-tractor')} />
-              <p className={b('subtitle')}>
-                {vehicle.results?.last_name} {textSlice(vehicle.results?.first_name)}.{' '}
-                {textSlice(vehicle.results?.middle_name)}.
-              </p>
+              <p className={b('subtitle')}>{vehicle.results?.description}</p>
             </Title>
             <Button onClick={() => renderHandler()} className={b('render_btn')}>
               Обновить данные
@@ -196,9 +200,7 @@ const OpenMapComponent = () => {
           <CircleMarker center={centerMap() as LatLngExpression} opacity={0} radius={10}>
             <Marker position={centerMap() as LatLngExpression} icon={duckIcon}>
               <Popup>
-                {typeof vehicle.results?.first_name === 'string'
-                  ? vehicle.results?.first_name.toUpperCase()
-                  : null}
+                <span className={b('title_uppercase')}>{vehicle.results?.description}</span>
               </Popup>
             </Marker>
           </CircleMarker>
@@ -211,13 +213,13 @@ const OpenMapComponent = () => {
               position={getCoordinateByType(polyline, 'start') as LatLngExpression}
               icon={duckIconStart}
             >
-              <Popup>Start Point</Popup>
+              <Popup>Start</Popup>
             </Marker>
             <Marker
               position={getCoordinateByType(polyline, 'end') as LatLngExpression}
               icon={duckIconEnd}
             >
-              <Popup>End Point</Popup>
+              <Popup>End</Popup>
             </Marker>
           </Polyline>
         </MapContainer>

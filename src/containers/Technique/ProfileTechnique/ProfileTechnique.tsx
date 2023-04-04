@@ -67,9 +67,7 @@ const ProfileTechnique = () => {
   useEffect(() => {
     if (state) {
       form.setFieldsValue({
-        technique_name: `${state[0]?.last_name} ${state[0]?.first_name?.charAt(
-          0,
-        )}. ${state[0]?.middle_name?.charAt(0)}.`,
+        technique_name: userVehicle?.description,
         state_number: state[0]?.state_number,
         vin_code: state[0]?.vin_code,
         last_name: state[0]?.last_name,

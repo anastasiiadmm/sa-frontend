@@ -50,11 +50,12 @@ exports[`OpenMapComponents render 1`] = `
             />
             <p
               className="OpenMapComponent__subtitle"
+              onMouseEnter={[Function]}
+              onMouseLeave={[Function]}
             >
-               
-              42.857614
-              -
-              74.599974
+              <span>
+                Местоположение трактора
+              </span>
             </p>
           </h3>
           <h3
@@ -77,13 +78,7 @@ exports[`OpenMapComponents render 1`] = `
             <p
               className="OpenMapComponent__subtitle"
             >
-              tech-58
-               
-              t
-              .
-               
-              t
-              .
+              tech-5123123
             </p>
           </h3>
           <button
