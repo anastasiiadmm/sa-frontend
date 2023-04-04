@@ -229,8 +229,8 @@ export const registerUser = createAsyncThunk<void, registerUserParams>(
   },
 );
 
-export const deleteUserTechTechnique = createAsyncThunk(
-  `${nameSpace}/deleteUserTechTechnique`,
+export const deleteUserTechnique = createAsyncThunk(
+  `${nameSpace}/deleteUserTechnique`,
   async (
     {
       id,
@@ -570,12 +570,12 @@ const accountsSlice = createSlice({
       state.vehicleCreateRequestError = payload?.detail;
     });
 
-    builder.addCase(deleteUserTechTechnique.pending, (state) => {
+    builder.addCase(deleteUserTechnique.pending, (state) => {
       state.vehicleDeleteLoading = true;
       state.vehicleErrorsDelete = null;
     });
     builder.addCase(
-      deleteUserTechTechnique.fulfilled,
+      deleteUserTechnique.fulfilled,
       (state, action: PayloadAction<{ id: string }>) => {
         if (state.requests?.length) {
           state.requests = state.requests.filter((item) => item.id !== Number(action.payload.id));
@@ -584,7 +584,7 @@ const accountsSlice = createSlice({
         state.vehicleErrorsDelete = null;
       },
     );
-    builder.addCase(deleteUserTechTechnique.rejected, (state, { payload }: any) => {
+    builder.addCase(deleteUserTechnique.rejected, (state, { payload }: any) => {
       state.vehicleDeleteLoading = false;
       state.vehicleErrorsDelete = payload?.detail;
     });

@@ -16,12 +16,7 @@ import tractorBlue from 'assets/images/icons/tractor-blue.svg';
 import Errors from 'components/Errors/Errors';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 
-import {
-  clearField,
-  dataExchangeFetchFetch,
-  mapSelector,
-  mapVehicleFetch,
-} from 'redux/map/mapSlice';
+import { clearField, mapSelector, obtainingACoordinate, tractorLocation } from 'redux/map/mapSlice';
 
 const { Title } = Typography;
 
@@ -34,7 +29,7 @@ const OpenMapComponent = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(mapVehicleFetch(Number(id)));
+    dispatch(tractorLocation(Number(id)));
   }, []);
 
   useEffect(() => {
@@ -43,7 +38,7 @@ const OpenMapComponent = () => {
     );
     if (findResultsMap) {
       dispatch(
-        dataExchangeFetchFetch({
+        obtainingACoordinate({
           id: Number(id),
           field_name: findResultsMap?.field_name || 'NotFound',
         }),
@@ -97,12 +92,12 @@ const OpenMapComponent = () => {
   };
 
   const renderHandler = () => {
-    dispatch(mapVehicleFetch(Number(id)));
+    dispatch(tractorLocation(Number(id)));
     const findResultsMap = vehicle.results?.processing_data.find(
       (item) => item.id === Number(vehicleId),
     );
     if (findResultsMap) {
-      dispatch(dataExchangeFetchFetch({ id: Number(id), field_name: findResultsMap.field_name }));
+      dispatch(obtainingACoordinate({ id: Number(id), field_name: findResultsMap.field_name }));
     }
   };
 

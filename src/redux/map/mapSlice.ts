@@ -21,8 +21,8 @@ const initialState = {
   },
 } as IMapState;
 
-export const mapVehicleFetch = createAsyncThunk(
-  `${nameSpace}/mapVehicleFetch`,
+export const tractorLocation = createAsyncThunk(
+  `${nameSpace}/tractorLocation`,
   async (id: number, { rejectWithValue }) => {
     try {
       const response = await axiosApi.get(`/accounts/user/vehicle/${id}/`);
@@ -36,8 +36,8 @@ export const mapVehicleFetch = createAsyncThunk(
   },
 );
 
-export const dataExchangeFetchFetch = createAsyncThunk(
-  `${nameSpace}/dataExchangeFetchFetch`,
+export const obtainingACoordinate = createAsyncThunk(
+  `${nameSpace}/obtainingACoordinate`,
   async (
     {
       id,
@@ -73,30 +73,27 @@ const mapSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(mapVehicleFetch.pending, (state) => {
+    builder.addCase(tractorLocation.pending, (state) => {
       state.vehicle.loading = true;
       state.vehicle.errors = null;
     });
-    builder.addCase(mapVehicleFetch.fulfilled, (state, action: PayloadAction<Vehicle>) => {
+    builder.addCase(tractorLocation.fulfilled, (state, action: PayloadAction<Vehicle>) => {
       state.vehicle.loading = false;
       state.vehicle.results = action.payload;
     });
-    builder.addCase(mapVehicleFetch.rejected, (state, action: PayloadAction<any>) => {
+    builder.addCase(tractorLocation.rejected, (state, action: PayloadAction<any>) => {
       state.vehicle.loading = false;
       state.vehicle.errors = action.payload;
     });
-    builder.addCase(dataExchangeFetchFetch.pending, (state) => {
+    builder.addCase(obtainingACoordinate.pending, (state) => {
       state.field.loading = true;
       state.field.errors = null;
     });
-    builder.addCase(
-      dataExchangeFetchFetch.fulfilled,
-      (state, action: PayloadAction<resultsAB[]>) => {
-        state.field.loading = false;
-        state.field.results = action.payload;
-      },
-    );
-    builder.addCase(dataExchangeFetchFetch.rejected, (state, action: PayloadAction<any>) => {
+    builder.addCase(obtainingACoordinate.fulfilled, (state, action: PayloadAction<resultsAB[]>) => {
+      state.field.loading = false;
+      state.field.results = action.payload;
+    });
+    builder.addCase(obtainingACoordinate.rejected, (state, action: PayloadAction<any>) => {
       state.field.loading = false;
       state.field.errors = action.payload;
     });

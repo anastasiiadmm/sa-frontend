@@ -13,11 +13,7 @@ import RequestAddTechnique from 'components/ModalComponent/ModalChildrenComponen
 import RequestRegisterUser from 'components/ModalComponent/ModalChildrenComponents/RequestsModals/RequestRegisterUser/RequestRegisterUser';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import TableComponent from 'components/TableComponent/TableComponent';
-import {
-  accountsSelector,
-  deleteUserTechTechnique,
-  fetchRequests,
-} from 'redux/accounts/accountsSlice';
+import { accountsSelector, deleteUserTechnique, fetchRequests } from 'redux/accounts/accountsSlice';
 import { clearUserInfo, companiesSelector, fetchUserInfo } from 'redux/companies/companiesSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { Request, UserIds } from 'types/types';
@@ -69,7 +65,7 @@ const UserRequests = () => {
   const rejectTechniqueHandler = async () => {
     try {
       if (userIds?.requestId) {
-        dispatch(deleteUserTechTechnique({ id: userIds.requestId }));
+        dispatch(deleteUserTechnique({ id: userIds.requestId }));
         setIsModalTechniqueOpen(false);
         setIsModalRejectOpen(false);
         setIsModalRegisterUserTechniqueOpen(false);

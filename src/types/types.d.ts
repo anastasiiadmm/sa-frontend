@@ -1,4 +1,4 @@
-import React from "react";
+import { JSX } from 'react';
 
 export interface ResetEmail {
   email: string;
@@ -241,7 +241,7 @@ export interface fieldsList {
     toolsWidth: string;
     toolsWidthResult: string;
   };
-  field_name: React.ReactNode;
+  field_name: JSX.Element;
   work_area: number;
 }
 
