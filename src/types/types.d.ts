@@ -302,3 +302,9 @@ interface UserIds {
   requestId: string | null;
   userId: string | null;
 }
+
+interface climateOptions {
+  value: string;
+  label: string;
+}
+
