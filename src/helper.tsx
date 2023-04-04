@@ -177,6 +177,9 @@ export const lastCommunication = (lastComm: string) => {
 };
 
 export const checkTooltipVisibility = (selectedOption: string, marker: any): boolean => {
+  if (marker.meta === null) {
+    return false;
+  }
   switch (selectedOption) {
     case 'airTemp':
       return marker?.meta && Object.prototype.hasOwnProperty.call(marker.meta, 'airTemp');
