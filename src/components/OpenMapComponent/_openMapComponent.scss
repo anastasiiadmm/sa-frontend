@@ -41,13 +41,16 @@
     padding-left: 7px;
     padding-right: 7px;
     font-weight: 700 !important;
+    text-transform: uppercase;
   }
 
   &__render_btn {
-    margin-left: 20px;
+    position: absolute;
+    right: 20px;
     background-color: #689F3A!important;
     color: #ffffff!important;
-    font-size: 12px;
+    font-size: 14px;
+    height: 40px;
   }
 
   &__loading {

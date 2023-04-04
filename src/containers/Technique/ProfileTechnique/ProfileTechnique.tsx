@@ -49,7 +49,16 @@ const ProfileTechnique = () => {
         userVehicleInfo.processing_data.map((item) => {
           return {
             ...item,
-            field_name: <p className='text_hidden'>{item.field_name}</p>,
+            field_name: (
+              <Tooltip
+                title={item.field_name}
+                color='#BBBBBB'
+                overlayInnerStyle={{ padding: '5px 15px', borderRadius: 15 }}
+                placement='topRight'
+              >
+                <p className='text_hidden'>{item.field_name}</p>
+              </Tooltip>
+            ),
           };
         }),
       );
@@ -183,7 +192,7 @@ const ProfileTechnique = () => {
             )}
           </div>
           <div>
-            <Link to={`/open-map/${vehicleId}/localTractor`}>
+            <Link to={`/open-map/${vehicleId}/localTractorInfo`}>
               <Button
                 type='link'
                 icon={<img src={tractorBlue} alt='Техника на карте' width={18} />}

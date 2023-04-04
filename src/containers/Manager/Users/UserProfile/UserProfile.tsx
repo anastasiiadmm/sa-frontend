@@ -168,8 +168,12 @@ const UserProfile: React.FC = () => {
   const onFinish = async () => {
     try {
       if (userData) {
-        const data = removeEmptyValuesFromObject(userData);
-        delete data.user.image;
+        const {
+          user: { image, ...userWithoutImage },
+          ...rest
+        } = userData;
+        const newObj = { ...rest, user: userWithoutImage };
+        const data = removeEmptyValuesFromObject(newObj);
         await dispatch(updateUserInfo({ id, data })).unwrap();
         history('/');
       }

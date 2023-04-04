@@ -23,6 +23,8 @@ import {
   mapVehicleFetch,
 } from 'redux/map/mapSlice';
 
+import { textSlice } from 'utils/textSlice/textSlice';
+
 const { Title } = Typography;
 
 const purpleOptions = { color: '#1358BF' };
@@ -122,7 +124,7 @@ const OpenMapComponent = () => {
 
   if (vehicle.loading || field.loading) {
     return (
-      <div className={b('loading')}>
+      <div data-testid='loading' className={b('loading')}>
         <div>
           <Spin size='large' />
         </div>
@@ -146,27 +148,30 @@ const OpenMapComponent = () => {
       <div className={b('card-block')}>
         <Card className={b('card-style')} bordered={false}>
           <div className={b('header-title')}>
-            <Link to='/'>
+            <Link to={vehicleId === 'localTractor' ? '/' : `/profile-technique/${vehicleId}/${id}`}>
               <img className={b('arrow-left')} src={arrowLeft} alt='arrow' />
             </Link>
             <Title level={3} className={b('title')}>
               <img src={locale} alt='locale' className={b('img-title')} />
-              <p className={b('subtitle')}> 11223344 </p> - Поле #2 / 32 га
+              <p className={b('subtitle')}>
+                {' '}
+                {vehicle.results?.last_latitude}-{vehicle.results?.last_longitude}
+              </p>
             </Title>
             <Title level={3} className={b('title')}>
               <img src={tractorBlue} alt='tractor' className={b('img-title img-tractor')} />
               <p className={b('subtitle')}>
-                {typeof vehicle.results?.first_name === 'string'
-                  ? vehicle.results?.first_name.toUpperCase()
-                  : null}
+                {vehicle.results?.last_name} {textSlice(vehicle.results?.first_name)}.{' '}
+                {textSlice(vehicle.results?.middle_name)}.
               </p>
-              - Беларус / Трактор
             </Title>
             <Button onClick={() => renderHandler()} className={b('render_btn')}>
               Обновить данные
             </Button>
           </div>
-          {field.results.length || vehicleId === 'localTractor' ? null : (
+          {field.results.length ||
+          vehicleId === 'localTractor' ||
+          vehicleId === 'localTractorInfo' ? null : (
             <Alert
               message='Кординаты для маршрута не найдено'
               type='error'
@@ -181,7 +186,7 @@ const OpenMapComponent = () => {
         <MapContainer
           center={centerMap() as LatLngExpression}
           zoom={18}
-          scrollWheelZoom={false}
+          scrollWheelZoom
           style={{ width: '100%', height: '100vh' }}
         >
           <TileLayer
