@@ -91,9 +91,9 @@ const FieldClimateOpenMapComponent: React.FC<Props> = ({ markers, selectedOption
             }
             break;
           case 'battery':
-            if (marker?.meta?.battery <= 6000) {
+            if (marker?.meta?.battery <= 5999) {
               fillColor = climateColors?.orange;
-            } else if (marker?.meta?.battery > 6000) {
+            } else if (marker?.meta?.battery >= 6000) {
               fillColor = climateColors?.green;
             }
             break;
