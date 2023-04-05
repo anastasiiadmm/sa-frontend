@@ -36,8 +36,8 @@ export const tractorLocation = createAsyncThunk(
   },
 );
 
-export const obtainingACoordinate = createAsyncThunk(
-  `${nameSpace}/obtainingACoordinate`,
+export const obtainingCoordinate = createAsyncThunk(
+  `${nameSpace}/obtainingCoordinate`,
   async (
     {
       id,
@@ -85,15 +85,15 @@ const mapSlice = createSlice({
       state.vehicle.loading = false;
       state.vehicle.errors = action.payload;
     });
-    builder.addCase(obtainingACoordinate.pending, (state) => {
+    builder.addCase(obtainingCoordinate.pending, (state) => {
       state.field.loading = true;
       state.field.errors = null;
     });
-    builder.addCase(obtainingACoordinate.fulfilled, (state, action: PayloadAction<resultsAB[]>) => {
+    builder.addCase(obtainingCoordinate.fulfilled, (state, action: PayloadAction<resultsAB[]>) => {
       state.field.loading = false;
       state.field.results = action.payload;
     });
-    builder.addCase(obtainingACoordinate.rejected, (state, action: PayloadAction<any>) => {
+    builder.addCase(obtainingCoordinate.rejected, (state, action: PayloadAction<any>) => {
       state.field.loading = false;
       state.field.errors = action.payload;
     });

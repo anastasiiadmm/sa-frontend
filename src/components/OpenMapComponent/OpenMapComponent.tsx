@@ -16,7 +16,7 @@ import tractorBlue from 'assets/images/icons/tractor-blue.svg';
 import Errors from 'components/Errors/Errors';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 
-import { clearField, mapSelector, obtainingACoordinate, tractorLocation } from 'redux/map/mapSlice';
+import { clearField, mapSelector, obtainingCoordinate, tractorLocation } from 'redux/map/mapSlice';
 
 const { Title } = Typography;
 
@@ -38,7 +38,7 @@ const OpenMapComponent = () => {
     );
     if (findResultsMap) {
       dispatch(
-        obtainingACoordinate({
+        obtainingCoordinate({
           id: Number(id),
           field_name: findResultsMap?.field_name || 'NotFound',
         }),
@@ -97,7 +97,7 @@ const OpenMapComponent = () => {
       (item) => item.id === Number(vehicleId),
     );
     if (findResultsMap) {
-      dispatch(obtainingACoordinate({ id: Number(id), field_name: findResultsMap.field_name }));
+      dispatch(obtainingCoordinate({ id: Number(id), field_name: findResultsMap.field_name }));
     }
   };
 
