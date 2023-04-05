@@ -59,7 +59,7 @@ const AddUpdateTechnique: React.FC<Props> = ({
     if (isEdit) {
       dispatch(fetchUserVehicleInfo({ userId, vehicleId }));
     }
-  }, [dispatch, isEdit]);
+  }, [dispatch, isEdit, vehicleId]);
 
   useEffect(() => {
     if (userVehicleInfo && isEdit) {
