@@ -404,6 +404,9 @@ const companiesSlice = createSlice({
     setNullReducerVehicleCreate: (state) => {
       state.vehicleCreateSuccess = false;
     },
+    clearUserInfo: (state) => {
+      state.userInfo = null;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchUsersList.pending, (state) => {
@@ -556,6 +559,7 @@ const companiesSlice = createSlice({
   },
 });
 
-export const { setChangeUserProfile, setNullReducerVehicleCreate } = companiesSlice.actions;
+export const { setChangeUserProfile, setNullReducerVehicleCreate, clearUserInfo } =
+  companiesSlice.actions;
 export const companiesSelector = (state: RootState) => state.companies;
 export default companiesSlice.reducer;

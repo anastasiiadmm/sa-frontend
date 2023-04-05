@@ -67,7 +67,7 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
             style={{}}
           >
             <label
-              className=""
+              className="ant-form-item-required"
               htmlFor="register_username"
               title="Логин"
             >
@@ -85,6 +85,7 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
                 className="ant-form-item-control-input-content"
               >
                 <input
+                  aria-required="true"
                   className="ant-input css-dev-only-do-not-override-mxhywb input-styles undefined"
                   disabled={false}
                   id="register_username"

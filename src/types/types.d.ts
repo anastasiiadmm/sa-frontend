@@ -1,3 +1,5 @@
+import { JSX } from 'react';
+
 export interface ResetEmail {
   email: string;
 }
@@ -239,7 +241,7 @@ export interface fieldsList {
     toolsWidth: string;
     toolsWidthResult: string;
   };
-  field_name: string;
+  field_name: JSX.Element;
   work_area: number;
 }
 
@@ -302,3 +304,9 @@ interface UserIds {
   requestId: string | null;
   userId: string | null;
 }
+
+interface climateOptions {
+  value: string;
+  label: string;
+}
+

@@ -125,6 +125,7 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
 
   const pushLinks: MenuProps['onClick'] = (e) => {
     if (e.key === '/sign-out') {
+      push('/');
       logoutLocalStorage();
       dispatch(logoutUser());
       window.location.reload();

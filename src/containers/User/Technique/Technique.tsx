@@ -121,7 +121,7 @@ const Technique = () => {
           >
             <Link to={`/profile-technique/${userAccount?.id}/${record.id}`}>
               <Button type='text'>
-                <img style={{ width: 27 }} src={tractorBlue} alt='tractorBlue' />
+                <EyeOutlined style={{ fontSize: '27px', color: '#1358bf' }} />
               </Button>
             </Link>
           </Tooltip>
@@ -131,9 +131,9 @@ const Technique = () => {
             overlayInnerStyle={{ padding: '5px 15px', borderRadius: 15 }}
             placement='topRight'
           >
-            <Link to='/open-map'>
+            <Link to={`/open-map/${record.id}/localTractor`}>
               <Button type='text' style={{ display: 'flex', alignItems: 'center' }}>
-                <EyeOutlined style={{ fontSize: '27px', color: '#1358bf' }} />
+                <img style={{ width: 27 }} src={tractorBlue} alt='tractorBlue' />
               </Button>
             </Link>
           </Tooltip>

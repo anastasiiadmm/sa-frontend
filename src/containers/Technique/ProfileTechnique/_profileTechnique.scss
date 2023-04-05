@@ -70,6 +70,12 @@
     gap: 5px;
   }
 
+  .text_hidden {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
   .ant-form-item .ant-form-item-label > label {
     color: themes.$gray-color;
   }

@@ -1,5 +1,7 @@
 import { companiesList, ErrorObject, ICompany, updateManagerDataMutation } from 'types/types';
 
+const moment = require('moment');
+
 export const removeEmptyValuesFromObject = (obj: any) => {
   for (const i in obj) {
     if (obj) {
@@ -166,4 +168,34 @@ export const mergeAndRemoveDuplicateValues = (obj1: any, obj2: any) => {
   }
 
   return result;
+};
+
+export const lastCommunication = (lastComm: string) => {
+  const aWeekAgo = moment().subtract(7, 'days');
+  const lastCommMoment = moment(lastComm, 'YYYY-MM-DD HH:mm:ss');
+  return lastCommMoment.isAfter(aWeekAgo);
+};
+
+export const checkTooltipVisibility = (selectedOption: string, marker: any): boolean => {
+  if (marker.meta === null) {
+    return false;
+  }
+  switch (selectedOption) {
+    case 'airTemp':
+      return marker?.meta && Object.prototype.hasOwnProperty.call(marker.meta, 'airTemp');
+    case 'soilTemp':
+      return marker?.meta && Object.prototype.hasOwnProperty.call(marker.meta, 'soilTemp');
+    case 'rh':
+      return marker?.meta && Object.prototype.hasOwnProperty.call(marker.meta, 'rh');
+    case 'rain24h':
+      return marker?.meta && Object.prototype.hasOwnProperty.call(marker.meta, 'rain24h');
+    case 'rain48h':
+      return marker?.meta && Object.prototype.hasOwnProperty.call(marker.meta, 'rain48h');
+    case 'rain7d':
+      return marker?.meta && Object.prototype.hasOwnProperty.call(marker.meta, 'rain7d');
+    case 'battery':
+      return marker?.meta && Object.prototype.hasOwnProperty.call(marker.meta, 'battery');
+    default:
+      return false;
+  }
 };

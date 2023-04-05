@@ -1,5 +1,5 @@
 import { EyeOutlined } from '@ant-design/icons';
-import { Button, Tooltip, Typography } from 'antd';
+import { Button, message, Tooltip, Typography } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import bem from 'easy-bem';
 import React, { useEffect, useState } from 'react';
@@ -13,18 +13,21 @@ import RequestAddTechnique from 'components/ModalComponent/ModalChildrenComponen
 import RequestRegisterUser from 'components/ModalComponent/ModalChildrenComponents/RequestsModals/RequestRegisterUser/RequestRegisterUser';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import TableComponent from 'components/TableComponent/TableComponent';
-import { accountsSelector, fetchRequests } from 'redux/accounts/accountsSlice';
-import { companiesSelector, fetchUserInfo } from 'redux/companies/companiesSlice';
+import { accountsSelector, deleteUserTechnique, fetchRequests } from 'redux/accounts/accountsSlice';
+import { clearUserInfo, companiesSelector, fetchUserInfo } from 'redux/companies/companiesSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { Request, UserIds } from 'types/types';
+
 import 'containers/Manager/UserRequests/_userRequests.scss';
+import { textSlice } from 'utils/textSlice/textSlice';
 
 const { Title } = Typography;
 
 const UserRequests = () => {
   const b = bem('UserRequests');
   const dispatch = useAppDispatch();
-  const { requests, fetchRequestsLoading, requestsPagination } = useAppSelector(accountsSelector);
+  const { requests, fetchRequestsLoading, requestsPagination, vehicleDeleteLoading } =
+    useAppSelector(accountsSelector);
   const { userInfo, userInfoLoading } = useAppSelector(companiesSelector);
   const [isModalTechniqueOpen, setIsModalTechniqueOpen] = useState(false);
   const [isModalRegisterUserOpen, setIsModalRegisterUserTechniqueOpen] = useState(false);
@@ -39,7 +42,6 @@ const UserRequests = () => {
         page: filters?.page,
       },
     };
-
     dispatch(fetchRequests({ data }));
   }, [dispatch, filters]);
 
@@ -60,9 +62,26 @@ const UserRequests = () => {
     setIsModalRejectOpen(!isModalRejectOpen);
   };
 
-  const rejectTechniqueHandler = () => {};
+  const rejectTechniqueHandler = async () => {
+    try {
+      if (userIds?.requestId) {
+        dispatch(deleteUserTechnique({ id: userIds.requestId }));
+        setIsModalTechniqueOpen(false);
+        setIsModalRejectOpen(false);
+        setIsModalRegisterUserTechniqueOpen(false);
+        setIsModalUserInfoRejectOpen(false);
+      }
+    } catch (e) {
+      setIsModalTechniqueOpen(false);
+      setIsModalRejectOpen(false);
+      setIsModalRegisterUserTechniqueOpen(false);
+      setIsModalUserInfoRejectOpen(false);
+      message.error('Не удалось удалить');
+    }
+  };
 
   const showTechniqueModal = () => {
+    dispatch(clearUserInfo());
     setIsModalTechniqueOpen(true);
   };
 
@@ -244,9 +263,11 @@ const UserRequests = () => {
       >
         <DeleteRejectTechniqueModal
           title='Отклонить?'
-          loading={false}
+          loading={vehicleDeleteLoading}
           subTitle='Вы уверены, что хотите отклонить запрос'
-          techniqueName='Личная информация Иванов И.И?'
+          techniqueName={`Личная информация ${userInfo?.user?.last_name || ''} ${textSlice(
+            userInfo?.user?.first_name,
+          )}.${textSlice(userInfo?.user?.middle_name)}?`}
           handleDeleteCancel={handleOkRejectCancel}
           deleteRejectTechniqueHandler={rejectTechniqueHandler}
         />
