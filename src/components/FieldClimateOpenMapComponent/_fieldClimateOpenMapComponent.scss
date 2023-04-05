@@ -1,4 +1,20 @@
 .FieldClimateOpenMapComponent {
+  &__custom-tooltip {
+    width: auto;
+    height: 17px;
+    line-height: 0.1;
+    font-weight: bold;
+  }
+
+  .leaflet-tooltip-top {
+    margin-top: -14px;
+  }
+
+  .leaflet-tooltip {
+    padding: 6px;
+    font-size: 14px;
+  }
+
   .leaflet-top .leaflet-control {
     margin-top: 67px;
   }
