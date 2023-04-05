@@ -12,7 +12,7 @@ export const climateOptions = [
   { value: 'rh', label: 'Относительная влажность' },
   { value: 'rain24h', label: 'Осадки, 24ч' },
   { value: 'rain48h', label: 'Осадки, 2сут.' },
-  { value: 'rain7d', label: 'Осадки, 2сут.' },
+  { value: 'rain7d', label: 'Осадки, 7сут.' },
   { value: 'battery', label: 'Батарея' },
 ];
 
