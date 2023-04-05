@@ -56,6 +56,8 @@ interface AccountsState {
   vehicleCreateRequestLoading: boolean;
   vehicleCreateRequestError: Object | null;
   vehicleCreateRequestSuccess: boolean;
+  vehicleDeleteLoading: boolean;
+  vehicleErrorsDelete: Object | null;
 }
 
 const INITIAL_STATE = {
@@ -73,7 +75,8 @@ const INITIAL_STATE = {
   },
   updateManagerDataLoading: false,
   updateManagerDataError: null,
-
+  vehicleDeleteLoading: false,
+  vehicleErrorsDelete: null,
   user: null,
   fetchLoadingUser: false,
   fetchLoadingUserError: null,
@@ -216,6 +219,32 @@ export const registerUser = createAsyncThunk<void, registerUserParams>(
       message.success('Запрос успешно отправлен!');
 
       return resp.data;
+    } catch (e) {
+      let error = e?.response?.data;
+      if (!e.response) {
+        error = defaultError;
+      }
+      return rejectWithValue(error);
+    }
+  },
+);
+
+export const deleteUserTechnique = createAsyncThunk(
+  `${nameSpace}/deleteUserTechnique`,
+  async (
+    {
+      id,
+    }: {
+      id: string;
+    },
+    { rejectWithValue },
+  ) => {
+    try {
+      await axiosApi.delete(`/accounts/manager/confirmation/${id}/`);
+      message.success('Успешно удалено');
+      return {
+        id,
+      };
     } catch (e) {
       let error = e?.response?.data;
       if (!e.response) {
@@ -539,6 +568,25 @@ const accountsSlice = createSlice({
       state.vehicleCreateRequestLoading = false;
       state.vehicleCreateRequestSuccess = false;
       state.vehicleCreateRequestError = payload?.detail;
+    });
+
+    builder.addCase(deleteUserTechnique.pending, (state) => {
+      state.vehicleDeleteLoading = true;
+      state.vehicleErrorsDelete = null;
+    });
+    builder.addCase(
+      deleteUserTechnique.fulfilled,
+      (state, action: PayloadAction<{ id: string }>) => {
+        if (state.requests?.length) {
+          state.requests = state.requests.filter((item) => item.id !== Number(action.payload.id));
+        }
+        state.vehicleDeleteLoading = false;
+        state.vehicleErrorsDelete = null;
+      },
+    );
+    builder.addCase(deleteUserTechnique.rejected, (state, { payload }: any) => {
+      state.vehicleDeleteLoading = false;
+      state.vehicleErrorsDelete = payload?.detail;
     });
   },
 });

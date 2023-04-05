@@ -5,6 +5,7 @@ import React, { PropsWithChildren, useState } from 'react';
 import { Route, useLocation } from 'react-router';
 import { Routes } from 'react-router-dom';
 
+import NotFound from 'components/Errors/NotFound/NotFound';
 import FieldClimateSideBar from 'components/FieldClimateSideBar/FieldClimateSideBar';
 import OpenMapComponent from 'components/OpenMapComponent/OpenMapComponent';
 import SliderMenu from 'components/SliderMenu/SliderMenu';
@@ -23,6 +24,7 @@ import Technique from 'containers/User/Technique/Technique';
 import { authSelector } from 'redux/auth/authSlice';
 import { useAppSelector } from 'redux/hooks';
 import { pathsWithoutMargin } from 'utils/constants';
+
 import 'AppRouter/appRouter.scss';
 
 const { Header, Content } = Layout;
@@ -88,13 +90,22 @@ const AppRouter: React.FC = () => {
                 <>
                   <Route path='/' index element={<Technique />} />
                   <Route path='/user-profile-view' element={<Profile />} />
-                  <Route path='/open-map' element={<OpenMapComponent />} />
+                  <Route path='/open-map/:id/:vehicleId' element={<OpenMapComponent />} />
                   <Route path='/field-climate/' element={<FieldClimateDashboard />} />
                   <Route path='/field-climate/station' element={<FieldClimateStation />} />
                   <Route path='/field-climate/config' element={<FieldClimateConfigurations />} />
                 </>
               )}
               <Route path='/profile-technique/:userId/:vehicleId' element={<ProfileTechnique />} />
+              <Route
+                path='*'
+                element={
+                  <NotFound
+                    title='Страница не найдена'
+                    text='Попробуйте перейти на главную страницу или любую интересующую вас'
+                  />
+                }
+              />
             </Routes>
           </AppRouterWrapper>
         </Content>

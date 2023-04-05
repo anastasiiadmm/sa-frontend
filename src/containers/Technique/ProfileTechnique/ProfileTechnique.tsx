@@ -45,16 +45,29 @@ const ProfileTechnique = () => {
   useEffect(() => {
     if (userVehicleInfo) {
       setState([userVehicleInfo]);
-      setFields(userVehicleInfo.processing_data);
+      setFields(() =>
+        userVehicleInfo.processing_data.map((item) => {
+          return {
+            ...item,
+            field_name: (
+              <Tooltip
+                title={item.field_name}
+                color='#BBBBBB'
+                overlayInnerStyle={{ padding: '5px 15px', borderRadius: 15 }}
+                placement='topRight'
+              >
+                <p className='text_hidden'>{item.field_name}</p>
+              </Tooltip>
+            ),
+          };
+        }),
+      );
     }
   }, [userVehicleInfo]);
-
   useEffect(() => {
     if (state) {
       form.setFieldsValue({
-        technique_name: `${state[0]?.last_name} ${state[0]?.first_name?.charAt(
-          0,
-        )}. ${state[0]?.middle_name?.charAt(0)}.`,
+        technique_name: userVehicle?.description,
         state_number: state[0]?.state_number,
         vin_code: state[0]?.vin_code,
         last_name: state[0]?.last_name,
@@ -67,7 +80,7 @@ const ProfileTechnique = () => {
   const columns: ColumnsType<fieldsList> = [
     {
       key: 'processing_data',
-      title: 'Поля техники',
+      title: 'Наименование поля',
       dataIndex: 'field_name',
       width: '18%',
       fixed: 'left',
@@ -136,7 +149,7 @@ const ProfileTechnique = () => {
       dataIndex: 'profile',
       filterSearch: true,
       width: '23%',
-      render: () => (
+      render: (_, record: any) => (
         <div style={{ display: 'flex', gap: 37, justifyContent: 'right' }}>
           <Tooltip
             title='Просмотреть на карте'
@@ -144,7 +157,7 @@ const ProfileTechnique = () => {
             overlayInnerStyle={{ padding: '5px 15px', borderRadius: 15 }}
             placement='topRight'
           >
-            <Link className={b('profile-link')} to='/open-map'>
+            <Link className={b('profile-link')} to={`/open-map/${vehicleId}/${record?.id}`}>
               <Button type='text'>
                 <img src={planet} alt='Просмотреть на карте' width={20} />
               </Button>
@@ -177,7 +190,7 @@ const ProfileTechnique = () => {
             )}
           </div>
           <div>
-            <Link to='/open-map'>
+            <Link to={`/open-map/${vehicleId}/localTractorInfo`}>
               <Button
                 type='link'
                 icon={<img src={tractorBlue} alt='Техника на карте' width={18} />}

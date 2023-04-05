@@ -44,7 +44,13 @@ const SignIn: React.FC = () => {
     try {
       await dispatch(loginUser(values)).unwrap();
     } catch (e) {
-      await message.error(`${e}`);
+      if (e) {
+        if (typeof e === 'string' && e.includes('401')) {
+          await message.error(`Не найдено активной учетной записи с указанными данными`);
+        }
+      } else {
+        await message.error(`${e}`);
+      }
     }
   };
 
@@ -96,6 +102,12 @@ const SignIn: React.FC = () => {
               id='email_id'
               label='Логин'
               name='username'
+              rules={[
+                {
+                  required: true,
+                  message: 'Заполните логин',
+                },
+              ]}
               placeholder='Логин'
             />
 
