@@ -15,7 +15,7 @@ const menuItems = [
   {
     label: 'Данные станции',
     icon: <SnippetsOutlined />,
-    path: '/field-climate/station',
+    path: '/field-climate/station/:id',
   },
   {
     label: 'Настройки устройства',

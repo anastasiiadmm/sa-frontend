@@ -34,11 +34,7 @@ interface AppRouterWrapperProps extends PropsWithChildren<{}> {}
 const AppRouterWrapper: React.FC<AppRouterWrapperProps> = ({ children }) => {
   const { pathname } = useLocation();
 
-  const shouldRenderSidebar = [
-    '/field-climate',
-    '/field-climate/station',
-    '/field-climate/config',
-  ].includes(pathname);
+  const shouldRenderSidebar = pathname.includes('/field-climate');
 
   return (
     <>
@@ -69,7 +65,10 @@ const AppRouter: React.FC = () => {
         </Header>
         <Content
           style={{
-            margin: pathsWithoutMargin.includes(pathname) ? 0 : '24px 16px',
+            margin:
+              pathname.includes('/field-climate') || pathname.includes('/open-map')
+                ? 0
+                : '24px 16px',
             padding: 24,
             minHeight: 280,
             background: 'none',
@@ -91,8 +90,8 @@ const AppRouter: React.FC = () => {
                   <Route path='/' index element={<Technique />} />
                   <Route path='/user-profile-view' element={<Profile />} />
                   <Route path='/open-map/:id/:vehicleId' element={<OpenMapComponent />} />
-                  <Route path='/field-climate/' element={<FieldClimateDashboard />} />
-                  <Route path='/field-climate/station' element={<FieldClimateStation />} />
+                  <Route path='/field-climate' element={<FieldClimateDashboard />} />
+                  <Route path='/field-climate/station/:id' element={<FieldClimateStation />} />
                   <Route path='/field-climate/config' element={<FieldClimateConfigurations />} />
                 </>
               )}

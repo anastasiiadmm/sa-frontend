@@ -2,7 +2,7 @@ import bem from 'easy-bem';
 import L, { LatLngTuple } from 'leaflet';
 import React from 'react';
 import { MapContainer, Marker, Popup, TileLayer, Tooltip } from 'react-leaflet';
-import { v4 as uuidv4 } from 'uuid';
+import { Link } from 'react-router-dom';
 
 import { checkTooltipVisibility, lastCommunication } from 'helper';
 import { climateColors } from 'utils/constants';
@@ -108,7 +108,7 @@ const FieldClimateOpenMapComponent: React.FC<Props> = ({ markers, selectedOption
         });
 
         return (
-          <Marker key={uuidv4()} icon={customIcon} position={marker?.position as LatLngTuple}>
+          <Marker key={marker?.id} icon={customIcon} position={marker?.position as LatLngTuple}>
             {checkTooltipVisibility(selectedOption, marker) && (
               <Tooltip direction='top' permanent className={b('custom-tooltip')}>
                 {selectedOption === 'airTemp' && marker?.meta?.airTemp?.toFixed(2)}
@@ -120,7 +120,14 @@ const FieldClimateOpenMapComponent: React.FC<Props> = ({ markers, selectedOption
                 {selectedOption === 'battery' && marker?.meta?.battery}
               </Tooltip>
             )}
-            <Popup>{marker?.name}</Popup>
+            <Popup>
+              <div className={b('custom-popup')}>
+                <p>
+                  {marker?.name} ({marker?.id})
+                </p>
+                <Link to={`/field-climate/station/${marker?.id}`}>Детальная информация</Link>
+              </div>
+            </Popup>
           </Marker>
         );
       })}

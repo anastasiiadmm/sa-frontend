@@ -47,6 +47,10 @@ const initialState: StationState = {
   stations: [],
   stationsLoading: false,
   stationsError: null,
+
+  sensors: [],
+  sensorsLoading: false,
+  sensorsError: null,
 };
 
 export const fetchUser = createAsyncThunk<APIResponse, void, { rejectValue: APIError }>(
@@ -121,6 +125,34 @@ export const fetchStations = createAsyncThunk<APIWeatherResponse, void, { reject
   },
 );
 
+interface stationParams {
+  id: string | null | undefined;
+}
+
+export const fetchStationSensors = createAsyncThunk<
+  APIWeatherResponse,
+  stationParams,
+  { rejectValue: APIError }
+>('stations/fetchStationSensors', async (id, { rejectWithValue }) => {
+  const params = {
+    method: 'GET',
+    request: `/station/${id}/sensors`,
+  };
+  const headers = {
+    ...getAuthorizationHeader(params.method, params.request),
+    Accept: 'application/json',
+  };
+  try {
+    const response = await axios.get(REACT_APP_CLIMATE_API_BASE_URL + params.request, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    return rejectWithValue({ message: 'Failed to fetch station data.' });
+  }
+});
+
 const stationSlice = createSlice({
   name: 'stations',
   initialState,
@@ -170,6 +202,20 @@ const stationSlice = createSlice({
       .addCase(fetchStations.rejected, (state, action) => {
         state.stationsLoading = false;
         state.stationsError = action.payload!;
+      });
+
+    builder
+      .addCase(fetchStationSensors.pending, (state) => {
+        state.sensorsLoading = true;
+        state.sensorsError = null;
+      })
+      .addCase(fetchStationSensors.fulfilled, (state, action) => {
+        state.sensorsLoading = false;
+        state.sensors = action.payload;
+      })
+      .addCase(fetchStationSensors.rejected, (state, action) => {
+        state.sensorsLoading = false;
+        state.sensorsError = action.payload!;
       });
   },
 });
