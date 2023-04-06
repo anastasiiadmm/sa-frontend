@@ -158,7 +158,7 @@ export const fetchStationInfo = createAsyncThunk<
 });
 
 interface stationParams {
-  id: string | null | undefined;
+  id: string;
 }
 
 export const fetchStationSensors = createAsyncThunk<
