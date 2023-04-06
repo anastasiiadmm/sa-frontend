@@ -23,7 +23,6 @@ import Profile from 'containers/User/Profile/Profile';
 import Technique from 'containers/User/Technique/Technique';
 import { authSelector } from 'redux/auth/authSlice';
 import { useAppSelector } from 'redux/hooks';
-import { pathsWithoutMargin } from 'utils/constants';
 
 import 'AppRouter/appRouter.scss';
 
