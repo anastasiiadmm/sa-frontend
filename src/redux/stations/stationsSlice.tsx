@@ -126,14 +126,14 @@ export const fetchStations = createAsyncThunk<APIWeatherResponse, void, { reject
 );
 
 interface stationParams {
-  id: string | null | undefined;
+  id: string;
 }
 
 export const fetchStationSensors = createAsyncThunk<
   APIWeatherResponse,
   stationParams,
   { rejectValue: APIError }
->('stations/fetchStationSensors', async (id, { rejectWithValue }) => {
+>('stations/fetchStationSensors', async ({ id }, { rejectWithValue }) => {
   const params = {
     method: 'GET',
     request: `/station/${id}/sensors`,
