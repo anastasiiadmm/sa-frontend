@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { fetchStationSensors, stationsSelector } from 'redux/stations/stationsSlice';
 
 const FieldClimateStation = () => {
-  const { id } = useParams() as { id: string };
+  const { id } = useParams<{ id: string }>();
   const dispatch = useAppDispatch();
   const { sensors, sensorsLoading } = useAppSelector(stationsSelector);
 

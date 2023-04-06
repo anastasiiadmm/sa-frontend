@@ -1,32 +1,41 @@
 import { HomeOutlined, SettingOutlined, SnippetsOutlined } from '@ant-design/icons';
 import { Menu, MenuProps } from 'antd';
 import bem from 'easy-bem';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useMatch, useNavigate } from 'react-router';
 
 import 'components/FieldClimateSideBar/_fieldClimateSideBar.scss';
 
-const menuItems = [
-  {
-    label: 'Панель инструментов',
-    icon: <HomeOutlined />,
-    path: '/field-climate',
-  },
-  {
-    label: 'Данные станции',
-    icon: <SnippetsOutlined />,
-    path: '/field-climate/station/:id',
-  },
-  {
-    label: 'Настройки устройства',
-    icon: <SettingOutlined />,
-    path: '/field-climate/config',
-  },
-];
-
 const FieldClimateSideBar = () => {
   const push = useNavigate();
   const b = bem('FieldClimateSideBar');
+  const [stationId, setStationId] = useState<string | null>(null);
+
+  useEffect(() => {
+    const getStoredStationId = async () => {
+      const storedStationId = await localStorage.getItem('stationId');
+      setStationId(storedStationId);
+    };
+    getStoredStationId();
+  }, [localStorage.getItem('stationId')]);
+
+  const menuItems = [
+    {
+      label: 'Панель инструментов',
+      icon: <HomeOutlined />,
+      path: '/field-climate',
+    },
+    {
+      label: 'Данные станции',
+      icon: <SnippetsOutlined />,
+      path: `/field-climate/station/${stationId}`,
+    },
+    {
+      label: 'Настройки устройства',
+      icon: <SettingOutlined />,
+      path: '/field-climate/config',
+    },
+  ];
 
   const pushLinks: MenuProps['onClick'] = (e) => {
     push(e.key);

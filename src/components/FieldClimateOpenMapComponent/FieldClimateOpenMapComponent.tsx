@@ -1,8 +1,9 @@
+import { Button } from 'antd';
 import bem from 'easy-bem';
 import L, { LatLngTuple } from 'leaflet';
 import React from 'react';
 import { MapContainer, Marker, Popup, TileLayer, Tooltip } from 'react-leaflet';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 import { checkTooltipVisibility, lastCommunication } from 'helper';
 import { climateColors } from 'utils/constants';
@@ -16,6 +17,12 @@ type Props = {
 
 const FieldClimateOpenMapComponent: React.FC<Props> = ({ markers, selectedOption }) => {
   const b = bem('FieldClimateOpenMapComponent');
+  const history = useNavigate();
+
+  const pushToStationHandler = async (id: string) => {
+    await localStorage.setItem('stationId', id);
+    await history(`/field-climate/station/${id}`);
+  };
 
   return (
     <MapContainer
@@ -125,7 +132,9 @@ const FieldClimateOpenMapComponent: React.FC<Props> = ({ markers, selectedOption
                 <p>
                   {marker?.name} ({marker?.id})
                 </p>
-                <Link to={`/field-climate/station/${marker?.id}`}>Детальная информация</Link>
+                <Button type='link' onClick={() => pushToStationHandler(marker?.id)}>
+                  Детальная информация
+                </Button>
               </div>
             </Popup>
           </Marker>

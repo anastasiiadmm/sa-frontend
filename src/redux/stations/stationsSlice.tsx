@@ -126,7 +126,7 @@ export const fetchStations = createAsyncThunk<APIWeatherResponse, void, { reject
 );
 
 interface stationParams {
-  id: string;
+  id: string | null | undefined;
 }
 
 export const fetchStationSensors = createAsyncThunk<
