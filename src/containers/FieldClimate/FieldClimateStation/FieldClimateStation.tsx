@@ -190,7 +190,7 @@ const FieldClimateStation = () => {
               </div>
             </Card>
           </div>
-          <div style={{ marginTop: 60 }}>
+          <div style={{ marginTop: 60, marginBottom: 60 }}>
             <ChartComponent />
           </div>
           <div>
