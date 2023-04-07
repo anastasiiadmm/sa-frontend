@@ -1,8 +1,9 @@
+import { Button } from 'antd';
 import bem from 'easy-bem';
 import L, { LatLngTuple } from 'leaflet';
 import React from 'react';
 import { MapContainer, Marker, Popup, TileLayer, Tooltip } from 'react-leaflet';
-import { v4 as uuidv4 } from 'uuid';
+import { useNavigate } from 'react-router';
 
 import { checkTooltipVisibility, lastCommunication } from 'helper';
 import { climateColors } from 'utils/constants';
@@ -16,6 +17,12 @@ type Props = {
 
 const FieldClimateOpenMapComponent: React.FC<Props> = ({ markers, selectedOption }) => {
   const b = bem('FieldClimateOpenMapComponent');
+  const history = useNavigate();
+
+  const pushToStationHandler = async (id: string) => {
+    await localStorage.setItem('stationId', id);
+    await history(`/field-climate/station/${id}`);
+  };
 
   return (
     <MapContainer
@@ -108,7 +115,7 @@ const FieldClimateOpenMapComponent: React.FC<Props> = ({ markers, selectedOption
         });
 
         return (
-          <Marker key={uuidv4()} icon={customIcon} position={marker?.position as LatLngTuple}>
+          <Marker key={marker?.id} icon={customIcon} position={marker?.position as LatLngTuple}>
             {checkTooltipVisibility(selectedOption, marker) && (
               <Tooltip direction='top' permanent className={b('custom-tooltip')}>
                 {selectedOption === 'airTemp' && marker?.meta?.airTemp?.toFixed(2)}
@@ -120,7 +127,16 @@ const FieldClimateOpenMapComponent: React.FC<Props> = ({ markers, selectedOption
                 {selectedOption === 'battery' && marker?.meta?.battery}
               </Tooltip>
             )}
-            <Popup>{marker?.name}</Popup>
+            <Popup>
+              <div className={b('custom-popup')}>
+                <p>
+                  {marker?.name} ({marker?.id})
+                </p>
+                <Button type='link' onClick={() => pushToStationHandler(marker?.id)}>
+                  Детальная информация
+                </Button>
+              </div>
+            </Popup>
           </Marker>
         );
       })}

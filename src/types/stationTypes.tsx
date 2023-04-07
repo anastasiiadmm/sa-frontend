@@ -45,9 +45,47 @@ export interface StationState {
   stations: any;
   stationsLoading: boolean;
   stationsError: any;
+  stationInfo: any;
+  stationInfoLoading: boolean;
+  stationInfoError: APIError | null;
+  sensors: any;
+  sensorsLoading: boolean;
+  sensorsError: APIError | null;
 }
 
 export interface MarkerData {
   position: [number, number];
   name: string;
+}
+
+export interface SensorData {
+  aggr: string[];
+  calibration_id: string;
+  ch: number;
+  code: number;
+  color: string;
+  decimals: number;
+  desc: string;
+  divider: number;
+  group: number;
+  isActive: boolean;
+  is_user_set: {
+    name: boolean;
+    unit: boolean;
+    color: boolean;
+  };
+  mac: string;
+  multiplier: number;
+  name: string;
+  name_custom: string;
+  registered: string;
+  serial: string;
+  size: string;
+  unit: string;
+  unit_default: string;
+  units: string[];
+  vals: {
+    min: number;
+    max: number;
+  };
 }

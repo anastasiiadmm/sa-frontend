@@ -6,6 +6,15 @@
     font-weight: bold;
   }
 
+  &__custom-popup {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    > p {
+      margin: 0;
+    }
+  }
+
   .leaflet-tooltip-top {
     margin-top: -14px;
   }

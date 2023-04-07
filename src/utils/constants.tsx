@@ -1,10 +1,3 @@
-export const pathsWithoutMargin = [
-  '/open-map',
-  '/field-climate',
-  '/field-climate/station',
-  '/field-climate/config',
-];
-
 export const climateOptions = [
   { value: 'last_communication', label: 'Последнее соединение' },
   { value: 'airTemp', label: 'Температура воздуха' },

@@ -7,8 +7,8 @@ import {
   APIError,
   APIResponse,
   APIWeatherResponse,
+  SensorData,
   StationState,
-  Weather,
 } from 'types/stationTypes';
 
 const {
@@ -47,6 +47,14 @@ const initialState: StationState = {
   stations: [],
   stationsLoading: false,
   stationsError: null,
+
+  stationInfo: null,
+  stationInfoLoading: false,
+  stationInfoError: null,
+
+  sensors: [],
+  sensorsLoading: false,
+  sensorsError: null,
 };
 
 export const fetchUser = createAsyncThunk<APIResponse, void, { rejectValue: APIError }>(
@@ -121,6 +129,62 @@ export const fetchStations = createAsyncThunk<APIWeatherResponse, void, { reject
   },
 );
 
+interface stationInfoParams {
+  id: string | null | undefined;
+}
+
+export const fetchStationInfo = createAsyncThunk<
+  SensorData,
+  stationInfoParams,
+  { rejectValue: APIError }
+>('stations/fetchStationInfo', async ({ id }, { rejectWithValue }) => {
+  const params = {
+    method: 'GET',
+    request: `/station/${id}`,
+  };
+  const headers = {
+    ...getAuthorizationHeader(params.method, params.request),
+    Accept: 'application/json',
+  };
+  try {
+    const response = await axios.get(REACT_APP_CLIMATE_API_BASE_URL + params.request, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    return rejectWithValue({ message: 'Failed to fetch station data.' });
+  }
+});
+
+interface stationParams {
+  id: string | null | undefined;
+}
+
+export const fetchStationSensors = createAsyncThunk<
+  SensorData,
+  stationParams,
+  { rejectValue: APIError }
+>('stations/fetchStationSensors', async ({ id }, { rejectWithValue }) => {
+  const params = {
+    method: 'GET',
+    request: `/station/${id}/sensors`,
+  };
+  const headers = {
+    ...getAuthorizationHeader(params.method, params.request),
+    Accept: 'application/json',
+  };
+  try {
+    const response = await axios.get(REACT_APP_CLIMATE_API_BASE_URL + params.request, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    return rejectWithValue({ message: 'Failed to fetch station data.' });
+  }
+});
+
 const stationSlice = createSlice({
   name: 'stations',
   initialState,
@@ -147,11 +211,10 @@ const stationSlice = createSlice({
       })
       .addCase(fetchWeather.fulfilled, (state, action) => {
         state.isWeatherLoading = false;
-        const weatherData: Weather = {
+        state.weather = {
           dates: action.payload.dates,
           data: action.payload.data,
         };
-        state.weather = weatherData;
       })
       .addCase(fetchWeather.rejected, (state, action) => {
         state.isWeatherLoading = false;
@@ -170,6 +233,34 @@ const stationSlice = createSlice({
       .addCase(fetchStations.rejected, (state, action) => {
         state.stationsLoading = false;
         state.stationsError = action.payload!;
+      });
+
+    builder
+      .addCase(fetchStationSensors.pending, (state) => {
+        state.sensorsLoading = true;
+        state.sensorsError = null;
+      })
+      .addCase(fetchStationSensors.fulfilled, (state, action) => {
+        state.sensorsLoading = false;
+        state.sensors = action.payload;
+      })
+      .addCase(fetchStationSensors.rejected, (state, action) => {
+        state.sensorsLoading = false;
+        state.sensorsError = action.payload!;
+      });
+
+    builder
+      .addCase(fetchStationInfo.pending, (state) => {
+        state.isWeatherLoading = true;
+        state.isWeatherError = null;
+      })
+      .addCase(fetchStationInfo.fulfilled, (state, action) => {
+        state.isWeatherLoading = false;
+        state.stationInfo = action.payload;
+      })
+      .addCase(fetchStationInfo.rejected, (state, action) => {
+        state.isWeatherLoading = false;
+        state.isWeatherError = action.payload ? action.payload : null;
       });
   },
 });

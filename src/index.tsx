@@ -18,7 +18,7 @@ root.render(
         theme={{
           token: {
             colorPrimary: '#689F3A',
-            colorTextLabel: '#7E8697'
+            colorTextLabel: '#7E8697',
           },
         }}
       >
