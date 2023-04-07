@@ -1,7 +1,6 @@
 import { MenuFoldOutlined, MenuUnfoldOutlined, ProfileOutlined } from '@ant-design/icons';
-import { Card, Layout, Menu, MenuProps, Spin, Table, theme, Typography } from 'antd';
+import { Card, Layout, Menu, MenuProps, Table, theme, Typography } from 'antd';
 import { Content, Header } from 'antd/lib/layout/layout';
-import Sider from 'antd/lib/layout/Sider';
 import { ColumnsType } from 'antd/lib/table';
 import bem from 'easy-bem';
 import React, { useEffect, useState } from 'react';
@@ -17,6 +16,7 @@ import {
 import 'containers/FieldClimate/FieldClimateStation/_fieldClimateStation.scss';
 
 const { Text, Title } = Typography;
+const { Sider } = Layout;
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -46,7 +46,7 @@ const FieldClimateStation = () => {
   const b = bem('FieldClimateStation');
   const { id } = useParams<{ id: string }>();
   const dispatch = useAppDispatch();
-  const { stationInfo, stationInfoLoading } = useAppSelector(stationsSelector);
+  const { stationInfo } = useAppSelector(stationsSelector);
   const [collapsed, setCollapsed] = useState(true);
   const {
     token: { colorBgContainer },
@@ -154,13 +154,7 @@ const FieldClimateStation = () => {
   return (
     <Layout data-testid='station-id' style={{ height: '85vh', marginTop: 47 }} className={b('')}>
       <Sider width={250} trigger={null} collapsible collapsed={collapsed} className={b()}>
-        <Menu
-          mode='inline'
-          theme='light'
-          items={items}
-          triggerSubMenuAction='click'
-          aria-disabled
-        />
+        <Menu mode='inline' theme='light' items={items} triggerSubMenuAction='click' />
       </Sider>
       <Layout className='site-layout'>
         <Header style={{ padding: 0, background: colorBgContainer }}>
@@ -170,38 +164,32 @@ const FieldClimateStation = () => {
           })}
         </Header>
         <Content className={b('content')}>
-          {stationInfoLoading ? (
-            <Spin />
-          ) : (
-            <>
-              <div>
-                <Title level={3} style={{ margin: 0, textTransform: 'uppercase', color: '#777' }}>
-                  Данные станции
-                </Title>
-                <Text>
-                  {stationInfo?.name?.original} • {stationInfo?.name?.custom} •{' '}
-                  {stationInfo?.info?.device_name} • Последние данные:{' '}
-                  {stationInfo?.dates?.last_communication}{' '}
-                </Text>
+          <div>
+            <Title level={3} style={{ margin: 0, textTransform: 'uppercase', color: '#777' }}>
+              Данные станции
+            </Title>
+            <Text>
+              {stationInfo?.name?.original} • {stationInfo?.name?.custom} •{' '}
+              {stationInfo?.info?.device_name} • Последние данные:{' '}
+              {stationInfo?.dates?.last_communication}{' '}
+            </Text>
+          </div>
+          <div>
+            <Card className={b('card-style')} bordered={false}>
+              <div className={b('card-style-items')}>
+                <div>
+                  <Title level={5} style={{ margin: 0 }}>
+                    Все датчики
+                  </Title>
+                  <Text>2 дня / ежечасно</Text>
+                </div>
+                <div>
+                  Данные станции от <b>{stationInfo?.dates?.last_communication}</b> до{' '}
+                  <b>{stationInfo?.dates?.last_communication}</b>
+                </div>
               </div>
-              <div>
-                <Card className={b('card-style')} bordered={false}>
-                  <div className={b('card-style-items')}>
-                    <div>
-                      <Title level={5} style={{ margin: 0 }}>
-                        Все датчики
-                      </Title>
-                      <Text>2 дня / ежечасно</Text>
-                    </div>
-                    <div>
-                      Данные станции от <b>{stationInfo?.dates?.last_communication}</b> до{' '}
-                      <b>{stationInfo?.dates?.last_communication}</b>
-                    </div>
-                  </div>
-                </Card>
-              </div>
-            </>
-          )}
+            </Card>
+          </div>
           <div style={{ marginTop: 60 }}>
             <ChartComponent />
           </div>
