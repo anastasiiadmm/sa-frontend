@@ -49,7 +49,7 @@ const ChartComponent = () => {
 
   return (
     <>
-      <BarChart width={1000} height={300} data={data} style={{ marginLeft: 14 }}>
+      <BarChart width={1000} height={300} data={data} style={{ marginLeft: 15 }}>
         <XAxis dataKey='name' stroke='#8884d8' />
         <YAxis />
         <Tooltip />
