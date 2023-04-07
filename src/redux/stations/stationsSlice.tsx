@@ -1,15 +1,9 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import axios from 'axios';
-import CryptoJS from 'crypto-js';
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
+import CryptoJS from "crypto-js";
 
-import { RootState } from 'redux/hooks';
-import {
-  APIError,
-  APIResponse,
-  APIWeatherResponse,
-  StationState,
-  Weather,
-} from 'types/stationTypes';
+import { RootState } from "redux/hooks";
+import { APIError, APIResponse, APIWeatherResponse, SensorData, StationState } from "types/stationTypes";
 
 const {
   REACT_APP_CLIMATE_API_BASE_URL,
@@ -47,6 +41,10 @@ const initialState: StationState = {
   stations: [],
   stationsLoading: false,
   stationsError: null,
+
+  stationInfo: null,
+  stationInfoLoading: false,
+  stationInfoError: null,
 
   sensors: [],
   sensorsLoading: false,
@@ -125,12 +123,40 @@ export const fetchStations = createAsyncThunk<APIWeatherResponse, void, { reject
   },
 );
 
+interface stationInfoParams {
+  id: string | null | undefined;
+}
+
+export const fetchStationInfo = createAsyncThunk<
+  SensorData,
+  stationInfoParams,
+  { rejectValue: APIError }
+>('stations/fetchStationInfo', async ({ id }, { rejectWithValue }) => {
+  const params = {
+    method: 'GET',
+    request: `/station/${id}`,
+  };
+  const headers = {
+    ...getAuthorizationHeader(params.method, params.request),
+    Accept: 'application/json',
+  };
+  try {
+    const response = await axios.get(REACT_APP_CLIMATE_API_BASE_URL + params.request, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    return rejectWithValue({ message: 'Failed to fetch station data.' });
+  }
+});
+
 interface stationParams {
   id: string | null | undefined;
 }
 
 export const fetchStationSensors = createAsyncThunk<
-  APIWeatherResponse,
+  SensorData,
   stationParams,
   { rejectValue: APIError }
 >('stations/fetchStationSensors', async ({ id }, { rejectWithValue }) => {
@@ -179,11 +205,10 @@ const stationSlice = createSlice({
       })
       .addCase(fetchWeather.fulfilled, (state, action) => {
         state.isWeatherLoading = false;
-        const weatherData: Weather = {
+        state.weather = {
           dates: action.payload.dates,
           data: action.payload.data,
         };
-        state.weather = weatherData;
       })
       .addCase(fetchWeather.rejected, (state, action) => {
         state.isWeatherLoading = false;
@@ -216,6 +241,20 @@ const stationSlice = createSlice({
       .addCase(fetchStationSensors.rejected, (state, action) => {
         state.sensorsLoading = false;
         state.sensorsError = action.payload!;
+      });
+
+    builder
+      .addCase(fetchStationInfo.pending, (state) => {
+        state.isWeatherLoading = true;
+        state.isWeatherError = null;
+      })
+      .addCase(fetchStationInfo.fulfilled, (state, action) => {
+        state.isWeatherLoading = false;
+        state.stationInfo = action.payload;
+      })
+      .addCase(fetchStationInfo.rejected, (state, action) => {
+        state.isWeatherLoading = false;
+        state.isWeatherError = action.payload ? action.payload : null;
       });
   },
 });

@@ -1,0 +1,61 @@
+.FieldClimateStation {
+  &__content {
+    margin: 24px 16px;
+    padding: 24px;
+    min-height: 280px;
+    background: none;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__logo {
+    text-align: center;
+    > img {
+      width: 100%;
+      max-width: 150px;
+    }
+  }
+
+  &__card-style {
+    margin-top: 20px;
+  }
+
+  &__card-style-items {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .ant-menu-title-content > .menu-info {
+    height: 200px;
+    white-space: break-spaces;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .ant-menu-inline .ant-menu-item {
+    height: 200px;
+    padding: 0 10px !important;
+  }
+
+  .ant-layout-sider {
+    background: white !important;
+  }
+
+  .ant-menu .ant-menu-sub .ant-menu-vertical {
+    width: 200px !important;
+    height: 150px !important;
+  }
+}
+
+:where(.css-dev-only-do-not-override-6jf5y1).ant-menu-submenu-popup .ant-menu-vertical > .ant-menu-item,
+:where(.css-dev-only-do-not-override-6jf5y1).ant-menu-submenu-popup .ant-menu-vertical > .ant-menu-submenu > .ant-menu-submenu-title {
+  height: 189px !important;
+}
+
+li > .ant-menu-title-content > .menu-info {
+  width: 268px !important;
+  height: 189px !important;
+  white-space: break-spaces;
+  display: flex;
+  flex-direction: column;
+}

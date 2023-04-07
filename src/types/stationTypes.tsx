@@ -45,6 +45,9 @@ export interface StationState {
   stations: any;
   stationsLoading: boolean;
   stationsError: any;
+  stationInfo: any;
+  stationInfoLoading: boolean;
+  stationInfoError: APIError | null;
   sensors: any;
   sensorsLoading: boolean;
   sensorsError: APIError | null;
@@ -56,7 +59,7 @@ export interface MarkerData {
 }
 
 export interface SensorData {
-  aggr: ['last'];
+  aggr: string[];
   calibration_id: string;
   ch: number;
   code: number;
