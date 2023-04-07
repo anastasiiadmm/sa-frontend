@@ -1,8 +1,8 @@
 import { MenuFoldOutlined, MenuUnfoldOutlined, ProfileOutlined } from '@ant-design/icons';
 import { Card, Layout, Menu, MenuProps, Spin, Table, theme, Typography } from 'antd';
-import { Content, Header } from 'antd/es/layout/layout';
-import Sider from 'antd/es/layout/Sider';
-import { ColumnsType } from 'antd/es/table';
+import { Content, Header } from 'antd/lib/layout/layout';
+import Sider from 'antd/lib/layout/Sider';
+import { ColumnsType } from 'antd/lib/table';
 import bem from 'easy-bem';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -152,7 +152,7 @@ const FieldClimateStation = () => {
   ];
 
   return (
-    <Layout style={{ height: '85vh', marginTop: 47 }} className={b('')}>
+    <Layout data-testid='station-id' style={{ height: '85vh', marginTop: 47 }} className={b('')}>
       <Sider width={250} trigger={null} collapsible collapsed={collapsed} className={b()}>
         <Menu
           mode='inline'

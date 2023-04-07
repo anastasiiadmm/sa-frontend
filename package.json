@@ -16,7 +16,8 @@
     },
     "moduleNameMapper": {
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/assetsTransformer.ts",
-      "\\.(css|less)$": "<rootDir>/assetsTransformer.ts"
+      "\\.(css|less)$": "<rootDir>/assetsTransformer.ts",
+      "^@/(.*)$": "<rootDir>/src/$1"
     },
     "transformIgnorePatterns": [
       "node_modules/(?!variables/.*)"
@@ -130,6 +131,7 @@
     "pre-commit": "^1.2.2",
     "prettier": "^2.8.2",
     "redux-mock-store": "^1.5.4",
+    "resize-observer-polyfill": "^1.5.1",
     "ts-jest": "^29.0.5"
   }
 }
