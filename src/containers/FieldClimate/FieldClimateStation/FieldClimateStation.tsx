@@ -1,5 +1,5 @@
 import { MenuFoldOutlined, MenuUnfoldOutlined, ProfileOutlined } from '@ant-design/icons';
-import { Card, Layout, Menu, MenuProps, Table, theme, Typography } from 'antd';
+import { Card, Layout, Menu, MenuProps, Spin, Table, theme, Typography } from 'antd';
 import { Content, Header } from 'antd/es/layout/layout';
 import Sider from 'antd/es/layout/Sider';
 import { ColumnsType } from 'antd/es/table';
@@ -46,8 +46,7 @@ const FieldClimateStation = () => {
   const b = bem('FieldClimateStation');
   const { id } = useParams<{ id: string }>();
   const dispatch = useAppDispatch();
-  const { stationInfo, stationInfoLoading, sensors, sensorsLoading } =
-    useAppSelector(stationsSelector);
+  const { stationInfo, stationInfoLoading } = useAppSelector(stationsSelector);
   const [collapsed, setCollapsed] = useState(true);
   const {
     token: { colorBgContainer },
@@ -171,32 +170,38 @@ const FieldClimateStation = () => {
           })}
         </Header>
         <Content className={b('content')}>
-          <div>
-            <Title level={3} style={{ margin: 0, textTransform: 'uppercase', color: '#777' }}>
-              Данные станции
-            </Title>
-            <Text>
-              {stationInfo?.name?.original} • {stationInfo?.name?.custom} •{' '}
-              {stationInfo?.info?.device_name} • Последние данные:{' '}
-              {stationInfo?.dates?.last_communication}{' '}
-            </Text>
-          </div>
-          <div>
-            <Card className={b('card-style')} bordered={false}>
-              <div className={b('card-style-items')}>
-                <div>
-                  <Title level={5} style={{ margin: 0 }}>
-                    Все датчики
-                  </Title>
-                  <Text>2 дня / ежечасно</Text>
-                </div>
-                <div>
-                  Данные станции от <b>{stationInfo?.dates?.last_communication}</b> до{' '}
-                  <b>{stationInfo?.dates?.last_communication}</b>
-                </div>
+          {stationInfoLoading ? (
+            <Spin />
+          ) : (
+            <>
+              <div>
+                <Title level={3} style={{ margin: 0, textTransform: 'uppercase', color: '#777' }}>
+                  Данные станции
+                </Title>
+                <Text>
+                  {stationInfo?.name?.original} • {stationInfo?.name?.custom} •{' '}
+                  {stationInfo?.info?.device_name} • Последние данные:{' '}
+                  {stationInfo?.dates?.last_communication}{' '}
+                </Text>
               </div>
-            </Card>
-          </div>
+              <div>
+                <Card className={b('card-style')} bordered={false}>
+                  <div className={b('card-style-items')}>
+                    <div>
+                      <Title level={5} style={{ margin: 0 }}>
+                        Все датчики
+                      </Title>
+                      <Text>2 дня / ежечасно</Text>
+                    </div>
+                    <div>
+                      Данные станции от <b>{stationInfo?.dates?.last_communication}</b> до{' '}
+                      <b>{stationInfo?.dates?.last_communication}</b>
+                    </div>
+                  </div>
+                </Card>
+              </div>
+            </>
+          )}
           <div style={{ marginTop: 60 }}>
             <ChartComponent />
           </div>

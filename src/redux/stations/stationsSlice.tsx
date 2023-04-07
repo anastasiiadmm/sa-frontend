@@ -1,9 +1,15 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
-import CryptoJS from "crypto-js";
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import axios from 'axios';
+import CryptoJS from 'crypto-js';
 
-import { RootState } from "redux/hooks";
-import { APIError, APIResponse, APIWeatherResponse, SensorData, StationState } from "types/stationTypes";
+import { RootState } from 'redux/hooks';
+import {
+  APIError,
+  APIResponse,
+  APIWeatherResponse,
+  SensorData,
+  StationState,
+} from 'types/stationTypes';
 
 const {
   REACT_APP_CLIMATE_API_BASE_URL,
