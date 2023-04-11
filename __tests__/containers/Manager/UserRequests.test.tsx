@@ -73,8 +73,7 @@ describe('UserRequests', () => {
                   showRejectModal={showRejectModal}/>
             </ModalComponent>
         )
-        const fioElement = screen.queryByDisplayValue('test test test');
-        // @ts-ignore
-        expect(fioElement?.value).toBe('test test test')
+        const fioElement = screen.queryByDisplayValue('test test test') as HTMLInputElement;
+        expect(fioElement.value).toBe('test test test')
     })
 })
