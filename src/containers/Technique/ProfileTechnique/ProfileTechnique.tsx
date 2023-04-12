@@ -149,7 +149,7 @@ const ProfileTechnique = () => {
       dataIndex: 'profile',
       filterSearch: true,
       width: '23%',
-      render: (_, record: any) => (
+      render: (_, record) => (
         <div style={{ display: 'flex', gap: 37, justifyContent: 'right' }}>
           <Tooltip
             title='Просмотреть на карте'

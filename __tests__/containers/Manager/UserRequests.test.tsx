@@ -48,7 +48,7 @@ describe('UserRequests', () => {
         const dispatch = jest.fn();
         mockedDispatch.mockReturnValue(dispatch);
         const handleOkCancel = jest.fn();
-        const resultsInfoClick: any = jest.fn();
+        const resultsInfoClick = jest.fn();
         const showRejectModal = jest.fn();
         render(<ModalComponent open={true}>
                 <RequestAddTechnique

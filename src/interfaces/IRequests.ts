@@ -41,19 +41,17 @@ export interface IVehicle {
   enterprise: number;
 }
 
-export interface ICarRequest {
-  fio: string;
+export interface ITechniqueVehicleInfoPut {
+  data: IConfirmation | null;
+  obj: FormData;
+}
+
+export interface IValueRequest {
+  fullName: string;
   description: string;
   state_number: string;
   vin_code: string;
   last_name: string;
   first_name: string;
   middle_name: string;
-  code: string;
-  enterprise: number;
-}
-
-export interface ITechniqueVehicleInfoPut {
-  data: IConfirmation | null;
-  obj: FormData;
 }

@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react';
 import FormField from 'components/FormField/FormField';
 import UploadImageComponent from 'components/UploadImageComponent/UploadImageComponent';
 import { getErrorMessage, removeEmptyValuesFromObject } from 'helper';
+import { IValueFinish } from 'interfaces';
 import { accountsSelector, vehicleCreateRequest } from 'redux/accounts/accountsSlice';
 import {
   companiesSelector,
@@ -74,7 +75,7 @@ const AddUpdateTechnique: React.FC<Props> = ({
     }
   }, [userVehicleInfo, form]);
 
-  const onFinish = async (values: any) => {
+  const onFinish = async (values: IValueFinish) => {
     try {
       if (values) {
         const data = removeEmptyValuesFromObject(values);

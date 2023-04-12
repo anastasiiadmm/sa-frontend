@@ -71,7 +71,7 @@ export const resetUserPasswordSendEmail = createAsyncThunk<void, Object>(
   async (data, { rejectWithValue }) => {
     try {
       await axiosApi.post('/accounts/password-reset/', data);
-    } catch (e: any) {
+    } catch (e) {
       let error = e?.response?.data;
       if (!e.response) {
         error = defaultError;

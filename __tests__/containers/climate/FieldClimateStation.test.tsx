@@ -5,8 +5,8 @@ import "@testing-library/jest-dom";
 import ResizeObserver from 'resize-observer-polyfill';
 import { mockedDispatch, mockedUseSelectors } from "../../../__mocks__/utils";
 import FieldClimateStation from "../../../src/containers/FieldClimate/FieldClimateStation/FieldClimateStation";
-declare const global: any;
-(global as any).ResizeObserver = ResizeObserver;
+declare const global;
+(global).ResizeObserver = ResizeObserver;
 
 afterEach(cleanup);
 

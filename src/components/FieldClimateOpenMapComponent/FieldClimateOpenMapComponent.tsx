@@ -6,12 +6,13 @@ import { MapContainer, Marker, Popup, TileLayer, Tooltip } from 'react-leaflet';
 import { useNavigate } from 'react-router';
 
 import { checkTooltipVisibility, lastCommunication } from 'helper';
+import { MarkerData } from 'types/stationTypes';
 import { climateColors } from 'utils/constants';
 import 'components/FieldClimateOpenMapComponent/_fieldClimateOpenMapComponent.scss';
 import 'leaflet/dist/leaflet.css';
 
 type Props = {
-  markers: any;
+  markers: MarkerData[];
   selectedOption: string;
 };
 
@@ -36,7 +37,7 @@ const FieldClimateOpenMapComponent: React.FC<Props> = ({ markers, selectedOption
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url='https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'
       />
-      {markers?.map((marker: any) => {
+      {markers?.map((marker) => {
         let fillColor = '%23d3d3d3';
 
         switch (selectedOption) {

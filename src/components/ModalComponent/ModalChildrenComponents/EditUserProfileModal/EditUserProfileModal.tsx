@@ -14,7 +14,7 @@ interface Props {
   handleOkCancel?: () => void;
   showRejectModal?: () => void;
   inputChangeHandler?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onFinish?: (values: any) => void;
+  onFinish?: () => void;
 }
 
 const EditUserProfileModal: React.FC<Props> = ({

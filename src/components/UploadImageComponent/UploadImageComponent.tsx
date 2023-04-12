@@ -33,12 +33,6 @@ const UploadImageComponent: React.FC<Props> = ({ fileList, setFileList }) => {
     imgWindow?.document.write(image.outerHTML);
   };
 
-  const customRequest = ({ file, onSuccess }: any) => {
-    setTimeout(() => {
-      onSuccess('ok');
-    }, 0);
-  };
-
   return (
     <div style={fileList.length ? { margin: 0 } : { margin: '51px 0px 45px 66px' }}>
       <ImgCrop aspect={233 / 162}>
@@ -49,7 +43,11 @@ const UploadImageComponent: React.FC<Props> = ({ fileList, setFileList }) => {
           fileList={fileList}
           onChange={onChange}
           onPreview={onPreview}
-          customRequest={customRequest}
+          customRequest={(args) => {
+            if (args.onSuccess) {
+              args.onSuccess('ok');
+            }
+          }}
           accept='image/png, image/jpeg'
         >
           {fileList.length < 1 && <img src={plug} alt='plug' />}
