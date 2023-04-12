@@ -1,11 +1,10 @@
 import "@testing-library/jest-dom";
-import {mockedDispatch, mockedUseSelectors} from "../../__mocks__/utils";
+import {mockedDispatch, mockedUseSelectors} from "../../../__mocks__/utils";
 import {screen, render, cleanup} from "@testing-library/react";
 import {BrowserRouter} from "react-router-dom";
-import "../../__mocks__/matchMedia.mock";
-import OpenMapComponent from "../../src/components/OpenMapComponent/OpenMapComponent";
+import "../../../__mocks__/matchMedia.mock";
+import OpenMapComponent from "../../../src/components/OpenMapComponent/OpenMapComponent";
 import renderer from "react-test-renderer";
-import SignIn from "../../src/containers/SignIn/SignIn";
 
 
 afterEach(cleanup);

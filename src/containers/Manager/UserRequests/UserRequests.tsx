@@ -9,12 +9,28 @@ import tractorRequest from 'assets/images/icons/tractor_request.svg';
 import user from 'assets/images/icons/user_request.svg';
 import DeleteRejectTechniqueModal from 'components/ModalComponent/ModalChildrenComponents/DeleteTechniqueModal/DeleteTechniqueModal';
 import EditUserProfileModal from 'components/ModalComponent/ModalChildrenComponents/EditUserProfileModal/EditUserProfileModal';
+import RequestModals from 'components/ModalComponent/ModalChildrenComponents/RequestModals/RequestModals';
 import RequestAddTechnique from 'components/ModalComponent/ModalChildrenComponents/RequestsModals/RequestAddTechnique/RequestAddTechnique';
 import RequestRegisterUser from 'components/ModalComponent/ModalChildrenComponents/RequestsModals/RequestRegisterUser/RequestRegisterUser';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import TableComponent from 'components/TableComponent/TableComponent';
-import { accountsSelector, deleteUserTechnique, fetchRequests } from 'redux/accounts/accountsSlice';
-import { clearUserInfo, companiesSelector, fetchUserInfo } from 'redux/companies/companiesSlice';
+
+import { IConfirmation } from 'interfaces';
+import {
+  accountsSelector,
+  deleteRequests,
+  deleteUserTechnique,
+  fetchRequests,
+} from 'redux/accounts/accountsSlice';
+import {
+  clearTechniqueVehicle,
+  clearUserInfo,
+  companiesSelector,
+  fetchUserInfo,
+  techniqueVehicleConfirmationSelector,
+  techniqueVehicleInfo,
+  techniqueVehicleInfoSelector,
+} from 'redux/companies/companiesSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { Request, UserIds } from 'types/types';
 
@@ -29,13 +45,18 @@ const UserRequests = () => {
   const { requests, fetchRequestsLoading, requestsPagination, vehicleDeleteLoading } =
     useAppSelector(accountsSelector);
   const { userInfo, userInfoLoading } = useAppSelector(companiesSelector);
+  const { results, loading } = useAppSelector(techniqueVehicleInfoSelector);
+  const saveTechniqueVehicleState = useAppSelector(techniqueVehicleConfirmationSelector);
   const [isModalTechniqueOpen, setIsModalTechniqueOpen] = useState(false);
   const [isModalRegisterUserOpen, setIsModalRegisterUserTechniqueOpen] = useState(false);
   const [isModalRejectOpen, setIsModalRejectOpen] = useState(false);
+  const [isModalRequestOpen, setIsModalRequestOpen] = useState(false);
   const [isModalUserInfoOpen, setIsModalUserInfoRejectOpen] = useState(false);
   const [filters, setFilters] = useState({ page: 1 });
+  const [techniqueData, setTechniqueData] = useState<IConfirmation | null>(null);
   const [userIds, setUserIds] = useState<UserIds | null>({ requestId: null, userId: null });
-
+  const [confirmation_typeId, setConfirmation_typeId] = useState<number | null>(null);
+  const [id, setId] = useState<number | null>(null);
   useEffect(() => {
     const data = {
       query: {
@@ -54,6 +75,15 @@ const UserRequests = () => {
     }
   }, [dispatch, userIds?.userId]);
 
+  useEffect(() => {
+    setIsModalRequestOpen(false);
+    if (saveTechniqueVehicleState.results) {
+      dispatch(deleteRequests(saveTechniqueVehicleState.results.id));
+      setIsModalRequestOpen(true);
+      setIsModalTechniqueOpen(false);
+    }
+  }, [saveTechniqueVehicleState]);
+
   const showRejectModal = () => {
     setIsModalRejectOpen(true);
   };
@@ -64,8 +94,8 @@ const UserRequests = () => {
 
   const rejectTechniqueHandler = async () => {
     try {
-      if (userIds?.requestId) {
-        dispatch(deleteUserTechnique({ id: userIds.requestId }));
+      if (id) {
+        dispatch(deleteUserTechnique({ id: String(id) }));
         setIsModalTechniqueOpen(false);
         setIsModalRejectOpen(false);
         setIsModalRegisterUserTechniqueOpen(false);
@@ -80,8 +110,11 @@ const UserRequests = () => {
     }
   };
 
-  const showTechniqueModal = () => {
+  const showTechniqueModal = (row: IConfirmation) => {
+    setTechniqueData(null);
     dispatch(clearUserInfo());
+    setTechniqueData(row);
+    dispatch(techniqueVehicleInfo(row));
     setIsModalTechniqueOpen(true);
   };
 
@@ -111,6 +144,11 @@ const UserRequests = () => {
 
   const pageNextHandler = () => {
     setFilters({ ...filters, page: filters.page + 1 });
+  };
+
+  const onClick = () => {
+    setIsModalRequestOpen(false);
+    dispatch(clearTechniqueVehicle);
   };
 
   const columns: ColumnsType<Request> = [
@@ -169,13 +207,19 @@ const UserRequests = () => {
               onClick={
                 row?.confirmation_type === 2
                   ? () => {
+                      setId(row.id);
+                      setConfirmation_typeId(row?.confirmation_type);
                       showUserInfoModal();
                     }
                   : row?.confirmation_type === 3
                   ? () => {
-                      showTechniqueModal();
+                      setId(row.id);
+                      setConfirmation_typeId(row?.confirmation_type);
+                      showTechniqueModal(row);
                     }
                   : () => {
+                      setId(row.id);
+                      setConfirmation_typeId(row?.confirmation_type);
                       showRegisterUserModal();
                       setUserIds({
                         requestId: row?.id.toString(),
@@ -191,7 +235,16 @@ const UserRequests = () => {
       },
     },
   ];
-
+  const textRender = () => {
+    if (confirmation_typeId === 3) {
+      return `${results?.last_name} ${textSlice(results?.first_name)}.${textSlice(
+        results?.middle_name,
+      )}`;
+    }
+    return `${userInfo?.user?.last_name} ${textSlice(userInfo?.user?.first_name)}.${textSlice(
+      userInfo?.user?.middle_name,
+    )}`;
+  };
   return (
     <>
       <div className={b()} data-testid='requests-id'>
@@ -220,6 +273,9 @@ const UserRequests = () => {
         handleCancel={handleOkTechniqueCancel}
       >
         <RequestAddTechnique
+          loading={loading}
+          resultsInfoClick={techniqueData}
+          resultsTechnique={results}
           handleOkCancel={handleOkTechniqueCancel}
           showRejectModal={showRejectModal}
         />
@@ -265,12 +321,18 @@ const UserRequests = () => {
           title='Отклонить?'
           loading={vehicleDeleteLoading}
           subTitle='Вы уверены, что хотите отклонить запрос'
-          techniqueName={`Личная информация ${userInfo?.user?.last_name || ''} ${textSlice(
-            userInfo?.user?.first_name,
-          )}.${textSlice(userInfo?.user?.middle_name)}?`}
+          techniqueName={`Личная информация ${textRender()}`}
           handleDeleteCancel={handleOkRejectCancel}
           deleteRejectTechniqueHandler={rejectTechniqueHandler}
         />
+      </ModalComponent>
+      <ModalComponent
+        dividerShow={false}
+        closable={false}
+        open={isModalRequestOpen}
+        handleCancel={() => setIsModalRequestOpen(false)}
+      >
+        <RequestModals onClick={onClick} />
       </ModalComponent>
     </>
   );

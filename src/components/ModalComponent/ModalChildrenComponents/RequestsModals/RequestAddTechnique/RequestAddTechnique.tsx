@@ -1,23 +1,108 @@
-import { Button, Col, Form, Typography } from 'antd';
+import { Button, Col, Form, message, Typography } from 'antd';
+import type { UploadFile } from 'antd/es/upload/interface';
 import bem from 'easy-bem';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import FormField from 'components/FormField/FormField';
+import SkeletonBlock from 'components/SkeletonBlock/SkeletonBlock';
 import UploadImageComponent from 'components/UploadImageComponent/UploadImageComponent';
+import { getErrorMessage } from 'helper';
 import 'components/ModalComponent/ModalChildrenComponents/RequestsModals/RequestAddTechnique/_requestAddTechnique.scss';
+import { IConfirmation, IVehicle } from 'interfaces';
+
+import {
+  techniqueVehicleConfirmation,
+  techniqueVehicleConfirmationSelector,
+  techniqueVehicleInfoPut,
+  techniqueVehicleUpdateSelector,
+} from 'redux/companies/companiesSlice';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { getFilenameFromPath } from 'utils/files/files';
 
 const { Title } = Typography;
 
 interface Props {
   handleOkCancel: () => void;
   showRejectModal: () => void;
+  resultsTechnique: IVehicle | null;
+  resultsInfoClick: IConfirmation | null;
+  loading: boolean;
 }
 
-const RequestAddTechnique: React.FC<Props> = ({ handleOkCancel, showRejectModal }) => {
+const RequestAddTechnique: React.FC<Props> = ({
+  handleOkCancel,
+  showRejectModal,
+  resultsTechnique,
+  loading,
+  resultsInfoClick,
+}) => {
   const b = bem('RequestAddTechnique');
+  const dispatch = useAppDispatch();
+  const techniqueVehicleUpdate = useAppSelector(techniqueVehicleUpdateSelector);
+  const [images, setImages] = useState<UploadFile[]>([]);
+  const saveTechniqueVehicleState = useAppSelector(techniqueVehicleConfirmationSelector);
   const [form] = Form.useForm();
 
-  const onFinish = (values: any) => {};
+  useEffect(() => {
+    if (resultsTechnique?.image) {
+      setImages([
+        {
+          uid: '-2',
+          name: getFilenameFromPath(resultsTechnique.image),
+          status: 'done',
+          url: `https://agri.ltestl.com/${resultsTechnique.image}`,
+        },
+      ]);
+    }
+  }, [resultsTechnique]);
+
+  useEffect(() => {
+    form.setFieldsValue({
+      fullName: `${resultsTechnique?.last_name} ${resultsTechnique?.first_name} ${resultsTechnique?.middle_name}`,
+      ...resultsTechnique,
+    });
+  }, [resultsTechnique]);
+
+  const setFileList = (photos: UploadFile[]) => {
+    if (!photos.length) {
+      setImages([]);
+    } else {
+      setImages(photos);
+    }
+  };
+  const onFinish = async (values: any) => {
+    try {
+      const obj = {
+        ...values,
+        code: resultsTechnique?.code,
+        enterprise: resultsTechnique?.enterprise,
+      };
+      const formData = new FormData();
+      for (const name in obj) {
+        if (name) {
+          formData.append(name, obj[name]);
+        }
+      }
+      if (images.length) {
+        const file = images[0]?.originFileObj;
+        if (file) {
+          const blob = new Blob([file]);
+          formData.append('image', blob, file.name);
+        }
+      }
+      await dispatch(techniqueVehicleInfoPut({ data: resultsInfoClick, obj: formData }));
+      if (resultsInfoClick?.id) {
+        await dispatch(techniqueVehicleConfirmation(resultsInfoClick.id));
+      }
+    } catch (e) {
+      const errorMessage = getErrorMessage(e, 'username');
+      await message.error(`${errorMessage}`);
+    }
+  };
+
+  if (loading) {
+    return <SkeletonBlock active num={1} titleBool />;
+  }
 
   return (
     <Col
@@ -28,9 +113,13 @@ const RequestAddTechnique: React.FC<Props> = ({ handleOkCancel, showRejectModal 
     >
       <Form
         form={form}
-        initialValues={{ remember: true }}
         onFinish={onFinish}
         autoComplete='off'
+        initialValues={{
+          remember: true,
+          fio: `${resultsTechnique?.last_name} ${resultsTechnique?.first_name} ${resultsTechnique?.middle_name}`,
+          ...resultsTechnique,
+        }}
         layout='vertical'
       >
         <Title level={3} className={b('title')}>
@@ -40,34 +129,25 @@ const RequestAddTechnique: React.FC<Props> = ({ handleOkCancel, showRejectModal 
         <div className={b('form-block')}>
           <FormField
             readOnly
-            data-testid='name_id'
-            id='name_id'
+            data-testid='fullName_id'
+            id='fullName_id'
             inputClassName={b('username-info')}
             label='ФИО'
-            name='name'
+            name='fullName'
             placeholder='ФИО'
           />
           <FormField
             readOnly
-            data-testid='email_id'
-            id='email_id'
-            inputClassName={b('username-info')}
-            label='Email'
-            name='email'
-            placeholder='Email'
-          />
-          <FormField
-            readOnly
             data-testid='new_technique_id'
-            id='new_technique_id'
+            id='description_id'
             inputClassName={b('username-info')}
             label='Название техники'
-            name='new_technique'
+            name='description'
             placeholder='Название техники'
           />
         </div>
 
-        <UploadImageComponent fileList={[]} setFileList={() => {}} />
+        <UploadImageComponent fileList={images} setFileList={setFileList} />
 
         <Title level={3} className={b('title')}>
           Информация о технике
@@ -76,16 +156,28 @@ const RequestAddTechnique: React.FC<Props> = ({ handleOkCancel, showRejectModal 
         <FormField
           bordered
           data-testid='new_technique_id'
-          id='new_technique_id'
+          id='description_id'
           inputClassName={b('username')}
           label='Название техники'
-          name='new_technique'
+          name='description'
+          rules={[
+            {
+              required: true,
+              message: 'Заполните название техники',
+            },
+          ]}
           placeholder='Название техники'
         />
 
         <div className={b('form-block')}>
           <FormField
             bordered
+            rules={[
+              {
+                required: true,
+                message: 'Заполните гос номер',
+              },
+            ]}
             data-testid='state_number_id'
             id='state_number_id'
             inputClassName={b('username')}
@@ -97,10 +189,16 @@ const RequestAddTechnique: React.FC<Props> = ({ handleOkCancel, showRejectModal 
           <FormField
             bordered
             data-testid='new_technique_id'
-            id='new_technique_id'
+            id='vin_code_technique_id'
             inputClassName={b('username')}
             label='VIN код'
-            name='new_technique'
+            rules={[
+              {
+                required: true,
+                message: 'Заполните VIN код',
+              },
+            ]}
+            name='vin_code'
             placeholder='VIN код'
           />
         </div>
@@ -116,6 +214,12 @@ const RequestAddTechnique: React.FC<Props> = ({ handleOkCancel, showRejectModal 
             id='last_name_id'
             inputClassName={b('username')}
             label='Фамилия'
+            rules={[
+              {
+                required: true,
+                message: 'Заполните фамилию',
+              },
+            ]}
             name='last_name'
             placeholder='Фамилия'
           />
@@ -126,6 +230,12 @@ const RequestAddTechnique: React.FC<Props> = ({ handleOkCancel, showRejectModal 
             id='first_name_id'
             inputClassName={b('username')}
             label='Имя'
+            rules={[
+              {
+                required: true,
+                message: 'Заполните имя',
+              },
+            ]}
             name='first_name'
             placeholder='Имя'
           />
@@ -134,11 +244,17 @@ const RequestAddTechnique: React.FC<Props> = ({ handleOkCancel, showRejectModal 
         <FormField
           bordered
           data-testid='surname_id'
-          id='surname_id'
+          id='middle_name_id'
           inputClassName={b('username')}
           className='form-fields'
           label='Отчество'
-          name='surname'
+          rules={[
+            {
+              required: true,
+              message: 'Заполните отчество',
+            },
+          ]}
+          name='middle_name'
           placeholder='Отчество'
         />
 
@@ -156,10 +272,10 @@ const RequestAddTechnique: React.FC<Props> = ({ handleOkCancel, showRejectModal 
           </Button>
 
           <Button
-            // disabled={!!commonError}
+            disabled={!images.length}
             type='primary'
             htmlType='submit'
-            // loading={!!loading}
+            loading={techniqueVehicleUpdate.loading || saveTechniqueVehicleState.loading}
             style={{ width: '100%', borderRadius: 4 }}
             className={b('save-button')}
           >

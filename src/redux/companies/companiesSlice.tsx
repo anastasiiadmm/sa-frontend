@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { message } from 'antd';
 
+import { IConfirmation, ITechniqueVehicleInfoPut, IVehicle } from 'interfaces';
 import { RootState } from 'redux/hooks';
 import {
   companiesList,
@@ -51,6 +52,21 @@ interface CompaniesState {
   patchUserVehicleInfoError: Object | null;
   deleteUserVehicleLoading: boolean;
   deleteUserVehicleError: Object | null;
+  techniqueVehicleInfo: {
+    results: IVehicle | null;
+    loading: boolean;
+    errors: Object | null;
+  };
+  techniqueVehicleUpdate: {
+    results: IVehicle | null;
+    loading: boolean;
+    errors: Object | null;
+  };
+  saveTechniqueVehicle: {
+    results: IConfirmation | null;
+    loading: boolean;
+    errors: Object | null;
+  };
 }
 
 const INITIAL_STATE = {
@@ -108,6 +124,21 @@ const INITIAL_STATE = {
 
   deleteUserVehicleLoading: false,
   deleteUserVehicleError: null,
+  techniqueVehicleInfo: {
+    results: null,
+    loading: false,
+    errors: null,
+  },
+  techniqueVehicleUpdate: {
+    results: null,
+    loading: false,
+    errors: null,
+  },
+  saveTechniqueVehicle: {
+    results: null,
+    loading: false,
+    errors: null,
+  },
 } as CompaniesState;
 
 interface fetchCompaniesParams {
@@ -204,7 +235,7 @@ export const updateUserInfo = createAsyncThunk<void, updateUserInfoParams>(
     try {
       const resp = await axiosApi.patch(`/companies/${data?.id}/`, data?.data);
       await dispatch(fetchUserInfo({ data }));
-
+      message.success('Успешно изминились данные');
       return resp.data;
     } catch (e) {
       let error = e?.response?.data;
@@ -383,6 +414,54 @@ export const vehicleCreate = createAsyncThunk<void, vehicleCreateParams>(
   },
 );
 
+export const techniqueVehicleInfo = createAsyncThunk(
+  `${nameSpace}/techniqueVehicleInfo`,
+  async (data: IConfirmation, { rejectWithValue }) => {
+    try {
+      const response = await axiosApi.get(`companies/${data.id}/vehicle/${data.inquiry_id}/`);
+      return response.data;
+    } catch (e) {
+      return rejectWithValue({
+        detail: e?.response?.data?.detail,
+        status: e?.response?.status,
+      });
+    }
+  },
+);
+
+export const techniqueVehicleInfoPut = createAsyncThunk(
+  `${nameSpace}/techniqueVehicleInfoPut`,
+  async ({ data, obj }: ITechniqueVehicleInfoPut, { rejectWithValue }) => {
+    try {
+      const response = await axiosApi.put(
+        `companies/${data?.id}/vehicle/${data?.inquiry_id}/`,
+        obj,
+      );
+      return response.data;
+    } catch (e) {
+      return rejectWithValue({
+        detail: e?.response?.data?.detail,
+        status: e?.response?.status,
+      });
+    }
+  },
+);
+
+export const techniqueVehicleConfirmation = createAsyncThunk(
+  `${nameSpace}/techniqueVehicleConfirmation`,
+  async (id: number, { rejectWithValue }) => {
+    try {
+      const response = await axiosApi.patch(`accounts/manager/confirmation/${id}/`);
+      return response.data;
+    } catch (e) {
+      return rejectWithValue({
+        detail: e?.response?.data?.detail,
+        status: e?.response?.status,
+      });
+    }
+  },
+);
+
 const companiesSlice = createSlice({
   name: nameSpace,
   initialState: INITIAL_STATE,
@@ -406,6 +485,9 @@ const companiesSlice = createSlice({
     },
     clearUserInfo: (state) => {
       state.userInfo = null;
+    },
+    clearTechniqueVehicle: (state) => {
+      state.saveTechniqueVehicle.results = null;
     },
   },
   extraReducers: (builder) => {
@@ -556,10 +638,61 @@ const companiesSlice = createSlice({
       state.deleteUserVehicleLoading = false;
       state.deleteUserVehicleError = payload?.detail;
     });
+    builder.addCase(techniqueVehicleInfo.pending, (state) => {
+      state.techniqueVehicleInfo.loading = true;
+      state.techniqueVehicleInfo.errors = null;
+    });
+    builder.addCase(techniqueVehicleInfo.fulfilled, (state, action: PayloadAction<IVehicle>) => {
+      state.techniqueVehicleInfo.results = action.payload;
+      state.techniqueVehicleInfo.loading = false;
+      state.techniqueVehicleInfo.errors = null;
+    });
+    builder.addCase(techniqueVehicleInfo.rejected, (state, { payload }: any) => {
+      state.techniqueVehicleInfo.loading = false;
+      state.techniqueVehicleInfo.errors = payload;
+    });
+
+    builder.addCase(techniqueVehicleInfoPut.pending, (state) => {
+      state.techniqueVehicleUpdate.loading = true;
+      state.techniqueVehicleUpdate.errors = null;
+    });
+    builder.addCase(techniqueVehicleInfoPut.fulfilled, (state, action: PayloadAction<IVehicle>) => {
+      state.techniqueVehicleUpdate.results = action.payload;
+      state.techniqueVehicleUpdate.loading = false;
+      state.techniqueVehicleUpdate.errors = null;
+    });
+    builder.addCase(techniqueVehicleInfoPut.rejected, (state, { payload }: any) => {
+      state.techniqueVehicleUpdate.loading = false;
+      state.techniqueVehicleUpdate.errors = payload;
+    });
+
+    builder.addCase(techniqueVehicleConfirmation.pending, (state) => {
+      state.saveTechniqueVehicle.loading = true;
+      state.saveTechniqueVehicle.errors = null;
+    });
+    builder.addCase(techniqueVehicleConfirmation.fulfilled, (state, action) => {
+      state.saveTechniqueVehicle.results = action.payload;
+      state.saveTechniqueVehicle.loading = false;
+      state.saveTechniqueVehicle.errors = null;
+    });
+    builder.addCase(techniqueVehicleConfirmation.rejected, (state, { payload }: any) => {
+      state.techniqueVehicleUpdate.loading = false;
+      state.techniqueVehicleUpdate.errors = payload;
+    });
   },
 });
 
-export const { setChangeUserProfile, setNullReducerVehicleCreate, clearUserInfo } =
-  companiesSlice.actions;
+export const {
+  setChangeUserProfile,
+  setNullReducerVehicleCreate,
+  clearUserInfo,
+  clearTechniqueVehicle,
+} = companiesSlice.actions;
 export const companiesSelector = (state: RootState) => state.companies;
+export const techniqueVehicleInfoSelector = (state: RootState) =>
+  state.companies.techniqueVehicleInfo;
+export const techniqueVehicleUpdateSelector = (state: RootState) =>
+  state.companies.techniqueVehicleUpdate;
+export const techniqueVehicleConfirmationSelector = (state: RootState) =>
+  state.companies.saveTechniqueVehicle;
 export default companiesSlice.reducer;

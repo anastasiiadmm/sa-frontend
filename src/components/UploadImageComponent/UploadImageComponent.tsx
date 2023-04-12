@@ -14,7 +14,6 @@ interface Props {
 
 const UploadImageComponent: React.FC<Props> = ({ fileList, setFileList }) => {
   const b = bem('UploadImageComponent');
-
   const onChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
     setFileList(newFileList);
   };

@@ -416,6 +416,9 @@ const accountsSlice = createSlice({
     registerSuccessNull: (state) => {
       state.registerUserSuccess = false;
     },
+    deleteRequests: (state, action) => {
+      state.requests = state.requests?.filter((item) => item.id !== action.payload);
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchManager.pending, (state) => {
@@ -545,7 +548,7 @@ const accountsSlice = createSlice({
     });
     builder.addCase(
       accountManagerConfirmationRequest.fulfilled,
-      (state, { payload: accountManagerConfirmation }: any) => {
+      (state, { payload: accountManagerConfirmation }) => {
         state.accountManagerConfirmationLoading = false;
         state.accountManagerConfirmation = accountManagerConfirmation;
       },
@@ -591,7 +594,11 @@ const accountsSlice = createSlice({
   },
 });
 
-export const { managerChangeProfileHandler, setManagerProfile, registerSuccessNull } =
-  accountsSlice.actions;
+export const {
+  managerChangeProfileHandler,
+  setManagerProfile,
+  registerSuccessNull,
+  deleteRequests,
+} = accountsSlice.actions;
 export const accountsSelector = (state: RootState) => state.accounts;
 export default accountsSlice.reducer;
