@@ -9,9 +9,11 @@ import 'components/Errors/NotFound/_notFound.scss';
 
 interface NotFoundProps {
   title: string;
-  text: string;
+  text?: string;
+  showButton?: boolean;
 }
-const NotFound: FC<NotFoundProps> = ({ title, text }) => {
+
+const NotFound: FC<NotFoundProps> = ({ title, text, showButton }) => {
   const b = bem('NotFound');
   const push = useNavigate();
 
@@ -25,7 +27,7 @@ const NotFound: FC<NotFoundProps> = ({ title, text }) => {
           <div>
             <h3>{title}</h3>
             <p>{text}</p>
-            <Button onClick={() => push('/')}>На главную</Button>
+            {showButton ? <Button onClick={() => push('/')}>На главную</Button> : null}
           </div>
         </div>
       </div>
