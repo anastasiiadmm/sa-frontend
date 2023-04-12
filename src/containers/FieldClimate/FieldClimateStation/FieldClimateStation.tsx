@@ -1,18 +1,29 @@
-import { MenuFoldOutlined, MenuUnfoldOutlined, ProfileOutlined } from '@ant-design/icons';
-import { Card, Layout, Menu, MenuProps, Table, theme, Typography } from 'antd';
+import {
+  BackwardOutlined,
+  MenuFoldOutlined,
+  MenuUnfoldOutlined,
+  ProfileOutlined,
+} from '@ant-design/icons';
+import { Button, Card, Layout, Menu, MenuProps, Table, theme, Tooltip, Typography } from 'antd';
 import { Content, Header } from 'antd/lib/layout/layout';
 import { ColumnsType } from 'antd/lib/table';
 import bem from 'easy-bem';
+import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import ChartComponent from 'components/ChartComponent/ChartComponent';
+import CustomDropdown from 'components/Fields/CustomDropdown/CustomDropdown';
+import FormField from 'components/FormField/FormField';
+import { calculateDateRange } from 'helper';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import {
   fetchStationInfo,
   fetchStationSensors,
+  postStationSensors,
   stationsSelector,
 } from 'redux/stations/stationsSlice';
+import { rangeData, rangeDataDaysSensors, rangeDataHoursSensors } from 'utils/constants';
 import 'containers/FieldClimate/FieldClimateStation/_fieldClimateStation.scss';
 
 const { Text, Title } = Typography;
@@ -44,21 +55,45 @@ interface DataType {
 
 const FieldClimateStation = () => {
   const b = bem('FieldClimateStation');
-  const { id } = useParams<{ id: string }>();
-  const dispatch = useAppDispatch();
-  const { stationInfo } = useAppSelector(stationsSelector);
-  const [collapsed, setCollapsed] = useState(true);
   const {
     token: { colorBgContainer },
   } = theme.useToken();
+  const { id } = useParams<{ id: string }>();
+  const dispatch = useAppDispatch();
+  const { stationInfo, sensorData } = useAppSelector(stationsSelector);
+  const maxDate = moment(sensorData?.dates?.max_date);
+  const twoDaysAgo = maxDate.clone().subtract(2, 'days').unix().toString();
+  const [collapsed, setCollapsed] = useState(true);
+  const [filters, setFilters] = useState({
+    name: 'All sensors',
+    day_type: 'hourly',
+    date_type: '2_days',
+    date_from: '',
+    date_to: '',
+  });
 
   useEffect(() => {
     dispatch(fetchStationInfo({ id }));
   }, [dispatch]);
 
   useEffect(() => {
-    dispatch(fetchStationSensors({ id }));
-  }, [dispatch]);
+    const data = {
+      id,
+      name: { name: filters?.name },
+      day_type: filters?.day_type,
+      date_from: filters?.date_from,
+      date_to: filters?.date_to,
+    };
+    dispatch(postStationSensors({ data }));
+  }, [dispatch, filters, id]);
+
+  useEffect(() => {
+    setFilters({
+      ...filters,
+      date_from: twoDaysAgo,
+      date_to: maxDate.unix().toString(),
+    });
+  }, []);
 
   const items: MenuItem[] = [
     getItem(
@@ -151,10 +186,42 @@ const FieldClimateStation = () => {
     },
   ];
 
+  const handleChangeDaysTypeHandler = (value: string) => {
+    setFilters({
+      ...filters,
+      day_type: value,
+    });
+  };
+
+  const handleChangeHoursTypeHandler = (value: string) => {
+    const { fromDate, toDate } = calculateDateRange(value, sensorData);
+    const fromTimestamp = moment(fromDate).unix();
+    const toTimestamp = moment(toDate).unix();
+
+    setFilters({
+      ...filters,
+      date_type: value,
+      date_from: fromTimestamp.toString(),
+      date_to: toTimestamp.toString(),
+    });
+  };
+
+  const setLastDataHandler = () => {
+    setFilters({
+      ...filters,
+      date_from: twoDaysAgo,
+      date_to: maxDate.unix().toString(),
+    });
+  };
+
   return (
     <Layout data-testid='station-id' style={{ height: '85vh', marginTop: 47 }} className={b('')}>
-      <Sider width={250} trigger={null} collapsible collapsed={collapsed} className={b()}>
-        <Menu mode='inline' theme='light' items={items} triggerSubMenuAction='click' />
+      <Sider collapsedWidth={0} width={250} trigger={null} collapsible collapsed={collapsed}>
+        <div className={b('sider-block')}>
+          <Menu mode='inline' theme='light' items={items} triggerSubMenuAction='click' />
+          <FormField disabled type='select' options={rangeData} defaultValue={rangeData[0]} />
+          <CustomDropdown id={id} dropdownOptions={sensorData?.topology?.[0]?.sensors} />
+        </div>
       </Sider>
       <Layout className='site-layout'>
         <Header style={{ padding: 0, background: colorBgContainer }}>
@@ -181,12 +248,34 @@ const FieldClimateStation = () => {
                   <Title level={5} style={{ margin: 0 }}>
                     Все датчики
                   </Title>
-                  <Text>2 дня / ежечасно</Text>
+                  <Text>
+                    {rangeDataHoursSensors.find((item) => item.value === filters?.date_type)?.label}{' '}
+                    / {rangeDataDaysSensors.find((item) => item.value === filters?.day_type)?.label}
+                  </Text>
                 </div>
                 <div>
-                  Данные станции от <b>{stationInfo?.dates?.last_communication}</b> до{' '}
+                  Данные станции от <b>{stationInfo?.dates?.max_date}</b> до{' '}
                   <b>{stationInfo?.dates?.last_communication}</b>
                 </div>
+              </div>
+              <div className={b('card-style-items-sensors')}>
+                <Tooltip placement='top' title='Последние данные'>
+                  <Button type='primary' icon={<BackwardOutlined />} onClick={setLastDataHandler} />
+                </Tooltip>
+                <FormField
+                  type='select'
+                  style='160px'
+                  handleChange={handleChangeDaysTypeHandler}
+                  options={rangeDataDaysSensors}
+                  defaultValue={rangeDataDaysSensors[1]}
+                />
+                <FormField
+                  type='select'
+                  style='120px'
+                  handleChange={handleChangeHoursTypeHandler}
+                  options={rangeDataHoursSensors}
+                  defaultValue={rangeDataHoursSensors[1]}
+                />
               </div>
             </Card>
           </div>
