@@ -9,6 +9,13 @@
     padding: 8px;
   }
 
+  &__dropdown-info {
+    &:hover {
+      color: themes.$info-hover-color;
+      cursor: pointer;
+    }
+  }
+
   &__dropdown-menu {
     padding: 8px;
     > li {
@@ -16,10 +23,8 @@
       flex-direction: row;
       align-items: center;
       > a {
+        cursor: default;
         color: themes.$dark-gray-color;
-        &:hover {
-          color: themes.$info-hover-color;
-        }
         > span {
           color: themes.$gray-color;
         }

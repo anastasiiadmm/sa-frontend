@@ -35,6 +35,4 @@ export const rangeDataHoursSensors = [
   { value: '30_days', label: '30 дней' },
 ];
 
-export const rangeData = [
-  { value: 'all_data', label: 'Все датчики' },
-];
+export const dateMomentTypeString = 'YYYY-MM-DD HH:mm:ss';
