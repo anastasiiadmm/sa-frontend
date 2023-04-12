@@ -18,6 +18,7 @@ import CustomDropdown from 'components/Fields/CustomDropdown/CustomDropdown';
 import FormField from 'components/FormField/FormField';
 import { calculateDateRange } from 'helper';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import Spinner from 'components/Spinner/Spinner';
 import {
   fetchStationInfo,
   postStationSensors,
@@ -60,7 +61,7 @@ const FieldClimateStation = () => {
   } = theme.useToken();
   const { id } = useParams<{ id: string }>();
   const dispatch = useAppDispatch();
-  const { stationInfo, sensorData } = useAppSelector(stationsSelector);
+  const { stationInfo, sensorData, sensorDataLoading } = useAppSelector(stationsSelector);
   const maxDate = moment(sensorData?.dates?.max_date);
   const twoDaysAgo = maxDate.clone().subtract(2, 'days').unix().toString();
   const dayString = moment(sensorData?.dates?.max_date)
@@ -286,14 +287,20 @@ const FieldClimateStation = () => {
             </Card>
           </div>
 
-          {sensorData?.grid?.data?.length ? (
+          {sensorData?.chartsOptions?.length ? (
             <div className={b('station-block')}>
-              <div style={{ marginTop: 60, marginBottom: 60 }}>
-                <ChartComponent data={sensorData?.chartsOptions} />
-              </div>
-              <div>
-                <Table columns={columns} dataSource={data} />
-              </div>
+              {sensorDataLoading ? (
+                <Spinner />
+              ) : (
+                <>
+                  <div style={{ marginTop: 60, marginBottom: 60 }}>
+                    <ChartComponent data={sensorData && sensorData?.chartsOptions} />
+                  </div>
+                  <div>
+                    <Table columns={columns} dataSource={data} />
+                  </div>
+                </>
+              )}
             </div>
           ) : (
             <NotFound title='Нет данных для выбранной станции' />
