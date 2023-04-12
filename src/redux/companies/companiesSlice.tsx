@@ -433,7 +433,10 @@ export const techniqueVehicleInfoPut = createAsyncThunk(
   `${nameSpace}/techniqueVehicleInfoPut`,
   async ({ data, obj }: ITechniqueVehicleInfoPut, { rejectWithValue }) => {
     try {
-      const response = await axiosApi.put(`companies/${data.id}/vehicle/${data.inquiry_id}/`, obj);
+      const response = await axiosApi.put(
+        `companies/${data?.id}/vehicle/${data?.inquiry_id}/`,
+        obj,
+      );
       return response.data;
     } catch (e) {
       return rejectWithValue({

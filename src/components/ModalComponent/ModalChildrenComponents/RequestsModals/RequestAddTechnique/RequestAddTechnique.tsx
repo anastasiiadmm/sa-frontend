@@ -58,7 +58,7 @@ const RequestAddTechnique: React.FC<Props> = ({
 
   useEffect(() => {
     form.setFieldsValue({
-      fio: `${resultsTechnique?.last_name} ${resultsTechnique?.first_name} ${resultsTechnique?.middle_name}`,
+      fullName: `${resultsTechnique?.last_name} ${resultsTechnique?.first_name} ${resultsTechnique?.middle_name}`,
       ...resultsTechnique,
     });
   }, [resultsTechnique]);
@@ -129,11 +129,11 @@ const RequestAddTechnique: React.FC<Props> = ({
         <div className={b('form-block')}>
           <FormField
             readOnly
-            data-testid='name_id'
-            id='fio_id'
+            data-testid='fullName_id'
+            id='fullName_id'
             inputClassName={b('username-info')}
             label='ФИО'
-            name='fio'
+            name='fullName'
             placeholder='ФИО'
           />
           <FormField

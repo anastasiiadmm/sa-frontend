@@ -8,10 +8,27 @@ export interface IConfirmation {
   enterprise_name: string;
 }
 
+interface IAttachment {
+  Mode: string;
+  toolsWidth: string;
+  toolsName: string;
+  skipOverlap: string;
+  toolsWidthResult: string;
+  frontBack: string;
+  leftRight: string;
+}
+
+interface IField {
+  field_name: string;
+  work_area: number;
+  id: number;
+  attachments: IAttachment;
+}
+
 export interface IVehicle {
   id: number;
   image: string;
-  processing_data: any[]; // Replace any with appropriate type
+  processing_data: IField[];
   vin_code: string;
   code: string;
   state_number: string;
@@ -24,7 +41,19 @@ export interface IVehicle {
   enterprise: number;
 }
 
+export interface ICarRequest {
+  fio: string;
+  description: string;
+  state_number: string;
+  vin_code: string;
+  last_name: string;
+  first_name: string;
+  middle_name: string;
+  code: string;
+  enterprise: number;
+}
+
 export interface ITechniqueVehicleInfoPut {
-  data: any;
-  obj: any;
+  data: IConfirmation | null;
+  obj: FormData;
 }

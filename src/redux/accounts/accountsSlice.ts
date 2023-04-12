@@ -548,7 +548,7 @@ const accountsSlice = createSlice({
     });
     builder.addCase(
       accountManagerConfirmationRequest.fulfilled,
-      (state, { payload: accountManagerConfirmation }: any) => {
+      (state, { payload: accountManagerConfirmation }) => {
         state.accountManagerConfirmationLoading = false;
         state.accountManagerConfirmation = accountManagerConfirmation;
       },

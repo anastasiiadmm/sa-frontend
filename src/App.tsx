@@ -5,6 +5,7 @@ import { Routes } from 'react-router-dom';
 
 import AppRouter from 'AppRouter/AppRouter';
 import SignIn from 'containers/SignIn/SignIn';
+import { IListener } from 'interfaces';
 import { authSelector, checkForTokens, logoutUser } from 'redux/auth/authSlice';
 import { useAppSelector } from 'redux/hooks';
 import { getCookie } from 'utils/addCookies/addCookies';
@@ -31,7 +32,7 @@ const App: React.FC = () => {
     };
   }, []);
 
-  const listener = ({ key, newValue }: any) => {
+  const listener = ({ key, newValue }: IListener) => {
     if (key === 'users') {
       if (newValue === '{"user":null,"token":null}' || newValue === null) {
         dispatch(logoutUser());
