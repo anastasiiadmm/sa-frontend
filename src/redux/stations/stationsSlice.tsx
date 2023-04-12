@@ -55,6 +55,10 @@ const initialState: StationState = {
   sensors: [],
   sensorsLoading: false,
   sensorsError: null,
+
+  sensorData: [],
+  sensorDataLoading: false,
+  sensorDataError: null,
 };
 
 export const fetchUser = createAsyncThunk<APIResponse, void, { rejectValue: APIError }>(
@@ -185,6 +189,42 @@ export const fetchStationSensors = createAsyncThunk<
   }
 });
 
+interface postStationSensorsParams {
+  data: {
+    id: string | null | undefined;
+    name: {
+      name: string | null | undefined;
+    };
+    day_type: string | null | undefined;
+    date_from: string | null | undefined;
+    date_to: string | null | undefined;
+  };
+}
+
+export const postStationSensors = createAsyncThunk<
+  void,
+  postStationSensorsParams,
+  { rejectValue: APIError }
+>('stations/postStationSensors', async ({ data }, { rejectWithValue }) => {
+  const params = {
+    method: 'POST',
+    request: `/fc/${data?.id}/${data?.day_type}/from/${data?.date_from}/to/${data?.date_to}`,
+  };
+  const headers = {
+    ...getAuthorizationHeader(params.method, params.request),
+    Accept: 'application/json',
+  };
+  try {
+    const response = await axios.post(REACT_APP_CLIMATE_API_BASE_URL + params.request, data?.name, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    return rejectWithValue({ message: 'Failed to fetch station data.' });
+  }
+});
+
 const stationSlice = createSlice({
   name: 'stations',
   initialState,
@@ -261,6 +301,20 @@ const stationSlice = createSlice({
       .addCase(fetchStationInfo.rejected, (state, action) => {
         state.isWeatherLoading = false;
         state.isWeatherError = action.payload ? action.payload : null;
+      });
+
+    builder
+      .addCase(postStationSensors.pending, (state) => {
+        state.sensorDataLoading = true;
+        state.sensorDataError = null;
+      })
+      .addCase(postStationSensors.fulfilled, (state, action) => {
+        state.sensorDataLoading = false;
+        state.sensorData = action.payload;
+      })
+      .addCase(postStationSensors.rejected, (state, action) => {
+        state.sensorDataLoading = false;
+        state.sensorDataError = action.payload ? action.payload : null;
       });
   },
 });
