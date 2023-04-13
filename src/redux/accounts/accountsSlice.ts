@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { message } from 'antd';
 
+import { IUpdateManagerDataMutation } from 'interfaces';
 import { RootState } from 'redux/hooks';
 import {
   accountsManagerConfirmation,
@@ -393,15 +394,13 @@ const accountsSlice = createSlice({
   name: nameSpace,
   initialState: INITIAL_STATE,
   reducers: {
-    managerChangeProfileHandler: (
-      state: any,
-      action: PayloadAction<ValidationUpdateManagerProfile>,
-    ) => {
+    managerChangeProfileHandler: (state, action: PayloadAction<ValidationUpdateManagerProfile>) => {
       const keys = Object.keys(action.payload);
       if (keys[0] === 'confirm_password' || keys[0] === 'old_password') {
         delete keys[0];
       } else {
-        state.updateManagerData[keys[0]] = action.payload[keys[0]];
+        const updateDataKey = keys[0] as keyof IUpdateManagerDataMutation;
+        state.updateManagerData[updateDataKey] = action.payload[keys[0]];
       }
     },
     setManagerProfile: (state, action) => {

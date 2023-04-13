@@ -8,7 +8,7 @@ import SkeletonBlock from 'components/SkeletonBlock/SkeletonBlock';
 import UploadImageComponent from 'components/UploadImageComponent/UploadImageComponent';
 import { getErrorMessage } from 'helper';
 import 'components/ModalComponent/ModalChildrenComponents/RequestsModals/RequestAddTechnique/_requestAddTechnique.scss';
-import { IConfirmation, IVehicle } from 'interfaces';
+import { IConfirmation, IValueRequest, IVehicle } from 'interfaces';
 
 import {
   techniqueVehicleConfirmation,
@@ -70,29 +70,31 @@ const RequestAddTechnique: React.FC<Props> = ({
       setImages(photos);
     }
   };
-  const onFinish = async (values: any) => {
+  const onFinish = async (values: IValueRequest) => {
     try {
-      const obj = {
-        ...values,
-        code: resultsTechnique?.code,
-        enterprise: resultsTechnique?.enterprise,
-      };
-      const formData = new FormData();
-      for (const name in obj) {
-        if (name) {
-          formData.append(name, obj[name]);
+      if (resultsTechnique) {
+        const obj: { [key: string]: string } = {
+          ...values,
+          code: '',
+          enterprise: '',
+        };
+        const formData = new FormData();
+        for (const name in obj) {
+          if (name) {
+            formData.append(name, obj[name]);
+          }
         }
-      }
-      if (images.length) {
-        const file = images[0]?.originFileObj;
-        if (file) {
-          const blob = new Blob([file]);
-          formData.append('image', blob, file.name);
+        if (images.length) {
+          const file = images[0]?.originFileObj;
+          if (file) {
+            const blob = new Blob([file]);
+            formData.append('image', blob, file.name);
+          }
         }
-      }
-      await dispatch(techniqueVehicleInfoPut({ data: resultsInfoClick, obj: formData }));
-      if (resultsInfoClick?.id) {
-        await dispatch(techniqueVehicleConfirmation(resultsInfoClick.id));
+        await dispatch(techniqueVehicleInfoPut({ data: resultsInfoClick, obj: formData }));
+        if (resultsInfoClick?.id) {
+          await dispatch(techniqueVehicleConfirmation(resultsInfoClick.id));
+        }
       }
     } catch (e) {
       const errorMessage = getErrorMessage(e, 'username');

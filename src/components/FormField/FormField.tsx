@@ -9,7 +9,7 @@ import SelectField from 'components/Fields/SelectField/SelectField';
 
 interface Props {
   type?: string;
-  [p: string]: any;
+  [p: string]: unknown;
 }
 
 const FormField: React.FC<Props> = ({ type, ...props }) => {

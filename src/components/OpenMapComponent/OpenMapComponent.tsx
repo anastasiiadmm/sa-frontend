@@ -1,6 +1,6 @@
 import { Alert, Button, Card, Spin, Tooltip, Typography } from 'antd';
 import bem from 'easy-bem';
-import L, { LatLngExpression } from 'leaflet';
+import L, { LatLngExpression, LatLngTuple } from 'leaflet';
 import React, { useEffect } from 'react';
 import { CircleMarker, MapContainer, Marker, Polyline, Popup, TileLayer } from 'react-leaflet';
 import { useParams } from 'react-router';
@@ -56,6 +56,10 @@ const OpenMapComponent = () => {
       [parseFloat(lat2), parseFloat(lon2)],
     ];
   });
+
+  const positions = polyline.map((points) =>
+    points.map((point) => [point[0], point[1]] as LatLngTuple),
+  );
 
   const duckIcon = new L.Icon({
     iconUrl: map,
@@ -199,19 +203,15 @@ const OpenMapComponent = () => {
               </Popup>
             </Marker>
           </CircleMarker>
-          <Polyline
-            weight={5}
-            pathOptions={purpleOptions}
-            positions={polyline as LatLngExpression[] | any[]}
-          >
+          <Polyline weight={5} pathOptions={purpleOptions} positions={positions}>
             <Marker
-              position={getCoordinateByType(polyline, 'start') as LatLngExpression}
+              position={getCoordinateByType(positions, 'start') as LatLngExpression}
               icon={duckIconStart}
             >
               <Popup>Start</Popup>
             </Marker>
             <Marker
-              position={getCoordinateByType(polyline, 'end') as LatLngExpression}
+              position={getCoordinateByType(positions, 'end') as LatLngExpression}
               icon={duckIconEnd}
             >
               <Popup>End</Popup>

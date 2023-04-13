@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosRequestHeaders } from 'axios';
 
 import { checkForTokens, logoutUser } from 'redux/auth/authSlice';
 import store from 'redux/store';
@@ -16,7 +16,7 @@ axiosApi.interceptors.request.use(async (config) => {
     config.headers = {
       ...config.headers,
       Authorization: `Bearer ${key}`,
-    } as any;
+    } as AxiosRequestHeaders;
   }
   return config;
 });
@@ -52,8 +52,12 @@ axiosApi.interceptors.response.use(
             },
           };
           index.dispatch(checkForTokens(usersLocal));
-          const obj: any = usersLocal;
-          delete obj.token.refresh;
+          const obj = {
+            user: index.getState()?.auth?.user,
+            token: {
+              access: resp.data.access,
+            },
+          };
           localStorage.setItem('users', JSON.stringify(obj));
           window.dispatchEvent(new Event('storage'));
           return axiosApi(originalRequest);

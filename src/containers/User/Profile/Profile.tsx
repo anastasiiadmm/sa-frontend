@@ -7,6 +7,7 @@ import FormField from 'components/FormField/FormField';
 import EditUserProfileModal from 'components/ModalComponent/ModalChildrenComponents/EditUserProfileModal/EditUserProfileModal';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import SkeletonBlock from 'components/SkeletonBlock/SkeletonBlock';
+import { IUser } from 'interfaces';
 import { accountsSelector, fetchUser } from 'redux/accounts/accountsSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import 'containers/User/Profile/_profile.scss';
@@ -48,7 +49,7 @@ const Profile = () => {
     setIsModalOpen(!isModalOpen);
   };
 
-  const onFinish = (values: any) => {};
+  const onFinish = (values: IUser) => {};
 
   return (
     <>

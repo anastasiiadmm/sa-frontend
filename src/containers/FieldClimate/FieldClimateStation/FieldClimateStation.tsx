@@ -98,7 +98,7 @@ const FieldClimateStation = () => {
       title: 'Chinese Score',
       dataIndex: 'chinese',
       sorter: {
-        compare: (a: any, b: any) => a.chinese - b.chinese,
+        compare: (a, b) => a.chinese - b.chinese,
         multiple: 3,
       },
     },

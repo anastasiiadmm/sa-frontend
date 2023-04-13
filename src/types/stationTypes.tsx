@@ -54,8 +54,39 @@ export interface StationState {
 }
 
 export interface MarkerData {
+  id: string;
   position: [number, number];
   name: string;
+  dates: {
+    min_date: string;
+    max_date: string;
+    created_at: string;
+    last_communication: string;
+  };
+  meta: {
+    time: number;
+    solarRadiation: number;
+    solarPanel: number;
+    battery: number;
+    lw: number;
+    airTemp: number;
+    rh: number;
+    soilTemp: number;
+    volumetricAverage: number;
+    tensiometricAverage: number;
+    rain7d: {
+      vals: number[];
+      sum: number;
+    };
+    rain48h: {
+      vals: number[];
+      sum: number;
+    };
+    rain24h: {
+      vals: number[];
+      sum: number;
+    };
+  };
 }
 
 export interface SensorData {

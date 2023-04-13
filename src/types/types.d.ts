@@ -243,6 +243,7 @@ export interface fieldsList {
   };
   field_name: JSX.Element;
   work_area: number;
+  id?: number | null;
 }
 
 export interface userVehicleInfo {
