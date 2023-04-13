@@ -6,4 +6,3 @@ export * from 'interfaces/IUser';
 export * from 'interfaces/IAuth';
 export * from 'interfaces/IAuth';
 export * from 'interfaces/IError';
-export * from 'interfaces/ITable';
