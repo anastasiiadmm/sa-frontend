@@ -6,6 +6,11 @@
     background: themes.$white-color;
   }
 
+  &__name-column-style {
+    position: absolute;
+    left: 20px;
+  }
+
   &__card-block {
     padding-bottom: 15px;
   }

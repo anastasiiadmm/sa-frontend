@@ -82,26 +82,24 @@ const Users: React.FC = () => {
       dataIndex: 'autopilots_amount',
       filterSearch: true,
       width: '25%',
-    },
-    {
-      dataIndex: 'profile',
-      filterSearch: true,
-      width: '20%',
       render: (text: string, record: companiesList) => (
-        <Tooltip
-          title='Просмотреть профиль'
-          color='#BBBBBB'
-          overlayInnerStyle={{ padding: '5px 15px', borderRadius: 15 }}
-          placement='left'
-        >
-          <Button
-            type='link'
-            className={b('profile-link')}
-            onClick={() => nextBrowserUserInfoHandler(record?.id as number)}
+        <>
+          <span>{record.autopilots_amount}</span>
+          <Tooltip
+            title='Просмотреть профиль'
+            color='#BBBBBB'
+            overlayInnerStyle={{ padding: '5px 15px', borderRadius: 15 }}
+            placement='left'
           >
-            <EyeOutlined style={{ fontSize: '23px' }} />
-          </Button>
-        </Tooltip>
+            <Button
+              type='link'
+              className={b('profile-link')}
+              onClick={() => nextBrowserUserInfoHandler(record?.id as number)}
+            >
+              <EyeOutlined style={{ fontSize: '23px' }} />
+            </Button>
+          </Tooltip>
+        </>
       ),
     },
   ];

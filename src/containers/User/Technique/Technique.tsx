@@ -104,16 +104,11 @@ const Technique = () => {
       key: 'processed_area',
       title: 'Общая Площадь',
       dataIndex: 'processed_area',
-      width: '20%',
+      width: '28%',
       render: (text: number, record) => (
-        <p className={b('name-column-style')}>{record?.vehicle_fields_data?.processed_area}</p>
-      ),
-    },
-    {
-      dataIndex: 'profile',
-      width: '16%',
-      render: (text: string, record) => (
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'right' }}>
+          <p className={b('name-column-style')}>{record?.vehicle_fields_data?.processed_area}</p>
+
           <Tooltip
             title='Просмотреть профиль'
             color='#BBBBBB'

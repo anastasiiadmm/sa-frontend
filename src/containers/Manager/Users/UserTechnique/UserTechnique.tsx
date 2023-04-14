@@ -177,18 +177,13 @@ const UserTechnique: React.FC = () => {
       title: 'Общая Площадь',
       dataIndex: 'processed_area',
       filterSearch: true,
-      width: '20%',
-      render: (text: string, record: vehicleList) => {
-        return <p>{record?.vehicle_fields_data?.processed_area || 0}</p>;
-      },
-    },
-    {
-      dataIndex: 'profile',
-      filterSearch: true,
-      width: '20%',
+      width: '45%',
       render: (text: string, record: vehicleList) => {
         return (
-          <div style={{ display: 'flex', gap: 10, alignItems: 'center', justifyContent: 'right' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'right' }}>
+            <p className={b('text_processed_area')}>
+              {record?.vehicle_fields_data?.processed_area || 0}
+            </p>
             <Tooltip
               title='Редактировать'
               color='#BBBBBB'
