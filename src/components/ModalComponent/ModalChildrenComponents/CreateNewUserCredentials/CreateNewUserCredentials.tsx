@@ -40,7 +40,7 @@ const CreateNewUserCredentials: React.FC<Props> = ({
 
   return (
     <div>
-      <p style={{ marginBottom: 40 }}>Пожалуйста отправьте эти данные пользователю</p>
+      <p className={b('text')}>Пожалуйста отправьте эти данные пользователю</p>
 
       <Form
         form={form}
@@ -58,15 +58,17 @@ const CreateNewUserCredentials: React.FC<Props> = ({
           inputClassName={b('username-info')}
         />
 
-        <FormField
-          readOnly
-          data-testid='generated_password_id'
-          id='generated_password_id'
-          label='Пароль'
-          name={userCreateData ? ['user', 'generated_password'] : 'password'}
-          placeholder='Пароль'
-          inputClassName={b('username-info')}
-        />
+        <div className={b('mt_success')}>
+          <FormField
+            readOnly
+            data-testid='generated_password_id'
+            id='generated_password_id'
+            label='Пароль'
+            name={userCreateData ? ['user', 'generated_password'] : 'password'}
+            placeholder='Пароль'
+            inputClassName={b('username-info')}
+          />
+        </div>
       </Form>
 
       <div className={b('profile-buttons')}>

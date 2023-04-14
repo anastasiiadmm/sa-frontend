@@ -83,6 +83,7 @@ const AppRouter: React.FC = () => {
                   <Route path='/user-profile/:id' element={<UserProfile />} />
                   <Route path='/user-technique/:id' element={<UserTechnique />} />
                   <Route path='/user-requests' element={<UserRequests />} />
+                  <Route path='/open-map/:id/:vehicleId/:name' element={<OpenMapComponent />} />
                 </>
               ) : (
                 <>

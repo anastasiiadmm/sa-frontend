@@ -23,9 +23,9 @@ const initialState = {
 
 export const tractorLocation = createAsyncThunk(
   `${nameSpace}/tractorLocation`,
-  async (id: number, { rejectWithValue }) => {
+  async (link: string, { rejectWithValue }) => {
     try {
-      const response = await axiosApi.get(`/accounts/user/vehicle/${id}/`);
+      const response = await axiosApi.get(link);
       return response.data;
     } catch (e) {
       return rejectWithValue({

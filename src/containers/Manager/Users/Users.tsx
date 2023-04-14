@@ -86,7 +86,7 @@ const Users: React.FC = () => {
     {
       dataIndex: 'profile',
       filterSearch: true,
-      width: '30%',
+      width: '20%',
       render: (text: string, record: companiesList) => (
         <Tooltip
           title='Просмотреть профиль'

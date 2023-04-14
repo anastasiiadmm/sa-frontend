@@ -111,9 +111,9 @@ const Technique = () => {
     },
     {
       dataIndex: 'profile',
-      width: '30%',
+      width: '16%',
       render: (text: string, record) => (
-        <div style={{ display: 'flex', gap: 20, alignItems: 'center', justifyContent: 'right' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'right' }}>
           <Tooltip
             title='Просмотреть профиль'
             color='#BBBBBB'
@@ -131,7 +131,7 @@ const Technique = () => {
             overlayInnerStyle={{ padding: '5px 15px', borderRadius: 15 }}
             placement='topRight'
           >
-            <Link to={`/open-map/${record.id}/localTractor`}>
+            <Link to={`/open-map/localTractor/${record.id}`}>
               <Button type='text' style={{ display: 'flex', alignItems: 'center' }}>
                 <img style={{ width: 27 }} src={tractorBlue} alt='tractorBlue' />
               </Button>

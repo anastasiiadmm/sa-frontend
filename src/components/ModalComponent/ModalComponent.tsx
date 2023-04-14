@@ -7,8 +7,9 @@ type Props = {
   closable?: boolean;
   dividerShow?: boolean;
   children?: React.ReactNode;
-  handleOk?: () => void;
-  handleCancel?: () => void;
+  handleOk?: (params: any) => any;
+  handleCancel?: (params: any) => any;
+  classNameTitle?: string;
 };
 
 const ModalComponent: React.FC<Props> = ({
@@ -19,11 +20,12 @@ const ModalComponent: React.FC<Props> = ({
   children,
   handleOk,
   handleCancel,
+  classNameTitle,
 }) => {
   return (
     <Modal
       closable={closable}
-      title={title}
+      title={<span className={classNameTitle}>{title}</span>}
       open={open}
       onOk={handleOk}
       onCancel={handleCancel}

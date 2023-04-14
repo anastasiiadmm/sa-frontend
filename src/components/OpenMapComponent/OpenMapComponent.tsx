@@ -3,10 +3,10 @@ import bem from 'easy-bem';
 import L, { LatLngExpression, LatLngTuple } from 'leaflet';
 import React, { useEffect } from 'react';
 import { CircleMarker, MapContainer, Marker, Polyline, Popup, TileLayer } from 'react-leaflet';
-import { useParams } from 'react-router';
-import { Link } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router';
 
 import 'components/OpenMapComponent/_openMapComponent.scss';
+
 import arrowLeft from 'assets/images/icons/arrow-left.svg';
 import endB from 'assets/images/icons/endB.svg';
 import locale from 'assets/images/icons/locale.svg';
@@ -14,6 +14,7 @@ import map from 'assets/images/icons/map.svg';
 import startA from 'assets/images/icons/startA.svg';
 import tractorBlue from 'assets/images/icons/tractor-blue.svg';
 import Errors from 'components/Errors/Errors';
+import { authSelector } from 'redux/auth/authSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 
 import { clearField, mapSelector, obtainingCoordinate, tractorLocation } from 'redux/map/mapSlice';
@@ -25,21 +26,25 @@ const purpleOptions = { color: '#1358BF' };
 const OpenMapComponent = () => {
   const b = bem('OpenMapComponent');
   const { id, vehicleId } = useParams();
+  const { pathname } = useLocation();
   const { vehicle, field } = useAppSelector(mapSelector);
+  const { user } = useAppSelector(authSelector);
   const dispatch = useAppDispatch();
-
+  const history = useNavigate();
   useEffect(() => {
-    dispatch(tractorLocation(Number(id)));
+    if (user?.is_manager) {
+      dispatch(tractorLocation(`/companies/${id}/vehicle/${vehicleId}/`));
+    } else {
+      dispatch(tractorLocation(`/accounts/user/vehicle/${vehicleId}/`));
+    }
   }, []);
 
   useEffect(() => {
-    const findResultsMap = vehicle.results?.processing_data.find(
-      (item) => item.id === Number(vehicleId),
-    );
-    if (findResultsMap) {
+    const findResultsMap = vehicle.results?.processing_data.find((item) => item.id === Number(id));
+    if (findResultsMap && !pathname.includes('localTractor')) {
       dispatch(
         obtainingCoordinate({
-          id: Number(id),
+          id: Number(vehicleId),
           field_name: findResultsMap?.field_name || 'NotFound',
         }),
       );
@@ -94,15 +99,33 @@ const OpenMapComponent = () => {
     }
     return [0, 0];
   };
+  const lineMap = () => {
+    if (field.results.length) {
+      const number1 = field.results[0].PointA.split(',')[0];
+      const number2 =
+        field.results[0].PointA.split(',').length > 1 ? field.results[0].PointA.split(',')[1] : 0;
+      return [Number(number1), Number(number2)];
+    }
+
+    return [0, 0];
+  };
 
   const renderHandler = () => {
-    dispatch(tractorLocation(Number(id)));
+    if (user?.is_manager) {
+      dispatch(tractorLocation(`/companies/${id}/vehicle/${vehicleId}/`));
+    } else {
+      dispatch(tractorLocation(`/accounts/user/vehicle/${id}/`));
+    }
     const findResultsMap = vehicle.results?.processing_data.find(
       (item) => item.id === Number(vehicleId),
     );
     if (findResultsMap) {
       dispatch(obtainingCoordinate({ id: Number(id), field_name: findResultsMap.field_name }));
     }
+  };
+
+  const backHandler = () => {
+    history(-1);
   };
 
   function getCoordinateByType(coordinates: number[][][], type: string): number[] {
@@ -140,17 +163,15 @@ const OpenMapComponent = () => {
     );
   }
 
-  const findResults = vehicle.results?.processing_data.find(
-    (item) => item.id === Number(vehicleId),
-  );
+  const findResults = vehicle.results?.processing_data.find((item) => item.id === Number(id));
   return (
     <div className={b()}>
       <div className={b('card-block')}>
         <Card className={b('card-style')} bordered={false}>
           <div className={b('header-title')}>
-            <Link to={vehicleId === 'localTractor' ? '/' : `/profile-technique/${vehicleId}/${id}`}>
+            <button type='button' className='btn_none_style' onClick={backHandler}>
               <img className={b('arrow-left')} src={arrowLeft} alt='arrow' />
-            </Link>
+            </button>
             <Title level={3} className={b('title')}>
               <img src={locale} alt='locale' className={b('img-title')} />
               <Tooltip
@@ -160,7 +181,11 @@ const OpenMapComponent = () => {
                 placement='topLeft'
               >
                 <p className={b('subtitle')}>
-                  <span>{findResults?.field_name || 'Местоположение трактора'}</span>
+                  <span>
+                    {!pathname.includes('localTractor')
+                      ? findResults?.field_name
+                      : 'Местоположение трактора'}
+                  </span>
                 </p>
               </Tooltip>
             </Title>
@@ -173,8 +198,8 @@ const OpenMapComponent = () => {
             </Button>
           </div>
           {field.results.length ||
-          vehicleId === 'localTractor' ||
-          vehicleId === 'localTractorInfo' ? null : (
+          id === 'localTractor' ||
+          pathname.includes('localTractor') ? null : (
             <Alert
               message='Кординаты для маршрута не найдено'
               type='error'
@@ -187,7 +212,11 @@ const OpenMapComponent = () => {
       </div>
       <div className={b('map-block')}>
         <MapContainer
-          center={centerMap() as LatLngExpression}
+          center={
+            field.results.length
+              ? (lineMap() as LatLngExpression)
+              : (centerMap() as LatLngExpression)
+          }
           zoom={18}
           scrollWheelZoom
           style={{ width: '100%', height: '100vh' }}
@@ -203,20 +232,22 @@ const OpenMapComponent = () => {
               </Popup>
             </Marker>
           </CircleMarker>
-          <Polyline weight={5} pathOptions={purpleOptions} positions={positions}>
-            <Marker
-              position={getCoordinateByType(positions, 'start') as LatLngExpression}
-              icon={duckIconStart}
-            >
-              <Popup>Start</Popup>
-            </Marker>
-            <Marker
-              position={getCoordinateByType(positions, 'end') as LatLngExpression}
-              icon={duckIconEnd}
-            >
-              <Popup>End</Popup>
-            </Marker>
-          </Polyline>
+          {id === 'localTractor' || pathname.includes('localTractor') ? null : (
+            <Polyline weight={5} pathOptions={purpleOptions} positions={positions}>
+              <Marker
+                position={getCoordinateByType(positions, 'start') as LatLngExpression}
+                icon={duckIconStart}
+              >
+                <Popup>Start</Popup>
+              </Marker>
+              <Marker
+                position={getCoordinateByType(positions, 'end') as LatLngExpression}
+                icon={duckIconEnd}
+              >
+                <Popup>End</Popup>
+              </Marker>
+            </Polyline>
+          )}
         </MapContainer>
       </div>
     </div>
