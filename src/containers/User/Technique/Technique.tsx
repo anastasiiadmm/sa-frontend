@@ -107,8 +107,9 @@ const Technique = () => {
       width: '28%',
       render: (text: number, record) => (
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'right' }}>
-          <p className={b('name-column-style')}>{record?.vehicle_fields_data?.processed_area}</p>
-
+          <p className={b('name-column-style-text')}>
+            {record?.vehicle_fields_data?.processed_area}
+          </p>
           <Tooltip
             title='Просмотреть профиль'
             color='#BBBBBB'
