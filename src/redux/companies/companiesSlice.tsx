@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { message } from 'antd';
 
-import { IConfirmation, ITechniqueVehicleInfoPut, IVehicle } from 'interfaces';
+import { IConfirmation, IErrors, ITechniqueVehicleInfoPut, IVehicle } from 'interfaces';
 import { RootState } from 'redux/hooks';
 import {
   companiesList,
@@ -23,44 +23,44 @@ const nameSpace = 'companies';
 interface CompaniesState {
   companies: companiesList[] | null;
   fetchCompaniesLoading: boolean;
-  fetchCompaniesError: Object | null;
+  fetchCompaniesError: IErrors | null;
   companiesListPagination: usersListPagination | null;
   userCreate: PostNewUser | null;
   userCreateLoading: boolean;
-  userCreateError: Object | null;
+  userCreateError: unknown;
   userInfo: companiesList | null;
   userInfoLoading: boolean;
-  userInfoError: Object | null;
+  userInfoError: IErrors | null;
   updateUserInfoLoading: boolean;
-  updateUserInfoError: Object | null;
+  updateUserInfoError: unknown;
   updateUserData: ICompany | null | Object;
   updateUserDataLoading: boolean;
   updateUserDataError: Object | null;
   deleteUserInfoLoading: boolean;
-  deleteUserInfoError: Object | null;
+  deleteUserInfoError: unknown;
   vehicleList: vehicleList | null;
   fetchVehicleListLoading: boolean;
-  fetchVehicleListError: Object | null;
+  fetchVehicleListError: IErrors | null;
   vehicleListPagination: vehicleListPagination | null;
   userVehicleInfo: userVehicleInfo | null;
   userVehicleInfoLoading: boolean;
-  userVehicleInfoError: Object | null;
+  userVehicleInfoError: IErrors | null;
   vehicleCreateLoading: boolean;
   vehicleCreateSuccess: boolean;
-  vehicleCreateError: Object | null;
+  vehicleCreateError: unknown;
   patchUserVehicleInfoLoading: boolean;
-  patchUserVehicleInfoError: Object | null;
+  patchUserVehicleInfoError: unknown;
   deleteUserVehicleLoading: boolean;
-  deleteUserVehicleError: Object | null;
+  deleteUserVehicleError: unknown;
   techniqueVehicleInfo: {
     results: IVehicle | null;
     loading: boolean;
-    errors: Object | null;
+    errors: IErrors | null;
   };
   techniqueVehicleUpdate: {
     results: IVehicle | null;
     loading: boolean;
-    errors: Object | null;
+    errors: unknown;
   };
   saveTechniqueVehicle: {
     results: IConfirmation | null;
@@ -166,11 +166,10 @@ export const fetchUsersList = createAsyncThunk<companiesList, fetchCompaniesPara
 
       return companies;
     } catch (e) {
-      let error = e?.response?.data;
-      if (!e.response) {
-        error = defaultError;
-      }
-      return rejectWithValue(error);
+      return rejectWithValue({
+        detail: e?.response?.data?.detail,
+        status: e?.response?.status,
+      });
     }
   },
 );
@@ -215,11 +214,10 @@ export const fetchUserInfo = createAsyncThunk<companiesList, fetchCompanyParams>
 
       return companyInfo;
     } catch (e) {
-      let error = e?.response?.data;
-      if (!e.response) {
-        error = defaultError;
-      }
-      return rejectWithValue(error);
+      return rejectWithValue({
+        detail: e?.response?.data?.detail,
+        status: e?.response?.status,
+      });
     }
   },
 );
@@ -293,11 +291,10 @@ export const fetchUserVehicleList = createAsyncThunk<companiesList, fetchVehicle
 
       return companies;
     } catch (e) {
-      let error = e?.response?.data;
-      if (!e.response) {
-        error = defaultError;
-      }
-      return rejectWithValue(error);
+      return rejectWithValue({
+        detail: e?.response?.data?.detail,
+        status: e?.response?.status,
+      });
     }
   },
 );
@@ -323,11 +320,10 @@ export const fetchUserVehicleInfo = createAsyncThunk<userVehicleInfo, fetchUserV
 
       return userVehicleInfo;
     } catch (e) {
-      let error = e?.response?.data;
-      if (!e.response) {
-        error = defaultError;
-      }
-      return rejectWithValue(error);
+      return rejectWithValue({
+        detail: e?.response?.data?.detail,
+        status: e?.response?.status,
+      });
     }
   },
 );
@@ -507,36 +503,50 @@ const companiesSlice = createSlice({
         vehicles_amount: payload.vehicles_amount,
       };
     });
-    builder.addCase(fetchUsersList.rejected, (state, { payload }: any) => {
+    builder.addCase(fetchUsersList.rejected, (state, { payload }) => {
       state.fetchCompaniesLoading = false;
-      state.fetchCompaniesError = payload?.detail;
+      if (payload && typeof payload === 'object' && 'detail' in payload && 'status' in payload) {
+        state.fetchCompaniesError = {
+          ...state.fetchCompaniesError,
+          detail: payload.detail as string | null,
+          status: payload.status as number | null,
+        };
+      }
     });
 
     builder.addCase(userCreate.pending, (state) => {
       state.userCreateLoading = true;
       state.userCreateError = null;
     });
-    builder.addCase(userCreate.fulfilled, (state, { payload }: any) => {
+    builder.addCase(userCreate.fulfilled, (state, { payload }) => {
       state.userCreateLoading = false;
       state.userCreateError = null;
-      state.userCreate = payload;
+      if (typeof payload !== 'undefined') {
+        state.userCreate = payload;
+      }
     });
-    builder.addCase(userCreate.rejected, (state, { payload }: any) => {
+    builder.addCase(userCreate.rejected, (state, { payload }) => {
       state.userCreateLoading = false;
-      state.userCreateError = payload?.detail;
+      state.userCreateError = payload;
     });
 
     builder.addCase(fetchUserInfo.pending, (state) => {
       state.userInfoLoading = true;
       state.userInfoError = null;
     });
-    builder.addCase(fetchUserInfo.fulfilled, (state, { payload: companyInfo }: any) => {
+    builder.addCase(fetchUserInfo.fulfilled, (state, { payload: companyInfo }) => {
       state.userInfoLoading = false;
       state.userInfo = companyInfo;
     });
-    builder.addCase(fetchUserInfo.rejected, (state, { payload }: any) => {
+    builder.addCase(fetchUserInfo.rejected, (state, { payload }) => {
       state.userInfoLoading = false;
-      state.userInfoError = payload?.detail;
+      if (payload && typeof payload === 'object' && 'detail' in payload && 'status' in payload) {
+        state.userInfoError = {
+          ...state.userInfoError,
+          detail: payload.detail as string | null,
+          status: payload.status as number | null,
+        };
+      }
     });
 
     builder.addCase(updateUserInfo.pending, (state) => {
@@ -547,9 +557,9 @@ const companiesSlice = createSlice({
       state.updateUserInfoLoading = false;
       state.updateUserInfoError = null;
     });
-    builder.addCase(updateUserInfo.rejected, (state, { payload }: any) => {
+    builder.addCase(updateUserInfo.rejected, (state, { payload }) => {
       state.updateUserInfoLoading = false;
-      state.updateUserInfoError = payload?.detail;
+      state.updateUserInfoError = payload;
     });
 
     builder.addCase(deleteUserInfo.pending, (state) => {
@@ -559,9 +569,9 @@ const companiesSlice = createSlice({
     builder.addCase(deleteUserInfo.fulfilled, (state) => {
       state.deleteUserInfoLoading = false;
     });
-    builder.addCase(deleteUserInfo.rejected, (state, { payload }: any) => {
+    builder.addCase(deleteUserInfo.rejected, (state, { payload }) => {
       state.deleteUserInfoLoading = false;
-      state.deleteUserInfoError = payload?.detail;
+      state.deleteUserInfoError = payload;
     });
 
     builder.addCase(fetchUserVehicleList.pending, (state) => {
@@ -579,22 +589,34 @@ const companiesSlice = createSlice({
         previous: payload.links.previous,
       };
     });
-    builder.addCase(fetchUserVehicleList.rejected, (state, { payload }: any) => {
+    builder.addCase(fetchUserVehicleList.rejected, (state, { payload }) => {
       state.fetchVehicleListLoading = false;
-      state.fetchVehicleListError = payload?.detail;
+      if (payload && typeof payload === 'object' && 'detail' in payload && 'status' in payload) {
+        state.fetchVehicleListError = {
+          ...state.fetchVehicleListError,
+          detail: payload.detail as string | null,
+          status: payload.status as number | null,
+        };
+      }
     });
 
     builder.addCase(fetchUserVehicleInfo.pending, (state) => {
       state.userVehicleInfoLoading = true;
       state.userVehicleInfoError = null;
     });
-    builder.addCase(fetchUserVehicleInfo.fulfilled, (state, { payload: userVehicleInfo }: any) => {
+    builder.addCase(fetchUserVehicleInfo.fulfilled, (state, { payload: userVehicleInfo }) => {
       state.userVehicleInfoLoading = false;
       state.userVehicleInfo = userVehicleInfo;
     });
-    builder.addCase(fetchUserVehicleInfo.rejected, (state, { payload }: any) => {
+    builder.addCase(fetchUserVehicleInfo.rejected, (state, { payload }) => {
       state.userVehicleInfoLoading = false;
-      state.userVehicleInfoError = payload?.detail;
+      if (payload && typeof payload === 'object' && 'detail' in payload && 'status' in payload) {
+        state.userVehicleInfoError = {
+          ...state.userVehicleInfoError,
+          detail: payload.detail as string | null,
+          status: payload.status as number | null,
+        };
+      }
     });
 
     builder.addCase(vehicleCreate.pending, (state) => {
@@ -607,10 +629,10 @@ const companiesSlice = createSlice({
       state.vehicleCreateSuccess = true;
       state.vehicleCreateError = null;
     });
-    builder.addCase(vehicleCreate.rejected, (state, { payload }: any) => {
+    builder.addCase(vehicleCreate.rejected, (state, { payload }) => {
       state.vehicleCreateLoading = false;
       state.vehicleCreateSuccess = false;
-      state.vehicleCreateError = payload?.detail;
+      state.vehicleCreateError = payload;
     });
 
     builder.addCase(patchUserVehicleInfo.pending, (state) => {
@@ -621,9 +643,9 @@ const companiesSlice = createSlice({
       state.patchUserVehicleInfoLoading = false;
       state.patchUserVehicleInfoError = null;
     });
-    builder.addCase(patchUserVehicleInfo.rejected, (state, { payload }: any) => {
+    builder.addCase(patchUserVehicleInfo.rejected, (state, { payload }) => {
       state.patchUserVehicleInfoLoading = false;
-      state.patchUserVehicleInfoError = payload?.detail;
+      state.patchUserVehicleInfoError = payload;
     });
 
     builder.addCase(deleteUserVehicle.pending, (state) => {
@@ -634,9 +656,9 @@ const companiesSlice = createSlice({
       state.deleteUserVehicleLoading = false;
       state.deleteUserVehicleError = null;
     });
-    builder.addCase(deleteUserVehicle.rejected, (state, { payload }: any) => {
+    builder.addCase(deleteUserVehicle.rejected, (state, { payload }) => {
       state.deleteUserVehicleLoading = false;
-      state.deleteUserVehicleError = payload?.detail;
+      state.deleteUserVehicleError = payload;
     });
     builder.addCase(techniqueVehicleInfo.pending, (state) => {
       state.techniqueVehicleInfo.loading = true;
@@ -647,9 +669,15 @@ const companiesSlice = createSlice({
       state.techniqueVehicleInfo.loading = false;
       state.techniqueVehicleInfo.errors = null;
     });
-    builder.addCase(techniqueVehicleInfo.rejected, (state, { payload }: any) => {
+    builder.addCase(techniqueVehicleInfo.rejected, (state, { payload }) => {
       state.techniqueVehicleInfo.loading = false;
-      state.techniqueVehicleInfo.errors = payload;
+      if (payload && typeof payload === 'object' && 'detail' in payload && 'status' in payload) {
+        state.techniqueVehicleInfo.errors = {
+          ...state.techniqueVehicleInfo.errors,
+          detail: payload.detail as string | null,
+          status: payload.status as number | null,
+        };
+      }
     });
 
     builder.addCase(techniqueVehicleInfoPut.pending, (state) => {
@@ -661,7 +689,7 @@ const companiesSlice = createSlice({
       state.techniqueVehicleUpdate.loading = false;
       state.techniqueVehicleUpdate.errors = null;
     });
-    builder.addCase(techniqueVehicleInfoPut.rejected, (state, { payload }: any) => {
+    builder.addCase(techniqueVehicleInfoPut.rejected, (state, { payload }) => {
       state.techniqueVehicleUpdate.loading = false;
       state.techniqueVehicleUpdate.errors = payload;
     });
@@ -675,7 +703,7 @@ const companiesSlice = createSlice({
       state.saveTechniqueVehicle.loading = false;
       state.saveTechniqueVehicle.errors = null;
     });
-    builder.addCase(techniqueVehicleConfirmation.rejected, (state, { payload }: any) => {
+    builder.addCase(techniqueVehicleConfirmation.rejected, (state, { payload }) => {
       state.techniqueVehicleUpdate.loading = false;
       state.techniqueVehicleUpdate.errors = payload;
     });

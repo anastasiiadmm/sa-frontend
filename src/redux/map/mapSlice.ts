@@ -81,9 +81,15 @@ const mapSlice = createSlice({
       state.vehicle.loading = false;
       state.vehicle.results = action.payload;
     });
-    builder.addCase(tractorLocation.rejected, (state, action: PayloadAction<any>) => {
+    builder.addCase(tractorLocation.rejected, (state, { payload }) => {
       state.vehicle.loading = false;
-      state.vehicle.errors = action.payload;
+      if (payload && typeof payload === 'object' && 'detail' in payload && 'status' in payload) {
+        state.vehicle.errors = {
+          ...state.vehicle.errors,
+          detail: payload.detail as string | null,
+          status: payload.status as number | null,
+        };
+      }
     });
     builder.addCase(obtainingCoordinate.pending, (state) => {
       state.field.loading = true;
@@ -93,9 +99,15 @@ const mapSlice = createSlice({
       state.field.loading = false;
       state.field.results = action.payload;
     });
-    builder.addCase(obtainingCoordinate.rejected, (state, action: PayloadAction<any>) => {
+    builder.addCase(obtainingCoordinate.rejected, (state, { payload }) => {
       state.field.loading = false;
-      state.field.errors = action.payload;
+      if (payload && typeof payload === 'object' && 'detail' in payload && 'status' in payload) {
+        state.field.errors = {
+          ...state.field.errors,
+          detail: payload.detail as string | null,
+          status: payload.status as number | null,
+        };
+      }
     });
   },
 });

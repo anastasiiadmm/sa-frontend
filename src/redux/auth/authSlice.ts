@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 import { RootState } from 'redux/hooks';
+import store from 'redux/store';
 import { ITokens, IUser, LoginMutation, loginResponse, ValidationError } from 'types/types';
 import { addCookies } from 'utils/addCookies/addCookies';
 import axiosApi from 'utils/axios-api';
@@ -10,7 +11,7 @@ interface AuthState {
   user: IUser | null;
   tokens: ITokens;
   errors: Object | null;
-  commonError: Object | null;
+  commonError: unknown;
   success: boolean | null;
   loading: boolean;
 }
@@ -24,7 +25,7 @@ const INITIAL_STATE = {
     refresh: '',
   },
   errors: null,
-  commonError: {},
+  commonError: null,
   success: null,
   loading: false,
 } as AuthState;
@@ -56,15 +57,14 @@ export const loginUser = createAsyncThunk<
   }
 });
 
-export const refreshToken = createAsyncThunk(
-  `${nameSpace}/refreshToken`,
-  async (data, { getState }: any) => {
-    const { tokens } = getState().auth;
-    const asd = { refresh: tokens.refresh };
+export const refreshToken = createAsyncThunk(`${nameSpace}/refreshToken`, async () => {
+  const refresh = store.getState()?.auth?.tokens?.refresh;
+  if (refresh) {
+    const asd = { refresh };
     const resp = await axiosApi.post('/accounts/refresh/', asd);
     return resp.data;
-  },
-);
+  }
+});
 
 export const resetUserPasswordSendEmail = createAsyncThunk<void, Object>(
   `${nameSpace}/resetUserPasswordSendEmail`,
@@ -130,10 +130,10 @@ export const authSlice = createSlice({
       state.errors = null;
       state.commonError = null;
     });
-    builder.addCase(loginUser.rejected, (state, { payload }: any) => {
+    builder.addCase(loginUser.rejected, (state, { payload }) => {
       state.loading = false;
       state.success = false;
-      state.commonError = payload?.detail;
+      state.commonError = payload;
     });
 
     builder.addCase(refreshToken.fulfilled, (state, { payload }) => {
@@ -142,6 +142,6 @@ export const authSlice = createSlice({
   },
 });
 
-export const { logoutUser, checkForTokens, refreshAccessToken, clearAuthState } = authSlice.actions;
+export const { logoutUser, checkForTokens } = authSlice.actions;
 export const authSelector = (state: RootState) => state.auth;
 export default authSlice.reducer;

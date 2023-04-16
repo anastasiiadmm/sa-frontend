@@ -27,7 +27,9 @@ import {
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { vehicleList } from 'types/types';
 import { apiUrlCrop } from 'utils/config';
+
 import 'containers/Manager/Users/UserTechnique/_userTechnique.scss';
+import Errors from '../../../../components/Errors/Errors';
 
 const { Title } = Typography;
 
@@ -42,6 +44,8 @@ const UserTechnique: React.FC = () => {
     userInfo,
     vehicleCreateSuccess,
     deleteUserVehicleLoading,
+    fetchVehicleListError,
+    userInfoError,
   } = useAppSelector(companiesSelector);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalCreateOpen, setIsModalCreateOpen] = useState(false);
@@ -253,6 +257,15 @@ const UserTechnique: React.FC = () => {
       },
     },
   ];
+
+  if (fetchVehicleListError || userInfoError) {
+    return (
+      <Errors
+        status={fetchVehicleListError?.status || userInfoError?.status}
+        detail={fetchVehicleListError?.detail || userInfoError?.detail}
+      />
+    );
+  }
 
   return (
     <>

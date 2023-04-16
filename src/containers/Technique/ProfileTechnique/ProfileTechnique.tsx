@@ -15,7 +15,9 @@ import { companiesSelector, fetchUserVehicleInfo } from 'redux/companies/compani
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { fieldsList, userVehicleInfo } from 'types/types';
 import { apiUrlCrop } from 'utils/config';
+
 import 'containers/Technique/ProfileTechnique/_profileTechnique.scss';
+import Errors from '../../../components/Errors/Errors';
 
 const { Title } = Typography;
 
@@ -25,8 +27,12 @@ const ProfileTechnique = () => {
   const { userId, vehicleId } = useParams() as { userId: string; vehicleId: string };
   const { userVehicleInfo: managerVehicle, userVehicleInfoLoading: managerLoading } =
     useAppSelector(companiesSelector);
-  const { userVehicleInfo: userVehicle, userVehicleInfoLoading: userLoading } =
-    useAppSelector(accountsSelector);
+  const userVehicleInfoState = useAppSelector(companiesSelector);
+  const {
+    userVehicleInfo: userVehicle,
+    userVehicleInfoLoading: userLoading,
+    userVehicleInfoError,
+  } = useAppSelector(accountsSelector);
   const [form] = Form.useForm();
   const { user } = useAppSelector(authSelector);
   const [state, setState] = useState<userVehicleInfo[]>([]);
@@ -167,6 +173,15 @@ const ProfileTechnique = () => {
       ),
     },
   ];
+
+  if (userVehicleInfoError || userVehicleInfoState.userVehicleInfoError) {
+    return (
+      <Errors
+        status={userVehicleInfoError?.status || userVehicleInfoState.userVehicleInfoError?.status}
+        detail={userVehicleInfoError?.detail || userVehicleInfoState.userVehicleInfoError?.detail}
+      />
+    );
+  }
 
   return (
     <div className={b()}>

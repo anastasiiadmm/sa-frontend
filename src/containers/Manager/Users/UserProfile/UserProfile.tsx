@@ -29,6 +29,7 @@ import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { companiesList } from 'types/types';
 
 import 'containers/Manager/Users/UserProfile/_UserProfile.scss';
+import Errors from '../../../../components/Errors/Errors';
 
 const { Title } = Typography;
 
@@ -45,6 +46,7 @@ const UserProfile: React.FC = () => {
     updateUserInfoLoading,
     deleteUserInfoLoading,
     userInfoLoading,
+    userInfoError,
   } = useAppSelector(companiesSelector);
   const { generatedPassword, generatePasswordLoading } = useAppSelector(accountsSelector);
   const [validateForm, setValidateForm] = useState(false);
@@ -182,6 +184,10 @@ const UserProfile: React.FC = () => {
       await message.error(`${errorMessage}`);
     }
   };
+
+  if (userInfoError) {
+    return <Errors status={userInfoError.status} detail={userInfoError.detail} />;
+  }
 
   return (
     <>

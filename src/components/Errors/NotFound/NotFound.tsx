@@ -10,8 +10,10 @@ import 'components/Errors/NotFound/_notFound.scss';
 interface NotFoundProps {
   title: string;
   text: string;
+  status?: number | null | undefined;
+  statusBool?: boolean;
 }
-const NotFound: FC<NotFoundProps> = ({ title, text }) => {
+const NotFound: FC<NotFoundProps> = ({ title, text, status, statusBool = false }) => {
   const b = bem('NotFound');
   const push = useNavigate();
 
@@ -19,6 +21,7 @@ const NotFound: FC<NotFoundProps> = ({ title, text }) => {
     <div className={b()}>
       <div>
         <div className={b('img')}>
+          {statusBool ? <p className={b('status')}>{status}</p> : null}
           <img src={notFoundImg} alt='notFound' />
         </div>
         <div className={b('btn')}>

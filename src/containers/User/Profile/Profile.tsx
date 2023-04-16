@@ -3,6 +3,7 @@ import bem from 'easy-bem';
 import React, { useEffect, useState } from 'react';
 
 import tractorBlue from 'assets/images/icons/tractor-blue.svg';
+import Errors from 'components/Errors/Errors';
 import FormField from 'components/FormField/FormField';
 import EditUserProfileModal from 'components/ModalComponent/ModalChildrenComponents/EditUserProfileModal/EditUserProfileModal';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
@@ -10,6 +11,7 @@ import SkeletonBlock from 'components/SkeletonBlock/SkeletonBlock';
 import { IUser } from 'interfaces';
 import { accountsSelector, fetchUser } from 'redux/accounts/accountsSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
+
 import 'containers/User/Profile/_profile.scss';
 
 const { Title } = Typography;
@@ -18,7 +20,11 @@ const Profile = () => {
   const b = bem('Profile');
   const [form] = Form.useForm();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { user: userAccount, fetchLoadingUser } = useAppSelector(accountsSelector);
+  const {
+    user: userAccount,
+    fetchLoadingUser,
+    fetchLoadingUserError,
+  } = useAppSelector(accountsSelector);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -51,6 +57,9 @@ const Profile = () => {
 
   const onFinish = (values: IUser) => {};
 
+  if (fetchLoadingUserError) {
+    return <Errors status={fetchLoadingUserError.status} detail={fetchLoadingUserError.detail} />;
+  }
   return (
     <>
       <div className={b()} data-testid='user-profile-id'>

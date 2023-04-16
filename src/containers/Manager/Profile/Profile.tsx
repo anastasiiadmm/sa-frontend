@@ -3,6 +3,7 @@ import { Avatar, Button, Col, Form, Typography } from 'antd';
 import bem from 'easy-bem';
 import React, { useEffect, useState } from 'react';
 
+import Errors from 'components/Errors/Errors';
 import FormField from 'components/FormField/FormField';
 import GeneratedPasswordModal from 'components/ModalComponent/ModalChildrenComponents/GeneratedPasswordModal/GeneratedPasswordModal';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
@@ -32,6 +33,7 @@ const Profile: React.FC = () => {
     manager,
     updateManagerData,
     updateManagerDataLoading,
+    fetchErrorManager,
   } = useAppSelector(accountsSelector);
   const dispatch = useAppDispatch();
   const [validateForm, setValidateForm] = useState(false);
@@ -112,6 +114,10 @@ const Profile: React.FC = () => {
       }
     }
   };
+
+  if (fetchErrorManager) {
+    return <Errors status={fetchErrorManager.status} detail={fetchErrorManager.detail} />;
+  }
 
   return (
     <div className='layout' data-testid='accounts-id'>

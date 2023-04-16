@@ -7,10 +7,12 @@ import { useNavigate } from 'react-router';
 
 import people from 'assets/images/icons/group-active.svg';
 import tractorBlue from 'assets/images/icons/tractor-blue.svg';
+import Errors from 'components/Errors/Errors';
 import TableComponent from 'components/TableComponent/TableComponent';
 import { companiesSelector, fetchUsersList } from 'redux/companies/companiesSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { companiesList } from 'types/types';
+
 import 'containers/Manager/Users/_users.scss';
 
 const { Title } = Typography;
@@ -18,7 +20,7 @@ const { Title } = Typography;
 const Users: React.FC = () => {
   const b = bem('Users');
   const push = useNavigate();
-  const { companies, fetchCompaniesLoading, companiesListPagination } =
+  const { companies, fetchCompaniesLoading, companiesListPagination, fetchCompaniesError } =
     useAppSelector(companiesSelector);
   const dispatch = useAppDispatch();
   const [filters, setFilters] = useState({
@@ -105,6 +107,10 @@ const Users: React.FC = () => {
       ),
     },
   ];
+
+  if (fetchCompaniesError) {
+    return <Errors status={fetchCompaniesError.status} detail={fetchCompaniesError.detail} />;
+  }
 
   return (
     <div className={b()} data-testid='companies-id'>
