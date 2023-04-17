@@ -1,5 +1,4 @@
 import * as Highcharts from 'highcharts';
-import { ChartOptions } from 'highcharts';
 import HCMore from 'highcharts/highcharts-more';
 import HighchartsAccessibility from 'highcharts/modules/accessibility';
 import HCSolidGauge from 'highcharts/modules/solid-gauge';
@@ -19,13 +18,13 @@ interface Props {
 }
 
 const ChartComponent: React.FC<Props> = ({ data }) => {
-  const [chartAirAndDewPointOptions, setAirAndDewPointChartOptions] = useState<ChartOptions | null>(
+  const [chartAirAndDewPointOptions, setAirAndDewPointChartOptions] = useState<ChartOption | null>(
     null,
   );
-  const [chartPrecipitationOptions, setChartPrecipitationOptions] = useState<ChartOptions | null>(
+  const [chartPrecipitationOptions, setChartPrecipitationOptions] = useState<ChartOption | null>(
     null,
   );
-  const [chartGustOptions, setGustOptions] = useState<ChartOptions | null>(null);
+  const [chartGustOptions, setGustOptions] = useState<ChartOption | null>(null);
 
   useEffect(() => {
     const filteredAirAndDewPointSeries =
@@ -39,17 +38,17 @@ const ChartComponent: React.FC<Props> = ({ data }) => {
     const filteredGustSeries =
       data && data[2]?.series.filter((series: ChartOption) => series.name === 'Порыв ветра [m/s]');
 
-    const newChartAirAndDewPointOptions: ChartOptions = {
+    const newChartAirAndDewPointOptions: ChartOption = {
       ...data[0],
       series: filteredAirAndDewPointSeries,
     };
 
-    const newChartPrecipitationOptions: ChartOptions = {
+    const newChartPrecipitationOptions: ChartOption = {
       ...data[1],
       series: filteredPrecipitationSeries,
     };
 
-    const newChartGustOptions: ChartOptions = {
+    const newChartGustOptions: ChartOption = {
       ...data[2],
       series: filteredGustSeries,
     };
@@ -61,11 +60,17 @@ const ChartComponent: React.FC<Props> = ({ data }) => {
 
   return (
     <>
-      <HighchartsReact highcharts={Highcharts} options={chartAirAndDewPointOptions} />
+      {chartAirAndDewPointOptions?.series?.length ? (
+        <HighchartsReact highcharts={Highcharts} options={chartAirAndDewPointOptions} />
+      ) : null}
 
-      <HighchartsReact highcharts={Highcharts} options={chartPrecipitationOptions} />
+      {chartPrecipitationOptions?.series?.length ? (
+        <HighchartsReact highcharts={Highcharts} options={chartPrecipitationOptions} />
+      ) : null}
 
-      <HighchartsReact highcharts={Highcharts} options={chartGustOptions} />
+      {chartGustOptions?.series?.length ? (
+        <HighchartsReact highcharts={Highcharts} options={chartGustOptions} />
+      ) : null}
     </>
   );
 };

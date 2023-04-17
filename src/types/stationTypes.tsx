@@ -131,6 +131,7 @@ export interface ChartOption {
   label: {
     enabled: boolean;
   };
+  series: [];
   name: string;
   tooltip: {
     xDateFormat: string;
