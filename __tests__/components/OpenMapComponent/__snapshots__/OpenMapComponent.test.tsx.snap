@@ -17,9 +17,10 @@ exports[`OpenMapComponents render 1`] = `
         <div
           className="OpenMapComponent__header-title"
         >
-          <a
-            href="/profile-technique/undefined/undefined"
+          <button
+            className="btn_none_style"
             onClick={[Function]}
+            type="button"
           >
             <img
               alt="arrow"
@@ -30,7 +31,7 @@ exports[`OpenMapComponents render 1`] = `
                 }
               }
             />
-          </a>
+          </button>
           <h3
             className="ant-typography OpenMapComponent__title css-dev-only-do-not-override-mxhywb"
             style={
@@ -53,9 +54,7 @@ exports[`OpenMapComponents render 1`] = `
               onMouseEnter={[Function]}
               onMouseLeave={[Function]}
             >
-              <span>
-                Местоположение трактора
-              </span>
+              <span />
             </p>
           </h3>
           <h3

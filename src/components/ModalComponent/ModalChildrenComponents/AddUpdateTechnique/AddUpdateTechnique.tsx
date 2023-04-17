@@ -26,6 +26,7 @@ interface Props {
   isEdit?: boolean;
   isRequest?: boolean;
   handleEditOkCancel?: () => void;
+  titleBool?: boolean;
 }
 
 const AddUpdateTechnique: React.FC<Props> = ({
@@ -34,6 +35,7 @@ const AddUpdateTechnique: React.FC<Props> = ({
   userId,
   vehicleId,
   handleEditOkCancel,
+  titleBool = true,
 }) => {
   const b = bem('AddUpdateTechnique');
   const dispatch = useAppDispatch();
@@ -137,9 +139,11 @@ const AddUpdateTechnique: React.FC<Props> = ({
           setFormValid(form.getFieldsError().some((item) => item.errors.length > 0))
         }
       >
-        <Title level={3} className={b('title')}>
-          Фото техники
-        </Title>
+        {titleBool ? (
+          <Title level={3} className={b('title')}>
+            Фото техники
+          </Title>
+        ) : null}
 
         {isRequest ? <UploadImageComponent fileList={fileList} setFileList={onFileChange} /> : null}
 

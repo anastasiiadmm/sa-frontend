@@ -169,6 +169,7 @@ const NewUser: React.FC = () => {
         dividerShow={false}
         handleOk={handleOkCancel}
         handleCancel={() => setIsModalOpen(false)}
+        classNameTitle='title_signIn'
       >
         <CreateNewUserCredentials handleOkCancel={handleOkCancel} userCreateData={userCreateData} />
       </ModalComponent>

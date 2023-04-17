@@ -104,16 +104,12 @@ const Technique = () => {
       key: 'processed_area',
       title: 'Общая Площадь',
       dataIndex: 'processed_area',
-      width: '20%',
+      width: '28%',
       render: (text: number, record) => (
-        <p className={b('name-column-style')}>{record?.vehicle_fields_data?.processed_area}</p>
-      ),
-    },
-    {
-      dataIndex: 'profile',
-      width: '30%',
-      render: (text: string, record) => (
-        <div style={{ display: 'flex', gap: 20, alignItems: 'center', justifyContent: 'right' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'right' }}>
+          <p className={b('name-column-style-text')}>
+            {record?.vehicle_fields_data?.processed_area}
+          </p>
           <Tooltip
             title='Просмотреть профиль'
             color='#BBBBBB'
@@ -131,7 +127,7 @@ const Technique = () => {
             overlayInnerStyle={{ padding: '5px 15px', borderRadius: 15 }}
             placement='topRight'
           >
-            <Link to={`/open-map/${record.id}/localTractor`}>
+            <Link to={`/open-map/local-tractor/${record.id}`}>
               <Button type='text' style={{ display: 'flex', alignItems: 'center' }}>
                 <img style={{ width: 27 }} src={tractorBlue} alt='tractorBlue' />
               </Button>

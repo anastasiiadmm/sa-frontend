@@ -177,18 +177,13 @@ const UserTechnique: React.FC = () => {
       title: 'Общая Площадь',
       dataIndex: 'processed_area',
       filterSearch: true,
-      width: '20%',
-      render: (text: string, record: vehicleList) => {
-        return <p>{record?.vehicle_fields_data?.processed_area || 0}</p>;
-      },
-    },
-    {
-      dataIndex: 'profile',
-      filterSearch: true,
-      width: '40%',
+      width: '45%',
       render: (text: string, record: vehicleList) => {
         return (
-          <div style={{ display: 'flex', gap: 10, alignItems: 'center', justifyContent: 'right' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'right' }}>
+            <p className={b('text_processed_area')}>
+              {record?.vehicle_fields_data?.processed_area || 0}
+            </p>
             <Tooltip
               title='Редактировать'
               color='#BBBBBB'
@@ -212,11 +207,7 @@ const UserTechnique: React.FC = () => {
             >
               <Link to={`/profile-technique/${id}/${record?.id}`}>
                 <Button type='text'>
-                  <img
-                    src={tractorBlue}
-                    alt='tractorBlue'
-                    className={b('tractor-blue link-icons')}
-                  />
+                  <EyeOutlined style={{ fontSize: '27px', color: '#1358bf' }} />
                 </Button>
               </Link>
             </Tooltip>
@@ -226,9 +217,13 @@ const UserTechnique: React.FC = () => {
               color='#BBBBBB'
               overlayInnerStyle={{ padding: '5px 15px', borderRadius: 15 }}
             >
-              <Link to={`/open-map/${record.id}`}>
+              <Link to={`/open-map/${id}/${record.id}/local-tractor`}>
                 <Button type='text' style={{ display: 'flex', alignItems: 'center' }}>
-                  <EyeOutlined style={{ fontSize: '27px', color: '#1358bf' }} />
+                  <img
+                    src={tractorBlue}
+                    alt='tractorBlue'
+                    className={b('tractor-blue link-icons')}
+                  />
                 </Button>
               </Link>
             </Tooltip>
@@ -299,7 +294,7 @@ const UserTechnique: React.FC = () => {
         handleOk={handleOkCancel}
         handleCancel={handleOkCancel}
       >
-        <AddUpdateTechnique userId={id} />
+        <AddUpdateTechnique userId={id} titleBool={false} />
       </ModalComponent>
 
       <ModalComponent
@@ -324,6 +319,7 @@ const UserTechnique: React.FC = () => {
       >
         <DeleteRejectTechniqueModal
           title='Удалить?'
+          textCancel='Удалить'
           subTitle='Вы уверены, что хотите удалить'
           techniqueName={`${techniqueApiName}?`}
           loading={deleteUserVehicleLoading}
