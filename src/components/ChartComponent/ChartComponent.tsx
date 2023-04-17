@@ -59,7 +59,7 @@ const ChartComponent: React.FC<Props> = ({ data }) => {
   }, [data]);
 
   return (
-    <>
+    <div data-testid='chart-id'>
       {chartAirAndDewPointOptions?.series?.length ? (
         <HighchartsReact highcharts={Highcharts} options={chartAirAndDewPointOptions} />
       ) : null}
@@ -71,7 +71,7 @@ const ChartComponent: React.FC<Props> = ({ data }) => {
       {chartGustOptions?.series?.length ? (
         <HighchartsReact highcharts={Highcharts} options={chartGustOptions} />
       ) : null}
-    </>
+    </div>
   );
 };
 
