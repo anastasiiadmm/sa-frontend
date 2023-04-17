@@ -67,7 +67,7 @@ const FieldClimateStation = () => {
   const dayString = moment(sensorData?.dates?.max_date)
     .subtract(2, 'days')
     .format(dateMomentTypeString);
-  const [collapsed, setCollapsed] = useState(true);
+  const [collapsed, setCollapsed] = useState(false);
   const [filters, setFilters] = useState({
     name: 'All sensors',
     day_type: 'hourly',
