@@ -7,8 +7,8 @@ type Props = {
   closable?: boolean;
   dividerShow?: boolean;
   children?: React.ReactNode;
-  handleOk?: (params: any) => any;
-  handleCancel?: (params: any) => any;
+  handleOk?: () => void;
+  handleCancel?: () => void;
   classNameTitle?: string;
 };
 

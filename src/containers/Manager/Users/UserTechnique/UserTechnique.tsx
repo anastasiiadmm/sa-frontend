@@ -217,7 +217,7 @@ const UserTechnique: React.FC = () => {
               color='#BBBBBB'
               overlayInnerStyle={{ padding: '5px 15px', borderRadius: 15 }}
             >
-              <Link to={`/open-map/${id}/${record.id}/localTractor`}>
+              <Link to={`/open-map/${id}/${record.id}/local-tractor`}>
                 <Button type='text' style={{ display: 'flex', alignItems: 'center' }}>
                   <img
                     src={tractorBlue}

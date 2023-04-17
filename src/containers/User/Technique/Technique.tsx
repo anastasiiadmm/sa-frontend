@@ -127,7 +127,7 @@ const Technique = () => {
             overlayInnerStyle={{ padding: '5px 15px', borderRadius: 15 }}
             placement='topRight'
           >
-            <Link to={`/open-map/localTractor/${record.id}`}>
+            <Link to={`/open-map/local-tractor/${record.id}`}>
               <Button type='text' style={{ display: 'flex', alignItems: 'center' }}>
                 <img style={{ width: 27 }} src={tractorBlue} alt='tractorBlue' />
               </Button>

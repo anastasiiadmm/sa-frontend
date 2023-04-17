@@ -41,7 +41,7 @@ const OpenMapComponent = () => {
 
   useEffect(() => {
     const findResultsMap = vehicle.results?.processing_data.find((item) => item.id === Number(id));
-    if (findResultsMap && !pathname.includes('localTractor')) {
+    if (findResultsMap && !pathname.includes('local-tractor')) {
       dispatch(
         obtainingCoordinate({
           id: Number(vehicleId),
@@ -182,7 +182,7 @@ const OpenMapComponent = () => {
               >
                 <p className={b('subtitle')}>
                   <span>
-                    {!pathname.includes('localTractor')
+                    {!pathname.includes('local-tractor')
                       ? findResults?.field_name
                       : 'Местоположение трактора'}
                   </span>
@@ -198,8 +198,8 @@ const OpenMapComponent = () => {
             </Button>
           </div>
           {field.results.length ||
-          id === 'localTractor' ||
-          pathname.includes('localTractor') ? null : (
+          id === 'local-tractor' ||
+          pathname.includes('local-tractor') ? null : (
             <Alert
               message='Кординаты для маршрута не найдено'
               type='error'
@@ -232,7 +232,7 @@ const OpenMapComponent = () => {
               </Popup>
             </Marker>
           </CircleMarker>
-          {id === 'localTractor' || pathname.includes('localTractor') ? null : (
+          {id === 'local-tractor' || pathname.includes('local-tractor') ? null : (
             <Polyline weight={5} pathOptions={purpleOptions} positions={positions}>
               <Marker
                 position={getCoordinateByType(positions, 'start') as LatLngExpression}

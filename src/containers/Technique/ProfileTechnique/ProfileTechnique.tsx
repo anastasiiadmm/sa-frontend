@@ -200,8 +200,8 @@ const ProfileTechnique = () => {
             <Link
               to={
                 user?.is_manager
-                  ? `/open-map/${userId}/${vehicleId}/localTractor`
-                  : `/open-map/localTractor/${vehicleId}`
+                  ? `/open-map/${userId}/${vehicleId}/local-tractor`
+                  : `/open-map/local-tractor/${vehicleId}`
               }
             >
               <Button

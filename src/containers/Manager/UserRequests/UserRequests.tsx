@@ -202,29 +202,28 @@ const UserRequests = () => {
               <Button
                 className={b('btn')}
                 type='link'
-                onClick={
-                  row?.confirmation_type === 2
-                    ? () => {
-                        setId(row.id);
-                        setConfirmation_typeId(row?.confirmation_type);
-                        showUserInfoModal();
-                      }
-                    : row?.confirmation_type === 3
-                    ? () => {
-                        setId(row.id);
-                        setConfirmation_typeId(row?.confirmation_type);
-                        showTechniqueModal(row);
-                      }
-                    : () => {
-                        setId(row.id);
-                        setConfirmation_typeId(row?.confirmation_type);
-                        showRegisterUserModal();
-                        setUserIds({
-                          requestId: row?.id.toString(),
-                          userId: row?.enterprise.toString(),
-                        });
-                      }
-                }
+                onClick={() => {
+                  switch (row?.confirmation_type) {
+                    case 2:
+                      setId(row.id);
+                      setConfirmation_typeId(row?.confirmation_type);
+                      showUserInfoModal();
+                      break;
+                    case 3:
+                      setId(row.id);
+                      setConfirmation_typeId(row?.confirmation_type);
+                      showTechniqueModal(row);
+                      break;
+                    default:
+                      setId(row.id);
+                      setConfirmation_typeId(row?.confirmation_type);
+                      showRegisterUserModal();
+                      setUserIds({
+                        requestId: row?.id.toString(),
+                        userId: row?.enterprise.toString(),
+                      });
+                  }
+                }}
               >
                 <EyeOutlined style={{ fontSize: '20px' }} />
               </Button>
