@@ -99,7 +99,6 @@ const AppRouter: React.FC = () => {
                 path='*'
                 element={
                   <NotFound
-                    showButton
                     title='Страница не найдена'
                     text='Попробуйте перейти на главную страницу или любую интересующую вас'
                   />

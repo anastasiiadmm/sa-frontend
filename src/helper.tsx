@@ -1,5 +1,4 @@
 import { companiesList, ErrorObject, ICompany, updateManagerDataMutation } from 'types/types';
-import { dateMomentTypeString } from 'utils/constants';
 
 const moment = require('moment');
 
@@ -173,7 +172,7 @@ export const mergeAndRemoveDuplicateValues = (obj1: any, obj2: any) => {
 
 export const lastCommunication = (lastComm: string) => {
   const aWeekAgo = moment().subtract(7, 'days');
-  const lastCommMoment = moment(lastComm, dateMomentTypeString);
+  const lastCommMoment = moment(lastComm, 'YYYY-MM-DD HH:mm:ss');
   return lastCommMoment.isAfter(aWeekAgo);
 };
 

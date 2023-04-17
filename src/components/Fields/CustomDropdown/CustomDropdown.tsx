@@ -1,4 +1,10 @@
-import { CaretDownOutlined, CaretRightOutlined, ClusterOutlined } from '@ant-design/icons';
+import {
+  CaretDownOutlined,
+  CaretRightOutlined,
+  ClusterOutlined,
+  EyeInvisibleOutlined,
+  EyeOutlined,
+} from '@ant-design/icons';
 import { Tag } from 'antd';
 import bem from 'easy-bem';
 import React, { useState } from 'react';
@@ -13,12 +19,16 @@ interface Props {
 const CustomDropdown: React.FC<Props> = ({ id, dropdownOptions }) => {
   const b = bem('CustomDropdown');
   const [isOpen, setIsOpen] = useState(true);
+  const [selectedOption, setSelectedOption] = useState('');
+
+  const handleOptionClick = (option: any) => {
+    setSelectedOption(option);
+  };
 
   return (
     <div className={b()}>
       <div className={b('dropdown-toggle')}>
         <div
-          className={b('dropdown-info')}
           tabIndex={0}
           role='button'
           onKeyDown={(event) => {
@@ -30,25 +40,31 @@ const CustomDropdown: React.FC<Props> = ({ id, dropdownOptions }) => {
         >
           {isOpen ? <CaretDownOutlined /> : <CaretRightOutlined />} <ClusterOutlined /> {id}{' '}
         </div>
+        <div>
+          <EyeOutlined /> <EyeInvisibleOutlined />
+        </div>
       </div>
       {isOpen && (
         <ul className={b('dropdown-menu')}>
-          {dropdownOptions
-            ?.filter((option: any) =>
-              [
-                'sensor_x_x_20_21',
-                'sensor_x_x_18_506',
-                'sensor_x_x_5_6',
-                'sensor_x_x_4002_16393',
-              ].includes(option.groupId),
-            )
-            ?.map((option: any) => (
-              <li key={option?.groupId}>
-                <Tag color={option?.sensor?.color} className={b('dropdown-tag')} />
+          {dropdownOptions?.map((option: any) => (
+            <li
+              key={option?.groupId}
+              onClick={() => handleOptionClick(option)}
+              tabIndex={0}
+              role='button'
+              onKeyDown={(event) => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                  setIsOpen(!isOpen);
+                }
+              }}
+            >
+              <Tag color={option?.sensor?.color} className={b('dropdown-tag')} />
+              <a>
                 {option?.sensor?.name}{' '}
                 <span>{option?.sensor?.ch ? `[${option?.sensor?.ch}]` : null}</span>
-              </li>
-            ))}
+              </a>
+            </li>
+          ))}
         </ul>
       )}
     </div>

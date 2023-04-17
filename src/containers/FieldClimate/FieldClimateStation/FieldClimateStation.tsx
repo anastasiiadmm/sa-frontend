@@ -13,17 +13,17 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import ChartComponent from 'components/ChartComponent/ChartComponent';
-import NotFound from 'components/Errors/NotFound/NotFound';
 import CustomDropdown from 'components/Fields/CustomDropdown/CustomDropdown';
 import FormField from 'components/FormField/FormField';
 import { calculateDateRange } from 'helper';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import {
   fetchStationInfo,
+  fetchStationSensors,
   postStationSensors,
   stationsSelector,
 } from 'redux/stations/stationsSlice';
-import { dateMomentTypeString, rangeDataDaysSensors, rangeDataHoursSensors } from 'utils/constants';
+import { rangeData, rangeDataDaysSensors, rangeDataHoursSensors } from 'utils/constants';
 import 'containers/FieldClimate/FieldClimateStation/_fieldClimateStation.scss';
 
 const { Text, Title } = Typography;
@@ -63,15 +63,11 @@ const FieldClimateStation = () => {
   const { stationInfo, sensorData } = useAppSelector(stationsSelector);
   const maxDate = moment(sensorData?.dates?.max_date);
   const twoDaysAgo = maxDate.clone().subtract(2, 'days').unix().toString();
-  const dayString = moment(sensorData?.dates?.max_date)
-    .subtract(2, 'days')
-    .format(dateMomentTypeString);
   const [collapsed, setCollapsed] = useState(true);
   const [filters, setFilters] = useState({
     name: 'All sensors',
     day_type: 'hourly',
     date_type: '2_days',
-    date_string: dayString,
     date_from: '',
     date_to: '',
   });
@@ -89,7 +85,7 @@ const FieldClimateStation = () => {
       date_to: filters?.date_to,
     };
     dispatch(postStationSensors({ data }));
-  }, [dispatch, filters?.name, filters?.day_type, filters?.date_from, filters?.date_to, id]);
+  }, [dispatch, filters, id]);
 
   useEffect(() => {
     setFilters({
@@ -205,7 +201,6 @@ const FieldClimateStation = () => {
     setFilters({
       ...filters,
       date_type: value,
-      date_string: moment(fromDate).format(dateMomentTypeString),
       date_from: fromTimestamp.toString(),
       date_to: toTimestamp.toString(),
     });
@@ -224,9 +219,8 @@ const FieldClimateStation = () => {
       <Sider collapsedWidth={0} width={250} trigger={null} collapsible collapsed={collapsed}>
         <div className={b('sider-block')}>
           <Menu mode='inline' theme='light' items={items} triggerSubMenuAction='click' />
-          {sensorData?.topology?.[0]?.sensors?.length ? (
-            <CustomDropdown id={id} dropdownOptions={sensorData?.topology?.[0]?.sensors} />
-          ) : null}
+          <FormField disabled type='select' options={rangeData} defaultValue={rangeData[0]} />
+          <CustomDropdown id={id} dropdownOptions={sensorData?.topology?.[0]?.sensors} />
         </div>
       </Sider>
       <Layout className='site-layout'>
@@ -260,7 +254,7 @@ const FieldClimateStation = () => {
                   </Text>
                 </div>
                 <div>
-                  Данные станции от <b>{filters?.date_string}</b> до{' '}
+                  Данные станции от <b>{stationInfo?.dates?.max_date}</b> до{' '}
                   <b>{stationInfo?.dates?.last_communication}</b>
                 </div>
               </div>
@@ -285,19 +279,12 @@ const FieldClimateStation = () => {
               </div>
             </Card>
           </div>
-
-          {sensorData?.grid?.data?.length ? (
-            <div>
-              <div style={{ marginTop: 60, marginBottom: 60 }}>
-                <ChartComponent />
-              </div>
-              <div>
-                <Table columns={columns} dataSource={data} />
-              </div>
-            </div>
-          ) : (
-            <NotFound title='Нет данных для выбранной станции' />
-          )}
+          <div style={{ marginTop: 60, marginBottom: 60 }}>
+            <ChartComponent />
+          </div>
+          <div>
+            <Table columns={columns} dataSource={data} />
+          </div>
         </Content>
       </Layout>
     </Layout>
