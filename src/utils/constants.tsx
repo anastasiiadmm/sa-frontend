@@ -21,7 +21,7 @@ export const climateColors = {
 
 export const rangeDataDaysSensors = [
   { value: 'raw', label: 'Необработанный' },
-  { value: 'hourly', label: 'Ежечастно' },
+  { value: 'hourly', label: 'Ежечасно' },
   { value: 'daily', label: 'Ежедневно' },
   { value: 'monthly', label: 'Ежемесячно' },
 ];
