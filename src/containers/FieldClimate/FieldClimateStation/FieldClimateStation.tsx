@@ -271,14 +271,14 @@ const FieldClimateStation = () => {
                 </Tooltip>
                 <FormField
                   type='select'
-                  style='160px'
+                  customStyle='160px'
                   handleChange={handleChangeDaysTypeHandler}
                   options={rangeDataDaysSensors}
                   defaultValue={rangeDataDaysSensors[1]}
                 />
                 <FormField
                   type='select'
-                  style='120px'
+                  customStyle='120px'
                   handleChange={handleChangeHoursTypeHandler}
                   options={rangeDataHoursSensors}
                   defaultValue={rangeDataHoursSensors[1]}

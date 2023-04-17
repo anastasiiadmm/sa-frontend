@@ -4,7 +4,7 @@ import HCMore from 'highcharts/highcharts-more';
 import HighchartsAccessibility from 'highcharts/modules/accessibility';
 import HCSolidGauge from 'highcharts/modules/solid-gauge';
 import HighchartsReact from 'highcharts-react-official';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { ChartOption } from 'types/stationTypes';
 
@@ -19,7 +19,6 @@ interface Props {
 }
 
 const ChartComponent: React.FC<Props> = ({ data }) => {
-  const chartComponentRef = useRef<HighchartsReact.RefObject>(null);
   const [chartAirAndDewPointOptions, setAirAndDewPointChartOptions] = useState<ChartOptions | null>(
     null,
   );
@@ -62,19 +61,11 @@ const ChartComponent: React.FC<Props> = ({ data }) => {
 
   return (
     <>
-      <HighchartsReact
-        ref={chartComponentRef}
-        highcharts={Highcharts}
-        options={chartAirAndDewPointOptions}
-      />
+      <HighchartsReact highcharts={Highcharts} options={chartAirAndDewPointOptions} />
 
-      <HighchartsReact
-        ref={chartComponentRef}
-        highcharts={Highcharts}
-        options={chartPrecipitationOptions}
-      />
+      <HighchartsReact highcharts={Highcharts} options={chartPrecipitationOptions} />
 
-      <HighchartsReact ref={chartComponentRef} highcharts={Highcharts} options={chartGustOptions} />
+      <HighchartsReact highcharts={Highcharts} options={chartGustOptions} />
     </>
   );
 };

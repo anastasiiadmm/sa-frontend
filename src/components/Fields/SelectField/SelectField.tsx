@@ -7,16 +7,22 @@ interface Props {
   handleChange?: () => void;
   defaultValue?: string;
   disabled?: boolean;
-  style?: string;
+  customStyle?: string;
   options?: climateOptions[];
 }
 
-const SelectField: React.FC<Props> = ({ handleChange, disabled, defaultValue, options, style }) => {
+const SelectField: React.FC<Props> = ({
+  handleChange,
+  disabled,
+  defaultValue,
+  options,
+  customStyle,
+}) => {
   return (
     <Select
       disabled={disabled}
       defaultValue={defaultValue}
-      style={{ width: style || 'auto' }}
+      style={{ width: customStyle ?? 'auto' }}
       onChange={handleChange}
       options={options}
     />
