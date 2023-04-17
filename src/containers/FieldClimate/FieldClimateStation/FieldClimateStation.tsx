@@ -81,14 +81,6 @@ const FieldClimateStation = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    setFilters({
-      ...filters,
-      date_from: twoDaysAgo,
-      date_to: maxDate.unix().toString(),
-    });
-  }, []);
-
-  useEffect(() => {
     const data = {
       id,
       name: { name: filters?.name },
@@ -97,7 +89,15 @@ const FieldClimateStation = () => {
       date_to: filters?.date_to,
     };
     dispatch(postStationSensors({ data }));
-  }, [dispatch, filters, id]);
+  }, [dispatch, filters?.name, filters?.day_type, filters?.date_from, filters?.date_to, id]);
+
+  useEffect(() => {
+    setFilters({
+      ...filters,
+      date_from: twoDaysAgo,
+      date_to: maxDate.unix().toString(),
+    });
+  }, []);
 
   const items: MenuItem[] = [
     getItem(
@@ -287,9 +287,9 @@ const FieldClimateStation = () => {
           </div>
 
           {sensorData?.grid?.data?.length ? (
-            <div className={b('station-block')}>
+            <div>
               <div style={{ marginTop: 60, marginBottom: 60 }}>
-                <ChartComponent data={sensorData?.chartsOptions} />
+                <ChartComponent />
               </div>
               <div>
                 <Table columns={columns} dataSource={data} />

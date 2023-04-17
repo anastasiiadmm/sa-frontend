@@ -35,9 +35,12 @@ const CustomDropdown: React.FC<Props> = ({ id, dropdownOptions }) => {
         <ul className={b('dropdown-menu')}>
           {dropdownOptions
             ?.filter((option: any) =>
-              ['HC Температура воздуха', 'Точка росы', 'Осадки', 'Порыв ветра'].includes(
-                option?.sensor?.name,
-              ),
+              [
+                'sensor_x_x_20_21',
+                'sensor_x_x_18_506',
+                'sensor_x_x_5_6',
+                'sensor_x_x_4002_16393',
+              ].includes(option.groupId),
             )
             ?.map((option: any) => (
               <li key={option?.groupId}>

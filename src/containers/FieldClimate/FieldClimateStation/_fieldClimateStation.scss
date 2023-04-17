@@ -40,12 +40,6 @@
     gap: 20px;
   }
 
-  &__station-block {
-    background: white;
-    border-radius: 8px;
-    margin-top: 20px;
-  }
-
   .ant-menu-title-content > .menu-info {
     height: 200px;
     white-space: break-spaces;
@@ -69,7 +63,8 @@
 }
 
 :where(.css-dev-only-do-not-override-6jf5y1).ant-menu-submenu-popup .ant-menu-vertical > .ant-menu-item,
-:where(.css-dev-only-do-not-override-6jf5y1).ant-menu-submenu-popup .ant-menu-vertical > .ant-menu-submenu > .ant-menu-submenu-title {
+:where(.css-dev-only-do-not-override-6jf5y1).ant-menu-submenu-popup .ant-menu-vertical
+  > .ant-menu-submenu > .ant-menu-submenu-title {
   height: 189px !important;
 }
 
