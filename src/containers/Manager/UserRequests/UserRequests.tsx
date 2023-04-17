@@ -151,6 +151,29 @@ const UserRequests = () => {
     dispatch(clearTechniqueVehicle);
   };
 
+  const confirmationTypeHandler = (row: Request) => {
+    switch (row?.confirmation_type) {
+      case 2:
+        setId(row.id);
+        setConfirmation_typeId(row?.confirmation_type);
+        showUserInfoModal();
+        break;
+      case 3:
+        setId(row.id);
+        setConfirmation_typeId(row?.confirmation_type);
+        showTechniqueModal(row);
+        break;
+      default:
+        setId(row.id);
+        setConfirmation_typeId(row?.confirmation_type);
+        showRegisterUserModal();
+        setUserIds({
+          requestId: row?.id.toString(),
+          userId: row?.enterprise.toString(),
+        });
+    }
+  };
+
   const columns: ColumnsType<Request> = [
     {
       dataIndex: 'type_request',
@@ -199,32 +222,7 @@ const UserRequests = () => {
               color='#BBBBBB'
               overlayInnerStyle={{ padding: '5px 15px', borderRadius: 15 }}
             >
-              <Button
-                className={b('btn')}
-                type='link'
-                onClick={() => {
-                  switch (row?.confirmation_type) {
-                    case 2:
-                      setId(row.id);
-                      setConfirmation_typeId(row?.confirmation_type);
-                      showUserInfoModal();
-                      break;
-                    case 3:
-                      setId(row.id);
-                      setConfirmation_typeId(row?.confirmation_type);
-                      showTechniqueModal(row);
-                      break;
-                    default:
-                      setId(row.id);
-                      setConfirmation_typeId(row?.confirmation_type);
-                      showRegisterUserModal();
-                      setUserIds({
-                        requestId: row?.id.toString(),
-                        userId: row?.enterprise.toString(),
-                      });
-                  }
-                }}
-              >
+              <Button className={b('btn')} type='link' onClick={() => confirmationTypeHandler(row)}>
                 <EyeOutlined style={{ fontSize: '20px' }} />
               </Button>
             </Tooltip>
