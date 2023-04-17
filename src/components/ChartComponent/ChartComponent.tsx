@@ -20,7 +20,13 @@ interface Props {
 
 const ChartComponent: React.FC<Props> = ({ data }) => {
   const chartComponentRef = useRef<HighchartsReact.RefObject>(null);
-  const [chartOptions, setChartOptions] = useState<ChartOptions | null>(null);
+  const [chartAirAndDewPointOptions, setAirAndDewPointChartOptions] = useState<ChartOptions | null>(
+    null,
+  );
+  const [chartPrecipitationOptions, setChartPrecipitationOptions] = useState<ChartOptions | null>(
+    null,
+  );
+  const [chartGustOptions, setGustOptions] = useState<ChartOptions | null>(null);
 
   useEffect(() => {
     const filteredAirAndDewPointSeries =
@@ -29,21 +35,47 @@ const ChartComponent: React.FC<Props> = ({ data }) => {
         (series: ChartOption) =>
           series.name === 'HC Температура воздуха [°C]' || series.name === 'Точка росы [°C]',
       );
+    const filteredPrecipitationSeries =
+      data && data[1]?.series.filter((series: ChartOption) => series.name === 'Осадки [mm]');
+    const filteredGustSeries =
+      data && data[2]?.series.filter((series: ChartOption) => series.name === 'Порыв ветра [m/s]');
 
-    const newChartOptions: ChartOptions = {
+    const newChartAirAndDewPointOptions: ChartOptions = {
       ...data[0],
       series: filteredAirAndDewPointSeries,
     };
 
-    setChartOptions(newChartOptions);
+    const newChartPrecipitationOptions: ChartOptions = {
+      ...data[1],
+      series: filteredPrecipitationSeries,
+    };
+
+    const newChartGustOptions: ChartOptions = {
+      ...data[2],
+      series: filteredGustSeries,
+    };
+
+    setAirAndDewPointChartOptions(newChartAirAndDewPointOptions);
+    setChartPrecipitationOptions(newChartPrecipitationOptions);
+    setGustOptions(newChartGustOptions);
   }, [data]);
 
   return (
-    <HighchartsReact
-      ref={chartComponentRef}
-      highcharts={Highcharts}
-      options={data && chartOptions}
-    />
+    <>
+      <HighchartsReact
+        ref={chartComponentRef}
+        highcharts={Highcharts}
+        options={chartAirAndDewPointOptions}
+      />
+
+      <HighchartsReact
+        ref={chartComponentRef}
+        highcharts={Highcharts}
+        options={chartPrecipitationOptions}
+      />
+
+      <HighchartsReact ref={chartComponentRef} highcharts={Highcharts} options={chartGustOptions} />
+    </>
   );
 };
 

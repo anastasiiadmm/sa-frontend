@@ -16,9 +16,9 @@ import ChartComponent from 'components/ChartComponent/ChartComponent';
 import NotFound from 'components/Errors/NotFound/NotFound';
 import CustomDropdown from 'components/Fields/CustomDropdown/CustomDropdown';
 import FormField from 'components/FormField/FormField';
+import Spinner from 'components/Spinner/Spinner';
 import { calculateDateRange } from 'helper';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import Spinner from 'components/Spinner/Spinner';
 import {
   fetchStationInfo,
   postStationSensors,
