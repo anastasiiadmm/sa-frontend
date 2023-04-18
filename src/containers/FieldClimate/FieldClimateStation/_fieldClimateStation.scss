@@ -8,6 +8,13 @@
     flex-direction: column;
   }
 
+  &__sider-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 17px;
+  }
+
   &__logo {
     text-align: center;
     > img {
@@ -17,12 +24,26 @@
   }
 
   &__card-style {
+    display: flex;
+    flex-direction: column;
     margin-top: 20px;
   }
 
   &__card-style-items {
     display: flex;
     justify-content: space-between;
+    margin-bottom: 20px;
+  }
+
+  &__card-style-items-sensors {
+    display: flex;
+    gap: 20px;
+  }
+
+  &__station-block {
+    background: white;
+    border-radius: 8px;
+    margin-top: 20px;
   }
 
   .ant-menu-title-content > .menu-info {
@@ -58,4 +79,11 @@ li > .ant-menu-title-content > .menu-info {
   white-space: break-spaces;
   display: flex;
   flex-direction: column;
+}
+
+.sider-width {
+  flex: 0 0 180px !important;
+  max-width: 180px !important;
+  min-width: 180px !important;
+  width: 180px !important;
 }

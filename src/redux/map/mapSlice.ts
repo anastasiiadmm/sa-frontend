@@ -53,7 +53,7 @@ export const obtainingCoordinate = createAsyncThunk(
       if (response.data.length) {
         return response.data;
       }
-      message.error('Кординаты для маршрута не найдено');
+      message.error('Координаты для маршрута не найдены');
       return [];
     } catch (e) {
       return rejectWithValue({

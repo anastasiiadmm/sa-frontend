@@ -22,8 +22,22 @@ interface WeatherDataEntry {
   };
 }
 
-export interface APIResponse {
-  stations: any[];
+export interface userStation {
+  account_close_token: string;
+  address: Object;
+  api_access: Object;
+  company: Object;
+  create_time: string;
+  created_by: string;
+  customizations: Object;
+  dashboardTexts: number[];
+  info: Object;
+  last_access: string;
+  newsletter: Object;
+  note: string;
+  settings: Object;
+  terms_accepted: boolean;
+  username: string;
 }
 
 export interface APIWeatherResponse {
@@ -36,21 +50,24 @@ export interface APIError {
 }
 
 export interface StationState {
-  user: any;
+  user: userStation | null;
   isLoading: boolean;
   error: APIError | null;
   weather: Weather | null;
   isWeatherLoading: boolean;
-  isWeatherError: any;
-  stations: any;
+  isWeatherError: APIError | null;
+  stations: stationInfo | null;
   stationsLoading: boolean;
-  stationsError: any;
-  stationInfo: any;
+  stationsError: APIError | null;
+  stationInfo: stationInfo | null;
   stationInfoLoading: boolean;
   stationInfoError: APIError | null;
-  sensors: any;
+  sensors: Object | null;
   sensorsLoading: boolean;
   sensorsError: APIError | null;
+  sensorData: StationSensor | null;
+  sensorDataLoading: boolean;
+  sensorDataError: APIError | null;
 }
 
 export interface MarkerData {
@@ -89,34 +106,134 @@ export interface MarkerData {
   };
 }
 
-export interface SensorData {
-  aggr: string[];
-  calibration_id: string;
-  ch: number;
-  code: number;
-  color: string;
-  decimals: number;
-  desc: string;
-  divider: number;
-  group: number;
-  isActive: boolean;
-  is_user_set: {
-    name: boolean;
-    unit: boolean;
-    color: boolean;
+export interface Sensor {
+  chart?: {
+    zoomType: string;
+    marginTop: number;
+    height: number;
+    marginRight: number;
+    marginLeft: number;
   };
-  mac: string;
-  multiplier: number;
+  credits?: {
+    enabled: boolean;
+  };
+  exporting?: {
+    enabled: boolean;
+  };
+  legend?: {
+    backgroundColor: string;
+    enabled: boolean;
+    align: string;
+    verticalAlign: string;
+    layout: string;
+  };
+  series?: [];
+  sources?: string[];
+  subtitle?: string;
+  title?: {
+    floating: boolean;
+    align: string;
+    text: string;
+    style: Object;
+    x: number;
+  };
+  tooltip?: {
+    xDateFormat: string;
+    useHTML: boolean;
+    headerFormat: string;
+    pointFormat: string;
+    footerFormat: string;
+  };
+  xAxis?: {
+    type: string;
+    gridLineWidth: number;
+    crosshair: boolean;
+    labels: any;
+    lineWidth: number;
+  };
+  yAxis?: {
+    [index: number]: {
+      title: Object;
+      labels: Object;
+      opposite?: boolean;
+    };
+  }[];
+}
+
+export interface stationInfo {
+  config: {
+    activity_mode: number;
+    fixed_transfer_interval: number;
+    logging_interval: number;
+    measuring_interval: number;
+    precision_reduction: number;
+    rain_monitor: number;
+    scheduler: number;
+    schedulerOld: string;
+    timezone_offset: number;
+    water_level_monitor: number;
+    x_min_transfer_interval: number;
+  };
+  dates: {
+    created_at: string;
+    last_communication: string;
+    max_date: string;
+    min_date: string;
+  };
+  flags: Object;
+  info: {
+    apn_table: number;
+    description: string;
+    device_id: number;
+    device_name: string;
+    firmware: string;
+    hardware: string;
+    programmed: string;
+    uid: string;
+  };
+  licenses: Object;
+  meta: Object;
+  metadata: Object;
+  name: {
+    custom: string;
+    original: string;
+  };
+  networking: Object;
+  note: string;
+  position: Object;
+  rights: string;
+  warnings: Object;
+}
+
+export interface StationSensor {
+  chartsOptions: Sensor[];
+  grid: {
+    data: number[];
+    headers: [];
+  };
+  notifications: [];
+  topology: SensorData[];
+}
+
+export interface SensorData {
+  expanded: boolean;
   name: string;
   name_custom: string;
-  registered: string;
-  serial: string;
-  size: string;
-  unit: string;
-  unit_default: string;
-  units: string[];
-  vals: {
-    min: number;
-    max: number;
+  nodes: [];
+  sensors: TopologySensor[];
+  type: string;
+}
+
+export interface TopologySensor {
+  chart: number;
+  groupId: string;
+  sensor: {
+    ch: number;
+    code: number;
+    color: string;
+    group: number;
+    mac: string;
+    name: string;
+    serial: string;
   };
 }
