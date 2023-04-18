@@ -73,21 +73,13 @@ const FieldClimateStation = () => {
     day_type: 'hourly',
     date_type: '2_days',
     date_string: dayString,
-    date_from: '',
-    date_to: '',
+    date_from: twoDaysAgo,
+    date_to: maxDate.unix().toString(),
   });
 
   useEffect(() => {
     dispatch(fetchStationInfo({ id }));
   }, [dispatch]);
-
-  useEffect(() => {
-    setFilters({
-      ...filters,
-      date_from: twoDaysAgo,
-      date_to: maxDate.unix().toString(),
-    });
-  }, []);
 
   useEffect(() => {
     const data = {
