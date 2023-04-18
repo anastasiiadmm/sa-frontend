@@ -5,11 +5,12 @@ import CryptoJS from 'crypto-js';
 import { RootState } from 'redux/hooks';
 import {
   APIError,
-  APIWeatherResponse, stationInfo,
+  APIWeatherResponse,
+  stationInfo,
   StationSensor,
   StationState,
-  userStation
-} from "types/stationTypes";
+  userStation,
+} from 'types/stationTypes';
 
 const {
   REACT_APP_CLIMATE_API_BASE_URL,

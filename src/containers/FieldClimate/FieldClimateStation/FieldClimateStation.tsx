@@ -21,7 +21,6 @@ import { calculateDateRange } from 'helper';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import {
   fetchStationInfo,
-  fetchStations,
   postStationSensors,
   stationsSelector,
 } from 'redux/stations/stationsSlice';
