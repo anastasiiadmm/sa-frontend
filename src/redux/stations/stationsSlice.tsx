@@ -7,9 +7,9 @@ import {
   APIError,
   APIResponse,
   APIWeatherResponse,
-  SensorData,
-  StationState,
-} from 'types/stationTypes';
+  SensorData, stationSensor,
+  StationState
+} from "types/stationTypes";
 
 const {
   REACT_APP_CLIMATE_API_BASE_URL,
@@ -56,7 +56,7 @@ const initialState: StationState = {
   sensorsLoading: false,
   sensorsError: null,
 
-  sensorData: [],
+  sensorData: null,
   sensorDataLoading: false,
   sensorDataError: null,
 };
@@ -202,7 +202,7 @@ interface postStationSensorsParams {
 }
 
 export const postStationSensors = createAsyncThunk<
-  void,
+  stationSensor,
   postStationSensorsParams,
   { rejectValue: APIError }
 >('stations/postStationSensors', async ({ data }, { rejectWithValue }) => {

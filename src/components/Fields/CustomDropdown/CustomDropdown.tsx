@@ -3,7 +3,7 @@ import { Tag } from 'antd';
 import bem from 'easy-bem';
 import React, { useState } from 'react';
 
-import { topologySensor } from 'types/types';
+import { topologySensor } from 'types/stationTypes';
 import 'components/Fields/CustomDropdown/_customDropdown.scss';
 
 interface Props {
