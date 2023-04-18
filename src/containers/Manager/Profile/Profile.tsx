@@ -1,8 +1,9 @@
 import { UserOutlined } from '@ant-design/icons';
-import { Avatar, Button, Col, Form, Typography } from 'antd';
+import { Avatar, Button, Col, Form, message, Typography } from 'antd';
 import bem from 'easy-bem';
 import React, { useEffect, useState } from 'react';
 
+import Errors from 'components/Errors/Errors';
 import FormField from 'components/FormField/FormField';
 import GeneratedPasswordModal from 'components/ModalComponent/ModalChildrenComponents/GeneratedPasswordModal/GeneratedPasswordModal';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
@@ -32,6 +33,7 @@ const Profile: React.FC = () => {
     manager,
     updateManagerData,
     updateManagerDataLoading,
+    fetchErrorManager,
   } = useAppSelector(accountsSelector);
   const dispatch = useAppDispatch();
   const [validateForm, setValidateForm] = useState(false);
@@ -95,8 +97,12 @@ const Profile: React.FC = () => {
   };
 
   const generatePassword = async () => {
-    await dispatch(generateNewPassword({ company_id: 0 }));
-    setIsModalPasswordOpen(true);
+    try {
+      await dispatch(generateNewPassword({ company_id: 0 })).unwrap();
+      setIsModalPasswordOpen(true);
+    } catch (e) {
+      await message.error('Ошибка не получилось сменить пароль');
+    }
   };
 
   const closePasswordModal = () => {
@@ -112,6 +118,10 @@ const Profile: React.FC = () => {
       }
     }
   };
+
+  if (fetchErrorManager) {
+    return <Errors status={fetchErrorManager.status} detail={fetchErrorManager.detail} />;
+  }
 
   return (
     <div className='layout' data-testid='accounts-id'>

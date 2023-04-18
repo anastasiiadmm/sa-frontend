@@ -1,3 +1,5 @@
+import { IErrors } from 'interfaces/IErrors';
+
 export interface ProcessingData {
   field_name: string;
   work_area: number;
@@ -27,10 +29,6 @@ export interface Vehicle {
   last_longitude: string;
   enterprise: number;
 }
-export interface APIError {
-  detail: string;
-  status: number;
-}
 
 export interface resultsAB {
   PointA: string;
@@ -40,12 +38,12 @@ export interface resultsAB {
 export interface IMapState {
   vehicle: {
     loading: boolean;
-    errors: APIError | null;
+    errors: IErrors | null;
     results?: Vehicle | null;
   };
   field: {
     loading: boolean;
-    errors: APIError | null;
+    errors: IErrors | null;
     results: resultsAB[];
   };
 }

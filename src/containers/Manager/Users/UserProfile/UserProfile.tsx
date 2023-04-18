@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router';
 import { Link, useParams } from 'react-router-dom';
 
 import tractorBlue from 'assets/images/icons/tractor-blue.svg';
+import Errors from 'components/Errors/Errors';
 import FormField from 'components/FormField/FormField';
 import DeleteUserModal from 'components/ModalComponent/ModalChildrenComponents/DeleteUserModal/DeleteUserModal';
 import EditUserProfileModal from 'components/ModalComponent/ModalChildrenComponents/EditUserProfileModal/EditUserProfileModal';
@@ -45,6 +46,7 @@ const UserProfile: React.FC = () => {
     updateUserInfoLoading,
     deleteUserInfoLoading,
     userInfoLoading,
+    userInfoError,
   } = useAppSelector(companiesSelector);
   const { generatedPassword, generatePasswordLoading } = useAppSelector(accountsSelector);
   const [validateForm, setValidateForm] = useState(false);
@@ -126,8 +128,12 @@ const UserProfile: React.FC = () => {
   };
 
   const generatePassword = async () => {
-    await dispatch(generateNewPassword({ company_id: resultsObj?.id }));
-    setIsModalPasswordOpen(true);
+    try {
+      await dispatch(generateNewPassword({ company_id: resultsObj?.id })).unwrap();
+      setIsModalPasswordOpen(true);
+    } catch (e) {
+      await message.error('Ошибка не получилось сменить пароль');
+    }
   };
 
   const closePasswordModal = () => {
@@ -136,7 +142,7 @@ const UserProfile: React.FC = () => {
 
   const deleteUserHandler = async () => {
     try {
-      await dispatch(deleteUserInfo(id));
+      await dispatch(deleteUserInfo(id)).unwrap();
       history('/');
     } catch (e) {
       const errorMessage = getErrorMessage(e, 'password');
@@ -182,6 +188,10 @@ const UserProfile: React.FC = () => {
       await message.error(`${errorMessage}`);
     }
   };
+
+  if (userInfoError) {
+    return <Errors status={userInfoError.status} detail={userInfoError.detail} />;
+  }
 
   return (
     <>

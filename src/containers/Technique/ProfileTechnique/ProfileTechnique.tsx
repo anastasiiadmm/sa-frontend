@@ -7,6 +7,7 @@ import { Link, useParams } from 'react-router-dom';
 import arrowLeft from 'assets/images/icons/arrow-left.svg';
 import planet from 'assets/images/icons/planet.svg';
 import tractorBlue from 'assets/images/icons/tractor-blue.svg';
+import Errors from 'components/Errors/Errors';
 import FormField from 'components/FormField/FormField';
 import TableComponent from 'components/TableComponent/TableComponent';
 import { accountsSelector, fetchVehicleInfo } from 'redux/accounts/accountsSlice';
@@ -25,8 +26,12 @@ const ProfileTechnique = () => {
   const { userId, vehicleId } = useParams() as { userId: string; vehicleId: string };
   const { userVehicleInfo: managerVehicle, userVehicleInfoLoading: managerLoading } =
     useAppSelector(companiesSelector);
-  const { userVehicleInfo: userVehicle, userVehicleInfoLoading: userLoading } =
-    useAppSelector(accountsSelector);
+  const userVehicleInfoState = useAppSelector(companiesSelector);
+  const {
+    userVehicleInfo: userVehicle,
+    userVehicleInfoLoading: userLoading,
+    userVehicleInfoError,
+  } = useAppSelector(accountsSelector);
   const [form] = Form.useForm();
   const { user } = useAppSelector(authSelector);
   const [state, setState] = useState<userVehicleInfo[]>([]);
@@ -174,6 +179,15 @@ const ProfileTechnique = () => {
       ),
     },
   ];
+
+  if (userVehicleInfoError || userVehicleInfoState.userVehicleInfoError) {
+    return (
+      <Errors
+        status={userVehicleInfoError?.status || userVehicleInfoState.userVehicleInfoError?.status}
+        detail={userVehicleInfoError?.detail || userVehicleInfoState.userVehicleInfoError?.detail}
+      />
+    );
+  }
 
   return (
     <div className={b()}>

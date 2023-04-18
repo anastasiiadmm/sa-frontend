@@ -11,6 +11,7 @@ import edit from 'assets/images/icons/edit.svg';
 import successIcon from 'assets/images/icons/success.svg';
 import tractorBlue from 'assets/images/icons/tractor-blue.svg';
 import tractor from 'assets/images/icons/tractor-image.svg';
+import Errors from 'components/Errors/Errors';
 import AddUpdateTechnique from 'components/ModalComponent/ModalChildrenComponents/AddUpdateTechnique/AddUpdateTechnique';
 import DeleteRejectTechniqueModal from 'components/ModalComponent/ModalChildrenComponents/DeleteTechniqueModal/DeleteTechniqueModal';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
@@ -42,6 +43,8 @@ const UserTechnique: React.FC = () => {
     userInfo,
     vehicleCreateSuccess,
     deleteUserVehicleLoading,
+    fetchVehicleListError,
+    userInfoError,
   } = useAppSelector(companiesSelector);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalCreateOpen, setIsModalCreateOpen] = useState(false);
@@ -248,6 +251,15 @@ const UserTechnique: React.FC = () => {
       },
     },
   ];
+
+  if (fetchVehicleListError || userInfoError) {
+    return (
+      <Errors
+        status={fetchVehicleListError?.status || userInfoError?.status}
+        detail={fetchVehicleListError?.detail || userInfoError?.detail}
+      />
+    );
+  }
 
   return (
     <>

@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import cloudy from 'assets/images/icons/cloudy.svg';
 import tractorBlue from 'assets/images/icons/tractor-blue.svg';
 import tractor from 'assets/images/icons/tractor-image.svg';
+import Errors from 'components/Errors/Errors';
 import AddUpdateTechnique from 'components/ModalComponent/ModalChildrenComponents/AddUpdateTechnique/AddUpdateTechnique';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import SkeletonBlock from 'components/SkeletonBlock/SkeletonBlock';
@@ -16,6 +17,7 @@ import { accountsSelector, fetchUser, fetchUserVehicles } from 'redux/accounts/a
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { userVehicles } from 'types/types';
 import { apiUrlCrop } from 'utils/config';
+
 import 'containers/User/Technique/_technique.scss';
 
 const { Title } = Typography;
@@ -28,6 +30,8 @@ const Technique = () => {
     userVehicles,
     fetchUserVehiclesLoading,
     userVehiclesPagination,
+    fetchUserVehiclesError,
+    fetchLoadingUserError,
   } = useAppSelector(accountsSelector);
   const dispatch = useAppDispatch();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -137,6 +141,15 @@ const Technique = () => {
       ),
     },
   ];
+
+  if (fetchUserVehiclesError || fetchLoadingUserError) {
+    return (
+      <Errors
+        status={fetchUserVehiclesError?.status || fetchLoadingUserError?.status}
+        detail={fetchUserVehiclesError?.detail || fetchLoadingUserError?.detail}
+      />
+    );
+  }
 
   return (
     <>

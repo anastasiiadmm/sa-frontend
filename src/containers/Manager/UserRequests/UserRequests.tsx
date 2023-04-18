@@ -7,6 +7,7 @@ import React, { useEffect, useState } from 'react';
 import newUser from 'assets/images/icons/new_user_request.svg';
 import tractorRequest from 'assets/images/icons/tractor_request.svg';
 import user from 'assets/images/icons/user_request.svg';
+import Errors from 'components/Errors/Errors';
 import DeleteRejectTechniqueModal from 'components/ModalComponent/ModalChildrenComponents/DeleteTechniqueModal/DeleteTechniqueModal';
 import EditUserProfileModal from 'components/ModalComponent/ModalChildrenComponents/EditUserProfileModal/EditUserProfileModal';
 import RequestModals from 'components/ModalComponent/ModalChildrenComponents/RequestModals/RequestModals';
@@ -42,10 +43,15 @@ const { Title } = Typography;
 const UserRequests = () => {
   const b = bem('UserRequests');
   const dispatch = useAppDispatch();
-  const { requests, fetchRequestsLoading, requestsPagination, vehicleDeleteLoading } =
-    useAppSelector(accountsSelector);
-  const { userInfo, userInfoLoading } = useAppSelector(companiesSelector);
-  const { results, loading } = useAppSelector(techniqueVehicleInfoSelector);
+  const {
+    requests,
+    fetchRequestsLoading,
+    requestsPagination,
+    vehicleDeleteLoading,
+    fetchRequestsError,
+  } = useAppSelector(accountsSelector);
+  const { userInfo, userInfoLoading, userInfoError } = useAppSelector(companiesSelector);
+  const { results, loading, errors } = useAppSelector(techniqueVehicleInfoSelector);
   const saveTechniqueVehicleState = useAppSelector(techniqueVehicleConfirmationSelector);
   const [isModalTechniqueOpen, setIsModalTechniqueOpen] = useState(false);
   const [isModalRegisterUserOpen, setIsModalRegisterUserTechniqueOpen] = useState(false);
@@ -74,13 +80,9 @@ const UserRequests = () => {
       dispatch(fetchUserInfo({ data }));
     }
   }, [dispatch, userIds?.userId]);
-
   useEffect(() => {
-    setIsModalRequestOpen(false);
     if (saveTechniqueVehicleState.results) {
       dispatch(deleteRequests(saveTechniqueVehicleState.results.id));
-      setIsModalRequestOpen(true);
-      setIsModalTechniqueOpen(false);
     }
   }, [saveTechniqueVehicleState]);
 
@@ -95,7 +97,7 @@ const UserRequests = () => {
   const rejectTechniqueHandler = async () => {
     try {
       if (id) {
-        dispatch(deleteUserTechnique({ id: String(id) }));
+        await dispatch(deleteUserTechnique({ id: String(id) })).unwrap();
         setIsModalTechniqueOpen(false);
         setIsModalRejectOpen(false);
         setIsModalRegisterUserTechniqueOpen(false);
@@ -241,6 +243,10 @@ const UserRequests = () => {
       userInfo?.user?.middle_name,
     )}`;
   };
+
+  if (fetchRequestsError) {
+    return <Errors status={fetchRequestsError?.status} detail={fetchRequestsError?.detail} />;
+  }
   return (
     <>
       <div className={b()} data-testid='requests-id'>
@@ -268,13 +274,21 @@ const UserRequests = () => {
         handleOk={handleOkTechniqueCancel}
         handleCancel={handleOkTechniqueCancel}
       >
-        <RequestAddTechnique
-          loading={loading}
-          resultsInfoClick={techniqueData}
-          resultsTechnique={results}
-          handleOkCancel={handleOkTechniqueCancel}
-          showRejectModal={showRejectModal}
-        />
+        {errors ? (
+          <Errors status={errors.status} detail={errors.detail} />
+        ) : (
+          <RequestAddTechnique
+            loading={loading}
+            modalOpen={() => {
+              setIsModalRequestOpen(!isModalRequestOpen);
+              setIsModalTechniqueOpen(!isModalTechniqueOpen);
+            }}
+            resultsInfoClick={techniqueData}
+            resultsTechnique={results}
+            handleOkCancel={handleOkTechniqueCancel}
+            showRejectModal={showRejectModal}
+          />
+        )}
       </ModalComponent>
 
       <ModalComponent
@@ -284,13 +298,17 @@ const UserRequests = () => {
         handleOk={handleOkRegisterUserCancel}
         handleCancel={handleOkRegisterUserCancel}
       >
-        <RequestRegisterUser
-          userInfo={userInfo}
-          userIds={userIds}
-          userInfoLoading={userInfoLoading}
-          handleOkCancel={handleOkRegisterUserCancel}
-          showRejectModal={showRejectModal}
-        />
+        {userInfoError ? (
+          <Errors status={userInfoError.status} detail={userInfoError.detail} />
+        ) : (
+          <RequestRegisterUser
+            userInfo={userInfo}
+            userIds={userIds}
+            userInfoLoading={userInfoLoading}
+            handleOkCancel={handleOkRegisterUserCancel}
+            showRejectModal={showRejectModal}
+          />
+        )}
       </ModalComponent>
 
       <ModalComponent
