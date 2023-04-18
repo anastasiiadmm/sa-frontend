@@ -177,26 +177,3 @@ export interface SensorData {
     max: number;
   };
 }
-
-export interface ChartOption {
-  color: string;
-  data: [number, number][];
-  groupId: string;
-  label: {
-    enabled: boolean;
-  };
-  series?: any;
-  name: string;
-  tooltip: {
-    xDateFormat: string;
-    useHTML: boolean;
-    headerFormat: string;
-    pointFormat: string;
-    footerFormat: string;
-  };
-  turboThreshold: number;
-  type: string;
-  visible: boolean;
-  yAxis: number;
-}
-

@@ -310,3 +310,26 @@ interface climateOptions {
   value: string;
   label: string;
 }
+
+export interface topologySensor {
+  chart: number;
+  groupId: string;
+  sensor: {
+    name: string;
+    group: number;
+    mac: string;
+    serial: string;
+    ch: number;
+    code: number;
+    color: string;
+  };
+  ch: number;
+  code: number;
+  color: string;
+  group: number;
+  mac: string;
+  name: string;
+  serial: string;
+  series: number;
+  visible: boolean;
+}
