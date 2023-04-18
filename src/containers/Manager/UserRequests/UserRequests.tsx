@@ -153,6 +153,29 @@ const UserRequests = () => {
     dispatch(clearTechniqueVehicle);
   };
 
+  const confirmationTypeHandler = (row: Request) => {
+    switch (row?.confirmation_type) {
+      case 2:
+        setId(row.id);
+        setConfirmation_typeId(row?.confirmation_type);
+        showUserInfoModal();
+        break;
+      case 3:
+        setId(row.id);
+        setConfirmation_typeId(row?.confirmation_type);
+        showTechniqueModal(row);
+        break;
+      default:
+        setId(row.id);
+        setConfirmation_typeId(row?.confirmation_type);
+        showRegisterUserModal();
+        setUserIds({
+          requestId: row?.id.toString(),
+          userId: row?.enterprise.toString(),
+        });
+    }
+  };
+
   const columns: ColumnsType<Request> = [
     {
       dataIndex: 'type_request',
@@ -191,48 +214,21 @@ const UserRequests = () => {
       title: 'Название компании',
       dataIndex: 'enterprise_name',
       filterSearch: true,
-      width: '35%',
-    },
-    {
-      dataIndex: 'profile',
-      filterSearch: true,
-      width: '20%',
+      width: '45%',
       render: (text, row) => {
         return (
-          <Tooltip
-            title='Просмотреть запрос'
-            color='#BBBBBB'
-            overlayInnerStyle={{ padding: '5px 15px', borderRadius: 15 }}
-          >
-            <Button
-              type='link'
-              onClick={
-                row?.confirmation_type === 2
-                  ? () => {
-                      setId(row.id);
-                      setConfirmation_typeId(row?.confirmation_type);
-                      showUserInfoModal();
-                    }
-                  : row?.confirmation_type === 3
-                  ? () => {
-                      setId(row.id);
-                      setConfirmation_typeId(row?.confirmation_type);
-                      showTechniqueModal(row);
-                    }
-                  : () => {
-                      setId(row.id);
-                      setConfirmation_typeId(row?.confirmation_type);
-                      showRegisterUserModal();
-                      setUserIds({
-                        requestId: row?.id.toString(),
-                        userId: row?.enterprise.toString(),
-                      });
-                    }
-              }
+          <>
+            <span>{row.enterprise_name}</span>
+            <Tooltip
+              title='Просмотреть запрос'
+              color='#BBBBBB'
+              overlayInnerStyle={{ padding: '5px 15px', borderRadius: 15 }}
             >
-              <EyeOutlined style={{ fontSize: '20px' }} />
-            </Button>
-          </Tooltip>
+              <Button className={b('btn')} type='link' onClick={() => confirmationTypeHandler(row)}>
+                <EyeOutlined style={{ fontSize: '20px' }} />
+              </Button>
+            </Tooltip>
+          </>
         );
       },
     },
@@ -337,6 +333,7 @@ const UserRequests = () => {
       >
         <DeleteRejectTechniqueModal
           title='Отклонить?'
+          textCancel='Отклонить'
           loading={vehicleDeleteLoading}
           subTitle='Вы уверены, что хотите отклонить запрос'
           techniqueName={`Личная информация ${textRender()}`}

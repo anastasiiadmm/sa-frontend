@@ -74,71 +74,73 @@ const SignIn: React.FC = () => {
           md={{ span: 13, offset: 5 }}
           lg={{ span: 7, offset: 1 }}
         >
-          <img src={logo} alt='logo' />
-          <p className={b('subtitle')}>Добро пожаловать</p>
-          <Title data-testid='sign_in_test' className={b('title')}>
-            Вход в аккаунт
-          </Title>
+          <div className={b('block_form')}>
+            <img src={logo} alt='logo' />
+            <p className={b('subtitle')}>Добро пожаловать</p>
+            <Title data-testid='sign_in_test' className={b('title')}>
+              Вход в аккаунт
+            </Title>
 
-          <Form
-            form={form}
-            name='register'
-            initialValues={{ remember: true }}
-            onFinish={onFinish}
-            className='login-form'
-            autoComplete='off'
-            layout='vertical'
-          >
-            <FormField
-              bordered
-              data-testid='email_id_login'
-              type='email'
-              id='email_id'
-              label='Логин'
-              name='username'
-              rules={[
-                {
-                  required: true,
-                  message: 'Заполните логин',
-                },
-              ]}
-              placeholder='Логин'
-            />
-
-            <FormField
-              bordered
-              data-testid='password_id'
-              type='password'
-              label='Пароль'
-              name='password'
-              placeholder='Пароль'
-            />
-
-            <FormField
-              id='remember_id'
-              type='checkbox'
-              label='Запомнить меня'
-              valuePropName='password'
-              checked={checked}
-              onChange={onChangeCheckbox}
-            />
-
-            <Button
-              type='primary'
-              htmlType='submit'
-              loading={!!loading}
-              style={{ width: '100%', borderRadius: 4 }}
-              className={b('login-form-button')}
+            <Form
+              form={form}
+              name='register'
+              initialValues={{ remember: true }}
+              onFinish={onFinish}
+              className='login-form'
+              autoComplete='off'
+              layout='vertical'
             >
-              Продолжить
-            </Button>
-          </Form>
-          <Row className={b('buttons-row')}>
-            <p>Хотите стать клиентом?</p>
-            <Button type='primary' onClick={showModal}>
-              Зарегистрироваться
-            </Button>
-          </Row>
+              <FormField
+                bordered
+                data-testid='email_id_login'
+                type='email'
+                id='email_id'
+                label='Логин'
+                name='username'
+                rules={[
+                  {
+                    required: true,
+                    message: 'Заполните логин',
+                  },
+                ]}
+                placeholder='Логин'
+              />
+
+              <FormField
+                bordered
+                data-testid='password_id'
+                type='password'
+                label='Пароль'
+                name='password'
+                placeholder='Пароль'
+              />
+
+              <FormField
+                id='remember_id'
+                type='checkbox'
+                label='Запомнить меня'
+                valuePropName='password'
+                checked={checked}
+                onChange={onChangeCheckbox}
+              />
+
+              <Button
+                type='primary'
+                htmlType='submit'
+                loading={!!loading}
+                style={{ width: '100%', borderRadius: 4 }}
+                className={b('login-form-button')}
+              >
+                Продолжить
+              </Button>
+            </Form>
+            <Row className={b('buttons-row')}>
+              <p>Хотите стать клиентом?</p>
+              <Button type='primary' onClick={showModal}>
+                Зарегистрироваться
+              </Button>
+            </Row>
+          </div>
         </Col>
       </Row>
 

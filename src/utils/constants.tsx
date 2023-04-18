@@ -18,3 +18,21 @@ export const climateColors = {
   blue: '%230b75b9',
   gray: '%23d3d3d3',
 };
+
+export const rangeDataDaysSensors = [
+  { value: 'raw', label: 'Необработанный' },
+  { value: 'hourly', label: 'Ежечасно' },
+  { value: 'daily', label: 'Ежедневно' },
+  { value: 'monthly', label: 'Ежемесячно' },
+];
+
+export const rangeDataHoursSensors = [
+  { value: '24_hours', label: '24 часа' },
+  { value: '2_days', label: '2 дня' },
+  { value: '7_days', label: '7 дней' },
+  { value: '10_days', label: '10 дней' },
+  { value: '14_days', label: '14 дней' },
+  { value: '30_days', label: '30 дней' },
+];
+
+export const dateMomentTypeString = 'YYYY-MM-DD HH:mm:ss';

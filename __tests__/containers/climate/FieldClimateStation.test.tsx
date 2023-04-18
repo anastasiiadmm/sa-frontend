@@ -5,10 +5,29 @@ import "@testing-library/jest-dom";
 import ResizeObserver from 'resize-observer-polyfill';
 import { mockedDispatch, mockedUseSelectors } from "../../../__mocks__/utils";
 import FieldClimateStation from "../../../src/containers/FieldClimate/FieldClimateStation/FieldClimateStation";
+import ChartComponent from "../../../src/components/ChartComponent/ChartComponent";
 declare const global;
 (global).ResizeObserver = ResizeObserver;
 
 afterEach(cleanup);
+
+const data = [
+  {
+    name: 'Air and Dew Point',
+    series: [
+      { name: 'HC Температура воздуха [°C]', data: [123234234, 3] },
+      { name: 'Точка росы [°C]', data: [123234234, 4] },
+    ],
+  },
+  {
+    name: 'Precipitation',
+    series: [{ name: 'Осадки [mm]', data: [123234234, 7] }],
+  },
+  {
+    name: 'Gust',
+    series: [{ name: 'Порыв ветра [m/s]', data: [123234234, 10] }],
+  },
+];
 
 describe("<FieldClimateStation />", () => {
   test("renders FieldClimateStation component without errors", async () => {
@@ -46,5 +65,16 @@ describe("<FieldClimateStation />", () => {
 
     expect(stationComponent).toBeInTheDocument();
 
+  });
+
+  test("renders FieldClimateStation component without errors", async () => {
+    render(
+      <BrowserRouter>
+        <ChartComponent data={data} />
+      </BrowserRouter>
+    );
+
+    const chartComponent = await screen.getByTestId("chart-id");
+    expect(chartComponent).toBeInTheDocument();
   });
 });

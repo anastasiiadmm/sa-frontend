@@ -13,6 +13,7 @@ interface Props {
   techniqueName?: string;
   handleDeleteCancel?: () => void;
   deleteRejectTechniqueHandler: () => void;
+  textCancel: string;
 }
 
 const DeleteRejectTechniqueModal: React.FC<Props> = ({
@@ -22,6 +23,7 @@ const DeleteRejectTechniqueModal: React.FC<Props> = ({
   techniqueName,
   handleDeleteCancel,
   deleteRejectTechniqueHandler,
+  textCancel,
 }) => {
   const b = bem('DeleteRejectTechniqueModal');
 
@@ -50,7 +52,7 @@ const DeleteRejectTechniqueModal: React.FC<Props> = ({
           className={b('delete-profile-button')}
           onClick={deleteRejectTechniqueHandler}
         >
-          Отклонить
+          {textCancel}
         </Button>
       </div>
     </>

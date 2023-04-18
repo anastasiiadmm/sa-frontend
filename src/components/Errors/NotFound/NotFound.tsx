@@ -28,7 +28,7 @@ const NotFound: FC<NotFoundProps> = ({ title, text, status, statusBool = false }
           <div>
             <h3>{title}</h3>
             <p>{text}</p>
-            <Button onClick={() => push('/')}>На главную</Button>
+            {showButton ? <Button onClick={() => push('/')}>На главную</Button> : null}
           </div>
         </div>
       </div>

@@ -392,6 +392,7 @@ const UserProfile: React.FC = () => {
         dividerShow={false}
         handleOk={closePasswordModal}
         handleCancel={closePasswordModal}
+        classNameTitle='title_signIn'
       >
         <GeneratedPasswordModal
           subtitle='Новый пароль пользователя'

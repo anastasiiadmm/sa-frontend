@@ -88,7 +88,7 @@ const ProfileTechnique = () => {
       key: 'processing_data',
       title: 'Наименование поля',
       dataIndex: 'field_name',
-      width: '18%',
+      width: '20%',
       fixed: 'left',
     },
     {
@@ -96,7 +96,7 @@ const ProfileTechnique = () => {
       title: 'Инструмент',
       dataIndex: 'description',
       filterSearch: true,
-      width: '17%',
+      width: '20%',
       render: (text: string, record) => {
         return <p className={b('name-column-style')}>{record?.attachments?.toolsName}</p>;
       },
@@ -106,7 +106,7 @@ const ProfileTechnique = () => {
       title: 'Обрабатываемая ширина',
       dataIndex: 'toolsWidth',
       filterSearch: true,
-      width: '24%',
+      width: '20%',
       render: (text: string, record) => {
         return <p className={b('name-column-style')}>{record?.attachments?.toolsWidth} м</p>;
       },
@@ -116,7 +116,7 @@ const ProfileTechnique = () => {
       title: 'Ширина перекрытия',
       dataIndex: 'skipOverlap',
       filterSearch: true,
-      width: '17%',
+      width: '20%',
       render: (text: string, record) => {
         return <p className={b('name-column-style')}>{record?.attachments?.skipOverlap} м</p>;
       },
@@ -126,7 +126,7 @@ const ProfileTechnique = () => {
       title: 'Итоговая ширина',
       dataIndex: 'toolsWidthResult',
       filterSearch: true,
-      width: '15%',
+      width: '20%',
       render: (text: string, record) => {
         return <p className={b('name-column-style')}>{record?.attachments?.toolsWidthResult} м</p>;
       },
@@ -136,7 +136,7 @@ const ProfileTechnique = () => {
       title: 'Смещение',
       dataIndex: 'leftRight',
       filterSearch: true,
-      width: '15%',
+      width: '20%',
       render: (text: string, record) => {
         return <p className={b('name-column-style')}>{record?.attachments?.leftRight} м</p>;
       },
@@ -146,7 +146,7 @@ const ProfileTechnique = () => {
       title: 'Обрабатываемая площадь',
       dataIndex: 'description',
       filterSearch: true,
-      width: '21%',
+      width: '20%',
       render: (text: string, record) => {
         return <p className={b('name-column-style')}>{record?.work_area} га</p>;
       },
@@ -154,7 +154,7 @@ const ProfileTechnique = () => {
     {
       dataIndex: 'profile',
       filterSearch: true,
-      width: '23%',
+      width: '18%',
       render: (_, record) => (
         <div style={{ display: 'flex', gap: 37, justifyContent: 'right' }}>
           <Tooltip
@@ -163,7 +163,14 @@ const ProfileTechnique = () => {
             overlayInnerStyle={{ padding: '5px 15px', borderRadius: 15 }}
             placement='topRight'
           >
-            <Link className={b('profile-link')} to={`/open-map/${vehicleId}/${record?.id}`}>
+            <Link
+              className={b('profile-link')}
+              to={
+                user?.is_manager
+                  ? `/open-map/${record?.id}/${vehicleId}/manager`
+                  : `/open-map/${record?.id}/${vehicleId}`
+              }
+            >
               <Button type='text'>
                 <img src={planet} alt='Просмотреть на карте' width={20} />
               </Button>
@@ -205,7 +212,13 @@ const ProfileTechnique = () => {
             )}
           </div>
           <div>
-            <Link to={`/open-map/${vehicleId}/localTractorInfo`}>
+            <Link
+              to={
+                user?.is_manager
+                  ? `/open-map/${userId}/${vehicleId}/local-tractor`
+                  : `/open-map/local-tractor/${vehicleId}`
+              }
+            >
               <Button
                 type='link'
                 icon={<img src={tractorBlue} alt='Техника на карте' width={18} />}
@@ -234,9 +247,9 @@ const ProfileTechnique = () => {
                 <div className={b('form-block')}>
                   <FormField
                     readOnly
-                    id='technique_name_id'
+                    id='description'
                     label='Название техники'
-                    name='technique_name'
+                    name='description'
                     placeholder='Название техники'
                     defaultValue={state[0]?.vin_code}
                   />
@@ -255,34 +268,6 @@ const ProfileTechnique = () => {
                     label='VIN код'
                     name='vin_code'
                     placeholder='VIN код'
-                  />
-                </div>
-                <Title level={5} className={b('profile-title')}>
-                  Информация о механизаторе
-                </Title>
-                <div className={b('form-block')}>
-                  <FormField
-                    readOnly
-                    id='last_name_id'
-                    label='Фамилия'
-                    name='last_name'
-                    placeholder='Фамилия'
-                  />
-
-                  <FormField
-                    readOnly
-                    id='first_name_id'
-                    label='Имя'
-                    name='first_name'
-                    placeholder='Имя'
-                  />
-
-                  <FormField
-                    readOnly
-                    id='middle_name_id'
-                    label='Отчество'
-                    name='middle_name'
-                    placeholder='Отчество'
                   />
                 </div>
               </Form>

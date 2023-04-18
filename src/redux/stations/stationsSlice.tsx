@@ -5,10 +5,11 @@ import CryptoJS from 'crypto-js';
 import { RootState } from 'redux/hooks';
 import {
   APIError,
-  APIResponse,
   APIWeatherResponse,
-  SensorData,
+  stationInfo,
+  StationSensor,
   StationState,
+  userStation,
 } from 'types/stationTypes';
 
 const {
@@ -36,7 +37,7 @@ const getAuthorizationHeader = (method: string, request: string) => {
 };
 
 const initialState: StationState = {
-  user: [],
+  user: null,
   isLoading: false,
   error: null,
 
@@ -44,7 +45,7 @@ const initialState: StationState = {
   isWeatherLoading: false,
   isWeatherError: null,
 
-  stations: [],
+  stations: null,
   stationsLoading: false,
   stationsError: null,
 
@@ -55,9 +56,13 @@ const initialState: StationState = {
   sensors: [],
   sensorsLoading: false,
   sensorsError: null,
+
+  sensorData: null,
+  sensorDataLoading: false,
+  sensorDataError: null,
 };
 
-export const fetchUser = createAsyncThunk<APIResponse, void, { rejectValue: APIError }>(
+export const fetchUser = createAsyncThunk<userStation, void, { rejectValue: APIError }>(
   'stations/fetchUser',
   async () => {
     const params = {
@@ -73,7 +78,7 @@ export const fetchUser = createAsyncThunk<APIResponse, void, { rejectValue: APIE
         headers,
       });
 
-      const data: APIResponse = response.data;
+      const data: userStation = response.data;
       return data;
     } catch (error) {
       throw new Error('Failed to fetch stations.');
@@ -105,7 +110,7 @@ export const fetchWeather = createAsyncThunk<APIWeatherResponse, void, { rejectV
   },
 );
 
-export const fetchStations = createAsyncThunk<APIWeatherResponse, void, { rejectValue: APIError }>(
+export const fetchStations = createAsyncThunk<stationInfo, void, { rejectValue: APIError }>(
   'stations/fetchStations',
   async (_, { rejectWithValue }) => {
     const params = {
@@ -121,7 +126,7 @@ export const fetchStations = createAsyncThunk<APIWeatherResponse, void, { reject
         headers,
       });
 
-      const data: APIWeatherResponse = response.data;
+      const data: stationInfo = response.data;
       return data;
     } catch (error) {
       return rejectWithValue({ message: 'Failed to fetch station data.' });
@@ -134,7 +139,7 @@ interface stationInfoParams {
 }
 
 export const fetchStationInfo = createAsyncThunk<
-  SensorData,
+  stationInfo,
   stationInfoParams,
   { rejectValue: APIError }
 >('stations/fetchStationInfo', async ({ id }, { rejectWithValue }) => {
@@ -158,11 +163,11 @@ export const fetchStationInfo = createAsyncThunk<
 });
 
 interface stationParams {
-  id: string | null | undefined;
+  id: string;
 }
 
 export const fetchStationSensors = createAsyncThunk<
-  SensorData,
+  StationSensor,
   stationParams,
   { rejectValue: APIError }
 >('stations/fetchStationSensors', async ({ id }, { rejectWithValue }) => {
@@ -176,6 +181,43 @@ export const fetchStationSensors = createAsyncThunk<
   };
   try {
     const response = await axios.get(REACT_APP_CLIMATE_API_BASE_URL + params.request, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    return rejectWithValue({ message: 'Failed to fetch station data.' });
+  }
+});
+
+interface postStationSensorsParams {
+  data: {
+    id: string | null | undefined;
+    name: {
+      name: string | null | undefined;
+    };
+    day_type: string | null | undefined;
+    date_from: string | null | undefined;
+    date_to: string | null | undefined;
+  };
+}
+
+export const postStationSensors = createAsyncThunk<
+  StationSensor,
+  postStationSensorsParams,
+  { rejectValue: APIError }
+>('stations/postStationSensors', async ({ data }, { rejectWithValue }) => {
+  const params = {
+    method: 'POST',
+    request: `/fc/${data?.id}/${data?.day_type}/from/${data?.date_from}/to/${data?.date_to}`,
+  };
+  const headers = {
+    ...getAuthorizationHeader(params.method, params.request),
+    Accept: 'application/json',
+    'Accept-Language': 'ru',
+  };
+  try {
+    const response = await axios.post(REACT_APP_CLIMATE_API_BASE_URL + params.request, data?.name, {
       headers,
     });
 
@@ -261,6 +303,20 @@ const stationSlice = createSlice({
       .addCase(fetchStationInfo.rejected, (state, action) => {
         state.isWeatherLoading = false;
         state.isWeatherError = action.payload ? action.payload : null;
+      });
+
+    builder
+      .addCase(postStationSensors.pending, (state) => {
+        state.sensorDataLoading = true;
+        state.sensorDataError = null;
+      })
+      .addCase(postStationSensors.fulfilled, (state, action) => {
+        state.sensorDataLoading = false;
+        state.sensorData = action.payload;
+      })
+      .addCase(postStationSensors.rejected, (state, action) => {
+        state.sensorDataLoading = false;
+        state.sensorDataError = action.payload ? action.payload : null;
       });
   },
 });

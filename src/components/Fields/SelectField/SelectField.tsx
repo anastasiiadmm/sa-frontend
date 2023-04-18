@@ -6,14 +6,23 @@ import { climateOptions } from 'types/types';
 interface Props {
   handleChange?: () => void;
   defaultValue?: string;
+  disabled?: boolean;
+  customStyle?: string;
   options?: climateOptions[];
 }
 
-const SelectField: React.FC<Props> = ({ handleChange, defaultValue, options }) => {
+const SelectField: React.FC<Props> = ({
+  handleChange,
+  disabled,
+  defaultValue,
+  options,
+  customStyle,
+}) => {
   return (
     <Select
+      disabled={disabled}
       defaultValue={defaultValue}
-      style={{ width: 'auto' }}
+      style={{ width: customStyle ?? 'auto' }}
       onChange={handleChange}
       options={options}
     />

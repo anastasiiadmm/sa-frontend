@@ -1,4 +1,6 @@
+import { stationInfo } from 'types/stationTypes';
 import { companiesList, ErrorObject, ICompany, updateManagerDataMutation } from 'types/types';
+import { dateMomentTypeString } from 'utils/constants';
 
 const moment = require('moment');
 
@@ -172,7 +174,7 @@ export const mergeAndRemoveDuplicateValues = (obj1: any, obj2: any) => {
 
 export const lastCommunication = (lastComm: string) => {
   const aWeekAgo = moment().subtract(7, 'days');
-  const lastCommMoment = moment(lastComm, 'YYYY-MM-DD HH:mm:ss');
+  const lastCommMoment = moment(lastComm, dateMomentTypeString);
   return lastCommMoment.isAfter(aWeekAgo);
 };
 
@@ -198,4 +200,42 @@ export const checkTooltipVisibility = (selectedOption: string, marker: any): boo
     default:
       return false;
   }
+};
+
+export const calculateDateRange = (value: string, sensorData: stationInfo | null) => {
+  const maxDate = moment(sensorData?.dates?.max_date);
+  let fromDate;
+  let toDate;
+
+  switch (value) {
+    case '24_hours':
+      fromDate = maxDate.clone().subtract(24, 'hours').valueOf();
+      toDate = maxDate.valueOf();
+      break;
+    case '2_days':
+      fromDate = maxDate.clone().subtract(2, 'days').valueOf();
+      toDate = maxDate.valueOf();
+      break;
+    case '7_days':
+      fromDate = maxDate.clone().subtract(7, 'days').valueOf();
+      toDate = maxDate.valueOf();
+      break;
+    case '10_days':
+      fromDate = maxDate.clone().subtract(10, 'days').valueOf();
+      toDate = maxDate.valueOf();
+      break;
+    case '14_days':
+      fromDate = maxDate.clone().subtract(14, 'days').valueOf();
+      toDate = maxDate.valueOf();
+      break;
+    case '30_days':
+      fromDate = maxDate.clone().subtract(30, 'days').valueOf();
+      toDate = maxDate.valueOf();
+      break;
+    default:
+      fromDate = null;
+      toDate = null;
+  }
+
+  return { fromDate, toDate };
 };

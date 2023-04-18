@@ -14,7 +14,7 @@ const GeneratedPasswordModal: React.FC<Props> = ({ subtitle, generatedPassword, 
 
   return (
     <div className={b()}>
-      <p>{subtitle}</p>
+      <p className={b('text')}>{subtitle}</p>
       <p data-testid='generated-password' className={b('new-password')}>
         {generatedPassword}
       </p>

@@ -23,9 +23,9 @@ const initialState = {
 
 export const tractorLocation = createAsyncThunk(
   `${nameSpace}/tractorLocation`,
-  async (id: number, { rejectWithValue }) => {
+  async (link: string, { rejectWithValue }) => {
     try {
-      const response = await axiosApi.get(`/accounts/user/vehicle/${id}/`);
+      const response = await axiosApi.get(link);
       return response.data;
     } catch (e) {
       return rejectWithValue({
@@ -53,7 +53,7 @@ export const obtainingCoordinate = createAsyncThunk(
       if (response.data.length) {
         return response.data;
       }
-      message.error('Кординаты для маршрута не найдено');
+      message.error('Координаты для маршрута не найдены');
       return [];
     } catch (e) {
       return rejectWithValue({

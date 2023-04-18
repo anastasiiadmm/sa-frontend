@@ -277,6 +277,7 @@ const RequestRegisterUser: React.FC<Props> = ({
         dividerShow={false}
         handleOk={handleAgreeOkCancel}
         handleCancel={() => setIsModalOpen(false)}
+        classNameTitle='title_signIn'
       >
         <CreateNewUserCredentials
           handleOkCancel={handleAgreeOkCancel}

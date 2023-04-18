@@ -33,6 +33,21 @@ code {
   width: 35%;
 }
 
+.btn_none_style {
+  cursor: pointer;
+  outline: none;
+  border: 0;
+  background: transparent;
+}
+
+.title_signIn {
+  font-weight: 700;
+  color: #273043;
+  font-size: 18px;
+  line-height: 24.51px;
+}
+
+
 .input-styles {
   &:hover {
     border-color: themes.$disabled-color !important;
