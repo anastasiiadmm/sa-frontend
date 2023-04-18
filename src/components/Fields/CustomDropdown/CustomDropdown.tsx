@@ -33,19 +33,13 @@ const CustomDropdown: React.FC<Props> = ({ id, dropdownOptions }) => {
       </div>
       {isOpen && (
         <ul className={b('dropdown-menu')}>
-          {dropdownOptions
-            ?.filter((option: any) =>
-              ['HC Температура воздуха', 'Точка росы', 'Осадки', 'Порыв ветра'].includes(
-                option?.sensor?.name,
-              ),
-            )
-            ?.map((option: any) => (
-              <li key={option?.groupId}>
-                <Tag color={option?.sensor?.color} className={b('dropdown-tag')} />
-                {option?.sensor?.name}{' '}
-                <span>{option?.sensor?.ch ? `[${option?.sensor?.ch}]` : null}</span>
-              </li>
-            ))}
+          {dropdownOptions?.map((option: any) => (
+            <li key={option?.groupId}>
+              <Tag color={option?.sensor?.color} className={b('dropdown-tag')} />
+              {option?.sensor?.name}{' '}
+              <span>{option?.sensor?.ch ? `[${option?.sensor?.ch}]` : null}</span>
+            </li>
+          ))}
         </ul>
       )}
     </div>

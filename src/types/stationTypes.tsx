@@ -92,6 +92,60 @@ export interface MarkerData {
   };
 }
 
+export interface Sensor {
+  chart?: {
+    zoomType: string;
+    marginTop: number;
+    height: number;
+    marginRight: number;
+    marginLeft: number;
+  };
+  credits?: {
+    enabled: boolean;
+  };
+  exporting?: {
+    enabled: boolean;
+  };
+  legend?: {
+    backgroundColor: string;
+    enabled: boolean;
+    align: string;
+    verticalAlign: string;
+    layout: string;
+  };
+  series?: any;
+  sources?: string[];
+  subtitle?: string;
+  title?: {
+    floating: boolean;
+    align: string;
+    text: string;
+    style: any;
+    x: number;
+  };
+  tooltip?: {
+    xDateFormat: string;
+    useHTML: boolean;
+    headerFormat: string;
+    pointFormat: string;
+    footerFormat: string;
+  };
+  xAxis?: {
+    type: string;
+    gridLineWidth: number;
+    crosshair: boolean;
+    labels: any;
+    lineWidth: number;
+  };
+  yAxis?: {
+    [index: number]: {
+      title: Object;
+      labels: Object;
+      opposite?: boolean;
+    };
+  }[];
+}
+
 export interface SensorData {
   aggr: string[];
   calibration_id: string;
@@ -131,7 +185,7 @@ export interface ChartOption {
   label: {
     enabled: boolean;
   };
-  series: [];
+  series?: any;
   name: string;
   tooltip: {
     xDateFormat: string;
@@ -145,3 +199,4 @@ export interface ChartOption {
   visible: boolean;
   yAxis: number;
 }
+

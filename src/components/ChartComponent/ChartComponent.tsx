@@ -5,7 +5,7 @@ import HCSolidGauge from 'highcharts/modules/solid-gauge';
 import HighchartsReact from 'highcharts-react-official';
 import React, { useEffect, useState } from 'react';
 
-import { ChartOption } from 'types/stationTypes';
+import { Sensor } from 'types/stationTypes';
 
 HighchartsAccessibility(Highcharts);
 HCMore(Highcharts);
@@ -14,62 +14,40 @@ HCSolidGauge(Highcharts);
 Highcharts.seriesType('arearange', '', {});
 
 interface Props {
-  data: any;
+  data: Sensor[] | undefined | null;
 }
 
 const ChartComponent: React.FC<Props> = ({ data }) => {
-  const [chartAirAndDewPointOptions, setAirAndDewPointChartOptions] = useState<ChartOption | null>(
-    null,
-  );
-  const [chartPrecipitationOptions, setChartPrecipitationOptions] = useState<ChartOption | null>(
-    null,
-  );
-  const [chartGustOptions, setGustOptions] = useState<ChartOption | null>(null);
+  const [chartDataFirst, setChartDataFirst] = useState<Sensor | null>(null);
+  const [chartDataSecond, setChartDataSecond] = useState<Sensor | null>(null);
+  const [chartDataThird, setChartDataThird] = useState<Sensor | null>(null);
+  const [chartDataFourth, setChartDataFourth] = useState<Sensor | null>(null);
 
   useEffect(() => {
-    const filteredAirAndDewPointSeries =
-      data &&
-      data[0]?.series.filter(
-        (series: ChartOption) =>
-          series.name === 'HC Температура воздуха [°C]' || series.name === 'Точка росы [°C]',
-      );
-    const filteredPrecipitationSeries =
-      data && data[1]?.series.filter((series: ChartOption) => series.name === 'Осадки [mm]');
-    const filteredGustSeries =
-      data && data[2]?.series.filter((series: ChartOption) => series.name === 'Порыв ветра [m/s]');
-
-    const newChartAirAndDewPointOptions: ChartOption = {
-      ...data[0],
-      series: filteredAirAndDewPointSeries,
-    };
-
-    const newChartPrecipitationOptions: ChartOption = {
-      ...data[1],
-      series: filteredPrecipitationSeries,
-    };
-
-    const newChartGustOptions: ChartOption = {
-      ...data[2],
-      series: filteredGustSeries,
-    };
-
-    setAirAndDewPointChartOptions(newChartAirAndDewPointOptions);
-    setChartPrecipitationOptions(newChartPrecipitationOptions);
-    setGustOptions(newChartGustOptions);
+    if (data) {
+      setChartDataFirst(data[0]);
+      setChartDataSecond(data[1]);
+      setChartDataThird(data[2]);
+      setChartDataFourth(data[3]);
+    }
   }, [data]);
 
   return (
     <div data-testid='chart-id'>
-      {chartAirAndDewPointOptions?.series?.length ? (
-        <HighchartsReact highcharts={Highcharts} options={chartAirAndDewPointOptions} />
+      {chartDataFirst?.series?.length ? (
+        <HighchartsReact highcharts={Highcharts} options={chartDataFirst} />
       ) : null}
 
-      {chartPrecipitationOptions?.series?.length ? (
-        <HighchartsReact highcharts={Highcharts} options={chartPrecipitationOptions} />
+      {chartDataSecond?.series?.length ? (
+        <HighchartsReact highcharts={Highcharts} options={chartDataSecond} />
       ) : null}
 
-      {chartGustOptions?.series?.length ? (
-        <HighchartsReact highcharts={Highcharts} options={chartGustOptions} />
+      {chartDataThird?.series?.length ? (
+        <HighchartsReact highcharts={Highcharts} options={chartDataThird} />
+      ) : null}
+
+      {chartDataFourth?.series?.length ? (
+        <HighchartsReact highcharts={Highcharts} options={chartDataFourth} />
       ) : null}
     </div>
   );
