@@ -3,11 +3,12 @@ import { Tag } from 'antd';
 import bem from 'easy-bem';
 import React, { useState } from 'react';
 
+import { rangeDataDaysSensors, rangeDataHoursSensors } from 'utils/constants';
 import 'components/Fields/CustomDropdown/_customDropdown.scss';
 
 interface Props {
   id: string | undefined;
-  dropdownOptions: any;
+  dropdownOptions: typeof rangeDataHoursSensors | typeof rangeDataDaysSensors | null | undefined;
 }
 
 const CustomDropdown: React.FC<Props> = ({ id, dropdownOptions }) => {
