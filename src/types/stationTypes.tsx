@@ -51,7 +51,7 @@ export interface StationState {
   sensors: any;
   sensorsLoading: boolean;
   sensorsError: APIError | null;
-  sensorData: stationSensor | null;
+  sensorData: StationSensor | null;
   sensorDataLoading: boolean;
   sensorDataError: APIError | null;
 }
@@ -146,67 +146,35 @@ export interface Sensor {
   }[];
 }
 
-export interface stationSensor {
+export interface StationSensor {
   chartsOptions: Sensor[];
   grid: {
     data: number[];
     headers: any;
   };
   notifications: [];
-  topology: topologySensor[];
+  topology: SensorData[];
 }
 
 export interface SensorData {
-  aggr: string[];
-  calibration_id: string;
-  ch: number;
-  code: number;
-  color: string;
-  decimals: number;
-  desc: string;
-  divider: number;
-  group: number;
-  isActive: boolean;
-  is_user_set: {
-    name: boolean;
-    unit: boolean;
-    color: boolean;
-  };
-  mac: string;
-  multiplier: number;
+  expanded: boolean;
   name: string;
   name_custom: string;
-  registered: string;
-  serial: string;
-  size: string;
-  unit: string;
-  unit_default: string;
-  units: string[];
-  vals: {
-    min: number;
-    max: number;
-  };
+  nodes: [];
+  sensors: TopologySensor[];
+  type: string;
 }
 
-export interface topologySensor {
+export interface TopologySensor {
   chart: number;
   groupId: string;
   sensor: {
-    name: string;
-    group: number;
-    mac: string;
-    serial: string;
     ch: number;
     code: number;
     color: string;
+    group: number;
+    mac: string;
+    name: string;
+    serial: string;
   };
-  ch: number;
-  code: number;
-  color: string;
-  group: number;
-  mac: string;
-  name: string;
-  serial: string;
-  series: number;
-  visible: boolean;
 }

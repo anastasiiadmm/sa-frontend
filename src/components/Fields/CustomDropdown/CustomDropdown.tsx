@@ -3,12 +3,12 @@ import { Tag } from 'antd';
 import bem from 'easy-bem';
 import React, { useState } from 'react';
 
-import { topologySensor } from 'types/stationTypes';
+import { TopologySensor } from 'types/stationTypes';
 import 'components/Fields/CustomDropdown/_customDropdown.scss';
 
 interface Props {
   id: string | undefined;
-  dropdownOptions: topologySensor[];
+  dropdownOptions: TopologySensor[] | undefined;
 }
 
 const CustomDropdown: React.FC<Props> = ({ id, dropdownOptions }) => {
@@ -34,7 +34,7 @@ const CustomDropdown: React.FC<Props> = ({ id, dropdownOptions }) => {
       </div>
       {isOpen && (
         <ul className={b('dropdown-menu')}>
-          {dropdownOptions?.map((option: topologySensor) => (
+          {dropdownOptions?.map((option: TopologySensor) => (
             <li key={option?.groupId}>
               <Tag color={option?.sensor?.color} className={b('dropdown-tag')} />
               {option?.sensor?.name}{' '}

@@ -62,9 +62,9 @@ const FieldClimateStation = () => {
   const { id } = useParams<{ id: string }>();
   const dispatch = useAppDispatch();
   const { stationInfo, sensorData, sensorDataLoading } = useAppSelector(stationsSelector);
-  const maxDate = moment(sensorData?.dates?.max_date);
+  const maxDate = moment(stationInfo?.dates?.max_date);
   const twoDaysAgo = maxDate.clone().subtract(2, 'days').unix().toString();
-  const dayString = moment(sensorData?.dates?.max_date)
+  const dayString = moment(stationInfo?.dates?.max_date)
     .subtract(2, 'days')
     .format(dateMomentTypeString);
   const [collapsed, setCollapsed] = useState(false);
