@@ -79,10 +79,6 @@ const FieldClimateStation = () => {
   });
 
   useEffect(() => {
-    dispatch(fetchStations());
-  }, []);
-
-  useEffect(() => {
     dispatch(fetchStationInfo({ id }));
   }, [dispatch]);
 
