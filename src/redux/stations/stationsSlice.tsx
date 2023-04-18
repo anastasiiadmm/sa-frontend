@@ -213,6 +213,7 @@ export const postStationSensors = createAsyncThunk<
   const headers = {
     ...getAuthorizationHeader(params.method, params.request),
     Accept: 'application/json',
+    'Accept-Language': 'ru',
   };
   try {
     const response = await axios.post(REACT_APP_CLIMATE_API_BASE_URL + params.request, data?.name, {
