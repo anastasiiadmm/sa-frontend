@@ -7,6 +7,7 @@ import { Link, useParams } from 'react-router-dom';
 import arrowLeft from 'assets/images/icons/arrow-left.svg';
 import planet from 'assets/images/icons/planet.svg';
 import tractorBlue from 'assets/images/icons/tractor-blue.svg';
+import Errors from 'components/Errors/Errors';
 import FormField from 'components/FormField/FormField';
 import TableComponent from 'components/TableComponent/TableComponent';
 import { accountsSelector, fetchVehicleInfo } from 'redux/accounts/accountsSlice';
@@ -15,9 +16,7 @@ import { companiesSelector, fetchUserVehicleInfo } from 'redux/companies/compani
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { fieldsList, userVehicleInfo } from 'types/types';
 import { apiUrlCrop } from 'utils/config';
-
 import 'containers/Technique/ProfileTechnique/_profileTechnique.scss';
-import Errors from '../../../components/Errors/Errors';
 
 const { Title } = Typography;
 

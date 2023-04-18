@@ -77,7 +77,7 @@ const Profile: React.FC = () => {
     dispatch(managerChangeProfileHandler({ [name]: value }));
   };
 
-  const onFinish = async () => {
+  const onFinish = () => {
     if (updateManagerData) {
       const data = removeEmptyValuesFromObject(updateManagerData);
       const formData = new FormData();

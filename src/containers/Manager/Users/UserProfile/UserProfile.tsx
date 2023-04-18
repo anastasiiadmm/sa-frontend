@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router';
 import { Link, useParams } from 'react-router-dom';
 
 import tractorBlue from 'assets/images/icons/tractor-blue.svg';
+import Errors from 'components/Errors/Errors';
 import FormField from 'components/FormField/FormField';
 import DeleteUserModal from 'components/ModalComponent/ModalChildrenComponents/DeleteUserModal/DeleteUserModal';
 import EditUserProfileModal from 'components/ModalComponent/ModalChildrenComponents/EditUserProfileModal/EditUserProfileModal';
@@ -29,7 +30,6 @@ import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { companiesList } from 'types/types';
 
 import 'containers/Manager/Users/UserProfile/_UserProfile.scss';
-import Errors from '../../../../components/Errors/Errors';
 
 const { Title } = Typography;
 

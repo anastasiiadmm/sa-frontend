@@ -11,6 +11,7 @@ import edit from 'assets/images/icons/edit.svg';
 import successIcon from 'assets/images/icons/success.svg';
 import tractorBlue from 'assets/images/icons/tractor-blue.svg';
 import tractor from 'assets/images/icons/tractor-image.svg';
+import Errors from 'components/Errors/Errors';
 import AddUpdateTechnique from 'components/ModalComponent/ModalChildrenComponents/AddUpdateTechnique/AddUpdateTechnique';
 import DeleteRejectTechniqueModal from 'components/ModalComponent/ModalChildrenComponents/DeleteTechniqueModal/DeleteTechniqueModal';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
@@ -27,9 +28,7 @@ import {
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { vehicleList } from 'types/types';
 import { apiUrlCrop } from 'utils/config';
-
 import 'containers/Manager/Users/UserTechnique/_userTechnique.scss';
-import Errors from '../../../../components/Errors/Errors';
 
 const { Title } = Typography;
 

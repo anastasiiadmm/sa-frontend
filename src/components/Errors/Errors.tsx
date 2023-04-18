@@ -10,6 +10,7 @@ const Errors: FC<ErrorsProps> = ({ status, detail }) => {
   if (status === 404) {
     return (
       <NotFound
+        showButton
         status={status}
         statusBool
         title={detail || 'Страница не найдено'}
@@ -20,6 +21,7 @@ const Errors: FC<ErrorsProps> = ({ status, detail }) => {
 
   return (
     <NotFound
+      showButton
       status={status}
       statusBool
       title={detail || 'Что то пошло не так!'}

@@ -9,11 +9,12 @@ import 'components/Errors/NotFound/_notFound.scss';
 
 interface NotFoundProps {
   title: string;
-  text: string;
+  text?: string;
   status?: number | null | undefined;
   statusBool?: boolean;
+  showButton: boolean;
 }
-const NotFound: FC<NotFoundProps> = ({ title, text, status, statusBool = false }) => {
+const NotFound: FC<NotFoundProps> = ({ title, text, status, statusBool = false, showButton }) => {
   const b = bem('NotFound');
   const push = useNavigate();
 
