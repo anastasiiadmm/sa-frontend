@@ -1,17 +1,17 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
+import { IErrors } from 'interfaces';
 import { RootState } from 'redux/hooks';
 import store from 'redux/store';
-import { ITokens, IUser, LoginMutation, loginResponse, ValidationError } from 'types/types';
+import { ITokens, IUser, LoginMutation, loginResponse } from 'types/types';
 import { addCookies } from 'utils/addCookies/addCookies';
 import axiosApi from 'utils/axios-api';
-import { defaultError } from 'utils/config';
 
 interface AuthState {
   user: IUser | null;
   tokens: ITokens;
   errors: Object | null;
-  commonError: unknown;
+  commonError: IErrors | null;
   success: boolean | null;
   loading: boolean;
 }
@@ -30,32 +30,30 @@ const INITIAL_STATE = {
   loading: false,
 } as AuthState;
 
-export const loginUser = createAsyncThunk<
-  loginResponse,
-  LoginMutation,
-  { rejectValue: ValidationError }
->(`${nameSpace}/loginUser`, async (loginData, { rejectWithValue }) => {
-  try {
-    const resp = await axiosApi.post<loginResponse>('/accounts/login/', loginData);
-    addCookies('refresh', resp.data.tokens.refresh);
-    localStorage.setItem(
-      'users',
-      JSON.stringify({
-        user: resp.data.user,
-        token: {
-          access: resp.data.tokens.access,
-        },
-      }),
-    );
-    return resp.data;
-  } catch (e) {
-    let error = e?.message;
-    if (!e.message) {
-      error = defaultError;
+export const loginUser = createAsyncThunk<loginResponse, LoginMutation>(
+  `${nameSpace}/loginUser`,
+  async (loginData, { rejectWithValue }) => {
+    try {
+      const resp = await axiosApi.post<loginResponse>('/accounts/login/', loginData);
+      addCookies('refresh', resp.data.tokens.refresh);
+      localStorage.setItem(
+        'users',
+        JSON.stringify({
+          user: resp.data.user,
+          token: {
+            access: resp.data.tokens.access,
+          },
+        }),
+      );
+      return resp.data;
+    } catch (e) {
+      return rejectWithValue({
+        detail: e?.response?.data?.detail,
+        status: e?.response?.status,
+      });
     }
-    return rejectWithValue(error);
-  }
-});
+  },
+);
 
 export const refreshToken = createAsyncThunk(`${nameSpace}/refreshToken`, async () => {
   const refresh = store.getState()?.auth?.tokens?.refresh;
@@ -72,11 +70,10 @@ export const resetUserPasswordSendEmail = createAsyncThunk<void, Object>(
     try {
       await axiosApi.post('/accounts/password-reset/', data);
     } catch (e) {
-      let error = e?.response?.data;
-      if (!e.response) {
-        error = defaultError;
-      }
-      return rejectWithValue(error);
+      return rejectWithValue({
+        detail: e?.response?.data?.detail,
+        status: e?.response?.status,
+      });
     }
   },
 );
@@ -113,7 +110,13 @@ export const authSlice = createSlice({
     builder.addCase(resetUserPasswordSendEmail.rejected, (state, payload) => {
       state.loading = false;
       state.success = false;
-      state.commonError = payload;
+      if (payload && typeof payload === 'object' && 'detail' in payload && 'status' in payload) {
+        state.commonError = {
+          ...state.commonError,
+          detail: payload.detail as string | null,
+          status: payload.status as number | null,
+        };
+      }
       state.errors = payload;
     });
 
@@ -133,7 +136,13 @@ export const authSlice = createSlice({
     builder.addCase(loginUser.rejected, (state, { payload }) => {
       state.loading = false;
       state.success = false;
-      state.commonError = payload;
+      if (payload && typeof payload === 'object' && 'detail' in payload && 'status' in payload) {
+        state.commonError = {
+          ...state.commonError,
+          detail: payload.detail as string | null,
+          status: payload.status as number | null,
+        };
+      }
     });
 
     builder.addCase(refreshToken.fulfilled, (state, { payload }) => {

@@ -111,8 +111,10 @@ const AddUpdateTechnique: React.FC<Props> = ({
         }
       }
     } catch (e) {
-      const errorMessage = getErrorMessage(e, 'username');
-      await message.error(`${errorMessage}`);
+      if (e?.detail) {
+        const errorMessage = getErrorMessage(e?.detail, 'username');
+        await message.error(`${errorMessage}`);
+      }
     }
   };
 

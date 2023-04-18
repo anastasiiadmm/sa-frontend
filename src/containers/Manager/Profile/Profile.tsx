@@ -1,5 +1,5 @@
 import { UserOutlined } from '@ant-design/icons';
-import { Avatar, Button, Col, Form, Typography } from 'antd';
+import { Avatar, Button, Col, Form, message, Typography } from 'antd';
 import bem from 'easy-bem';
 import React, { useEffect, useState } from 'react';
 
@@ -77,7 +77,7 @@ const Profile: React.FC = () => {
     dispatch(managerChangeProfileHandler({ [name]: value }));
   };
 
-  const onFinish = () => {
+  const onFinish = async () => {
     if (updateManagerData) {
       const data = removeEmptyValuesFromObject(updateManagerData);
       const formData = new FormData();
@@ -97,8 +97,12 @@ const Profile: React.FC = () => {
   };
 
   const generatePassword = async () => {
-    await dispatch(generateNewPassword({ company_id: 0 }));
-    setIsModalPasswordOpen(true);
+    try {
+      await dispatch(generateNewPassword({ company_id: 0 })).unwrap();
+      setIsModalPasswordOpen(true);
+    } catch (e) {
+      await message.error('Ошибка не получилось сменить пароль');
+    }
   };
 
   const closePasswordModal = () => {

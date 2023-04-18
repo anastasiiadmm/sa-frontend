@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { message } from 'antd';
 
+import { getErrorMessage } from 'helper';
 import { IErrors, IUpdateManagerDataMutation } from 'interfaces';
 import { RootState } from 'redux/hooks';
 import {
@@ -146,8 +147,12 @@ export const managerProfileUpdate = createAsyncThunk<void, updateManagerParams>(
       await dispatch(fetchManager());
       return resp.data;
     } catch (e) {
+      if (e?.response?.data) {
+        const errorMessage = getErrorMessage({ username: e?.response?.data }, 'username');
+        await message.error(`${errorMessage}`);
+      }
       return rejectWithValue({
-        detail: e?.response?.data?.detail,
+        detail: e?.response?.data,
         status: e?.response?.status,
       });
     }
@@ -217,7 +222,7 @@ export const registerUser = createAsyncThunk<void, registerUserParams>(
       return resp.data;
     } catch (e) {
       return rejectWithValue({
-        detail: e?.response?.data?.detail,
+        detail: e?.response?.data,
         status: e?.response?.status,
       });
     }
@@ -242,7 +247,7 @@ export const deleteUserTechnique = createAsyncThunk(
       };
     } catch (e) {
       return rejectWithValue({
-        detail: e?.response?.data?.detail,
+        detail: e?.response?.data,
         status: e?.response?.status,
       });
     }
@@ -298,7 +303,7 @@ export const vehicleCreateRequest = createAsyncThunk<void, vehicleCreateRequestP
       return resp.data;
     } catch (e) {
       return rejectWithValue({
-        detail: e?.response?.data?.detail,
+        detail: e?.response?.data,
         status: e?.response?.status,
       });
     }
@@ -326,7 +331,7 @@ export const accountManagerConfirmationRequest = createAsyncThunk<
     return accountManagerConfirmation;
   } catch (e) {
     return rejectWithValue({
-      detail: e?.response?.data?.detail,
+      detail: e?.response?.data,
       status: e?.response?.status,
     });
   }
@@ -371,7 +376,7 @@ export const generateNewPassword = createAsyncThunk<generatedPassword, generateN
       return resp.data;
     } catch (e) {
       return rejectWithValue({
-        detail: e?.response?.data?.detail,
+        detail: e?.response?.data,
         status: e?.response?.status,
       });
     }

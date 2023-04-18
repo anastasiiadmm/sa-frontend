@@ -69,7 +69,8 @@ describe('UserRequests', () => {
                 }}
                   loading={false}
                    handleOkCancel={handleOkCancel}
-                  resultsInfoClick={resultsInfoClick}
+                    resultsInfoClick={null}
+                    modalOpen={() => {}}
                   showRejectModal={showRejectModal}/>
             </ModalComponent>
         )

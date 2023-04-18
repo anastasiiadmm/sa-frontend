@@ -128,8 +128,12 @@ const UserProfile: React.FC = () => {
   };
 
   const generatePassword = async () => {
-    await dispatch(generateNewPassword({ company_id: resultsObj?.id }));
-    setIsModalPasswordOpen(true);
+    try {
+      await dispatch(generateNewPassword({ company_id: resultsObj?.id })).unwrap();
+      setIsModalPasswordOpen(true);
+    } catch (e) {
+      await message.error('Ошибка не получилось сменить пароль');
+    }
   };
 
   const closePasswordModal = () => {
@@ -138,7 +142,7 @@ const UserProfile: React.FC = () => {
 
   const deleteUserHandler = async () => {
     try {
-      await dispatch(deleteUserInfo(id));
+      await dispatch(deleteUserInfo(id)).unwrap();
       history('/');
     } catch (e) {
       const errorMessage = getErrorMessage(e, 'password');

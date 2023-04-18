@@ -8,6 +8,7 @@ import CreateNewUserCredentials from 'components/ModalComponent/ModalChildrenCom
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import SkeletonBlock from 'components/SkeletonBlock/SkeletonBlock';
 import {
+  getErrorMessage,
   isObjectChangeUserConfirmationProfileValidate,
   mergeAndRemoveDuplicateValues,
 } from 'helper';
@@ -135,7 +136,8 @@ const RequestRegisterUser: React.FC<Props> = ({
       await dispatch(accountManagerConfirmationRequest({ id: userIds?.requestId })).unwrap();
       showAgreeModal();
     } catch (e) {
-      await message.error(`${e}`);
+      const errorMessage = getErrorMessage(e, 'username');
+      await message.error(errorMessage);
     }
   };
 

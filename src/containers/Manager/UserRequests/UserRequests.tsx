@@ -80,13 +80,9 @@ const UserRequests = () => {
       dispatch(fetchUserInfo({ data }));
     }
   }, [dispatch, userIds?.userId]);
-
   useEffect(() => {
-    setIsModalRequestOpen(false);
     if (saveTechniqueVehicleState.results) {
       dispatch(deleteRequests(saveTechniqueVehicleState.results.id));
-      setIsModalRequestOpen(true);
-      setIsModalTechniqueOpen(false);
     }
   }, [saveTechniqueVehicleState]);
 
@@ -101,7 +97,7 @@ const UserRequests = () => {
   const rejectTechniqueHandler = async () => {
     try {
       if (id) {
-        dispatch(deleteUserTechnique({ id: String(id) }));
+        await dispatch(deleteUserTechnique({ id: String(id) })).unwrap();
         setIsModalTechniqueOpen(false);
         setIsModalRejectOpen(false);
         setIsModalRegisterUserTechniqueOpen(false);
@@ -287,6 +283,10 @@ const UserRequests = () => {
         ) : (
           <RequestAddTechnique
             loading={loading}
+            modalOpen={() => {
+              setIsModalRequestOpen(!isModalRequestOpen);
+              setIsModalTechniqueOpen(!isModalTechniqueOpen);
+            }}
             resultsInfoClick={techniqueData}
             resultsTechnique={results}
             handleOkCancel={handleOkTechniqueCancel}

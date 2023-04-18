@@ -15,7 +15,6 @@ import {
   vehicleListPagination,
 } from 'types/types';
 import axiosApi from 'utils/axios-api';
-import { defaultError } from 'utils/config';
 import toQueryParams from 'utils/toQueryParams';
 
 const nameSpace = 'companies';
@@ -27,17 +26,17 @@ interface CompaniesState {
   companiesListPagination: usersListPagination | null;
   userCreate: PostNewUser | null;
   userCreateLoading: boolean;
-  userCreateError: unknown;
+  userCreateError: IErrors | null;
   userInfo: companiesList | null;
   userInfoLoading: boolean;
   userInfoError: IErrors | null;
   updateUserInfoLoading: boolean;
-  updateUserInfoError: unknown;
+  updateUserInfoError: IErrors | null;
   updateUserData: ICompany | null | Object;
   updateUserDataLoading: boolean;
   updateUserDataError: Object | null;
   deleteUserInfoLoading: boolean;
-  deleteUserInfoError: unknown;
+  deleteUserInfoError: IErrors | null;
   vehicleList: vehicleList | null;
   fetchVehicleListLoading: boolean;
   fetchVehicleListError: IErrors | null;
@@ -47,11 +46,11 @@ interface CompaniesState {
   userVehicleInfoError: IErrors | null;
   vehicleCreateLoading: boolean;
   vehicleCreateSuccess: boolean;
-  vehicleCreateError: unknown;
+  vehicleCreateError: IErrors | Object | null;
   patchUserVehicleInfoLoading: boolean;
-  patchUserVehicleInfoError: unknown;
+  patchUserVehicleInfoError: IErrors | Object | null;
   deleteUserVehicleLoading: boolean;
-  deleteUserVehicleError: unknown;
+  deleteUserVehicleError: IErrors | null;
   techniqueVehicleInfo: {
     results: IVehicle | null;
     loading: boolean;
@@ -65,7 +64,7 @@ interface CompaniesState {
   saveTechniqueVehicle: {
     results: IConfirmation | null;
     loading: boolean;
-    errors: Object | null;
+    errors: IErrors | null;
   };
 }
 
@@ -186,11 +185,10 @@ export const userCreate = createAsyncThunk<void, userCreateParams>(
 
       return resp.data;
     } catch (e) {
-      let error = e?.response?.data;
-      if (!e.response) {
-        error = defaultError;
-      }
-      return rejectWithValue(error);
+      return rejectWithValue({
+        detail: e?.response?.data,
+        status: e?.response?.status,
+      });
     }
   },
 );
@@ -236,11 +234,10 @@ export const updateUserInfo = createAsyncThunk<void, updateUserInfoParams>(
       message.success('Успешно изминились данные');
       return resp.data;
     } catch (e) {
-      let error = e?.response?.data;
-      if (!e.response) {
-        error = defaultError;
-      }
-      return rejectWithValue(error);
+      return rejectWithValue({
+        detail: e?.response?.data,
+        status: e?.response?.status,
+      });
     }
   },
 );
@@ -254,11 +251,10 @@ export const deleteUserInfo = createAsyncThunk<void, string>(
 
       return resp.data;
     } catch (e) {
-      let error = e?.response?.data;
-      if (!e.response) {
-        error = defaultError;
-      }
-      return rejectWithValue(error);
+      return rejectWithValue({
+        detail: e?.response?.data,
+        status: e?.response?.status,
+      });
     }
   },
 );
@@ -354,11 +350,10 @@ export const patchUserVehicleInfo = createAsyncThunk<userVehicleInfo, patchUserV
 
       return userVehicleInfo;
     } catch (e) {
-      let error = e?.response?.data;
-      if (!e.response) {
-        error = defaultError;
-      }
-      return rejectWithValue(error);
+      return rejectWithValue({
+        detail: e?.response?.data,
+        status: e?.response?.status,
+      });
     }
   },
 );
@@ -379,11 +374,10 @@ export const deleteUserVehicle = createAsyncThunk<void, deleteUserVehicleParams>
 
       return resp.data;
     } catch (e) {
-      let error = e?.response?.data;
-      if (!e.response) {
-        error = defaultError;
-      }
-      return rejectWithValue(error);
+      return rejectWithValue({
+        detail: e?.response?.data?.detail,
+        status: e?.response?.status,
+      });
     }
   },
 );
@@ -401,11 +395,10 @@ export const vehicleCreate = createAsyncThunk<void, vehicleCreateParams>(
 
       return resp.data;
     } catch (e) {
-      let error = e?.response?.data;
-      if (!e.response) {
-        error = defaultError;
-      }
-      return rejectWithValue(error);
+      return rejectWithValue({
+        detail: e?.response?.data,
+        status: e?.response?.status,
+      });
     }
   },
 );
@@ -436,7 +429,7 @@ export const techniqueVehicleInfoPut = createAsyncThunk(
       return response.data;
     } catch (e) {
       return rejectWithValue({
-        detail: e?.response?.data?.detail,
+        detail: e?.response?.data,
         status: e?.response?.status,
       });
     }
@@ -450,6 +443,9 @@ export const techniqueVehicleConfirmation = createAsyncThunk(
       const response = await axiosApi.patch(`accounts/manager/confirmation/${id}/`);
       return response.data;
     } catch (e) {
+      if (e?.response?.data?.detail) {
+        await message.error(e?.response?.data?.detail);
+      }
       return rejectWithValue({
         detail: e?.response?.data?.detail,
         status: e?.response?.status,
@@ -527,7 +523,13 @@ const companiesSlice = createSlice({
     });
     builder.addCase(userCreate.rejected, (state, { payload }) => {
       state.userCreateLoading = false;
-      state.userCreateError = payload;
+      if (payload && typeof payload === 'object' && 'detail' in payload && 'status' in payload) {
+        state.userCreateError = {
+          ...state.userCreateError,
+          detail: payload.detail as string | null,
+          status: payload.status as number | null,
+        };
+      }
     });
 
     builder.addCase(fetchUserInfo.pending, (state) => {
@@ -559,7 +561,13 @@ const companiesSlice = createSlice({
     });
     builder.addCase(updateUserInfo.rejected, (state, { payload }) => {
       state.updateUserInfoLoading = false;
-      state.updateUserInfoError = payload;
+      if (payload && typeof payload === 'object' && 'detail' in payload && 'status' in payload) {
+        state.updateUserInfoError = {
+          ...state.updateUserInfoError,
+          detail: payload.detail as string | null,
+          status: payload.status as number | null,
+        };
+      }
     });
 
     builder.addCase(deleteUserInfo.pending, (state) => {
@@ -571,7 +579,13 @@ const companiesSlice = createSlice({
     });
     builder.addCase(deleteUserInfo.rejected, (state, { payload }) => {
       state.deleteUserInfoLoading = false;
-      state.deleteUserInfoError = payload;
+      if (payload && typeof payload === 'object' && 'detail' in payload && 'status' in payload) {
+        state.deleteUserInfoError = {
+          ...state.deleteUserInfoError,
+          detail: payload.detail as string | null,
+          status: payload.status as number | null,
+        };
+      }
     });
 
     builder.addCase(fetchUserVehicleList.pending, (state) => {
@@ -632,7 +646,13 @@ const companiesSlice = createSlice({
     builder.addCase(vehicleCreate.rejected, (state, { payload }) => {
       state.vehicleCreateLoading = false;
       state.vehicleCreateSuccess = false;
-      state.vehicleCreateError = payload;
+      if (payload && typeof payload === 'object' && 'detail' in payload && 'status' in payload) {
+        state.vehicleCreateError = {
+          ...state.vehicleCreateError,
+          detail: payload.detail as string | null,
+          status: payload.status as number | null,
+        };
+      }
     });
 
     builder.addCase(patchUserVehicleInfo.pending, (state) => {
@@ -645,7 +665,13 @@ const companiesSlice = createSlice({
     });
     builder.addCase(patchUserVehicleInfo.rejected, (state, { payload }) => {
       state.patchUserVehicleInfoLoading = false;
-      state.patchUserVehicleInfoError = payload;
+      if (payload && typeof payload === 'object' && 'detail' in payload && 'status' in payload) {
+        state.patchUserVehicleInfoError = {
+          ...state.patchUserVehicleInfoError,
+          detail: payload.detail as string | null,
+          status: payload.status as number | null,
+        };
+      }
     });
 
     builder.addCase(deleteUserVehicle.pending, (state) => {
@@ -658,7 +684,13 @@ const companiesSlice = createSlice({
     });
     builder.addCase(deleteUserVehicle.rejected, (state, { payload }) => {
       state.deleteUserVehicleLoading = false;
-      state.deleteUserVehicleError = payload;
+      if (payload && typeof payload === 'object' && 'detail' in payload && 'status' in payload) {
+        state.deleteUserVehicleError = {
+          ...state.deleteUserVehicleError,
+          detail: payload.detail as string | null,
+          status: payload.status as number | null,
+        };
+      }
     });
     builder.addCase(techniqueVehicleInfo.pending, (state) => {
       state.techniqueVehicleInfo.loading = true;
@@ -704,8 +736,14 @@ const companiesSlice = createSlice({
       state.saveTechniqueVehicle.errors = null;
     });
     builder.addCase(techniqueVehicleConfirmation.rejected, (state, { payload }) => {
-      state.techniqueVehicleUpdate.loading = false;
-      state.techniqueVehicleUpdate.errors = payload;
+      state.saveTechniqueVehicle.loading = false;
+      if (payload && typeof payload === 'object' && 'detail' in payload && 'status' in payload) {
+        state.saveTechniqueVehicle.errors = {
+          ...state.saveTechniqueVehicle.errors,
+          detail: payload.detail as string | null,
+          status: payload.status as number | null,
+        };
+      }
     });
   },
 });
