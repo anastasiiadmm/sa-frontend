@@ -1,3 +1,4 @@
+import { stationInfo } from 'types/stationTypes';
 import { companiesList, ErrorObject, ICompany, updateManagerDataMutation } from 'types/types';
 import { dateMomentTypeString } from 'utils/constants';
 
@@ -201,7 +202,7 @@ export const checkTooltipVisibility = (selectedOption: string, marker: any): boo
   }
 };
 
-export const calculateDateRange = (value: string, sensorData: any) => {
+export const calculateDateRange = (value: string, sensorData: stationInfo | null) => {
   const maxDate = moment(sensorData?.dates?.max_date);
   let fromDate;
   let toDate;

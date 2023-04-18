@@ -5,11 +5,11 @@ import CryptoJS from 'crypto-js';
 import { RootState } from 'redux/hooks';
 import {
   APIError,
-  APIResponse,
-  APIWeatherResponse,
+  APIWeatherResponse, stationInfo,
   StationSensor,
   StationState,
-} from 'types/stationTypes';
+  userStation
+} from "types/stationTypes";
 
 const {
   REACT_APP_CLIMATE_API_BASE_URL,
@@ -36,7 +36,7 @@ const getAuthorizationHeader = (method: string, request: string) => {
 };
 
 const initialState: StationState = {
-  user: [],
+  user: null,
   isLoading: false,
   error: null,
 
@@ -44,7 +44,7 @@ const initialState: StationState = {
   isWeatherLoading: false,
   isWeatherError: null,
 
-  stations: [],
+  stations: null,
   stationsLoading: false,
   stationsError: null,
 
@@ -61,7 +61,7 @@ const initialState: StationState = {
   sensorDataError: null,
 };
 
-export const fetchUser = createAsyncThunk<APIResponse, void, { rejectValue: APIError }>(
+export const fetchUser = createAsyncThunk<userStation, void, { rejectValue: APIError }>(
   'stations/fetchUser',
   async () => {
     const params = {
@@ -77,7 +77,7 @@ export const fetchUser = createAsyncThunk<APIResponse, void, { rejectValue: APIE
         headers,
       });
 
-      const data: APIResponse = response.data;
+      const data: userStation = response.data;
       return data;
     } catch (error) {
       throw new Error('Failed to fetch stations.');
@@ -109,7 +109,7 @@ export const fetchWeather = createAsyncThunk<APIWeatherResponse, void, { rejectV
   },
 );
 
-export const fetchStations = createAsyncThunk<APIWeatherResponse, void, { rejectValue: APIError }>(
+export const fetchStations = createAsyncThunk<stationInfo, void, { rejectValue: APIError }>(
   'stations/fetchStations',
   async (_, { rejectWithValue }) => {
     const params = {
@@ -125,7 +125,7 @@ export const fetchStations = createAsyncThunk<APIWeatherResponse, void, { reject
         headers,
       });
 
-      const data: APIWeatherResponse = response.data;
+      const data: stationInfo = response.data;
       return data;
     } catch (error) {
       return rejectWithValue({ message: 'Failed to fetch station data.' });
@@ -138,7 +138,7 @@ interface stationInfoParams {
 }
 
 export const fetchStationInfo = createAsyncThunk<
-  StationSensor,
+  stationInfo,
   stationInfoParams,
   { rejectValue: APIError }
 >('stations/fetchStationInfo', async ({ id }, { rejectWithValue }) => {

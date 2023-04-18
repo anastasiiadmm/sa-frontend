@@ -21,6 +21,7 @@ import { calculateDateRange } from 'helper';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import {
   fetchStationInfo,
+  fetchStations,
   postStationSensors,
   stationsSelector,
 } from 'redux/stations/stationsSlice';
@@ -76,6 +77,10 @@ const FieldClimateStation = () => {
     date_from: twoDaysAgo,
     date_to: maxDate.unix().toString(),
   });
+
+  useEffect(() => {
+    dispatch(fetchStations());
+  }, []);
 
   useEffect(() => {
     dispatch(fetchStationInfo({ id }));
@@ -191,7 +196,7 @@ const FieldClimateStation = () => {
   };
 
   const handleChangeHoursTypeHandler = (value: string) => {
-    const { fromDate, toDate } = calculateDateRange(value, sensorData);
+    const { fromDate, toDate } = calculateDateRange(value, stationInfo);
     const fromTimestamp = moment(fromDate).unix();
     const toTimestamp = moment(toDate).unix();
 

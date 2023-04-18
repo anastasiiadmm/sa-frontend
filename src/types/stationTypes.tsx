@@ -22,8 +22,22 @@ interface WeatherDataEntry {
   };
 }
 
-export interface APIResponse {
-  stations: any[];
+export interface userStation {
+  account_close_token: string;
+  address: Object;
+  api_access: Object;
+  company: Object;
+  create_time: string;
+  created_by: string;
+  customizations: Object;
+  dashboardTexts: number[];
+  info: Object;
+  last_access: string;
+  newsletter: Object;
+  note: string;
+  settings: Object;
+  terms_accepted: boolean;
+  username: string;
 }
 
 export interface APIWeatherResponse {
@@ -36,19 +50,19 @@ export interface APIError {
 }
 
 export interface StationState {
-  user: any;
+  user: userStation | null;
   isLoading: boolean;
   error: APIError | null;
   weather: Weather | null;
   isWeatherLoading: boolean;
-  isWeatherError: any;
-  stations: any;
+  isWeatherError: APIError | null;
+  stations: stationInfo | null;
   stationsLoading: boolean;
-  stationsError: any;
-  stationInfo: any;
+  stationsError: APIError | null;
+  stationInfo: stationInfo | null;
   stationInfoLoading: boolean;
   stationInfoError: APIError | null;
-  sensors: any;
+  sensors: Object | null;
   sensorsLoading: boolean;
   sensorsError: APIError | null;
   sensorData: StationSensor | null;
@@ -113,14 +127,14 @@ export interface Sensor {
     verticalAlign: string;
     layout: string;
   };
-  series?: any;
+  series?: [];
   sources?: string[];
   subtitle?: string;
   title?: {
     floating: boolean;
     align: string;
     text: string;
-    style: any;
+    style: Object;
     x: number;
   };
   tooltip?: {
@@ -146,11 +160,56 @@ export interface Sensor {
   }[];
 }
 
+export interface stationInfo {
+  config: {
+    activity_mode: number;
+    fixed_transfer_interval: number;
+    logging_interval: number;
+    measuring_interval: number;
+    precision_reduction: number;
+    rain_monitor: number;
+    scheduler: number;
+    schedulerOld: string;
+    timezone_offset: number;
+    water_level_monitor: number;
+    x_min_transfer_interval: number;
+  };
+  dates: {
+    created_at: string;
+    last_communication: string;
+    max_date: string;
+    min_date: string;
+  };
+  flags: Object;
+  info: {
+    apn_table: number;
+    description: string;
+    device_id: number;
+    device_name: string;
+    firmware: string;
+    hardware: string;
+    programmed: string;
+    uid: string;
+  };
+  licenses: Object;
+  meta: Object;
+  metadata: Object;
+  name: {
+    custom: string;
+    original: string;
+  };
+  networking: Object;
+  note: string;
+  position: Object;
+  rights: string;
+  warnings: Object;
+}
+
 export interface StationSensor {
   chartsOptions: Sensor[];
   grid: {
     data: number[];
-    headers: any;
+    headers: [];
   };
   notifications: [];
   topology: SensorData[];
