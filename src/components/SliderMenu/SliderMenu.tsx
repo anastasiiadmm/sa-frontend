@@ -6,11 +6,18 @@ import React, { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 
 import logo from 'assets/images/logo.png';
-import { accountsSelector, fetchManager, fetchUser } from 'redux/accounts/accountsSlice';
+import {
+  accountsSelector,
+  clearRequestsPagination,
+  fetchManager,
+  fetchUser,
+} from 'redux/accounts/accountsSlice';
 import { authSelector, logoutUser } from 'redux/auth/authSlice';
+import { clearCompaniesPagination } from 'redux/companies/companiesSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { apiUrlCrop } from 'utils/config';
 import { logoutLocalStorage } from 'utils/token';
+
 import 'components/SliderMenu/_sliderMenu.scss';
 
 const { Sider } = Layout;
@@ -131,6 +138,8 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
       window.location.reload();
     } else {
       push(e.key);
+      dispatch(clearCompaniesPagination());
+      dispatch(clearRequestsPagination());
     }
   };
 

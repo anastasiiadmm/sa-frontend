@@ -481,6 +481,10 @@ const companiesSlice = createSlice({
     clearTechniqueVehicle: (state) => {
       state.saveTechniqueVehicle.results = null;
     },
+    clearCompaniesPagination: (state) => {
+      state.companiesListPagination = null;
+      state.vehicleListPagination = null;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchUsersList.pending, (state) => {
@@ -753,6 +757,7 @@ export const {
   setNullReducerVehicleCreate,
   clearUserInfo,
   clearTechniqueVehicle,
+  clearCompaniesPagination,
 } = companiesSlice.actions;
 export const companiesSelector = (state: RootState) => state.companies;
 export const techniqueVehicleInfoSelector = (state: RootState) =>

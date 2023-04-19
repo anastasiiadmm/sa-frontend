@@ -9,6 +9,7 @@ import people from 'assets/images/icons/group-active.svg';
 import tractorBlue from 'assets/images/icons/tractor-blue.svg';
 import Errors from 'components/Errors/Errors';
 import TableComponent from 'components/TableComponent/TableComponent';
+import { getPageNumber, getPageNumberPrevious } from 'helper';
 import { companiesSelector, fetchUsersList } from 'redux/companies/companiesSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { companiesList } from 'types/types';
@@ -24,7 +25,9 @@ const Users: React.FC = () => {
     useAppSelector(companiesSelector);
   const dispatch = useAppDispatch();
   const [filters, setFilters] = useState({
-    page: 1,
+    page: companiesListPagination?.next
+      ? Number(getPageNumber(companiesListPagination?.next))
+      : Number(getPageNumberPrevious(companiesListPagination?.previous)),
   });
 
   useEffect(() => {
@@ -38,11 +41,17 @@ const Users: React.FC = () => {
   }, [dispatch, filters]);
 
   const pagePrevHandler = () => {
-    setFilters({ ...filters, page: filters.page - 1 });
+    setFilters({
+      ...filters,
+      page: filters.page - 1,
+    });
   };
 
   const pageNextHandler = () => {
-    setFilters({ ...filters, page: filters.page + 1 });
+    setFilters({
+      ...filters,
+      page: Number(getPageNumber(companiesListPagination?.next)) + 1,
+    });
   };
 
   const nextBrowserUserInfoHandler = (id: number) => {
@@ -132,13 +141,16 @@ const Users: React.FC = () => {
         <Title level={3} data-testid='sign_in_test' className={b('title')}>
           Пользователи
         </Title>
-
         <TableComponent
           rowKey={(record) => record.id as number}
           loading={fetchCompaniesLoading}
           columns={columns}
           data={companies}
-          params={companiesListPagination}
+          params={
+            fetchCompaniesLoading
+              ? { previous: null, next: null, count: 0 }
+              : companiesListPagination
+          }
           pagePrevHandler={pagePrevHandler}
           pageNextHandler={pageNextHandler}
         />
