@@ -141,6 +141,19 @@ const RequestRegisterUser: React.FC<Props> = ({
     }
   };
 
+  const handleCancel = async () => {
+    setIsModalOpen(false);
+    await setIsModalOpen(!isModalOpen);
+    history('/user-requests');
+    const data = {
+      query: {
+        page: 1,
+      },
+    };
+    await dispatch(fetchRequests({ data }));
+    message.success('Новый пользователь успешно зарегистирирован!');
+  };
+
   return (
     <>
       <Col
@@ -276,7 +289,7 @@ const RequestRegisterUser: React.FC<Props> = ({
         open={isModalOpen}
         dividerShow={false}
         handleOk={handleAgreeOkCancel}
-        handleCancel={() => setIsModalOpen(false)}
+        handleCancel={handleCancel}
         classNameTitle='title_signIn'
       >
         <CreateNewUserCredentials

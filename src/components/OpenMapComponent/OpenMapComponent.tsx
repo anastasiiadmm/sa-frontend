@@ -1,7 +1,7 @@
 import { Alert, Button, Card, Spin, Tooltip, Typography } from 'antd';
 import bem from 'easy-bem';
 import L, { LatLngExpression, LatLngTuple } from 'leaflet';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { CircleMarker, MapContainer, Marker, Polyline, Popup, TileLayer } from 'react-leaflet';
 import { useLocation, useNavigate, useParams } from 'react-router';
 
@@ -29,6 +29,10 @@ const OpenMapComponent = () => {
   const { pathname } = useLocation();
   const { vehicle, field } = useAppSelector(mapSelector);
   const { user } = useAppSelector(authSelector);
+  const [bounds] = useState<number[][]>([
+    [-90, -180],
+    [90, 180],
+  ]);
   const dispatch = useAppDispatch();
   const history = useNavigate();
   useEffect(() => {
@@ -162,7 +166,9 @@ const OpenMapComponent = () => {
       </div>
     );
   }
-
+  const latLngBounds: L.LatLngBoundsExpression = L.latLngBounds(
+    bounds.map((coords: number[]) => [coords[0], coords[1]]),
+  );
   const findResults = vehicle.results?.processing_data.find((item) => item.id === Number(id));
   return (
     <div className={b()}>
@@ -217,8 +223,11 @@ const OpenMapComponent = () => {
               ? (lineMap() as LatLngExpression)
               : (centerMap() as LatLngExpression)
           }
-          zoom={18}
+          zoom={10}
+          minZoom={2}
+          maxZoom={18}
           scrollWheelZoom
+          maxBounds={latLngBounds}
           style={{ width: '100%', height: '100vh' }}
         >
           <TileLayer

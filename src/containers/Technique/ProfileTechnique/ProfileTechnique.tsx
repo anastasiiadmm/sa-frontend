@@ -197,17 +197,17 @@ const ProfileTechnique = () => {
             <Link to={user?.is_manager ? `/user-technique/${userId}` : '/'}>
               <img className={b('arrow-left')} src={arrowLeft} alt='arrow' />
             </Link>
-            {!userVehicleInfoLoading ? (
+            {userVehicleInfoLoading ? (
+              <div style={{ margin: '30px 0' }}>
+                <Skeleton.Button active={userVehicleInfoLoading} style={{ width: 800 }} />
+              </div>
+            ) : (
               <Title level={3} className={b('title')}>
                 Профиль техники - <p className={b('subtitle')}> {state[0]?.code} </p> -{' '}
                 {`${state[0]?.last_name} ${state[0]?.first_name?.charAt(
                   0,
                 )}. ${state[0]?.middle_name?.charAt(0)}.`}
               </Title>
-            ) : (
-              <div style={{ margin: '30px 0' }}>
-                <Skeleton.Button active={userVehicleInfoLoading} style={{ width: 800 }} />
-              </div>
             )}
           </div>
           <div>
