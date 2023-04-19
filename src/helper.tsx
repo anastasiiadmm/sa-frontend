@@ -239,3 +239,23 @@ export const calculateDateRange = (value: string, sensorData: stationInfo | null
 
   return { fromDate, toDate };
 };
+
+export function getPageNumber(url: string | undefined | null): string | number {
+  if (url) {
+    const regex = /page=(\d+)/;
+    const match = url.match(regex);
+    return Number(match ? match[1] : 1) - 1;
+  }
+
+  return 1;
+}
+
+export function getPageNumberPrevious(url: string | undefined | null): string | number {
+  if (url) {
+    const regex = /page=(\d+)/;
+    const match = url.match(regex);
+    return Number(match ? match[1] : 1) + 1;
+  }
+
+  return 1;
+}

@@ -16,6 +16,7 @@ import RequestRegisterUser from 'components/ModalComponent/ModalChildrenComponen
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import TableComponent from 'components/TableComponent/TableComponent';
 
+import { getPageNumber, getPageNumberPrevious } from 'helper';
 import { IConfirmation } from 'interfaces';
 import {
   accountsSelector,
@@ -34,7 +35,6 @@ import {
 } from 'redux/companies/companiesSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { Request, UserIds } from 'types/types';
-
 import 'containers/Manager/UserRequests/_userRequests.scss';
 import { textSlice } from 'utils/textSlice/textSlice';
 
@@ -58,7 +58,11 @@ const UserRequests = () => {
   const [isModalRejectOpen, setIsModalRejectOpen] = useState(false);
   const [isModalRequestOpen, setIsModalRequestOpen] = useState(false);
   const [isModalUserInfoOpen, setIsModalUserInfoRejectOpen] = useState(false);
-  const [filters, setFilters] = useState({ page: 1 });
+  const [filters, setFilters] = useState({
+    page: requestsPagination?.next
+      ? Number(getPageNumber(requestsPagination?.next))
+      : Number(getPageNumberPrevious(requestsPagination?.previous)),
+  });
   const [techniqueData, setTechniqueData] = useState<IConfirmation | null>(null);
   const [userIds, setUserIds] = useState<UserIds | null>({ requestId: null, userId: null });
   const [confirmation_typeId, setConfirmation_typeId] = useState<number | null>(null);
@@ -141,11 +145,17 @@ const UserRequests = () => {
   };
 
   const pagePrevHandler = () => {
-    setFilters({ ...filters, page: filters.page - 1 });
+    setFilters({
+      ...filters,
+      page: filters.page - 1,
+    });
   };
 
   const pageNextHandler = () => {
-    setFilters({ ...filters, page: filters.page + 1 });
+    setFilters({
+      ...filters,
+      page: Number(getPageNumber(requestsPagination?.next)) + 1,
+    });
   };
 
   const onClick = () => {
@@ -260,7 +270,9 @@ const UserRequests = () => {
             columns={columns}
             data={requests}
             rowKey={(record) => record.id as number}
-            params={requestsPagination}
+            params={
+              fetchRequestsLoading ? { previous: null, next: null, count: 0 } : requestsPagination
+            }
             pagePrevHandler={pagePrevHandler}
             pageNextHandler={pageNextHandler}
           />

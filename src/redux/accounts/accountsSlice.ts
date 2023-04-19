@@ -411,6 +411,10 @@ const accountsSlice = createSlice({
     deleteRequests: (state, action) => {
       state.requests = state.requests?.filter((item) => item.id !== action.payload);
     },
+    clearRequestsPagination: (state) => {
+      state.requestsPagination = null;
+      state.userVehiclesPagination = null;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchManager.pending, (state) => {
@@ -657,6 +661,7 @@ export const {
   setManagerProfile,
   registerSuccessNull,
   deleteRequests,
+  clearRequestsPagination,
 } = accountsSlice.actions;
 export const accountsSelector = (state: RootState) => state.accounts;
 export default accountsSlice.reducer;

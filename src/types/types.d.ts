@@ -126,8 +126,8 @@ export interface userVehicles {
 
 export interface userVehiclesPagination {
   count: number;
-  next: string;
-  previous: string;
+  next: string | null;
+  previous: string | null;
 }
 
 export interface companiesList {

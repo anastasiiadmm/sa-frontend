@@ -17,7 +17,7 @@ import DeleteRejectTechniqueModal from 'components/ModalComponent/ModalChildrenC
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import ResultComponent from 'components/ResultComponent/ResultComponent';
 import TableComponent from 'components/TableComponent/TableComponent';
-import { getErrorMessage } from 'helper';
+import { getErrorMessage, getPageNumber, getPageNumberPrevious } from 'helper';
 import {
   companiesSelector,
   deleteUserVehicle,
@@ -52,8 +52,11 @@ const UserTechnique: React.FC = () => {
   const [isDeleteModalOpen, setIsDeleteEditModalOpen] = useState(false);
   const [vehicleId, setVehicleId] = useState<string | null>(null);
   const [techniqueApiName, setTechniqueApiName] = useState<string | null>(null);
-  const [filters, setFilters] = useState({ page: 1 });
-
+  const [filters, setFilters] = useState({
+    page: vehicleListPagination?.next
+      ? Number(getPageNumber(vehicleListPagination?.next))
+      : Number(getPageNumberPrevious(vehicleListPagination?.previous)),
+  });
   useEffect(() => {
     const data = {
       userId: id,
@@ -61,7 +64,6 @@ const UserTechnique: React.FC = () => {
         page: filters?.page,
       },
     };
-
     dispatch(fetchUserVehicleList({ data }));
   }, [dispatch, filters]);
 
@@ -80,11 +82,17 @@ const UserTechnique: React.FC = () => {
   }, [vehicleCreateSuccess]);
 
   const pagePrevHandler = () => {
-    setFilters({ ...filters, page: filters.page - 1 });
+    setFilters({
+      ...filters,
+      page: filters.page - 1,
+    });
   };
 
   const pageNextHandler = () => {
-    setFilters({ ...filters, page: filters.page + 1 });
+    setFilters({
+      ...filters,
+      page: Number(getPageNumber(vehicleListPagination?.next)) + 1,
+    });
   };
 
   const showModal = () => {
@@ -293,7 +301,11 @@ const UserTechnique: React.FC = () => {
             loading={fetchVehicleListLoading}
             columns={columns}
             data={vehicleList}
-            params={vehicleListPagination}
+            params={
+              fetchVehicleListLoading
+                ? { previous: null, next: null, count: 0 }
+                : vehicleListPagination
+            }
             pagePrevHandler={pagePrevHandler}
             pageNextHandler={pageNextHandler}
           />
