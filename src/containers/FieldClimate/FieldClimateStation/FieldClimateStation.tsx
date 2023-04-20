@@ -146,7 +146,11 @@ const FieldClimateStation = () => {
     <Layout data-testid='station-id' style={{ height: '85vh', marginTop: 47 }} className={b('')}>
       <Sider collapsedWidth={0} width={250} trigger={null} collapsible collapsed={collapsed}>
         <div className={b('sider-block')}>
-          <Menu mode='inline' theme='light' items={items} triggerSubMenuAction='click' />
+          {sensorDataLoading ? (
+            <Spinner />
+          ) : (
+            <Menu mode='inline' theme='light' items={items} triggerSubMenuAction='click' />
+          )}
           {sensorData?.topology?.[0]?.sensors?.length ? (
             <CustomDropdown id={id} dropdownOptions={sensorData?.topology?.[0]?.sensors} />
           ) : null}
