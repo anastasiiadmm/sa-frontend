@@ -71,7 +71,14 @@ const GridTableComponent: React.FC<Props> = ({ data }) => {
     return obj;
   });
 
-  return <Table scroll={{ y: 400, x: '300vw' }} dataSource={dataSource} columns={columns} />;
+  return (
+    <Table
+      data-testid='chart-table-id'
+      scroll={{ y: 400, x: '300vw' }}
+      dataSource={dataSource}
+      columns={columns}
+    />
+  );
 };
 
 export default GridTableComponent;
