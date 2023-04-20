@@ -66,6 +66,10 @@
     width: 200px !important;
     height: 150px !important;
   }
+
+  :where(.css-dev-only-do-not-override-6jf5y1).ant-table-wrapper .ant-table-thead >tr>th, :where(.css-dev-only-do-not-override-6jf5y1).ant-table-wrapper .ant-table-thead >tr>td {
+    text-align: center !important;
+  }
 }
 
 :where(.css-dev-only-do-not-override-6jf5y1).ant-menu-submenu-popup .ant-menu-vertical > .ant-menu-item,

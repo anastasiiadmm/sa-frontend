@@ -18,6 +18,7 @@ interface Column {
   sorter?: (a: any, b: any) => number;
   sortDirections?: SortOrder[];
   children?: Column[];
+  resizable?: boolean;
 }
 
 const GridTableComponent: React.FC<Props> = ({ data }) => {
@@ -42,10 +43,10 @@ const GridTableComponent: React.FC<Props> = ({ data }) => {
           title: header.headerName,
           dataIndex: header.field,
           key: header.field,
+          width: header.headerName === 'Дата / время' ? '5%' : undefined,
         };
         if (header.headerName === 'Дата / время') {
           column.fixed = 'left';
-          column.width = '20%';
           column.sorter = (a, b) => moment(a.datetime).diff(moment(b.datetime));
           column.sortDirections = ['descend', 'ascend'];
         }
@@ -70,7 +71,7 @@ const GridTableComponent: React.FC<Props> = ({ data }) => {
     return obj;
   });
 
-  return <Table scroll={{ x: true }} dataSource={dataSource} columns={columns} />;
+  return <Table scroll={{ y: 400, x: '300vw' }} dataSource={dataSource} columns={columns} />;
 };
 
 export default GridTableComponent;
