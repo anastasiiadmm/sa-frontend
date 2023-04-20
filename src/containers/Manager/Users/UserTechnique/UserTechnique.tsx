@@ -1,5 +1,5 @@
 import { EyeOutlined } from '@ant-design/icons';
-import { Button, message, Tooltip, Typography } from 'antd';
+import { Button, message, Skeleton, Tooltip, Typography } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import bem from 'easy-bem';
 import React, { useEffect, useState } from 'react';
@@ -28,6 +28,7 @@ import {
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { vehicleList } from 'types/types';
 import { apiUrlCrop } from 'utils/config';
+
 import 'containers/Manager/Users/UserTechnique/_userTechnique.scss';
 
 const { Title } = Typography;
@@ -45,6 +46,7 @@ const UserTechnique: React.FC = () => {
     deleteUserVehicleLoading,
     fetchVehicleListError,
     userInfoError,
+    userInfoLoading,
   } = useAppSelector(companiesSelector);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalCreateOpen, setIsModalCreateOpen] = useState(false);
@@ -274,20 +276,24 @@ const UserTechnique: React.FC = () => {
       <div className={b()} data-testid='user-technique-id'>
         <div className={b('table')}>
           <div className={b('header')}>
-            <div className={b('header-title')}>
-              <Link to={`/user-profile/${id}`}>
-                <img className={b('arrow-left')} src={arrowLeft} alt='arrow' />
-              </Link>
-              <Title level={3} className={b('title')}>
-                Техника пользователя -{' '}
-                <p className={b('subtitle')}>
-                  {' '}
-                  {`${userInfo?.user?.last_name} ${userInfo?.user?.first_name?.charAt(
-                    0,
-                  )}. ${userInfo?.user?.middle_name?.charAt(0)}.`}
-                </p>
-              </Title>
-            </div>
+            {userInfoLoading ? (
+              <Skeleton active />
+            ) : (
+              <div className={b('header-title')}>
+                <Link to={`/user-profile/${id}`}>
+                  <img className={b('arrow-left')} src={arrowLeft} alt='arrow' />
+                </Link>
+                <Title level={3} className={b('title')}>
+                  Техника пользователя -{' '}
+                  <p className={b('subtitle')}>
+                    {' '}
+                    {`${userInfo?.user?.last_name} ${userInfo?.user?.first_name?.charAt(
+                      0,
+                    )}. ${userInfo?.user?.middle_name?.charAt(0)}.`}
+                  </p>
+                </Title>
+              </div>
+            )}
 
             <div>
               <Button type='primary' onClick={showModal}>

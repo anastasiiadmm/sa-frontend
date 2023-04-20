@@ -160,7 +160,7 @@ const UserRequests = () => {
 
   const onClick = () => {
     setIsModalRequestOpen(false);
-    dispatch(clearTechniqueVehicle);
+    dispatch(clearTechniqueVehicle());
   };
 
   const confirmationTypeHandler = (row: Request) => {
