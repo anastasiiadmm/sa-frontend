@@ -1,7 +1,7 @@
 import { Button } from 'antd';
 import bem from 'easy-bem';
 import L, { LatLngTuple } from 'leaflet';
-import React from 'react';
+import React, { useState } from 'react';
 import { MapContainer, Marker, Popup, TileLayer, Tooltip } from 'react-leaflet';
 import { useNavigate } from 'react-router';
 
@@ -19,18 +19,29 @@ type Props = {
 const FieldClimateOpenMapComponent: React.FC<Props> = ({ markers, selectedOption }) => {
   const b = bem('FieldClimateOpenMapComponent');
   const history = useNavigate();
+  const [bounds] = useState<number[][]>([
+    [-90, -180],
+    [90, 180],
+  ]);
 
   const pushToStationHandler = async (id: string) => {
     await localStorage.setItem('stationId', id);
     await history(`/field-climate/station/${id}`);
   };
 
+  const latLngBounds: L.LatLngBoundsExpression = L.latLngBounds(
+    bounds.map((coords: number[]) => [coords[0], coords[1]]),
+  );
+
   return (
     <MapContainer
       className={b('')}
       center={[11.2773259, 46.3089513]}
       zoom={3}
+      minZoom={2}
+      maxZoom={18}
       scrollWheelZoom
+      maxBounds={latLngBounds}
       style={{ width: '100%', height: '94vh' }}
     >
       <TileLayer
