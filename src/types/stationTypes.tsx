@@ -207,12 +207,32 @@ export interface stationInfo {
 
 export interface StationSensor {
   chartsOptions: Sensor[];
-  grid: {
-    data: number[];
-    headers: [];
-  };
+  grid: gridSensor;
   notifications: [];
   topology: SensorData[];
+}
+
+export interface headerGrid {
+  children?: {
+    field: string;
+    filter: string;
+    headerName: string;
+    headerTooltip: string;
+    suppressSorting: boolean;
+    width: number;
+  }[] | undefined;
+  groupId?: string;
+  field?: string;
+  headerName: string;
+  pinned?: boolean;
+  sort?: string;
+  suppressMenu?: boolean;
+  suppressSorting?: boolean;
+}
+
+export interface gridSensor {
+  data: number[];
+  headers: headerGrid[];
 }
 
 export interface SensorData {
