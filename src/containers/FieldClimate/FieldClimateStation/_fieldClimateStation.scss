@@ -70,6 +70,30 @@
   :where(.css-dev-only-do-not-override-6jf5y1).ant-table-wrapper .ant-table-thead >tr>th, :where(.css-dev-only-do-not-override-6jf5y1).ant-table-wrapper .ant-table-thead >tr>td {
     text-align: center !important;
   }
+
+  :where(.css-dev-only-do-not-override-6jf5y1).ant-table-wrapper .ant-table-thead>tr>th, :where(.css-dev-only-do-not-override-6jf5y1).ant-table-wrapper .ant-table-tbody>tr>th, :where(.css-dev-only-do-not-override-6jf5y1).ant-table-wrapper .ant-table-tbody>tr>td, :where(.css-dev-only-do-not-override-6jf5y1).ant-table-wrapper tfoot>tr>th, :where(.css-dev-only-do-not-override-6jf5y1).ant-table-wrapper tfoot>tr>td {
+    padding: 1px;
+  }
+
+  .ant-table-wrapper table {
+    text-align: center;
+  }
+
+  :where(.css-dev-only-do-not-override-6jf5y1).ant-table-wrapper .ant-table-thead >tr>th, :where(.css-dev-only-do-not-override-6jf5y1).ant-table-wrapper .ant-table-thead >tr>td {
+    border: none;
+  }
+  :where(.css-dev-only-do-not-override-6jf5y1).ant-table-wrapper .ant-table-thead >tr>th:not(:last-child):not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell):not([colspan])::before, :where(.css-dev-only-do-not-override-6jf5y1).ant-table-wrapper .ant-table-thead >tr>td:not(:last-child):not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell):not([colspan])::before {
+    background: none;
+  }
+
+  .ant-table-cell-row-hover {
+    background: #d0d0d0 !important;
+  }
+
+  .ant-table-column-sorters {
+    position: relative;
+    bottom: -32px;
+  }
 }
 
 :where(.css-dev-only-do-not-override-6jf5y1).ant-menu-submenu-popup .ant-menu-vertical > .ant-menu-item,
