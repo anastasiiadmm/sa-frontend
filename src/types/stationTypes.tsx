@@ -257,3 +257,4 @@ export interface TopologySensor {
     serial: string;
   };
 }
+

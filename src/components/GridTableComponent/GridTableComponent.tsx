@@ -1,5 +1,5 @@
 import { Table } from 'antd';
-import { SortOrder } from 'antd/es/table/interface';
+import { CompareFn, SortOrder } from 'antd/es/table/interface';
 import moment from 'moment';
 import React from 'react';
 
@@ -15,10 +15,15 @@ interface Column {
   key: string | undefined;
   fixed?: 'left' | 'right';
   width?: number | string;
-  sorter?: (a: any, b: any) => number;
+  sorter?: CompareFn<object>;
   sortDirections?: SortOrder[];
   children?: Column[];
   resizable?: boolean;
+}
+
+interface DataItem {
+  datetime: string | number;
+  [key: string]: number | string;
 }
 
 const GridTableComponent: React.FC<Props> = ({ data }) => {
@@ -47,7 +52,11 @@ const GridTableComponent: React.FC<Props> = ({ data }) => {
         };
         if (header.headerName === 'Дата / время') {
           column.fixed = 'left';
-          column.sorter = (a, b) => moment(a.datetime).diff(moment(b.datetime));
+          column.sorter = (a: object, b: object) => {
+            const datetimeA = moment((a as DataItem)?.datetime);
+            const datetimeB = moment((b as DataItem)?.datetime);
+            return datetimeA.diff(datetimeB);
+          };
           column.sortDirections = ['descend', 'ascend'];
         }
         columns.push({
@@ -62,11 +71,13 @@ const GridTableComponent: React.FC<Props> = ({ data }) => {
 
   const columns = convertHeadersToColumns(data?.headers);
 
-  const dataSource = data?.data?.map((item: any, index) => {
-    const obj: Record<string, any> = { key: index };
-    Object.keys(item).forEach((key) => {
-      obj[key] = item[key];
-    });
+  const dataSource = data?.data?.map((item: string | number, index) => {
+    const obj: Record<string, number> = { key: index };
+    if (typeof item === 'object') {
+      Object.keys(item).forEach((key) => {
+        obj[key] = item[key] as number;
+      });
+    }
 
     return obj;
   });
