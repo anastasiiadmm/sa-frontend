@@ -223,7 +223,7 @@ const OpenMapComponent = () => {
               ? (lineMap() as LatLngExpression)
               : (centerMap() as LatLngExpression)
           }
-          zoom={10}
+          zoom={13}
           minZoom={2}
           maxZoom={18}
           scrollWheelZoom
