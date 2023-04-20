@@ -7,6 +7,7 @@ import React, { useEffect, useState } from 'react';
 import newUser from 'assets/images/icons/new_user_request.svg';
 import tractorRequest from 'assets/images/icons/tractor_request.svg';
 import user from 'assets/images/icons/user_request.svg';
+import Errors from 'components/Errors/Errors';
 import DeleteRejectTechniqueModal from 'components/ModalComponent/ModalChildrenComponents/DeleteTechniqueModal/DeleteTechniqueModal';
 import EditUserProfileModal from 'components/ModalComponent/ModalChildrenComponents/EditUserProfileModal/EditUserProfileModal';
 import RequestModals from 'components/ModalComponent/ModalChildrenComponents/RequestModals/RequestModals';
@@ -15,6 +16,7 @@ import RequestRegisterUser from 'components/ModalComponent/ModalChildrenComponen
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import TableComponent from 'components/TableComponent/TableComponent';
 
+import { getPageNumber, getPageNumberPrevious } from 'helper';
 import { IConfirmation } from 'interfaces';
 import {
   accountsSelector,
@@ -33,7 +35,6 @@ import {
 } from 'redux/companies/companiesSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { Request, UserIds } from 'types/types';
-
 import 'containers/Manager/UserRequests/_userRequests.scss';
 import { textSlice } from 'utils/textSlice/textSlice';
 
@@ -42,17 +43,26 @@ const { Title } = Typography;
 const UserRequests = () => {
   const b = bem('UserRequests');
   const dispatch = useAppDispatch();
-  const { requests, fetchRequestsLoading, requestsPagination, vehicleDeleteLoading } =
-    useAppSelector(accountsSelector);
-  const { userInfo, userInfoLoading } = useAppSelector(companiesSelector);
-  const { results, loading } = useAppSelector(techniqueVehicleInfoSelector);
+  const {
+    requests,
+    fetchRequestsLoading,
+    requestsPagination,
+    vehicleDeleteLoading,
+    fetchRequestsError,
+  } = useAppSelector(accountsSelector);
+  const { userInfo, userInfoLoading, userInfoError } = useAppSelector(companiesSelector);
+  const { results, loading, errors } = useAppSelector(techniqueVehicleInfoSelector);
   const saveTechniqueVehicleState = useAppSelector(techniqueVehicleConfirmationSelector);
   const [isModalTechniqueOpen, setIsModalTechniqueOpen] = useState(false);
   const [isModalRegisterUserOpen, setIsModalRegisterUserTechniqueOpen] = useState(false);
   const [isModalRejectOpen, setIsModalRejectOpen] = useState(false);
   const [isModalRequestOpen, setIsModalRequestOpen] = useState(false);
   const [isModalUserInfoOpen, setIsModalUserInfoRejectOpen] = useState(false);
-  const [filters, setFilters] = useState({ page: 1 });
+  const [filters, setFilters] = useState({
+    page: requestsPagination?.next
+      ? Number(getPageNumber(requestsPagination?.next))
+      : Number(getPageNumberPrevious(requestsPagination?.previous)),
+  });
   const [techniqueData, setTechniqueData] = useState<IConfirmation | null>(null);
   const [userIds, setUserIds] = useState<UserIds | null>({ requestId: null, userId: null });
   const [confirmation_typeId, setConfirmation_typeId] = useState<number | null>(null);
@@ -74,13 +84,9 @@ const UserRequests = () => {
       dispatch(fetchUserInfo({ data }));
     }
   }, [dispatch, userIds?.userId]);
-
   useEffect(() => {
-    setIsModalRequestOpen(false);
     if (saveTechniqueVehicleState.results) {
       dispatch(deleteRequests(saveTechniqueVehicleState.results.id));
-      setIsModalRequestOpen(true);
-      setIsModalTechniqueOpen(false);
     }
   }, [saveTechniqueVehicleState]);
 
@@ -95,7 +101,7 @@ const UserRequests = () => {
   const rejectTechniqueHandler = async () => {
     try {
       if (id) {
-        dispatch(deleteUserTechnique({ id: String(id) }));
+        await dispatch(deleteUserTechnique({ id: String(id) })).unwrap();
         setIsModalTechniqueOpen(false);
         setIsModalRejectOpen(false);
         setIsModalRegisterUserTechniqueOpen(false);
@@ -139,11 +145,17 @@ const UserRequests = () => {
   };
 
   const pagePrevHandler = () => {
-    setFilters({ ...filters, page: filters.page - 1 });
+    setFilters({
+      ...filters,
+      page: filters.page - 1,
+    });
   };
 
   const pageNextHandler = () => {
-    setFilters({ ...filters, page: filters.page + 1 });
+    setFilters({
+      ...filters,
+      page: Number(getPageNumber(requestsPagination?.next)) + 1,
+    });
   };
 
   const onClick = () => {
@@ -241,6 +253,10 @@ const UserRequests = () => {
       userInfo?.user?.middle_name,
     )}`;
   };
+
+  if (fetchRequestsError) {
+    return <Errors status={fetchRequestsError?.status} detail={fetchRequestsError?.detail} />;
+  }
   return (
     <>
       <div className={b()} data-testid='requests-id'>
@@ -254,7 +270,9 @@ const UserRequests = () => {
             columns={columns}
             data={requests}
             rowKey={(record) => record.id as number}
-            params={requestsPagination}
+            params={
+              fetchRequestsLoading ? { previous: null, next: null, count: 0 } : requestsPagination
+            }
             pagePrevHandler={pagePrevHandler}
             pageNextHandler={pageNextHandler}
           />
@@ -268,13 +286,21 @@ const UserRequests = () => {
         handleOk={handleOkTechniqueCancel}
         handleCancel={handleOkTechniqueCancel}
       >
-        <RequestAddTechnique
-          loading={loading}
-          resultsInfoClick={techniqueData}
-          resultsTechnique={results}
-          handleOkCancel={handleOkTechniqueCancel}
-          showRejectModal={showRejectModal}
-        />
+        {errors ? (
+          <Errors status={errors.status} detail={errors.detail} />
+        ) : (
+          <RequestAddTechnique
+            loading={loading}
+            modalOpen={() => {
+              setIsModalRequestOpen(!isModalRequestOpen);
+              setIsModalTechniqueOpen(!isModalTechniqueOpen);
+            }}
+            resultsInfoClick={techniqueData}
+            resultsTechnique={results}
+            handleOkCancel={handleOkTechniqueCancel}
+            showRejectModal={showRejectModal}
+          />
+        )}
       </ModalComponent>
 
       <ModalComponent
@@ -284,13 +310,17 @@ const UserRequests = () => {
         handleOk={handleOkRegisterUserCancel}
         handleCancel={handleOkRegisterUserCancel}
       >
-        <RequestRegisterUser
-          userInfo={userInfo}
-          userIds={userIds}
-          userInfoLoading={userInfoLoading}
-          handleOkCancel={handleOkRegisterUserCancel}
-          showRejectModal={showRejectModal}
-        />
+        {userInfoError ? (
+          <Errors status={userInfoError.status} detail={userInfoError.detail} />
+        ) : (
+          <RequestRegisterUser
+            userInfo={userInfo}
+            userIds={userIds}
+            userInfoLoading={userInfoLoading}
+            handleOkCancel={handleOkRegisterUserCancel}
+            showRejectModal={showRejectModal}
+          />
+        )}
       </ModalComponent>
 
       <ModalComponent

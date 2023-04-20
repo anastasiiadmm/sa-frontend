@@ -8,10 +8,12 @@ import { Link } from 'react-router-dom';
 import cloudy from 'assets/images/icons/cloudy.svg';
 import tractorBlue from 'assets/images/icons/tractor-blue.svg';
 import tractor from 'assets/images/icons/tractor-image.svg';
+import Errors from 'components/Errors/Errors';
 import AddUpdateTechnique from 'components/ModalComponent/ModalChildrenComponents/AddUpdateTechnique/AddUpdateTechnique';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import SkeletonBlock from 'components/SkeletonBlock/SkeletonBlock';
 import TableComponent from 'components/TableComponent/TableComponent';
+import { getPageNumber, getPageNumberPrevious } from 'helper';
 import { accountsSelector, fetchUser, fetchUserVehicles } from 'redux/accounts/accountsSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { userVehicles } from 'types/types';
@@ -28,11 +30,15 @@ const Technique = () => {
     userVehicles,
     fetchUserVehiclesLoading,
     userVehiclesPagination,
+    fetchUserVehiclesError,
+    fetchLoadingUserError,
   } = useAppSelector(accountsSelector);
   const dispatch = useAppDispatch();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [filters, setFilters] = useState({
-    page: 1,
+    page: userVehiclesPagination?.next
+      ? Number(getPageNumber(userVehiclesPagination?.next))
+      : Number(getPageNumberPrevious(userVehiclesPagination?.previous)),
   });
 
   useEffect(() => {
@@ -42,13 +48,11 @@ const Technique = () => {
   useEffect(() => {
     const data = {
       query: {
-        page: filters?.page,
+        page: filters?.page || 1,
       },
     };
-
     dispatch(fetchUserVehicles({ data }));
   }, [dispatch, filters]);
-
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -138,6 +142,15 @@ const Technique = () => {
     },
   ];
 
+  if (fetchUserVehiclesError || fetchLoadingUserError) {
+    return (
+      <Errors
+        status={fetchUserVehiclesError?.status || fetchLoadingUserError?.status}
+        detail={fetchUserVehiclesError?.detail || fetchLoadingUserError?.detail}
+      />
+    );
+  }
+
   return (
     <>
       <div className={b()} data-testid='technique-id'>
@@ -188,7 +201,11 @@ const Technique = () => {
             columns={columns}
             data={userVehicles}
             rowKey={(record) => record.id as number}
-            params={userVehiclesPagination}
+            params={
+              fetchUserVehiclesLoading
+                ? { previous: null, next: null, count: 0 }
+                : userVehiclesPagination
+            }
             pagePrevHandler={pagePrevHandler}
             pageNextHandler={pageNextHandler}
           />

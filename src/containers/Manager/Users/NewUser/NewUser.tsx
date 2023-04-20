@@ -3,13 +3,16 @@ import bem from 'easy-bem';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
 
+import Errors from 'components/Errors/Errors';
 import FormField from 'components/FormField/FormField';
 import CreateNewUserCredentials from 'components/ModalComponent/ModalChildrenComponents/CreateNewUserCredentials/CreateNewUserCredentials';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import { getErrorMessage, removeEmptyValuesFromObject } from 'helper';
 import { IUserAdd } from 'interfaces';
+import { accountsSelector } from 'redux/accounts/accountsSlice';
 import { companiesSelector, userCreate } from 'redux/companies/companiesSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
+
 import 'containers/Manager/Users/NewUser/_NewUser.scss';
 
 const { Title } = Typography;
@@ -19,6 +22,7 @@ const NewUser: React.FC = () => {
   const dispatch = useAppDispatch();
   const [form] = Form.useForm();
   const history = useNavigate();
+  const { fetchErrorManager } = useAppSelector(accountsSelector);
   const { userCreateLoading, userCreate: userCreateData } = useAppSelector(companiesSelector);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formValid, setFormValid] = useState(true);
@@ -45,6 +49,10 @@ const NewUser: React.FC = () => {
       await message.error(`${errorMessage}`);
     }
   };
+
+  if (fetchErrorManager) {
+    return <Errors status={fetchErrorManager.status} detail={fetchErrorManager.detail} />;
+  }
 
   return (
     <>

@@ -27,6 +27,7 @@ interface Props {
   resultsTechnique: IVehicle | null;
   resultsInfoClick: IConfirmation | null;
   loading: boolean;
+  modalOpen: () => void;
 }
 
 const RequestAddTechnique: React.FC<Props> = ({
@@ -35,6 +36,7 @@ const RequestAddTechnique: React.FC<Props> = ({
   resultsTechnique,
   loading,
   resultsInfoClick,
+  modalOpen,
 }) => {
   const b = bem('RequestAddTechnique');
   const dispatch = useAppDispatch();
@@ -75,8 +77,8 @@ const RequestAddTechnique: React.FC<Props> = ({
       if (resultsTechnique) {
         const obj: { [key: string]: string } = {
           ...values,
-          code: '',
-          enterprise: '',
+          code: resultsTechnique.code,
+          enterprise: `${resultsTechnique.enterprise}`,
         };
         const formData = new FormData();
         for (const name in obj) {
@@ -91,10 +93,11 @@ const RequestAddTechnique: React.FC<Props> = ({
             formData.append('image', blob, file.name);
           }
         }
-        await dispatch(techniqueVehicleInfoPut({ data: resultsInfoClick, obj: formData }));
+        await dispatch(techniqueVehicleInfoPut({ data: resultsInfoClick, obj: formData })).unwrap();
         if (resultsInfoClick?.id) {
-          await dispatch(techniqueVehicleConfirmation(resultsInfoClick.id));
+          await dispatch(techniqueVehicleConfirmation(resultsInfoClick.id)).unwrap();
         }
+        modalOpen();
       }
     } catch (e) {
       const errorMessage = getErrorMessage(e, 'username');
