@@ -4,9 +4,8 @@ import {
   MenuUnfoldOutlined,
   ProfileOutlined,
 } from '@ant-design/icons';
-import { Button, Card, Layout, Menu, MenuProps, Table, theme, Tooltip, Typography } from 'antd';
+import { Button, Card, Layout, Menu, MenuProps, theme, Tooltip, Typography } from 'antd';
 import { Content, Header } from 'antd/lib/layout/layout';
-import { ColumnsType } from 'antd/lib/table';
 import bem from 'easy-bem';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
@@ -16,6 +15,7 @@ import ChartComponent from 'components/ChartComponent/ChartComponent';
 import NotFound from 'components/Errors/NotFound/NotFound';
 import CustomDropdown from 'components/Fields/CustomDropdown/CustomDropdown';
 import FormField from 'components/FormField/FormField';
+import GridTableComponent from 'components/GridTableComponent/GridTableComponent';
 import Spinner from 'components/Spinner/Spinner';
 import { calculateDateRange } from 'helper';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
@@ -44,14 +44,6 @@ function getItem(
     children,
     label,
   } as MenuItem;
-}
-
-interface DataType {
-  key: React.Key;
-  name: string;
-  chinese: number;
-  math: number;
-  english: number;
 }
 
 const FieldClimateStation = () => {
@@ -121,68 +113,6 @@ const FieldClimateStation = () => {
     ),
   ];
 
-  const columns: ColumnsType<DataType> = [
-    {
-      title: 'Name',
-      dataIndex: 'name',
-    },
-    {
-      title: 'Chinese Score',
-      dataIndex: 'chinese',
-      sorter: {
-        compare: (a, b) => a.chinese - b.chinese,
-        multiple: 3,
-      },
-    },
-    {
-      title: 'Math Score',
-      dataIndex: 'math',
-      sorter: {
-        compare: (a, b) => a.math - b.math,
-        multiple: 2,
-      },
-    },
-    {
-      title: 'English Score',
-      dataIndex: 'english',
-      sorter: {
-        compare: (a, b) => a.english - b.english,
-        multiple: 1,
-      },
-    },
-  ];
-
-  const data: DataType[] = [
-    {
-      key: '1',
-      name: 'John Brown',
-      chinese: 98,
-      math: 60,
-      english: 70,
-    },
-    {
-      key: '2',
-      name: 'Jim Green',
-      chinese: 98,
-      math: 66,
-      english: 89,
-    },
-    {
-      key: '3',
-      name: 'Joe Black',
-      chinese: 98,
-      math: 90,
-      english: 70,
-    },
-    {
-      key: '4',
-      name: 'Jim Red',
-      chinese: 88,
-      math: 99,
-      english: 89,
-    },
-  ];
-
   const handleChangeDaysTypeHandler = (value: string) => {
     setFilters({
       ...filters,
@@ -216,7 +146,11 @@ const FieldClimateStation = () => {
     <Layout data-testid='station-id' style={{ height: '85vh', marginTop: 47 }} className={b('')}>
       <Sider collapsedWidth={0} width={250} trigger={null} collapsible collapsed={collapsed}>
         <div className={b('sider-block')}>
-          <Menu mode='inline' theme='light' items={items} triggerSubMenuAction='click' />
+          {sensorDataLoading ? (
+            <Spinner />
+          ) : (
+            <Menu mode='inline' theme='light' items={items} triggerSubMenuAction='click' />
+          )}
           {sensorData?.topology?.[0]?.sensors?.length ? (
             <CustomDropdown id={id} dropdownOptions={sensorData?.topology?.[0]?.sensors} />
           ) : null}
@@ -288,9 +222,7 @@ const FieldClimateStation = () => {
                   <div style={{ marginTop: 60, marginBottom: 60 }}>
                     <ChartComponent data={sensorData && sensorData?.chartsOptions} />
                   </div>
-                  <div>
-                    <Table columns={columns} dataSource={data} />
-                  </div>
+                  <GridTableComponent data={sensorData?.grid} />
                 </>
               )}
             </div>
