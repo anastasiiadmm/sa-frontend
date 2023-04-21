@@ -19,6 +19,7 @@ interface Column {
   sortDirections?: SortOrder[];
   children?: Column[];
   resizable?: boolean;
+  ellipsis?: boolean;
 }
 
 interface DataItem {
@@ -36,19 +37,22 @@ const GridTableComponent: React.FC<Props> = ({ data }) => {
           title: child.headerName,
           dataIndex: child.field,
           key: child.field,
+          ellipsis: true,
         }));
         columns.push({
           title: header.headerName,
           children: children ?? undefined,
           dataIndex: header.field,
           key: header.field,
+          ellipsis: true,
         });
       } else {
         const column: Column = {
           title: header.headerName,
           dataIndex: header.field,
           key: header.field,
-          width: header.headerName === 'Дата / время' ? '5%' : undefined,
+          ellipsis: true,
+          width: header.headerName === 'Дата / время' ? '7%' : undefined,
         };
         if (header.headerName === 'Дата / время') {
           column.fixed = 'left';
@@ -62,6 +66,7 @@ const GridTableComponent: React.FC<Props> = ({ data }) => {
         columns.push({
           ...column,
           key: header.field,
+          ellipsis: true,
         });
       }
     });
@@ -85,7 +90,7 @@ const GridTableComponent: React.FC<Props> = ({ data }) => {
   return (
     <Table
       data-testid='chart-table-id'
-      scroll={{ y: 400, x: '300vw' }}
+      scroll={{ x: '180vw' }}
       dataSource={dataSource}
       columns={columns}
     />
