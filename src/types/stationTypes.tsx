@@ -68,6 +68,8 @@ export interface StationState {
   sensorData: StationSensor | null;
   sensorDataLoading: boolean;
   sensorDataError: APIError | null;
+  sensorPutLoading: boolean;
+  sensorPutError: APIError | null;
 }
 
 export interface MarkerData {

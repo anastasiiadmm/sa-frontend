@@ -60,6 +60,9 @@ const initialState: StationState = {
   sensorData: null,
   sensorDataLoading: false,
   sensorDataError: null,
+
+  sensorPutLoading: false,
+  sensorPutError: null,
 };
 
 export const fetchUser = createAsyncThunk<userStation, void, { rejectValue: APIError }>(
@@ -163,7 +166,7 @@ export const fetchStationInfo = createAsyncThunk<
 });
 
 interface stationParams {
-  id: string;
+  id: string | undefined;
 }
 
 export const fetchStationSensors = createAsyncThunk<
@@ -226,6 +229,35 @@ export const postStationSensors = createAsyncThunk<
     return rejectWithValue({ message: 'Failed to fetch station data.' });
   }
 });
+
+interface putStationParams {
+  id: string | null | undefined;
+  data: string | null | undefined;
+}
+
+export const putStation = createAsyncThunk<void, putStationParams, { rejectValue: APIError }>(
+  'stations/putStation',
+  async ({ id, data }, { rejectWithValue }) => {
+    const params = {
+      method: 'PUT',
+      request: `/station/${id}`,
+    };
+    const headers = {
+      ...getAuthorizationHeader(params.method, params.request),
+      Accept: 'application/json',
+      'Accept-Language': 'ru',
+    };
+    try {
+      const response = await axios.put(REACT_APP_CLIMATE_API_BASE_URL + params.request, data, {
+        headers,
+      });
+
+      return response.data;
+    } catch (error) {
+      return rejectWithValue({ message: 'Failed to fetch station data.' });
+    }
+  },
+);
 
 const stationSlice = createSlice({
   name: 'stations',
@@ -317,6 +349,19 @@ const stationSlice = createSlice({
       .addCase(postStationSensors.rejected, (state, action) => {
         state.sensorDataLoading = false;
         state.sensorDataError = action.payload ? action.payload : null;
+      });
+
+    builder
+      .addCase(putStation.pending, (state) => {
+        state.sensorPutLoading = true;
+        state.sensorPutError = null;
+      })
+      .addCase(putStation.fulfilled, (state) => {
+        state.sensorPutLoading = false;
+      })
+      .addCase(putStation.rejected, (state, action) => {
+        state.sensorPutLoading = false;
+        state.sensorPutError = action.payload ? action.payload : null;
       });
   },
 });
