@@ -33,7 +33,7 @@ const FieldClimateSideBar = () => {
     {
       label: 'Настройки устройства',
       icon: <SettingOutlined />,
-      path: '/field-climate/config',
+      path: `/field-climate/config/${stationId}`,
     },
   ];
 

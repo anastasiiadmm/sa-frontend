@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
+import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import { Layout, theme } from 'antd';
 import { Content, Header } from 'antd/lib/layout/layout';
-import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import bem from 'easy-bem';
-
-const { Sider } = Layout;
+import React, { useState } from 'react';
 
 import 'containers/FieldClimate/FieldClimateInnerDashboard/_fieldClimateInnerDashboard.scss';
 
+const { Sider } = Layout;
+
 interface Props {
-  childrenSider: string | JSX.Element | JSX.Element[];
-  children: string | JSX.Element | JSX.Element[];
+  childrenSider: React.ReactNode;
+  children: React.ReactNode;
 }
 
 const FieldClimateInnerDashboard: React.FC<Props> = ({ children, childrenSider }) => {

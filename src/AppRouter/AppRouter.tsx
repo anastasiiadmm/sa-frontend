@@ -9,9 +9,10 @@ import NotFound from 'components/Errors/NotFound/NotFound';
 import FieldClimateSideBar from 'components/FieldClimateSideBar/FieldClimateSideBar';
 import OpenMapComponent from 'components/OpenMapComponent/OpenMapComponent';
 import SliderMenu from 'components/SliderMenu/SliderMenu';
-import FieldClimateConfigurations from 'containers/FieldClimate/FieldClimateConfiguration/FieldClimateConfigurations';
+import FieldClimateConfigurations from 'containers/FieldClimate/FieldClimateConfigurations/FieldClimateConfigurations';
 import FieldClimateDashboard from 'containers/FieldClimate/FieldClimateDashboard';
 import FieldClimateStation from 'containers/FieldClimate/FieldClimateStation/FieldClimateStation';
+import SensorsAndNodes from 'containers/FieldClimate/SensorsAndNodes/SensorsAndNodes';
 import ManagerProfile from 'containers/Manager/Profile/Profile';
 import UserRequests from 'containers/Manager/UserRequests/UserRequests';
 import NewUser from 'containers/Manager/Users/NewUser/NewUser';
@@ -92,7 +93,11 @@ const AppRouter: React.FC = () => {
                   <Route path='/open-map/:id/:vehicleId' element={<OpenMapComponent />} />
                   <Route path='/field-climate' element={<FieldClimateDashboard />} />
                   <Route path='/field-climate/station/:id' element={<FieldClimateStation />} />
-                  <Route path='/field-climate/config' element={<FieldClimateConfigurations />} />
+                  <Route
+                    path='/field-climate/config/:id'
+                    element={<FieldClimateConfigurations />}
+                  />
+                  <Route path='/field-climate/sensor-names/:id' element={<SensorsAndNodes />} />
                 </>
               )}
               <Route path='/profile-technique/:userId/:vehicleId' element={<ProfileTechnique />} />
