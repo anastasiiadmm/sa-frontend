@@ -259,3 +259,5 @@ export function getPageNumberPrevious(url: string | undefined | null): string | 
 
   return 1;
 }
+
+export const unixTimestamp = moment().unix();

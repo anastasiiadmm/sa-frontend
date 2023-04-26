@@ -1,0 +1,24 @@
+.FieldClimateConfigurations {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  &__map-block {
+    margin-top: 20px;
+    display: flex;
+    gap: 15px;
+    > div {
+      width: 50%;
+    }
+  }
+
+  &__map-block-inner {
+    display: flex;
+    gap: 15px;
+  }
+
+  &__input-style {
+    width: 100%;
+  }
+}
