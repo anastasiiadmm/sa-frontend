@@ -46,7 +46,6 @@ const DraggableMarker = ({
   const markerRef = useRef<L.Marker | null>(null);
   const map = useMap();
   const zoomLevel = 3;
-  console.log('coordinates', coordinates);
 
   useEffect(() => {
     if (markerRef.current) {
