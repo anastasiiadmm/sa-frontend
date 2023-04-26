@@ -12,7 +12,7 @@ import FieldClimateSettingsDashboard from 'containers/FieldClimate/FieldClimateS
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import {
   fetchStationInfo,
-  getLocationParams,
+  getLocation,
   getTimezone,
   putStation,
   stationsSelector,
@@ -237,7 +237,7 @@ const FieldClimateConfigurations = () => {
   };
 
   const searchLocationHandler = (values: any) => {
-    dispatch(getLocationParams(values));
+    dispatch(getLocation(values));
   };
 
   return (

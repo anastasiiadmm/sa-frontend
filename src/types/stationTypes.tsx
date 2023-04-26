@@ -310,4 +310,5 @@ export interface Location {
   type: string;
   importance: number;
   icon: string;
-}[];
+}
+[];

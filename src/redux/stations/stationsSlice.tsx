@@ -331,20 +331,19 @@ interface getLocationParams {
   location: string;
 }
 
-export const getLocationParams = createAsyncThunk<
-  Location,
-  getLocationParams,
-  { rejectValue: APIError }
->('stations/getLocationParams', async ({ location }, { rejectWithValue }) => {
-  try {
-    const response = await axios.get(
-      `https://nominatim.openstreetmap.org/search?q=${location}&format=json&limit=1`,
-    );
-    return await response.data;
-  } catch (error) {
-    return rejectWithValue({ message: 'Failed to fetch location data.' });
-  }
-});
+export const getLocation = createAsyncThunk<Location, getLocationParams, { rejectValue: APIError }>(
+  'stations/getLocation',
+  async ({ location }, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(
+        `https://nominatim.openstreetmap.org/search?q=${location}&format=json&limit=1`,
+      );
+      return await response.data;
+    } catch (error) {
+      return rejectWithValue({ message: 'Failed to fetch location data.' });
+    }
+  },
+);
 
 const stationSlice = createSlice({
   name: 'stations',
@@ -480,15 +479,15 @@ const stationSlice = createSlice({
       });
 
     builder
-      .addCase(getLocationParams.pending, (state) => {
+      .addCase(getLocation.pending, (state) => {
         state.locationLoading = true;
         state.locationError = null;
       })
-      .addCase(getLocationParams.fulfilled, (state, action) => {
+      .addCase(getLocation.fulfilled, (state, action) => {
         state.locationLoading = false;
         state.location = action.payload;
       })
-      .addCase(getLocationParams.rejected, (state, action) => {
+      .addCase(getLocation.rejected, (state, action) => {
         state.locationLoading = false;
         state.locationError = action.payload ? action.payload : null;
       });
