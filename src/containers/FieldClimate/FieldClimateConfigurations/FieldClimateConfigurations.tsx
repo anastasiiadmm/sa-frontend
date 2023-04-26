@@ -364,8 +364,9 @@ const FieldClimateConfigurations = () => {
                   >
                     <div className={b('map-block')}>
                       <FormField
-                        defaultValue={stationInfo?.name?.custom}
+                        readOnly
                         bordered
+                        inputClassName={b('input-info-styles')}
                         label='Longitude'
                         data-testid='longitude_id'
                         id='longitude'
@@ -373,8 +374,9 @@ const FieldClimateConfigurations = () => {
                       />
 
                       <FormField
-                        defaultValue={stationInfo?.name?.custom}
+                        readOnly
                         bordered
+                        inputClassName={b('input-info-styles')}
                         label='Latitude'
                         data-testid='latitude_id'
                         id='latitude'
@@ -382,8 +384,9 @@ const FieldClimateConfigurations = () => {
                       />
 
                       <FormField
-                        defaultValue={stationInfo?.name?.custom}
+                        readOnly
                         bordered
+                        inputClassName={b('input-info-styles')}
                         label='Elevation'
                         data-testid='elevation_id'
                         id='elevation'
@@ -403,6 +406,7 @@ const FieldClimateConfigurations = () => {
                       readOnly
                       bordered
                       className={b('timezone-style')}
+                      inputClassName={b('input-info-styles')}
                       label='Station timezone'
                       data-testid='timezone_code_id'
                       id='timezone_code'
