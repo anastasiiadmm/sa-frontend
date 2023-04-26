@@ -1,20 +1,4 @@
 .FieldClimateStation {
-  &__content {
-    margin: 24px 16px;
-    padding: 24px;
-    min-height: 280px;
-    background: none;
-    display: flex;
-    flex-direction: column;
-  }
-
-  &__sider-block {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 17px;
-  }
-
   &__logo {
     text-align: center;
     > img {
@@ -38,6 +22,18 @@
   &__card-style-items-sensors {
     display: flex;
     gap: 20px;
+  }
+
+  &__sider-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 17px;
+    background: white;
+    > ul > li > ul > li {
+      height: 168px !important;
+      padding: 5px !important;
+    }
   }
 
   &__station-block {
@@ -71,10 +67,6 @@
     text-align: center !important;
   }
 
-  .ant-table-wrapper .ant-table-thead>tr>th, .ant-table-wrapper .ant-table-tbody>tr>th, .ant-table-wrapper .ant-table-tbody>tr>td, .ant-table-wrapper tfoot>tr>th, .ant-table-wrapper tfoot>tr>td {
-    padding: 2px 10px !important;
-  }
-
   .ant-table-wrapper table {
     text-align: center;
   }
@@ -87,19 +79,12 @@
     background: none;
   }
 
-  .ant-table-cell-row-hover {
-    background: #d0d0d0 !important;
-  }
 }
 
-:where(.css-dev-only-do-not-override-6jf5y1).ant-menu-submenu-popup .ant-menu-vertical > .ant-menu-item,
-:where(.css-dev-only-do-not-override-6jf5y1).ant-menu-submenu-popup .ant-menu-vertical > .ant-menu-submenu > .ant-menu-submenu-title {
-  height: 189px !important;
-}
-
-li > .ant-menu-title-content > .menu-info {
-  width: 268px !important;
-  height: 189px !important;
+.ant-menu-title-content > .menu-info {
+  width: 246px !important;
+  height: 131px !important;
+  line-height: 1.8;
   white-space: break-spaces;
   display: flex;
   flex-direction: column;
