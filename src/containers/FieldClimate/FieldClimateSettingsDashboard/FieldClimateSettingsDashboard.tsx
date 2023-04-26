@@ -41,8 +41,6 @@ const FieldClimateSettingsDashboard: React.FC<Props> = ({ children }) => {
   const location = useLocation();
   const { stationInfo, stationInfoLoading } = useAppSelector(stationsSelector);
 
-  console.log('location', location);
-
   useEffect(() => {
     dispatch(fetchStationInfo({ id }));
   }, [dispatch]);
