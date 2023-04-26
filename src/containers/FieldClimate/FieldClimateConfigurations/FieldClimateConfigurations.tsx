@@ -45,6 +45,8 @@ const DraggableMarker = ({
   const [markerPosition, setMarkerPosition] = useState<LatLngExpression | LatLngTuple>(position);
   const markerRef = useRef<L.Marker | null>(null);
   const map = useMap();
+  const zoomLevel = 3;
+  console.log('coordinates', coordinates);
 
   useEffect(() => {
     if (markerRef.current) {
@@ -62,6 +64,10 @@ const DraggableMarker = ({
   useEffect(() => {
     setMarkerPosition(centerMap());
   }, [coordinates, centerMap, setMarkerPosition]);
+
+  useEffect(() => {
+    map.flyTo(markerPosition, zoomLevel);
+  }, [coordinates, centerMap, markerPosition]);
 
   const handleMarkerDragEnd = async (event: L.LeafletEvent) => {
     const latlng = event.target.getLatLng();
@@ -397,6 +403,7 @@ const FieldClimateConfigurations = () => {
                     <FormField
                       readOnly
                       bordered
+                      className={b('timezone-style')}
                       label='Station timezone'
                       data-testid='timezone_code_id'
                       id='timezone_code'
