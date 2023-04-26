@@ -2,7 +2,7 @@ import { ProfileOutlined, SettingOutlined, TagOutlined } from '@ant-design/icons
 import { Menu, MenuProps, Typography } from 'antd';
 import bem from 'easy-bem';
 import React, { useEffect } from 'react';
-import { useMatch, useNavigate } from 'react-router';
+import { useLocation, useMatch, useNavigate } from 'react-router';
 import { useParams } from 'react-router-dom';
 
 import Spinner from 'components/Spinner/Spinner';
@@ -38,7 +38,10 @@ const FieldClimateSettingsDashboard: React.FC<Props> = ({ children }) => {
   const { id } = useParams<{ id: string }>();
   const push = useNavigate();
   const dispatch = useAppDispatch();
+  const location = useLocation();
   const { stationInfo, stationInfoLoading } = useAppSelector(stationsSelector);
+
+  console.log('location', location);
 
   useEffect(() => {
     dispatch(fetchStationInfo({ id }));
@@ -130,7 +133,9 @@ const FieldClimateSettingsDashboard: React.FC<Props> = ({ children }) => {
       <FieldClimateInnerDashboard childrenSider={childrenSider}>
         <div data-testid='station-id'>
           <Title level={3} style={{ margin: 0, textTransform: 'uppercase', color: '#777' }}>
-            Конфигурация устройства
+            {location.pathname.includes('/field-climate/sensor-names/')
+              ? 'Датчики и узлы'
+              : 'Конфигурация устройства'}
           </Title>
           <Text>
             {stationInfo?.name?.original} • {stationInfo?.name?.custom} •{' '}
