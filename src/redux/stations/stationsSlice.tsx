@@ -304,9 +304,24 @@ export const getElevation = createAsyncThunk<
   { rejectValue: APIError }
 >('stations/getElevation', async ({ position }, { rejectWithValue }) => {
   try {
-    const url = `https://maps.googleapis.com/maps/api/elevation/json?locations=${position[0]},${position[1]}&key=${REACT_APP_GOOGLE_APIS_KEY}`;
-    const response = await axios.get(url);
-    return await response.data;
+    const params = {
+      method: 'GET',
+      request: `/elevation?lat=${position[0]}&lon=${position[1]}`,
+    };
+    const headers = {
+      ...getAuthorizationHeader(params.method, params.request),
+      Accept: 'application/json',
+      'Accept-Language': 'ru',
+    };
+    try {
+      const response = await axios.get(REACT_APP_CLIMATE_API_BASE_URL + params.request, {
+        headers,
+      });
+
+      return response.data;
+    } catch (error) {
+      return rejectWithValue({ message: 'Failed to fetch station data.' });
+    }
   } catch (error) {
     return rejectWithValue({ message: 'Failed to fetch elevation data.' });
   }

@@ -12,7 +12,6 @@ import FieldClimateSettingsDashboard from 'containers/FieldClimate/FieldClimateS
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import {
   fetchStationInfo,
-  getElevation,
   getLocationParams,
   getTimezone,
   putStation,
@@ -205,7 +204,6 @@ const FieldClimateConfigurations = () => {
 
   const handleMarkerDragEnd = async (position: number[]) => {
     dispatch(getTimezone({ position: [position[0], position[1]] }));
-    dispatch(getElevation({ position: [position[0], position[1]] }));
     setData((prevState) => ({
       ...prevState,
       position: {
@@ -381,16 +379,6 @@ const FieldClimateConfigurations = () => {
                         data-testid='latitude_id'
                         id='latitude'
                         name='latitude'
-                      />
-
-                      <FormField
-                        readOnly
-                        bordered
-                        inputClassName={b('input-info-styles')}
-                        label='Elevation'
-                        data-testid='elevation_id'
-                        id='elevation'
-                        name='elevation'
                       />
                     </div>
 
