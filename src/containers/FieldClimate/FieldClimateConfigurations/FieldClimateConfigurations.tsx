@@ -236,8 +236,12 @@ const FieldClimateConfigurations = () => {
     }
   };
 
-  const searchLocationHandler = (values: any) => {
-    dispatch(getLocation(values));
+  const searchLocationHandler = async (values: any) => {
+    try {
+      await dispatch(getLocation(values)).unwrap();
+    } catch (e) {
+      await message.error(e?.message);
+    }
   };
 
   return (

@@ -338,9 +338,12 @@ export const getLocation = createAsyncThunk<Location, getLocationParams, { rejec
       const response = await axios.get(
         `https://nominatim.openstreetmap.org/search?q=${location}&format=json&limit=1`,
       );
+      if (response.data.length === 0) {
+        throw new Error('Нет результатов по данному запросу');
+      }
       return await response.data;
     } catch (error) {
-      return rejectWithValue({ message: 'Failed to fetch location data.' });
+      return rejectWithValue({ message: error.message });
     }
   },
 );
