@@ -68,6 +68,17 @@ export interface StationState {
   sensorData: StationSensor | null;
   sensorDataLoading: boolean;
   sensorDataError: APIError | null;
+  sensorPutLoading: boolean;
+  sensorPutError: APIError | null;
+  timezone: Timezone | null;
+  timezoneLoading: boolean;
+  timezoneError: APIError | null;
+  elevation: Elevation | null;
+  elevationLoading: boolean;
+  elevationError: APIError | null;
+  location: Location | null;
+  locationLoading: boolean;
+  locationError: APIError | null;
 }
 
 export interface MarkerData {
@@ -200,7 +211,15 @@ export interface stationInfo {
   };
   networking: Object;
   note: string;
-  position: Object;
+  position: {
+    altitude: number;
+    geo: {
+      coordinates: number[];
+      timezoneCode: string;
+    };
+    timezoneCode: string;
+    rights: string;
+  };
   rights: string;
   warnings: Object;
 }
@@ -213,14 +232,16 @@ export interface StationSensor {
 }
 
 export interface headerGrid {
-  children?: {
-    field: string;
-    filter: string;
-    headerName: string;
-    headerTooltip: string;
-    suppressSorting: boolean;
-    width: number;
-  }[] | undefined;
+  children?:
+    | {
+        field: string;
+        filter: string;
+        headerName: string;
+        headerTooltip: string;
+        suppressSorting: boolean;
+        width: number;
+      }[]
+    | undefined;
   groupId?: string;
   field?: string;
   headerName: string;
@@ -258,3 +279,36 @@ export interface TopologySensor {
   };
 }
 
+export interface Timezone {
+  dstOffset: number;
+  rawOffset: number;
+  status: string;
+  timeZoneId: string;
+  timeZoneName: string;
+}
+
+export interface Elevation {
+  results: [
+    {
+      latitude: number;
+      longitude: number;
+      elevation: number;
+    },
+  ];
+}
+
+export interface Location {
+  place_id: number;
+  licence: string;
+  osm_type: string;
+  osm_id: number;
+  boundingbox: string[];
+  lat: string;
+  lon: string;
+  display_name: string;
+  class: string;
+  type: string;
+  importance: number;
+  icon: string;
+}
+[];

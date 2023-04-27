@@ -207,7 +207,7 @@ const OpenMapComponent = () => {
           id === 'local-tractor' ||
           pathname.includes('local-tractor') ? null : (
             <Alert
-              message='Кординаты для маршрута не найдено'
+              message='Кординаты маршрута не найдены'
               type='error'
               style={{
                 marginTop: 20,

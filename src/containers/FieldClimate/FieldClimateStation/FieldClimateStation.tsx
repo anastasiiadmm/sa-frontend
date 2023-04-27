@@ -1,11 +1,5 @@
-import {
-  BackwardOutlined,
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
-  ProfileOutlined,
-} from '@ant-design/icons';
-import { Button, Card, Layout, Menu, MenuProps, theme, Tooltip, Typography } from 'antd';
-import { Content, Header } from 'antd/lib/layout/layout';
+import { BackwardOutlined, ProfileOutlined } from '@ant-design/icons';
+import { Button, Card, Menu, MenuProps, Tooltip, Typography } from 'antd';
 import bem from 'easy-bem';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
@@ -17,6 +11,7 @@ import CustomDropdown from 'components/Fields/CustomDropdown/CustomDropdown';
 import FormField from 'components/FormField/FormField';
 import GridTableComponent from 'components/GridTableComponent/GridTableComponent';
 import Spinner from 'components/Spinner/Spinner';
+import FieldClimateInnerDashboard from 'containers/FieldClimate/FieldClimateInnerDashboard/FieldClimateInnerDashboard';
 import { calculateDateRange } from 'helper';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import {
@@ -28,7 +23,6 @@ import { dateMomentTypeString, rangeDataDaysSensors, rangeDataHoursSensors } fro
 import 'containers/FieldClimate/FieldClimateStation/_fieldClimateStation.scss';
 
 const { Text, Title } = Typography;
-const { Sider } = Layout;
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -48,9 +42,6 @@ function getItem(
 
 const FieldClimateStation = () => {
   const b = bem('FieldClimateStation');
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken();
   const { id } = useParams<{ id: string }>();
   const dispatch = useAppDispatch();
   const { stationInfo, sensorData, sensorDataLoading } = useAppSelector(stationsSelector);
@@ -59,7 +50,6 @@ const FieldClimateStation = () => {
   const dayString = moment(stationInfo?.dates?.max_date)
     .subtract(2, 'days')
     .format(dateMomentTypeString);
-  const [collapsed, setCollapsed] = useState(false);
   const [filters, setFilters] = useState({
     name: 'All sensors',
     day_type: 'hourly',
@@ -104,8 +94,6 @@ const FieldClimateStation = () => {
             <span>
               Последнее соединение: <b>{stationInfo?.dates?.last_communication}</b>
             </span>
-            Тип устройства: iMetos 3.3 Прошивка: 08.605.20230113 Смещение часового пояса: 60
-            Последнее соединение: 2023-01-18 12:06:57
           </p>,
           '3',
         ),
@@ -142,96 +130,86 @@ const FieldClimateStation = () => {
     });
   };
 
+  const childrenSider = (
+    <div className={b('sider-block')}>
+      {sensorDataLoading ? (
+        <Spinner />
+      ) : (
+        <Menu mode='inline' theme='light' items={items} triggerSubMenuAction='click' />
+      )}
+      {sensorData?.topology?.[0]?.sensors?.length ? (
+        <CustomDropdown id={id} dropdownOptions={sensorData?.topology?.[0]?.sensors} />
+      ) : null}
+    </div>
+  );
+
   return (
-    <Layout data-testid='station-id' style={{ height: '85vh', marginTop: 47 }} className={b('')}>
-      <Sider collapsedWidth={0} width={250} trigger={null} collapsible collapsed={collapsed}>
-        <div className={b('sider-block')}>
+    <FieldClimateInnerDashboard childrenSider={childrenSider}>
+      <div data-testid='station-id'>
+        <Title level={3} style={{ margin: 0, textTransform: 'uppercase', color: '#777' }}>
+          Данные станции
+        </Title>
+        <Text>
+          {stationInfo?.name?.original} • {stationInfo?.name?.custom} •{' '}
+          {stationInfo?.info?.device_name} • Последние данные:{' '}
+          {stationInfo?.dates?.last_communication}{' '}
+        </Text>
+      </div>
+      <div>
+        <Card className={b('card-style')} bordered={false}>
+          <div className={b('card-style-items')}>
+            <div>
+              <Title level={5} style={{ margin: 0 }}>
+                Все датчики
+              </Title>
+              <Text>
+                {rangeDataHoursSensors.find((item) => item.value === filters?.date_type)?.label} /{' '}
+                {rangeDataDaysSensors.find((item) => item.value === filters?.day_type)?.label}
+              </Text>
+            </div>
+            <div>
+              Данные станции от <b>{filters?.date_string}</b> до{' '}
+              <b>{stationInfo?.dates?.last_communication}</b>
+            </div>
+          </div>
+          <div className={b('card-style-items-sensors')}>
+            <Tooltip placement='top' title='Последние данные'>
+              <Button type='primary' icon={<BackwardOutlined />} onClick={setLastDataHandler} />
+            </Tooltip>
+            <FormField
+              type='select'
+              customStyle='160px'
+              handleChange={handleChangeDaysTypeHandler}
+              options={rangeDataDaysSensors}
+              defaultValue={rangeDataDaysSensors[1]}
+            />
+            <FormField
+              type='select'
+              customStyle='120px'
+              handleChange={handleChangeHoursTypeHandler}
+              options={rangeDataHoursSensors}
+              defaultValue={rangeDataHoursSensors[1]}
+            />
+          </div>
+        </Card>
+      </div>
+      {sensorData?.chartsOptions?.length ? (
+        <div className={b('station-block')}>
           {sensorDataLoading ? (
             <Spinner />
           ) : (
-            <Menu mode='inline' theme='light' items={items} triggerSubMenuAction='click' />
+            <>
+              <div style={{ marginTop: 60, marginBottom: 60 }}>
+                <ChartComponent data={sensorData && sensorData?.chartsOptions} />
+              </div>
+              <GridTableComponent data={sensorData?.grid} />
+            </>
           )}
-          {sensorData?.topology?.[0]?.sensors?.length ? (
-            <CustomDropdown id={id} dropdownOptions={sensorData?.topology?.[0]?.sensors} />
-          ) : null}
         </div>
-      </Sider>
-      <Layout className='site-layout'>
-        <Header style={{ padding: 0, background: colorBgContainer }}>
-          {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
-            className: 'trigger',
-            onClick: () => setCollapsed(!collapsed),
-          })}
-        </Header>
-        <Content className={b('content')}>
-          <div>
-            <Title level={3} style={{ margin: 0, textTransform: 'uppercase', color: '#777' }}>
-              Данные станции
-            </Title>
-            <Text>
-              {stationInfo?.name?.original} • {stationInfo?.name?.custom} •{' '}
-              {stationInfo?.info?.device_name} • Последние данные:{' '}
-              {stationInfo?.dates?.last_communication}{' '}
-            </Text>
-          </div>
-          <div>
-            <Card className={b('card-style')} bordered={false}>
-              <div className={b('card-style-items')}>
-                <div>
-                  <Title level={5} style={{ margin: 0 }}>
-                    Все датчики
-                  </Title>
-                  <Text>
-                    {rangeDataHoursSensors.find((item) => item.value === filters?.date_type)?.label}{' '}
-                    / {rangeDataDaysSensors.find((item) => item.value === filters?.day_type)?.label}
-                  </Text>
-                </div>
-                <div>
-                  Данные станции от <b>{filters?.date_string}</b> до{' '}
-                  <b>{stationInfo?.dates?.last_communication}</b>
-                </div>
-              </div>
-              <div className={b('card-style-items-sensors')}>
-                <Tooltip placement='top' title='Последние данные'>
-                  <Button type='primary' icon={<BackwardOutlined />} onClick={setLastDataHandler} />
-                </Tooltip>
-                <FormField
-                  type='select'
-                  customStyle='160px'
-                  handleChange={handleChangeDaysTypeHandler}
-                  options={rangeDataDaysSensors}
-                  defaultValue={rangeDataDaysSensors[1]}
-                />
-                <FormField
-                  type='select'
-                  customStyle='120px'
-                  handleChange={handleChangeHoursTypeHandler}
-                  options={rangeDataHoursSensors}
-                  defaultValue={rangeDataHoursSensors[1]}
-                />
-              </div>
-            </Card>
-          </div>
-
-          {sensorData?.chartsOptions?.length ? (
-            <div className={b('station-block')}>
-              {sensorDataLoading ? (
-                <Spinner />
-              ) : (
-                <>
-                  <div style={{ marginTop: 60, marginBottom: 60 }}>
-                    <ChartComponent data={sensorData && sensorData?.chartsOptions} />
-                  </div>
-                  <GridTableComponent data={sensorData?.grid} />
-                </>
-              )}
-            </div>
-          ) : (
-            <NotFound showButton title='Нет данных для выбранной станции' />
-          )}
-        </Content>
-      </Layout>
-    </Layout>
+      ) : (
+        <NotFound showButton title='Нет данных для выбранной станции' />
+      )}
+    </FieldClimateInnerDashboard>
   );
 };
 
