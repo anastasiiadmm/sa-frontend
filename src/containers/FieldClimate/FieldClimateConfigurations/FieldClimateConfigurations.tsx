@@ -325,7 +325,7 @@ const FieldClimateConfigurations = () => {
                   <Form
                     form={FormLocationSearch}
                     name='basic'
-                    className='login-form'
+                    className={b('input-style')}
                     onFinish={searchLocationHandler}
                     autoComplete='off'
                     layout='vertical'
@@ -342,7 +342,7 @@ const FieldClimateConfigurations = () => {
                         data-testid='location_id'
                         id='location'
                         name='location'
-                        inputClassName={b('input-style')}
+                        className={b('input-style')}
                       />
 
                       <Button
@@ -360,7 +360,6 @@ const FieldClimateConfigurations = () => {
                   <Form
                     form={FormLocationSet}
                     initialValues={{ stationInfo }}
-                    className='login-form'
                     autoComplete='off'
                     layout='vertical'
                   >
