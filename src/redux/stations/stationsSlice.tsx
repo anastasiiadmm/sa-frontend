@@ -8,13 +8,14 @@ import {
   APIError,
   APIWeatherResponse,
   Elevation,
-  Location, SensorDataEntry,
+  Location,
+  SensorDataEntry,
   stationInfo,
   StationSensor,
   StationState,
   Timezone,
-  userStation
-} from "types/stationTypes";
+  userStation,
+} from 'types/stationTypes';
 
 const {
   REACT_APP_CLIMATE_API_BASE_URL,
