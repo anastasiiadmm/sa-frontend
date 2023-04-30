@@ -33,7 +33,16 @@ export interface SensorDataEntry {
     max: number;
     min: number;
   };
-}[];
+}
+[];
+
+export interface SensorUpdate {
+  channel: number;
+  code: number;
+  color: string;
+  name: string;
+  unit: string | boolean;
+}
 
 export interface userStation {
   account_close_token: string;
@@ -325,4 +334,5 @@ export interface Location {
   type: string;
   importance: number;
   icon: string;
-}[];
+}
+[];
