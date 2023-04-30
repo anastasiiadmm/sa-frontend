@@ -225,6 +225,7 @@ const SensorsAndNodes = () => {
           }}
         />
         <Button
+          loading={sensorsLoading}
           disabled={updatedData?.length === 0}
           type='primary'
           style={{ float: 'right' }}
