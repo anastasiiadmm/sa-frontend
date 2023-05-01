@@ -1,10 +1,14 @@
-import axios, { AxiosRequestHeaders } from 'axios';
+import axios, { AxiosRequestConfig, AxiosRequestHeaders, AxiosResponse, InternalAxiosRequestConfig } from "axios";
 
 import { checkForTokens, logoutUser } from 'redux/auth/authSlice';
 import store from 'redux/store';
 import { apiURL } from 'utils/config';
 import { logoutLocalStorage } from 'utils/token';
 import { apiPathV1, apiPathV2 } from 'utils/constants';
+
+interface ExtendedAxiosRequestConfig extends AxiosRequestConfig {
+  _isReady?: boolean;
+}
 
 const axiosApi = axios.create({
   baseURL: apiURL + apiPathV1,
@@ -14,7 +18,7 @@ const axiosApiV2 = axios.create({
   baseURL: apiURL + apiPathV2,
 });
 
-const authInterceptor = (config) => {
+const authInterceptor = (config: InternalAxiosRequestConfig<any>): InternalAxiosRequestConfig<any> => {
   const key = store.getState()?.auth?.tokens?.access;
 
   if (key) {
@@ -27,20 +31,19 @@ const authInterceptor = (config) => {
   return config;
 };
 
-const responseInterceptor = async (error) => {
-  const originalRequest = error.config;
-
-  const statusCode = error?.response?.status;
+const responseInterceptor = async (response: AxiosResponse<any>) => {
+  const statusCode = response?.status;
   const index = store;
   const { tokens } = index.getState().auth;
   if (
     tokens &&
     statusCode === 401 &&
-    error.config &&
-    !error.config._isReady &&
-    error.response.data.messages
+    response.config &&
+    !(response.config as ExtendedAxiosRequestConfig)._isReady &&
+    response.data.messages
   ) {
-    originalRequest._isReady = true;
+    const originalRequest = response.config;
+    (originalRequest as ExtendedAxiosRequestConfig)._isReady = true;
     try {
       const resp = await axiosApi.post('/accounts/refresh/', { refresh: tokens.refresh });
       if (resp.status === 200) {
@@ -72,7 +75,7 @@ const responseInterceptor = async (error) => {
     store.dispatch(logoutUser());
   }
 
-  return Promise.reject(error);
+  return response;
 };
 
 axiosApi.interceptors.request.use(authInterceptor);
