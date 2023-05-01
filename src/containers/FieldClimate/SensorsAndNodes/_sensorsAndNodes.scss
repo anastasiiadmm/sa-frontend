@@ -1,0 +1,39 @@
+.SensorsAndNodes {
+  margin: 20px 0 160px 0;
+
+  &__swatch {
+    padding: 5px;
+    background: #fff;
+    border-radius: 4px;
+    margin-top: 1px;
+    display: inline-block;
+    cursor: pointer;
+    border: 1px solid lightgrey;
+  }
+
+  &__popover {
+    position: absolute;
+    z-index:90000;
+    left: -90px;
+  }
+
+  &__cover {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+
+  .ant-table-content {
+    overflow: initial !important;
+  }
+
+  .ant-table-wrapper .ant-table-thead >tr>th, .ant-table-wrapper .ant-table-thead >tr>td {
+    text-align: center;
+  }
+
+  .ant-table-wrapper table {
+    text-align: center;
+  }
+}

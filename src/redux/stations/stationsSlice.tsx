@@ -9,6 +9,8 @@ import {
   APIWeatherResponse,
   Elevation,
   Location,
+  SensorDataEntry,
+  SensorUpdate,
   stationInfo,
   StationSensor,
   StationState,
@@ -58,9 +60,12 @@ const initialState: StationState = {
   stationInfoLoading: false,
   stationInfoError: null,
 
-  sensors: [],
+  sensors: null,
   sensorsLoading: false,
   sensorsError: null,
+
+  updateStationSensorLoading: false,
+  updateStationSensorError: null,
 
   sensorData: null,
   sensorDataLoading: false,
@@ -187,7 +192,7 @@ interface stationParams {
 }
 
 export const fetchStationSensors = createAsyncThunk<
-  StationSensor,
+  SensorDataEntry[],
   stationParams,
   { rejectValue: APIError }
 >('stations/fetchStationSensors', async ({ id }, { rejectWithValue }) => {
@@ -198,6 +203,7 @@ export const fetchStationSensors = createAsyncThunk<
   const headers = {
     ...getAuthorizationHeader(params.method, params.request),
     Accept: 'application/json',
+    'Accept-Language': 'ru',
   };
   try {
     const response = await axios.get(REACT_APP_CLIMATE_API_BASE_URL + params.request, {
@@ -207,6 +213,36 @@ export const fetchStationSensors = createAsyncThunk<
     return response.data;
   } catch (error) {
     return rejectWithValue({ message: 'Failed to fetch station data.' });
+  }
+});
+
+interface updateStationSensorParams {
+  id: string | undefined;
+  data: SensorUpdate[];
+}
+
+export const updateStationSensor = createAsyncThunk<
+  void,
+  updateStationSensorParams,
+  { rejectValue: APIError }
+>('stations/updateStationSensor', async ({ id, data }, { rejectWithValue }) => {
+  const params = {
+    method: 'POST',
+    request: `/station/${id}/sensors`,
+  };
+  const headers = {
+    ...getAuthorizationHeader(params.method, params.request),
+    Accept: 'application/json',
+    'Accept-Language': 'ru',
+  };
+  try {
+    const response = await axios.post(REACT_APP_CLIMATE_API_BASE_URL + params.request, data, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    return rejectWithValue({ message: 'Failed to update sensor data.' });
   }
 });
 
@@ -408,6 +444,19 @@ const stationSlice = createSlice({
         state.sensors = action.payload;
       })
       .addCase(fetchStationSensors.rejected, (state, action) => {
+        state.sensorsLoading = false;
+        state.sensorsError = action.payload!;
+      });
+
+    builder
+      .addCase(updateStationSensor.pending, (state) => {
+        state.sensorsLoading = true;
+        state.sensorsError = null;
+      })
+      .addCase(updateStationSensor.fulfilled, (state) => {
+        state.sensorsLoading = false;
+      })
+      .addCase(updateStationSensor.rejected, (state, action) => {
         state.sensorsLoading = false;
         state.sensorsError = action.payload!;
       });

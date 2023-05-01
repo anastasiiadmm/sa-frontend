@@ -22,7 +22,7 @@ const SelectField: React.FC<Props> = ({
     <Select
       disabled={disabled}
       defaultValue={defaultValue}
-      style={{ width: customStyle ?? 'auto' }}
+      style={{ width: customStyle ?? '220px' }}
       onChange={handleChange}
       options={options}
     />
