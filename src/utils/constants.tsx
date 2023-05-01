@@ -1,3 +1,6 @@
+export const apiPathV1 = 'api/v1/'
+export const apiPathV2 = 'api/v2/'
+
 export const climateOptions = [
   { value: 'last_communication', label: 'Последнее соединение' },
   { value: 'airTemp', label: 'Температура воздуха' },
