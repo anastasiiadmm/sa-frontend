@@ -57,7 +57,7 @@ const SensorsAndNodes = () => {
       channel: record.ch,
       code: record.code,
       color: updatedColor || record.color,
-      name: updatedName || '',
+      name: updatedName || record.name_custom,
       unit: updatedUnit || false,
     };
 
