@@ -10,6 +10,7 @@ import {
   Elevation,
   Location,
   SensorDataEntry,
+  SensorUpdate,
   stationInfo,
   StationSensor,
   StationState,
@@ -217,7 +218,7 @@ export const fetchStationSensors = createAsyncThunk<
 
 interface updateStationSensorParams {
   id: string | undefined;
-  data: any;
+  data: SensorUpdate[];
 }
 
 export const updateStationSensor = createAsyncThunk<
