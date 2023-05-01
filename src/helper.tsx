@@ -1,4 +1,4 @@
-import { stationInfo } from 'types/stationTypes';
+import { Locales, SensorDataEntry, stationInfo } from 'types/stationTypes';
 import { companiesList, ErrorObject, ICompany, updateManagerDataMutation } from 'types/types';
 import { dateMomentTypeString } from 'utils/constants';
 
@@ -261,3 +261,12 @@ export function getPageNumberPrevious(url: string | undefined | null): string | 
 }
 
 export const unixTimestamp = moment().unix();
+
+export const updateDataNames = (data: SensorDataEntry[], jsonData: Locales) => {
+  return data?.map((obj) => {
+    if (jsonData[obj.name]) {
+      return { ...obj, name: jsonData[obj.name] };
+    }
+    return obj;
+  });
+};

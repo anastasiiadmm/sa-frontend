@@ -8,6 +8,7 @@ import { useParams } from 'react-router-dom';
 import check from 'assets/images/icons/icon-check.png';
 import crossed from 'assets/images/icons/icon-crossed.png';
 import FieldClimateSettingsDashboard from 'containers/FieldClimate/FieldClimateSettingsDashboard/FieldClimateSettingsDashboard';
+import { updateDataNames } from 'helper';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import {
   fetchStationSensors,
@@ -15,7 +16,7 @@ import {
   updateStationSensor,
 } from 'redux/stations/stationsSlice';
 import { SensorDataEntry, SensorUpdate } from 'types/stationTypes';
-
+import locales from 'utils/locales/fieldClimateLocales.json';
 import 'containers/FieldClimate/SensorsAndNodes/_sensorsAndNodes.scss';
 
 const { Option } = Select;
@@ -36,7 +37,8 @@ const SensorsAndNodes = () => {
 
   useEffect(() => {
     if (sensors) {
-      setSensorsData(sensors);
+      const updatedData = updateDataNames(sensors, locales);
+      setSensorsData(updatedData);
     }
   }, [sensors]);
 
@@ -207,29 +209,22 @@ const SensorsAndNodes = () => {
     },
   ];
 
-  const paginationLocale = {
-    items_per_page: '/ стр',
-    page: '',
-  };
-
   return (
     <FieldClimateSettingsDashboard>
       <div className={b('')}>
         <Table
+          pagination={false}
           data-testid='sensors-table-id'
           columns={columns}
           dataSource={sensorsData}
           rowKey={(record) => record.code as number}
           scroll={{ x: 800 }}
-          pagination={{
-            locale: paginationLocale,
-          }}
         />
         <Button
           loading={sensorsLoading}
           disabled={updatedData?.length === 0}
           type='primary'
-          style={{ float: 'right' }}
+          style={{ float: 'right', marginTop: 40 }}
           onClick={updateSensorsData}
         >
           Сохранить изменения
