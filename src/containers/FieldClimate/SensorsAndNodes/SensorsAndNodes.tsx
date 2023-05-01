@@ -216,6 +216,7 @@ const SensorsAndNodes = () => {
     <FieldClimateSettingsDashboard>
       <div className={b('')}>
         <Table
+          data-testid='sensors-table-id'
           columns={columns}
           dataSource={sensorsData}
           rowKey={(record) => record.code as number}

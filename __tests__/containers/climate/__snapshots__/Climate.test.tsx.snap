@@ -14,7 +14,7 @@ exports[`<FieldClimateDashboard /> FieldClimateDashboard map component should be
       onMouseDown={[Function]}
       style={
         {
-          "width": "auto",
+          "width": "220px",
         }
       }
     >
