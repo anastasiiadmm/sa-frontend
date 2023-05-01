@@ -35,6 +35,7 @@ const Technique = () => {
   } = useAppSelector(accountsSelector);
   const dispatch = useAppDispatch();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalFieldClimateOpen, setIsModalFieldClimateOpen] = useState(false);
   const [filters, setFilters] = useState({
     page: userVehiclesPagination?.next
       ? Number(getPageNumber(userVehiclesPagination?.next))
