@@ -1,3 +1,4 @@
+import bem from 'easy-bem';
 import * as Highcharts from 'highcharts';
 import HCMore from 'highcharts/highcharts-more';
 import HighchartsAccessibility from 'highcharts/modules/accessibility';
@@ -6,6 +7,7 @@ import HighchartsReact from 'highcharts-react-official';
 import React, { useEffect, useState } from 'react';
 
 import { Sensor } from 'types/stationTypes';
+import 'components/ChartComponent/_ChartComponent.scss';
 
 HighchartsAccessibility(Highcharts);
 HCMore(Highcharts);
@@ -18,6 +20,7 @@ interface Props {
 }
 
 const ChartComponent: React.FC<Props> = ({ data }) => {
+  const b = bem('ChartComponent');
   const [chartDataFirst, setChartDataFirst] = useState<Sensor | null>(null);
   const [chartDataSecond, setChartDataSecond] = useState<Sensor | null>(null);
   const [chartDataThird, setChartDataThird] = useState<Sensor | null>(null);
@@ -33,7 +36,7 @@ const ChartComponent: React.FC<Props> = ({ data }) => {
   }, [data]);
 
   return (
-    <div data-testid='chart-id'>
+    <div data-testid='chart-id' className={b('')}>
       {chartDataFirst?.series?.length ? (
         <HighchartsReact highcharts={Highcharts} options={chartDataFirst} />
       ) : null}
