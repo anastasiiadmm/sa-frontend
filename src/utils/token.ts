@@ -4,7 +4,7 @@ export const userLocalStorage = (refresh = '') => {
   try {
     const tokenLocal = JSON.parse(localStorage.getItem('users') || '');
     if (tokenLocal) {
-      tokenLocal.token.refresh = refresh;
+      tokenLocal.refresh = refresh;
     }
     return tokenLocal;
   } catch (error) {

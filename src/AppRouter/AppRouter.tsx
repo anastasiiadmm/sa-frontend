@@ -46,7 +46,7 @@ const AppRouterWrapper: React.FC<AppRouterWrapperProps> = ({ children }) => {
 
 const AppRouter: React.FC = () => {
   const b = bem('AppRouter');
-  const { user } = useAppSelector(authSelector);
+  const { tokens } = useAppSelector(authSelector);
   const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer },
@@ -76,7 +76,7 @@ const AppRouter: React.FC = () => {
         >
           <AppRouterWrapper>
             <Routes>
-              {user?.is_manager ? (
+              {tokens?.is_manager ? (
                 <>
                   <Route path='/' index element={<Users />} />
                   <Route path='/add-new-user' element={<NewUser />} />

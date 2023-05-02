@@ -1,5 +1,79 @@
-const { REACT_APP_API_URL, REACT_APP_IMAGE_API } = process.env;
+import { AxiosRequestConfig, AxiosRequestHeaders } from 'axios';
+
+import { checkForTokens, logoutUser } from 'redux/auth/authSlice';
+import store from 'redux/store';
+import { TSetupAxiosInterceptor } from 'type';
+
+import { logoutLocalStorage } from 'utils/token';
+
+const { REACT_APP_API_URL, REACT_APP_IMAGE_API, REACT_APP_API_URL_V2 } = process.env;
 
 export const apiURL = REACT_APP_API_URL;
+export const apiURL2 = REACT_APP_API_URL_V2;
 
 export const apiUrlCrop = REACT_APP_IMAGE_API;
+
+export const setupAxiosInterceptors: TSetupAxiosInterceptor = (axiosInstance) => {
+  return axiosInstance.interceptors.request.use(async (config: AxiosRequestConfig) => {
+    const key = store.getState()?.auth?.tokens?.access;
+
+    if (key) {
+      config.headers = {
+        ...config.headers,
+        Authorization: `Bearer ${key}`,
+      } as AxiosRequestHeaders;
+    }
+    return config;
+  });
+};
+
+export const setupAxiosInterceptorsResponse: TSetupAxiosInterceptor = (axiosInstance) => {
+  return axiosInstance.interceptors.response.use(
+    async (config) => {
+      return config;
+    },
+    async (error) => {
+      const originalRequest = error.config;
+
+      const statusCode = error?.response?.status;
+      const index = store;
+      const { tokens } = index.getState().auth;
+      if (
+        tokens?.access &&
+        statusCode === 401 &&
+        error.config &&
+        !error.config._isReady &&
+        error.response.data.messages
+      ) {
+        originalRequest._isReady = true;
+        try {
+          const resp = await axiosInstance.post('/accounts/refresh/', { refresh: tokens.refresh });
+          if (resp.status === 200) {
+            const newTokens = resp.data;
+            axiosInstance.defaults.headers.Authorization = `Bearer ${newTokens.access}`;
+            const usersLocal = {
+              access: resp.data.access,
+              refresh: tokens.refresh,
+              is_manager: tokens.is_manager,
+            };
+            index.dispatch(checkForTokens(usersLocal));
+            const obj = {
+              access: resp.data.access,
+              is_manager: tokens.is_manager,
+            };
+            localStorage.setItem('users', JSON.stringify(obj));
+            window.dispatchEvent(new Event('storage'));
+            return axiosInstance(originalRequest);
+          }
+        } catch (e) {
+          logoutLocalStorage();
+          window.location.reload();
+        }
+
+        store.dispatch(logoutUser());
+      }
+
+      return Promise.reject(error);
+    },
+  );
+};

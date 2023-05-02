@@ -49,12 +49,12 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
   const push = useNavigate();
   const dispatch = useAppDispatch();
   const location = useLocation();
-  const { user } = useAppSelector(authSelector);
+  const { tokens } = useAppSelector(authSelector);
   const { manager, updateManagerDataLoading, user: userAccount } = useAppSelector(accountsSelector);
   const isFieldClimate = location.pathname.includes('/field-climate');
 
   useEffect(() => {
-    if (user?.is_manager) {
+    if (tokens?.is_manager) {
       dispatch(fetchManager());
     } else {
       dispatch(fetchUser());
@@ -64,7 +64,7 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
   const menuItems: MenuItem[] = [
     getItem(
       <div className='menuItem'>
-        {user?.is_manager ? (
+        {tokens?.is_manager ? (
           updateManagerDataLoading ? (
             <Skeleton />
           ) : (
@@ -79,7 +79,7 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
             {userAccount?.user?.middle_name?.charAt(0)}.
           </>
         )}
-        <span>{user?.is_manager ? 'Менеджер' : 'Пользователь'}</span>
+        <span>{tokens?.is_manager ? 'Менеджер' : 'Пользователь'}</span>
       </div>,
       'sub1',
       <Avatar
@@ -87,7 +87,7 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
         size='large'
         src={
           manager?.image || userAccount?.user?.image
-            ? `${apiUrlCrop}${user?.is_manager ? manager?.image : userAccount?.user?.image}`
+            ? `${apiUrlCrop}${tokens?.is_manager ? manager?.image : userAccount?.user?.image}`
             : null
         }
         icon={<UserOutlined />}
@@ -95,14 +95,14 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
       [
         getItem(
           'Профиль',
-          user?.is_manager ? '/manager-profile' : '/user-profile-view',
+          tokens?.is_manager ? '/manager-profile' : '/user-profile-view',
           <HomeOutlined />,
         ),
         getItem('Выход', '/sign-out', <ImportOutlined />),
       ],
     ),
     { type: 'divider' },
-    user?.is_manager
+    tokens?.is_manager
       ? getItem(
           '',
           'grp',

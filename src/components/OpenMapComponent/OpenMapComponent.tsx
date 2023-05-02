@@ -28,7 +28,7 @@ const OpenMapComponent = () => {
   const { id, vehicleId } = useParams();
   const { pathname } = useLocation();
   const { vehicle, field } = useAppSelector(mapSelector);
-  const { user } = useAppSelector(authSelector);
+  const { tokens } = useAppSelector(authSelector);
   const [bounds] = useState<number[][]>([
     [-90, -180],
     [90, 180],
@@ -36,7 +36,7 @@ const OpenMapComponent = () => {
   const dispatch = useAppDispatch();
   const history = useNavigate();
   useEffect(() => {
-    if (user?.is_manager) {
+    if (tokens?.is_manager) {
       dispatch(tractorLocation(`/companies/${id}/vehicle/${vehicleId}/`));
     } else {
       dispatch(tractorLocation(`/accounts/user/vehicle/${vehicleId}/`));
@@ -115,7 +115,7 @@ const OpenMapComponent = () => {
   };
 
   const renderHandler = () => {
-    if (user?.is_manager) {
+    if (tokens?.is_manager) {
       dispatch(tractorLocation(`/companies/${id}/vehicle/${vehicleId}/`));
     } else {
       dispatch(tractorLocation(`/accounts/user/vehicle/${id}/`));
