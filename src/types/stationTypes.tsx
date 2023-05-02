@@ -1,25 +1,47 @@
 export interface Weather {
   dates: string[];
-  data: WeatherDataEntry[];
+  data: SensorDataEntry[];
 }
 
-interface WeatherDataEntry {
+export interface SensorDataEntry {
   aggr: string[];
   ch: number;
   code: number;
+  color: string;
   decimals: number;
+  desc: string;
+  divider: number;
   group: number;
+  isActive: boolean;
+  is_user_set: {
+    color: boolean;
+    name: boolean;
+    unit: boolean;
+  };
   mac: string;
+  multiplier: string;
   name: string;
-  name_original: string;
+  name_custom: string;
   registered: string;
   serial: string;
+  size: string;
   type: string;
   unit: string;
-  vals: any;
-  values: {
-    avg: number[];
+  unit_default: string;
+  units: string[];
+  vals: {
+    max: number;
+    min: number;
   };
+}
+[];
+
+export interface SensorUpdate {
+  channel: number;
+  code: number;
+  color: string;
+  name: string;
+  unit: string | boolean;
 }
 
 export interface userStation {
@@ -41,7 +63,7 @@ export interface userStation {
 }
 
 export interface APIWeatherResponse {
-  data: WeatherDataEntry[];
+  data: SensorDataEntry[];
   dates: string[];
 }
 
@@ -62,9 +84,11 @@ export interface StationState {
   stationInfo: stationInfo | null;
   stationInfoLoading: boolean;
   stationInfoError: APIError | null;
-  sensors: Object | null;
+  sensors: SensorDataEntry[] | undefined | null;
   sensorsLoading: boolean;
   sensorsError: APIError | null;
+  updateStationSensorLoading: boolean;
+  updateStationSensorError: APIError | null;
   sensorData: StationSensor | null;
   sensorDataLoading: boolean;
   sensorDataError: APIError | null;
@@ -310,5 +334,8 @@ export interface Location {
   type: string;
   importance: number;
   icon: string;
+}[];
+
+export interface Locales {
+  [key: string]: string;
 }
-[];

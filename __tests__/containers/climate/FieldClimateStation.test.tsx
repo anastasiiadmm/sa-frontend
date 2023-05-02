@@ -7,6 +7,7 @@ import { mockedDispatch, mockedUseSelectors } from "../../../__mocks__/utils";
 import FieldClimateStation from "../../../src/containers/FieldClimate/FieldClimateStation/FieldClimateStation";
 import ChartComponent from "../../../src/components/ChartComponent/ChartComponent";
 import GridTableComponent from "../../../src/components/GridTableComponent/GridTableComponent";
+import SensorsAndNodes from "../../../src/containers/FieldClimate/SensorsAndNodes/SensorsAndNodes";
 
 declare const global;
 (global).ResizeObserver = ResizeObserver;
@@ -61,6 +62,40 @@ const gridData = {
     headerName: "HC Температура воздуха [°C]"
   }]
 };
+
+const gridSensorData = [{
+  aggr: ["avg"],
+  calibration_id: "",
+  ch: 0,
+  code: 600,
+  color: "#ffff99",
+  decimals: 0,
+  desc: "",
+  divider: 1,
+  group: 4,
+  isActive: true,
+  is_user_set: {
+    name: false,
+    unit: false,
+    color: false
+  },
+  mac: "X",
+  multiplier: 1,
+  name: "Solar radiation",
+  name_custom: "",
+  registered: "2023-05-01 03:00:11",
+  serial: "X",
+  size: "16b",
+  unit: "W/m2",
+  unit_default: "W/m2",
+  units: ["W/m2", "J/m2", "kJ/m2", "MJ/m2"],
+  vals: {
+    min: 0,
+    max: 32767,
+  },
+  max: 32767,
+  min: 0
+}];
 
 describe("<FieldClimateStation />", () => {
   test("renders FieldClimateStation component without errors", async () => {
@@ -120,5 +155,20 @@ describe("<FieldClimateStation />", () => {
 
     const chartComponent = await screen.getByTestId("chart-table-id");
     expect(chartComponent).toBeInTheDocument();
+  });
+
+  test("renders SensorsAndNodes component without errors", async () => {
+    mockedUseSelectors.mockReturnValue(gridSensorData);
+    const dispatch = jest.fn();
+    mockedDispatch.mockReturnValue(dispatch);
+
+    render(
+      <BrowserRouter>
+        <SensorsAndNodes />
+      </BrowserRouter>
+    );
+
+    const SensorsAndNodesComponent = await screen.getByTestId("sensors-table-id");
+    expect(SensorsAndNodesComponent).toBeInTheDocument();
   });
 });
