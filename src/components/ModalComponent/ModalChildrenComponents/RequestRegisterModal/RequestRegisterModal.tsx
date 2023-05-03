@@ -64,7 +64,19 @@ const RequestRegisterModal: React.FC<Props> = ({ onClose }) => {
     try {
       if (userData) {
         const data = removeEmptyValuesFromObject(userData);
-        await dispatch(registerUser({ data })).unwrap();
+        const registerUserObj = {
+          category: 1,
+          data: {
+            user: {
+              ...data.user,
+            },
+            enterprise: {
+              name: data.name,
+              location: data.location,
+            },
+          },
+        };
+        await dispatch(registerUser(registerUserObj)).unwrap();
         setUserData({
           user: {
             last_name: '',
@@ -76,6 +88,7 @@ const RequestRegisterModal: React.FC<Props> = ({ onClose }) => {
           name: '',
           location: '',
         });
+        onClose();
       }
     } catch (e) {
       const errorMessage = getErrorMessage(e, 'username');

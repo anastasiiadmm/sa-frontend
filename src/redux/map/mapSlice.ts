@@ -4,7 +4,7 @@ import { message } from 'antd';
 
 import { IMapState, resultsAB, Vehicle } from 'interfaces';
 import { RootState } from 'redux/hooks';
-import axiosApi from 'utils/axios-api';
+import { axiosApi } from 'utils/axios-api';
 
 const nameSpace = 'map';
 

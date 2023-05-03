@@ -33,14 +33,14 @@ const ProfileTechnique = () => {
     userVehicleInfoError,
   } = useAppSelector(accountsSelector);
   const [form] = Form.useForm();
-  const { user } = useAppSelector(authSelector);
+  const { tokens } = useAppSelector(authSelector);
   const [state, setState] = useState<userVehicleInfo[]>([]);
   const [fields, setFields] = useState<fieldsList[]>([]);
-  const userVehicleInfo = user?.is_manager ? managerVehicle : userVehicle;
-  const userVehicleInfoLoading = user?.is_manager ? managerLoading : userLoading;
+  const userVehicleInfo = tokens?.is_manager ? managerVehicle : userVehicle;
+  const userVehicleInfoLoading = tokens?.is_manager ? managerLoading : userLoading;
 
   useEffect(() => {
-    if (user?.is_manager) {
+    if (tokens?.is_manager) {
       dispatch(fetchUserVehicleInfo({ userId, vehicleId }));
     } else {
       dispatch(fetchVehicleInfo({ vehicleId }));
@@ -165,7 +165,7 @@ const ProfileTechnique = () => {
             <Link
               className={b('profile-link')}
               to={
-                user?.is_manager
+                tokens?.is_manager
                   ? `/open-map/${record?.id}/${vehicleId}/manager`
                   : `/open-map/${record?.id}/${vehicleId}`
               }
@@ -194,7 +194,7 @@ const ProfileTechnique = () => {
       <div className={b('table')}>
         <div className={b('header')}>
           <div className={b('header-title')}>
-            <Link to={user?.is_manager ? `/user-technique/${userId}` : '/'}>
+            <Link to={tokens?.is_manager ? `/user-technique/${userId}` : '/'}>
               <img className={b('arrow-left')} src={arrowLeft} alt='arrow' />
             </Link>
             {userVehicleInfoLoading ? (
@@ -213,7 +213,7 @@ const ProfileTechnique = () => {
           <div>
             <Link
               to={
-                user?.is_manager
+                tokens?.is_manager
                   ? `/open-map/${userId}/${vehicleId}/local-tractor`
                   : `/open-map/local-tractor/${vehicleId}`
               }
