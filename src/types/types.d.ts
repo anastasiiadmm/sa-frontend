@@ -18,16 +18,12 @@ export interface IUser {
 export interface ITokens {
   refresh: string;
   access: string;
+  is_manager: boolean;
 }
 
 export interface LoginMutation {
   username: string;
   password: string;
-}
-
-export interface loginResponse {
-  user: IUser;
-  tokens: ITokens;
 }
 
 export interface ValidationError {

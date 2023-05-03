@@ -39,3 +39,40 @@ export const rangeDataHoursSensors = [
 ];
 
 export const dateMomentTypeString = 'YYYY-MM-DD HH:mm:ss';
+
+export const envs = {
+  local: 'local',
+  development: 'development',
+  staging: 'staging',
+  production: 'production',
+};
+
+export const apiPath = '/api/v1';
+export const apiPathV2 = '/api/v2';
+
+export const domains = {
+  [envs.local]: 'localhost',
+  [envs.development]: 'agri.ltestl.com',
+  [envs.staging]: '',
+  [envs.production]: '',
+};
+export const serverUrls = {
+  [envs.local]: `https://${domains[envs.local]}:8000`,
+  [envs.development]: `https://${domains[envs.development]}`,
+  [envs.staging]: `https://${domains[envs.staging]}`,
+  [envs.production]: `https://${domains[envs.production]}`,
+};
+
+export const apiUrls = {
+  [envs.local]: `${serverUrls[envs.local]}${apiPath}`,
+  [envs.development]: `${serverUrls[envs.development]}${apiPath}`,
+  [envs.staging]: `${serverUrls[envs.staging]}${apiPath}`,
+  [envs.production]: `${serverUrls[envs.production]}${apiPath}`,
+};
+
+export const apiUrlsV2 = {
+  [envs.local]: `${serverUrls[envs.local]}${apiPathV2}`,
+  [envs.development]: `${serverUrls[envs.development]}${apiPathV2}`,
+  [envs.staging]: `${serverUrls[envs.staging]}${apiPathV2}`,
+  [envs.production]: `${serverUrls[envs.production]}${apiPathV2}`,
+};

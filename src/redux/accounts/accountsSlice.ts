@@ -2,14 +2,13 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { message } from 'antd';
 
 import { getErrorMessage } from 'helper';
-import { IErrors, IUpdateManagerDataMutation } from 'interfaces';
+import { IErrors, IMyData, IUpdateManagerDataMutation } from 'interfaces';
 import { RootState } from 'redux/hooks';
 import {
   accountsManagerConfirmation,
   generatedPassword,
   IManager,
   IUserAccount,
-  IUserRegister,
   updateManagerDataMutation,
   userRequest,
   userRequestPagination,
@@ -18,7 +17,7 @@ import {
   userVehiclesPagination,
   ValidationUpdateManagerProfile,
 } from 'types/types';
-import { axiosApi, axiosApiV2 } from "utils/axios-api";
+import { axiosApi, axiosApi2 } from 'utils/axios-api';
 import toQueryParams from 'utils/toQueryParams';
 
 const nameSpace = 'accounts';
@@ -208,15 +207,11 @@ export const fetchUserVehicles = createAsyncThunk<userVehicles, fetchUserVehicle
   },
 );
 
-interface registerUserParams {
-  data: IUserRegister;
-}
-
-export const registerUser = createAsyncThunk<void, registerUserParams>(
+export const registerUser = createAsyncThunk<void, IMyData>(
   `${nameSpace}/registerUser`,
   async (data, { rejectWithValue }) => {
     try {
-      const resp = await axiosApi.post(`/accounts/user/confirmation/create/`, data?.data);
+      const resp = await axiosApi2.post(`/common/inquiries/`, data);
       message.success('Запрос успешно отправлен!');
 
       return resp.data;
@@ -270,8 +265,8 @@ export const fetchRequests = createAsyncThunk<userRequest, fetchRequestsParams>(
       if (data?.query) {
         query = toQueryParams(data.query);
       }
-      const resp = await axiosApiV2.get<userRequest | null>(
-        `/common/inquiries/${query}`,
+      const resp = await axiosApi.get<userRequest | null>(
+        `/accounts/manager/confirmation/${query}`,
       );
       const requests = resp.data;
 

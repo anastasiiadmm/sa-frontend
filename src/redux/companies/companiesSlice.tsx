@@ -14,7 +14,7 @@ import {
   vehicleList,
   vehicleListPagination,
 } from 'types/types';
-import { axiosApi, axiosApiV2 } from 'utils/axios-api';
+import { axiosApi } from 'utils/axios-api';
 import toQueryParams from 'utils/toQueryParams';
 
 const nameSpace = 'companies';
@@ -66,8 +66,6 @@ interface CompaniesState {
     loading: boolean;
     errors: IErrors | null;
   };
-  postInquiriesLoading: boolean;
-  postInquiriesError: IErrors | null;
 }
 
 const INITIAL_STATE = {
@@ -125,7 +123,6 @@ const INITIAL_STATE = {
 
   deleteUserVehicleLoading: false,
   deleteUserVehicleError: null,
-
   techniqueVehicleInfo: {
     results: null,
     loading: false,
@@ -141,9 +138,6 @@ const INITIAL_STATE = {
     loading: false,
     errors: null,
   },
-
-  postInquiriesLoading: false,
-  postInquiriesError: null,
 } as CompaniesState;
 
 interface fetchCompaniesParams {
@@ -460,28 +454,6 @@ export const techniqueVehicleConfirmation = createAsyncThunk(
   },
 );
 
-interface InquiriesParams {
-  object_id: number | undefined;
-}
-
-export const postInquiries = createAsyncThunk<void, InquiriesParams>(
-  `${nameSpace}/postInquiries`,
-  async ({ object_id }, { rejectWithValue }) => {
-    try {
-      const response = await axiosApiV2.post(`common/inquiries/`, {category: 4, object_id});
-      return response.data;
-    } catch (e) {
-      if (e?.response?.data?.detail) {
-        await message.error(e?.response?.data?.detail);
-      }
-      return rejectWithValue({
-        detail: e?.response?.data?.detail,
-        status: e?.response?.status,
-      });
-    }
-  },
-);
-
 const companiesSlice = createSlice({
   name: nameSpace,
   initialState: INITIAL_STATE,
@@ -772,25 +744,6 @@ const companiesSlice = createSlice({
       if (payload && typeof payload === 'object' && 'detail' in payload && 'status' in payload) {
         state.saveTechniqueVehicle.errors = {
           ...state.saveTechniqueVehicle.errors,
-          detail: payload.detail as string | null,
-          status: payload.status as number | null,
-        };
-      }
-    });
-
-    builder.addCase(postInquiries.pending, (state) => {
-      state.postInquiriesLoading = true;
-      state.postInquiriesError = null;
-    });
-    builder.addCase(postInquiries.fulfilled, (state) => {
-      state.postInquiriesLoading = false;
-      state.postInquiriesError = null;
-    });
-    builder.addCase(postInquiries.rejected, (state, { payload }) => {
-      state.postInquiriesLoading = false;
-      if (payload && typeof payload === 'object' && 'detail' in payload && 'status' in payload) {
-        state.postInquiriesError = {
-          ...state.postInquiriesError,
           detail: payload.detail as string | null,
           status: payload.status as number | null,
         };

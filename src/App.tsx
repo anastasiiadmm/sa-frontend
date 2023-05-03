@@ -12,7 +12,7 @@ import { getCookie } from 'utils/addCookies/addCookies';
 import { logoutLocalStorage, userLocalStorage } from 'utils/token';
 
 const App: React.FC = () => {
-  const { success, user, tokens } = useAppSelector(authSelector);
+  const { tokens } = useAppSelector(authSelector);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -39,16 +39,15 @@ const App: React.FC = () => {
         logoutLocalStorage();
       } else {
         const tokensCopy = JSON.parse(newValue);
-        tokensCopy.token.refresh = getCookie('refresh');
+        tokensCopy.refresh = getCookie('refresh');
         dispatch(checkForTokens(tokensCopy));
       }
     }
   };
-
-  return success && user && tokens ? (
+  return tokens?.access ? (
     <AppRouter />
   ) : (
-    <Routes>{success && user && tokens ? null : <Route path='*' element={<SignIn />} />}</Routes>
+    <Routes>{tokens?.access ? null : <Route path='*' element={<SignIn />} />}</Routes>
   );
 };
 

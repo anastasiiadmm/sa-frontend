@@ -3,14 +3,13 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { IErrors } from 'interfaces';
 import { RootState } from 'redux/hooks';
 import store from 'redux/store';
-import { ITokens, IUser, LoginMutation, loginResponse } from 'types/types';
+import { ITokens, IUser, LoginMutation } from 'types/types';
 import { addCookies } from 'utils/addCookies/addCookies';
-import { axiosApi, axiosApiV2 } from "utils/axios-api";
+import { axiosApi, axiosApi2 } from 'utils/axios-api';
 
 interface AuthState {
-  is_manager: boolean;
-  access: string,
-  refresh: string,
+  user: IUser | null;
+  tokens: ITokens;
   errors: Object | null;
   commonError: IErrors | null;
   success: boolean | null;
@@ -20,27 +19,29 @@ interface AuthState {
 const nameSpace = 'auth';
 
 const INITIAL_STATE = {
-  is_manager: false,
-  access: '',
-  refresh: '',
+  user: null,
+  tokens: {
+    access: '',
+    refresh: '',
+    is_manager: false,
+  },
   errors: null,
   commonError: null,
   success: null,
   loading: false,
 } as AuthState;
 
-export const loginUser = createAsyncThunk<loginResponse, LoginMutation>(
+export const loginUser = createAsyncThunk<ITokens, LoginMutation>(
   `${nameSpace}/loginUser`,
   async (loginData, { rejectWithValue }) => {
     try {
-      const resp = await axiosApiV2.post<loginResponse>('/accounts/login/', loginData);
-      console.log('resp', resp);
+      const resp = await axiosApi2.post('/accounts/login/', loginData);
       addCookies('refresh', resp.data.refresh);
       localStorage.setItem(
         'users',
         JSON.stringify({
-          is_manager: resp.data.is_manager,
           access: resp.data.access,
+          is_manager: resp.data.is_manager,
         }),
       );
       return resp.data;
@@ -54,10 +55,10 @@ export const loginUser = createAsyncThunk<loginResponse, LoginMutation>(
 );
 
 export const refreshToken = createAsyncThunk(`${nameSpace}/refreshToken`, async () => {
-  const refresh = store.getState()?.auth?.refresh;
+  const refresh = store.getState()?.auth?.tokens?.refresh;
   if (refresh) {
     const asd = { refresh };
-    const resp = await axiosApiV2.post('/accounts/refresh/', asd);
+    const resp = await axiosApi.post('/accounts/refresh/', asd);
     return resp.data;
   }
 });
@@ -90,10 +91,9 @@ export const authSlice = createSlice({
       state.tokens = { ...state.tokens, ...payload };
     },
     checkForTokens: (state, payload) => {
-      state.user = payload.payload?.user;
-      state.tokens.access = payload.payload?.token?.access;
-      state.tokens.refresh = payload.payload?.token?.refresh;
-      state.success = true;
+      state.tokens.access = payload.payload?.access;
+      state.tokens.refresh = payload.payload?.refresh;
+      state.tokens.is_manager = payload.payload?.is_manager;
     },
   },
   extraReducers: (builder) => {
@@ -124,8 +124,7 @@ export const authSlice = createSlice({
       state.commonError = null;
     });
     builder.addCase(loginUser.fulfilled, (state, { payload }) => {
-      state.user = payload.user;
-      state.tokens = payload.tokens;
+      state.tokens = payload;
       state.loading = false;
       state.success = true;
       state.errors = null;
