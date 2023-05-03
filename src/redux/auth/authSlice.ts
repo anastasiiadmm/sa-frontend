@@ -5,11 +5,12 @@ import { RootState } from 'redux/hooks';
 import store from 'redux/store';
 import { ITokens, IUser, LoginMutation, loginResponse } from 'types/types';
 import { addCookies } from 'utils/addCookies/addCookies';
-import { axiosApi } from 'utils/axios-api';
+import { axiosApi, axiosApiV2 } from "utils/axios-api";
 
 interface AuthState {
-  user: IUser | null;
-  tokens: ITokens;
+  is_manager: boolean;
+  access: string,
+  refresh: string,
   errors: Object | null;
   commonError: IErrors | null;
   success: boolean | null;
@@ -19,11 +20,9 @@ interface AuthState {
 const nameSpace = 'auth';
 
 const INITIAL_STATE = {
-  user: null,
-  tokens: {
-    access: '',
-    refresh: '',
-  },
+  is_manager: false,
+  access: '',
+  refresh: '',
   errors: null,
   commonError: null,
   success: null,
@@ -34,15 +33,14 @@ export const loginUser = createAsyncThunk<loginResponse, LoginMutation>(
   `${nameSpace}/loginUser`,
   async (loginData, { rejectWithValue }) => {
     try {
-      const resp = await axiosApi.post<loginResponse>('/accounts/login/', loginData);
-      addCookies('refresh', resp.data.tokens.refresh);
+      const resp = await axiosApiV2.post<loginResponse>('/accounts/login/', loginData);
+      console.log('resp', resp);
+      addCookies('refresh', resp.data.refresh);
       localStorage.setItem(
         'users',
         JSON.stringify({
-          user: resp.data.user,
-          token: {
-            access: resp.data.tokens.access,
-          },
+          is_manager: resp.data.is_manager,
+          access: resp.data.access,
         }),
       );
       return resp.data;
@@ -56,10 +54,10 @@ export const loginUser = createAsyncThunk<loginResponse, LoginMutation>(
 );
 
 export const refreshToken = createAsyncThunk(`${nameSpace}/refreshToken`, async () => {
-  const refresh = store.getState()?.auth?.tokens?.refresh;
+  const refresh = store.getState()?.auth?.refresh;
   if (refresh) {
     const asd = { refresh };
-    const resp = await axiosApi.post('/accounts/refresh/', asd);
+    const resp = await axiosApiV2.post('/accounts/refresh/', asd);
     return resp.data;
   }
 });

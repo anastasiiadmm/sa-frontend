@@ -1,10 +1,11 @@
 @use 'assets/scss/_themes.scss';
 
-.DeleteRejectTechniqueModal {
+.RequestModal {
   &__delete-modal-buttons {
     display: flex;
     gap: 12px;
     padding-bottom: 6px;
+    margin-top: 20px;
   }
 
   &__cancel-profile-button {

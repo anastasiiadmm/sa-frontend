@@ -18,7 +18,7 @@ import {
   userVehiclesPagination,
   ValidationUpdateManagerProfile,
 } from 'types/types';
-import { axiosApi } from 'utils/axios-api';
+import { axiosApi, axiosApiV2 } from "utils/axios-api";
 import toQueryParams from 'utils/toQueryParams';
 
 const nameSpace = 'accounts';
@@ -270,8 +270,8 @@ export const fetchRequests = createAsyncThunk<userRequest, fetchRequestsParams>(
       if (data?.query) {
         query = toQueryParams(data.query);
       }
-      const resp = await axiosApi.get<userRequest | null>(
-        `/accounts/manager/confirmation/${query}`,
+      const resp = await axiosApiV2.get<userRequest | null>(
+        `/common/inquiries/${query}`,
       );
       const requests = resp.data;
 

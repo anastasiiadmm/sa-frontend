@@ -22,7 +22,8 @@ const SignIn: React.FC = () => {
   const b = bem('SignIn');
   const dispatch = useAppDispatch();
   const [form] = Form.useForm();
-  const { success, loading, user } = useAppSelector(authSelector);
+  const { success, loading, is_manager } = useAppSelector(authSelector);
+  console.log('is_manager', is_manager);
   const history = useNavigate();
   const [checked, setChecked] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -53,14 +54,14 @@ const SignIn: React.FC = () => {
   };
 
   const pushToMainPage = () => {
-    if (success && user && userLocalStorage()) {
+    if (success && is_manager && userLocalStorage()) {
       history('/');
     }
   };
 
   useEffect(() => {
     pushToMainPage();
-  }, [user, success]);
+  }, [is_manager, success]);
 
   return (
     <>

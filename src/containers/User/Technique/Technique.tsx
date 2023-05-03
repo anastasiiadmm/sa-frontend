@@ -1,5 +1,5 @@
 import { EyeOutlined } from '@ant-design/icons';
-import { Button, Card, Tooltip, Typography } from 'antd';
+import { Button, Card, message, Tooltip, Typography } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import bem from 'easy-bem';
 import React, { useEffect, useState } from 'react';
@@ -10,11 +10,13 @@ import tractorBlue from 'assets/images/icons/tractor-blue.svg';
 import tractor from 'assets/images/icons/tractor-image.svg';
 import Errors from 'components/Errors/Errors';
 import AddUpdateTechnique from 'components/ModalComponent/ModalChildrenComponents/AddUpdateTechnique/AddUpdateTechnique';
+import RequestModal from 'components/ModalComponent/ModalChildrenComponents/DeleteTechniqueModal/RequestModal';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import SkeletonBlock from 'components/SkeletonBlock/SkeletonBlock';
 import TableComponent from 'components/TableComponent/TableComponent';
 import { getPageNumber, getPageNumberPrevious } from 'helper';
 import { accountsSelector, fetchUser, fetchUserVehicles } from 'redux/accounts/accountsSlice';
+import { companiesSelector, postInquiries } from 'redux/companies/companiesSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { userVehicles } from 'types/types';
 import { apiUrlCrop } from 'utils/config';
@@ -33,6 +35,7 @@ const Technique = () => {
     fetchUserVehiclesError,
     fetchLoadingUserError,
   } = useAppSelector(accountsSelector);
+  const { postInquiriesLoading, postInquiriesError } = useAppSelector(companiesSelector);
   const dispatch = useAppDispatch();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalFieldClimateOpen, setIsModalFieldClimateOpen] = useState(false);
@@ -54,6 +57,7 @@ const Technique = () => {
     };
     dispatch(fetchUserVehicles({ data }));
   }, [dispatch, filters]);
+
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -62,12 +66,28 @@ const Technique = () => {
     setIsModalOpen(!isModalOpen);
   };
 
+  const showFieldClimateModal = () => {
+    setIsModalFieldClimateOpen(true);
+  };
+
+  const handleFieldClimateOkCancel = () => {
+    setIsModalFieldClimateOpen(!isModalFieldClimateOpen);
+  };
+
   const pagePrevHandler = () => {
     setFilters({ ...filters, page: filters.page - 1 });
   };
 
   const pageNextHandler = () => {
     setFilters({ ...filters, page: filters.page + 1 });
+  };
+
+  const postInquiriesHandler = async () => {
+    try {
+      await dispatch(postInquiries({ object_id: userAccount?.id }));
+    } catch (e) {
+      await message.error('Не удалось отправить запрос');
+    }
   };
 
   const columns: ColumnsType<userVehicles> = [
@@ -143,11 +163,19 @@ const Technique = () => {
     },
   ];
 
-  if (fetchUserVehiclesError || fetchLoadingUserError) {
+  if (fetchUserVehiclesError || fetchLoadingUserError || postInquiriesError) {
     return (
       <Errors
-        status={fetchUserVehiclesError?.status || fetchLoadingUserError?.status}
-        detail={fetchUserVehiclesError?.detail || fetchLoadingUserError?.detail}
+        status={
+          fetchUserVehiclesError?.status ||
+          fetchLoadingUserError?.status ||
+          postInquiriesError?.status
+        }
+        detail={
+          fetchUserVehiclesError?.detail ||
+          fetchLoadingUserError?.detail ||
+          postInquiriesError?.detail
+        }
       />
     );
   }
@@ -178,7 +206,12 @@ const Technique = () => {
                     <div>
                       <Title className={b('card-title meteo-h1')}>Подключите метеосервис</Title>
                       <p className='meteo-h1'>Все про погоду и почву</p>
-                      <Button className={b('card-style-cloud-button')}>Отправить запрос</Button>
+                      <Button
+                        className={b('card-style-cloud-button')}
+                        onClick={showFieldClimateModal}
+                      >
+                        Отправить запрос
+                      </Button>
                     </div>
                   </div>
                 </Card>
@@ -220,6 +253,22 @@ const Technique = () => {
         handleCancel={handleOkCancel}
       >
         <AddUpdateTechnique userId={null} isRequest handleEditOkCancel={handleOkCancel} />
+      </ModalComponent>
+
+      <ModalComponent
+        dividerShow={false}
+        open={isModalFieldClimateOpen}
+        handleOk={handleFieldClimateOkCancel}
+        handleCancel={handleFieldClimateOkCancel}
+      >
+        <RequestModal
+          title='Запрос на подключение метеостанции'
+          textCancel='Отправить'
+          subTitle='Отправить запрос на подключение метеостанции?'
+          handleDeleteCancel={handleFieldClimateOkCancel}
+          loading={postInquiriesLoading}
+          requestHandler={postInquiriesHandler}
+        />
       </ModalComponent>
     </>
   );

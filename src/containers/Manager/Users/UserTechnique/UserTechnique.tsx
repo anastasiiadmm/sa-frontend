@@ -13,7 +13,7 @@ import tractorBlue from 'assets/images/icons/tractor-blue.svg';
 import tractor from 'assets/images/icons/tractor-image.svg';
 import Errors from 'components/Errors/Errors';
 import AddUpdateTechnique from 'components/ModalComponent/ModalChildrenComponents/AddUpdateTechnique/AddUpdateTechnique';
-import DeleteRejectTechniqueModal from 'components/ModalComponent/ModalChildrenComponents/DeleteTechniqueModal/DeleteTechniqueModal';
+import RequestModal from 'components/ModalComponent/ModalChildrenComponents/DeleteTechniqueModal/RequestModal';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import ResultComponent from 'components/ResultComponent/ResultComponent';
 import TableComponent from 'components/TableComponent/TableComponent';
@@ -347,14 +347,14 @@ const UserTechnique: React.FC = () => {
         handleOk={handleDeleteOkCancel}
         handleCancel={handleDeleteOkCancel}
       >
-        <DeleteRejectTechniqueModal
+        <RequestModal
           title='Удалить?'
           textCancel='Удалить'
           subTitle='Вы уверены, что хотите удалить'
           techniqueName={`${techniqueApiName}?`}
           loading={deleteUserVehicleLoading}
           handleDeleteCancel={handleDeleteOkCancel}
-          deleteRejectTechniqueHandler={deleteTechniqueHandler}
+          requestHandler={deleteTechniqueHandler}
         />
       </ModalComponent>
 

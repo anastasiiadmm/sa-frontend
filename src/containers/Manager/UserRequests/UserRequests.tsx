@@ -8,7 +8,7 @@ import newUser from 'assets/images/icons/new_user_request.svg';
 import tractorRequest from 'assets/images/icons/tractor_request.svg';
 import user from 'assets/images/icons/user_request.svg';
 import Errors from 'components/Errors/Errors';
-import DeleteRejectTechniqueModal from 'components/ModalComponent/ModalChildrenComponents/DeleteTechniqueModal/DeleteTechniqueModal';
+import RequestModal from 'components/ModalComponent/ModalChildrenComponents/DeleteTechniqueModal/RequestModal';
 import EditUserProfileModal from 'components/ModalComponent/ModalChildrenComponents/EditUserProfileModal/EditUserProfileModal';
 import RequestModals from 'components/ModalComponent/ModalChildrenComponents/RequestModals/RequestModals';
 import RequestAddTechnique from 'components/ModalComponent/ModalChildrenComponents/RequestsModals/RequestAddTechnique/RequestAddTechnique';
@@ -343,14 +343,14 @@ const UserRequests = () => {
         handleOk={handleOkRejectCancel}
         handleCancel={handleOkRejectCancel}
       >
-        <DeleteRejectTechniqueModal
+        <RequestModal
           title='Отклонить?'
           textCancel='Отклонить'
           loading={vehicleDeleteLoading}
           subTitle='Вы уверены, что хотите отклонить запрос'
           techniqueName={`Личная информация ${textRender()}`}
           handleDeleteCancel={handleOkRejectCancel}
-          deleteRejectTechniqueHandler={rejectTechniqueHandler}
+          requestHandler={rejectTechniqueHandler}
         />
       </ModalComponent>
       <ModalComponent
