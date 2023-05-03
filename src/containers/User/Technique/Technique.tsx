@@ -15,8 +15,12 @@ import ModalComponent from 'components/ModalComponent/ModalComponent';
 import SkeletonBlock from 'components/SkeletonBlock/SkeletonBlock';
 import TableComponent from 'components/TableComponent/TableComponent';
 import { getPageNumber, getPageNumberPrevious } from 'helper';
-import { accountsSelector, fetchUser, fetchUserVehicles } from 'redux/accounts/accountsSlice';
-import { companiesSelector, postInquiries } from 'redux/companies/companiesSlice';
+import {
+  accountsSelector,
+  fetchUser,
+  fetchUserVehicles,
+  inquiriesRequests,
+} from 'redux/accounts/accountsSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { userVehicles } from 'types/types';
 import { apiUrlCrop } from 'utils/config';
@@ -34,8 +38,9 @@ const Technique = () => {
     userVehiclesPagination,
     fetchUserVehiclesError,
     fetchLoadingUserError,
+    inquiriesLoading,
+    inquiriesError,
   } = useAppSelector(accountsSelector);
-  const { postInquiriesLoading, postInquiriesError } = useAppSelector(companiesSelector);
   const dispatch = useAppDispatch();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalFieldClimateOpen, setIsModalFieldClimateOpen] = useState(false);
@@ -84,7 +89,7 @@ const Technique = () => {
 
   const postInquiriesHandler = async () => {
     try {
-      await dispatch(postInquiries({ object_id: userAccount?.id }));
+      await dispatch(inquiriesRequests({ category: 4, object_id: userAccount?.id }));
     } catch (e) {
       await message.error('Не удалось отправить запрос');
     }
@@ -163,18 +168,14 @@ const Technique = () => {
     },
   ];
 
-  if (fetchUserVehiclesError || fetchLoadingUserError || postInquiriesError) {
+  if (fetchUserVehiclesError || fetchLoadingUserError || inquiriesError) {
     return (
       <Errors
         status={
-          fetchUserVehiclesError?.status ||
-          fetchLoadingUserError?.status ||
-          postInquiriesError?.status
+          fetchUserVehiclesError?.status || fetchLoadingUserError?.status || inquiriesError?.status
         }
         detail={
-          fetchUserVehiclesError?.detail ||
-          fetchLoadingUserError?.detail ||
-          postInquiriesError?.detail
+          fetchUserVehiclesError?.detail || fetchLoadingUserError?.detail || inquiriesError?.detail
         }
       />
     );
@@ -266,7 +267,7 @@ const Technique = () => {
           textCancel='Отправить'
           subTitle='Отправить запрос на подключение метеостанции?'
           handleDeleteCancel={handleFieldClimateOkCancel}
-          loading={postInquiriesLoading}
+          loading={inquiriesLoading}
           requestHandler={postInquiriesHandler}
         />
       </ModalComponent>

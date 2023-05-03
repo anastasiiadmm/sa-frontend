@@ -9,7 +9,7 @@ import tractor from 'assets/images/tracktor.png';
 import FormField from 'components/FormField/FormField';
 import RequestRegisterModal from 'components/ModalComponent/ModalChildrenComponents/RequestRegisterModal/RequestRegisterModal';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
-import { registerSuccessNull } from 'redux/accounts/accountsSlice';
+import { inquiriesSuccessNull } from 'redux/accounts/accountsSlice';
 import { authSelector, loginUser } from 'redux/auth/authSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { LoginMutation } from 'types/types';
@@ -22,15 +22,14 @@ const SignIn: React.FC = () => {
   const b = bem('SignIn');
   const dispatch = useAppDispatch();
   const [form] = Form.useForm();
-  const { success, loading, is_manager } = useAppSelector(authSelector);
-  console.log('is_manager', is_manager);
+  const { success, loading, user } = useAppSelector(authSelector);
   const history = useNavigate();
   const [checked, setChecked] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showModal = () => {
     setIsModalOpen(true);
-    dispatch(registerSuccessNull());
+    dispatch(inquiriesSuccessNull());
   };
 
   const handleOk = () => {
@@ -54,14 +53,14 @@ const SignIn: React.FC = () => {
   };
 
   const pushToMainPage = () => {
-    if (success && is_manager && userLocalStorage()) {
+    if (success && user && userLocalStorage()) {
       history('/');
     }
   };
 
   useEffect(() => {
     pushToMainPage();
-  }, [is_manager, success]);
+  }, [user, success]);
 
   return (
     <>

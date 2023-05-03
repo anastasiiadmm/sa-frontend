@@ -13,7 +13,8 @@ interface Enterprise {
 
 export interface IMyData {
   category: number;
-  data: {
+  object_id?: number;
+  data?: {
     user: User;
     enterprise: Enterprise;
   };

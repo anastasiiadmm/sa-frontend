@@ -37,9 +37,9 @@ interface AccountsState {
   userVehiclesPagination: userVehiclesPagination | null;
   fetchUserVehiclesLoading: boolean;
   fetchUserVehiclesError: IErrors | null;
-  registerUserLoading: boolean;
-  registerUserError: IErrors | null;
-  registerUserSuccess: boolean | null;
+  inquiriesLoading: boolean;
+  inquiriesError: IErrors | null;
+  inquiriesSuccess: boolean | null;
   requests: userRequest[] | undefined;
   requestsPagination: userRequestPagination | null;
   fetchRequestsLoading: boolean;
@@ -88,9 +88,9 @@ const INITIAL_STATE = {
   fetchUserVehiclesLoading: false,
   fetchUserVehiclesError: null,
 
-  registerUserLoading: false,
-  registerUserError: null,
-  registerUserSuccess: false,
+  inquiriesLoading: false,
+  inquiriesError: null,
+  inquiriesSuccess: false,
 
   requests: undefined,
   requestsPagination: null,
@@ -207,8 +207,8 @@ export const fetchUserVehicles = createAsyncThunk<userVehicles, fetchUserVehicle
   },
 );
 
-export const registerUser = createAsyncThunk<void, IMyData>(
-  `${nameSpace}/registerUser`,
+export const inquiriesRequests = createAsyncThunk<void, IMyData>(
+  `${nameSpace}/inquiriesRequests`,
   async (data, { rejectWithValue }) => {
     try {
       const resp = await axiosApi2.post(`/common/inquiries/`, data);
@@ -400,8 +400,8 @@ const accountsSlice = createSlice({
       state.updateManagerData.email = action.payload.email;
       state.updateManagerData.phone = action.payload.phone;
     },
-    registerSuccessNull: (state) => {
-      state.registerUserSuccess = false;
+    inquiriesSuccessNull: (state) => {
+      state.inquiriesSuccess = false;
     },
     deleteRequests: (state, action) => {
       state.requests = state.requests?.filter((item) => item.id !== action.payload);
@@ -497,26 +497,26 @@ const accountsSlice = createSlice({
       }
     });
 
-    builder.addCase(registerUser.pending, (state) => {
-      state.registerUserLoading = true;
-      state.registerUserError = null;
-      state.registerUserSuccess = false;
+    builder.addCase(inquiriesRequests.pending, (state) => {
+      state.inquiriesLoading = true;
+      state.inquiriesError = null;
+      state.inquiriesSuccess = false;
     });
-    builder.addCase(registerUser.fulfilled, (state) => {
-      state.registerUserLoading = false;
-      state.registerUserError = null;
-      state.registerUserSuccess = true;
+    builder.addCase(inquiriesRequests.fulfilled, (state) => {
+      state.inquiriesLoading = false;
+      state.inquiriesError = null;
+      state.inquiriesSuccess = true;
     });
-    builder.addCase(registerUser.rejected, (state, { payload }) => {
-      state.registerUserLoading = false;
+    builder.addCase(inquiriesRequests.rejected, (state, { payload }) => {
+      state.inquiriesLoading = false;
       if (payload && typeof payload === 'object' && 'detail' in payload && 'status' in payload) {
-        state.registerUserError = {
-          ...state.registerUserError,
+        state.inquiriesError = {
+          ...state.inquiriesError,
           detail: payload.detail as string | null,
           status: payload.status as number | null,
         };
       }
-      state.registerUserSuccess = false;
+      state.inquiriesSuccess = false;
     });
 
     builder.addCase(fetchRequests.pending, (state) => {
@@ -654,7 +654,7 @@ const accountsSlice = createSlice({
 export const {
   managerChangeProfileHandler,
   setManagerProfile,
-  registerSuccessNull,
+  inquiriesSuccessNull,
   deleteRequests,
   clearRequestsPagination,
 } = accountsSlice.actions;

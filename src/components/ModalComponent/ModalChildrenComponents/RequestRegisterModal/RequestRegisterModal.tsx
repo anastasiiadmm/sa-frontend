@@ -6,7 +6,7 @@ import AlertComponent from 'components/AlertComponent/AlertComponent';
 import FormField from 'components/FormField/FormField';
 import 'components/ModalComponent/ModalChildrenComponents/RequestRegisterModal/_requestRegisterModal.scss';
 import { getErrorMessage, removeEmptyValuesFromObject } from 'helper';
-import { accountsSelector, registerUser } from 'redux/accounts/accountsSlice';
+import { accountsSelector, inquiriesRequests } from 'redux/accounts/accountsSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 
 type Props = {
@@ -17,7 +17,7 @@ const RequestRegisterModal: React.FC<Props> = ({ onClose }) => {
   const b = bem('RequestRegisterModal');
   const [form] = Form.useForm();
   const dispatch = useAppDispatch();
-  const { registerUserLoading: loading, registerUserSuccess } = useAppSelector(accountsSelector);
+  const { inquiriesLoading: loading, inquiriesSuccess } = useAppSelector(accountsSelector);
   const [userData, setUserData] = useState({
     user: {
       last_name: '',
@@ -76,7 +76,7 @@ const RequestRegisterModal: React.FC<Props> = ({ onClose }) => {
             },
           },
         };
-        await dispatch(registerUser(registerUserObj)).unwrap();
+        await dispatch(inquiriesRequests(registerUserObj)).unwrap();
         setUserData({
           user: {
             last_name: '',
@@ -114,7 +114,7 @@ const RequestRegisterModal: React.FC<Props> = ({ onClose }) => {
     </>
   );
 
-  return registerUserSuccess ? (
+  return inquiriesSuccess ? (
     successSend
   ) : (
     <Col
@@ -221,7 +221,6 @@ const RequestRegisterModal: React.FC<Props> = ({ onClose }) => {
 
         <div className={b('form-modal-buttons')}>
           <Button
-            // disabled={!!commonError}
             type='primary'
             htmlType='submit'
             loading={loading}
