@@ -207,9 +207,9 @@ export const fetchUserVehicles = createAsyncThunk<userVehicles, fetchUserVehicle
   },
 );
 
-export const registerUser = createAsyncThunk(
+export const registerUser = createAsyncThunk<void, IMyData>(
   `${nameSpace}/registerUser`,
-  async (data: IMyData, { rejectWithValue }) => {
+  async (data, { rejectWithValue }) => {
     try {
       const resp = await axiosApi2.post(`/common/inquiries/`, data);
       message.success('Запрос успешно отправлен!');

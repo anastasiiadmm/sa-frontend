@@ -35,7 +35,7 @@ export const loginUser = createAsyncThunk<ITokens, LoginMutation>(
   `${nameSpace}/loginUser`,
   async (loginData, { rejectWithValue }) => {
     try {
-      const resp = await axiosApi2.post<ITokens>('/accounts/login/', loginData);
+      const resp = await axiosApi2.post('/accounts/login/', loginData);
       addCookies('refresh', resp.data.refresh);
       localStorage.setItem(
         'users',

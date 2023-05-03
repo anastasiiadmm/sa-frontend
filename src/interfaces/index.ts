@@ -5,5 +5,4 @@ export * from 'interfaces/ITechnique';
 export * from 'interfaces/IUser';
 export * from 'interfaces/IErrors';
 export * from 'interfaces/IAuth';
-export * from 'interfaces/IAuth';
 export * from 'interfaces/IAccounts';
