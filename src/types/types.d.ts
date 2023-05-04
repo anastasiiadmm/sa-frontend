@@ -275,14 +275,27 @@ export interface generatedPassword {
   generated_password: string;
 }
 
-export interface Request {
+export interface RequestType {
   id: number;
+  object_id: string;
+  category: number;
   created_at: string;
-  enterprise_name: string;
-  confirmation_type: number;
-  enterprise: number;
-  confirmation_type_text: string;
-  inquiry_id: number;
+  inquiry_id?: string;
+  requestor?: string;
+  data: {
+    enterprise: {
+      location: string;
+      name: string;
+    };
+    user: {
+      email: string;
+      first_name: string;
+      last_name: string;
+      middle_name: string;
+      phone: string;
+      username: string;
+    };
+  };
 }
 
 export interface accountsManagerConfirmation {

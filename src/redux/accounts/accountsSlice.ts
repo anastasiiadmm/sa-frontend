@@ -9,6 +9,7 @@ import {
   generatedPassword,
   IManager,
   IUserAccount,
+  RequestType,
   updateManagerDataMutation,
   userRequest,
   userRequestPagination,
@@ -29,7 +30,6 @@ interface AccountsState {
   updateManagerData: updateManagerDataMutation;
   updateManagerDataLoading: boolean;
   updateManagerDataError: IErrors | null;
-
   user: IUserAccount | null;
   fetchLoadingUser: boolean;
   fetchLoadingUserError: IErrors | null;
@@ -58,6 +58,9 @@ interface AccountsState {
   vehicleCreateRequestSuccess: boolean;
   vehicleDeleteLoading: boolean;
   vehicleErrorsDelete: IErrors | null;
+  approveRequestLoading: boolean;
+  approveRequestError: IErrors | null;
+  approveRequestSuccess: boolean;
 }
 
 const INITIAL_STATE = {
@@ -112,6 +115,10 @@ const INITIAL_STATE = {
   vehicleCreateRequestLoading: false,
   vehicleCreateRequestError: null,
   vehicleCreateRequestSuccess: false,
+
+  approveRequestLoading: false,
+  approveRequestError: null,
+  approveRequestSuccess: false,
 } as AccountsState;
 
 export const fetchManager = createAsyncThunk(
@@ -217,6 +224,30 @@ export const inquiriesRequests = createAsyncThunk<void, IMyData>(
       return resp.data;
     } catch (e) {
       return rejectWithValue({
+        detail: e?.response?.data?.non_field_errors,
+        status: e?.response?.status,
+      });
+    }
+  },
+);
+
+interface approveRequestParams {
+  id: number | null;
+  data?: {
+    category: number;
+    object_id?: number;
+  };
+}
+
+export const approveRequest = createAsyncThunk<RequestType, approveRequestParams>(
+  `${nameSpace}/approveRequest`,
+  async (data, { rejectWithValue }) => {
+    try {
+      const res = await axiosApi2.post(`/common/inquiries/${data?.id}/`, data?.data);
+      message.success('Запрос принят!');
+      return res?.data;
+    } catch (e) {
+      return rejectWithValue({
         detail: e?.response?.data,
         status: e?.response?.status,
       });
@@ -224,8 +255,8 @@ export const inquiriesRequests = createAsyncThunk<void, IMyData>(
   },
 );
 
-export const deleteUserTechnique = createAsyncThunk(
-  `${nameSpace}/deleteUserTechnique`,
+export const deleteRequest = createAsyncThunk(
+  `${nameSpace}/deleteRequest`,
   async (
     {
       id,
@@ -235,7 +266,7 @@ export const deleteUserTechnique = createAsyncThunk(
     { rejectWithValue },
   ) => {
     try {
-      await axiosApi.delete(`/accounts/manager/confirmation/${id}/`);
+      await axiosApi2.delete(`/common/inquiries/${id}/`);
       message.success('Успешно удалено');
       return {
         id,
@@ -265,9 +296,7 @@ export const fetchRequests = createAsyncThunk<userRequest, fetchRequestsParams>(
       if (data?.query) {
         query = toQueryParams(data.query);
       }
-      const resp = await axiosApi.get<userRequest | null>(
-        `/accounts/manager/confirmation/${query}`,
-      );
+      const resp = await axiosApi2.get(`/common/inquiries/${query}`);
       const requests = resp.data;
 
       if (requests === null) {
@@ -519,6 +548,28 @@ const accountsSlice = createSlice({
       state.inquiriesSuccess = false;
     });
 
+    builder.addCase(approveRequest.pending, (state) => {
+      state.approveRequestLoading = true;
+      state.approveRequestError = null;
+      state.approveRequestSuccess = false;
+    });
+    builder.addCase(approveRequest.fulfilled, (state) => {
+      state.approveRequestLoading = false;
+      state.approveRequestError = null;
+      state.approveRequestSuccess = true;
+    });
+    builder.addCase(approveRequest.rejected, (state, { payload }) => {
+      state.approveRequestLoading = false;
+      if (payload && typeof payload === 'object' && 'detail' in payload && 'status' in payload) {
+        state.approveRequestError = {
+          ...state.approveRequestError,
+          detail: payload.detail as string | null,
+          status: payload.status as number | null,
+        };
+      }
+      state.approveRequestSuccess = false;
+    });
+
     builder.addCase(fetchRequests.pending, (state) => {
       state.fetchRequestsLoading = true;
       state.fetchRequestsError = null;
@@ -530,8 +581,8 @@ const accountsSlice = createSlice({
       state.requestsPagination = {
         ...state.requestsPagination,
         count: payload.count,
-        next: payload.links.next,
-        previous: payload.links.previous,
+        next: payload.next,
+        previous: payload.previous,
       };
     });
     builder.addCase(fetchRequests.rejected, (state, { payload }) => {
@@ -624,21 +675,18 @@ const accountsSlice = createSlice({
       }
     });
 
-    builder.addCase(deleteUserTechnique.pending, (state) => {
+    builder.addCase(deleteRequest.pending, (state) => {
       state.vehicleDeleteLoading = true;
       state.vehicleErrorsDelete = null;
     });
-    builder.addCase(
-      deleteUserTechnique.fulfilled,
-      (state, action: PayloadAction<{ id: string }>) => {
-        if (state.requests?.length) {
-          state.requests = state.requests.filter((item) => item.id !== Number(action.payload.id));
-        }
-        state.vehicleDeleteLoading = false;
-        state.vehicleErrorsDelete = null;
-      },
-    );
-    builder.addCase(deleteUserTechnique.rejected, (state, { payload }) => {
+    builder.addCase(deleteRequest.fulfilled, (state, action: PayloadAction<{ id: string }>) => {
+      if (state.requests?.length) {
+        state.requests = state.requests.filter((item) => item.id !== Number(action.payload.id));
+      }
+      state.vehicleDeleteLoading = false;
+      state.vehicleErrorsDelete = null;
+    });
+    builder.addCase(deleteRequest.rejected, (state, { payload }) => {
       state.vehicleDeleteLoading = false;
       if (payload && typeof payload === 'object' && 'detail' in payload && 'status' in payload) {
         state.userVehicleInfoError = {

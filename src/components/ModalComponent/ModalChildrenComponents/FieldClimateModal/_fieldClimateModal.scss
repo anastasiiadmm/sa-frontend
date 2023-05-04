@@ -1,0 +1,33 @@
+@use "assets/scss/_themes.scss";
+
+.FieldClimateModal {
+  &__form-modal-block {
+    display: flex;
+    gap: 13px;
+    > div {
+      width: 100%;
+    }
+  }
+
+  &__profile-buttons {
+    margin-top: 35px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  &__delete-button {
+    background: themes.$red-color !important;
+    &:hover {
+      background: rgba(193, 16, 48, 0.6) !important;
+    }
+  }
+
+  &__save-button {
+    background: themes.$primary-color;
+  }
+
+  &__username-info {
+    padding: 0;
+  }
+}

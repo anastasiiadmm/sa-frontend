@@ -10,7 +10,6 @@ interface Props {
   title: string;
   subTitle: string;
   loading: boolean;
-  techniqueName?: string;
   handleDeleteCancel?: () => void;
   requestHandler: () => void;
   textCancel: string;
@@ -20,7 +19,6 @@ const RequestModal: React.FC<Props> = ({
   title,
   subTitle,
   loading,
-  techniqueName,
   handleDeleteCancel,
   requestHandler,
   textCancel,
@@ -34,7 +32,6 @@ const RequestModal: React.FC<Props> = ({
         icon={<img src={warning} alt='warning' />}
         title={title}
         subTitle={subTitle}
-        techniqueName={techniqueName}
       />
       <div className={b('delete-modal-buttons')}>
         <Button
@@ -49,7 +46,6 @@ const RequestModal: React.FC<Props> = ({
           type='primary'
           loading={loading}
           style={{ width: '100%', borderRadius: 4 }}
-          className={techniqueName ? b('delete-profile-button') : ''}
           onClick={requestHandler}
         >
           {textCancel}

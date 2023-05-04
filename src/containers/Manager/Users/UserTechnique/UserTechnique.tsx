@@ -351,7 +351,6 @@ const UserTechnique: React.FC = () => {
           title='Удалить?'
           textCancel='Удалить'
           subTitle='Вы уверены, что хотите удалить'
-          techniqueName={`${techniqueApiName}?`}
           loading={deleteUserVehicleLoading}
           handleDeleteCancel={handleDeleteOkCancel}
           requestHandler={deleteTechniqueHandler}

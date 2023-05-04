@@ -90,6 +90,7 @@ const Technique = () => {
   const postInquiriesHandler = async () => {
     try {
       await dispatch(inquiriesRequests({ category: 4, object_id: userAccount?.id }));
+      await setIsModalFieldClimateOpen(false);
     } catch (e) {
       await message.error('Не удалось отправить запрос');
     }

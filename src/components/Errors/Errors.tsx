@@ -13,8 +13,8 @@ const Errors: FC<ErrorsProps> = ({ status, detail }) => {
         showButton
         status={status}
         statusBool
-        title={detail || 'Страница не найдено'}
-        text='Попробуйте перейти на главную страницу или любую интересующую вас'
+        title={detail || 'Страница не найдена'}
+        text='Попробуйте перейти на главную страницу или другую интересующую вас'
       />
     );
   }
@@ -24,8 +24,8 @@ const Errors: FC<ErrorsProps> = ({ status, detail }) => {
       showButton
       status={status}
       statusBool
-      title={detail || 'Что то пошло не так!'}
-      text='Попробуйте перейти на главную страницу или любую интересующую вас'
+      title={detail || 'Что-то пошло не так!'}
+      text='Попробуйте перейти на главную страницу или другую интересующую вас'
     />
   );
 };
