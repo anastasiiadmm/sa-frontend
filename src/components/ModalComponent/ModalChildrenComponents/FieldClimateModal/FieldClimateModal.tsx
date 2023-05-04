@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
 import { Button, Form, Typography } from 'antd';
 import bem from 'easy-bem';
+import React, { useEffect } from 'react';
 
 import cloud from 'assets/images/icons/cloud.svg';
+import FormField from 'components/FormField/FormField';
+import { RequestType } from 'types/types';
 import 'components/ModalComponent/ModalChildrenComponents/FieldClimateModal/_fieldClimateModal.scss';
-import FormField from '../../../FormField/FormField';
-import { RequestType } from '../../../../types/types';
 
 const { Title } = Typography;
 
