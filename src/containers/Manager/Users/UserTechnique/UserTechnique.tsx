@@ -53,7 +53,6 @@ const UserTechnique: React.FC = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteEditModalOpen] = useState(false);
   const [vehicleId, setVehicleId] = useState<string | null>(null);
-  const [techniqueApiName, setTechniqueApiName] = useState<string | null>(null);
   const [filters, setFilters] = useState({
     page: vehicleListPagination?.next
       ? Number(getPageNumber(vehicleListPagination?.next))
@@ -250,7 +249,6 @@ const UserTechnique: React.FC = () => {
                 onClick={() => {
                   showDeleteModal();
                   setVehicleId(record?.id.toString());
-                  setTechniqueApiName(record?.description);
                 }}
               >
                 <img src={deleteIcon} alt='deleteIcon' className='link-icons' />
