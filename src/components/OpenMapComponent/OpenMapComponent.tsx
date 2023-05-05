@@ -1,4 +1,4 @@
-import { Alert, Button, Card, Spin, Tooltip, Typography } from 'antd';
+import { Alert, Card, Spin, Tooltip, Typography } from 'antd';
 import bem from 'easy-bem';
 import L, { LatLngExpression, LatLngTuple } from 'leaflet';
 import React, { useEffect, useState } from 'react';
@@ -35,6 +35,64 @@ const OpenMapComponent = () => {
   ]);
   const dispatch = useAppDispatch();
   const history = useNavigate();
+  const [socketMap, setSocketMap] = useState({
+    status: '',
+    latitude: '',
+    longitude: '',
+  });
+
+  const connectWebSocket = () => {
+    const socket = new WebSocket(`ws://159.89.30.209:8080/ws`);
+    let connectionID = '';
+    socket.onopen = () => {
+      socket.send(
+        JSON.stringify({
+          kind: 'ping',
+          vehicle_id: Number(vehicleId),
+          connection_id: connectionID,
+        }),
+      );
+    };
+
+    const intervalId = setInterval(() => {
+      if (socket.readyState === WebSocket.OPEN) {
+        socket.send(
+          JSON.stringify({
+            kind: 'ping',
+            vehicle_id: Number(vehicleId),
+            connection_id: connectionID,
+          }),
+        );
+      }
+    }, 5000);
+
+    socket.onmessage = (event) => {
+      const messageData = JSON.parse(event.data);
+      connectionID = messageData.connection_id;
+      setSocketMap({ ...socketMap, status: messageData.kind });
+      if (messageData?.data?.latitude && messageData?.data?.longitude) {
+        setSocketMap({ ...socketMap, ...messageData.data });
+      }
+    };
+
+    socket.onclose = (event) => {
+      clearInterval(intervalId);
+      if (event.code === 1000) {
+        setTimeout(() => {
+          connectWebSocket();
+        }, 5000);
+      }
+    };
+    return socket;
+  };
+  useEffect(() => {
+    const socket = connectWebSocket();
+
+    return () => {
+      socket.close();
+    };
+  }, []);
+
   useEffect(() => {
     if (tokens?.is_manager) {
       dispatch(tractorLocation(`/companies/${id}/vehicle/${vehicleId}/`));
@@ -98,11 +156,12 @@ const OpenMapComponent = () => {
   });
 
   const centerMap = () => {
-    if (vehicle.results?.last_latitude && vehicle.results?.last_longitude) {
-      return [Number(vehicle.results.last_latitude), Number(vehicle.results?.last_longitude)];
+    if (socketMap.latitude && socketMap.longitude) {
+      return [Number(socketMap.latitude), Number(socketMap.longitude)];
     }
     return [0, 0];
   };
+
   const lineMap = () => {
     if (field.results.length) {
       const number1 = field.results[0].PointA.split(',')[0];
@@ -114,21 +173,9 @@ const OpenMapComponent = () => {
     return [0, 0];
   };
 
-  const renderHandler = () => {
-    if (tokens?.is_manager) {
-      dispatch(tractorLocation(`/companies/${id}/vehicle/${vehicleId}/`));
-    } else {
-      dispatch(tractorLocation(`/accounts/user/vehicle/${id}/`));
-    }
-    const findResultsMap = vehicle.results?.processing_data.find(
-      (item) => item.id === Number(vehicleId),
-    );
-    if (findResultsMap) {
-      dispatch(obtainingCoordinate({ id: Number(id), field_name: findResultsMap.field_name }));
-    }
-  };
-
   const backHandler = () => {
+    const socket = connectWebSocket();
+    socket.close();
     history(-1);
   };
 
@@ -199,9 +246,6 @@ const OpenMapComponent = () => {
               <img src={tractorBlue} alt='tractor' className={b('img-title img-tractor')} />
               <p className={b('subtitle')}>{vehicle.results?.description}</p>
             </Title>
-            <Button onClick={() => renderHandler()} className={b('render_btn')}>
-              Обновить данные
-            </Button>
           </div>
           {field.results.length ||
           id === 'local-tractor' ||
@@ -217,47 +261,54 @@ const OpenMapComponent = () => {
         </Card>
       </div>
       <div className={b('map-block')}>
-        <MapContainer
-          center={
-            field.results.length
-              ? (lineMap() as LatLngExpression)
-              : (centerMap() as LatLngExpression)
-          }
-          zoom={13}
-          minZoom={2}
-          maxZoom={18}
-          scrollWheelZoom
-          maxBounds={latLngBounds}
-          style={{ width: '100%', height: '100vh' }}
-        >
-          <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            url='https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'
-          />
-          <CircleMarker center={centerMap() as LatLngExpression} opacity={0} radius={10}>
-            <Marker position={centerMap() as LatLngExpression} icon={duckIcon}>
-              <Popup>
-                <span className={b('title_uppercase')}>{vehicle.results?.description}</span>
-              </Popup>
-            </Marker>
-          </CircleMarker>
-          {id === 'local-tractor' || pathname.includes('local-tractor') ? null : (
-            <Polyline weight={5} pathOptions={purpleOptions} positions={positions}>
-              <Marker
-                position={getCoordinateByType(positions, 'start') as LatLngExpression}
-                icon={duckIconStart}
-              >
-                <Popup>Start</Popup>
+        {socketMap.latitude && socketMap.latitude ? (
+          <MapContainer
+            center={
+              field.results.length
+                ? (lineMap() as LatLngExpression)
+                : (centerMap() as LatLngExpression)
+            }
+            zoom={18}
+            minZoom={2}
+            maxZoom={18}
+            scrollWheelZoom
+            maxBounds={latLngBounds}
+            style={{ width: '100%', height: '100vh' }}
+          >
+            <TileLayer
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+              url='https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'
+            />
+            <CircleMarker center={centerMap() as LatLngExpression} opacity={0} radius={10}>
+              <Marker position={centerMap() as LatLngExpression} icon={duckIcon}>
+                <Popup>
+                  <span className={b('title_uppercase')}>{vehicle.results?.description}</span>
+                </Popup>
               </Marker>
-              <Marker
-                position={getCoordinateByType(positions, 'end') as LatLngExpression}
-                icon={duckIconEnd}
-              >
-                <Popup>End</Popup>
-              </Marker>
-            </Polyline>
-          )}
-        </MapContainer>
+            </CircleMarker>
+            {id === 'local-tractor' || pathname.includes('local-tractor') ? null : (
+              <Polyline weight={5} pathOptions={purpleOptions} positions={positions}>
+                <Marker
+                  position={getCoordinateByType(positions, 'start') as LatLngExpression}
+                  icon={duckIconStart}
+                >
+                  <Popup>Start</Popup>
+                </Marker>
+                <Marker
+                  position={getCoordinateByType(positions, 'end') as LatLngExpression}
+                  icon={duckIconEnd}
+                >
+                  <Popup>End</Popup>
+                </Marker>
+              </Polyline>
+            )}
+          </MapContainer>
+        ) : null}
+        {socketMap.status === 'no_geo' ? (
+          <div className={b('not_coordinates')}>
+            <h1>Кординаты не найдено</h1>
+          </div>
+        ) : null}
       </div>
     </div>
   );

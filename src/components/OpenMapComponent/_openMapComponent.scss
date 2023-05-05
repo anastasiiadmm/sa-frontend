@@ -71,6 +71,17 @@
   &__title_uppercase {
     text-transform: uppercase;
   }
+
+  &__not_coordinates {
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    > h1 {
+      font-weight: 400;
+      font-size: 26px;
+    }
+  }
 }
 
 .leaflet-div-icon {
