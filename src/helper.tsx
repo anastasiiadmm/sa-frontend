@@ -6,7 +6,7 @@ const moment = require('moment');
 
 type IndexableObject = {
   [key: string]: any;
-}
+};
 
 export const removeEmptyValuesFromObject = (obj: IndexableObject) => {
   const newObj: IndexableObject = {};
