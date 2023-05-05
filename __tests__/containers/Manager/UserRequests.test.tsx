@@ -16,7 +16,7 @@ const dataTable = [
         "inquiry_id": 98,
         "enterprise": 1,
         "confirmation_type_text": "Добавление техники",
-        "enterprise_name": "ОсОО ОДА Дордой-Секьюрити"
+        "requestor": "ОсОО ОДА Дордой-Секьюрити"
     },
     {
         "id": 91,
@@ -25,7 +25,7 @@ const dataTable = [
         "inquiry_id": 99,
         "enterprise": 1,
         "confirmation_type_text": "Добавление техники",
-        "enterprise_name": "ОсОО ОДА Дордой-Секьюрити"
+        "requestor": "ОсОО ОДА Дордой-Секьюрити"
     }
 ]
 describe('UserRequests', () => {
@@ -48,7 +48,6 @@ describe('UserRequests', () => {
         const dispatch = jest.fn();
         mockedDispatch.mockReturnValue(dispatch);
         const handleOkCancel = jest.fn();
-        const resultsInfoClick = jest.fn();
         const showRejectModal = jest.fn();
         render(<ModalComponent open={true}>
                 <RequestAddTechnique
