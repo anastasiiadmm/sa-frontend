@@ -405,7 +405,8 @@ export const vehicleCreate = createAsyncThunk<void, vehicleCreateParams>(
 
 export const techniqueVehicleInfo = createAsyncThunk(
   `${nameSpace}/techniqueVehicleInfo`,
-  async (data: any, { rejectWithValue }) => { // доавить тип когда буду править запросы
+  async (data: any, { rejectWithValue }) => {
+    // доавить тип когда буду править запросы
     try {
       const response = await axiosApi.get(`companies/${data.id}/vehicle/${data.inquiry_id}/`);
       return response.data;
