@@ -69,8 +69,7 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
           )
         ) : (
           <>
-            {account?.last_name} {account?.first_name?.charAt(0)}. {account?.middle_name?.charAt(0)}
-            .
+            {account?.last_name} {account?.first_name?.charAt(0)}. {account?.middle_name?.charAt(0)}.
           </>
         )}
         <span>{account?.is_manager ? 'Менеджер' : 'Пользователь'}</span>
