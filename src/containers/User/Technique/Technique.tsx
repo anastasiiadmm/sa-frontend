@@ -1,5 +1,5 @@
-import { EyeOutlined } from '@ant-design/icons';
-import { Button, Card, message, Tooltip, Typography } from 'antd';
+import { CheckOutlined, EyeOutlined } from '@ant-design/icons';
+import { Button, Card, message, Spin, Tooltip, Typography } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import bem from 'easy-bem';
 import React, { useEffect, useState } from 'react';
@@ -17,7 +17,7 @@ import TableComponent from 'components/TableComponent/TableComponent';
 import { getPageNumber, getPageNumberPrevious } from 'helper';
 import {
   accountsSelector,
-  fetchUser,
+  fetchAccount,
   fetchUserVehicles,
   inquiriesRequests,
 } from 'redux/accounts/accountsSlice';
@@ -31,8 +31,8 @@ const { Title } = Typography;
 const Technique = () => {
   const b = bem('Technique');
   const {
-    user: userAccount,
-    fetchLoadingUser,
+    fetchLoadingAccount,
+    account,
     userVehicles,
     fetchUserVehiclesLoading,
     userVehiclesPagination,
@@ -49,10 +49,6 @@ const Technique = () => {
       ? Number(getPageNumber(userVehiclesPagination?.next))
       : Number(getPageNumberPrevious(userVehiclesPagination?.previous)),
   });
-
-  useEffect(() => {
-    dispatch(fetchUser());
-  }, [dispatch]);
 
   useEffect(() => {
     const data = {
@@ -89,7 +85,8 @@ const Technique = () => {
 
   const postInquiriesHandler = async () => {
     try {
-      await dispatch(inquiriesRequests({ category: 4, object_id: userAccount?.id }));
+      await dispatch(inquiriesRequests({ category: 4, object_id: account?.company?.id }));
+      await dispatch(fetchAccount());
       await setIsModalFieldClimateOpen(false);
     } catch (e) {
       await message.error('Не удалось отправить запрос');
@@ -146,7 +143,7 @@ const Technique = () => {
             color='#BBBBBB'
             overlayInnerStyle={{ padding: '5px 15px', borderRadius: 15 }}
           >
-            <Link to={`/profile-technique/${userAccount?.id}/${record.id}`}>
+            <Link to={`/profile-technique/${account?.id}/${record.id}`}>
               <Button type='text'>
                 <EyeOutlined style={{ fontSize: '27px', color: '#1358bf' }} />
               </Button>
@@ -190,12 +187,12 @@ const Technique = () => {
             <div className={b('card-style-blocks')}>
               <div>
                 <Title className={b('card-title')}>Количество техники</Title>
-                {fetchLoadingUser ? (
-                  <SkeletonBlock active={fetchLoadingUser} num={1} titleBool />
+                {fetchLoadingAccount ? (
+                  <SkeletonBlock active={fetchLoadingAccount} num={1} titleBool />
                 ) : (
                   <div className={b('card-content')}>
                     <img src={tractorBlue} alt='group' />
-                    <p>{userAccount?.vehicles_amount}</p>
+                    {/* <p>{account?.vehicles_amount}</p> добавить когда будет готов ключ на бэке */}
                   </div>
                 )}
               </div>
@@ -208,12 +205,34 @@ const Technique = () => {
                     <div>
                       <Title className={b('card-title meteo-h1')}>Подключите метеосервис</Title>
                       <p className='meteo-h1'>Все про погоду и почву</p>
-                      <Button
-                        className={b('card-style-cloud-button')}
-                        onClick={showFieldClimateModal}
-                      >
-                        Отправить запрос
-                      </Button>
+                      {fetchLoadingAccount ? (
+                        <Spin className={b('card-style-cloud-button')} />
+                      ) : account?.company?.meteo_requested ? (
+                        <Button
+                          disabled
+                          type='primary'
+                          danger
+                          className={b('card-style-cloud-button')}
+                        >
+                          Запрос на рассмотрении
+                        </Button>
+                      ) : account?.company?.weather_service ? (
+                        <Button
+                          icon={<CheckOutlined />}
+                          disabled
+                          type='dashed'
+                          className={b('card-style-cloud-button')}
+                        >
+                          Метеостанция подключена
+                        </Button>
+                      ) : (
+                        <Button
+                          className={b('card-style-cloud-button')}
+                          onClick={showFieldClimateModal}
+                        >
+                          Отправить запрос
+                        </Button>
+                      )}
                     </div>
                   </div>
                 </Card>

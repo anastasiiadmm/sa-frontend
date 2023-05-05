@@ -172,6 +172,14 @@ const UserRequests = () => {
       };
       await dispatch(approveRequest(data)).unwrap();
       await setIsModalFieldClimateRequestOpen(false);
+
+      const dataRequests = {
+        query: {
+          page: 1,
+        },
+      };
+
+      await dispatch(fetchRequests({ data: dataRequests }));
     } catch (e) {
       message.error('Не удалось принять запрос');
       await setIsModalFieldClimateRequestOpen(false);

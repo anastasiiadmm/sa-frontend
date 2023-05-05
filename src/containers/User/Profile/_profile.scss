@@ -1,36 +1,8 @@
 @use 'assets/scss/_themes.scss';
 
 .Profile {
-  &__card-block {
-    padding-bottom: 15px;
-  }
-
   &__title {
     margin-bottom: 30px;
-  }
-
-  &__card-style {
-    padding-left: 23px;
-    height: 139px;
-  }
-
-  &__card-title {
-    font-size: 12px !important;
-    font-weight: 700 !important;
-    text-transform: uppercase;
-    margin-bottom: 18px !important;
-  }
-
-  &__card-content {
-    display: flex;
-    gap: 30px;
-    margin-bottom: 12px;
-
-    > p {
-      margin: 0;
-      font-size: 24px;
-      font-weight: 700;
-    }
   }
 
   &__request_link {

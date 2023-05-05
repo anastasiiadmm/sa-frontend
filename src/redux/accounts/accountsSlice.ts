@@ -7,7 +7,7 @@ import { RootState } from 'redux/hooks';
 import {
   accountsManagerConfirmation,
   generatedPassword,
-  IManager,
+  IAccount,
   IUserAccount,
   RequestType,
   updateManagerDataMutation,
@@ -24,9 +24,9 @@ import toQueryParams from 'utils/toQueryParams';
 const nameSpace = 'accounts';
 
 interface AccountsState {
-  manager: IManager | null;
-  fetchLoadingManager: boolean;
-  fetchErrorManager: IErrors | null;
+  account: IAccount | null;
+  fetchLoadingAccount: boolean;
+  fetchErrorAccount: IErrors | null;
   updateManagerData: updateManagerDataMutation;
   updateManagerDataLoading: boolean;
   updateManagerDataError: IErrors | null;
@@ -64,9 +64,9 @@ interface AccountsState {
 }
 
 const INITIAL_STATE = {
-  manager: null,
-  fetchLoadingManager: false,
-  fetchErrorManager: null,
+  account: null,
+  fetchLoadingAccount: false,
+  fetchErrorAccount: null,
   updateManagerData: {
     username: '',
     password: '',
@@ -121,16 +121,16 @@ const INITIAL_STATE = {
   approveRequestSuccess: false,
 } as AccountsState;
 
-export const fetchManager = createAsyncThunk(
+export const fetchAccount = createAsyncThunk(
   'accounts/fetchManager',
   async (_, { rejectWithValue }) => {
     try {
-      const resp = await axiosApi.get<IManager | null>('/accounts/manager/');
-      const manager = resp.data;
-      if (manager === null) {
+      const resp = await axiosApi2.get<IAccount | null>('/accounts/');
+      const account = resp.data;
+      if (account === null) {
         throw new Error('Not Found!');
       }
-      return manager;
+      return account;
     } catch (e) {
       return rejectWithValue({
         detail: e?.response?.data?.detail,
@@ -150,7 +150,7 @@ export const managerProfileUpdate = createAsyncThunk<void, updateManagerParams>(
     try {
       const resp = await axiosApi.patch(`/accounts/manager/`, data);
       message.success('Данные успешно изменены!');
-      await dispatch(fetchManager());
+      await dispatch(fetchAccount());
       return resp.data;
     } catch (e) {
       if (e?.response?.data) {
@@ -245,7 +245,7 @@ export const approveRequest = createAsyncThunk<RequestType, approveRequestParams
     try {
       const res = await axiosApi2.post(`/common/inquiries/${data?.id}/`, data?.data);
       message.success('Запрос принят!');
-      return res?.data;
+      return res?.data?.id;
     } catch (e) {
       return rejectWithValue({
         detail: e?.response?.data,
@@ -441,24 +441,24 @@ const accountsSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(fetchManager.pending, (state) => {
-      state.fetchErrorManager = null;
-      state.fetchLoadingManager = true;
+    builder.addCase(fetchAccount.pending, (state) => {
+      state.fetchErrorAccount = null;
+      state.fetchLoadingAccount = true;
     });
-    builder.addCase(fetchManager.fulfilled, (state, { payload: manager }) => {
-      state.fetchErrorManager = null;
-      state.fetchLoadingManager = false;
-      state.manager = manager;
+    builder.addCase(fetchAccount.fulfilled, (state, { payload: account }) => {
+      state.fetchErrorAccount = null;
+      state.fetchLoadingAccount = false;
+      state.account = account;
     });
-    builder.addCase(fetchManager.rejected, (state, { payload }) => {
+    builder.addCase(fetchAccount.rejected, (state, { payload }) => {
       if (payload && typeof payload === 'object' && 'detail' in payload && 'status' in payload) {
-        state.fetchErrorManager = {
-          ...state.fetchErrorManager,
+        state.fetchErrorAccount = {
+          ...state.fetchErrorAccount,
           detail: payload.detail as string | null,
           status: payload.status as number | null,
         };
       }
-      state.fetchLoadingManager = false;
+      state.fetchLoadingAccount = false;
     });
 
     builder.addCase(managerProfileUpdate.pending, (state) => {
@@ -553,7 +553,7 @@ const accountsSlice = createSlice({
       state.approveRequestError = null;
       state.approveRequestSuccess = false;
     });
-    builder.addCase(approveRequest.fulfilled, (state) => {
+    builder.addCase(approveRequest.fulfilled, (state, action: PayloadAction<{ id: number }>) => {
       state.approveRequestLoading = false;
       state.approveRequestError = null;
       state.approveRequestSuccess = true;
@@ -614,6 +614,7 @@ const accountsSlice = createSlice({
         };
       }
     });
+
     builder.addCase(generateNewPassword.pending, (state) => {
       state.generatePasswordLoading = true;
       state.generatePasswordError = null;
@@ -632,6 +633,7 @@ const accountsSlice = createSlice({
         };
       }
     });
+
     builder.addCase(accountManagerConfirmationRequest.pending, (state) => {
       state.accountManagerConfirmationLoading = true;
       state.accountManagerConfirmationError = null;
@@ -653,6 +655,7 @@ const accountsSlice = createSlice({
         };
       }
     });
+
     builder.addCase(vehicleCreateRequest.pending, (state) => {
       state.vehicleCreateRequestLoading = true;
       state.vehicleCreateRequestSuccess = false;

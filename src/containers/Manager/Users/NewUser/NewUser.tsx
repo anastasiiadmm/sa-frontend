@@ -22,7 +22,7 @@ const NewUser: React.FC = () => {
   const dispatch = useAppDispatch();
   const [form] = Form.useForm();
   const history = useNavigate();
-  const { fetchErrorManager } = useAppSelector(accountsSelector);
+  const { fetchErrorAccount } = useAppSelector(accountsSelector);
   const { userCreateLoading, userCreate: userCreateData } = useAppSelector(companiesSelector);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formValid, setFormValid] = useState(true);
@@ -50,8 +50,8 @@ const NewUser: React.FC = () => {
     }
   };
 
-  if (fetchErrorManager) {
-    return <Errors status={fetchErrorManager.status} detail={fetchErrorManager.detail} />;
+  if (fetchErrorAccount) {
+    return <Errors status={fetchErrorAccount.status} detail={fetchErrorAccount.detail} />;
   }
 
   return (
@@ -66,7 +66,7 @@ const NewUser: React.FC = () => {
           <Title level={3} data-testid='new_user_test'>
             Добавить нового пользователя
           </Title>
-          <p className={b('subtext')}>Создать учетную запись нового пользователя и добавить его.</p>
+          <p className={b('subtext')}>Создать учетную запись нового пользователя и добавить его</p>
 
           <Form
             form={form}

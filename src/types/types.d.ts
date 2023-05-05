@@ -26,28 +26,25 @@ export interface LoginMutation {
   password: string;
 }
 
-export interface ValidationError {
-  errors: {
-    [key: string]: {
-      name: string;
-      message: string;
-    };
-  };
-  name: string;
-  _name: string;
-  message: string;
-}
-
-export interface IManager {
-  id: string;
+export interface IAccount {
+  id: number | undefined;
   username: string;
   password: string;
   first_name: string;
   middle_name: string;
+  is_manager: boolean;
   last_name: string;
   email: string;
   phone: string;
   image: string;
+  company: {
+    autopilots_amount: number;
+    id: number;
+    location: string;
+    meteo_requested: boolean;
+    name: string;
+    weather_service: boolean;
+  };
 }
 
 export interface IManagerMutation {
