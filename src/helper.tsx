@@ -4,8 +4,12 @@ import { dateMomentTypeString } from 'utils/constants';
 
 const moment = require('moment');
 
-export const removeEmptyValuesFromObject = (obj: any) => {
-  const newObj: any = {};
+type IndexableObject = {
+  [key: string]: any;
+}
+
+export const removeEmptyValuesFromObject = (obj: IndexableObject) => {
+  const newObj: IndexableObject = {};
   for (const i in obj) {
     if (Object.prototype.hasOwnProperty.call(obj, i)) {
       const value = obj[i];
