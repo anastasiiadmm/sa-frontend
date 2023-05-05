@@ -8,7 +8,7 @@ import SkeletonBlock from 'components/SkeletonBlock/SkeletonBlock';
 import UploadImageComponent from 'components/UploadImageComponent/UploadImageComponent';
 import { getErrorMessage } from 'helper';
 import 'components/ModalComponent/ModalChildrenComponents/RequestsModals/RequestAddTechnique/_requestAddTechnique.scss';
-import { IValueRequest, IVehicle } from "interfaces";
+import { IValueRequest, IVehicle } from 'interfaces';
 
 import {
   techniqueVehicleConfirmation,
