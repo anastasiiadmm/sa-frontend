@@ -77,17 +77,6 @@ const RequestRegisterModal: React.FC<Props> = ({ onClose }) => {
           },
         };
         await dispatch(inquiriesRequests(registerUserObj)).unwrap();
-        setUserData({
-          user: {
-            last_name: '',
-            first_name: '',
-            middle_name: '',
-            email: '',
-            phone: '',
-          },
-          name: '',
-          location: '',
-        });
         onClose();
       }
     } catch (e) {
@@ -180,7 +169,12 @@ const RequestRegisterModal: React.FC<Props> = ({ onClose }) => {
             name='email'
             placeholder='Email'
             onChange={inputChangeHandler}
-            rules={[{ required: true, message: 'Введите email' }]}
+            rules={[
+              {
+                type: 'email',
+                message: 'Введен неверный E-mail!',
+              },
+            ]}
           />
 
           <FormField

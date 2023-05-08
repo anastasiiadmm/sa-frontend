@@ -45,7 +45,7 @@ const AddUpdateTechnique: React.FC<Props> = ({
     userVehicleInfo,
     patchUserVehicleInfoLoading,
   } = useAppSelector(companiesSelector);
-  const { user, vehicleCreateRequestLoading, vehicleCreateRequestSuccess } =
+  const { account, vehicleCreateRequestLoading, vehicleCreateRequestSuccess } =
     useAppSelector(accountsSelector);
   const [form] = Form.useForm();
   const [formValid, setFormValid] = useState(true);
@@ -101,7 +101,7 @@ const AddUpdateTechnique: React.FC<Props> = ({
           };
           const formData = new FormData();
           formData.append('category', '3');
-          formData.append('object_id', String(user?.id));
+          formData.append('object_id', String(account?.company.id));
 
           for (const name in obj.vehicle) {
             if (name) {
@@ -140,7 +140,7 @@ const AddUpdateTechnique: React.FC<Props> = ({
     } catch (e) {
       if (e?.detail) {
         const errorMessage = getErrorMessage(e?.detail, 'username');
-        await message.error(`${errorMessage}`);
+        await message.error(`${errorMessage.replace('vehicle ', '')}`);
       }
     }
   };

@@ -27,7 +27,6 @@ import {
   fetchRequests,
 } from 'redux/accounts/accountsSlice';
 import {
-  clearTechniqueVehicle,
   clearUserInfo,
   companiesSelector,
   fetchUserInfo,
@@ -67,7 +66,6 @@ const UserRequests = () => {
       ? Number(getPageNumber(requestsPagination?.next))
       : Number(getPageNumberPrevious(requestsPagination?.previous)),
   });
-  const [techniqueData, setTechniqueData] = useState<RequestType | null>(null);
   const [fieldClimateData, setFieldClimateData] = useState<RequestType | null>(null);
   const [userIds, setUserIds] = useState<UserIds | null>({ requestId: null, userId: null });
   const [confirmation_typeId, setConfirmation_typeId] = useState<number | null>(null);
@@ -126,10 +124,8 @@ const UserRequests = () => {
   };
 
   const showTechniqueModal = (row: RequestType) => {
-    setTechniqueData(null);
     dispatch(clearUserInfo());
-    setTechniqueData(row);
-    dispatch(techniqueVehicleInfo(row));
+    dispatch(techniqueVehicleInfo(row.id));
     setIsModalTechniqueOpen(true);
   };
 
@@ -202,7 +198,22 @@ const UserRequests = () => {
 
   const onClick = () => {
     setIsModalRequestOpen(false);
-    dispatch(clearTechniqueVehicle());
+    const data = {
+      query: {
+        page: filters?.page,
+      },
+    };
+    dispatch(fetchRequests({ data }));
+  };
+
+  const handleOkCancel = () => {
+    setIsModalRequestOpen(false);
+    const data = {
+      query: {
+        page: filters?.page,
+      },
+    };
+    dispatch(fetchRequests({ data }));
   };
 
   const confirmationTypeHandler = (row: RequestType) => {
@@ -351,7 +362,6 @@ const UserRequests = () => {
               setIsModalRequestOpen(!isModalRequestOpen);
               setIsModalTechniqueOpen(!isModalTechniqueOpen);
             }}
-            resultsInfoClick={techniqueData}
             resultsTechnique={results}
             handleOkCancel={handleOkTechniqueCancel}
             showRejectModal={showRejectModal}
@@ -427,7 +437,7 @@ const UserRequests = () => {
         dividerShow={false}
         closable={false}
         open={isModalRequestOpen}
-        handleCancel={() => setIsModalRequestOpen(false)}
+        handleCancel={handleOkCancel}
       >
         <RequestModals onClick={onClick} />
       </ModalComponent>

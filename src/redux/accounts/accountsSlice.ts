@@ -224,7 +224,7 @@ export const inquiriesRequests = createAsyncThunk<void, IMyData>(
       return resp.data;
     } catch (e) {
       return rejectWithValue({
-        detail: e?.response?.data?.non_field_errors,
+        detail: e?.response?.data,
         status: e?.response?.status,
       });
     }
