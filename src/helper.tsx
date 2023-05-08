@@ -8,7 +8,9 @@ type IndexableObject = {
   [key: string]: unknown;
 };
 
-export const removeEmptyValuesFromObject = (obj: IndexableObject | null | unknown | undefined | any) => {
+export const removeEmptyValuesFromObject = (
+  obj: IndexableObject | null | unknown | undefined | any,
+) => {
   const newObj: IndexableObject | unknown | undefined | any = {};
   for (const i in obj) {
     if (Object.prototype.hasOwnProperty.call(obj, i)) {
