@@ -2,26 +2,28 @@ import { EyeOutlined } from '@ant-design/icons';
 import { Button, message, Tooltip, Typography } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import bem from 'easy-bem';
+import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 
 import newUser from 'assets/images/icons/new_user_request.svg';
+import sun from 'assets/images/icons/sun.svg';
 import tractorRequest from 'assets/images/icons/tractor_request.svg';
 import user from 'assets/images/icons/user_request.svg';
 import Errors from 'components/Errors/Errors';
-import DeleteRejectTechniqueModal from 'components/ModalComponent/ModalChildrenComponents/DeleteTechniqueModal/DeleteTechniqueModal';
+import RequestModal from 'components/ModalComponent/ModalChildrenComponents/DeleteTechniqueModal/RequestModal';
 import EditUserProfileModal from 'components/ModalComponent/ModalChildrenComponents/EditUserProfileModal/EditUserProfileModal';
+import FieldClimateModal from 'components/ModalComponent/ModalChildrenComponents/FieldClimateModal/FieldClimateModal';
 import RequestModals from 'components/ModalComponent/ModalChildrenComponents/RequestModals/RequestModals';
 import RequestAddTechnique from 'components/ModalComponent/ModalChildrenComponents/RequestsModals/RequestAddTechnique/RequestAddTechnique';
 import RequestRegisterUser from 'components/ModalComponent/ModalChildrenComponents/RequestsModals/RequestRegisterUser/RequestRegisterUser';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import TableComponent from 'components/TableComponent/TableComponent';
-
 import { getPageNumber, getPageNumberPrevious } from 'helper';
-import { IConfirmation } from 'interfaces';
 import {
   accountsSelector,
+  approveRequest,
+  deleteRequest,
   deleteRequests,
-  deleteUserTechnique,
   fetchRequests,
 } from 'redux/accounts/accountsSlice';
 import {
@@ -34,9 +36,9 @@ import {
   techniqueVehicleInfoSelector,
 } from 'redux/companies/companiesSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { Request, UserIds } from 'types/types';
+import { RequestType, UserIds } from 'types/types';
+import { dateMomentTypeDash } from 'utils/constants';
 import 'containers/Manager/UserRequests/_userRequests.scss';
-import { textSlice } from 'utils/textSlice/textSlice';
 
 const { Title } = Typography;
 
@@ -49,6 +51,7 @@ const UserRequests = () => {
     requestsPagination,
     vehicleDeleteLoading,
     fetchRequestsError,
+    approveRequestLoading,
   } = useAppSelector(accountsSelector);
   const { userInfo, userInfoLoading, userInfoError } = useAppSelector(companiesSelector);
   const { results, loading, errors } = useAppSelector(techniqueVehicleInfoSelector);
@@ -57,16 +60,19 @@ const UserRequests = () => {
   const [isModalRegisterUserOpen, setIsModalRegisterUserTechniqueOpen] = useState(false);
   const [isModalRejectOpen, setIsModalRejectOpen] = useState(false);
   const [isModalRequestOpen, setIsModalRequestOpen] = useState(false);
+  const [isModalFieldClimateRequestOpen, setIsModalFieldClimateRequestOpen] = useState(false);
   const [isModalUserInfoOpen, setIsModalUserInfoRejectOpen] = useState(false);
   const [filters, setFilters] = useState({
     page: requestsPagination?.next
       ? Number(getPageNumber(requestsPagination?.next))
       : Number(getPageNumberPrevious(requestsPagination?.previous)),
   });
-  const [techniqueData, setTechniqueData] = useState<IConfirmation | null>(null);
+  const [techniqueData, setTechniqueData] = useState<RequestType | null>(null);
+  const [fieldClimateData, setFieldClimateData] = useState<RequestType | null>(null);
   const [userIds, setUserIds] = useState<UserIds | null>({ requestId: null, userId: null });
   const [confirmation_typeId, setConfirmation_typeId] = useState<number | null>(null);
   const [id, setId] = useState<number | null>(null);
+
   useEffect(() => {
     const data = {
       query: {
@@ -84,6 +90,7 @@ const UserRequests = () => {
       dispatch(fetchUserInfo({ data }));
     }
   }, [dispatch, userIds?.userId]);
+
   useEffect(() => {
     if (saveTechniqueVehicleState.results) {
       dispatch(deleteRequests(saveTechniqueVehicleState.results.id));
@@ -98,25 +105,27 @@ const UserRequests = () => {
     setIsModalRejectOpen(!isModalRejectOpen);
   };
 
-  const rejectTechniqueHandler = async () => {
+  const rejectHandler = async () => {
     try {
       if (id) {
-        await dispatch(deleteUserTechnique({ id: String(id) })).unwrap();
+        await dispatch(deleteRequest({ id: String(id) })).unwrap();
         setIsModalTechniqueOpen(false);
         setIsModalRejectOpen(false);
         setIsModalRegisterUserTechniqueOpen(false);
         setIsModalUserInfoRejectOpen(false);
+        setIsModalFieldClimateRequestOpen(false);
       }
     } catch (e) {
       setIsModalTechniqueOpen(false);
       setIsModalRejectOpen(false);
       setIsModalRegisterUserTechniqueOpen(false);
       setIsModalUserInfoRejectOpen(false);
+      setIsModalFieldClimateRequestOpen(false);
       message.error('Не удалось удалить');
     }
   };
 
-  const showTechniqueModal = (row: IConfirmation) => {
+  const showTechniqueModal = (row: RequestType) => {
     setTechniqueData(null);
     dispatch(clearUserInfo());
     setTechniqueData(row);
@@ -144,6 +153,39 @@ const UserRequests = () => {
     setIsModalUserInfoRejectOpen(!isModalUserInfoOpen);
   };
 
+  const showFieldClimateInfoModal = (row: RequestType) => {
+    setFieldClimateData(row);
+    setIsModalFieldClimateRequestOpen(true);
+  };
+
+  const handleOkFieldClimateInfoCancel = () => {
+    setIsModalFieldClimateRequestOpen(!isModalFieldClimateRequestOpen);
+  };
+
+  const sendApprovedHandler = async () => {
+    try {
+      const data = {
+        id,
+        data: {
+          category: confirmation_typeId as number,
+        },
+      };
+      await dispatch(approveRequest(data)).unwrap();
+      await setIsModalFieldClimateRequestOpen(false);
+
+      const dataRequests = {
+        query: {
+          page: 1,
+        },
+      };
+
+      await dispatch(fetchRequests({ data: dataRequests }));
+    } catch (e) {
+      message.error('Не удалось принять запрос');
+      await setIsModalFieldClimateRequestOpen(false);
+    }
+  };
+
   const pagePrevHandler = () => {
     setFilters({
       ...filters,
@@ -163,48 +205,50 @@ const UserRequests = () => {
     dispatch(clearTechniqueVehicle());
   };
 
-  const confirmationTypeHandler = (row: Request) => {
-    switch (row?.confirmation_type) {
+  const confirmationTypeHandler = (row: RequestType) => {
+    switch (row?.category) {
       case 2:
         setId(row.id);
-        setConfirmation_typeId(row?.confirmation_type);
+        setConfirmation_typeId(row?.category);
         showUserInfoModal();
         break;
       case 3:
         setId(row.id);
-        setConfirmation_typeId(row?.confirmation_type);
+        setConfirmation_typeId(row?.category);
         showTechniqueModal(row);
+        break;
+      case 4:
+        setId(row.id);
+        setConfirmation_typeId(row?.category);
+        showFieldClimateInfoModal(row);
         break;
       default:
         setId(row.id);
-        setConfirmation_typeId(row?.confirmation_type);
+        setConfirmation_typeId(row?.category);
         showRegisterUserModal();
         setUserIds({
           requestId: row?.id.toString(),
-          userId: row?.enterprise.toString(),
+          userId: row?.object_id?.toString(),
         });
     }
   };
 
-  const columns: ColumnsType<Request> = [
+  const columns: ColumnsType<RequestType> = [
     {
-      dataIndex: 'type_request',
+      dataIndex: 'category',
       filterSearch: true,
       width: '10%',
       fixed: 'left',
       render: (text, row) => {
-        return (
-          <img
-            alt='info'
-            src={
-              row?.confirmation_type === 2
-                ? user
-                : row?.confirmation_type === 3
-                ? tractorRequest
-                : newUser
-            }
-          />
-        );
+        const categoryToImage: { [key: number]: string } = {
+          2: user,
+          3: tractorRequest,
+          4: sun,
+        };
+        const defaultImage = newUser;
+        const imageSource = categoryToImage[row?.category] || defaultImage;
+
+        return <img alt='info' src={imageSource} />;
       },
     },
     {
@@ -212,23 +256,44 @@ const UserRequests = () => {
       dataIndex: 'created_at',
       width: '20%',
       sorter: true,
+      render: (text: string) => {
+        return <p>{moment(text, dateMomentTypeDash).format(dateMomentTypeDash)}</p>;
+      },
     },
     {
       title: 'Тип запроса',
-      dataIndex: 'confirmation_type_text',
+      dataIndex: 'category',
       filterSearch: true,
       width: '35%',
       sorter: true,
+      render: (text, row) => {
+        let confirmationTypeText;
+        switch (row?.category) {
+          case 2:
+            confirmationTypeText = 'Личная информация';
+            break;
+          case 3:
+            confirmationTypeText = 'Добавление техники';
+            break;
+          case 4:
+            confirmationTypeText = 'Запрос на подключение метеосервиса';
+            break;
+          default:
+            confirmationTypeText = 'Регистрация нового профиля';
+            break;
+        }
+        return <p>{confirmationTypeText}</p>;
+      },
     },
     {
-      title: 'Название компании',
-      dataIndex: 'enterprise_name',
+      title: 'Источник запроса',
+      dataIndex: 'requestor',
       filterSearch: true,
       width: '45%',
       render: (text, row) => {
         return (
           <>
-            <span>{row.enterprise_name}</span>
+            <span>{row?.requestor}</span>
             <Tooltip
               title='Просмотреть запрос'
               color='#BBBBBB'
@@ -243,20 +308,11 @@ const UserRequests = () => {
       },
     },
   ];
-  const textRender = () => {
-    if (confirmation_typeId === 3) {
-      return `${results?.last_name} ${textSlice(results?.first_name)}.${textSlice(
-        results?.middle_name,
-      )}`;
-    }
-    return `${userInfo?.user?.last_name} ${textSlice(userInfo?.user?.first_name)}.${textSlice(
-      userInfo?.user?.middle_name,
-    )}`;
-  };
 
   if (fetchRequestsError) {
     return <Errors status={fetchRequestsError?.status} detail={fetchRequestsError?.detail} />;
   }
+
   return (
     <>
       <div className={b()} data-testid='requests-id'>
@@ -339,20 +395,34 @@ const UserRequests = () => {
 
       <ModalComponent
         dividerShow={false}
+        open={isModalFieldClimateRequestOpen}
+        handleOk={handleOkFieldClimateInfoCancel}
+        handleCancel={handleOkFieldClimateInfoCancel}
+      >
+        <FieldClimateModal
+          approveRequestLoading={approveRequestLoading}
+          fieldClimateData={fieldClimateData}
+          sendApprovedHandler={sendApprovedHandler}
+          handleOkCancel={showRejectModal}
+        />
+      </ModalComponent>
+
+      <ModalComponent
+        dividerShow={false}
         open={isModalRejectOpen}
         handleOk={handleOkRejectCancel}
         handleCancel={handleOkRejectCancel}
       >
-        <DeleteRejectTechniqueModal
+        <RequestModal
           title='Отклонить?'
           textCancel='Отклонить'
           loading={vehicleDeleteLoading}
           subTitle='Вы уверены, что хотите отклонить запрос'
-          techniqueName={`Личная информация ${textRender()}`}
           handleDeleteCancel={handleOkRejectCancel}
-          deleteRejectTechniqueHandler={rejectTechniqueHandler}
+          requestHandler={rejectHandler}
         />
       </ModalComponent>
+
       <ModalComponent
         dividerShow={false}
         closable={false}

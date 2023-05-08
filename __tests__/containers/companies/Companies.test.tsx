@@ -14,7 +14,7 @@ import ModalComponent from "../../../src/components/ModalComponent/ModalComponen
 import AddUpdateTechnique
   from "../../../src/components/ModalComponent/ModalChildrenComponents/AddUpdateTechnique/AddUpdateTechnique";
 import DeleteRejectTechniqueModal
-  from "../../../src/components/ModalComponent/ModalChildrenComponents/DeleteTechniqueModal/DeleteTechniqueModal";
+  from "../../../src/components/ModalComponent/ModalChildrenComponents/DeleteTechniqueModal/RequestModal";
 
 afterEach(cleanup);
 

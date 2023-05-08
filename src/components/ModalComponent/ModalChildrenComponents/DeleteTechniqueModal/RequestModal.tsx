@@ -4,28 +4,26 @@ import React from 'react';
 
 import warning from 'assets/images/icons/warning.svg';
 import ResultComponent from 'components/ResultComponent/ResultComponent';
-import 'components/ModalComponent/ModalChildrenComponents/DeleteTechniqueModal/_deleteTechniqueModal.scss';
+import 'components/ModalComponent/ModalChildrenComponents/DeleteTechniqueModal/_requestModal.scss';
 
 interface Props {
   title: string;
   subTitle: string;
   loading: boolean;
-  techniqueName?: string;
   handleDeleteCancel?: () => void;
-  deleteRejectTechniqueHandler: () => void;
+  requestHandler: () => void;
   textCancel: string;
 }
 
-const DeleteRejectTechniqueModal: React.FC<Props> = ({
+const RequestModal: React.FC<Props> = ({
   title,
   subTitle,
   loading,
-  techniqueName,
   handleDeleteCancel,
-  deleteRejectTechniqueHandler,
+  requestHandler,
   textCancel,
 }) => {
-  const b = bem('DeleteRejectTechniqueModal');
+  const b = bem('RequestModal');
 
   return (
     <>
@@ -34,7 +32,6 @@ const DeleteRejectTechniqueModal: React.FC<Props> = ({
         icon={<img src={warning} alt='warning' />}
         title={title}
         subTitle={subTitle}
-        techniqueName={techniqueName}
       />
       <div className={b('delete-modal-buttons')}>
         <Button
@@ -49,8 +46,7 @@ const DeleteRejectTechniqueModal: React.FC<Props> = ({
           type='primary'
           loading={loading}
           style={{ width: '100%', borderRadius: 4 }}
-          className={b('delete-profile-button')}
-          onClick={deleteRejectTechniqueHandler}
+          onClick={requestHandler}
         >
           {textCancel}
         </Button>
@@ -59,4 +55,4 @@ const DeleteRejectTechniqueModal: React.FC<Props> = ({
   );
 };
 
-export default DeleteRejectTechniqueModal;
+export default RequestModal;

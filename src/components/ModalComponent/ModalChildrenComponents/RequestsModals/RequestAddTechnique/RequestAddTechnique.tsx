@@ -8,7 +8,7 @@ import SkeletonBlock from 'components/SkeletonBlock/SkeletonBlock';
 import UploadImageComponent from 'components/UploadImageComponent/UploadImageComponent';
 import { getErrorMessage } from 'helper';
 import 'components/ModalComponent/ModalChildrenComponents/RequestsModals/RequestAddTechnique/_requestAddTechnique.scss';
-import { IConfirmation, IValueRequest, IVehicle } from 'interfaces';
+import { IValueRequest, IVehicle } from 'interfaces';
 
 import {
   techniqueVehicleConfirmation,
@@ -25,7 +25,7 @@ interface Props {
   handleOkCancel: () => void;
   showRejectModal: () => void;
   resultsTechnique: IVehicle | null;
-  resultsInfoClick: IConfirmation | null;
+  resultsInfoClick: any; // добавить типизацию когда буду править запрос на добавление техники
   loading: boolean;
   modalOpen: () => void;
 }
@@ -72,6 +72,7 @@ const RequestAddTechnique: React.FC<Props> = ({
       setImages(photos);
     }
   };
+
   const onFinish = async (values: IValueRequest) => {
     try {
       if (resultsTechnique) {

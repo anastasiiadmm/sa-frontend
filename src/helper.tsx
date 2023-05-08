@@ -4,19 +4,25 @@ import { dateMomentTypeString } from 'utils/constants';
 
 const moment = require('moment');
 
-export const removeEmptyValuesFromObject = (obj: any) => {
+type IndexableObject = {
+  [key: string]: unknown;
+};
+
+export const removeEmptyValuesFromObject = (
+  obj: IndexableObject | null | unknown | undefined | any,
+) => {
+  const newObj: IndexableObject | unknown | undefined | any = {};
   for (const i in obj) {
-    if (obj) {
+    if (Object.prototype.hasOwnProperty.call(obj, i)) {
       const value = obj[i];
       if (typeof value === 'object') {
-        removeEmptyValuesFromObject(value);
-      }
-      if (value === '' || value === undefined || value === null) {
-        delete obj[i];
+        newObj[i] = removeEmptyValuesFromObject(value);
+      } else if (value !== '' && value !== undefined && value !== null) {
+        newObj[i] = value;
       }
     }
   }
-  return obj;
+  return newObj;
 };
 
 export const isObjectChangeValidate = (

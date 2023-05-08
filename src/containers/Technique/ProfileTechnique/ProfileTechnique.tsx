@@ -69,6 +69,7 @@ const ProfileTechnique = () => {
       );
     }
   }, [userVehicleInfo]);
+
   useEffect(() => {
     if (state) {
       form.setFieldsValue({

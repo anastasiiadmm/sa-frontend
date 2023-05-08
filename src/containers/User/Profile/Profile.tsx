@@ -1,16 +1,14 @@
-import { Button, Card, Col, Form, Typography } from 'antd';
+import { Button, Col, Form, Typography } from 'antd';
 import bem from 'easy-bem';
 import React, { useEffect, useState } from 'react';
 
-import tractorBlue from 'assets/images/icons/tractor-blue.svg';
 import Errors from 'components/Errors/Errors';
 import FormField from 'components/FormField/FormField';
 import EditUserProfileModal from 'components/ModalComponent/ModalChildrenComponents/EditUserProfileModal/EditUserProfileModal';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import SkeletonBlock from 'components/SkeletonBlock/SkeletonBlock';
-import { IUser } from 'interfaces';
-import { accountsSelector, fetchUser } from 'redux/accounts/accountsSlice';
-import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { accountsSelector } from 'redux/accounts/accountsSlice';
+import { useAppSelector } from 'redux/hooks';
 
 import 'containers/User/Profile/_profile.scss';
 
@@ -20,32 +18,23 @@ const Profile = () => {
   const b = bem('Profile');
   const [form] = Form.useForm();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const {
-    user: userAccount,
-    fetchLoadingUser,
-    fetchLoadingUserError,
-  } = useAppSelector(accountsSelector);
-  const dispatch = useAppDispatch();
+  const { account, fetchErrorAccount, fetchLoadingAccount } = useAppSelector(accountsSelector);
 
   useEffect(() => {
-    dispatch(fetchUser());
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (userAccount) {
+    if (account) {
       form.setFieldsValue({
-        username: userAccount?.user?.username,
-        last_name: userAccount?.user?.last_name,
-        first_name: userAccount?.user?.first_name,
-        middle_name: userAccount?.user?.middle_name,
-        email: userAccount?.user?.email,
-        phone: userAccount?.user?.phone,
-        name: userAccount?.name,
-        location: userAccount?.location,
-        autopilots_amount: userAccount?.autopilots_amount,
+        username: account?.username,
+        last_name: account?.last_name,
+        first_name: account?.first_name,
+        middle_name: account?.middle_name,
+        email: account?.email,
+        phone: account?.phone,
+        name: account?.company?.name,
+        location: account?.company?.location,
+        autopilots_amount: account?.company?.autopilots_amount,
       });
     }
-  }, [userAccount, form]);
+  }, [account, form]);
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -55,30 +44,16 @@ const Profile = () => {
     setIsModalOpen(!isModalOpen);
   };
 
-  const onFinish = (values: IUser) => {};
-
-  if (fetchLoadingUserError) {
-    return <Errors status={fetchLoadingUserError.status} detail={fetchLoadingUserError.detail} />;
+  if (fetchErrorAccount) {
+    return <Errors status={fetchErrorAccount.status} detail={fetchErrorAccount.detail} />;
   }
+
   return (
     <>
       <div className={b()} data-testid='user-profile-id'>
-        <div className={b('card-block')}>
-          {fetchLoadingUser ? (
-            <SkeletonBlock active={fetchLoadingUser} num={1} titleBool />
-          ) : (
-            <Card className={b('card-style')} bordered={false}>
-              <Title className={b('card-title')}>Количество техники</Title>
-              <div className={b('card-content')}>
-                <img src={tractorBlue} alt='group' />
-                <p>{userAccount?.vehicles_amount}</p>
-              </div>
-            </Card>
-          )}
-        </div>
         <div className='layout'>
-          {fetchLoadingUser ? (
-            <SkeletonBlock active={fetchLoadingUser} num={1} titleBool />
+          {fetchLoadingAccount ? (
+            <SkeletonBlock active={fetchLoadingAccount} num={1} titleBool />
           ) : (
             <Col
               className={b('')}
@@ -102,7 +77,6 @@ const Profile = () => {
               <Form
                 form={form}
                 initialValues={{ remember: true }}
-                onFinish={onFinish}
                 autoComplete='off'
                 layout='vertical'
               >

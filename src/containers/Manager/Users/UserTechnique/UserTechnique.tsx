@@ -13,7 +13,7 @@ import tractorBlue from 'assets/images/icons/tractor-blue.svg';
 import tractor from 'assets/images/icons/tractor-image.svg';
 import Errors from 'components/Errors/Errors';
 import AddUpdateTechnique from 'components/ModalComponent/ModalChildrenComponents/AddUpdateTechnique/AddUpdateTechnique';
-import DeleteRejectTechniqueModal from 'components/ModalComponent/ModalChildrenComponents/DeleteTechniqueModal/DeleteTechniqueModal';
+import RequestModal from 'components/ModalComponent/ModalChildrenComponents/DeleteTechniqueModal/RequestModal';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import ResultComponent from 'components/ResultComponent/ResultComponent';
 import TableComponent from 'components/TableComponent/TableComponent';
@@ -53,7 +53,6 @@ const UserTechnique: React.FC = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteEditModalOpen] = useState(false);
   const [vehicleId, setVehicleId] = useState<string | null>(null);
-  const [techniqueApiName, setTechniqueApiName] = useState<string | null>(null);
   const [filters, setFilters] = useState({
     page: vehicleListPagination?.next
       ? Number(getPageNumber(vehicleListPagination?.next))
@@ -250,7 +249,6 @@ const UserTechnique: React.FC = () => {
                 onClick={() => {
                   showDeleteModal();
                   setVehicleId(record?.id.toString());
-                  setTechniqueApiName(record?.description);
                 }}
               >
                 <img src={deleteIcon} alt='deleteIcon' className='link-icons' />
@@ -347,14 +345,13 @@ const UserTechnique: React.FC = () => {
         handleOk={handleDeleteOkCancel}
         handleCancel={handleDeleteOkCancel}
       >
-        <DeleteRejectTechniqueModal
+        <RequestModal
           title='Удалить?'
           textCancel='Удалить'
           subTitle='Вы уверены, что хотите удалить'
-          techniqueName={`${techniqueApiName}?`}
           loading={deleteUserVehicleLoading}
           handleDeleteCancel={handleDeleteOkCancel}
-          deleteRejectTechniqueHandler={deleteTechniqueHandler}
+          requestHandler={deleteTechniqueHandler}
         />
       </ModalComponent>
 
