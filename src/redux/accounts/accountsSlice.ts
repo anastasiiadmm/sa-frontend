@@ -292,7 +292,7 @@ export const vehicleCreateRequest = createAsyncThunk<void, vehicleCreateRequestP
   `${nameSpace}/vehicleCreateRequest`,
   async ({ data }, { rejectWithValue }) => {
     try {
-      const resp = await axiosApi.post(`/accounts/user/confirmation/vehicle/`, data);
+      const resp = await axiosApi2.post(`/common/inquiries/`, data);
       message.success('Запрос успешно отправлен!');
 
       return resp.data;
