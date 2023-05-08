@@ -203,19 +203,21 @@ const Technique = () => {
                       <img src={cloudy} alt='cloudy' />
                     </div>
                     <div>
-                      <Title className={b('card-title meteo-h1')}>Подключите метеосервис</Title>
-                      <p className='meteo-h1'>Все про погоду и почву</p>
                       {fetchLoadingAccount ? (
                         <Spin className={b('card-style-cloud-button')} />
                       ) : account?.company?.meteo_requested ? (
-                        <Button
-                          disabled
-                          type='primary'
-                          danger
-                          className={b('card-style-cloud-button')}
-                        >
-                          Запрос на рассмотрении
-                        </Button>
+                        <>
+                          <Title className={b('card-title meteo-h1')}>Подключите метеосервис</Title>
+                          <p className='meteo-h1'>Все про погоду и почву</p>
+                          <Button
+                            disabled
+                            type='primary'
+                            danger
+                            className={b('card-style-cloud-button')}
+                          >
+                            Запрос на рассмотрении
+                          </Button>
+                        </>
                       ) : account?.company?.weather_service ? (
                         <Button
                           icon={<CheckOutlined />}
@@ -226,12 +228,16 @@ const Technique = () => {
                           Метеостанция подключена
                         </Button>
                       ) : (
-                        <Button
-                          className={b('card-style-cloud-button')}
-                          onClick={showFieldClimateModal}
-                        >
-                          Отправить запрос
-                        </Button>
+                        <>
+                          <Title className={b('card-title meteo-h1')}>Подключите метеосервис</Title>
+                          <p className='meteo-h1'>Все про погоду и почву</p>
+                          <Button
+                            className={b('card-style-cloud-button')}
+                            onClick={showFieldClimateModal}
+                          >
+                            Отправить запрос
+                          </Button>
+                        </>
                       )}
                     </div>
                   </div>

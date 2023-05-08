@@ -118,7 +118,13 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
           null,
           [
             getItem('Техника', '/', <div className='icon-styles technics-icon' />),
-            getItem('FieldClimate', '/field-climate', <CloudOutlined style={{ fontSize: 23 }} />),
+            account?.company?.weather_service
+              ? getItem(
+                  'FieldClimate',
+                  '/field-climate',
+                  <CloudOutlined style={{ fontSize: 23 }} />,
+                )
+              : null,
           ],
           'group',
         ),

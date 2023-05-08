@@ -22,6 +22,7 @@ import UserTechnique from 'containers/Manager/Users/UserTechnique/UserTechnique'
 import ProfileTechnique from 'containers/Technique/ProfileTechnique/ProfileTechnique';
 import Profile from 'containers/User/Profile/Profile';
 import Technique from 'containers/User/Technique/Technique';
+import { accountsSelector } from 'redux/accounts/accountsSlice';
 import { authSelector } from 'redux/auth/authSlice';
 import { useAppSelector } from 'redux/hooks';
 
@@ -47,6 +48,7 @@ const AppRouterWrapper: React.FC<AppRouterWrapperProps> = ({ children }) => {
 const AppRouter: React.FC = () => {
   const b = bem('AppRouter');
   const { tokens } = useAppSelector(authSelector);
+  const { account } = useAppSelector(accountsSelector);
   const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer },
@@ -91,13 +93,17 @@ const AppRouter: React.FC = () => {
                   <Route path='/' index element={<Technique />} />
                   <Route path='/user-profile-view' element={<Profile />} />
                   <Route path='/open-map/:id/:vehicleId' element={<OpenMapComponent />} />
-                  <Route path='/field-climate' element={<FieldClimateDashboard />} />
-                  <Route path='/field-climate/station/:id' element={<FieldClimateStation />} />
-                  <Route
-                    path='/field-climate/config/:id'
-                    element={<FieldClimateConfigurations />}
-                  />
-                  <Route path='/field-climate/sensor-names/:id' element={<SensorsAndNodes />} />
+                  {account?.company?.weather_service ? (
+                    <>
+                      <Route path='/field-climate' element={<FieldClimateDashboard />} />
+                      <Route path='/field-climate/station/:id' element={<FieldClimateStation />} />
+                      <Route
+                        path='/field-climate/config/:id'
+                        element={<FieldClimateConfigurations />}
+                      />
+                      <Route path='/field-climate/sensor-names/:id' element={<SensorsAndNodes />} />
+                    </>
+                  ) : null}
                 </>
               )}
               <Route path='/profile-technique/:userId/:vehicleId' element={<ProfileTechnique />} />
