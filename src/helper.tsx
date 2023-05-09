@@ -107,7 +107,7 @@ export const getErrorMessage = (errors: ErrorObject, key: string): string => {
   return '';
 };
 
-export const mergeAndRemoveDuplicateValues = (obj1: any, obj2?: any, deleteKey?: string) => {
+export const mergeAndRemoveDuplicateValues = (obj1: any, obj2?: any) => {
   const result: Record<string, any> = {};
   const modifiedKeys: Set<string> = new Set();
 
@@ -123,12 +123,7 @@ export const mergeAndRemoveDuplicateValues = (obj1: any, obj2?: any, deleteKey?:
       typeof obj1[key] === 'object' &&
       typeof obj2[key] === 'object'
     ) {
-      if (deleteKey && key === deleteKey) {
-        mergeAndRemoveDuplicateValues(obj1[key], obj2[key], deleteKey);
-        continue;
-      }
-
-      result[key] = mergeAndRemoveDuplicateValues(obj1[key], obj2[key], deleteKey);
+      result[key] = mergeAndRemoveDuplicateValues(obj1[key], obj2[key]);
 
       if (Object.keys(result[key]).length > 0) {
         modifiedKeys.add(key);
@@ -161,7 +156,6 @@ export const mergeAndRemoveDuplicateValues = (obj1: any, obj2?: any, deleteKey?:
 
   return result;
 };
-
 
 export const lastCommunication = (lastComm: string) => {
   const aWeekAgo = moment().subtract(7, 'days');

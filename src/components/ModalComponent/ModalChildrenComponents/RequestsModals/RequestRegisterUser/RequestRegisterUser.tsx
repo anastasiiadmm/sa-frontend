@@ -14,7 +14,7 @@ import {
   fetchRequests,
 } from 'redux/accounts/accountsSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { companiesList, requestData } from 'types/types';
+import { requestData } from 'types/types';
 import 'components/ModalComponent/ModalChildrenComponents/RequestsModals/RequestRegisterUser/_requestRegisterUser.scss';
 
 interface Props {
@@ -138,12 +138,11 @@ const RequestRegisterUser: React.FC<Props> = ({
 
   const agreeHandler = async () => {
     try {
-      const data = mergeAndRemoveDuplicateValues(userInfo, userData, 'username');
-      const data2 = mergeAndRemoveDuplicateValues(userInfo, '', 'username');
+      const data = mergeAndRemoveDuplicateValues(userInfo, userData);
       await dispatch(
         accountManagerConfirmationRequest({
           id: userId,
-          data: isEmptyObject(data) ? data2 : data,
+          data: isEmptyObject(data) ? userData : data,
         }),
       ).unwrap();
       showAgreeModal();

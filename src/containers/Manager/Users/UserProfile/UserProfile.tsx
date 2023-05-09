@@ -68,7 +68,8 @@ const UserProfile: React.FC = () => {
     location: '',
     autopilots_amount: 0,
   });
-  const resultsObj = companies?.find((item) => item.id === +id) || userInfo;
+  const resultsObj: any = companies?.find((item) => item.id === +id) || userInfo;
+  // буду править any когда подключим эндпоинт на v2
 
   useEffect(() => {
     if (!companies?.length) {

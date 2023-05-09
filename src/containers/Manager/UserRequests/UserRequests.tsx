@@ -36,7 +36,7 @@ import {
   techniqueVehicleInfoSelector,
 } from 'redux/companies/companiesSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { RequestType, UserIds } from 'types/types';
+import { RequestType } from 'types/types';
 import { dateMomentTypeDash } from 'utils/constants';
 import 'containers/Manager/UserRequests/_userRequests.scss';
 

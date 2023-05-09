@@ -6,7 +6,6 @@ import { IErrors, IMyData, IUpdateManagerDataMutation } from 'interfaces';
 import { RootState } from 'redux/hooks';
 import {
   accountsManagerConfirmation,
-  companiesList,
   generatedPassword,
   IAccount,
   IUserAccount,
@@ -345,7 +344,6 @@ export const accountManagerConfirmationRequest = createAsyncThunk<
   accountManagerConfirmationParams
 >('accounts/accountManagerConfirmationRequest', async ({ id, data }, { rejectWithValue }) => {
   try {
-    console.log('data', data);
     const resp = await axiosApi2.post<accountsManagerConfirmation | null>(
       `/common/inquiries/${id}/`,
       data,
