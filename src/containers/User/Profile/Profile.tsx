@@ -81,12 +81,14 @@ const Profile = () => {
         data,
       };
       await dispatch(requestChangeProfile(changeUserObj)).unwrap();
+      await setIsModalOpen(false);
     } catch (e) {
       await message.error(
         e?.response?.data?.non_field_errors[0] === 'Inquiry has already been sent to manager.'
           ? 'Запрос ранне был отправлен. Дождитесь подтверждения.'
           : 'Произошла ошибка.',
       );
+      await setIsModalOpen(false);
     }
   };
 
