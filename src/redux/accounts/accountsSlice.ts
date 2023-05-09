@@ -61,6 +61,8 @@ interface AccountsState {
   approveRequestLoading: boolean;
   approveRequestError: IErrors | null;
   approveRequestSuccess: boolean;
+  changeProfileLoading: boolean;
+  changeProfileError: IErrors | null;
 }
 
 const INITIAL_STATE = {
@@ -119,6 +121,9 @@ const INITIAL_STATE = {
   approveRequestLoading: false,
   approveRequestError: null,
   approveRequestSuccess: false,
+
+  changeProfileLoading: false,
+  changeProfileError: null,
 } as AccountsState;
 
 export const fetchAccount = createAsyncThunk(
@@ -214,8 +219,21 @@ export const fetchUserVehicles = createAsyncThunk<userVehicles, fetchUserVehicle
   },
 );
 
-export const approveFieldClimateRequest = createAsyncThunk<void, IMyData>(
-  `${nameSpace}/approveFieldClimateRequest`,
+export const requestChangeProfile = createAsyncThunk<void, IMyData | null>(
+  `${nameSpace}/requestChangeProfile`,
+  async (data, { rejectWithValue }) => {
+    try {
+      const resp = await axiosApi2.post(`/common/inquiries/`, data);
+      message.success('Запрос успешно отправлен!');
+      return resp.data;
+    } catch (e) {
+      return rejectWithValue(e);
+    }
+  },
+);
+
+export const inquiriesRequests = createAsyncThunk<void, IMyData>(
+  `${nameSpace}/inquiriesRequests`,
   async (data, { rejectWithValue }) => {
     try {
       const resp = await axiosApi2.post(`/common/inquiries/`, data);
@@ -223,6 +241,12 @@ export const approveFieldClimateRequest = createAsyncThunk<void, IMyData>(
 
       return resp.data;
     } catch (e) {
+      if (data.category === 1) {
+        return rejectWithValue({
+          detail: e?.response?.data,
+          status: e?.response?.status,
+        });
+      }
       return rejectWithValue({
         detail: e?.response?.data?.non_field_errors,
         status: e?.response?.status,
@@ -550,12 +574,31 @@ const accountsSlice = createSlice({
       state.inquiriesSuccess = false;
     });
 
+    builder.addCase(requestChangeProfile.pending, (state) => {
+      state.changeProfileLoading = true;
+      state.changeProfileError = null;
+    });
+    builder.addCase(requestChangeProfile.fulfilled, (state) => {
+      state.changeProfileLoading = false;
+      state.changeProfileError = null;
+    });
+    builder.addCase(requestChangeProfile.rejected, (state, { payload }) => {
+      state.changeProfileLoading = false;
+      if (payload && typeof payload === 'object' && 'detail' in payload && 'status' in payload) {
+        state.changeProfileError = {
+          ...state.changeProfileError,
+          detail: payload.detail as string | null,
+          status: payload.status as number | null,
+        };
+      }
+    });
+
     builder.addCase(approveRequest.pending, (state) => {
       state.approveRequestLoading = true;
       state.approveRequestError = null;
       state.approveRequestSuccess = false;
     });
-    builder.addCase(approveRequest.fulfilled, (state, action: PayloadAction<{ id: number }>) => {
+    builder.addCase(approveRequest.fulfilled, (state) => {
       state.approveRequestLoading = false;
       state.approveRequestError = null;
       state.approveRequestSuccess = true;

@@ -8,49 +8,42 @@ export interface IConfirmation {
   enterprise_name: string;
 }
 
-interface IAttachment {
-  Mode: string;
-  toolsWidth: string;
-  toolsName: string;
-  skipOverlap: string;
-  toolsWidthResult: string;
-  frontBack: string;
-  leftRight: string;
-}
-
-interface IField {
-  field_name: string;
-  work_area: number;
-  id: number;
-  attachments: IAttachment;
-}
-
 export interface IVehicle {
   id: number;
-  image: string;
-  processing_data: IField[];
-  vin_code: string;
-  code: string;
-  state_number: string;
-  description: string;
-  first_name: string;
-  middle_name: string;
-  last_name: string;
-  last_latitude: string;
-  last_longitude: string;
-  enterprise: number;
+  category: number;
+  object_id: number;
+  created_at: string;
+  requestor: {
+    name: string;
+  };
+  data: {
+    vehicle: {
+      vin: string;
+      license_plate: string;
+      description: string;
+    };
+    operator: {
+      first_name: string;
+      last_name: string;
+      middle_name: string;
+    };
+  };
+  uploaded_files: Array<{
+    id: number;
+    file: string;
+  }>;
 }
 
 export interface ITechniqueVehicleInfoPut {
-  data: IConfirmation | null;
-  obj: FormData;
+  id: number;
+  formData: FormData;
 }
 
 export interface IValueRequest {
   fullName: string;
   description: string;
-  state_number: string;
-  vin_code: string;
+  license_plate: string;
+  vin: string;
   last_name: string;
   first_name: string;
   middle_name: string;
