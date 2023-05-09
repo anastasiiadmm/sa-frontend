@@ -15,7 +15,7 @@ import {
   techniqueVehicleUpdateSelector,
 } from 'redux/companies/companiesSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { getFilenameFromPath } from 'utils/files/files';
+import { getFilenameFromPath, urlFormat } from 'utils/files/files';
 
 const { Title } = Typography;
 
@@ -47,10 +47,7 @@ const RequestAddTechnique: React.FC<Props> = ({
           uid: '-2',
           name: getFilenameFromPath(resultsTechnique?.uploaded_files[0].file),
           status: 'done',
-          url: `https://agri.ltestl.com/${resultsTechnique.uploaded_files[0].file.replace(
-            'http://sa-backend/',
-            '',
-          )}`,
+          url: urlFormat(resultsTechnique?.uploaded_files[0].file),
         },
       ]);
     }

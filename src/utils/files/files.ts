@@ -1,3 +1,5 @@
+import { apiUrlImg } from 'utils/config';
+
 export function getFilenameFromPath(path: string | null) {
   if (path) {
     const parts = path.split('/');
@@ -5,3 +7,12 @@ export function getFilenameFromPath(path: string | null) {
   }
   return '';
 }
+
+export const urlFormat = (url: string) => {
+  if (url) {
+    const format = url.replace('http://sa-backend/', '');
+    return `${apiUrlImg}/${format}`;
+  }
+
+  return '';
+};
