@@ -58,19 +58,12 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
   const menuItems: MenuItem[] = [
     getItem(
       <div className='menuItem'>
-        {account?.is_manager ? (
-          fetchLoadingAccount ? (
-            <Skeleton />
-          ) : (
-            <>
-              {account?.last_name} {account?.first_name?.charAt(0)}.{' '}
-              {account?.middle_name?.charAt(0)}.
-            </>
-          )
+        {fetchLoadingAccount ? (
+          <Skeleton />
         ) : (
           <>
-            {account?.last_name} {account?.first_name?.charAt(0)}. {account?.middle_name?.charAt(0)}
-            .
+            {account?.last_name} {account?.first_name?.charAt(0)}.{' '}
+            {account?.middle_name === '' ? null : `${account?.middle_name.charAt(0)}.`}
           </>
         )}
         <span>{account?.is_manager ? 'Менеджер' : 'Пользователь'}</span>

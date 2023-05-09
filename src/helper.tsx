@@ -142,7 +142,7 @@ export const getErrorMessage = (errors: ErrorObject, key: string): string => {
 };
 
 export const mergeAndRemoveDuplicateValues = (obj1: any, obj2: any) => {
-  const result: Record<string, any> = {};
+  const result: any = {};
 
   for (const key in obj1) {
     if (
