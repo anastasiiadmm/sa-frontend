@@ -4,7 +4,7 @@ import { checkForTokens, logoutUser } from 'redux/auth/authSlice';
 import store from 'redux/store';
 import { TSetupAxiosInterceptor } from 'type';
 
-import { apiUrls, apiUrlsV2, serverUrls } from 'utils/constants';
+import { apiUrls, apiUrlsV2 } from 'utils/constants';
 import { logoutLocalStorage } from 'utils/token';
 
 const { REACT_APP_ENVIRONMENT, REACT_APP_API_URL } = process.env;
@@ -13,7 +13,6 @@ const appEnvironment = REACT_APP_ENVIRONMENT || 'local';
 
 export const apiURL = apiUrls[appEnvironment];
 export const apiURL2 = apiUrlsV2[appEnvironment];
-export const apiUrlImg = serverUrls[appEnvironment];
 
 export const apiUrlCrop = REACT_APP_API_URL;
 

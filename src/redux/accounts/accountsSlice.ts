@@ -223,8 +223,14 @@ export const inquiriesRequests = createAsyncThunk<void, IMyData>(
 
       return resp.data;
     } catch (e) {
+      if (data.category === 1) {
+        return rejectWithValue({
+          detail: e?.response?.data,
+          status: e?.response?.status,
+        });
+      }
       return rejectWithValue({
-        detail: e?.response?.data,
+        detail: e?.response?.data?.non_field_errors,
         status: e?.response?.status,
       });
     }
