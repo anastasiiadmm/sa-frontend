@@ -63,6 +63,10 @@ export interface ValidationUpdateManagerProfile {
   [key: string]: string;
 }
 
+export interface profile {
+  [key: string]: Object;
+}
+
 export interface updateManagerDataMutation {
   username: string;
   password?: string;
@@ -292,6 +296,28 @@ export interface RequestType {
       phone: string;
       username: string;
     };
+  };
+}
+
+export interface userRequest {
+  coords_timeout: number;
+  email: string;
+  first_name: string;
+  id: number;
+  image: string;
+  is_manager: boolean;
+  last_name: string;
+  middle_name: string;
+  phone: string;
+  username: string;
+  company: {
+    autopilots_amount: number;
+    id: number;
+    location: string;
+    meteo_requested: boolean;
+    name: string;
+    vehicles_number: number;
+    weather_service: boolean;
   };
 }
 

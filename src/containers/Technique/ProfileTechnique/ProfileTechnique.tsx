@@ -86,7 +86,7 @@ const ProfileTechnique = () => {
   const columns: ColumnsType<fieldsList> = [
     {
       key: 'processing_data',
-      title: 'Наименование поля',
+      title: 'Задача на обработку',
       dataIndex: 'field_name',
       width: '20%',
       fixed: 'left',
@@ -103,52 +103,52 @@ const ProfileTechnique = () => {
     },
     {
       key: 'toolsWidth',
-      title: 'Обрабатываемая ширина',
+      title: 'Обрабатываемая ширина, м',
       dataIndex: 'toolsWidth',
       filterSearch: true,
       width: '20%',
       render: (text: string, record) => {
-        return <p className={b('name-column-style')}>{record?.attachments?.toolsWidth} м</p>;
+        return <p className={b('name-column-style')}>{record?.attachments?.toolsWidth}</p>;
       },
     },
     {
       key: 'skipOverlap',
-      title: 'Ширина перекрытия',
+      title: 'Ширина перекрытия, м',
       dataIndex: 'skipOverlap',
       filterSearch: true,
       width: '20%',
       render: (text: string, record) => {
-        return <p className={b('name-column-style')}>{record?.attachments?.skipOverlap} м</p>;
+        return <p className={b('name-column-style')}>{record?.attachments?.skipOverlap}</p>;
       },
     },
     {
       key: 'toolsWidthResult',
-      title: 'Итоговая ширина',
+      title: 'Итоговая ширина, м',
       dataIndex: 'toolsWidthResult',
       filterSearch: true,
       width: '20%',
       render: (text: string, record) => {
-        return <p className={b('name-column-style')}>{record?.attachments?.toolsWidthResult} м</p>;
+        return <p className={b('name-column-style')}>{record?.attachments?.toolsWidthResult}</p>;
       },
     },
     {
       key: 'leftRight',
-      title: 'Смещение',
+      title: 'Смещение, м',
       dataIndex: 'leftRight',
       filterSearch: true,
       width: '20%',
       render: (text: string, record) => {
-        return <p className={b('name-column-style')}>{record?.attachments?.leftRight} м</p>;
+        return <p className={b('name-column-style')}>{record?.attachments?.leftRight}</p>;
       },
     },
     {
       key: 'work_area',
-      title: 'Обрабатываемая площадь',
+      title: 'Обрабатываемая площадь, га',
       dataIndex: 'description',
       filterSearch: true,
       width: '20%',
       render: (text: string, record) => {
-        return <p className={b('name-column-style')}>{record?.work_area} га</p>;
+        return <p className={b('name-column-style')}>{record?.work_area}</p>;
       },
     },
     {

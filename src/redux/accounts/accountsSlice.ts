@@ -61,6 +61,8 @@ interface AccountsState {
   approveRequestLoading: boolean;
   approveRequestError: IErrors | null;
   approveRequestSuccess: boolean;
+  changeProfileLoading: boolean;
+  changeProfileError: IErrors | null;
 }
 
 const INITIAL_STATE = {
@@ -119,6 +121,9 @@ const INITIAL_STATE = {
   approveRequestLoading: false,
   approveRequestError: null,
   approveRequestSuccess: false,
+
+  changeProfileLoading: false,
+  changeProfileError: null,
 } as AccountsState;
 
 export const fetchAccount = createAsyncThunk(
@@ -210,6 +215,19 @@ export const fetchUserVehicles = createAsyncThunk<userVehicles, fetchUserVehicle
         detail: e?.response?.data?.detail,
         status: e?.response?.status,
       });
+    }
+  },
+);
+
+export const requestChangeProfile = createAsyncThunk<void, IMyData | null>(
+  `${nameSpace}/requestChangeProfile`,
+  async (data, { rejectWithValue }) => {
+    try {
+      const resp = await axiosApi2.post(`/common/inquiries/`, data);
+      message.success('Запрос успешно отправлен!');
+      return resp.data;
+    } catch (e) {
+      return rejectWithValue(e);
     }
   },
 );
@@ -554,12 +572,31 @@ const accountsSlice = createSlice({
       state.inquiriesSuccess = false;
     });
 
+    builder.addCase(requestChangeProfile.pending, (state) => {
+      state.changeProfileLoading = true;
+      state.changeProfileError = null;
+    });
+    builder.addCase(requestChangeProfile.fulfilled, (state) => {
+      state.changeProfileLoading = false;
+      state.changeProfileError = null;
+    });
+    builder.addCase(requestChangeProfile.rejected, (state, { payload }) => {
+      state.changeProfileLoading = false;
+      if (payload && typeof payload === 'object' && 'detail' in payload && 'status' in payload) {
+        state.changeProfileError = {
+          ...state.changeProfileError,
+          detail: payload.detail as string | null,
+          status: payload.status as number | null,
+        };
+      }
+    });
+
     builder.addCase(approveRequest.pending, (state) => {
       state.approveRequestLoading = true;
       state.approveRequestError = null;
       state.approveRequestSuccess = false;
     });
-    builder.addCase(approveRequest.fulfilled, (state, action: PayloadAction<{ id: number }>) => {
+    builder.addCase(approveRequest.fulfilled, (state) => {
       state.approveRequestLoading = false;
       state.approveRequestError = null;
       state.approveRequestSuccess = true;
