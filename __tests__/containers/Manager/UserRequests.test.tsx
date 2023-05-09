@@ -52,28 +52,39 @@ describe('UserRequests', () => {
         render(<ModalComponent open={true}>
                 <RequestAddTechnique
                     resultsTechnique={{
-                    "id": 98,
-                    "image": "/media/vehicles/2023-02-10_18.54.40_lc8dCFk.jpg",
-                    "processing_data": [],
-                    "vin_code": "reref",
-                    "code": "z8vf1f812",
-                    "state_number": "refref",
-                    "description": "ref",
-                    "first_name": "test",
-                    "middle_name": "test",
-                    "last_name": "test",
-                    "last_latitude": "0.000000",
-                    "last_longitude": "0.000000",
-                    "enterprise": 1
-                }}
+                        "id": 85,
+                        "category": 3,
+                        "object_id": 81,
+                        "created_at": "09/05/2023 01:02:17+0600",
+                        "requestor": {
+                            "name": "test"
+                        },
+                        "data": {
+                            "vehicle": {
+                                "vin": "fref",
+                                "license_plate": "frefre",
+                                "description": "refre"
+                            },
+                            "operator": {
+                                "first_name": "rfef",
+                                "last_name": "refref",
+                                "middle_name": "refrefr"
+                            }
+                        },
+                        "uploaded_files": [
+                            {
+                                "id": 15,
+                                "file": "http://sa-backend/media/files/inquiries/85/2023-02-10_18.54.40.jpg"
+                            }
+                        ]
+                    }}
                   loading={false}
                    handleOkCancel={handleOkCancel}
-                    resultsInfoClick={null}
                     modalOpen={() => {}}
                   showRejectModal={showRejectModal}/>
             </ModalComponent>
         )
-        const fioElement = screen.queryByDisplayValue('test test test') as HTMLInputElement;
-        expect(fioElement.value).toBe('test test test')
+        const fioElement = screen.queryByDisplayValue('rfef') as HTMLInputElement;
+        expect(fioElement.value).toBe('rfef')
     })
 })

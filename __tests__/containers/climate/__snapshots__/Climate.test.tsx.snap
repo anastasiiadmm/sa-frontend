@@ -6,7 +6,7 @@ exports[`<FieldClimateDashboard /> FieldClimateDashboard map component should be
 >
   <div>
     <div
-      className="ant-select css-dev-only-do-not-override-mxhywb ant-select-single ant-select-show-arrow"
+      className="ant-select css-dev-only-do-not-override-ed5zg0 ant-select-single ant-select-show-arrow"
       onBlur={[Function]}
       onFocus={[Function]}
       onKeyDown={[Function]}
@@ -30,6 +30,7 @@ exports[`<FieldClimateDashboard /> FieldClimateDashboard map component should be
             aria-activedescendant="undefined_list_0"
             aria-autocomplete="list"
             aria-controls="undefined_list"
+            aria-expanded={false}
             aria-haspopup="listbox"
             aria-owns="undefined_list"
             autoComplete="off"

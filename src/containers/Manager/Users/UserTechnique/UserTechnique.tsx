@@ -335,6 +335,7 @@ const UserTechnique: React.FC = () => {
           isEdit
           userId={id}
           vehicleId={vehicleId}
+          titleBool={false}
           handleEditOkCancel={handleEditOkCancel}
         />
       </ModalComponent>

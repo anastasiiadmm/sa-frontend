@@ -14,7 +14,7 @@ import {
   vehicleList,
   vehicleListPagination,
 } from 'types/types';
-import { axiosApi } from 'utils/axios-api';
+import { axiosApi, axiosApi2 } from 'utils/axios-api';
 import toQueryParams from 'utils/toQueryParams';
 
 const nameSpace = 'companies';
@@ -405,10 +405,9 @@ export const vehicleCreate = createAsyncThunk<void, vehicleCreateParams>(
 
 export const techniqueVehicleInfo = createAsyncThunk(
   `${nameSpace}/techniqueVehicleInfo`,
-  async (data: any, { rejectWithValue }) => {
-    // доавить тип когда буду править запросы
+  async (id: number, { rejectWithValue }) => {
     try {
-      const response = await axiosApi.get(`companies/${data.id}/vehicle/${data.inquiry_id}/`);
+      const response = await axiosApi2.get(`/common/inquiries/${id}/`);
       return response.data;
     } catch (e) {
       return rejectWithValue({
@@ -421,12 +420,9 @@ export const techniqueVehicleInfo = createAsyncThunk(
 
 export const techniqueVehicleInfoPut = createAsyncThunk(
   `${nameSpace}/techniqueVehicleInfoPut`,
-  async ({ data, obj }: ITechniqueVehicleInfoPut, { rejectWithValue }) => {
+  async ({ id, formData }: ITechniqueVehicleInfoPut, { rejectWithValue }) => {
     try {
-      const response = await axiosApi.put(
-        `companies/${data?.id}/vehicle/${data?.inquiry_id}/`,
-        obj,
-      );
+      const response = await axiosApi2.post(`/common/inquiries/${id}/`, formData);
       return response.data;
     } catch (e) {
       return rejectWithValue({
