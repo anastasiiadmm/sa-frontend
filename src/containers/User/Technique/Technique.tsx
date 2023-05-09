@@ -17,9 +17,9 @@ import TableComponent from 'components/TableComponent/TableComponent';
 import { getPageNumber, getPageNumberPrevious } from 'helper';
 import {
   accountsSelector,
+  approveFieldClimateRequest,
   fetchAccount,
   fetchUserVehicles,
-  inquiriesRequests,
 } from 'redux/accounts/accountsSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { userVehicles } from 'types/types';
@@ -85,7 +85,7 @@ const Technique = () => {
 
   const postInquiriesHandler = async () => {
     try {
-      await dispatch(inquiriesRequests({ category: 4, object_id: account?.company?.id }));
+      await dispatch(approveFieldClimateRequest({ category: 4, object_id: account?.company?.id }));
       await dispatch(fetchAccount());
       await setIsModalFieldClimateOpen(false);
     } catch (e) {

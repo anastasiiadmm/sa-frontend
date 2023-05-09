@@ -141,6 +141,30 @@ export interface companiesList {
   };
 }
 
+export interface requestData {
+  category: number;
+  created_at: string;
+  id: number;
+  object_id: number;
+  requestor: string;
+  uploaded_files: Array;
+  data: {
+    user: {
+      username?: string;
+      password?: string;
+      first_name: string;
+      middle_name: string;
+      last_name: string;
+      email: string;
+      phone: string;
+    };
+    enterprise: {
+      location: string;
+      name: string;
+    };
+  };
+}
+
 export interface UpdatedCompaniesList extends companiesList {
   id?: number;
   name?: string;

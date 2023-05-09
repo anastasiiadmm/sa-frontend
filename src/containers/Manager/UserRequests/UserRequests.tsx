@@ -69,7 +69,6 @@ const UserRequests = () => {
   });
   const [techniqueData, setTechniqueData] = useState<RequestType | null>(null);
   const [fieldClimateData, setFieldClimateData] = useState<RequestType | null>(null);
-  const [userIds, setUserIds] = useState<UserIds | null>({ requestId: null, userId: null });
   const [confirmation_typeId, setConfirmation_typeId] = useState<number | null>(null);
   const [id, setId] = useState<number | null>(null);
 
@@ -83,13 +82,10 @@ const UserRequests = () => {
   }, [dispatch, filters]);
 
   useEffect(() => {
-    const data = {
-      id: userIds?.userId,
-    };
-    if (userIds?.userId) {
-      dispatch(fetchUserInfo({ data }));
+    if (id) {
+      dispatch(fetchUserInfo({ id }));
     }
-  }, [dispatch, userIds?.userId]);
+  }, [dispatch, id]);
 
   useEffect(() => {
     if (saveTechniqueVehicleState.results) {
@@ -226,10 +222,6 @@ const UserRequests = () => {
         setId(row.id);
         setConfirmation_typeId(row?.category);
         showRegisterUserModal();
-        setUserIds({
-          requestId: row?.id.toString(),
-          userId: row?.object_id?.toString(),
-        });
     }
   };
 
@@ -371,7 +363,7 @@ const UserRequests = () => {
         ) : (
           <RequestRegisterUser
             userInfo={userInfo}
-            userIds={userIds}
+            userId={id}
             userInfoLoading={userInfoLoading}
             handleOkCancel={handleOkRegisterUserCancel}
             showRejectModal={showRejectModal}

@@ -7,6 +7,7 @@ import {
   companiesList,
   ICompany,
   PostNewUser,
+  requestData,
   UpdatedCompaniesList,
   usersListPagination,
   userVehicleInfo,
@@ -14,7 +15,7 @@ import {
   vehicleList,
   vehicleListPagination,
 } from 'types/types';
-import { axiosApi } from 'utils/axios-api';
+import { axiosApi, axiosApi2 } from 'utils/axios-api';
 import toQueryParams from 'utils/toQueryParams';
 
 const nameSpace = 'companies';
@@ -27,7 +28,7 @@ interface CompaniesState {
   userCreate: PostNewUser | null;
   userCreateLoading: boolean;
   userCreateError: IErrors | null;
-  userInfo: companiesList | null;
+  userInfo: requestData | null;
   userInfoLoading: boolean;
   userInfoError: IErrors | null;
   updateUserInfoLoading: boolean;
@@ -194,16 +195,14 @@ export const userCreate = createAsyncThunk<void, userCreateParams>(
 );
 
 interface fetchCompanyParams {
-  data: {
-    id: string | null | undefined;
-  };
+  id: number | string | null | undefined;
 }
 
-export const fetchUserInfo = createAsyncThunk<companiesList, fetchCompanyParams>(
+export const fetchUserInfo = createAsyncThunk<requestData, fetchCompanyParams>(
   'accounts/fetchUserInfo',
-  async ({ data }, { rejectWithValue }) => {
+  async ({ id }, { rejectWithValue }) => {
     try {
-      const resp = await axiosApi.get<companiesList | null>(`/companies/${data?.id}/`);
+      const resp = await axiosApi2.get<requestData | null>(`/common/inquiries/${id}/`);
       const companyInfo = resp.data;
 
       if (companyInfo === null) {
@@ -222,15 +221,15 @@ export const fetchUserInfo = createAsyncThunk<companiesList, fetchCompanyParams>
 
 interface updateUserInfoParams {
   id: string | undefined;
-  data: ICompany | UpdatedCompaniesList;
+  data: ICompany | UpdatedCompaniesList | requestData;
 }
 
 export const updateUserInfo = createAsyncThunk<void, updateUserInfoParams>(
   `${nameSpace}/updateUserInfo`,
-  async (data, { rejectWithValue, dispatch }) => {
+  async ({ id, data }, { rejectWithValue, dispatch }) => {
     try {
-      const resp = await axiosApi.patch(`/companies/${data?.id}/`, data?.data);
-      await dispatch(fetchUserInfo({ data }));
+      const resp = await axiosApi.patch(`/companies/${id}/`, data);
+      await dispatch(fetchUserInfo({ id }));
       message.success('Успешно изминились данные');
       return resp.data;
     } catch (e) {

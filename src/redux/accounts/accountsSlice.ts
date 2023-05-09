@@ -6,6 +6,7 @@ import { IErrors, IMyData, IUpdateManagerDataMutation } from 'interfaces';
 import { RootState } from 'redux/hooks';
 import {
   accountsManagerConfirmation,
+  companiesList,
   generatedPassword,
   IAccount,
   IUserAccount,
@@ -214,8 +215,8 @@ export const fetchUserVehicles = createAsyncThunk<userVehicles, fetchUserVehicle
   },
 );
 
-export const inquiriesRequests = createAsyncThunk<void, IMyData>(
-  `${nameSpace}/inquiriesRequests`,
+export const approveFieldClimateRequest = createAsyncThunk<void, IMyData>(
+  `${nameSpace}/approveFieldClimateRequest`,
   async (data, { rejectWithValue }) => {
     try {
       const resp = await axiosApi2.post(`/common/inquiries/`, data);
@@ -335,16 +336,19 @@ export const vehicleCreateRequest = createAsyncThunk<void, vehicleCreateRequestP
 );
 
 interface accountManagerConfirmationParams {
-  id: string | null | undefined;
+  id: number | string | null | undefined;
+  data?: any;
 }
 
 export const accountManagerConfirmationRequest = createAsyncThunk<
   accountsManagerConfirmation,
   accountManagerConfirmationParams
->('accounts/accountManagerConfirmationRequest', async (data, { rejectWithValue }) => {
+>('accounts/accountManagerConfirmationRequest', async ({ id, data }, { rejectWithValue }) => {
   try {
-    const resp = await axiosApi.patch<accountsManagerConfirmation | null>(
-      `/accounts/manager/confirmation/${data?.id}/`,
+    console.log('data', data);
+    const resp = await axiosApi2.post<accountsManagerConfirmation | null>(
+      `/common/inquiries/${id}/`,
+      data,
     );
     const accountManagerConfirmation = resp.data;
 
@@ -526,17 +530,17 @@ const accountsSlice = createSlice({
       }
     });
 
-    builder.addCase(inquiriesRequests.pending, (state) => {
+    builder.addCase(approveFieldClimateRequest.pending, (state) => {
       state.inquiriesLoading = true;
       state.inquiriesError = null;
       state.inquiriesSuccess = false;
     });
-    builder.addCase(inquiriesRequests.fulfilled, (state) => {
+    builder.addCase(approveFieldClimateRequest.fulfilled, (state) => {
       state.inquiriesLoading = false;
       state.inquiriesError = null;
       state.inquiriesSuccess = true;
     });
-    builder.addCase(inquiriesRequests.rejected, (state, { payload }) => {
+    builder.addCase(approveFieldClimateRequest.rejected, (state, { payload }) => {
       state.inquiriesLoading = false;
       if (payload && typeof payload === 'object' && 'detail' in payload && 'status' in payload) {
         state.inquiriesError = {
