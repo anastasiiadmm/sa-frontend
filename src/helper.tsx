@@ -276,3 +276,14 @@ export const updateDataNames = (data: SensorDataEntry[], jsonData: Locales) => {
     return obj;
   });
 };
+
+export function getPageParam(url: string | undefined | null): string | null {
+  if (url) {
+    const urlParams = new URLSearchParams(url.split('?')[1]);
+    const page = urlParams.get('page');
+
+    return page;
+  }
+
+  return '';
+}

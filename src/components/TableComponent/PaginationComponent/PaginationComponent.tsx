@@ -10,15 +10,9 @@ interface Props {
   params: userVehiclesPagination | null | undefined;
   pagePrevHandler?: () => void;
   pageNextHandler?: () => void;
-  disabledButton?: boolean;
 }
 
-const PaginationComponent: React.FC<Props> = ({
-  params,
-  pagePrevHandler,
-  pageNextHandler,
-  disabledButton,
-}) => {
+const PaginationComponent: React.FC<Props> = ({ params, pagePrevHandler, pageNextHandler }) => {
   const b = bem('pagination');
 
   return (
@@ -27,14 +21,14 @@ const PaginationComponent: React.FC<Props> = ({
         <div className='glav_pagination'>
           <div className='next_table'>
             <Button
-              disabled={params?.previous === null || disabledButton}
+              disabled={!params?.previous}
               onClick={pagePrevHandler}
               icon={<img src={nextIcons} alt='backIcons' />}
               className='pagination_buttons pagination_buttons-prev'
             />
             <Button
               role='button'
-              disabled={params?.next === null || disabledButton}
+              disabled={!params?.next}
               onClick={pageNextHandler}
               icon={<img src={nextIcons} alt='nextIcons' />}
               className='pagination_buttons pagination_buttons-next'

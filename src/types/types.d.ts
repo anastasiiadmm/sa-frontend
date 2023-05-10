@@ -118,9 +118,9 @@ export interface userVehicles {
 }
 
 export interface userVehiclesPagination {
-  count: number;
-  next: string | null;
-  previous: string | null;
+  count: number | undefined;
+  next: string | undefined | null;
+  previous: string | undefined | null;
 }
 
 export interface companiesList {
@@ -239,7 +239,31 @@ export interface fieldsList {
   id?: number | null;
 }
 
+export interface Result {
+  id: number;
+  readable_id: JSX.Element;
+  tool: string;
+  tool_width: string;
+  tool_overlap: string;
+  tool_width_total: string;
+  area: string;
+}
+
+interface Vehicle {
+  vin: string;
+  license_plate: string;
+  description: string;
+}
+
 export interface userVehicleInfo {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: Result[];
+  vehicle: Vehicle;
+}
+
+export interface userVehicleInfoCompanies {
   id: number;
   image: string;
   code: string;
@@ -254,6 +278,7 @@ export interface userVehicleInfo {
   last_longitude: string;
   enterprise: number;
 }
+
 
 export interface vehicleCreateData {
   vin_code: string;

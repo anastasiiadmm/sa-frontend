@@ -16,6 +16,10 @@ code {
   monospace;
 }
 
+.leaflet-marker-icon.leaflet-interactive, .leaflet-image-layer.leaflet-interactive, .leaflet-pane > svg path.leaflet-interactive, svg.leaflet-image-layer.leaflet-interactive path:not([stroke-linejoin]) {
+  stroke-linecap: initial!important;
+}
+
 .layout {
   width: 100%;
   height: 100%;

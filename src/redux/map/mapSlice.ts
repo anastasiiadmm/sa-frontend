@@ -1,10 +1,8 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { message } from 'antd';
-
-import { IMapState, resultsAB, Vehicle } from 'interfaces';
+import { IMapState, IVehicleV2Actions, Vehicle } from 'interfaces';
 import { RootState } from 'redux/hooks';
-import { axiosApi } from 'utils/axios-api';
+import { axiosApi, axiosApi2 } from 'utils/axios-api';
 
 const nameSpace = 'map';
 
@@ -18,6 +16,7 @@ const initialState = {
     loading: false,
     errors: null,
     results: [],
+    resultsV2: null,
   },
 } as IMapState;
 
@@ -49,12 +48,18 @@ export const obtainingCoordinate = createAsyncThunk(
     { rejectWithValue },
   ) => {
     try {
-      const response = await axiosApi.get(`data_exchange/route/${id}/?field_name=${field_name}`);
-      if (response.data.length) {
-        return response.data;
-      }
-      message.error('Координаты для маршрута не найдены');
-      return [];
+      const response = await axiosApi2.get(`/vehicles/${id}/routes/?job=${field_name}`);
+      return {
+        results: [
+          {
+            received_data: {
+              PointA: `${response.data.point_A_lat},${response.data.point_A_lon}`,
+              PointB: `${response.data.point_B_lat},${response.data.point_B_lon}`,
+            },
+          },
+        ],
+        resultsV2: response.data,
+      };
     } catch (e) {
       return rejectWithValue({
         detail: e?.response?.data?.detail,
@@ -95,10 +100,14 @@ const mapSlice = createSlice({
       state.field.loading = true;
       state.field.errors = null;
     });
-    builder.addCase(obtainingCoordinate.fulfilled, (state, action: PayloadAction<resultsAB[]>) => {
-      state.field.loading = false;
-      state.field.results = action.payload;
-    });
+    builder.addCase(
+      obtainingCoordinate.fulfilled,
+      (state, action: PayloadAction<IVehicleV2Actions>) => {
+        state.field.loading = false;
+        state.field.results = action.payload.results;
+        state.field.resultsV2 = action.payload.resultsV2;
+      },
+    );
     builder.addCase(obtainingCoordinate.rejected, (state, { payload }) => {
       state.field.loading = false;
       if (payload && typeof payload === 'object' && 'detail' in payload && 'status' in payload) {

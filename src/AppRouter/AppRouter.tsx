@@ -86,13 +86,11 @@ const AppRouter: React.FC = () => {
                   <Route path='/user-profile/:id' element={<UserProfile />} />
                   <Route path='/user-technique/:id' element={<UserTechnique />} />
                   <Route path='/user-requests' element={<UserRequests />} />
-                  <Route path='/open-map/:id/:vehicleId/:name' element={<OpenMapComponent />} />
                 </>
               ) : (
                 <>
                   <Route path='/' index element={<Technique />} />
                   <Route path='/user-profile-view' element={<Profile />} />
-                  <Route path='/open-map/:id/:vehicleId' element={<OpenMapComponent />} />
                   {account?.company?.weather_service ? (
                     <>
                       <Route path='/field-climate' element={<FieldClimateDashboard />} />
@@ -107,6 +105,7 @@ const AppRouter: React.FC = () => {
                 </>
               )}
               <Route path='/profile-technique/:userId/:vehicleId' element={<ProfileTechnique />} />
+              <Route path='/open-map/:id/:field_name' element={<OpenMapComponent />} />
               <Route
                 path='*'
                 element={
