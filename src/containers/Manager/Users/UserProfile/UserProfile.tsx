@@ -53,7 +53,6 @@ const UserProfile: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
   const [isModalPasswordOpen, setIsModalPasswordOpen] = useState(false);
-
   const [userData, setUserData] = useState<companiesList>({
     user: {
       username: '',
@@ -69,14 +68,12 @@ const UserProfile: React.FC = () => {
     location: '',
     autopilots_amount: 0,
   });
-  const resultsObj = companies?.find((item) => item.id === +id) || userInfo;
+  const resultsObj: any = companies?.find((item) => item.id === +id) || userInfo;
+  // буду править any когда подключим эндпоинт на v2
 
   useEffect(() => {
     if (!companies?.length) {
-      const data = {
-        id,
-      };
-      dispatch(fetchUserInfo({ data }));
+      dispatch(fetchUserInfo({ id }));
     }
   }, [dispatch]);
 
@@ -207,8 +204,10 @@ const UserProfile: React.FC = () => {
           ) : (
             <>
               <Title level={3} data-testid='sign_in_test' className='title'>
-                {`${resultsObj?.user.last_name} ${resultsObj?.user.first_name?.charAt(0)}. ${
-                  resultsObj?.user.middle_name ? `${resultsObj?.user.middle_name?.charAt(0)}.` : ''
+                {`${resultsObj?.user?.last_name} ${resultsObj?.user?.first_name?.charAt(0)}. ${
+                  resultsObj?.user?.middle_name
+                    ? `${resultsObj?.user?.middle_name?.charAt(0)}.`
+                    : ''
                 }`}
               </Title>
 

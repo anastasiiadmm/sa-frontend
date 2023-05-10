@@ -69,10 +69,7 @@ const UserTechnique: React.FC = () => {
   }, [dispatch, filters]);
 
   useEffect(() => {
-    const data = {
-      id,
-    };
-    dispatch(fetchUserInfo({ data }));
+    dispatch(fetchUserInfo({ id }));
   }, [dispatch]);
 
   useEffect(() => {
@@ -285,9 +282,9 @@ const UserTechnique: React.FC = () => {
                   Техника пользователя -{' '}
                   <p className={b('subtitle')}>
                     {' '}
-                    {`${userInfo?.user?.last_name} ${userInfo?.user?.first_name?.charAt(
+                    {`${userInfo?.data?.user?.last_name} ${userInfo?.data?.user?.first_name?.charAt(
                       0,
-                    )}. ${userInfo?.user?.middle_name?.charAt(0)}.`}
+                    )}. ${userInfo?.data?.user?.middle_name?.charAt(0)}.`}
                   </p>
                 </Title>
               </div>

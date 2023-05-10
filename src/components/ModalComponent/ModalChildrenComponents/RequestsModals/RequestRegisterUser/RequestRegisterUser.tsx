@@ -7,24 +7,19 @@ import FormField from 'components/FormField/FormField';
 import CreateNewUserCredentials from 'components/ModalComponent/ModalChildrenComponents/CreateNewUserCredentials/CreateNewUserCredentials';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import SkeletonBlock from 'components/SkeletonBlock/SkeletonBlock';
-import {
-  getErrorMessage,
-  isObjectChangeUserConfirmationProfileValidate,
-  mergeAndRemoveDuplicateValues,
-} from 'helper';
+import { getErrorMessage, isEmptyObject, mergeAndRemoveDuplicateValues } from 'helper';
 import {
   accountManagerConfirmationRequest,
   accountsSelector,
   fetchRequests,
 } from 'redux/accounts/accountsSlice';
-import { updateUserInfo } from 'redux/companies/companiesSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { companiesList, UserIds } from 'types/types';
+import { requestData } from 'types/types';
 import 'components/ModalComponent/ModalChildrenComponents/RequestsModals/RequestRegisterUser/_requestRegisterUser.scss';
 
 interface Props {
-  userInfo: companiesList | null;
-  userIds: UserIds | null;
+  userInfo: requestData | null;
+  userId: number | null;
   userInfoLoading: boolean;
   handleOkCancel: () => void;
   showRejectModal: () => void;
@@ -32,7 +27,7 @@ interface Props {
 
 const RequestRegisterUser: React.FC<Props> = ({
   userInfo,
-  userIds,
+  userId,
   userInfoLoading,
   handleOkCancel,
   showRejectModal,
@@ -44,33 +39,44 @@ const RequestRegisterUser: React.FC<Props> = ({
   const { accountManagerConfirmation, accountManagerConfirmationLoading } =
     useAppSelector(accountsSelector);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [userData, setUserData] = useState({
-    user: {
-      last_name: '',
-      first_name: '',
-      middle_name: '',
-      email: '',
-      phone: '',
+  const [userData, setUserData] = useState<requestData>({
+    category: 0,
+    created_at: '',
+    id: 0,
+    object_id: 0,
+    requestor: '',
+    uploaded_files: [],
+    data: {
+      user: {
+        last_name: '',
+        first_name: '',
+        middle_name: '',
+        email: '',
+        phone: '',
+      },
+      enterprise: {
+        name: '',
+        location: '',
+      },
     },
-    name: '',
-    location: '',
-    autopilots_amount: 0,
   });
-  const [validate, setValidate] = useState(false);
 
   useEffect(() => {
     if (userInfo) {
       form.setFieldsValue({
-        user: {
-          last_name: userInfo?.user?.last_name,
-          first_name: userInfo?.user?.first_name,
-          middle_name: userInfo?.user?.middle_name,
-          email: userInfo?.user?.email,
-          phone: userInfo?.user?.phone,
+        data: {
+          user: {
+            last_name: userInfo?.data?.user?.last_name,
+            first_name: userInfo?.data?.user?.first_name,
+            middle_name: userInfo?.data?.user?.middle_name,
+            email: userInfo?.data?.user?.email,
+            phone: userInfo?.data?.user?.phone,
+          },
+          enterprise: {
+            name: userInfo?.data?.enterprise?.name,
+            location: userInfo?.data?.enterprise?.location,
+          },
         },
-        name: userInfo?.name,
-        autopilots_amount: userInfo?.autopilots_amount,
-        location: userInfo?.location,
       });
     }
   }, [userInfo, form]);
@@ -80,13 +86,6 @@ const RequestRegisterUser: React.FC<Props> = ({
       setUserData(userInfo);
     }
   }, [userInfo]);
-
-  useEffect(() => {
-    if (userInfo) {
-      const validate = isObjectChangeUserConfirmationProfileValidate(userInfo, userData);
-      setValidate(validate);
-    }
-  }, [userInfo, userData]);
 
   const showAgreeModal = () => {
     setIsModalOpen(true);
@@ -107,33 +106,45 @@ const RequestRegisterUser: React.FC<Props> = ({
 
   const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    if (name.startsWith('user,')) {
-      const userKey = name.split(',')[1];
-      setUserData((prevUserData) => ({
+
+    if (name.startsWith('data,user,')) {
+      const userKey = name.split(',')[2];
+
+      setUserData((prevUserData: requestData) => ({
         ...prevUserData,
-        user: {
-          ...prevUserData.user,
-          [userKey]: value,
+        data: {
+          ...prevUserData.data,
+          user: {
+            ...prevUserData.data.user,
+            [userKey]: value,
+          },
         },
       }));
-    } else if (name === 'autopilots_amount') {
-      setUserData((prevUserData) => ({
+    } else if (name.startsWith('data,enterprise,')) {
+      const userKey = name.split(',')[2];
+
+      setUserData((prevUserData: requestData) => ({
         ...prevUserData,
-        autopilots_amount: Number(value),
+        data: {
+          ...prevUserData.data,
+          enterprise: {
+            ...prevUserData.data.enterprise,
+            [userKey]: value,
+          },
+        },
       }));
-    } else {
-      setUserData({ ...userData, [name]: value });
     }
   };
 
   const agreeHandler = async () => {
     try {
-      if (validate) {
-        const data = mergeAndRemoveDuplicateValues(userInfo, userData);
-        await dispatch(updateUserInfo({ id: userInfo?.id?.toString(), data })).unwrap();
-        message.success('Данные успешно изменены!');
-      }
-      await dispatch(accountManagerConfirmationRequest({ id: userIds?.requestId })).unwrap();
+      const data = mergeAndRemoveDuplicateValues(userInfo, userData);
+      await dispatch(
+        accountManagerConfirmationRequest({
+          id: userId,
+          data: isEmptyObject(data) ? userData : data,
+        }),
+      ).unwrap();
       showAgreeModal();
     } catch (e) {
       const errorMessage = getErrorMessage(e, 'username');
@@ -173,7 +184,7 @@ const RequestRegisterUser: React.FC<Props> = ({
                 id='last_name_id'
                 inputClassName={b('username-info')}
                 label='Фамилия'
-                name={['user', 'last_name']}
+                name={['data', 'user', 'last_name']}
                 placeholder='Фамилия'
                 onChange={inputChangeHandler}
               />
@@ -183,7 +194,7 @@ const RequestRegisterUser: React.FC<Props> = ({
                 id='first_name_id'
                 inputClassName={b('username-info')}
                 label='Имя'
-                name={['user', 'first_name']}
+                name={['data', 'user', 'first_name']}
                 placeholder='Имя'
                 onChange={inputChangeHandler}
               />
@@ -195,7 +206,7 @@ const RequestRegisterUser: React.FC<Props> = ({
               id='middle_name_id'
               inputClassName={b('username-info')}
               label='Отчество'
-              name={['user', 'middle_name']}
+              name={['data', 'user', 'middle_name']}
               placeholder='Отчество'
               onChange={inputChangeHandler}
             />
@@ -207,7 +218,7 @@ const RequestRegisterUser: React.FC<Props> = ({
                 id='email_id'
                 inputClassName={b('username-info')}
                 label='Email'
-                name={['user', 'email']}
+                name={['data', 'user', 'email']}
                 placeholder='Email'
                 onChange={inputChangeHandler}
               />
@@ -215,7 +226,7 @@ const RequestRegisterUser: React.FC<Props> = ({
                 bordered
                 type='phone'
                 className='username'
-                name={['user', 'phone']}
+                name={['data', 'user', 'phone']}
                 label='Номер телефона'
                 placeholder='Номер телефона'
                 inputClassName={b('username-info')}
@@ -229,7 +240,7 @@ const RequestRegisterUser: React.FC<Props> = ({
               id='name_id'
               inputClassName={b('username-info')}
               label='Название колхоза/фермы/компании'
-              name='name'
+              name={['data', 'enterprise', 'name']}
               placeholder='Название колхоза/фермы/компании'
               onChange={inputChangeHandler}
             />
@@ -240,19 +251,8 @@ const RequestRegisterUser: React.FC<Props> = ({
               id='location_id'
               inputClassName={b('username-info')}
               label='Регион расположения'
-              name='location'
+              name={['data', 'enterprise', 'location']}
               placeholder='Регион расположения'
-              onChange={inputChangeHandler}
-            />
-
-            <FormField
-              bordered
-              data-testid='autopilots_amount_id'
-              id='autopilots_amount_id'
-              inputClassName={b('username-info')}
-              label='Количество оплаченных блоков автопилота'
-              name='autopilots_amount'
-              placeholder='Количество оплаченных блоков автопилота'
               onChange={inputChangeHandler}
             />
 
