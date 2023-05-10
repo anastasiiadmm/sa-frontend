@@ -11,13 +11,11 @@ import 'components/ModalComponent/ModalChildrenComponents/RequestsModals/Request
 import { IValueRequest, IVehicle } from 'interfaces';
 
 import {
-  techniqueVehicleConfirmation,
-  techniqueVehicleConfirmationSelector,
   techniqueVehicleInfoPut,
   techniqueVehicleUpdateSelector,
 } from 'redux/companies/companiesSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { getFilenameFromPath } from 'utils/files/files';
+import { getFilenameFromPath, urlFormat } from 'utils/files/files';
 
 const { Title } = Typography;
 
@@ -25,7 +23,6 @@ interface Props {
   handleOkCancel: () => void;
   showRejectModal: () => void;
   resultsTechnique: IVehicle | null;
-  resultsInfoClick: any; // добавить типизацию когда буду править запрос на добавление техники
   loading: boolean;
   modalOpen: () => void;
 }
@@ -35,33 +32,35 @@ const RequestAddTechnique: React.FC<Props> = ({
   showRejectModal,
   resultsTechnique,
   loading,
-  resultsInfoClick,
   modalOpen,
 }) => {
   const b = bem('RequestAddTechnique');
   const dispatch = useAppDispatch();
   const techniqueVehicleUpdate = useAppSelector(techniqueVehicleUpdateSelector);
   const [images, setImages] = useState<UploadFile[]>([]);
-  const saveTechniqueVehicleState = useAppSelector(techniqueVehicleConfirmationSelector);
   const [form] = Form.useForm();
 
   useEffect(() => {
-    if (resultsTechnique?.image) {
+    if (resultsTechnique?.uploaded_files.length) {
       setImages([
         {
           uid: '-2',
-          name: getFilenameFromPath(resultsTechnique.image),
+          name: getFilenameFromPath(resultsTechnique?.uploaded_files[0].file),
           status: 'done',
-          url: `https://agri.ltestl.com/${resultsTechnique.image}`,
+          url: urlFormat(resultsTechnique?.uploaded_files[0].file),
         },
       ]);
     }
   }, [resultsTechnique]);
 
   useEffect(() => {
+    const fullName = `${resultsTechnique?.data.operator.last_name} 
+${resultsTechnique?.data.operator.first_name} 
+${resultsTechnique?.data.operator.middle_name}`;
     form.setFieldsValue({
-      fullName: `${resultsTechnique?.last_name} ${resultsTechnique?.first_name} ${resultsTechnique?.middle_name}`,
-      ...resultsTechnique,
+      fullName,
+      ...resultsTechnique?.data.vehicle,
+      ...resultsTechnique?.data.operator,
     });
   }, [resultsTechnique]);
 
@@ -76,33 +75,46 @@ const RequestAddTechnique: React.FC<Props> = ({
   const onFinish = async (values: IValueRequest) => {
     try {
       if (resultsTechnique) {
-        const obj: { [key: string]: string } = {
-          ...values,
-          code: resultsTechnique.code,
-          enterprise: `${resultsTechnique.enterprise}`,
+        const obj = {
+          vehicle: {
+            vin: values.vin,
+            description: values.description,
+            license_plate: values.license_plate,
+          },
+          operator: {
+            first_name: values.first_name,
+            last_name: values.last_name,
+            middle_name: values.middle_name,
+          },
         };
         const formData = new FormData();
-        for (const name in obj) {
+        for (const name in obj.vehicle) {
           if (name) {
-            formData.append(name, obj[name]);
+            formData.append(`data.vehicle.${name}`, obj.vehicle[name as keyof typeof obj.vehicle]);
+          }
+        }
+
+        for (const name in obj.operator) {
+          if (name) {
+            formData.append(
+              `data.operator.${name}`,
+              obj.operator[name as keyof typeof obj.operator],
+            );
           }
         }
         if (images.length) {
           const file = images[0]?.originFileObj;
           if (file) {
             const blob = new Blob([file]);
-            formData.append('image', blob, file.name);
+            formData.append('files', blob, file.name);
           }
         }
-        await dispatch(techniqueVehicleInfoPut({ data: resultsInfoClick, obj: formData })).unwrap();
-        if (resultsInfoClick?.id) {
-          await dispatch(techniqueVehicleConfirmation(resultsInfoClick.id)).unwrap();
-        }
+        await dispatch(techniqueVehicleInfoPut({ id: resultsTechnique.id, formData })).unwrap();
         modalOpen();
       }
     } catch (e) {
       const errorMessage = getErrorMessage(e, 'username');
-      await message.error(`${errorMessage}`);
+      await message.error(`${errorMessage.replace('vehicle ', '')}`);
     }
   };
 
@@ -123,8 +135,8 @@ const RequestAddTechnique: React.FC<Props> = ({
         autoComplete='off'
         initialValues={{
           remember: true,
-          fio: `${resultsTechnique?.last_name} ${resultsTechnique?.first_name} ${resultsTechnique?.middle_name}`,
-          ...resultsTechnique,
+          ...resultsTechnique?.data.vehicle,
+          ...resultsTechnique?.data.operator,
         }}
         layout='vertical'
       >
@@ -188,7 +200,7 @@ const RequestAddTechnique: React.FC<Props> = ({
             id='state_number_id'
             inputClassName={b('username')}
             label='Гос номер'
-            name='state_number'
+            name='license_plate'
             placeholder='Гос номер'
           />
 
@@ -204,7 +216,7 @@ const RequestAddTechnique: React.FC<Props> = ({
                 message: 'Заполните VIN код',
               },
             ]}
-            name='vin_code'
+            name='vin'
             placeholder='VIN код'
           />
         </div>
@@ -281,7 +293,7 @@ const RequestAddTechnique: React.FC<Props> = ({
             disabled={!images.length}
             type='primary'
             htmlType='submit'
-            loading={techniqueVehicleUpdate.loading || saveTechniqueVehicleState.loading}
+            loading={techniqueVehicleUpdate.loading}
             style={{ width: '100%', borderRadius: 4 }}
             className={b('save-button')}
           >

@@ -180,7 +180,12 @@ const RequestRegisterModal: React.FC<Props> = ({ onClose }) => {
             name='email'
             placeholder='Email'
             onChange={inputChangeHandler}
-            rules={[{ required: true, message: 'Введите email' }]}
+            rules={[
+              {
+                type: 'email',
+                message: 'Введен неверный E-mail!',
+              },
+            ]}
           />
 
           <FormField

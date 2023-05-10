@@ -64,6 +64,8 @@ interface AccountsState {
   approveRegisterRequestLoading: boolean;
   approveRegisterRequestError: IErrors | null;
   approveRegisterRequestSuccess: boolean;
+  changeProfileLoading: boolean;
+  changeProfileError: IErrors | null;
 }
 
 const INITIAL_STATE = {
@@ -126,6 +128,9 @@ const INITIAL_STATE = {
   approveRegisterRequestLoading: false,
   approveRegisterRequestError: null,
   approveRegisterRequestSuccess: false,
+
+  changeProfileLoading: false,
+  changeProfileError: null,
 } as AccountsState;
 
 export const fetchAccount = createAsyncThunk(
@@ -221,6 +226,19 @@ export const fetchUserVehicles = createAsyncThunk<userVehicles, fetchUserVehicle
   },
 );
 
+export const requestChangeProfile = createAsyncThunk<void, IMyData | null>(
+  `${nameSpace}/requestChangeProfile`,
+  async (data, { rejectWithValue }) => {
+    try {
+      const resp = await axiosApi2.post(`/common/inquiries/`, data);
+      message.success('Запрос успешно отправлен!');
+      return resp.data;
+    } catch (e) {
+      return rejectWithValue(e);
+    }
+  },
+);
+
 export const approveFieldClimateRequest = createAsyncThunk<void, IMyData>(
   `${nameSpace}/approveFieldClimateRequest`,
   async (data, { rejectWithValue }) => {
@@ -230,6 +248,12 @@ export const approveFieldClimateRequest = createAsyncThunk<void, IMyData>(
 
       return resp.data;
     } catch (e) {
+      if (data.category === 1) {
+        return rejectWithValue({
+          detail: e?.response?.data,
+          status: e?.response?.status,
+        });
+      }
       return rejectWithValue({
         detail: e?.response?.data?.non_field_errors,
         status: e?.response?.status,
@@ -248,7 +272,7 @@ export const approveRegisterRequest = createAsyncThunk<void, IMyData>(
       return resp.data;
     } catch (e) {
       return rejectWithValue({
-        detail: e?.response?.data?.non_field_errors,
+        detail: e?.response?.data,
         status: e?.response?.status,
       });
     }
@@ -572,6 +596,25 @@ const accountsSlice = createSlice({
         };
       }
       state.inquiriesSuccess = false;
+    });
+
+    builder.addCase(requestChangeProfile.pending, (state) => {
+      state.changeProfileLoading = true;
+      state.changeProfileError = null;
+    });
+    builder.addCase(requestChangeProfile.fulfilled, (state) => {
+      state.changeProfileLoading = false;
+      state.changeProfileError = null;
+    });
+    builder.addCase(requestChangeProfile.rejected, (state, { payload }) => {
+      state.changeProfileLoading = false;
+      if (payload && typeof payload === 'object' && 'detail' in payload && 'status' in payload) {
+        state.changeProfileError = {
+          ...state.changeProfileError,
+          detail: payload.detail as string | null,
+          status: payload.status as number | null,
+        };
+      }
     });
 
     builder.addCase(approveRegisterRequest.pending, (state) => {

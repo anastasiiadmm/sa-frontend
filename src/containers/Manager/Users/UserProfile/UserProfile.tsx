@@ -215,10 +215,9 @@ const UserProfile: React.FC = () => {
                 <Card className={b('user-card-style')} bordered={false} style={{ width: '100%' }}>
                   <img src={tractorBlue} alt='tractorBlue' />
                   <div className={b('card-content')}>
-                    <Title level={5} data-testid='sign_in_test'>
+                    <Title level={4} style={{ margin: 5 }} data-testid='sign_in_test'>
                       Техника пользователя
                     </Title>
-                    <p className={b('subtext')}>Добавить или удалить технику</p>
                   </div>
                 </Card>
               </Link>
