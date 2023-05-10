@@ -61,6 +61,9 @@ interface AccountsState {
   approveRequestLoading: boolean;
   approveRequestError: IErrors | null;
   approveRequestSuccess: boolean;
+  approveRegisterRequestLoading: boolean;
+  approveRegisterRequestError: IErrors | null;
+  approveRegisterRequestSuccess: boolean;
 }
 
 const INITIAL_STATE = {
@@ -119,6 +122,10 @@ const INITIAL_STATE = {
   approveRequestLoading: false,
   approveRequestError: null,
   approveRequestSuccess: false,
+
+  approveRegisterRequestLoading: false,
+  approveRegisterRequestError: null,
+  approveRegisterRequestSuccess: false,
 } as AccountsState;
 
 export const fetchAccount = createAsyncThunk(
@@ -216,6 +223,23 @@ export const fetchUserVehicles = createAsyncThunk<userVehicles, fetchUserVehicle
 
 export const approveFieldClimateRequest = createAsyncThunk<void, IMyData>(
   `${nameSpace}/approveFieldClimateRequest`,
+  async (data, { rejectWithValue }) => {
+    try {
+      const resp = await axiosApi2.post(`/common/inquiries/`, data);
+      message.success('Запрос успешно отправлен!');
+
+      return resp.data;
+    } catch (e) {
+      return rejectWithValue({
+        detail: e?.response?.data?.non_field_errors,
+        status: e?.response?.status,
+      });
+    }
+  },
+);
+
+export const approveRegisterRequest = createAsyncThunk<void, IMyData>(
+  `${nameSpace}/approveRegisterRequest`,
   async (data, { rejectWithValue }) => {
     try {
       const resp = await axiosApi2.post(`/common/inquiries/`, data);
@@ -550,12 +574,34 @@ const accountsSlice = createSlice({
       state.inquiriesSuccess = false;
     });
 
+    builder.addCase(approveRegisterRequest.pending, (state) => {
+      state.approveRegisterRequestLoading = true;
+      state.approveRegisterRequestError = null;
+      state.approveRequestSuccess = false;
+    });
+    builder.addCase(approveRegisterRequest.fulfilled, (state) => {
+      state.approveRegisterRequestLoading = false;
+      state.approveRegisterRequestError = null;
+      state.approveRequestSuccess = true;
+    });
+    builder.addCase(approveRegisterRequest.rejected, (state, { payload }) => {
+      state.approveRegisterRequestLoading = false;
+      if (payload && typeof payload === 'object' && 'detail' in payload && 'status' in payload) {
+        state.approveRegisterRequestError = {
+          ...state.approveRegisterRequestError,
+          detail: payload.detail as string | null,
+          status: payload.status as number | null,
+        };
+      }
+      state.approveRequestSuccess = false;
+    });
+
     builder.addCase(approveRequest.pending, (state) => {
       state.approveRequestLoading = true;
       state.approveRequestError = null;
       state.approveRequestSuccess = false;
     });
-    builder.addCase(approveRequest.fulfilled, (state, action: PayloadAction<{ id: number }>) => {
+    builder.addCase(approveRequest.fulfilled, (state) => {
       state.approveRequestLoading = false;
       state.approveRequestError = null;
       state.approveRequestSuccess = true;

@@ -6,7 +6,7 @@ import AlertComponent from 'components/AlertComponent/AlertComponent';
 import FormField from 'components/FormField/FormField';
 import 'components/ModalComponent/ModalChildrenComponents/RequestRegisterModal/_requestRegisterModal.scss';
 import { getErrorMessage, removeEmptyValuesFromObject } from 'helper';
-import { accountsSelector, approveFieldClimateRequest } from 'redux/accounts/accountsSlice';
+import { accountsSelector, approveRegisterRequest } from 'redux/accounts/accountsSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 
 type Props = {
@@ -76,7 +76,7 @@ const RequestRegisterModal: React.FC<Props> = ({ onClose }) => {
             },
           },
         };
-        await dispatch(approveFieldClimateRequest(registerUserObj)).unwrap();
+        await dispatch(approveRegisterRequest(registerUserObj)).unwrap();
         setUserData({
           user: {
             last_name: '',
