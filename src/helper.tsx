@@ -259,3 +259,18 @@ export const updateDataNames = (data: SensorDataEntry[], jsonData: Locales) => {
 export const isEmptyObject = (data: any) => {
   return Object.keys(data).length === 0;
 };
+
+export const appendDataFields = (formData: FormData, data: Record<string, any>, prefix = '') => {
+  for (const key in data) {
+    if (Object.prototype.hasOwnProperty.call(data, key)) {
+      const value = data[key];
+      const fieldName = prefix ? `${prefix}.${key}` : key;
+
+      if (typeof value === 'object') {
+        appendDataFields(formData, value, fieldName);
+      } else {
+        formData.append(fieldName, value);
+      }
+    }
+  }
+};

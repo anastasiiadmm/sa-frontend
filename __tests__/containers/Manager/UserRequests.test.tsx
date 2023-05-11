@@ -11,22 +11,11 @@ import RequestAddTechnique
 const dataTable = [
     {
         "id": 90,
+        "category": 2,
         "created_at": "11-04-2023 22:12",
-        "confirmation_type": 3,
-        "inquiry_id": 98,
-        "enterprise": 1,
-        "confirmation_type_text": "Добавление техники",
+        "object_id": 3,
         "requestor": "ОсОО ОДА Дордой-Секьюрити"
     },
-    {
-        "id": 91,
-        "created_at": "11-04-2023 22:12",
-        "confirmation_type": 3,
-        "inquiry_id": 99,
-        "enterprise": 1,
-        "confirmation_type_text": "Добавление техники",
-        "requestor": "ОсОО ОДА Дордой-Секьюрити"
-    }
 ]
 describe('UserRequests', () => {
     test('render table', () => {

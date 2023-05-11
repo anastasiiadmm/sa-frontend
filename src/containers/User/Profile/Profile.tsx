@@ -7,9 +7,11 @@ import FormField from 'components/FormField/FormField';
 import EditUserProfileModal from 'components/ModalComponent/ModalChildrenComponents/EditUserProfileModal/EditUserProfileModal';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import SkeletonBlock from 'components/SkeletonBlock/SkeletonBlock';
+import { appendDataFields } from 'helper';
 import { IMyData, IMyDataApi } from 'interfaces';
 import { accountsSelector, requestChangeProfile } from 'redux/accounts/accountsSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { fileSizeValidate, fileValidateImg } from 'utils/validate/validate';
 
 import 'containers/User/Profile/_profile.scss';
 
@@ -39,6 +41,8 @@ const Profile = () => {
       },
     },
   });
+  const [image, setImage] = useState<File | null>(null);
+  const [formValid, setFormValid] = useState(true);
 
   useEffect(() => {
     if (account) {
@@ -64,6 +68,16 @@ const Profile = () => {
     setIsModalOpen(!isModalOpen);
   };
 
+  const onFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (files) {
+      if (fileSizeValidate(files[0]) && fileValidateImg(files[0])) {
+        setImage(files[0]);
+      }
+    }
+    setFormValid(false);
+  };
+
   const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     const [objName, propName] = name.split(',');
@@ -80,7 +94,22 @@ const Profile = () => {
         object_id: account?.id,
         data,
       };
-      await dispatch(requestChangeProfile(changeUserObj)).unwrap();
+
+      const formData = new FormData();
+
+      for (const name in changeUserObj) {
+        if (name === 'data') {
+          appendDataFields(formData, changeUserObj[name]);
+        } else {
+          formData.append(name, changeUserObj[name]);
+        }
+      }
+
+      if (image) {
+        formData.append('image', image);
+      }
+
+      await dispatch(requestChangeProfile(formData)).unwrap();
       await setIsModalOpen(false);
     } catch (e) {
       await setIsModalOpen(false);
@@ -235,6 +264,7 @@ const Profile = () => {
       </div>
 
       <ModalComponent
+        dividerShow={false}
         title='Запрос на изменение личной информации'
         open={isModalOpen}
         handleOk={handleOkCancel}
@@ -245,6 +275,12 @@ const Profile = () => {
           account={account}
           inputChangeHandler={inputChangeHandler}
           loading={changeProfileLoading}
+          image={image}
+          onFileChange={onFileChange}
+          formValid={formValid}
+          onValuesChange={() =>
+            setFormValid(form.getFieldsError().some((item) => item.errors.length > 0))
+          }
         />
       </ModalComponent>
     </>

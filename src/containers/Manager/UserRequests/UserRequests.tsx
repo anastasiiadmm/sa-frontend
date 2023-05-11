@@ -18,13 +18,15 @@ import RequestAddTechnique from 'components/ModalComponent/ModalChildrenComponen
 import RequestRegisterUser from 'components/ModalComponent/ModalChildrenComponents/RequestsModals/RequestRegisterUser/RequestRegisterUser';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import TableComponent from 'components/TableComponent/TableComponent';
-import { getPageNumber, getPageNumberPrevious } from 'helper';
+import { appendDataFields, getPageNumber, getPageNumberPrevious } from 'helper';
+import { IMyData, IMyDataApi } from 'interfaces';
 import {
   accountsSelector,
   approveRequest,
   deleteRequest,
   deleteRequests,
   fetchRequests,
+  requestChangeProfile,
 } from 'redux/accounts/accountsSlice';
 import {
   clearUserInfo,
@@ -37,6 +39,7 @@ import {
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { RequestType } from 'types/types';
 import { dateMomentTypeDash } from 'utils/constants';
+import { fileSizeValidate, fileValidateImg } from 'utils/validate/validate';
 import 'containers/Manager/UserRequests/_userRequests.scss';
 
 const { Title } = Typography;
@@ -69,6 +72,24 @@ const UserRequests = () => {
   const [fieldClimateData, setFieldClimateData] = useState<RequestType | null>(null);
   const [confirmation_typeId, setConfirmation_typeId] = useState<number | null>(null);
   const [id, setId] = useState<number | null>(null);
+  const [data, setData] = useState<IMyDataApi>({
+    data: {
+      user: {
+        last_name: '',
+        first_name: '',
+        middle_name: '',
+        email: '',
+        phone: '',
+        username: '',
+      },
+      enterprise: {
+        name: '',
+        location: '',
+        autopilots_amount: '',
+      },
+    },
+  });
+  const [image, setImage] = useState<File | null>(null);
 
   useEffect(() => {
     const data = {
@@ -212,25 +233,77 @@ const UserRequests = () => {
     dispatch(fetchRequests({ data }));
   };
 
+  const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    const [objName, propName] = name.split(',');
+    setData((prevData: IMyData | any) => {
+      const updatedObj = { ...prevData?.[objName], [propName]: value };
+      return { ...prevData, [objName]: updatedObj };
+    });
+  };
+
+  const onFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (files) {
+      if (fileSizeValidate(files[0]) && fileValidateImg(files[0])) {
+        setImage(files[0]);
+      }
+    }
+  };
+
+  const onClickSendDataHandler = async () => {
+    try {
+      const changeUserObj: any = {
+        category: 2,
+        object_id: id,
+        data,
+      };
+
+      const formData = new FormData();
+
+      for (const name in changeUserObj) {
+        if (name === 'data') {
+          appendDataFields(formData, changeUserObj[name]);
+        } else {
+          formData.append(name, changeUserObj[name]);
+        }
+      }
+
+      if (image) {
+        formData.append('image', image);
+      }
+
+      await dispatch(requestChangeProfile(formData)).unwrap();
+      await setIsModalUserInfoRejectOpen(false);
+    } catch (e) {
+      await setIsModalUserInfoRejectOpen(false);
+      await message.error(
+        e?.response?.data?.non_field_errors[0] === 'Inquiry has already been sent to manager.'
+          ? 'Запрос ранне был отправлен. Дождитесь подтверждения.'
+          : 'Произошла ошибка.',
+      );
+    }
+  };
+
   const confirmationTypeHandler = (row: RequestType) => {
     switch (row?.category) {
       case 2:
-        setId(row.id);
+        setId(row?.id);
         setConfirmation_typeId(row?.category);
         showUserInfoModal();
         break;
       case 3:
-        setId(row.id);
+        setId(row?.id);
         setConfirmation_typeId(row?.category);
         showTechniqueModal(row);
         break;
       case 4:
-        setId(row.id);
+        setId(row?.id);
         setConfirmation_typeId(row?.category);
         showFieldClimateInfoModal(row);
         break;
       default:
-        setId(row.id);
+        setId(row?.id);
         setConfirmation_typeId(row?.category);
         showRegisterUserModal();
     }
@@ -392,6 +465,13 @@ const UserRequests = () => {
           handleOkCancel={handleOkUserInfoCancel}
           showRejectModal={showRejectModal}
           changeUserInfoRequest
+          userInfo={userInfo}
+          userId={id}
+          userInfoLoading={userInfoLoading}
+          inputChangeHandler={inputChangeHandler}
+          image={image}
+          onFileChange={onFileChange}
+          onClick={onClickSendDataHandler}
         />
       </ModalComponent>
 

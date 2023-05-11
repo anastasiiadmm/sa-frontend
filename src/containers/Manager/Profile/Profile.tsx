@@ -18,9 +18,9 @@ import {
   setManagerProfile,
 } from 'redux/accounts/accountsSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import 'containers/Manager/Profile/_profile.scss';
 import { apiUrlCrop } from 'utils/config';
 import { fileSizeValidate, fileValidateImg } from 'utils/validate/validate';
+import 'containers/Manager/Profile/_profile.scss';
 
 const { Title } = Typography;
 
@@ -162,6 +162,7 @@ const Profile: React.FC = () => {
                   accept='image/png, image/gif, image/jpeg'
                 />
               </div>
+
               <Title level={3} data-testid='sign_in_test' className='title'>
                 {`${account?.last_name} ${account?.first_name?.charAt(
                   0,

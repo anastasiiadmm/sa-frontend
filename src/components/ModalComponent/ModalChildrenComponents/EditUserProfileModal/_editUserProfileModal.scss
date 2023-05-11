@@ -43,6 +43,13 @@
     }
   }
 
+  &__image-upload {
+    margin: 20px 0;
+    >input {
+      display: none;
+    }
+  }
+
   :where(.css-dev-only-do-not-override-sk7ap8).ant-form-vertical .ant-form-item-label, :where(.css-dev-only-do-not-override-sk7ap8).ant-col-24.ant-form-item-label, :where(.css-dev-only-do-not-override-sk7ap8).ant-col-xl-24.ant-form-item-label {
     padding: 0;
   }

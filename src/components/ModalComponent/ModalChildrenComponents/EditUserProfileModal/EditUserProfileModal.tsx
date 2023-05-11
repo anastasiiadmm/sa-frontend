@@ -1,14 +1,19 @@
-import { Button, Col, Form } from 'antd';
+import { UserOutlined } from '@ant-design/icons';
+import { Avatar, Button, Col, Form } from 'antd';
 import bem from 'easy-bem';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
 import FormField from 'components/FormField/FormField';
-import { companiesList, IAccount, ICompany } from 'types/types';
+import { companiesList, IAccount, ICompany, requestData } from 'types/types';
+import { apiUrlCrop } from 'utils/config';
 import 'components/ModalComponent/ModalChildrenComponents/EditUserProfileModal/_editUserProfileModal.scss';
 
 interface Props {
   updateUserData?: companiesList | ICompany | Object | null;
   account?: IAccount | null | undefined;
+  userInfo?: requestData | null;
+  userId?: number | null;
+  userInfoLoading?: boolean;
   changeUserInfoRequest?: boolean;
   validateForm?: boolean;
   loading?: boolean;
@@ -17,6 +22,10 @@ interface Props {
   inputChangeHandler?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onFinish?: (values: any) => void;
   onClick?: () => void;
+  formValid?: boolean;
+  image?: File | null;
+  onFileChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onValuesChange?: (changedValues: any, allValues: any) => void;
 }
 
 const EditUserProfileModal: React.FC<Props> = ({
@@ -26,14 +35,19 @@ const EditUserProfileModal: React.FC<Props> = ({
   validateForm,
   inputChangeHandler,
   changeUserInfoRequest = false,
+  userInfo,
+  userInfoLoading,
   handleOkCancel,
   showRejectModal,
   onFinish,
   onClick,
+  onFileChange,
+  image,
+  formValid,
+  onValuesChange,
 }) => {
   const b = bem('EditUserProfileModal');
   const [form] = Form.useForm();
-  const [formValid, setFormValid] = useState(true);
 
   useEffect(() => {
     if (updateUserData) {
@@ -77,6 +91,8 @@ const EditUserProfileModal: React.FC<Props> = ({
     }
   }, [account]);
 
+  useEffect(() => {}, []);
+
   return (
     <Col
       className={b('')}
@@ -84,14 +100,35 @@ const EditUserProfileModal: React.FC<Props> = ({
       md={{ span: 24, offset: 0 }}
       lg={{ span: 24, offset: 0 }}
     >
+      <div className={b('image-upload')}>
+        <label htmlFor='image-input'>
+          {image ? (
+            <Avatar size={64} src={URL.createObjectURL(image)} style={{ cursor: 'pointer' }} />
+          ) : (
+            <Avatar
+              size={64}
+              src={account?.image ? `${apiUrlCrop}${account?.image}` : ''}
+              style={{ cursor: 'pointer' }}
+              icon={<UserOutlined />}
+            />
+          )}
+        </label>
+
+        <input
+          data-testid='image-input'
+          id='image-input'
+          type='file'
+          onChange={onFileChange}
+          accept='image/png, image/gif, image/jpeg'
+        />
+      </div>
+
       <Form
         form={form}
         onFinish={onFinish}
         autoComplete='off'
         layout='vertical'
-        onValuesChange={() =>
-          setFormValid(form.getFieldsError().some((item) => item.errors.length > 0))
-        }
+        onValuesChange={onValuesChange}
       >
         {changeUserInfoRequest ? (
           <div className={b('form-modal-block')}>

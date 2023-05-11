@@ -226,7 +226,7 @@ export const fetchUserVehicles = createAsyncThunk<userVehicles, fetchUserVehicle
   },
 );
 
-export const requestChangeProfile = createAsyncThunk<void, IMyData | null>(
+export const requestChangeProfile = createAsyncThunk<void, IMyData | FormData>(
   `${nameSpace}/requestChangeProfile`,
   async (data, { rejectWithValue }) => {
     try {
