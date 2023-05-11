@@ -2,7 +2,15 @@ import { Button, Card, Spin, Tooltip, Typography } from 'antd';
 import bem from 'easy-bem';
 import L, { LatLngExpression, LatLngTuple } from 'leaflet';
 import React, { useEffect, useState } from 'react';
-import { CircleMarker, MapContainer, Marker, Polyline, Popup, TileLayer } from 'react-leaflet';
+import {
+  CircleMarker,
+  MapContainer,
+  Marker,
+  Polyline,
+  Popup,
+  Rectangle,
+  TileLayer,
+} from 'react-leaflet';
 import { useLocation, useNavigate, useParams } from 'react-router';
 
 import 'components/OpenMapComponent/_openMapComponent.scss';
@@ -14,10 +22,11 @@ import map from 'assets/images/icons/map.svg';
 import startA from 'assets/images/icons/startA.svg';
 import tractorBlue from 'assets/images/icons/tractor-blue.svg';
 import Errors from 'components/Errors/Errors';
+import { isLineAbove, metersToLatitude } from 'helper';
 import { accountsSelector, fetchVehicleInfo } from 'redux/accounts/accountsSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 
-import { clearField, mapSelector, obtainingCoordinate } from 'redux/map/mapSlice';
+import { mapSelector, obtainingCoordinate } from 'redux/map/mapSlice';
 
 // eslint-disable-next-line import/order
 import { AimOutlined } from '@ant-design/icons';
@@ -102,15 +111,16 @@ const OpenMapComponent = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (!field_name?.includes('local-tractor')) {
-      dispatch(
-        obtainingCoordinate({
-          id: Number(id),
-          field_name: field_name || 'NotFound',
-        }),
-      );
-    } else {
-      dispatch(clearField());
+    dispatch(
+      obtainingCoordinate({
+        id: Number(id),
+        field_name: !field_name?.includes('local-tractor') ? `?job=${field_name}` : '',
+      }),
+    );
+
+    if (field_name?.includes('local-tractor')) {
+      setLoadingMap(true);
+      setLoadingMapUpdate(true);
     }
   }, []);
 
@@ -138,7 +148,7 @@ const OpenMapComponent = () => {
     iconRetinaUrl: map,
     iconAnchor: new L.Point(16, 17),
     popupAnchor: new L.Point(16, 0),
-    iconSize: new L.Point(36, 36),
+    iconSize: new L.Point(30, 30),
     className: 'leaflet-div-icon',
   });
 
@@ -243,10 +253,27 @@ const OpenMapComponent = () => {
   }
 
   const positionsTool2 = (): any => {
-    if (field.results.length) {
-      return polyline.map((points) =>
-        points.map((point) => [point[0] + 0.0000545, point[1]] as LatLngTuple),
-      );
+    if (field.results.length && field.resultsV2?.tool_width) {
+      return polyline.map((points) => {
+        if (isLineAbove(points[0], points[1])) {
+          return points.map(
+            (point) =>
+              [
+                point[0] + metersToLatitude(Number(field.resultsV2?.tool_width)),
+                point[1],
+              ] as LatLngTuple,
+          );
+        }
+        if (!isLineAbove(points[0], points[1])) {
+          return points.map(
+            (point) =>
+              [
+                point[0],
+                point[1] - metersToLatitude(Number(field.resultsV2?.tool_width)),
+              ] as LatLngTuple,
+          );
+        }
+      });
     }
 
     return [0, 0];
@@ -282,6 +309,13 @@ const OpenMapComponent = () => {
     bounds.map((coords: number[]) => [coords[0], coords[1]]),
   );
   const findResults = vehicle.results?.processing_data.find((item) => item.id === Number(id));
+
+  const width = 12;
+  const center = [42.858133, 74.602599];
+  const sizeInMeters = width / 100000;
+
+  const topLeft: any = [center[0] + sizeInMeters / 2, center[1]];
+  const bottomRight: any = [42.858133, 74.603599];
 
   return (
     <div className={b()}>
@@ -322,7 +356,7 @@ const OpenMapComponent = () => {
         {socketMap.latitude && socketMap.latitude ? (
           <MapContainer
             center={centerMapHandler()}
-            zoom={18}
+            zoom={27}
             minZoom={2}
             maxZoom={18}
             scrollWheelZoom
@@ -359,8 +393,9 @@ const OpenMapComponent = () => {
               </Polyline>
             )}
 
+            <Rectangle bounds={[topLeft, bottomRight]} color='red' weight={3} />
             {id === 'local-tractor' || pathname.includes('local-tractor') ? null : (
-              <Polyline weight={20} pathOptions={purpleOptionsTool} positions={positionsTool2()}>
+              <Polyline weight={30} pathOptions={purpleOptionsTool} positions={positionsTool2()}>
                 <Marker
                   position={getCoordinateByTypeTool(positionsTool2(), 'start') as LatLngExpression}
                   icon={duckIconStartTool}

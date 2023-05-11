@@ -246,6 +246,7 @@ export interface Result {
   tool_width: string;
   tool_overlap: string;
   tool_width_total: string;
+  left_right: string;
   area: string;
 }
 
@@ -253,6 +254,12 @@ interface Vehicle {
   vin: string;
   license_plate: string;
   description: string;
+  image: string;
+  operator: {
+    first_name: string;
+    last_name: string;
+    middle_name: string;
+  };
 }
 
 export interface userVehicleInfo {
@@ -278,7 +285,6 @@ export interface userVehicleInfoCompanies {
   last_longitude: string;
   enterprise: number;
 }
-
 
 export interface vehicleCreateData {
   vin_code: string;

@@ -48,7 +48,7 @@ export const obtainingCoordinate = createAsyncThunk(
     { rejectWithValue },
   ) => {
     try {
-      const response = await axiosApi2.get(`/vehicles/${id}/routes/?job=${field_name}`);
+      const response = await axiosApi2.get(`/vehicles/${id}/routes/${field_name}`);
       return {
         results: [
           {

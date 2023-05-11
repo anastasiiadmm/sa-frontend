@@ -16,6 +16,8 @@ import { authSelector } from 'redux/auth/authSlice';
 import { companiesSelector } from 'redux/companies/companiesSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { Result } from 'types/types';
+import { urlFormat } from 'utils/files/files';
+
 import 'containers/Technique/ProfileTechnique/_profileTechnique.scss';
 
 const { Title } = Typography;
@@ -116,7 +118,7 @@ const ProfileTechnique = () => {
       filterSearch: true,
       width: '20%',
       render: (text: string, record) => {
-        return <p className={b('name-column-style')}>в даработку </p>;
+        return <p className={b('name-column-style')}>{record?.left_right}</p>;
       },
     },
     {
@@ -186,7 +188,9 @@ const ProfileTechnique = () => {
               <Title level={3} className={b('title')}>
                 Профиль техники -{' '}
                 <p className={b('subtitle')}> {userVehicleInfo?.vehicle.license_plate} </p> -{' '}
-                Дополнить
+                {userVehicleInfo?.vehicle?.operator.middle_name}{' '}
+                {userVehicleInfo?.vehicle?.operator.first_name?.slice(0, 1)}.{' '}
+                {userVehicleInfo?.vehicle?.operator.last_name?.slice(0, 1)}
               </Title>
             )}
           </div>
@@ -208,7 +212,7 @@ const ProfileTechnique = () => {
             <Image
               preview={false}
               className={b('technique-image')}
-              src=''
+              src={urlFormat(userVehicleInfo?.vehicle.image)}
               width={242}
               style={{ borderRadius: 4 }}
             />

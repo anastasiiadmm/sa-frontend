@@ -287,3 +287,15 @@ export function getPageParam(url: string | undefined | null): string | null {
 
   return '';
 }
+
+export function isLineAbove(startPoint: any, endPoint: any): boolean {
+  const [, startY] = startPoint;
+  const [, endY] = endPoint;
+
+  return startY < endY;
+}
+
+export function metersToLatitude(meters: number): number {
+  const metersPerDegree = 111320;
+  return meters / metersPerDegree;
+}

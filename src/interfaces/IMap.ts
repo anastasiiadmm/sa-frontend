@@ -50,7 +50,7 @@ interface VehicleV2 {
   point_A_lon: number;
   point_B_lat: number;
   point_B_lon: number;
-  width: string;
+  tool_width: string;
 }
 
 export interface IMapState {
