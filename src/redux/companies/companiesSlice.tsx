@@ -8,6 +8,7 @@ import {
   ICompany,
   PostNewUser,
   requestData,
+  requestUserProfileData,
   UpdatedCompaniesList,
   usersListPagination,
   userVehicleInfo,
@@ -33,7 +34,7 @@ interface CompaniesState {
   userInfoError: IErrors | null;
   updateUserInfoLoading: boolean;
   updateUserInfoError: IErrors | null;
-  updateUserData: ICompany | null | Object;
+  updateUserData: requestUserProfileData | null | Object;
   updateUserDataLoading: boolean;
   updateUserDataError: Object | null;
   deleteUserInfoLoading: boolean;
@@ -67,6 +68,9 @@ interface CompaniesState {
     loading: boolean;
     errors: IErrors | null;
   };
+  userInfoByManager: requestUserProfileData | null;
+  userInfoByManagerLoading: boolean;
+  userInfoByManagerError: IErrors | null;
 }
 
 const INITIAL_STATE = {
@@ -87,17 +91,22 @@ const INITIAL_STATE = {
   updateUserInfoError: null,
 
   updateUserData: {
-    autopilots_amount: '',
-    location: '',
-    name: '',
-    user: {
-      username: '',
-      first_name: '',
-      last_name: '',
-      middle_name: '',
-      email: '',
-      phone: '',
-      password: '',
+    coords_timeout: 0,
+    email: '',
+    first_name: '',
+    image: '',
+    is_manager: false,
+    last_name: '',
+    middle_name: '',
+    phone: '',
+    username: '',
+    company: {
+      autopilots_amount: 0,
+      location: '',
+      meteo_requested: false,
+      name: '',
+      vehicles_number: 0,
+      weather_service: false,
     },
   },
   updateUserDataLoading: false,
@@ -139,6 +148,10 @@ const INITIAL_STATE = {
     loading: false,
     errors: null,
   },
+
+  userInfoByManager: null,
+  userInfoByManagerLoading: false,
+  userInfoByManagerError: null,
 } as CompaniesState;
 
 interface fetchCompaniesParams {
@@ -219,6 +232,31 @@ export const fetchUserInfo = createAsyncThunk<requestData, fetchCompanyParams>(
   },
 );
 
+interface fetchUserInfoByManagerParams {
+  id: number | string | null | undefined;
+}
+
+export const fetchUserInfoByManager = createAsyncThunk<
+  requestUserProfileData,
+  fetchUserInfoByManagerParams
+>('accounts/fetchUserInfoByManager', async ({ id }, { rejectWithValue }) => {
+  try {
+    const resp = await axiosApi2.get<requestUserProfileData | null>(`/accounts/users/${id}/`);
+    const userInfoByManager = resp.data;
+
+    if (userInfoByManager === null) {
+      throw new Error('Not Found!');
+    }
+
+    return userInfoByManager;
+  } catch (e) {
+    return rejectWithValue({
+      detail: e?.response?.data?.detail,
+      status: e?.response?.status,
+    });
+  }
+});
+
 interface updateUserInfoParams {
   id: string | undefined;
   data: ICompany | UpdatedCompaniesList | requestData;
@@ -245,7 +283,7 @@ export const deleteUserInfo = createAsyncThunk<void, string>(
   `${nameSpace}/deleteUserInfo`,
   async (id, { rejectWithValue }) => {
     try {
-      const resp = await axiosApi.delete(`/companies/${id}/`);
+      const resp = await axiosApi2.delete(`/accounts/users/${id}/`);
       message.success('Данные успешно удалены!');
 
       return resp.data;
@@ -275,8 +313,8 @@ export const fetchUserVehicleList = createAsyncThunk<companiesList, fetchVehicle
       if (data?.query) {
         query = toQueryParams(data.query);
       }
-      const resp = await axiosApi.get<companiesList | null>(
-        `/companies/${data?.userId}/vehicles/${query}`,
+      const resp = await axiosApi2.get<companiesList | null>(
+        `/enterprises/${data?.userId}/vehicles/${query}`,
       );
       const companies = resp.data;
 
@@ -454,18 +492,23 @@ const companiesSlice = createSlice({
   name: nameSpace,
   initialState: INITIAL_STATE,
   reducers: {
-    setChangeUserProfile: (state: any, action: PayloadAction<companiesList>) => {
-      state.updateUserData.autopilots_amount = action.payload.autopilots_amount;
-      state.updateUserData.location = action.payload.location;
-      state.updateUserData.name = action.payload.name;
-      state.updateUserData.user = {
-        email: action.payload.user.email,
-        first_name: action.payload.user.first_name,
-        last_name: action.payload.user.last_name,
-        middle_name: action.payload.user.middle_name,
-        password: action.payload.user.password,
-        phone: action.payload.user.phone,
-        username: action.payload.user.username,
+    setChangeUserProfile: (state: any, action: PayloadAction<requestUserProfileData>) => {
+      state.updateUserData.coords_timeout = action.payload.coords_timeout;
+      state.updateUserData.email = action.payload.email;
+      state.updateUserData.first_name = action.payload.first_name;
+      state.updateUserData.image = action.payload.image;
+      state.updateUserData.is_manager = action.payload.is_manager;
+      state.updateUserData.last_name = action.payload.last_name;
+      state.updateUserData.middle_name = action.payload.middle_name;
+      state.updateUserData.phone = action.payload.phone;
+      state.updateUserData.username = action.payload.username;
+      state.updateUserData.company = {
+        autopilots_amount: action?.payload?.company?.autopilots_amount,
+        location: action?.payload?.company?.location,
+        meteo_requested: action?.payload?.company?.meteo_requested,
+        name: action?.payload?.company?.name,
+        vehicles_number: action?.payload?.company?.vehicles_number,
+        weather_service: action?.payload?.company?.weather_service,
       };
     },
     setNullReducerVehicleCreate: (state) => {
@@ -551,6 +594,25 @@ const companiesSlice = createSlice({
       }
     });
 
+    builder.addCase(fetchUserInfoByManager.pending, (state) => {
+      state.userInfoByManagerLoading = true;
+      state.userInfoByManagerError = null;
+    });
+    builder.addCase(fetchUserInfoByManager.fulfilled, (state, { payload: userInfoByManager }) => {
+      state.userInfoByManagerLoading = false;
+      state.userInfoByManager = userInfoByManager;
+    });
+    builder.addCase(fetchUserInfoByManager.rejected, (state, { payload }) => {
+      state.userInfoByManagerLoading = false;
+      if (payload && typeof payload === 'object' && 'detail' in payload && 'status' in payload) {
+        state.userInfoByManagerError = {
+          ...state.userInfoByManagerError,
+          detail: payload.detail as string | null,
+          status: payload.status as number | null,
+        };
+      }
+    });
+
     builder.addCase(updateUserInfo.pending, (state) => {
       state.updateUserInfoLoading = true;
       state.updateUserInfoError = null;
@@ -599,8 +661,8 @@ const companiesSlice = createSlice({
       state.vehicleListPagination = {
         ...state.vehicleListPagination,
         count: payload.count,
-        next: payload.links.next,
-        previous: payload.links.previous,
+        next: payload.next,
+        previous: payload.previous,
       };
     });
     builder.addCase(fetchUserVehicleList.rejected, (state, { payload }) => {

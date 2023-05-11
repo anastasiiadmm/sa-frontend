@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { Link, useParams } from 'react-router-dom';
 
+import arrowLeft from 'assets/images/icons/arrow-left.svg';
 import tractorBlue from 'assets/images/icons/tractor-blue.svg';
 import Errors from 'components/Errors/Errors';
 import FormField from 'components/FormField/FormField';
@@ -13,22 +14,16 @@ import EditUserProfileModal from 'components/ModalComponent/ModalChildrenCompone
 import GeneratedPasswordModal from 'components/ModalComponent/ModalChildrenComponents/GeneratedPasswordModal/GeneratedPasswordModal';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import SkeletonBlock from 'components/SkeletonBlock/SkeletonBlock';
-import {
-  getErrorMessage,
-  isObjectChangeUserProfileValidate,
-  removeEmptyValuesFromObject,
-} from 'helper';
+import { getErrorMessage } from 'helper';
 import { accountsSelector, generateNewPassword } from 'redux/accounts/accountsSlice';
 import {
   companiesSelector,
   deleteUserInfo,
-  fetchUserInfo,
+  fetchUserInfoByManager,
   setChangeUserProfile,
-  updateUserInfo,
 } from 'redux/companies/companiesSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { companiesList } from 'types/types';
-
+import { requestUserProfileData } from 'types/types';
 import 'containers/Manager/Users/UserProfile/_UserProfile.scss';
 
 const { Title } = Typography;
@@ -40,73 +35,66 @@ const UserProfile: React.FC = () => {
   const history = useNavigate();
   const dispatch = useAppDispatch();
   const {
-    companies,
-    userInfo,
     updateUserData,
     updateUserInfoLoading,
     deleteUserInfoLoading,
-    userInfoLoading,
-    userInfoError,
+    userInfoByManager,
+    userInfoByManagerLoading,
+    userInfoByManagerError,
   } = useAppSelector(companiesSelector);
   const { generatedPassword, generatePasswordLoading } = useAppSelector(accountsSelector);
-  const [validateForm, setValidateForm] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
   const [isModalPasswordOpen, setIsModalPasswordOpen] = useState(false);
-  const [userData, setUserData] = useState<companiesList>({
-    user: {
-      username: '',
-      password: '',
-      last_name: '',
-      first_name: '',
-      middle_name: '',
-      email: '',
-      phone: '',
-      image: '',
+  const [userInfoData, setUserInfoData] = useState<requestUserProfileData>({
+    coords_timeout: 0,
+    email: '',
+    first_name: '',
+    image: '',
+    is_manager: false,
+    last_name: '',
+    middle_name: '',
+    phone: '',
+    username: '',
+    company: {
+      autopilots_amount: 0,
+      location: '',
+      meteo_requested: false,
+      name: '',
+      vehicles_number: 0,
+      weather_service: false,
     },
-    name: '',
-    location: '',
-    autopilots_amount: 0,
   });
-  const resultsObj: any = companies?.find((item) => item.id === +id) || userInfo;
-  // буду править any когда подключим эндпоинт на v2
 
   useEffect(() => {
-    if (!companies?.length) {
-      dispatch(fetchUserInfo({ id }));
+    if (id) {
+      dispatch(fetchUserInfoByManager({ id }));
     }
-  }, [dispatch]);
+  }, [dispatch, id]);
 
   useEffect(() => {
-    if (resultsObj) {
+    if (userInfoByManager) {
       form.setFieldsValue({
-        username: resultsObj?.user?.username,
-        last_name: resultsObj?.user?.last_name,
-        first_name: resultsObj?.user?.first_name,
-        middle_name: resultsObj?.user?.middle_name,
-        image: resultsObj?.user?.image,
-        email: resultsObj?.user?.email,
-        phone: resultsObj?.user?.phone,
-        name: resultsObj?.name,
-        location: resultsObj?.location,
-        autopilots_amount: resultsObj?.autopilots_amount,
+        username: userInfoByManager?.username,
+        last_name: userInfoByManager?.last_name,
+        first_name: userInfoByManager?.first_name,
+        middle_name: userInfoByManager?.middle_name,
+        image: userInfoByManager?.image,
+        email: userInfoByManager?.email,
+        phone: userInfoByManager?.phone,
+        name: userInfoByManager?.company?.name,
+        location: userInfoByManager?.company?.location,
+        autopilots_amount: userInfoByManager?.company?.autopilots_amount,
       });
     }
-  }, [resultsObj, form]);
+  }, [userInfoByManager, form]);
 
   useEffect(() => {
-    if (resultsObj) {
-      dispatch(setChangeUserProfile(resultsObj));
-      setUserData(resultsObj);
+    if (userInfoByManager) {
+      dispatch(setChangeUserProfile(userInfoByManager));
+      setUserInfoData(userInfoByManager);
     }
-  }, [resultsObj, dispatch]);
-
-  useEffect(() => {
-    if (resultsObj) {
-      const validate = isObjectChangeUserProfileValidate(resultsObj, userData);
-      setValidateForm(validate);
-    }
-  }, [resultsObj, userData]);
+  }, [userInfoByManager, dispatch]);
 
   const showDeleteModal = () => {
     setIsModalDeleteOpen(true);
@@ -126,7 +114,7 @@ const UserProfile: React.FC = () => {
 
   const generatePassword = async () => {
     try {
-      await dispatch(generateNewPassword({ company_id: resultsObj?.id })).unwrap();
+      await dispatch(generateNewPassword({ user_id: userInfoByManager?.id })).unwrap();
       setIsModalPasswordOpen(true);
     } catch (e) {
       await message.error('Ошибка не получилось сменить пароль');
@@ -149,45 +137,38 @@ const UserProfile: React.FC = () => {
 
   const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    if (name.startsWith('user,')) {
+    if (name.startsWith('company,')) {
       const userKey = name.split(',')[1];
-      setUserData((prevUserData) => ({
+      setUserInfoData((prevUserData) => ({
         ...prevUserData,
-        user: {
-          ...prevUserData.user,
+        company: {
+          ...prevUserData.company,
           [userKey]: value,
         },
       }));
-    } else if (name === 'autopilots_amount') {
-      setUserData((prevUserData) => ({
-        ...prevUserData,
-        autopilots_amount: Number(value),
-      }));
     } else {
-      setUserData({ ...userData, [name]: value });
+      setUserInfoData({ ...userInfoData, [name]: value });
     }
   };
 
   const onFinish = async () => {
-    try {
-      if (userData) {
-        const {
-          user: { image, ...userWithoutImage },
-          ...rest
-        } = userData;
-        const newObj = { ...rest, user: userWithoutImage };
-        const data = removeEmptyValuesFromObject(newObj);
-        await dispatch(updateUserInfo({ id, data })).unwrap();
-        history('/');
-      }
-    } catch (e) {
-      const errorMessage = getErrorMessage(e, 'username');
-      await message.error(`${errorMessage}`);
-    }
+    // поменять на редактирование v2
+    // try {
+    //   if (userInfoData) {
+    //     const { image, ...userWithoutImage, ...rest } = userInfoData;
+    //     const newObj = { ...rest, user: userWithoutImage };
+    //     const data = removeEmptyValuesFromObject(newObj);
+    //     await dispatch(updateUserInfo({ id, data })).unwrap();
+    //     history('/');
+    //   }
+    // } catch (e) {
+    //   const errorMessage = getErrorMessage(e, 'username');
+    //   await message.error(`${errorMessage}`);
+    // }
   };
 
-  if (userInfoError) {
-    return <Errors status={userInfoError.status} detail={userInfoError.detail} />;
+  if (userInfoByManagerError) {
+    return <Errors status={userInfoByManagerError.status} detail={userInfoByManagerError.detail} />;
   }
 
   return (
@@ -199,17 +180,21 @@ const UserProfile: React.FC = () => {
           md={{ span: 18, offset: 3 }}
           lg={{ span: 11, offset: 1 }}
         >
-          {userInfoLoading ? (
-            <SkeletonBlock active={userInfoLoading} num={1} titleBool />
+          {userInfoByManagerLoading ? (
+            <SkeletonBlock active={userInfoByManagerLoading} num={1} titleBool />
           ) : (
             <>
-              <Title level={3} data-testid='sign_in_test' className='title'>
-                {`${resultsObj?.user?.last_name} ${resultsObj?.user?.first_name?.charAt(0)}. ${
-                  resultsObj?.user?.middle_name
-                    ? `${resultsObj?.user?.middle_name?.charAt(0)}.`
-                    : ''
-                }`}
-              </Title>
+              <div className={b('header-title')}>
+                <Link to='/'>
+                  <img className={b('arrow-left')} src={arrowLeft} alt='arrow' />
+                </Link>
+                <Title level={3} data-testid='sign_in_test' className='title'>
+                  {userInfoByManager?.last_name} {userInfoByManager?.first_name?.charAt(0)}.{' '}
+                  {userInfoByManager?.middle_name === ''
+                    ? null
+                    : `${userInfoByManager?.middle_name.charAt(0)}.`}
+                </Title>
+              </div>
 
               <Link to={`/user-technique/${id}`}>
                 <Card className={b('user-card-style')} bordered={false} style={{ width: '100%' }}>
@@ -224,7 +209,7 @@ const UserProfile: React.FC = () => {
 
               <Form
                 form={form}
-                initialValues={{ resultsObj }}
+                initialValues={{ userInfoData }}
                 onFinish={onFinish}
                 autoComplete='off'
                 layout='vertical'
@@ -333,9 +318,7 @@ const UserProfile: React.FC = () => {
 
                 <div className={b('profile-buttons')}>
                   <Button
-                    // disabled={!!commonError}
                     type='primary'
-                    // loading={!!loading}
                     style={{ width: '100%', borderRadius: 4 }}
                     className={b('delete-profile-button')}
                     onClick={showDeleteModal}
@@ -366,7 +349,6 @@ const UserProfile: React.FC = () => {
         <EditUserProfileModal
           updateUserData={updateUserData}
           onFinish={onFinish}
-          validateForm={validateForm}
           inputChangeHandler={inputChangeHandler}
           loading={updateUserInfoLoading}
         />

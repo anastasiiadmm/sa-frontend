@@ -21,7 +21,7 @@ import { getErrorMessage, getPageNumber, getPageNumberPrevious } from 'helper';
 import {
   companiesSelector,
   deleteUserVehicle,
-  fetchUserInfo,
+  fetchUserInfoByManager,
   fetchUserVehicleList,
   setNullReducerVehicleCreate,
 } from 'redux/companies/companiesSlice';
@@ -41,12 +41,12 @@ const UserTechnique: React.FC = () => {
     vehicleList,
     fetchVehicleListLoading,
     vehicleListPagination,
-    userInfo,
+    userInfoByManager,
+    userInfoByManagerLoading,
+    userInfoByManagerError,
     vehicleCreateSuccess,
     deleteUserVehicleLoading,
     fetchVehicleListError,
-    userInfoError,
-    userInfoLoading,
   } = useAppSelector(companiesSelector);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalCreateOpen, setIsModalCreateOpen] = useState(false);
@@ -58,6 +58,7 @@ const UserTechnique: React.FC = () => {
       ? Number(getPageNumber(vehicleListPagination?.next))
       : Number(getPageNumberPrevious(vehicleListPagination?.previous)),
   });
+
   useEffect(() => {
     const data = {
       userId: id,
@@ -69,7 +70,7 @@ const UserTechnique: React.FC = () => {
   }, [dispatch, filters]);
 
   useEffect(() => {
-    dispatch(fetchUserInfo({ id }));
+    dispatch(fetchUserInfoByManager({ id }));
   }, [dispatch]);
 
   useEffect(() => {
@@ -257,11 +258,11 @@ const UserTechnique: React.FC = () => {
     },
   ];
 
-  if (fetchVehicleListError || userInfoError) {
+  if (fetchVehicleListError || userInfoByManagerError) {
     return (
       <Errors
-        status={fetchVehicleListError?.status || userInfoError?.status}
-        detail={fetchVehicleListError?.detail || userInfoError?.detail}
+        status={fetchVehicleListError?.status || userInfoByManagerError?.status}
+        detail={fetchVehicleListError?.detail || userInfoByManagerError?.detail}
       />
     );
   }
@@ -271,7 +272,7 @@ const UserTechnique: React.FC = () => {
       <div className={b()} data-testid='user-technique-id'>
         <div className={b('table')}>
           <div className={b('header')}>
-            {userInfoLoading ? (
+            {userInfoByManagerLoading ? (
               <Skeleton active />
             ) : (
               <div className={b('header-title')}>
@@ -282,9 +283,9 @@ const UserTechnique: React.FC = () => {
                   Техника пользователя -{' '}
                   <p className={b('subtitle')}>
                     {' '}
-                    {`${userInfo?.data?.user?.last_name} ${userInfo?.data?.user?.first_name?.charAt(
+                    {`${userInfoByManager?.last_name} ${userInfoByManager?.first_name?.charAt(
                       0,
-                    )}. ${userInfo?.data?.user?.middle_name?.charAt(0)}.`}
+                    )}. ${userInfoByManager?.middle_name?.charAt(0)}.`}
                   </p>
                 </Title>
               </div>
