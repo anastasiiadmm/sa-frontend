@@ -204,13 +204,15 @@ const OpenMapComponent = () => {
     ];
   };
 
-  function getCoordinateByType(coordinates: LatLngExpression[], type: string): any {
+  function getCoordinateByType(coordinates: LatLngExpression[], type: string): LatLngExpression {
     if (type === 'start') {
       return [field.results.point_A_lat as number, field.results.point_A_lon as number];
     }
     if (type === 'end') {
       return [field.results.point_B_lat as number, field.results.point_B_lon as number];
     }
+
+    throw new Error('Invalid type provided');
   }
 
   const latLngBounds: L.LatLngBoundsExpression = L.latLngBounds(
@@ -218,7 +220,7 @@ const OpenMapComponent = () => {
   );
   const findResults = vehicle.results?.processing_data.find((item) => item.id === Number(id));
 
-  const lineMapHistory = (): any => {
+  const lineMapHistory = () => {
     const width = Number(field.results?.tool_width);
     const center = [field.results.point_A_lat, field.results.point_A_lon];
     const sizeInMeters = width / 100000;
@@ -327,16 +329,10 @@ const OpenMapComponent = () => {
             </CircleMarker>
             {id === 'local-tractor' || pathname.includes('local-tractor') ? null : (
               <Polyline weight={5} pathOptions={purpleOptions} positions={positions()}>
-                <Marker
-                  position={getCoordinateByType(positions(), 'start') as any}
-                  icon={duckIconStart}
-                >
+                <Marker position={getCoordinateByType(positions(), 'start')} icon={duckIconStart}>
                   <Popup>Start</Popup>
                 </Marker>
-                <Marker
-                  position={getCoordinateByType(positions(), 'end') as any}
-                  icon={duckIconEnd}
-                >
+                <Marker position={getCoordinateByType(positions(), 'end')} icon={duckIconEnd}>
                   <Popup>End</Popup>
                 </Marker>
               </Polyline>
