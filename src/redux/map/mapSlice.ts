@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { IMapState, IVehicleV2Actions, Vehicle } from 'interfaces';
+import { IMapState, Vehicle, VehicleV2 } from 'interfaces';
 import { RootState } from 'redux/hooks';
 import { axiosApi, axiosApi2 } from 'utils/axios-api';
 
@@ -15,8 +15,17 @@ const initialState = {
   field: {
     loading: false,
     errors: null,
-    results: [],
-    resultsV2: null,
+    results: {
+      id: null,
+      description: '',
+      image: '',
+      full_name: '',
+      point_A_lat: 0,
+      point_A_lon: 0,
+      point_B_lat: 0,
+      point_B_lon: 0,
+      tool_width: '',
+    },
   },
 } as IMapState;
 
@@ -49,17 +58,7 @@ export const obtainingCoordinate = createAsyncThunk(
   ) => {
     try {
       const response = await axiosApi2.get(`/vehicles/${id}/routes/${field_name}`);
-      return {
-        results: [
-          {
-            received_data: {
-              PointA: `${response.data.point_A_lat},${response.data.point_A_lon}`,
-              PointB: `${response.data.point_B_lat},${response.data.point_B_lon}`,
-            },
-          },
-        ],
-        resultsV2: response.data,
-      };
+      return response.data;
     } catch (e) {
       return rejectWithValue({
         detail: e?.response?.data?.detail,
@@ -100,14 +99,13 @@ const mapSlice = createSlice({
       state.field.loading = true;
       state.field.errors = null;
     });
-    builder.addCase(
-      obtainingCoordinate.fulfilled,
-      (state, action: PayloadAction<IVehicleV2Actions>) => {
-        state.field.loading = false;
-        state.field.results = action.payload.results;
-        state.field.resultsV2 = action.payload.resultsV2;
-      },
-    );
+    builder.addCase(obtainingCoordinate.fulfilled, (state, action: PayloadAction<VehicleV2>) => {
+      state.field.loading = false;
+      state.field.results = {
+        ...state.field.results,
+        ...action.payload,
+      };
+    });
     builder.addCase(obtainingCoordinate.rejected, (state, { payload }) => {
       state.field.loading = false;
       if (payload && typeof payload === 'object' && 'detail' in payload && 'status' in payload) {

@@ -1,6 +1,6 @@
 import { Button, Card, Spin, Tooltip, Typography } from 'antd';
 import bem from 'easy-bem';
-import L, { LatLngExpression, LatLngTuple } from 'leaflet';
+import L, { LatLngExpression } from 'leaflet';
 import React, { useEffect, useState } from 'react';
 import {
   CircleMarker,
@@ -22,7 +22,6 @@ import map from 'assets/images/icons/map.svg';
 import startA from 'assets/images/icons/startA.svg';
 import tractorBlue from 'assets/images/icons/tractor-blue.svg';
 import Errors from 'components/Errors/Errors';
-import { isLineAbove, metersToLatitude } from 'helper';
 import { accountsSelector, fetchVehicleInfo } from 'redux/accounts/accountsSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 
@@ -34,7 +33,6 @@ import { AimOutlined } from '@ant-design/icons';
 const { Title } = Typography;
 
 const purpleOptions = { color: '#1358BF' };
-const purpleOptionsTool = { color: 'rgba(45,157,19,0.77)', borderRadius: 0 };
 
 const OpenMapComponent = () => {
   const b = bem('OpenMapComponent');
@@ -57,13 +55,12 @@ const OpenMapComponent = () => {
   const [loadingMapUpdate, setLoadingMapUpdate] = useState(false);
   const [socketLoading, setSocketLoading] = useState(false);
   const connectWebSocket = () => {
-    setSocketLoading(true);
     let connectionID = '';
 
     const connect = () => {
       const socket = new WebSocket('ws://159.89.30.209:8080/ws');
-
       socket.onopen = () => {
+        setSocketLoading(true);
         socket.send(
           JSON.stringify({
             kind: 'ping',
@@ -72,6 +69,16 @@ const OpenMapComponent = () => {
           }),
         );
       };
+
+      if (socket.readyState === WebSocket.OPEN) {
+        socket.send(
+          JSON.stringify({
+            kind: 'ping',
+            vehicle_id: Number(id),
+            connection_id: connectionID,
+          }),
+        );
+      }
 
       socket.onmessage = (event) => {
         setSocketLoading(false);
@@ -130,61 +137,30 @@ const OpenMapComponent = () => {
     }
   }, [loadingMapUpdate]);
 
-  const polyline = field.results.map((obj) => {
-    const [lat1, lon1] = obj.received_data.PointA.split(',');
-    const [lat2, lon2] = obj.received_data.PointB.split(',');
-    return [
-      [parseFloat(lat1), parseFloat(lon1)],
-      [parseFloat(lat2), parseFloat(lon2)],
-    ];
-  });
-
-  const positions = polyline.map((points) =>
-    points.map((point) => [point[0], point[1]] as LatLngTuple),
-  );
-
   const duckIcon = new L.Icon({
     iconUrl: map,
     iconRetinaUrl: map,
-    iconAnchor: new L.Point(16, 17),
-    popupAnchor: new L.Point(16, 0),
-    iconSize: new L.Point(30, 30),
+    iconAnchor: new L.Point(14, 14),
+    popupAnchor: new L.Point(14, 0),
+    iconSize: new L.Point(28, 30),
     className: 'leaflet-div-icon',
   });
 
   const duckIconStart = new L.Icon({
     iconUrl: startA,
     iconRetinaUrl: startA,
-    iconAnchor: new L.Point(5, 10),
-    popupAnchor: new L.Point(16, 0),
-    iconSize: new L.Point(36, 36),
+    iconAnchor: new L.Point(14, 14),
+    popupAnchor: new L.Point(14, 0),
+    iconSize: new L.Point(30, 30),
     className: 'leaflet-div-icon',
   });
 
   const duckIconEnd = new L.Icon({
     iconUrl: endB,
     iconRetinaUrl: endB,
-    iconAnchor: new L.Point(5, 10),
-    popupAnchor: new L.Point(16, 0),
-    iconSize: new L.Point(36, 36),
-    className: 'leaflet-div-icon',
-  });
-
-  const duckIconStartTool = new L.Icon({
-    iconUrl: '',
-    iconRetinaUrl: startA,
-    iconAnchor: new L.Point(5, 10),
-    popupAnchor: new L.Point(16, 0),
-    iconSize: new L.Point(1, 36),
-    className: 'leaflet-div-icon',
-  });
-
-  const duckIconEndTool = new L.Icon({
-    iconUrl: '',
-    iconRetinaUrl: endB,
-    iconAnchor: new L.Point(5, 10),
-    popupAnchor: new L.Point(16, 0),
-    iconSize: new L.Point(1, 36),
+    iconAnchor: new L.Point(14, 14),
+    popupAnchor: new L.Point(14, 0),
+    iconSize: new L.Point(30, 30),
     className: 'leaflet-div-icon',
   });
 
@@ -194,26 +170,16 @@ const OpenMapComponent = () => {
     }
     return [0, 0];
   };
-  const lineMap = () => {
-    if (field.results.length) {
-      const number1 = field.results[0].received_data.PointA.split(',')[0];
-      const number2 =
-        field.results[0].received_data.PointA.split(',').length > 1
-          ? field.results[0].received_data.PointA.split(',')[1]
-          : 0;
-      return [Number(number1), Number(number2)];
-    }
-
-    return [0, 0];
-  };
 
   const centerMapHandler = () => {
     if (loadingMap) {
       return centerMap() as LatLngExpression;
     }
-    if (field.results.length) {
-      return lineMap() as LatLngExpression;
+
+    if (field.results.point_A_lon && field.results.point_B_lat) {
+      return [field.results.point_A_lat, field.results.point_A_lon] as LatLngExpression;
     }
+
     return centerMap() as LatLngExpression;
   };
   const renderHandler = () => {
@@ -225,58 +191,52 @@ const OpenMapComponent = () => {
     history(-1);
   };
 
-  function getCoordinateByType(coordinates: number[][][], type: string): number[] {
-    if (coordinates.length) {
-      if (type === 'start') {
-        return coordinates[0][0];
-      }
-      if (type === 'end') {
-        const lastPair = coordinates[coordinates.length - 1];
-        return lastPair[lastPair.length - 1];
-      }
-    }
+  const positions = (): LatLngExpression[] => {
+    return [
+      [
+        field.results.point_A_lat as number,
+        field.results.point_A_lon as number,
+      ] as LatLngExpression,
+      [
+        field.results.point_B_lat as number,
+        field.results.point_B_lon as number,
+      ] as LatLngExpression,
+    ];
+  };
 
-    return [0, 0];
+  function getCoordinateByType(coordinates: LatLngExpression[], type: string): any {
+    if (type === 'start') {
+      return [field.results.point_A_lat as number, field.results.point_A_lon as number];
+    }
+    if (type === 'end') {
+      return [field.results.point_B_lat as number, field.results.point_B_lon as number];
+    }
   }
 
-  function getCoordinateByTypeTool(coordinates: number[][][], type: string): number[] {
-    if (coordinates.length) {
-      if (type === 'start') {
-        return coordinates[0][0];
-      }
-      if (type === 'end') {
-        return centerMap();
-      }
+  const latLngBounds: L.LatLngBoundsExpression = L.latLngBounds(
+    bounds.map((coords: number[]) => [coords[0], coords[1]]),
+  );
+  const findResults = vehicle.results?.processing_data.find((item) => item.id === Number(id));
+
+  const lineMapHistory = (): any => {
+    const width = Number(field.results?.tool_width);
+    const center = [field.results.point_A_lat, field.results.point_A_lon];
+    const sizeInMeters = width / 100000;
+
+    let topLeft: LatLngExpression = [center[0] + sizeInMeters / 2, center[1]];
+
+    const bottomRight: LatLngExpression = [field.results.point_B_lat, field.results.point_B_lon];
+
+    if (center[0] > field.results.point_B_lat) {
+      const widthIncrease = width / 100000;
+      bottomRight[1] -= width / 100000;
+      topLeft = [field.results.point_A_lat, bottomRight[1] - widthIncrease];
+    } else {
+      bottomRight[0] += width / 100000;
+      topLeft = [topLeft[0], topLeft[1]];
     }
 
-    return [0, 0];
-  }
-
-  const positionsTool2 = (): any => {
-    if (field.results.length && field.resultsV2?.tool_width) {
-      return polyline.map((points) => {
-        if (isLineAbove(points[0], points[1])) {
-          return points.map(
-            (point) =>
-              [
-                point[0] + metersToLatitude(Number(field.resultsV2?.tool_width)),
-                point[1],
-              ] as LatLngTuple,
-          );
-        }
-        if (!isLineAbove(points[0], points[1])) {
-          return points.map(
-            (point) =>
-              [
-                point[0],
-                point[1] - metersToLatitude(Number(field.resultsV2?.tool_width)),
-              ] as LatLngTuple,
-          );
-        }
-      });
-    }
-
-    return [0, 0];
+    return [topLeft, bottomRight];
   };
 
   if (
@@ -305,17 +265,6 @@ const OpenMapComponent = () => {
       </div>
     );
   }
-  const latLngBounds: L.LatLngBoundsExpression = L.latLngBounds(
-    bounds.map((coords: number[]) => [coords[0], coords[1]]),
-  );
-  const findResults = vehicle.results?.processing_data.find((item) => item.id === Number(id));
-
-  const width = 12;
-  const center = [42.858133, 74.602599];
-  const sizeInMeters = width / 100000;
-
-  const topLeft: any = [center[0] + sizeInMeters / 2, center[1]];
-  const bottomRight: any = [42.858133, 74.603599];
 
   return (
     <div className={b()}>
@@ -377,15 +326,15 @@ const OpenMapComponent = () => {
               </Marker>
             </CircleMarker>
             {id === 'local-tractor' || pathname.includes('local-tractor') ? null : (
-              <Polyline weight={5} pathOptions={purpleOptions} positions={positions}>
+              <Polyline weight={5} pathOptions={purpleOptions} positions={positions()}>
                 <Marker
-                  position={getCoordinateByType(positions, 'start') as LatLngExpression}
+                  position={getCoordinateByType(positions(), 'start') as any}
                   icon={duckIconStart}
                 >
                   <Popup>Start</Popup>
                 </Marker>
                 <Marker
-                  position={getCoordinateByType(positions, 'end') as LatLngExpression}
+                  position={getCoordinateByType(positions(), 'end') as any}
                   icon={duckIconEnd}
                 >
                   <Popup>End</Popup>
@@ -393,23 +342,7 @@ const OpenMapComponent = () => {
               </Polyline>
             )}
 
-            <Rectangle bounds={[topLeft, bottomRight]} color='red' weight={3} />
-            {id === 'local-tractor' || pathname.includes('local-tractor') ? null : (
-              <Polyline weight={30} pathOptions={purpleOptionsTool} positions={positionsTool2()}>
-                <Marker
-                  position={getCoordinateByTypeTool(positionsTool2(), 'start') as LatLngExpression}
-                  icon={duckIconStartTool}
-                >
-                  <Popup>Start</Popup>
-                </Marker>
-                <Marker
-                  position={getCoordinateByTypeTool(positionsTool2(), 'end') as LatLngExpression}
-                  icon={duckIconEndTool}
-                >
-                  <Popup>End</Popup>
-                </Marker>
-              </Polyline>
-            )}
+            <Rectangle bounds={lineMapHistory()} color='#1EBF13FF' weight={2} />
           </MapContainer>
         ) : null}
         {socketMap.status === 'no_geo' ? (

@@ -37,6 +37,7 @@ export interface IAccount {
   email: string;
   phone: string;
   image: string;
+  coords_timeout: number,
   company: {
     autopilots_amount: number;
     id: number;

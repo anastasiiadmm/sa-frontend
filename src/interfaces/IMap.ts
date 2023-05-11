@@ -41,8 +41,8 @@ export interface IVehicleV2Actions {
   resultsV2: VehicleV2;
 }
 
-interface VehicleV2 {
-  id: number;
+export interface VehicleV2 {
+  id: number | null;
   description: string;
   image: string;
   full_name: string;
@@ -62,7 +62,6 @@ export interface IMapState {
   field: {
     loading: boolean;
     errors: IErrors | null;
-    results: resultsAB[];
-    resultsV2: VehicleV2 | null;
+    results: VehicleV2;
   };
 }
