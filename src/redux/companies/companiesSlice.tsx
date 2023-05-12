@@ -233,7 +233,7 @@ export const fetchUserInfo = createAsyncThunk<requestData, fetchCompanyParams>(
 );
 
 interface fetchUserInfoByManagerParams {
-  id: number | string | null | undefined;
+  id: string | null;
 }
 
 export const fetchUserInfoByManager = createAsyncThunk<
