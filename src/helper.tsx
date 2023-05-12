@@ -274,7 +274,6 @@ export function isLineAbove(startPoint: any, endPoint: any): boolean {
   return startY < endY;
 }
 
-export function metersToLatitude(meters: number): number {
-  const metersPerDegree = 111320;
-  return meters / metersPerDegree;
-}
+export const isEmptyObject = (data: any) => {
+  return Object.keys(data).length === 0;
+};
