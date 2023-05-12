@@ -3,7 +3,15 @@ import { Button, Card, Spin, Tooltip, Typography } from 'antd';
 import bem from 'easy-bem';
 import L, { LatLngExpression } from 'leaflet';
 import React, { useEffect, useState } from 'react';
-import { CircleMarker, MapContainer, Marker, Polyline, Popup, TileLayer } from 'react-leaflet';
+import {
+  CircleMarker,
+  MapContainer,
+  Marker,
+  Polyline,
+  Popup,
+  Rectangle,
+  TileLayer,
+} from 'react-leaflet';
 import { useLocation, useNavigate, useParams } from 'react-router';
 
 import arrowLeft from 'assets/images/icons/arrow-left.svg';
@@ -13,12 +21,12 @@ import map from 'assets/images/icons/map.svg';
 import startA from 'assets/images/icons/startA.svg';
 import tractorBlue from 'assets/images/icons/tractor-blue.svg';
 import Errors from 'components/Errors/Errors';
+
 import { accountsSelector, fetchVehicleInfo } from 'redux/accounts/accountsSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 
 import { mapSelector, obtainingCoordinate } from 'redux/map/mapSlice';
 
-import { socketApiSocket } from 'utils/config';
 import 'components/OpenMapComponent/_openMapComponent.scss';
 
 const { Title } = Typography;
@@ -49,7 +57,7 @@ const OpenMapComponent = () => {
     let connectionID = '';
 
     const connect = () => {
-      const socket = new WebSocket(socketApiSocket.replace(/^http/, 'wss'));
+      const socket = new WebSocket('ws://159.89.30.209:8080/ws');
       socket.onopen = () => {
         setSocketLoading(true);
         socket.send(
@@ -211,6 +219,27 @@ const OpenMapComponent = () => {
   );
   const findResults = vehicle.results?.processing_data.find((item) => item.id === Number(id));
 
+  const lineMapHistory = () => {
+    const width = Number(field.results?.tool_width);
+    const center = [field.results.point_A_lat, field.results.point_A_lon];
+    const sizeInMeters = width / 100000;
+
+    let topLeft: LatLngExpression = [center[0] + sizeInMeters / 2, center[1]];
+
+    const bottomRight: LatLngExpression = [field.results.point_B_lat, field.results.point_B_lon];
+
+    if (center[0] > field.results.point_B_lat) {
+      const widthIncrease = width / 100000;
+      bottomRight[1] -= width / 100000;
+      topLeft = [field.results.point_A_lat, bottomRight[1] - widthIncrease];
+    } else {
+      bottomRight[0] += width / 100000;
+      topLeft = [topLeft[0], topLeft[1]];
+    }
+
+    return [topLeft, bottomRight];
+  };
+
   if (
     vehicle.loading ||
     field.loading ||
@@ -305,6 +334,8 @@ const OpenMapComponent = () => {
                 <Popup>End</Popup>
               </Marker>
             </Polyline>
+
+            <Rectangle bounds={lineMapHistory()} color='#1EBF13FF' weight={2} />
           </MapContainer>
         ) : null}
         {socketMap.status === 'no_geo' ? (
