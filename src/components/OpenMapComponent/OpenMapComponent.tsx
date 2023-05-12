@@ -19,6 +19,7 @@ import { mapSelector } from 'redux/map/mapSlice';
 
 // eslint-disable-next-line import/order
 import { AimOutlined } from '@ant-design/icons';
+import { socketApiSocket } from 'utils/config';
 
 const { Title } = Typography;
 
@@ -45,7 +46,7 @@ const OpenMapComponent = () => {
     let connectionID = '';
 
     const connect = () => {
-      const socket = new WebSocket('ws://159.89.30.209:8080/ws');
+      const socket = new WebSocket(socketApiSocket);
       socket.onopen = () => {
         setSocketLoading(true);
         socket.send(
@@ -231,7 +232,7 @@ const OpenMapComponent = () => {
         ) : null}
         {socketMap.status === 'no_geo' ? (
           <div className={b('not_coordinates')}>
-            <h1>Кординаты не найдено</h1>
+            <h1>Координаты не найдены</h1>
           </div>
         ) : null}
       </div>
