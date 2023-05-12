@@ -1,4 +1,4 @@
-version: "3"
+version: "3.5"
 services:
   frontend:
     restart: always
@@ -16,4 +16,5 @@ services:
       - LE_FQDN=$SERVER_NAME
 
 networks:
-  $NETWORK:
+  default:
+    name: $NETWORK
