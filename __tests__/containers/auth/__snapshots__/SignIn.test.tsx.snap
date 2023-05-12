@@ -35,6 +35,11 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
           }
         }
       />
+      <p
+        className="SignIn__subtitle"
+      >
+        Добро пожаловать
+      </p>
       <h1
         className="ant-typography SignIn__title css-dev-only-do-not-override-mxhywb"
         data-testid="sign_in_test"
@@ -60,6 +65,18 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
             className="ant-row ant-form-item-row css-dev-only-do-not-override-mxhywb"
             style={{}}
           >
+            <div
+              className="ant-col ant-form-item-label css-dev-only-do-not-override-mxhywb"
+              style={{}}
+            >
+              <label
+                className="ant-form-item-required"
+                htmlFor="register_username"
+                title="Логин"
+              >
+                Логин
+              </label>
+            </div>
             <div
               className="ant-col ant-form-item-control css-dev-only-do-not-override-mxhywb"
               style={{}}
@@ -98,6 +115,18 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
             className="ant-row ant-form-item-row css-dev-only-do-not-override-mxhywb"
             style={{}}
           >
+            <div
+              className="ant-col ant-form-item-label css-dev-only-do-not-override-mxhywb"
+              style={{}}
+            >
+              <label
+                className="ant-form-item-required"
+                htmlFor="register_password"
+                title="Пароль"
+              >
+                Пароль
+              </label>
+            </div>
             <div
               className="ant-col ant-form-item-control css-dev-only-do-not-override-mxhywb"
               style={{}}
