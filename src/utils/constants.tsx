@@ -56,7 +56,7 @@ export const domains = {
 };
 
 export const domainsSocket = {
-  [envs.local]: '159.89.30.209',
+  [envs.local]: 'localhost',
   [envs.development]: '159.89.30.209',
   [envs.staging]: '',
   [envs.production]: '',

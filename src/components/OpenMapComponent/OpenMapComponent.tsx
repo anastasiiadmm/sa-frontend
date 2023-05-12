@@ -1,11 +1,10 @@
+import { AimOutlined } from '@ant-design/icons';
 import { Button, Card, Spin, Tooltip, Typography } from 'antd';
 import bem from 'easy-bem';
 import L, { LatLngExpression } from 'leaflet';
 import React, { useEffect, useState } from 'react';
 import { CircleMarker, MapContainer, Marker, Polyline, Popup, TileLayer } from 'react-leaflet';
 import { useLocation, useNavigate, useParams } from 'react-router';
-
-import 'components/OpenMapComponent/_openMapComponent.scss';
 
 import arrowLeft from 'assets/images/icons/arrow-left.svg';
 import endB from 'assets/images/icons/endB.svg';
@@ -19,9 +18,8 @@ import { useAppDispatch, useAppSelector } from 'redux/hooks';
 
 import { mapSelector, obtainingCoordinate } from 'redux/map/mapSlice';
 
-// eslint-disable-next-line import/order
-import { AimOutlined } from '@ant-design/icons';
 import { socketApiSocket } from 'utils/config';
+import 'components/OpenMapComponent/_openMapComponent.scss';
 
 const { Title } = Typography;
 
@@ -311,7 +309,7 @@ const OpenMapComponent = () => {
         ) : null}
         {socketMap.status === 'no_geo' ? (
           <div className={b('not_coordinates')}>
-            <h1>Кординаты не найдено</h1>
+            <h1>Координаты не найдены</h1>
           </div>
         ) : null}
       </div>
