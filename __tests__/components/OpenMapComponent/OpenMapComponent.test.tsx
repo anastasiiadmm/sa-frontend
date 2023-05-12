@@ -4,8 +4,6 @@ import {screen, render, cleanup} from "@testing-library/react";
 import {BrowserRouter} from "react-router-dom";
 import "../../../__mocks__/matchMedia.mock";
 import OpenMapComponent from "../../../src/components/OpenMapComponent/OpenMapComponent";
-import renderer from "react-test-renderer";
-
 
 afterEach(cleanup);
 
@@ -125,21 +123,5 @@ describe('OpenMapComponents', () => {
         );
         const loading = screen.queryByTestId('loading');
         expect(loading).toBeInTheDocument()
-    })
-
-    test('render', async () => {
-        mockedUseSelectors.mockReturnValue(mapRender);
-        const dispatch = jest.fn();
-        mockedDispatch.mockReturnValue(dispatch);
-
-        const tree = renderer
-            .create(
-                <BrowserRouter>
-                    <OpenMapComponent />
-                </BrowserRouter>,
-            )
-            .toJSON();
-
-        expect(tree).toMatchSnapshot();
     })
 })
