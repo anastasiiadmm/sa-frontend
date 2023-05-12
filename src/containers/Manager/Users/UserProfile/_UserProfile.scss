@@ -9,6 +9,17 @@
     }
   }
 
+  &__header-title {
+    display: flex;
+    align-items: baseline;
+  }
+
+  &__arrow-left {
+    padding: 0 10px;
+    cursor: pointer;
+    width: 35px;
+  }
+
   &__username-info {
     padding: 0;
   }

@@ -8,7 +8,7 @@ exports[`OpenMapComponents render 1`] = `
     className="OpenMapComponent__card-block"
   >
     <div
-      className="ant-card OpenMapComponent__card-style css-dev-only-do-not-override-ed5zg0"
+      className="ant-card OpenMapComponent__card-style css-dev-only-do-not-override-mxhywb"
     >
       <div
         className="ant-card-body"
@@ -33,7 +33,7 @@ exports[`OpenMapComponents render 1`] = `
             />
           </button>
           <h3
-            className="ant-typography OpenMapComponent__title css-dev-only-do-not-override-ed5zg0"
+            className="ant-typography OpenMapComponent__title css-dev-only-do-not-override-mxhywb"
             style={
               {
                 "WebkitLineClamp": undefined,
@@ -60,7 +60,7 @@ exports[`OpenMapComponents render 1`] = `
             </p>
           </h3>
           <h3
-            className="ant-typography OpenMapComponent__title css-dev-only-do-not-override-ed5zg0"
+            className="ant-typography OpenMapComponent__title css-dev-only-do-not-override-mxhywb"
             style={
               {
                 "WebkitLineClamp": undefined,
@@ -80,6 +80,16 @@ exports[`OpenMapComponents render 1`] = `
               className="OpenMapComponent__subtitle"
             />
           </h3>
+          <button
+            className="ant-btn css-dev-only-do-not-override-mxhywb ant-btn-default OpenMapComponent__render_btn"
+            disabled={false}
+            onClick={[Function]}
+            type="button"
+          >
+            <span>
+              Обновить данные
+            </span>
+          </button>
         </div>
       </div>
     </div>

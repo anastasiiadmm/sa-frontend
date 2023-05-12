@@ -3,11 +3,11 @@ import bem from 'easy-bem';
 import React, { useEffect, useState } from 'react';
 
 import FormField from 'components/FormField/FormField';
-import { companiesList, IAccount, ICompany } from 'types/types';
+import { IAccount, ICompany, requestUserProfileData } from 'types/types';
 import 'components/ModalComponent/ModalChildrenComponents/EditUserProfileModal/_editUserProfileModal.scss';
 
 interface Props {
-  updateUserData?: companiesList | ICompany | Object | null;
+  updateUserData?: requestUserProfileData | ICompany | Object | null;
   account?: IAccount | null | undefined;
   changeUserInfoRequest?: boolean;
   validateForm?: boolean;
@@ -37,19 +37,20 @@ const EditUserProfileModal: React.FC<Props> = ({
 
   useEffect(() => {
     if (updateUserData) {
-      if ('autopilots_amount' in updateUserData) {
+      if ('email' in updateUserData) {
         form.setFieldsValue({
-          user: {
-            username: updateUserData?.user?.username,
-            last_name: updateUserData?.user?.last_name,
-            first_name: updateUserData?.user?.first_name,
-            middle_name: updateUserData?.user?.middle_name,
-            email: updateUserData?.user?.email,
-            phone: updateUserData?.user?.phone,
+          email: updateUserData?.email,
+          first_name: updateUserData?.first_name,
+          image: updateUserData?.image,
+          last_name: updateUserData?.last_name,
+          middle_name: updateUserData?.middle_name,
+          phone: updateUserData?.phone,
+          username: updateUserData?.username,
+          company: {
+            autopilots_amount: updateUserData?.company?.autopilots_amount,
+            location: updateUserData?.company?.location,
+            name: updateUserData?.company?.name,
           },
-          name: updateUserData?.name,
-          location: updateUserData?.location,
-          autopilots_amount: updateUserData?.autopilots_amount,
         });
       }
     }
@@ -131,7 +132,7 @@ const EditUserProfileModal: React.FC<Props> = ({
           id='username_id'
           inputClassName={b('username')}
           label='Username'
-          name={['user', 'username']}
+          name={account ? ['user', 'username'] : 'username'}
           placeholder='Username'
           onChange={inputChangeHandler}
           rules={[{ required: true, message: 'Введите username' }]}
@@ -144,7 +145,7 @@ const EditUserProfileModal: React.FC<Props> = ({
             id='first_name_id'
             inputClassName={b('username')}
             label='Фамилия'
-            name={['user', 'first_name']}
+            name={account ? ['user', 'first_name'] : 'first_name'}
             placeholder='Фамилия'
             onChange={inputChangeHandler}
             rules={[{ required: true, message: 'Введите фамилию' }]}
@@ -156,7 +157,7 @@ const EditUserProfileModal: React.FC<Props> = ({
             id='last_name_id'
             inputClassName={b('username')}
             label='Имя'
-            name={['user', 'last_name']}
+            name={account ? ['user', 'last_name'] : 'last_name'}
             placeholder='Имя'
             onChange={inputChangeHandler}
             rules={[{ required: true, message: 'Введите имя' }]}
@@ -168,7 +169,7 @@ const EditUserProfileModal: React.FC<Props> = ({
           data-testid='middle_name_id'
           id='middle_name_id'
           label='Отчество'
-          name={['user', 'middle_name']}
+          name={account ? ['user', 'middle_name'] : 'middle_name'}
           placeholder='Отчество'
           onChange={inputChangeHandler}
         />
@@ -181,7 +182,7 @@ const EditUserProfileModal: React.FC<Props> = ({
             id='email_id'
             inputClassName={b('username')}
             label='Email'
-            name={['user', 'email']}
+            name={account ? ['user', 'email'] : 'email'}
             placeholder='Email'
             onChange={inputChangeHandler}
             rules={[{ required: true, message: 'Введите Email' }]}
@@ -191,7 +192,7 @@ const EditUserProfileModal: React.FC<Props> = ({
             bordered
             type='phone'
             className='username'
-            name={['user', 'phone']}
+            name={account ? ['user', 'phone'] : 'phone'}
             label='Номер телефона'
             placeholder='Номер телефона'
             onChange={inputChangeHandler}
@@ -204,7 +205,7 @@ const EditUserProfileModal: React.FC<Props> = ({
           id='name_id'
           inputClassName={b('username')}
           label='Название колхоза/фермы/компании'
-          name={account ? ['enterprise', 'name'] : 'name'}
+          name={account ? ['enterprise', 'name'] : ['company', 'name']}
           placeholder='Название колхоза/фермы/компании'
           onChange={inputChangeHandler}
           rules={[{ required: true, message: 'Введите название колхоза/фермы/компании' }]}
@@ -216,7 +217,7 @@ const EditUserProfileModal: React.FC<Props> = ({
           id='location_id'
           inputClassName={b('username')}
           label='Регион расположения'
-          name={account ? ['enterprise', 'location'] : 'location'}
+          name={account ? ['enterprise', 'location'] : ['company', 'location']}
           placeholder='Регион расположения'
           onChange={inputChangeHandler}
           rules={[{ required: true, message: 'Введите регион расположения' }]}
@@ -228,7 +229,7 @@ const EditUserProfileModal: React.FC<Props> = ({
           id='autopilots_amount_id'
           inputClassName={b('username')}
           label='Количество оплаченных блоков автопилота'
-          name={account ? ['enterprise', 'autopilots_amount'] : 'autopilots_amount'}
+          name={account ? ['enterprise', 'autopilots_amount'] : ['company', 'autopilots_amount']}
           placeholder='Количество оплаченных блоков автопилота'
           onChange={inputChangeHandler}
         />

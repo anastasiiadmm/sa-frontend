@@ -98,7 +98,7 @@ const Profile: React.FC = () => {
 
   const generatePassword = async () => {
     try {
-      await dispatch(generateNewPassword({ company_id: 0 })).unwrap();
+      await dispatch(generateNewPassword({ user_id: account?.id })).unwrap();
       setIsModalPasswordOpen(true);
     } catch (e) {
       await message.error('Ошибка не получилось сменить пароль');
