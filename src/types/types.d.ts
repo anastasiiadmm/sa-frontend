@@ -37,6 +37,7 @@ export interface IAccount {
   email: string;
   phone: string;
   image: string;
+  coords_timeout: number,
   company: {
     autopilots_amount: number;
     id: number;
@@ -122,9 +123,9 @@ export interface userVehicles {
 }
 
 export interface userVehiclesPagination {
-  count: number;
-  next: string | null;
-  previous: string | null;
+  count: number | undefined;
+  next: string | undefined | null;
+  previous: string | undefined | null;
 }
 
 export interface companiesList {
@@ -289,7 +290,38 @@ export interface fieldsList {
   id?: number | null;
 }
 
+export interface Result {
+  id: number;
+  readable_id: JSX.Element;
+  tool: string;
+  tool_width: string;
+  tool_overlap: string;
+  tool_width_total: string;
+  left_right: string;
+  area: string;
+}
+
+interface Vehicle {
+  vin: string;
+  license_plate: string;
+  description: string;
+  image: string;
+  operator: {
+    first_name: string;
+    last_name: string;
+    middle_name: string;
+  };
+}
+
 export interface userVehicleInfo {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: Result[];
+  vehicle: Vehicle;
+}
+
+export interface userVehicleInfoCompanies {
   id: number;
   image: string;
   code: string;

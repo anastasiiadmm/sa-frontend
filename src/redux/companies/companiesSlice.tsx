@@ -12,6 +12,7 @@ import {
   UpdatedCompaniesList,
   usersListPagination,
   userVehicleInfo,
+  userVehicleInfoCompanies,
   vehicleCreateData,
   vehicleList,
   vehicleListPagination,
@@ -43,7 +44,7 @@ interface CompaniesState {
   fetchVehicleListLoading: boolean;
   fetchVehicleListError: IErrors | null;
   vehicleListPagination: vehicleListPagination | null;
-  userVehicleInfo: userVehicleInfo | null;
+  userVehicleInfo: userVehicleInfoCompanies | null;
   userVehicleInfoLoading: boolean;
   userVehicleInfoError: IErrors | null;
   vehicleCreateLoading: boolean;
@@ -684,9 +685,9 @@ const companiesSlice = createSlice({
       state.userVehicleInfoLoading = true;
       state.userVehicleInfoError = null;
     });
-    builder.addCase(fetchUserVehicleInfo.fulfilled, (state, { payload: userVehicleInfo }) => {
+    builder.addCase(fetchUserVehicleInfo.fulfilled, (state, { payload }: any) => {
       state.userVehicleInfoLoading = false;
-      state.userVehicleInfo = userVehicleInfo;
+      state.userVehicleInfo = payload;
     });
     builder.addCase(fetchUserVehicleInfo.rejected, (state, { payload }) => {
       state.userVehicleInfoLoading = false;

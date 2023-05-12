@@ -2,6 +2,7 @@ import { Button, Form, Image, Skeleton, Tooltip, Typography } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import bem from 'easy-bem';
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
 import { Link, useParams } from 'react-router-dom';
 
 import arrowLeft from 'assets/images/icons/arrow-left.svg';
@@ -10,12 +11,13 @@ import tractorBlue from 'assets/images/icons/tractor-blue.svg';
 import Errors from 'components/Errors/Errors';
 import FormField from 'components/FormField/FormField';
 import TableComponent from 'components/TableComponent/TableComponent';
+import { getPageParam } from 'helper';
 import { accountsSelector, fetchVehicleInfo } from 'redux/accounts/accountsSlice';
-import { authSelector } from 'redux/auth/authSlice';
-import { companiesSelector, fetchUserVehicleInfo } from 'redux/companies/companiesSlice';
+import { companiesSelector } from 'redux/companies/companiesSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { fieldsList, userVehicleInfo } from 'types/types';
-import { apiUrlCrop } from 'utils/config';
+import { Result } from 'types/types';
+import { urlFormat } from 'utils/files/files';
+
 import 'containers/Technique/ProfileTechnique/_profileTechnique.scss';
 
 const { Title } = Typography;
@@ -23,71 +25,50 @@ const { Title } = Typography;
 const ProfileTechnique = () => {
   const b = bem('ProfileTechnique');
   const dispatch = useAppDispatch();
-  const { userId, vehicleId } = useParams() as { userId: string; vehicleId: string };
-  const { userVehicleInfo: managerVehicle, userVehicleInfoLoading: managerLoading } =
-    useAppSelector(companiesSelector);
+  const { vehicleId } = useParams() as { userId: string; vehicleId: string };
+  const history = useNavigate();
+
   const userVehicleInfoState = useAppSelector(companiesSelector);
-  const {
-    userVehicleInfo: userVehicle,
-    userVehicleInfoLoading: userLoading,
-    userVehicleInfoError,
-  } = useAppSelector(accountsSelector);
+  const { userVehicleInfo, userVehicleInfoLoading, userVehicleInfoError } =
+    useAppSelector(accountsSelector);
   const [form] = Form.useForm();
-  const { tokens } = useAppSelector(authSelector);
-  const [state, setState] = useState<userVehicleInfo[]>([]);
-  const [fields, setFields] = useState<fieldsList[]>([]);
-  const userVehicleInfo = tokens?.is_manager ? managerVehicle : userVehicle;
-  const userVehicleInfoLoading = tokens?.is_manager ? managerLoading : userLoading;
+  const [fields, setFields] = useState<Result[]>([]);
 
   useEffect(() => {
-    if (tokens?.is_manager) {
-      dispatch(fetchUserVehicleInfo({ userId, vehicleId }));
-    } else {
-      dispatch(fetchVehicleInfo({ vehicleId }));
-    }
+    dispatch(fetchVehicleInfo({ vehicleId, pageUrl: '1' }));
   }, [dispatch]);
-
   useEffect(() => {
-    if (userVehicleInfo) {
-      setState([userVehicleInfo]);
-      setFields(() =>
-        userVehicleInfo.processing_data.map((item) => {
+    if (userVehicleInfo?.results.length) {
+      setFields(
+        userVehicleInfo.results.map((item) => {
           return {
             ...item,
-            field_name: (
+            readable_id: (
               <Tooltip
-                title={item.field_name}
+                title={item.readable_id}
                 color='#BBBBBB'
                 overlayInnerStyle={{ padding: '5px 15px', borderRadius: 15 }}
                 placement='topRight'
               >
-                <p className='text_hidden'>{item.field_name}</p>
+                <p className='text_hidden'>{item.readable_id}</p>
               </Tooltip>
             ),
           };
         }),
       );
+    } else {
+      setFields([]);
     }
+    form.setFieldsValue({
+      ...userVehicleInfo?.vehicle,
+    });
   }, [userVehicleInfo]);
 
-  useEffect(() => {
-    if (state) {
-      form.setFieldsValue({
-        technique_name: userVehicle?.description,
-        state_number: state[0]?.state_number,
-        vin_code: state[0]?.vin_code,
-        last_name: state[0]?.last_name,
-        first_name: state[0]?.first_name,
-        middle_name: state[0]?.middle_name,
-      });
-    }
-  }, [state]);
-
-  const columns: ColumnsType<fieldsList> = [
+  const columns: ColumnsType<Result> = [
     {
       key: 'processing_data',
       title: 'Задача на обработку',
-      dataIndex: 'field_name',
+      dataIndex: 'readable_id',
       width: '20%',
       fixed: 'left',
     },
@@ -98,7 +79,7 @@ const ProfileTechnique = () => {
       filterSearch: true,
       width: '20%',
       render: (text: string, record) => {
-        return <p className={b('name-column-style')}>{record?.attachments?.toolsName}</p>;
+        return <p className={b('name-column-style')}>{record?.tool}</p>;
       },
     },
     {
@@ -108,7 +89,7 @@ const ProfileTechnique = () => {
       filterSearch: true,
       width: '20%',
       render: (text: string, record) => {
-        return <p className={b('name-column-style')}>{record?.attachments?.toolsWidth}</p>;
+        return <p className={b('name-column-style')}>{record?.tool_width}</p>;
       },
     },
     {
@@ -118,7 +99,7 @@ const ProfileTechnique = () => {
       filterSearch: true,
       width: '20%',
       render: (text: string, record) => {
-        return <p className={b('name-column-style')}>{record?.attachments?.skipOverlap}</p>;
+        return <p className={b('name-column-style')}>{record?.tool_overlap}</p>;
       },
     },
     {
@@ -128,7 +109,7 @@ const ProfileTechnique = () => {
       filterSearch: true,
       width: '20%',
       render: (text: string, record) => {
-        return <p className={b('name-column-style')}>{record?.attachments?.toolsWidthResult}</p>;
+        return <p className={b('name-column-style')}>{record?.tool_width_total}</p>;
       },
     },
     {
@@ -138,7 +119,7 @@ const ProfileTechnique = () => {
       filterSearch: true,
       width: '20%',
       render: (text: string, record) => {
-        return <p className={b('name-column-style')}>{record?.attachments?.leftRight}</p>;
+        return <p className={b('name-column-style')}>{record?.left_right}</p>;
       },
     },
     {
@@ -148,7 +129,7 @@ const ProfileTechnique = () => {
       filterSearch: true,
       width: '20%',
       render: (text: string, record) => {
-        return <p className={b('name-column-style')}>{record?.work_area}</p>;
+        return <p className={b('name-column-style')}>{record?.area}</p>;
       },
     },
     {
@@ -174,6 +155,20 @@ const ProfileTechnique = () => {
     },
   ];
 
+  const pageNextHandler = () => {
+    dispatch(fetchVehicleInfo({ vehicleId, pageUrl: getPageParam(userVehicleInfo?.next) }));
+  };
+
+  const pagePrevHandler = () => {
+    dispatch(
+      fetchVehicleInfo({ vehicleId, pageUrl: getPageParam(userVehicleInfo?.previous) || '1' }),
+    );
+  };
+
+  const backHandler = () => {
+    history(-1);
+  };
+
   if (userVehicleInfoError || userVehicleInfoState.userVehicleInfoError) {
     return (
       <Errors
@@ -182,25 +177,25 @@ const ProfileTechnique = () => {
       />
     );
   }
-
   return (
     <div className={b()}>
       <div className={b('table')}>
         <div className={b('header')}>
           <div className={b('header-title')}>
-            <Link to={tokens?.is_manager ? `/user-technique/${userId}` : '/'}>
+            <button type='button' onClick={backHandler} className={b('back_handler')}>
               <img className={b('arrow-left')} src={arrowLeft} alt='arrow' />
-            </Link>
+            </button>
             {userVehicleInfoLoading ? (
               <div style={{ margin: '30px 0' }}>
                 <Skeleton.Button active={userVehicleInfoLoading} style={{ width: 800 }} />
               </div>
             ) : (
               <Title level={3} className={b('title')}>
-                Профиль техники - <p className={b('subtitle')}> {state[0]?.code} </p> -{' '}
-                {`${state[0]?.last_name} ${state[0]?.first_name?.charAt(
-                  0,
-                )}. ${state[0]?.middle_name?.charAt(0)}.`}
+                Профиль техники -{' '}
+                <p className={b('subtitle')}> {userVehicleInfo?.vehicle.license_plate} </p> -{' '}
+                {userVehicleInfo?.vehicle?.operator.middle_name}{' '}
+                {userVehicleInfo?.vehicle?.operator.first_name?.slice(0, 1)}.{' '}
+                {userVehicleInfo?.vehicle?.operator.last_name?.slice(0, 1)}
               </Title>
             )}
           </div>
@@ -222,12 +217,12 @@ const ProfileTechnique = () => {
             <Image
               preview={false}
               className={b('technique-image')}
-              src={apiUrlCrop + (state[0] ? state[0].image : '')}
+              src={urlFormat(userVehicleInfo?.vehicle.image)}
               width={242}
               style={{ borderRadius: 4 }}
             />
             <div className={b('profile-info')}>
-              <Form form={form} initialValues={state[0]} layout='vertical'>
+              <Form form={form} initialValues={{ ...userVehicleInfo?.vehicle }} layout='vertical'>
                 <Title level={5} className={b('profile-title')}>
                   Информация о технике
                 </Title>
@@ -238,14 +233,13 @@ const ProfileTechnique = () => {
                     label='Название техники'
                     name='description'
                     placeholder='Название техники'
-                    defaultValue={state[0]?.vin_code}
                   />
 
                   <FormField
                     readOnly
                     id='state_number_id'
                     label='Гос номер'
-                    name='state_number'
+                    name='license_plate'
                     placeholder='Гос номер'
                   />
 
@@ -253,7 +247,7 @@ const ProfileTechnique = () => {
                     readOnly
                     id='vin_code_id'
                     label='VIN код'
-                    name='vin_code'
+                    name='vin'
                     placeholder='VIN код'
                   />
                 </div>
@@ -280,6 +274,13 @@ const ProfileTechnique = () => {
           columns={columns}
           data={fields}
           disabledButton
+          pagePrevHandler={pagePrevHandler}
+          pageNextHandler={pageNextHandler}
+          params={{
+            count: userVehicleInfo?.count,
+            next: userVehicleInfo?.next,
+            previous: userVehicleInfo?.previous,
+          }}
         />
       </div>
     </div>

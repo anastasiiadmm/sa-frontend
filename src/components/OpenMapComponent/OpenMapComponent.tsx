@@ -1,37 +1,40 @@
+import { AimOutlined } from '@ant-design/icons';
 import { Button, Card, Spin, Tooltip, Typography } from 'antd';
 import bem from 'easy-bem';
 import L, { LatLngExpression } from 'leaflet';
 import React, { useEffect, useState } from 'react';
-import { CircleMarker, MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
+import { CircleMarker, MapContainer, Marker, Polyline, Popup, TileLayer } from 'react-leaflet';
 import { useLocation, useNavigate, useParams } from 'react-router';
 
-import 'components/OpenMapComponent/_openMapComponent.scss';
-
 import arrowLeft from 'assets/images/icons/arrow-left.svg';
+import endB from 'assets/images/icons/endB.svg';
 import locale from 'assets/images/icons/locale.svg';
 import map from 'assets/images/icons/map.svg';
+import startA from 'assets/images/icons/startA.svg';
 import tractorBlue from 'assets/images/icons/tractor-blue.svg';
 import Errors from 'components/Errors/Errors';
-import { accountsSelector } from 'redux/accounts/accountsSlice';
-import { useAppSelector } from 'redux/hooks';
+import { accountsSelector, fetchVehicleInfo } from 'redux/accounts/accountsSlice';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
 
-import { mapSelector } from 'redux/map/mapSlice';
+import { mapSelector, obtainingCoordinate } from 'redux/map/mapSlice';
 
-// eslint-disable-next-line import/order
-import { AimOutlined } from '@ant-design/icons';
 import { socketApiSocket } from 'utils/config';
+import 'components/OpenMapComponent/_openMapComponent.scss';
 
 const { Title } = Typography;
 
+const purpleOptions = { color: '#1358BF' };
+
 const OpenMapComponent = () => {
   const b = bem('OpenMapComponent');
-  const { id } = useParams();
+  const { id, field_name } = useParams();
   const { pathname } = useLocation();
   const { vehicle, field } = useAppSelector(mapSelector);
   const [bounds] = useState<number[][]>([
     [-90, -180],
     [90, 180],
   ]);
+  const dispatch = useAppDispatch();
   const history = useNavigate();
   const [socketMap, setSocketMap] = useState({
     status: '',
@@ -46,7 +49,7 @@ const OpenMapComponent = () => {
     let connectionID = '';
 
     const connect = () => {
-      const socket = new WebSocket(socketApiSocket);
+      const socket = new WebSocket(socketApiSocket.replace(/^http/, 'wss'));
       socket.onopen = () => {
         setSocketLoading(true);
         socket.send(
@@ -102,6 +105,24 @@ const OpenMapComponent = () => {
   }, []);
 
   useEffect(() => {
+    dispatch(fetchVehicleInfo({ vehicleId: String(id), pageUrl: '1' }));
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(
+      obtainingCoordinate({
+        id: Number(id),
+        field_name: !field_name?.includes('local-tractor') ? `?job=${field_name}` : '',
+      }),
+    );
+
+    if (field_name?.includes('local-tractor')) {
+      setLoadingMap(true);
+      setLoadingMapUpdate(true);
+    }
+  }, []);
+
+  useEffect(() => {
     if (loadingMapUpdate) {
       setLoadingMapUpdate(false);
     }
@@ -113,6 +134,24 @@ const OpenMapComponent = () => {
     iconAnchor: new L.Point(14, 14),
     popupAnchor: new L.Point(14, 0),
     iconSize: new L.Point(28, 30),
+    className: 'leaflet-div-icon',
+  });
+
+  const duckIconStart = new L.Icon({
+    iconUrl: startA,
+    iconRetinaUrl: startA,
+    iconAnchor: new L.Point(14, 14),
+    popupAnchor: new L.Point(14, 0),
+    iconSize: new L.Point(30, 30),
+    className: 'leaflet-div-icon',
+  });
+
+  const duckIconEnd = new L.Icon({
+    iconUrl: endB,
+    iconRetinaUrl: endB,
+    iconAnchor: new L.Point(14, 14),
+    popupAnchor: new L.Point(14, 0),
+    iconSize: new L.Point(30, 30),
     className: 'leaflet-div-icon',
   });
 
@@ -128,6 +167,10 @@ const OpenMapComponent = () => {
       return centerMap() as LatLngExpression;
     }
 
+    if (field.results.point_A_lon && field.results.point_B_lat) {
+      return [field.results.point_A_lat, field.results.point_A_lon] as LatLngExpression;
+    }
+
     return centerMap() as LatLngExpression;
   };
   const renderHandler = () => {
@@ -138,6 +181,30 @@ const OpenMapComponent = () => {
   const backHandler = () => {
     history(-1);
   };
+
+  const positions = (): LatLngExpression[] => {
+    return [
+      [
+        field.results.point_A_lat as number,
+        field.results.point_A_lon as number,
+      ] as LatLngExpression,
+      [
+        field.results.point_B_lat as number,
+        field.results.point_B_lon as number,
+      ] as LatLngExpression,
+    ];
+  };
+
+  function getCoordinateByType(coordinates: LatLngExpression[], type: string): LatLngExpression {
+    if (type === 'start') {
+      return [field.results.point_A_lat as number, field.results.point_A_lon as number];
+    }
+    if (type === 'end') {
+      return [field.results.point_B_lat as number, field.results.point_B_lon as number];
+    }
+
+    throw new Error('Invalid type provided');
+  }
 
   const latLngBounds: L.LatLngBoundsExpression = L.latLngBounds(
     bounds.map((coords: number[]) => [coords[0], coords[1]]),
@@ -198,7 +265,7 @@ const OpenMapComponent = () => {
             </Title>
             <Title level={3} className={b('title')}>
               <img src={tractorBlue} alt='tractor' className={b('img-title img-tractor')} />
-              <p className={b('subtitle')}>{userVehicleInfo?.description}</p>
+              <p className={b('subtitle')}>{userVehicleInfo?.vehicle?.description}</p>
             </Title>
           </div>
         </Card>
@@ -224,10 +291,20 @@ const OpenMapComponent = () => {
             <CircleMarker center={centerMap() as LatLngExpression} opacity={0} radius={10}>
               <Marker position={centerMap() as LatLngExpression} icon={duckIcon}>
                 <Popup>
-                  <span className={b('title_uppercase')}>{userVehicleInfo?.description}</span>
+                  <span className={b('title_uppercase')}>
+                    {userVehicleInfo?.vehicle?.description}
+                  </span>
                 </Popup>
               </Marker>
             </CircleMarker>
+            <Polyline weight={5} pathOptions={purpleOptions} positions={positions()}>
+              <Marker position={getCoordinateByType(positions(), 'start')} icon={duckIconStart}>
+                <Popup>Start</Popup>
+              </Marker>
+              <Marker position={getCoordinateByType(positions(), 'end')} icon={duckIconEnd}>
+                <Popup>End</Popup>
+              </Marker>
+            </Polyline>
           </MapContainer>
         ) : null}
         {socketMap.status === 'no_geo' ? (

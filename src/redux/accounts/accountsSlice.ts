@@ -411,24 +411,15 @@ export const accountManagerConfirmationRequest = createAsyncThunk<
   }
 });
 
-interface fetchVehicleInfoParams {
-  vehicleId: string | undefined;
-}
-
-export const fetchVehicleInfo = createAsyncThunk<userVehicleInfo, fetchVehicleInfoParams>(
+export const fetchVehicleInfo = createAsyncThunk(
   'accounts/fetchVehicleInfo',
-  async (data, { rejectWithValue }) => {
+  async (
+    { vehicleId, pageUrl }: { vehicleId: string | null; pageUrl: string | null },
+    { rejectWithValue },
+  ) => {
     try {
-      const resp = await axiosApi.get<userVehicleInfo | null>(
-        `/accounts/user/vehicle/${data.vehicleId}/`,
-      );
-      const vehicle = resp.data;
-
-      if (vehicle === null) {
-        throw new Error('Not Found!');
-      }
-
-      return vehicle;
+      const resp = await axiosApi2.get(`/vehicles/${vehicleId}/jobs/?page=${pageUrl}`);
+      return resp.data;
     } catch (e) {
       return rejectWithValue({
         detail: e?.response?.data?.detail,
@@ -691,9 +682,9 @@ const accountsSlice = createSlice({
       state.userVehicleInfoLoading = true;
       state.userVehicleInfoError = null;
     });
-    builder.addCase(fetchVehicleInfo.fulfilled, (state, { payload: vehicleInfo }) => {
+    builder.addCase(fetchVehicleInfo.fulfilled, (state, { payload }) => {
       state.userVehicleInfoLoading = false;
-      state.userVehicleInfo = vehicleInfo;
+      state.userVehicleInfo = payload;
     });
     builder.addCase(fetchVehicleInfo.rejected, (state, { payload }) => {
       state.userVehicleInfoLoading = false;

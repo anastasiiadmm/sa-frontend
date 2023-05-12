@@ -17,14 +17,8 @@ code {
   monospace;
 }
 
-::-webkit-scrollbar {
-  width: 5px;
-}
-
-::-webkit-scrollbar-thumb {
-  -webkit-border-radius: 10px;
-  border-radius: 10px;
-  background: rgba(109, 109, 109, 0.47);
+.leaflet-marker-icon.leaflet-interactive, .leaflet-image-layer.leaflet-interactive, .leaflet-pane > svg path.leaflet-interactive, svg.leaflet-image-layer.leaflet-interactive path:not([stroke-linejoin]) {
+  stroke-linecap: initial!important;
 }
 
 .layout {

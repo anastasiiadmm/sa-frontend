@@ -256,6 +256,24 @@ export const updateDataNames = (data: SensorDataEntry[], jsonData: Locales) => {
   });
 };
 
+export function getPageParam(url: string | undefined | null): string | null {
+  if (url) {
+    const urlParams = new URLSearchParams(url.split('?')[1]);
+    const page = urlParams.get('page');
+
+    return page;
+  }
+
+  return '';
+}
+
+export function isLineAbove(startPoint: any, endPoint: any): boolean {
+  const [, startY] = startPoint;
+  const [, endY] = endPoint;
+
+  return startY < endY;
+}
+
 export const isEmptyObject = (data: any) => {
   return Object.keys(data).length === 0;
 };
