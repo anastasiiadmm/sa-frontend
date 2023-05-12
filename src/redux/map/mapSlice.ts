@@ -25,6 +25,7 @@ const initialState = {
       point_B_lat: 0,
       point_B_lon: 0,
       tool_width: '',
+      task_UID: '',
     },
   },
 } as IMapState;

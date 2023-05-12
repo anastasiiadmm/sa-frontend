@@ -51,6 +51,7 @@ export interface VehicleV2 {
   point_B_lat: number;
   point_B_lon: number;
   tool_width: string;
+  task_UID: string;
 }
 
 export interface IMapState {

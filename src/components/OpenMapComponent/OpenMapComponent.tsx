@@ -12,7 +12,7 @@ import {
   Rectangle,
   TileLayer,
 } from 'react-leaflet';
-import { useLocation, useNavigate, useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 
 import arrowLeft from 'assets/images/icons/arrow-left.svg';
 import endB from 'assets/images/icons/endB.svg';
@@ -36,7 +36,6 @@ const purpleOptions = { color: '#1358BF' };
 const OpenMapComponent = () => {
   const b = bem('OpenMapComponent');
   const { id, field_name } = useParams();
-  const { pathname } = useLocation();
   const { vehicle, field } = useAppSelector(mapSelector);
   const [bounds] = useState<number[][]>([
     [-90, -180],
@@ -284,11 +283,7 @@ const OpenMapComponent = () => {
                 placement='topLeft'
               >
                 <p className={b('subtitle')}>
-                  <span>
-                    {!pathname.includes('local-tractor')
-                      ? 'Маршрут трактора'
-                      : 'Местоположение трактора'}
-                  </span>
+                  <span>{field.results?.task_UID}</span>
                 </p>
               </Tooltip>
             </Title>
