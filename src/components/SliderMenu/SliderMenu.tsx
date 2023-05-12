@@ -9,10 +9,9 @@ import logo from 'assets/images/logo.png';
 import {
   accountsSelector,
   clearRequestsPagination,
-  fetchManager,
-  fetchUser,
+  fetchAccount,
 } from 'redux/accounts/accountsSlice';
-import { authSelector, logoutUser } from 'redux/auth/authSlice';
+import { logoutUser } from 'redux/auth/authSlice';
 import { clearCompaniesPagination } from 'redux/companies/companiesSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { apiUrlCrop } from 'utils/config';
@@ -49,45 +48,33 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
   const push = useNavigate();
   const dispatch = useAppDispatch();
   const location = useLocation();
-  const { tokens } = useAppSelector(authSelector);
-  const { manager, updateManagerDataLoading, user: userAccount } = useAppSelector(accountsSelector);
+  const { account, fetchLoadingAccount } = useAppSelector(accountsSelector);
   const isFieldClimate = location.pathname.includes('/field-climate');
 
   useEffect(() => {
-    if (tokens?.is_manager) {
-      dispatch(fetchManager());
-    } else {
-      dispatch(fetchUser());
-    }
+    dispatch(fetchAccount());
   }, [dispatch]);
 
   const menuItems: MenuItem[] = [
     getItem(
       <div className='menuItem'>
-        {tokens?.is_manager ? (
-          updateManagerDataLoading ? (
-            <Skeleton />
-          ) : (
-            <>
-              {manager?.last_name} {manager?.first_name?.charAt(0)}.{' '}
-              {manager?.middle_name?.charAt(0)}.
-            </>
-          )
+        {fetchLoadingAccount ? (
+          <Skeleton />
         ) : (
           <>
-            {userAccount?.user?.last_name} {userAccount?.user?.first_name?.charAt(0)}.{' '}
-            {userAccount?.user?.middle_name?.charAt(0)}.
+            {account?.last_name} {account?.first_name?.charAt(0)}.{' '}
+            {account?.middle_name === '' ? null : `${account?.middle_name.charAt(0)}.`}
           </>
         )}
-        <span>{tokens?.is_manager ? 'Менеджер' : 'Пользователь'}</span>
+        <span>{account?.is_manager ? 'Менеджер' : 'Пользователь'}</span>
       </div>,
       'sub1',
       <Avatar
         className='avatar-profile'
         size='large'
         src={
-          manager?.image || userAccount?.user?.image
-            ? `${apiUrlCrop}${tokens?.is_manager ? manager?.image : userAccount?.user?.image}`
+          account?.image || account?.image
+            ? `${apiUrlCrop}${account?.is_manager ? account?.image : account?.image}`
             : null
         }
         icon={<UserOutlined />}
@@ -95,14 +82,14 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
       [
         getItem(
           'Профиль',
-          tokens?.is_manager ? '/manager-profile' : '/user-profile-view',
+          account?.is_manager ? '/manager-profile' : '/user-profile-view',
           <HomeOutlined />,
         ),
         getItem('Выход', '/sign-out', <ImportOutlined />),
       ],
     ),
     { type: 'divider' },
-    tokens?.is_manager
+    account?.is_manager
       ? getItem(
           '',
           'grp',
@@ -124,7 +111,13 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
           null,
           [
             getItem('Техника', '/', <div className='icon-styles technics-icon' />),
-            getItem('FieldClimate', '/field-climate', <CloudOutlined style={{ fontSize: 23 }} />),
+            account?.company?.weather_service
+              ? getItem(
+                  'FieldClimate',
+                  '/field-climate',
+                  <CloudOutlined style={{ fontSize: 23 }} />,
+                )
+              : null,
           ],
           'group',
         ),

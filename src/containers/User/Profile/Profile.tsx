@@ -1,15 +1,14 @@
-import { Button, Card, Col, Form, Typography } from 'antd';
+import { Button, Col, Form, message, Typography } from 'antd';
 import bem from 'easy-bem';
 import React, { useEffect, useState } from 'react';
 
-import tractorBlue from 'assets/images/icons/tractor-blue.svg';
 import Errors from 'components/Errors/Errors';
 import FormField from 'components/FormField/FormField';
 import EditUserProfileModal from 'components/ModalComponent/ModalChildrenComponents/EditUserProfileModal/EditUserProfileModal';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import SkeletonBlock from 'components/SkeletonBlock/SkeletonBlock';
-import { IUser } from 'interfaces';
-import { accountsSelector, fetchUser } from 'redux/accounts/accountsSlice';
+import { IMyData, IMyDataApi } from 'interfaces';
+import { accountsSelector, requestChangeProfile } from 'redux/accounts/accountsSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 
 import 'containers/User/Profile/_profile.scss';
@@ -19,33 +18,43 @@ const { Title } = Typography;
 const Profile = () => {
   const b = bem('Profile');
   const [form] = Form.useForm();
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const {
-    user: userAccount,
-    fetchLoadingUser,
-    fetchLoadingUserError,
-  } = useAppSelector(accountsSelector);
   const dispatch = useAppDispatch();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { account, fetchErrorAccount, fetchLoadingAccount, changeProfileLoading } =
+    useAppSelector(accountsSelector);
+  const [data, setData] = useState<IMyDataApi>({
+    data: {
+      user: {
+        last_name: '',
+        first_name: '',
+        middle_name: '',
+        email: '',
+        phone: '',
+        username: '',
+      },
+      enterprise: {
+        name: '',
+        location: '',
+        autopilots_amount: '',
+      },
+    },
+  });
 
   useEffect(() => {
-    dispatch(fetchUser());
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (userAccount) {
+    if (account) {
       form.setFieldsValue({
-        username: userAccount?.user?.username,
-        last_name: userAccount?.user?.last_name,
-        first_name: userAccount?.user?.first_name,
-        middle_name: userAccount?.user?.middle_name,
-        email: userAccount?.user?.email,
-        phone: userAccount?.user?.phone,
-        name: userAccount?.name,
-        location: userAccount?.location,
-        autopilots_amount: userAccount?.autopilots_amount,
+        username: account?.username,
+        last_name: account?.last_name,
+        first_name: account?.first_name,
+        middle_name: account?.middle_name,
+        email: account?.email,
+        phone: account?.phone,
+        name: account?.company?.name,
+        location: account?.company?.location,
+        autopilots_amount: account?.company?.autopilots_amount,
       });
     }
-  }, [userAccount, form]);
+  }, [account, form]);
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -55,30 +64,44 @@ const Profile = () => {
     setIsModalOpen(!isModalOpen);
   };
 
-  const onFinish = (values: IUser) => {};
+  const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    const [objName, propName] = name.split(',');
+    setData((prevData: IMyData | any) => {
+      const updatedObj = { ...prevData?.[objName], [propName]: value };
+      return { ...prevData, [objName]: updatedObj };
+    });
+  };
 
-  if (fetchLoadingUserError) {
-    return <Errors status={fetchLoadingUserError.status} detail={fetchLoadingUserError.detail} />;
+  const onClickSendDataHandler = async () => {
+    try {
+      const changeUserObj: any = {
+        category: 2,
+        object_id: account?.id,
+        data,
+      };
+      await dispatch(requestChangeProfile(changeUserObj)).unwrap();
+      await setIsModalOpen(false);
+    } catch (e) {
+      await setIsModalOpen(false);
+      await message.error(
+        e?.response?.data?.non_field_errors[0] === 'Inquiry has already been sent to manager.'
+          ? 'Запрос ранне был отправлен. Дождитесь подтверждения.'
+          : 'Произошла ошибка.',
+      );
+    }
+  };
+
+  if (fetchErrorAccount) {
+    return <Errors status={fetchErrorAccount.status} detail={fetchErrorAccount.detail} />;
   }
+
   return (
     <>
       <div className={b()} data-testid='user-profile-id'>
-        <div className={b('card-block')}>
-          {fetchLoadingUser ? (
-            <SkeletonBlock active={fetchLoadingUser} num={1} titleBool />
-          ) : (
-            <Card className={b('card-style')} bordered={false}>
-              <Title className={b('card-title')}>Количество техники</Title>
-              <div className={b('card-content')}>
-                <img src={tractorBlue} alt='group' />
-                <p>{userAccount?.vehicles_amount}</p>
-              </div>
-            </Card>
-          )}
-        </div>
         <div className='layout'>
-          {fetchLoadingUser ? (
-            <SkeletonBlock active={fetchLoadingUser} num={1} titleBool />
+          {fetchLoadingAccount ? (
+            <SkeletonBlock active={fetchLoadingAccount} num={1} titleBool />
           ) : (
             <Col
               className={b('')}
@@ -102,7 +125,6 @@ const Profile = () => {
               <Form
                 form={form}
                 initialValues={{ remember: true }}
-                onFinish={onFinish}
                 autoComplete='off'
                 layout='vertical'
               >
@@ -218,7 +240,12 @@ const Profile = () => {
         handleOk={handleOkCancel}
         handleCancel={handleOkCancel}
       >
-        <EditUserProfileModal />
+        <EditUserProfileModal
+          onClick={onClickSendDataHandler}
+          account={account}
+          inputChangeHandler={inputChangeHandler}
+          loading={changeProfileLoading}
+        />
       </ModalComponent>
     </>
   );

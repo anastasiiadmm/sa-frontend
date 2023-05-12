@@ -45,7 +45,7 @@ const AddUpdateTechnique: React.FC<Props> = ({
     userVehicleInfo,
     patchUserVehicleInfoLoading,
   } = useAppSelector(companiesSelector);
-  const { vehicleCreateRequestLoading, vehicleCreateRequestSuccess } =
+  const { account, vehicleCreateRequestLoading, vehicleCreateRequestSuccess } =
     useAppSelector(accountsSelector);
   const [form] = Form.useForm();
   const [formValid, setFormValid] = useState(true);
@@ -87,11 +87,37 @@ const AddUpdateTechnique: React.FC<Props> = ({
             handleEditOkCancel();
           }
         } else if (isRequest) {
+          const obj = {
+            vehicle: {
+              vin: data.vin_code,
+              description: data.description,
+              license_plate: data.state_number,
+            },
+            operator: {
+              first_name: data.first_name,
+              last_name: data.last_name,
+              middle_name: data.middle_name,
+            },
+          };
           const formData = new FormData();
+          formData.append('category', '3');
+          formData.append('object_id', String(account?.company.id));
 
-          for (const name in data) {
+          for (const name in obj.vehicle) {
             if (name) {
-              formData.append(name, data[name]);
+              formData.append(
+                `data.vehicle.${name}`,
+                obj.vehicle[name as keyof typeof obj.vehicle],
+              );
+            }
+          }
+
+          for (const name in obj.operator) {
+            if (name) {
+              formData.append(
+                `data.operator.${name}`,
+                obj.operator[name as keyof typeof obj.operator],
+              );
             }
           }
 
@@ -99,10 +125,9 @@ const AddUpdateTechnique: React.FC<Props> = ({
             const file = fileList[0]?.originFileObj;
             if (file) {
               const blob = new Blob([file]);
-              formData.append('image', blob, file.name);
+              formData.append('files', blob, file.name);
             }
           }
-
           await dispatch(vehicleCreateRequest({ data: formData })).unwrap();
 
           if (handleEditOkCancel) {
@@ -115,7 +140,7 @@ const AddUpdateTechnique: React.FC<Props> = ({
     } catch (e) {
       if (e?.detail) {
         const errorMessage = getErrorMessage(e?.detail, 'username');
-        await message.error(`${errorMessage}`);
+        await message.error(`${errorMessage.replace('vehicle ', '')}`);
       }
     }
   };
@@ -231,7 +256,7 @@ const AddUpdateTechnique: React.FC<Props> = ({
         <div className={b('profile-buttons')}>
           <Button
             data-testid='button_id'
-            disabled={formValid}
+            disabled={formValid || (!fileList.length && titleBool)}
             type='primary'
             htmlType='submit'
             loading={

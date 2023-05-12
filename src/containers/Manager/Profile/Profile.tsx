@@ -11,7 +11,7 @@ import SkeletonBlock from 'components/SkeletonBlock/SkeletonBlock';
 import { isObjectChangeValidate, removeEmptyValuesFromObject } from 'helper';
 import {
   accountsSelector,
-  fetchManager,
+  fetchAccount,
   generateNewPassword,
   managerChangeProfileHandler,
   managerProfileUpdate,
@@ -29,11 +29,11 @@ const Profile: React.FC = () => {
   const {
     generatedPassword,
     generatePasswordLoading,
-    fetchLoadingManager,
-    manager,
+    fetchLoadingAccount,
+    account,
     updateManagerData,
     updateManagerDataLoading,
-    fetchErrorManager,
+    fetchErrorAccount,
   } = useAppSelector(accountsSelector);
   const dispatch = useAppDispatch();
   const [validateForm, setValidateForm] = useState(false);
@@ -42,35 +42,35 @@ const Profile: React.FC = () => {
   const [form] = Form.useForm();
 
   useEffect(() => {
-    dispatch(fetchManager());
+    dispatch(fetchAccount());
   }, [dispatch]);
 
   useEffect(() => {
-    if (manager) {
+    if (account) {
       form.setFieldsValue({
-        username: manager?.username,
-        old_password: manager?.password,
-        first_name: manager?.first_name,
-        last_name: manager?.last_name,
-        middle_name: manager?.middle_name,
-        email: manager?.email,
-        phone: manager?.phone,
+        username: account?.username,
+        old_password: account?.password,
+        first_name: account?.first_name,
+        last_name: account?.last_name,
+        middle_name: account?.middle_name,
+        email: account?.email,
+        phone: account?.phone,
       });
     }
-  }, [manager, form]);
+  }, [account, form]);
 
   useEffect(() => {
-    if (manager) {
-      dispatch(setManagerProfile(manager));
+    if (account) {
+      dispatch(setManagerProfile(account));
     }
-  }, [manager, dispatch]);
+  }, [account, dispatch]);
 
   useEffect(() => {
-    if (manager) {
-      const validate = isObjectChangeValidate(manager, updateManagerData);
+    if (account) {
+      const validate = isObjectChangeValidate(account, updateManagerData);
       setValidateForm(validate);
     }
-  }, [manager, updateManagerData]);
+  }, [account, updateManagerData]);
 
   const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -119,8 +119,8 @@ const Profile: React.FC = () => {
     }
   };
 
-  if (fetchErrorManager) {
-    return <Errors status={fetchErrorManager.status} detail={fetchErrorManager.detail} />;
+  if (fetchErrorAccount) {
+    return <Errors status={fetchErrorAccount.status} detail={fetchErrorAccount.detail} />;
   }
 
   return (
@@ -131,8 +131,8 @@ const Profile: React.FC = () => {
         md={{ span: 18, offset: 2 }}
         lg={{ span: 11, offset: 1 }}
       >
-        {fetchLoadingManager ? (
-          <SkeletonBlock active={fetchLoadingManager} num={1} titleBool />
+        {fetchLoadingAccount ? (
+          <SkeletonBlock active={fetchLoadingAccount} num={1} titleBool />
         ) : (
           <>
             <div className={b('form-header')}>
@@ -147,7 +147,7 @@ const Profile: React.FC = () => {
                   ) : (
                     <Avatar
                       size={64}
-                      src={manager?.image ? `${apiUrlCrop}${manager?.image}` : ''}
+                      src={account?.image ? `${apiUrlCrop}${account?.image}` : ''}
                       style={{ cursor: 'pointer' }}
                       icon={<UserOutlined />}
                     />
@@ -163,13 +163,13 @@ const Profile: React.FC = () => {
                 />
               </div>
               <Title level={3} data-testid='sign_in_test' className='title'>
-                {`${manager?.last_name} ${manager?.first_name?.charAt(
+                {`${account?.last_name} ${account?.first_name?.charAt(
                   0,
-                )}. ${manager?.middle_name?.charAt(0)}.`}
+                )}. ${account?.middle_name?.charAt(0)}.`}
               </Title>
             </div>
 
-            <Form form={form} initialValues={{ manager }} onFinish={onFinish} layout='vertical'>
+            <Form form={form} initialValues={{ account }} onFinish={onFinish} layout='vertical'>
               <div className={b('form-block')}>
                 <FormField
                   bordered

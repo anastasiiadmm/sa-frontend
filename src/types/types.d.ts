@@ -26,28 +26,25 @@ export interface LoginMutation {
   password: string;
 }
 
-export interface ValidationError {
-  errors: {
-    [key: string]: {
-      name: string;
-      message: string;
-    };
-  };
-  name: string;
-  _name: string;
-  message: string;
-}
-
-export interface IManager {
-  id: string;
+export interface IAccount {
+  id: number | undefined;
   username: string;
   password: string;
   first_name: string;
   middle_name: string;
+  is_manager: boolean;
   last_name: string;
   email: string;
   phone: string;
   image: string;
+  company: {
+    autopilots_amount: number;
+    id: number;
+    location: string;
+    meteo_requested: boolean;
+    name: string;
+    weather_service: boolean;
+  };
 }
 
 export interface IManagerMutation {
@@ -64,6 +61,10 @@ export interface IManagerMutation {
 
 export interface ValidationUpdateManagerProfile {
   [key: string]: string;
+}
+
+export interface profile {
+  [key: string]: Object;
 }
 
 export interface updateManagerDataMutation {
@@ -141,6 +142,30 @@ export interface companiesList {
     email: string;
     phone: string;
     image?: string;
+  };
+}
+
+export interface requestData {
+  category: number;
+  created_at: string;
+  id: number;
+  object_id: number;
+  requestor: string;
+  uploaded_files: Array;
+  data: {
+    user: {
+      username?: string;
+      password?: string;
+      first_name: string;
+      middle_name: string;
+      last_name: string;
+      email: string;
+      phone: string;
+    };
+    enterprise: {
+      location: string;
+      name: string;
+    };
   };
 }
 
@@ -275,14 +300,49 @@ export interface generatedPassword {
   generated_password: string;
 }
 
-export interface Request {
+export interface RequestType {
   id: number;
+  object_id: string;
+  category: number;
   created_at: string;
-  enterprise_name: string;
-  confirmation_type: number;
-  enterprise: number;
-  confirmation_type_text: string;
-  inquiry_id: number;
+  inquiry_id?: string;
+  requestor?: string;
+  data: {
+    enterprise: {
+      location: string;
+      name: string;
+    };
+    user: {
+      email: string;
+      first_name: string;
+      last_name: string;
+      middle_name: string;
+      phone: string;
+      username: string;
+    };
+  };
+}
+
+export interface userRequest {
+  coords_timeout: number;
+  email: string;
+  first_name: string;
+  id: number;
+  image: string;
+  is_manager: boolean;
+  last_name: string;
+  middle_name: string;
+  phone: string;
+  username: string;
+  company: {
+    autopilots_amount: number;
+    id: number;
+    location: string;
+    meteo_requested: boolean;
+    name: string;
+    vehicles_number: number;
+    weather_service: boolean;
+  };
 }
 
 export interface accountsManagerConfirmation {

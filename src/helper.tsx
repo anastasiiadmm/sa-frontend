@@ -1,22 +1,28 @@
 import { Locales, SensorDataEntry, stationInfo } from 'types/stationTypes';
-import { companiesList, ErrorObject, ICompany, updateManagerDataMutation } from 'types/types';
+import { ErrorObject, ICompany, updateManagerDataMutation } from 'types/types';
 import { dateMomentTypeString } from 'utils/constants';
 
 const moment = require('moment');
 
-export const removeEmptyValuesFromObject = (obj: any) => {
+type IndexableObject = {
+  [key: string]: unknown;
+};
+
+export const removeEmptyValuesFromObject = (
+  obj: IndexableObject | null | unknown | undefined | any,
+) => {
+  const newObj: IndexableObject | unknown | undefined | any = {};
   for (const i in obj) {
-    if (obj) {
+    if (Object.prototype.hasOwnProperty.call(obj, i)) {
       const value = obj[i];
       if (typeof value === 'object') {
-        removeEmptyValuesFromObject(value);
-      }
-      if (value === '' || value === undefined || value === null) {
-        delete obj[i];
+        newObj[i] = removeEmptyValuesFromObject(value);
+      } else if (value !== '' && value !== undefined && value !== null) {
+        newObj[i] = value;
       }
     }
   }
-  return obj;
+  return newObj;
 };
 
 export const isObjectChangeValidate = (
@@ -81,40 +87,6 @@ export const isObjectChangeUserProfileValidate = (origin: ICompany, update: ICom
   );
 };
 
-export const isObjectChangeUserConfirmationProfileValidate = (
-  origin: companiesList,
-  update: ICompany,
-) => {
-  const originJson = {
-    user: {
-      last_name: origin.user.last_name,
-      first_name: origin.user.first_name,
-      middle_name: origin.user.middle_name,
-      email: origin.user.email,
-      phone: origin.user.phone,
-    },
-    name: origin.name,
-    location: origin.location,
-    autopilots_amount: origin.autopilots_amount,
-  };
-  const updateJson = {
-    user: {
-      last_name: update.user.last_name,
-      first_name: update.user.first_name,
-      middle_name: update.user.middle_name,
-      email: update.user.email,
-      phone: update.user.phone,
-    },
-    name: update.name,
-    location: update.location,
-    autopilots_amount: update.autopilots_amount,
-  };
-
-  return (
-    JSON.stringify(originJson).replace(/ /g, '') !== JSON.stringify(updateJson).replace(/ /g, '')
-  );
-};
-
 export const getErrorMessage = (errors: ErrorObject, key: string): string => {
   const errorKey = key in errors ? key : Object.keys(errors)[0];
   const errorValue = errors[errorKey];
@@ -135,8 +107,9 @@ export const getErrorMessage = (errors: ErrorObject, key: string): string => {
   return '';
 };
 
-export const mergeAndRemoveDuplicateValues = (obj1: any, obj2: any) => {
+export const mergeAndRemoveDuplicateValues = (obj1: any, obj2?: any) => {
   const result: Record<string, any> = {};
+  const modifiedKeys: Set<string> = new Set();
 
   for (const key in obj1) {
     if (
@@ -151,12 +124,17 @@ export const mergeAndRemoveDuplicateValues = (obj1: any, obj2: any) => {
       typeof obj2[key] === 'object'
     ) {
       result[key] = mergeAndRemoveDuplicateValues(obj1[key], obj2[key]);
+
+      if (Object.keys(result[key]).length > 0) {
+        modifiedKeys.add(key);
+      }
     } else if (
       Object.prototype.hasOwnProperty.call(obj1, key) &&
       Object.prototype.hasOwnProperty.call(obj2, key) &&
       obj1[key] !== obj2[key]
     ) {
       result[key] = obj2[key];
+      modifiedKeys.add(key);
     }
   }
 
@@ -166,6 +144,13 @@ export const mergeAndRemoveDuplicateValues = (obj1: any, obj2: any) => {
       !Object.prototype.hasOwnProperty.call(obj1, key)
     ) {
       result[key] = obj2[key];
+      modifiedKeys.add(key);
+    }
+  }
+
+  for (const key in result) {
+    if (Object.prototype.hasOwnProperty.call(result, key) && !modifiedKeys.has(key)) {
+      delete result[key];
     }
   }
 
@@ -269,4 +254,8 @@ export const updateDataNames = (data: SensorDataEntry[], jsonData: Locales) => {
     }
     return obj;
   });
+};
+
+export const isEmptyObject = (data: any) => {
+  return Object.keys(data).length === 0;
 };

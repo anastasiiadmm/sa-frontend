@@ -37,7 +37,7 @@
   }
 
   &__card-style-cloud {
-    width: 300px;
+    width: 340px;
     background: themes.$cloud-color;
   }
 
@@ -48,7 +48,7 @@
   }
 
   &__card-style-cloud-button {
-    margin-top: 12px;
+    margin-top: 5px;
     background: themes.$cloud-bg-button;
     color: themes.$info-color;
     font-weight: 700;
@@ -87,4 +87,8 @@
 .meteo-h1 {
   margin: 0 !important;
   padding: 0;
+}
+
+.send-button {
+  background: #0078a8;
 }

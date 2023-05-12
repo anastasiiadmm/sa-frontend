@@ -36,7 +36,7 @@ describe("<UserRequests />", () => {
       expect(requestsComponent).toBeInTheDocument();
       expect(screen.getByText('Дата запроса')).toBeInTheDocument();
       expect(screen.getByText('Тип запроса')).toBeInTheDocument();
-      expect(screen.getByText('Название компании')).toBeInTheDocument();
+      expect(screen.getByText('Источник запроса')).toBeInTheDocument();
     });
   });
 });

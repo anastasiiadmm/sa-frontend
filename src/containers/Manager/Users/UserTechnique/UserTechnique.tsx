@@ -13,7 +13,7 @@ import tractorBlue from 'assets/images/icons/tractor-blue.svg';
 import tractor from 'assets/images/icons/tractor-image.svg';
 import Errors from 'components/Errors/Errors';
 import AddUpdateTechnique from 'components/ModalComponent/ModalChildrenComponents/AddUpdateTechnique/AddUpdateTechnique';
-import DeleteRejectTechniqueModal from 'components/ModalComponent/ModalChildrenComponents/DeleteTechniqueModal/DeleteTechniqueModal';
+import RequestModal from 'components/ModalComponent/ModalChildrenComponents/DeleteTechniqueModal/RequestModal';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import ResultComponent from 'components/ResultComponent/ResultComponent';
 import TableComponent from 'components/TableComponent/TableComponent';
@@ -53,7 +53,6 @@ const UserTechnique: React.FC = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteEditModalOpen] = useState(false);
   const [vehicleId, setVehicleId] = useState<string | null>(null);
-  const [techniqueApiName, setTechniqueApiName] = useState<string | null>(null);
   const [filters, setFilters] = useState({
     page: vehicleListPagination?.next
       ? Number(getPageNumber(vehicleListPagination?.next))
@@ -70,10 +69,7 @@ const UserTechnique: React.FC = () => {
   }, [dispatch, filters]);
 
   useEffect(() => {
-    const data = {
-      id,
-    };
-    dispatch(fetchUserInfo({ data }));
+    dispatch(fetchUserInfo({ id }));
   }, [dispatch]);
 
   useEffect(() => {
@@ -250,7 +246,6 @@ const UserTechnique: React.FC = () => {
                 onClick={() => {
                   showDeleteModal();
                   setVehicleId(record?.id.toString());
-                  setTechniqueApiName(record?.description);
                 }}
               >
                 <img src={deleteIcon} alt='deleteIcon' className='link-icons' />
@@ -287,9 +282,9 @@ const UserTechnique: React.FC = () => {
                   Техника пользователя -{' '}
                   <p className={b('subtitle')}>
                     {' '}
-                    {`${userInfo?.user?.last_name} ${userInfo?.user?.first_name?.charAt(
+                    {`${userInfo?.data?.user?.last_name} ${userInfo?.data?.user?.first_name?.charAt(
                       0,
-                    )}. ${userInfo?.user?.middle_name?.charAt(0)}.`}
+                    )}. ${userInfo?.data?.user?.middle_name?.charAt(0)}.`}
                   </p>
                 </Title>
               </div>
@@ -337,6 +332,7 @@ const UserTechnique: React.FC = () => {
           isEdit
           userId={id}
           vehicleId={vehicleId}
+          titleBool={false}
           handleEditOkCancel={handleEditOkCancel}
         />
       </ModalComponent>
@@ -347,14 +343,13 @@ const UserTechnique: React.FC = () => {
         handleOk={handleDeleteOkCancel}
         handleCancel={handleDeleteOkCancel}
       >
-        <DeleteRejectTechniqueModal
+        <RequestModal
           title='Удалить?'
           textCancel='Удалить'
           subTitle='Вы уверены, что хотите удалить'
-          techniqueName={`${techniqueApiName}?`}
           loading={deleteUserVehicleLoading}
           handleDeleteCancel={handleDeleteOkCancel}
-          deleteRejectTechniqueHandler={deleteTechniqueHandler}
+          requestHandler={deleteTechniqueHandler}
         />
       </ModalComponent>
 

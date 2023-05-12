@@ -7,8 +7,9 @@ import { RootState } from 'redux/hooks';
 import {
   accountsManagerConfirmation,
   generatedPassword,
-  IManager,
+  IAccount,
   IUserAccount,
+  RequestType,
   updateManagerDataMutation,
   userRequest,
   userRequestPagination,
@@ -23,13 +24,12 @@ import toQueryParams from 'utils/toQueryParams';
 const nameSpace = 'accounts';
 
 interface AccountsState {
-  manager: IManager | null;
-  fetchLoadingManager: boolean;
-  fetchErrorManager: IErrors | null;
+  account: IAccount | null;
+  fetchLoadingAccount: boolean;
+  fetchErrorAccount: IErrors | null;
   updateManagerData: updateManagerDataMutation;
   updateManagerDataLoading: boolean;
   updateManagerDataError: IErrors | null;
-
   user: IUserAccount | null;
   fetchLoadingUser: boolean;
   fetchLoadingUserError: IErrors | null;
@@ -37,9 +37,9 @@ interface AccountsState {
   userVehiclesPagination: userVehiclesPagination | null;
   fetchUserVehiclesLoading: boolean;
   fetchUserVehiclesError: IErrors | null;
-  registerUserLoading: boolean;
-  registerUserError: IErrors | null;
-  registerUserSuccess: boolean | null;
+  inquiriesLoading: boolean;
+  inquiriesError: IErrors | null;
+  inquiriesSuccess: boolean | null;
   requests: userRequest[] | undefined;
   requestsPagination: userRequestPagination | null;
   fetchRequestsLoading: boolean;
@@ -58,12 +58,20 @@ interface AccountsState {
   vehicleCreateRequestSuccess: boolean;
   vehicleDeleteLoading: boolean;
   vehicleErrorsDelete: IErrors | null;
+  approveRequestLoading: boolean;
+  approveRequestError: IErrors | null;
+  approveRequestSuccess: boolean;
+  approveRegisterRequestLoading: boolean;
+  approveRegisterRequestError: IErrors | null;
+  approveRegisterRequestSuccess: boolean;
+  changeProfileLoading: boolean;
+  changeProfileError: IErrors | null;
 }
 
 const INITIAL_STATE = {
-  manager: null,
-  fetchLoadingManager: false,
-  fetchErrorManager: null,
+  account: null,
+  fetchLoadingAccount: false,
+  fetchErrorAccount: null,
   updateManagerData: {
     username: '',
     password: '',
@@ -88,9 +96,9 @@ const INITIAL_STATE = {
   fetchUserVehiclesLoading: false,
   fetchUserVehiclesError: null,
 
-  registerUserLoading: false,
-  registerUserError: null,
-  registerUserSuccess: false,
+  inquiriesLoading: false,
+  inquiriesError: null,
+  inquiriesSuccess: false,
 
   requests: undefined,
   requestsPagination: null,
@@ -112,18 +120,29 @@ const INITIAL_STATE = {
   vehicleCreateRequestLoading: false,
   vehicleCreateRequestError: null,
   vehicleCreateRequestSuccess: false,
+
+  approveRequestLoading: false,
+  approveRequestError: null,
+  approveRequestSuccess: false,
+
+  approveRegisterRequestLoading: false,
+  approveRegisterRequestError: null,
+  approveRegisterRequestSuccess: false,
+
+  changeProfileLoading: false,
+  changeProfileError: null,
 } as AccountsState;
 
-export const fetchManager = createAsyncThunk(
+export const fetchAccount = createAsyncThunk(
   'accounts/fetchManager',
   async (_, { rejectWithValue }) => {
     try {
-      const resp = await axiosApi.get<IManager | null>('/accounts/manager/');
-      const manager = resp.data;
-      if (manager === null) {
+      const resp = await axiosApi2.get<IAccount | null>('/accounts/');
+      const account = resp.data;
+      if (account === null) {
         throw new Error('Not Found!');
       }
-      return manager;
+      return account;
     } catch (e) {
       return rejectWithValue({
         detail: e?.response?.data?.detail,
@@ -143,7 +162,7 @@ export const managerProfileUpdate = createAsyncThunk<void, updateManagerParams>(
     try {
       const resp = await axiosApi.patch(`/accounts/manager/`, data);
       message.success('Данные успешно изменены!');
-      await dispatch(fetchManager());
+      await dispatch(fetchAccount());
       return resp.data;
     } catch (e) {
       if (e?.response?.data) {
@@ -207,8 +226,44 @@ export const fetchUserVehicles = createAsyncThunk<userVehicles, fetchUserVehicle
   },
 );
 
-export const registerUser = createAsyncThunk<void, IMyData>(
-  `${nameSpace}/registerUser`,
+export const requestChangeProfile = createAsyncThunk<void, IMyData | null>(
+  `${nameSpace}/requestChangeProfile`,
+  async (data, { rejectWithValue }) => {
+    try {
+      const resp = await axiosApi2.post(`/common/inquiries/`, data);
+      message.success('Запрос успешно отправлен!');
+      return resp.data;
+    } catch (e) {
+      return rejectWithValue(e);
+    }
+  },
+);
+
+export const approveFieldClimateRequest = createAsyncThunk<void, IMyData>(
+  `${nameSpace}/approveFieldClimateRequest`,
+  async (data, { rejectWithValue }) => {
+    try {
+      const resp = await axiosApi2.post(`/common/inquiries/`, data);
+      message.success('Запрос успешно отправлен!');
+
+      return resp.data;
+    } catch (e) {
+      if (data.category === 1) {
+        return rejectWithValue({
+          detail: e?.response?.data,
+          status: e?.response?.status,
+        });
+      }
+      return rejectWithValue({
+        detail: e?.response?.data?.non_field_errors,
+        status: e?.response?.status,
+      });
+    }
+  },
+);
+
+export const approveRegisterRequest = createAsyncThunk<void, IMyData>(
+  `${nameSpace}/approveRegisterRequest`,
   async (data, { rejectWithValue }) => {
     try {
       const resp = await axiosApi2.post(`/common/inquiries/`, data);
@@ -224,8 +279,32 @@ export const registerUser = createAsyncThunk<void, IMyData>(
   },
 );
 
-export const deleteUserTechnique = createAsyncThunk(
-  `${nameSpace}/deleteUserTechnique`,
+interface approveRequestParams {
+  id: number | null;
+  data?: {
+    category: number;
+    object_id?: number;
+  };
+}
+
+export const approveRequest = createAsyncThunk<RequestType, approveRequestParams>(
+  `${nameSpace}/approveRequest`,
+  async (data, { rejectWithValue }) => {
+    try {
+      const res = await axiosApi2.post(`/common/inquiries/${data?.id}/`, data?.data);
+      message.success('Запрос принят!');
+      return res?.data?.id;
+    } catch (e) {
+      return rejectWithValue({
+        detail: e?.response?.data,
+        status: e?.response?.status,
+      });
+    }
+  },
+);
+
+export const deleteRequest = createAsyncThunk(
+  `${nameSpace}/deleteRequest`,
   async (
     {
       id,
@@ -235,7 +314,7 @@ export const deleteUserTechnique = createAsyncThunk(
     { rejectWithValue },
   ) => {
     try {
-      await axiosApi.delete(`/accounts/manager/confirmation/${id}/`);
+      await axiosApi2.delete(`/common/inquiries/${id}/`);
       message.success('Успешно удалено');
       return {
         id,
@@ -265,9 +344,7 @@ export const fetchRequests = createAsyncThunk<userRequest, fetchRequestsParams>(
       if (data?.query) {
         query = toQueryParams(data.query);
       }
-      const resp = await axiosApi.get<userRequest | null>(
-        `/accounts/manager/confirmation/${query}`,
-      );
+      const resp = await axiosApi2.get(`/common/inquiries/${query}`);
       const requests = resp.data;
 
       if (requests === null) {
@@ -292,7 +369,7 @@ export const vehicleCreateRequest = createAsyncThunk<void, vehicleCreateRequestP
   `${nameSpace}/vehicleCreateRequest`,
   async ({ data }, { rejectWithValue }) => {
     try {
-      const resp = await axiosApi.post(`/accounts/user/confirmation/vehicle/`, data);
+      const resp = await axiosApi2.post(`/common/inquiries/`, data);
       message.success('Запрос успешно отправлен!');
 
       return resp.data;
@@ -306,16 +383,18 @@ export const vehicleCreateRequest = createAsyncThunk<void, vehicleCreateRequestP
 );
 
 interface accountManagerConfirmationParams {
-  id: string | null | undefined;
+  id: number | string | null | undefined;
+  data?: any;
 }
 
 export const accountManagerConfirmationRequest = createAsyncThunk<
   accountsManagerConfirmation,
   accountManagerConfirmationParams
->('accounts/accountManagerConfirmationRequest', async (data, { rejectWithValue }) => {
+>('accounts/accountManagerConfirmationRequest', async ({ id, data }, { rejectWithValue }) => {
   try {
-    const resp = await axiosApi.patch<accountsManagerConfirmation | null>(
-      `/accounts/manager/confirmation/${data?.id}/`,
+    const resp = await axiosApi2.post<accountsManagerConfirmation | null>(
+      `/common/inquiries/${id}/`,
+      data,
     );
     const accountManagerConfirmation = resp.data;
 
@@ -400,8 +479,8 @@ const accountsSlice = createSlice({
       state.updateManagerData.email = action.payload.email;
       state.updateManagerData.phone = action.payload.phone;
     },
-    registerSuccessNull: (state) => {
-      state.registerUserSuccess = false;
+    inquiriesSuccessNull: (state) => {
+      state.inquiriesSuccess = false;
     },
     deleteRequests: (state, action) => {
       state.requests = state.requests?.filter((item) => item.id !== action.payload);
@@ -412,24 +491,24 @@ const accountsSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(fetchManager.pending, (state) => {
-      state.fetchErrorManager = null;
-      state.fetchLoadingManager = true;
+    builder.addCase(fetchAccount.pending, (state) => {
+      state.fetchErrorAccount = null;
+      state.fetchLoadingAccount = true;
     });
-    builder.addCase(fetchManager.fulfilled, (state, { payload: manager }) => {
-      state.fetchErrorManager = null;
-      state.fetchLoadingManager = false;
-      state.manager = manager;
+    builder.addCase(fetchAccount.fulfilled, (state, { payload: account }) => {
+      state.fetchErrorAccount = null;
+      state.fetchLoadingAccount = false;
+      state.account = account;
     });
-    builder.addCase(fetchManager.rejected, (state, { payload }) => {
+    builder.addCase(fetchAccount.rejected, (state, { payload }) => {
       if (payload && typeof payload === 'object' && 'detail' in payload && 'status' in payload) {
-        state.fetchErrorManager = {
-          ...state.fetchErrorManager,
+        state.fetchErrorAccount = {
+          ...state.fetchErrorAccount,
           detail: payload.detail as string | null,
           status: payload.status as number | null,
         };
       }
-      state.fetchLoadingManager = false;
+      state.fetchLoadingAccount = false;
     });
 
     builder.addCase(managerProfileUpdate.pending, (state) => {
@@ -497,26 +576,89 @@ const accountsSlice = createSlice({
       }
     });
 
-    builder.addCase(registerUser.pending, (state) => {
-      state.registerUserLoading = true;
-      state.registerUserError = null;
-      state.registerUserSuccess = false;
+    builder.addCase(approveFieldClimateRequest.pending, (state) => {
+      state.inquiriesLoading = true;
+      state.inquiriesError = null;
+      state.inquiriesSuccess = false;
     });
-    builder.addCase(registerUser.fulfilled, (state) => {
-      state.registerUserLoading = false;
-      state.registerUserError = null;
-      state.registerUserSuccess = true;
+    builder.addCase(approveFieldClimateRequest.fulfilled, (state) => {
+      state.inquiriesLoading = false;
+      state.inquiriesError = null;
+      state.inquiriesSuccess = true;
     });
-    builder.addCase(registerUser.rejected, (state, { payload }) => {
-      state.registerUserLoading = false;
+    builder.addCase(approveFieldClimateRequest.rejected, (state, { payload }) => {
+      state.inquiriesLoading = false;
       if (payload && typeof payload === 'object' && 'detail' in payload && 'status' in payload) {
-        state.registerUserError = {
-          ...state.registerUserError,
+        state.inquiriesError = {
+          ...state.inquiriesError,
           detail: payload.detail as string | null,
           status: payload.status as number | null,
         };
       }
-      state.registerUserSuccess = false;
+      state.inquiriesSuccess = false;
+    });
+
+    builder.addCase(requestChangeProfile.pending, (state) => {
+      state.changeProfileLoading = true;
+      state.changeProfileError = null;
+    });
+    builder.addCase(requestChangeProfile.fulfilled, (state) => {
+      state.changeProfileLoading = false;
+      state.changeProfileError = null;
+    });
+    builder.addCase(requestChangeProfile.rejected, (state, { payload }) => {
+      state.changeProfileLoading = false;
+      if (payload && typeof payload === 'object' && 'detail' in payload && 'status' in payload) {
+        state.changeProfileError = {
+          ...state.changeProfileError,
+          detail: payload.detail as string | null,
+          status: payload.status as number | null,
+        };
+      }
+    });
+
+    builder.addCase(approveRegisterRequest.pending, (state) => {
+      state.approveRegisterRequestLoading = true;
+      state.approveRegisterRequestError = null;
+      state.approveRequestSuccess = false;
+    });
+    builder.addCase(approveRegisterRequest.fulfilled, (state) => {
+      state.approveRegisterRequestLoading = false;
+      state.approveRegisterRequestError = null;
+      state.approveRequestSuccess = true;
+    });
+    builder.addCase(approveRegisterRequest.rejected, (state, { payload }) => {
+      state.approveRegisterRequestLoading = false;
+      if (payload && typeof payload === 'object' && 'detail' in payload && 'status' in payload) {
+        state.approveRegisterRequestError = {
+          ...state.approveRegisterRequestError,
+          detail: payload.detail as string | null,
+          status: payload.status as number | null,
+        };
+      }
+      state.approveRequestSuccess = false;
+    });
+
+    builder.addCase(approveRequest.pending, (state) => {
+      state.approveRequestLoading = true;
+      state.approveRequestError = null;
+      state.approveRequestSuccess = false;
+    });
+    builder.addCase(approveRequest.fulfilled, (state) => {
+      state.approveRequestLoading = false;
+      state.approveRequestError = null;
+      state.approveRequestSuccess = true;
+    });
+    builder.addCase(approveRequest.rejected, (state, { payload }) => {
+      state.approveRequestLoading = false;
+      if (payload && typeof payload === 'object' && 'detail' in payload && 'status' in payload) {
+        state.approveRequestError = {
+          ...state.approveRequestError,
+          detail: payload.detail as string | null,
+          status: payload.status as number | null,
+        };
+      }
+      state.approveRequestSuccess = false;
     });
 
     builder.addCase(fetchRequests.pending, (state) => {
@@ -530,8 +672,8 @@ const accountsSlice = createSlice({
       state.requestsPagination = {
         ...state.requestsPagination,
         count: payload.count,
-        next: payload.links.next,
-        previous: payload.links.previous,
+        next: payload.next,
+        previous: payload.previous,
       };
     });
     builder.addCase(fetchRequests.rejected, (state, { payload }) => {
@@ -563,6 +705,7 @@ const accountsSlice = createSlice({
         };
       }
     });
+
     builder.addCase(generateNewPassword.pending, (state) => {
       state.generatePasswordLoading = true;
       state.generatePasswordError = null;
@@ -581,6 +724,7 @@ const accountsSlice = createSlice({
         };
       }
     });
+
     builder.addCase(accountManagerConfirmationRequest.pending, (state) => {
       state.accountManagerConfirmationLoading = true;
       state.accountManagerConfirmationError = null;
@@ -602,6 +746,7 @@ const accountsSlice = createSlice({
         };
       }
     });
+
     builder.addCase(vehicleCreateRequest.pending, (state) => {
       state.vehicleCreateRequestLoading = true;
       state.vehicleCreateRequestSuccess = false;
@@ -624,21 +769,18 @@ const accountsSlice = createSlice({
       }
     });
 
-    builder.addCase(deleteUserTechnique.pending, (state) => {
+    builder.addCase(deleteRequest.pending, (state) => {
       state.vehicleDeleteLoading = true;
       state.vehicleErrorsDelete = null;
     });
-    builder.addCase(
-      deleteUserTechnique.fulfilled,
-      (state, action: PayloadAction<{ id: string }>) => {
-        if (state.requests?.length) {
-          state.requests = state.requests.filter((item) => item.id !== Number(action.payload.id));
-        }
-        state.vehicleDeleteLoading = false;
-        state.vehicleErrorsDelete = null;
-      },
-    );
-    builder.addCase(deleteUserTechnique.rejected, (state, { payload }) => {
+    builder.addCase(deleteRequest.fulfilled, (state, action: PayloadAction<{ id: string }>) => {
+      if (state.requests?.length) {
+        state.requests = state.requests.filter((item) => item.id !== Number(action.payload.id));
+      }
+      state.vehicleDeleteLoading = false;
+      state.vehicleErrorsDelete = null;
+    });
+    builder.addCase(deleteRequest.rejected, (state, { payload }) => {
       state.vehicleDeleteLoading = false;
       if (payload && typeof payload === 'object' && 'detail' in payload && 'status' in payload) {
         state.userVehicleInfoError = {
@@ -654,7 +796,7 @@ const accountsSlice = createSlice({
 export const {
   managerChangeProfileHandler,
   setManagerProfile,
-  registerSuccessNull,
+  inquiriesSuccessNull,
   deleteRequests,
   clearRequestsPagination,
 } = accountsSlice.actions;
