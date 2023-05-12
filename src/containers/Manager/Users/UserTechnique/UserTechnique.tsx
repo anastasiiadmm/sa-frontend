@@ -36,7 +36,7 @@ const { Title } = Typography;
 const UserTechnique: React.FC = () => {
   const b = bem('UserTechnique');
   const dispatch = useAppDispatch();
-  const { id } = useParams() as { id: string };
+  const { id, idVehicle } = useParams() as { id: string; idVehicle: string };
   const {
     vehicleList,
     fetchVehicleListLoading,
@@ -61,7 +61,7 @@ const UserTechnique: React.FC = () => {
 
   useEffect(() => {
     const data = {
-      userId: id,
+      idVehicle,
       query: {
         page: filters?.page,
       },

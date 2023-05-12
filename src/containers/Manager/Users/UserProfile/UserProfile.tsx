@@ -196,7 +196,7 @@ const UserProfile: React.FC = () => {
                 </Title>
               </div>
 
-              <Link to={`/user-technique/${id}`}>
+              <Link to={`/user-technique/${id}/${userInfoByManager?.company?.id}`}>
                 <Card className={b('user-card-style')} bordered={false} style={{ width: '100%' }}>
                   <img src={tractorBlue} alt='tractorBlue' />
                   <div className={b('card-content')}>

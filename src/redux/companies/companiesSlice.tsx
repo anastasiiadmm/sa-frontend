@@ -298,7 +298,7 @@ export const deleteUserInfo = createAsyncThunk<void, string>(
 
 interface fetchVehicleParams {
   data?: {
-    userId?: string | null | undefined;
+    idVehicle?: string | null | undefined;
     query?: {
       page?: number | undefined;
     };
@@ -314,7 +314,7 @@ export const fetchUserVehicleList = createAsyncThunk<companiesList, fetchVehicle
         query = toQueryParams(data.query);
       }
       const resp = await axiosApi2.get<companiesList | null>(
-        `/enterprises/${data?.userId}/vehicles/${query}`,
+        `/enterprises/${data?.idVehicle}/vehicles/${query}`,
       );
       const companies = resp.data;
 
@@ -376,7 +376,9 @@ export const patchUserVehicleInfo = createAsyncThunk<userVehicleInfo, patchUserV
         data?.data,
       );
 
-      await dispatch(fetchUserVehicleList({ data: { userId: data?.userId, query: { page: 1 } } }));
+      await dispatch(
+        fetchUserVehicleList({ data: { idVehicle: data?.userId, query: { page: 1 } } }),
+      );
       message.success('Данные успешно изменены!');
 
       const userVehicleInfo = resp.data;
@@ -406,7 +408,9 @@ export const deleteUserVehicle = createAsyncThunk<void, deleteUserVehicleParams>
     try {
       const resp = await axiosApi.delete(`/companies/${data?.userId}/vehicle/${data?.vehicleId}/`);
 
-      await dispatch(fetchUserVehicleList({ data: { userId: data?.userId, query: { page: 1 } } }));
+      await dispatch(
+        fetchUserVehicleList({ data: { idVehicle: data?.userId, query: { page: 1 } } }),
+      );
       message.success('Данные успешно удалены!');
 
       return resp.data;
