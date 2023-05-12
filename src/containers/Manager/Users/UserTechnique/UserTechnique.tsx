@@ -282,10 +282,10 @@ const UserTechnique: React.FC = () => {
                 <Title level={3} className={b('title')}>
                   Техника пользователя -{' '}
                   <p className={b('subtitle')}>
-                    {' '}
-                    {`${userInfoByManager?.last_name} ${userInfoByManager?.first_name?.charAt(
-                      0,
-                    )}. ${userInfoByManager?.middle_name?.charAt(0)}.`}
+                    {userInfoByManager?.last_name} {userInfoByManager?.first_name?.charAt(0)}.{' '}
+                    {userInfoByManager?.middle_name === ''
+                      ? null
+                      : `${userInfoByManager?.middle_name.charAt(0)}.`}
                   </p>
                 </Title>
               </div>
