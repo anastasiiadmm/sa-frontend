@@ -163,14 +163,7 @@ const ProfileTechnique = () => {
             overlayInnerStyle={{ padding: '5px 15px', borderRadius: 15 }}
             placement='topRight'
           >
-            <Link
-              className={b('profile-link')}
-              to={
-                tokens?.is_manager
-                  ? `/open-map/${record?.id}/${vehicleId}/manager`
-                  : `/open-map/${record?.id}/${vehicleId}`
-              }
-            >
+            <Link className={b('profile-link')} to={`/open-map/${vehicleId}/${record.id}`}>
               <Button type='text'>
                 <img src={planet} alt='Просмотреть на карте' width={20} />
               </Button>
@@ -212,13 +205,7 @@ const ProfileTechnique = () => {
             )}
           </div>
           <div>
-            <Link
-              to={
-                tokens?.is_manager
-                  ? `/open-map/${userId}/${vehicleId}/local-tractor`
-                  : `/open-map/local-tractor/${vehicleId}`
-              }
-            >
+            <Link to={`/open-map/${vehicleId}/local-tractor`}>
               <Button
                 type='link'
                 icon={<img src={tractorBlue} alt='Техника на карте' width={18} />}

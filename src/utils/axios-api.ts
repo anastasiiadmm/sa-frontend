@@ -14,7 +14,6 @@ const axiosApi = axios.create({
 const axiosApi2 = axios.create({
   baseURL: apiURL2,
 });
-
 setupAxiosInterceptors(axiosApi);
 setupAxiosInterceptors(axiosApi2);
 setupAxiosInterceptorsResponse(axiosApi);
