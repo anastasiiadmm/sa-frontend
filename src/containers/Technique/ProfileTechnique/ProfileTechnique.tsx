@@ -2,6 +2,7 @@ import { Button, Form, Image, Skeleton, Tooltip, Typography } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import bem from 'easy-bem';
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
 import { Link, useParams } from 'react-router-dom';
 
 import arrowLeft from 'assets/images/icons/arrow-left.svg';
@@ -12,7 +13,6 @@ import FormField from 'components/FormField/FormField';
 import TableComponent from 'components/TableComponent/TableComponent';
 import { getPageParam } from 'helper';
 import { accountsSelector, fetchVehicleInfo } from 'redux/accounts/accountsSlice';
-import { authSelector } from 'redux/auth/authSlice';
 import { companiesSelector } from 'redux/companies/companiesSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { Result } from 'types/types';
@@ -25,12 +25,13 @@ const { Title } = Typography;
 const ProfileTechnique = () => {
   const b = bem('ProfileTechnique');
   const dispatch = useAppDispatch();
-  const { userId, vehicleId } = useParams() as { userId: string; vehicleId: string };
+  const { vehicleId } = useParams() as { userId: string; vehicleId: string };
+  const history = useNavigate();
+
   const userVehicleInfoState = useAppSelector(companiesSelector);
   const { userVehicleInfo, userVehicleInfoLoading, userVehicleInfoError } =
     useAppSelector(accountsSelector);
   const [form] = Form.useForm();
-  const { tokens } = useAppSelector(authSelector);
   const [fields, setFields] = useState<Result[]>([]);
 
   useEffect(() => {
@@ -164,6 +165,10 @@ const ProfileTechnique = () => {
     );
   };
 
+  const backHandler = () => {
+    history(-1);
+  };
+
   if (userVehicleInfoError || userVehicleInfoState.userVehicleInfoError) {
     return (
       <Errors
@@ -177,9 +182,9 @@ const ProfileTechnique = () => {
       <div className={b('table')}>
         <div className={b('header')}>
           <div className={b('header-title')}>
-            <Link to={tokens?.is_manager ? `/user-technique/${userId}` : '/'}>
+            <button type='button' onClick={backHandler} className={b('back_handler')}>
               <img className={b('arrow-left')} src={arrowLeft} alt='arrow' />
-            </Link>
+            </button>
             {userVehicleInfoLoading ? (
               <div style={{ margin: '30px 0' }}>
                 <Skeleton.Button active={userVehicleInfoLoading} style={{ width: 800 }} />

@@ -2,15 +2,7 @@ import { Button, Card, Spin, Tooltip, Typography } from 'antd';
 import bem from 'easy-bem';
 import L, { LatLngExpression } from 'leaflet';
 import React, { useEffect, useState } from 'react';
-import {
-  CircleMarker,
-  MapContainer,
-  Marker,
-  Polyline,
-  Popup,
-  Rectangle,
-  TileLayer,
-} from 'react-leaflet';
+import { CircleMarker, MapContainer, Marker, Polyline, Popup, TileLayer } from 'react-leaflet';
 import { useLocation, useNavigate, useParams } from 'react-router';
 
 import 'components/OpenMapComponent/_openMapComponent.scss';
@@ -29,6 +21,7 @@ import { mapSelector, obtainingCoordinate } from 'redux/map/mapSlice';
 
 // eslint-disable-next-line import/order
 import { AimOutlined } from '@ant-design/icons';
+import { socketApiSocket } from 'utils/config';
 
 const { Title } = Typography;
 
@@ -58,7 +51,7 @@ const OpenMapComponent = () => {
     let connectionID = '';
 
     const connect = () => {
-      const socket = new WebSocket('ws://159.89.30.209:8080/ws');
+      const socket = new WebSocket(socketApiSocket.replace(/^http/, 'wss'));
       socket.onopen = () => {
         setSocketLoading(true);
         socket.send(
@@ -220,27 +213,6 @@ const OpenMapComponent = () => {
   );
   const findResults = vehicle.results?.processing_data.find((item) => item.id === Number(id));
 
-  const lineMapHistory = () => {
-    const width = Number(field.results?.tool_width);
-    const center = [field.results.point_A_lat, field.results.point_A_lon];
-    const sizeInMeters = width / 100000;
-
-    let topLeft: LatLngExpression = [center[0] + sizeInMeters / 2, center[1]];
-
-    const bottomRight: LatLngExpression = [field.results.point_B_lat, field.results.point_B_lon];
-
-    if (center[0] > field.results.point_B_lat) {
-      const widthIncrease = width / 100000;
-      bottomRight[1] -= width / 100000;
-      topLeft = [field.results.point_A_lat, bottomRight[1] - widthIncrease];
-    } else {
-      bottomRight[0] += width / 100000;
-      topLeft = [topLeft[0], topLeft[1]];
-    }
-
-    return [topLeft, bottomRight];
-  };
-
   if (
     vehicle.loading ||
     field.loading ||
@@ -327,18 +299,14 @@ const OpenMapComponent = () => {
                 </Popup>
               </Marker>
             </CircleMarker>
-            {id === 'local-tractor' || pathname.includes('local-tractor') ? null : (
-              <Polyline weight={5} pathOptions={purpleOptions} positions={positions()}>
-                <Marker position={getCoordinateByType(positions(), 'start')} icon={duckIconStart}>
-                  <Popup>Start</Popup>
-                </Marker>
-                <Marker position={getCoordinateByType(positions(), 'end')} icon={duckIconEnd}>
-                  <Popup>End</Popup>
-                </Marker>
-              </Polyline>
-            )}
-
-            <Rectangle bounds={lineMapHistory()} color='#1EBF13FF' weight={2} />
+            <Polyline weight={5} pathOptions={purpleOptions} positions={positions()}>
+              <Marker position={getCoordinateByType(positions(), 'start')} icon={duckIconStart}>
+                <Popup>Start</Popup>
+              </Marker>
+              <Marker position={getCoordinateByType(positions(), 'end')} icon={duckIconEnd}>
+                <Popup>End</Popup>
+              </Marker>
+            </Polyline>
           </MapContainer>
         ) : null}
         {socketMap.status === 'no_geo' ? (

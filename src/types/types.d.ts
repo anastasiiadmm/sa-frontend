@@ -170,6 +170,28 @@ export interface requestData {
   };
 }
 
+export interface requestUserProfileData {
+  id?: number;
+  first_name: string;
+  middle_name: string;
+  last_name: string;
+  email: string;
+  username: string;
+  phone: string;
+  image: string;
+  is_manager: boolean;
+  company: {
+    id?: number
+    name: string;
+    location: string;
+    autopilots_amount: number;
+    weather_service: boolean;
+    meteo_requested: boolean;
+    vehicles_number: number;
+  },
+  coords_timeout: number;
+}
+
 export interface UpdatedCompaniesList extends companiesList {
   id?: number;
   name?: string;

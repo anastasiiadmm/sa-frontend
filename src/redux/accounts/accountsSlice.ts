@@ -430,14 +430,14 @@ export const fetchVehicleInfo = createAsyncThunk(
 );
 
 interface generateNewPasswordParams {
-  company_id: number | undefined;
+  user_id: number | undefined;
 }
 
 export const generateNewPassword = createAsyncThunk<generatedPassword, generateNewPasswordParams>(
   `${nameSpace}/generateNewPassword`,
   async (data, { rejectWithValue }) => {
     try {
-      const resp = await axiosApi.post(`/accounts/user/generate_new_password/`, data);
+      const resp = await axiosApi2.patch(`/accounts/new-password/`, data);
       return resp.data;
     } catch (e) {
       return rejectWithValue({

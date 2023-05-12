@@ -54,6 +54,20 @@ export const domains = {
   [envs.staging]: '',
   [envs.production]: '',
 };
+
+export const domainsSocket = {
+  [envs.local]: '159.89.30.209',
+  [envs.development]: '159.89.30.209',
+  [envs.staging]: '',
+  [envs.production]: '',
+};
+export const serverUrlsSocket = {
+  [envs.local]: `ws://${domainsSocket[envs.local]}:8080/ws`,
+  [envs.development]: `ws://${domainsSocket[envs.development]}:8080/ws`,
+  [envs.staging]: `ws://${domainsSocket[envs.staging]}/ws`,
+  [envs.production]: `ws://${domainsSocket[envs.production]}/ws`,
+};
+
 export const serverUrls = {
   [envs.local]: `https://${domains[envs.local]}:8000`,
   [envs.development]: `https://${domains[envs.development]}`,

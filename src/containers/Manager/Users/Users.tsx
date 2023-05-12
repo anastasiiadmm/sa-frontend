@@ -105,7 +105,7 @@ const Users: React.FC = () => {
             <Button
               type='link'
               className={b('profile-link')}
-              onClick={() => nextBrowserUserInfoHandler(record?.id as number)}
+              onClick={() => nextBrowserUserInfoHandler(record?.user?.id as number)}
             >
               <EyeOutlined style={{ fontSize: '23px' }} />
             </Button>
