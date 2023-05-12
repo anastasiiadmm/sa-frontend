@@ -1,34 +1,39 @@
 import { Button, Col, Form } from 'antd';
 import bem from 'easy-bem';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import FormField from 'components/FormField/FormField';
-import { companiesList, ICompany } from 'types/types';
+import { companiesList, IAccount, ICompany } from 'types/types';
 import 'components/ModalComponent/ModalChildrenComponents/EditUserProfileModal/_editUserProfileModal.scss';
 
 interface Props {
   updateUserData?: companiesList | ICompany | Object | null;
+  account?: IAccount | null | undefined;
   changeUserInfoRequest?: boolean;
   validateForm?: boolean;
   loading?: boolean;
   handleOkCancel?: () => void;
   showRejectModal?: () => void;
   inputChangeHandler?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onFinish?: () => void;
+  onFinish?: (values: any) => void;
+  onClick?: () => void;
 }
 
 const EditUserProfileModal: React.FC<Props> = ({
   updateUserData,
   loading,
+  account,
   validateForm,
   inputChangeHandler,
   changeUserInfoRequest = false,
   handleOkCancel,
   showRejectModal,
   onFinish,
+  onClick,
 }) => {
   const b = bem('EditUserProfileModal');
   const [form] = Form.useForm();
+  const [formValid, setFormValid] = useState(true);
 
   useEffect(() => {
     if (updateUserData) {
@@ -50,6 +55,28 @@ const EditUserProfileModal: React.FC<Props> = ({
     }
   }, [updateUserData, form]);
 
+  useEffect(() => {
+    if (account) {
+      if (account) {
+        form.setFieldsValue({
+          user: {
+            username: account?.username,
+            last_name: account?.last_name,
+            first_name: account?.first_name,
+            middle_name: account?.middle_name,
+            email: account?.email,
+            phone: account?.phone,
+          },
+          enterprise: {
+            name: account?.company?.name,
+            location: account?.company?.location,
+            autopilots_amount: account?.company?.autopilots_amount,
+          },
+        });
+      }
+    }
+  }, [account]);
+
   return (
     <Col
       className={b('')}
@@ -59,10 +86,12 @@ const EditUserProfileModal: React.FC<Props> = ({
     >
       <Form
         form={form}
-        initialValues={{ remember: true }}
         onFinish={onFinish}
         autoComplete='off'
         layout='vertical'
+        onValuesChange={() =>
+          setFormValid(form.getFieldsError().some((item) => item.errors.length > 0))
+        }
       >
         {changeUserInfoRequest ? (
           <div className={b('form-modal-block')}>
@@ -175,7 +204,7 @@ const EditUserProfileModal: React.FC<Props> = ({
           id='name_id'
           inputClassName={b('username')}
           label='Название колхоза/фермы/компании'
-          name='name'
+          name={account ? ['enterprise', 'name'] : 'name'}
           placeholder='Название колхоза/фермы/компании'
           onChange={inputChangeHandler}
           rules={[{ required: true, message: 'Введите название колхоза/фермы/компании' }]}
@@ -187,7 +216,7 @@ const EditUserProfileModal: React.FC<Props> = ({
           id='location_id'
           inputClassName={b('username')}
           label='Регион расположения'
-          name='location'
+          name={account ? ['enterprise', 'location'] : 'location'}
           placeholder='Регион расположения'
           onChange={inputChangeHandler}
           rules={[{ required: true, message: 'Введите регион расположения' }]}
@@ -199,7 +228,7 @@ const EditUserProfileModal: React.FC<Props> = ({
           id='autopilots_amount_id'
           inputClassName={b('username')}
           label='Количество оплаченных блоков автопилота'
-          name='autopilots_amount'
+          name={account ? ['enterprise', 'autopilots_amount'] : 'autopilots_amount'}
           placeholder='Количество оплаченных блоков автопилота'
           onChange={inputChangeHandler}
         />
@@ -236,7 +265,8 @@ const EditUserProfileModal: React.FC<Props> = ({
             </>
           ) : (
             <Button
-              disabled={validateForm}
+              onClick={onClick}
+              disabled={validateForm || formValid}
               type='primary'
               htmlType='submit'
               loading={loading}

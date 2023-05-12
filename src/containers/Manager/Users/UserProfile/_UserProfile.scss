@@ -15,12 +15,11 @@
 
   &__user-card-style {
     background: themes.$light-blue-color;
-    border: 1px solid themes.$info-color;
     border-radius: 4px;
     margin-bottom: 30px;
 
     &:hover {
-      background: white !important;
+      background: themes.$active-menu_background !important;
     }
 
     > div {

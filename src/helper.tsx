@@ -1,5 +1,5 @@
 import { Locales, SensorDataEntry, stationInfo } from 'types/stationTypes';
-import { companiesList, ErrorObject, ICompany, updateManagerDataMutation } from 'types/types';
+import { ErrorObject, ICompany, updateManagerDataMutation } from 'types/types';
 import { dateMomentTypeString } from 'utils/constants';
 
 const moment = require('moment');
@@ -87,40 +87,6 @@ export const isObjectChangeUserProfileValidate = (origin: ICompany, update: ICom
   );
 };
 
-export const isObjectChangeUserConfirmationProfileValidate = (
-  origin: companiesList,
-  update: ICompany,
-) => {
-  const originJson = {
-    user: {
-      last_name: origin.user.last_name,
-      first_name: origin.user.first_name,
-      middle_name: origin.user.middle_name,
-      email: origin.user.email,
-      phone: origin.user.phone,
-    },
-    name: origin.name,
-    location: origin.location,
-    autopilots_amount: origin.autopilots_amount,
-  };
-  const updateJson = {
-    user: {
-      last_name: update.user.last_name,
-      first_name: update.user.first_name,
-      middle_name: update.user.middle_name,
-      email: update.user.email,
-      phone: update.user.phone,
-    },
-    name: update.name,
-    location: update.location,
-    autopilots_amount: update.autopilots_amount,
-  };
-
-  return (
-    JSON.stringify(originJson).replace(/ /g, '') !== JSON.stringify(updateJson).replace(/ /g, '')
-  );
-};
-
 export const getErrorMessage = (errors: ErrorObject, key: string): string => {
   const errorKey = key in errors ? key : Object.keys(errors)[0];
   const errorValue = errors[errorKey];
@@ -141,8 +107,9 @@ export const getErrorMessage = (errors: ErrorObject, key: string): string => {
   return '';
 };
 
-export const mergeAndRemoveDuplicateValues = (obj1: any, obj2: any) => {
+export const mergeAndRemoveDuplicateValues = (obj1: any, obj2?: any) => {
   const result: Record<string, any> = {};
+  const modifiedKeys: Set<string> = new Set();
 
   for (const key in obj1) {
     if (
@@ -157,12 +124,17 @@ export const mergeAndRemoveDuplicateValues = (obj1: any, obj2: any) => {
       typeof obj2[key] === 'object'
     ) {
       result[key] = mergeAndRemoveDuplicateValues(obj1[key], obj2[key]);
+
+      if (Object.keys(result[key]).length > 0) {
+        modifiedKeys.add(key);
+      }
     } else if (
       Object.prototype.hasOwnProperty.call(obj1, key) &&
       Object.prototype.hasOwnProperty.call(obj2, key) &&
       obj1[key] !== obj2[key]
     ) {
       result[key] = obj2[key];
+      modifiedKeys.add(key);
     }
   }
 
@@ -172,6 +144,13 @@ export const mergeAndRemoveDuplicateValues = (obj1: any, obj2: any) => {
       !Object.prototype.hasOwnProperty.call(obj1, key)
     ) {
       result[key] = obj2[key];
+      modifiedKeys.add(key);
+    }
+  }
+
+  for (const key in result) {
+    if (Object.prototype.hasOwnProperty.call(result, key) && !modifiedKeys.has(key)) {
+      delete result[key];
     }
   }
 

@@ -1,4 +1,4 @@
-import { Button, Col, Form, Typography } from 'antd';
+import { Button, Col, Form, message, Typography } from 'antd';
 import bem from 'easy-bem';
 import React, { useEffect, useState } from 'react';
 
@@ -7,8 +7,9 @@ import FormField from 'components/FormField/FormField';
 import EditUserProfileModal from 'components/ModalComponent/ModalChildrenComponents/EditUserProfileModal/EditUserProfileModal';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import SkeletonBlock from 'components/SkeletonBlock/SkeletonBlock';
-import { accountsSelector } from 'redux/accounts/accountsSlice';
-import { useAppSelector } from 'redux/hooks';
+import { IMyData, IMyDataApi } from 'interfaces';
+import { accountsSelector, requestChangeProfile } from 'redux/accounts/accountsSlice';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
 
 import 'containers/User/Profile/_profile.scss';
 
@@ -17,8 +18,27 @@ const { Title } = Typography;
 const Profile = () => {
   const b = bem('Profile');
   const [form] = Form.useForm();
+  const dispatch = useAppDispatch();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { account, fetchErrorAccount, fetchLoadingAccount } = useAppSelector(accountsSelector);
+  const { account, fetchErrorAccount, fetchLoadingAccount, changeProfileLoading } =
+    useAppSelector(accountsSelector);
+  const [data, setData] = useState<IMyDataApi>({
+    data: {
+      user: {
+        last_name: '',
+        first_name: '',
+        middle_name: '',
+        email: '',
+        phone: '',
+        username: '',
+      },
+      enterprise: {
+        name: '',
+        location: '',
+        autopilots_amount: '',
+      },
+    },
+  });
 
   useEffect(() => {
     if (account) {
@@ -42,6 +62,34 @@ const Profile = () => {
 
   const handleOkCancel = () => {
     setIsModalOpen(!isModalOpen);
+  };
+
+  const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    const [objName, propName] = name.split(',');
+    setData((prevData: IMyData | any) => {
+      const updatedObj = { ...prevData?.[objName], [propName]: value };
+      return { ...prevData, [objName]: updatedObj };
+    });
+  };
+
+  const onClickSendDataHandler = async () => {
+    try {
+      const changeUserObj: any = {
+        category: 2,
+        object_id: account?.id,
+        data,
+      };
+      await dispatch(requestChangeProfile(changeUserObj)).unwrap();
+      await setIsModalOpen(false);
+    } catch (e) {
+      await setIsModalOpen(false);
+      await message.error(
+        e?.response?.data?.non_field_errors[0] === 'Inquiry has already been sent to manager.'
+          ? 'Запрос ранне был отправлен. Дождитесь подтверждения.'
+          : 'Произошла ошибка.',
+      );
+    }
   };
 
   if (fetchErrorAccount) {
@@ -192,7 +240,12 @@ const Profile = () => {
         handleOk={handleOkCancel}
         handleCancel={handleOkCancel}
       >
-        <EditUserProfileModal />
+        <EditUserProfileModal
+          onClick={onClickSendDataHandler}
+          account={account}
+          inputChangeHandler={inputChangeHandler}
+          loading={changeProfileLoading}
+        />
       </ModalComponent>
     </>
   );

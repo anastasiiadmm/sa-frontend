@@ -64,6 +64,10 @@ export interface ValidationUpdateManagerProfile {
   [key: string]: string;
 }
 
+export interface profile {
+  [key: string]: Object;
+}
+
 export interface updateManagerDataMutation {
   username: string;
   password?: string;
@@ -139,6 +143,30 @@ export interface companiesList {
     email: string;
     phone: string;
     image?: string;
+  };
+}
+
+export interface requestData {
+  category: number;
+  created_at: string;
+  id: number;
+  object_id: number;
+  requestor: string;
+  uploaded_files: Array;
+  data: {
+    user: {
+      username?: string;
+      password?: string;
+      first_name: string;
+      middle_name: string;
+      last_name: string;
+      email: string;
+      phone: string;
+    };
+    enterprise: {
+      location: string;
+      name: string;
+    };
   };
 }
 
@@ -324,6 +352,28 @@ export interface RequestType {
       phone: string;
       username: string;
     };
+  };
+}
+
+export interface userRequest {
+  coords_timeout: number;
+  email: string;
+  first_name: string;
+  id: number;
+  image: string;
+  is_manager: boolean;
+  last_name: string;
+  middle_name: string;
+  phone: string;
+  username: string;
+  company: {
+    autopilots_amount: number;
+    id: number;
+    location: string;
+    meteo_requested: boolean;
+    name: string;
+    vehicles_number: number;
+    weather_service: boolean;
   };
 }
 
