@@ -283,18 +283,14 @@ const EditUserProfileModal: React.FC<Props> = ({
           rules={[{ required: true, message: 'Введите регион расположения' }]}
         />
 
-        {changeUserInfoRequest ? null : (
+        {changeUserInfoRequest || account ? null : (
           <FormField
             bordered
             data-testid='autopilots_amount_id'
             id='autopilots_amount_id'
             inputClassName={b('username')}
             label='Количество оплаченных блоков автопилота'
-            name={
-              account || userInfo
-                ? ['enterprise', 'autopilots_amount']
-                : ['company', 'autopilots_amount']
-            }
+            name={userInfo ? ['enterprise', 'autopilots_amount'] : ['company', 'autopilots_amount']}
             placeholder='Количество оплаченных блоков автопилота'
             onChange={inputChangeHandler}
           />
