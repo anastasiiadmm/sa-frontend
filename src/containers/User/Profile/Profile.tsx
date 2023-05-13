@@ -12,7 +12,6 @@ import { IMyData, IMyDataApi } from 'interfaces';
 import { accountsSelector, requestChangeProfile } from 'redux/accounts/accountsSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { fileSizeValidate, fileValidateImg } from 'utils/validate/validate';
-
 import 'containers/User/Profile/_profile.scss';
 
 const { Title } = Typography;
@@ -60,6 +59,31 @@ const Profile = () => {
     }
   }, [account, form]);
 
+  useEffect(() => {
+    if (account) {
+      setData((prevData) => ({
+        data: {
+          ...prevData.data,
+          user: {
+            ...prevData.data?.user,
+            email: account.email,
+            last_name: account.last_name,
+            first_name: account.first_name,
+            middle_name: account.middle_name,
+            phone: account.phone,
+            username: account.username,
+          },
+          enterprise: {
+            ...prevData.data?.enterprise,
+            name: account?.company?.name,
+            location: account?.company?.location,
+            autopilots_amount: String(account?.company?.autopilots_amount),
+          },
+        },
+      }));
+    }
+  }, [account]);
+
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -82,8 +106,8 @@ const Profile = () => {
     const { name, value } = e.target;
     const [objName, propName] = name.split(',');
     setData((prevData: IMyData | any) => {
-      const updatedObj = { ...prevData?.[objName], [propName]: value };
-      return { ...prevData, [objName]: updatedObj };
+      const updatedObj = { ...prevData?.data?.[objName], [propName]: value };
+      return { ...prevData, data: { ...prevData?.data, [objName]: updatedObj } };
     });
   };
 
@@ -106,7 +130,7 @@ const Profile = () => {
       }
 
       if (image) {
-        formData.append('image', image);
+        formData.append('files', image);
       }
 
       await dispatch(requestChangeProfile(formData)).unwrap();

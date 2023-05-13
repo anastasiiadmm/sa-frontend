@@ -1,14 +1,19 @@
-import { Button, Col, Form } from 'antd';
+import { UserOutlined } from '@ant-design/icons';
+import { Avatar, Button, Col, Form } from 'antd';
 import bem from 'easy-bem';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
 import FormField from 'components/FormField/FormField';
-import { IAccount, ICompany, requestUserProfileData } from 'types/types';
+import { IAccount, ICompany, requestData, requestUserProfileData } from 'types/types';
 import 'components/ModalComponent/ModalChildrenComponents/EditUserProfileModal/_editUserProfileModal.scss';
+import { apiUrlCrop } from 'utils/config';
 
 interface Props {
   updateUserData?: requestUserProfileData | ICompany | Object | null;
   account?: IAccount | null | undefined;
+  userInfo?: requestData | null;
+  userId?: number | null;
+  userInfoLoading?: boolean;
   changeUserInfoRequest?: boolean;
   validateForm?: boolean;
   loading?: boolean;
@@ -17,6 +22,10 @@ interface Props {
   inputChangeHandler?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onFinish?: (values: any) => void;
   onClick?: () => void;
+  formValid?: boolean;
+  image?: File | null;
+  onFileChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onValuesChange?: (changedValues: any, allValues: any) => void;
 }
 
 const EditUserProfileModal: React.FC<Props> = ({
@@ -30,10 +39,14 @@ const EditUserProfileModal: React.FC<Props> = ({
   showRejectModal,
   onFinish,
   onClick,
+  userInfo,
+  onFileChange,
+  image,
+  formValid,
+  onValuesChange,
 }) => {
   const b = bem('EditUserProfileModal');
   const [form] = Form.useForm();
-  const [formValid, setFormValid] = useState(true);
 
   useEffect(() => {
     if (updateUserData) {
@@ -58,25 +71,45 @@ const EditUserProfileModal: React.FC<Props> = ({
 
   useEffect(() => {
     if (account) {
-      if (account) {
-        form.setFieldsValue({
-          user: {
-            username: account?.username,
-            last_name: account?.last_name,
-            first_name: account?.first_name,
-            middle_name: account?.middle_name,
-            email: account?.email,
-            phone: account?.phone,
-          },
-          enterprise: {
-            name: account?.company?.name,
-            location: account?.company?.location,
-            autopilots_amount: account?.company?.autopilots_amount,
-          },
-        });
-      }
+      form.setFieldsValue({
+        user: {
+          username: account?.username,
+          last_name: account?.last_name,
+          first_name: account?.first_name,
+          middle_name: account?.middle_name,
+          email: account?.email,
+          phone: account?.phone,
+        },
+        enterprise: {
+          name: account?.company?.name,
+          location: account?.company?.location,
+          autopilots_amount: account?.company?.autopilots_amount,
+        },
+      });
     }
   }, [account]);
+
+  useEffect(() => {
+    if (userInfo) {
+      form.setFieldsValue({
+        name: userInfo?.requestor?.name,
+        email: userInfo?.requestor?.email,
+        phone: userInfo?.requestor?.phone,
+        user: {
+          username: userInfo?.data?.user?.username,
+          last_name: userInfo?.data?.user?.last_name,
+          first_name: userInfo?.data?.user?.first_name,
+          middle_name: userInfo?.data?.user?.middle_name,
+          email: userInfo?.data?.user?.email,
+          phone: userInfo?.data?.user?.phone,
+        },
+        enterprise: {
+          name: userInfo?.data?.enterprise?.name,
+          location: userInfo?.data?.enterprise?.location,
+        },
+      });
+    }
+  }, [userInfo, form]);
 
   return (
     <Col
@@ -90,9 +123,7 @@ const EditUserProfileModal: React.FC<Props> = ({
         onFinish={onFinish}
         autoComplete='off'
         layout='vertical'
-        onValuesChange={() =>
-          setFormValid(form.getFieldsError().some((item) => item.errors.length > 0))
-        }
+        onValuesChange={onValuesChange}
       >
         {changeUserInfoRequest ? (
           <div className={b('form-modal-block')}>
@@ -118,7 +149,7 @@ const EditUserProfileModal: React.FC<Props> = ({
               readOnly
               type='phone'
               className='username'
-              name='phone_number'
+              name='phone'
               label='Номер телефона'
               placeholder='Номер телефона'
               inputClassName={b('username-info')}
@@ -126,13 +157,42 @@ const EditUserProfileModal: React.FC<Props> = ({
           </div>
         ) : null}
 
+        <div className={b('image-upload')}>
+          <label htmlFor='image-input'>
+            {image ? (
+              <Avatar size={64} src={URL.createObjectURL(image)} style={{ cursor: 'pointer' }} />
+            ) : (
+              <Avatar
+                size={64}
+                src={
+                  account?.image
+                    ? `${apiUrlCrop}${account?.image}`
+                    : userInfo?.uploaded_files?.length
+                    ? `${apiUrlCrop}${userInfo?.uploaded_files?.[0]?.file}`
+                    : ''
+                }
+                style={{ cursor: 'pointer' }}
+                icon={<UserOutlined />}
+              />
+            )}
+          </label>
+
+          <input
+            data-testid='image-input'
+            id='image-input'
+            type='file'
+            onChange={onFileChange}
+            accept='image/png, image/gif, image/jpeg'
+          />
+        </div>
+
         <FormField
           bordered
           data-testid='username_id'
           id='username_id'
           inputClassName={b('username')}
           label='Username'
-          name={account ? ['user', 'username'] : 'username'}
+          name={account || userInfo ? ['user', 'username'] : 'username'}
           placeholder='Username'
           onChange={inputChangeHandler}
           rules={[{ required: true, message: 'Введите username' }]}
@@ -145,7 +205,7 @@ const EditUserProfileModal: React.FC<Props> = ({
             id='first_name_id'
             inputClassName={b('username')}
             label='Фамилия'
-            name={account ? ['user', 'first_name'] : 'first_name'}
+            name={account || userInfo ? ['user', 'first_name'] : 'first_name'}
             placeholder='Фамилия'
             onChange={inputChangeHandler}
             rules={[{ required: true, message: 'Введите фамилию' }]}
@@ -157,7 +217,7 @@ const EditUserProfileModal: React.FC<Props> = ({
             id='last_name_id'
             inputClassName={b('username')}
             label='Имя'
-            name={account ? ['user', 'last_name'] : 'last_name'}
+            name={account || userInfo ? ['user', 'last_name'] : 'last_name'}
             placeholder='Имя'
             onChange={inputChangeHandler}
             rules={[{ required: true, message: 'Введите имя' }]}
@@ -169,7 +229,7 @@ const EditUserProfileModal: React.FC<Props> = ({
           data-testid='middle_name_id'
           id='middle_name_id'
           label='Отчество'
-          name={account ? ['user', 'middle_name'] : 'middle_name'}
+          name={account || userInfo ? ['user', 'middle_name'] : 'middle_name'}
           placeholder='Отчество'
           onChange={inputChangeHandler}
         />
@@ -182,7 +242,7 @@ const EditUserProfileModal: React.FC<Props> = ({
             id='email_id'
             inputClassName={b('username')}
             label='Email'
-            name={account ? ['user', 'email'] : 'email'}
+            name={account || userInfo ? ['user', 'email'] : 'email'}
             placeholder='Email'
             onChange={inputChangeHandler}
             rules={[{ required: true, message: 'Введите Email' }]}
@@ -192,7 +252,7 @@ const EditUserProfileModal: React.FC<Props> = ({
             bordered
             type='phone'
             className='username'
-            name={account ? ['user', 'phone'] : 'phone'}
+            name={account || userInfo ? ['user', 'phone'] : 'phone'}
             label='Номер телефона'
             placeholder='Номер телефона'
             onChange={inputChangeHandler}
@@ -205,7 +265,7 @@ const EditUserProfileModal: React.FC<Props> = ({
           id='name_id'
           inputClassName={b('username')}
           label='Название колхоза/фермы/компании'
-          name={account ? ['enterprise', 'name'] : ['company', 'name']}
+          name={account || userInfo ? ['enterprise', 'name'] : ['company', 'name']}
           placeholder='Название колхоза/фермы/компании'
           onChange={inputChangeHandler}
           rules={[{ required: true, message: 'Введите название колхоза/фермы/компании' }]}
@@ -217,22 +277,28 @@ const EditUserProfileModal: React.FC<Props> = ({
           id='location_id'
           inputClassName={b('username')}
           label='Регион расположения'
-          name={account ? ['enterprise', 'location'] : ['company', 'location']}
+          name={account || userInfo ? ['enterprise', 'location'] : ['company', 'location']}
           placeholder='Регион расположения'
           onChange={inputChangeHandler}
           rules={[{ required: true, message: 'Введите регион расположения' }]}
         />
 
-        <FormField
-          bordered
-          data-testid='autopilots_amount_id'
-          id='autopilots_amount_id'
-          inputClassName={b('username')}
-          label='Количество оплаченных блоков автопилота'
-          name={account ? ['enterprise', 'autopilots_amount'] : ['company', 'autopilots_amount']}
-          placeholder='Количество оплаченных блоков автопилота'
-          onChange={inputChangeHandler}
-        />
+        {changeUserInfoRequest ? null : (
+          <FormField
+            bordered
+            data-testid='autopilots_amount_id'
+            id='autopilots_amount_id'
+            inputClassName={b('username')}
+            label='Количество оплаченных блоков автопилота'
+            name={
+              account || userInfo
+                ? ['enterprise', 'autopilots_amount']
+                : ['company', 'autopilots_amount']
+            }
+            placeholder='Количество оплаченных блоков автопилота'
+            onChange={inputChangeHandler}
+          />
+        )}
 
         <div className={b('profile-buttons')}>
           {changeUserInfoRequest ? (
@@ -254,10 +320,10 @@ const EditUserProfileModal: React.FC<Props> = ({
               </Button>
 
               <Button
-                // disabled={!!commonError}
+                onClick={onClick}
                 type='primary'
                 htmlType='submit'
-                // loading={!!loading}
+                loading={loading}
                 style={{ width: '100%', borderRadius: 4 }}
                 className={b('save-button')}
               >

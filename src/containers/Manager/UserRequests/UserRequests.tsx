@@ -18,7 +18,7 @@ import RequestAddTechnique from 'components/ModalComponent/ModalChildrenComponen
 import RequestRegisterUser from 'components/ModalComponent/ModalChildrenComponents/RequestsModals/RequestRegisterUser/RequestRegisterUser';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import TableComponent from 'components/TableComponent/TableComponent';
-import { appendDataFields, getPageNumber, getPageNumberPrevious } from 'helper';
+import { appendDataFieldsAndDeleteEmptyKeys, getPageNumber, getPageNumberPrevious } from 'helper';
 import { IMyData, IMyDataApi } from 'interfaces';
 import {
   accountsSelector,
@@ -26,7 +26,7 @@ import {
   deleteRequest,
   deleteRequests,
   fetchRequests,
-  requestChangeProfile,
+  requestApproveChangeProfile,
 } from 'redux/accounts/accountsSlice';
 import {
   clearUserInfo,
@@ -54,6 +54,7 @@ const UserRequests = () => {
     vehicleDeleteLoading,
     fetchRequestsError,
     approveRequestLoading,
+    requestApproveChangeProfileLoading,
   } = useAppSelector(accountsSelector);
   const { userInfo, userInfoLoading, userInfoError } = useAppSelector(companiesSelector);
   const { results, loading, errors } = useAppSelector(techniqueVehicleInfoSelector);
@@ -89,7 +90,10 @@ const UserRequests = () => {
       },
     },
   });
-  const [image, setImage] = useState<File | null>(null);
+  const [images, setImages] = useState<{ image: File | null; deleted_image: string | null }>({
+    image: null,
+    deleted_image: null,
+  });
 
   useEffect(() => {
     const data = {
@@ -237,8 +241,8 @@ const UserRequests = () => {
     const { name, value } = e.target;
     const [objName, propName] = name.split(',');
     setData((prevData: IMyData | any) => {
-      const updatedObj = { ...prevData?.[objName], [propName]: value };
-      return { ...prevData, [objName]: updatedObj };
+      const updatedObj = { ...prevData?.data?.[objName], [propName]: value };
+      return { ...prevData, data: { ...prevData?.data, [objName]: updatedObj } };
     });
   };
 
@@ -246,7 +250,7 @@ const UserRequests = () => {
     const files = event.target.files;
     if (files) {
       if (fileSizeValidate(files[0]) && fileValidateImg(files[0])) {
-        setImage(files[0]);
+        setImages({ ...images, image: files[0], deleted_image: userInfo?.uploaded_files?.[0]?.id });
       }
     }
   };
@@ -256,32 +260,40 @@ const UserRequests = () => {
       const changeUserObj: any = {
         category: 2,
         object_id: id,
-        data,
       };
+
+      changeUserObj.data = data;
 
       const formData = new FormData();
 
       for (const name in changeUserObj) {
         if (name === 'data') {
-          appendDataFields(formData, changeUserObj[name]);
+          appendDataFieldsAndDeleteEmptyKeys(formData, changeUserObj[name]);
         } else {
           formData.append(name, changeUserObj[name]);
         }
       }
 
-      if (image) {
-        formData.append('image', image);
+      if (images?.image !== null) {
+        formData.append('files', images?.image as Blob);
+      }
+      if (images?.deleted_image !== undefined && images?.deleted_image !== null) {
+        formData.append('deleted_image', images?.deleted_image as string);
       }
 
-      await dispatch(requestChangeProfile(formData)).unwrap();
+      await dispatch(requestApproveChangeProfile({ id: userInfo?.id, data: formData })).unwrap();
+
+      const dataRequests = {
+        query: {
+          page: 1,
+        },
+      };
+
+      await dispatch(fetchRequests({ data: dataRequests }));
       await setIsModalUserInfoRejectOpen(false);
     } catch (e) {
       await setIsModalUserInfoRejectOpen(false);
-      await message.error(
-        e?.response?.data?.non_field_errors[0] === 'Inquiry has already been sent to manager.'
-          ? 'Запрос ранне был отправлен. Дождитесь подтверждения.'
-          : 'Произошла ошибка.',
-      );
+      await message.error('Произошла ошибка.');
     }
   };
 
@@ -469,8 +481,9 @@ const UserRequests = () => {
           userId={id}
           userInfoLoading={userInfoLoading}
           inputChangeHandler={inputChangeHandler}
-          image={image}
+          image={images?.image}
           onFileChange={onFileChange}
+          loading={requestApproveChangeProfileLoading}
           onClick={onClickSendDataHandler}
         />
       </ModalComponent>

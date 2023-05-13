@@ -274,3 +274,26 @@ export const appendDataFields = (formData: FormData, data: Record<string, any>, 
     }
   }
 };
+
+export const appendDataFieldsAndDeleteEmptyKeys = (
+  formData: FormData,
+  data: Record<string, any>,
+  prefix = '',
+) => {
+  for (const key in data) {
+    if (Object.prototype.hasOwnProperty.call(data, key)) {
+      const value = data[key];
+      const fieldName = prefix ? `${prefix}.${key}` : key;
+
+      if (typeof value === 'object') {
+        if (Object.keys(value).length > 0) {
+          appendDataFieldsAndDeleteEmptyKeys(formData, value, fieldName);
+        }
+      } else if (value !== null && value !== undefined && value !== '') {
+        formData.append(fieldName, value);
+      } else {
+        formData.delete(fieldName);
+      }
+    }
+  }
+};

@@ -44,7 +44,7 @@ const RequestRegisterUser: React.FC<Props> = ({
     created_at: '',
     id: 0,
     object_id: 0,
-    requestor: '',
+    requestor: null,
     uploaded_files: [],
     data: {
       user: {

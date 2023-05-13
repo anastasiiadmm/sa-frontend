@@ -45,8 +45,8 @@
 
   &__image-upload {
     margin: 20px 0;
-    >input {
-      display: none;
+    > input {
+      display: none !important;
     }
   }
 

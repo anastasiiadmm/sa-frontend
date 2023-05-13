@@ -150,7 +150,11 @@ export interface requestData {
   created_at: string;
   id: number;
   object_id: number;
-  requestor: string;
+  requestor?: {
+    email: string;
+    name: string;
+    phone: string;
+  } | null;
   uploaded_files: Array;
   data: {
     user: {
@@ -180,14 +184,14 @@ export interface requestUserProfileData {
   image: string;
   is_manager: boolean;
   company: {
-    id?: number
+    id?: number;
     name: string;
     location: string;
     autopilots_amount: number;
     weather_service: boolean;
     meteo_requested: boolean;
     vehicles_number: number;
-  },
+  };
   coords_timeout: number;
 }
 
@@ -214,18 +218,6 @@ export interface usersListPagination {
   next: string;
   previous: string;
   vehicles_amount: number;
-}
-
-export interface IUserRegister {
-  name: string;
-  location: string;
-  user: {
-    first_name: string;
-    middle_name: string;
-    last_name: string;
-    email: string;
-    phone: string;
-  };
 }
 
 export interface userRequest {
@@ -377,11 +369,6 @@ export interface accountsManagerConfirmation {
   id: number;
   password: string;
   username: string;
-}
-
-interface UserIds {
-  requestId: string | null;
-  userId: string | null;
 }
 
 interface climateOptions {
