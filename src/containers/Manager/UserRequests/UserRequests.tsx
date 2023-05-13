@@ -255,10 +255,9 @@ const UserRequests = () => {
     }
   };
 
-  const onClickSendDataHandler = async () => {
+  const onClickApproveChangeProfileDataHandler = async () => {
     try {
       const changeUserObj: any = {
-        category: 2,
         object_id: id,
       };
 
@@ -484,7 +483,7 @@ const UserRequests = () => {
           image={images?.image}
           onFileChange={onFileChange}
           loading={requestApproveChangeProfileLoading}
-          onClick={onClickSendDataHandler}
+          onClick={onClickApproveChangeProfileDataHandler}
         />
       </ModalComponent>
 
