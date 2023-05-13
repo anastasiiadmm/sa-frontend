@@ -1,10 +1,8 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { message } from 'antd';
-
-import { IMapState, resultsAB, Vehicle } from 'interfaces';
+import { IMapState, Vehicle, VehicleV2 } from 'interfaces';
 import { RootState } from 'redux/hooks';
-import { axiosApi } from 'utils/axios-api';
+import { axiosApi, axiosApi2 } from 'utils/axios-api';
 
 const nameSpace = 'map';
 
@@ -17,7 +15,18 @@ const initialState = {
   field: {
     loading: false,
     errors: null,
-    results: [],
+    results: {
+      id: null,
+      description: '',
+      image: '',
+      full_name: '',
+      point_A_lat: 0,
+      point_A_lon: 0,
+      point_B_lat: 0,
+      point_B_lon: 0,
+      tool_width: '',
+      task_UID: '',
+    },
   },
 } as IMapState;
 
@@ -49,12 +58,8 @@ export const obtainingCoordinate = createAsyncThunk(
     { rejectWithValue },
   ) => {
     try {
-      const response = await axiosApi.get(`data_exchange/route/${id}/?field_name=${field_name}`);
-      if (response.data.length) {
-        return response.data;
-      }
-      message.error('Координаты для маршрута не найдены');
-      return [];
+      const response = await axiosApi2.get(`/vehicles/${id}/routes/${field_name}`);
+      return response.data;
     } catch (e) {
       return rejectWithValue({
         detail: e?.response?.data?.detail,
@@ -95,9 +100,12 @@ const mapSlice = createSlice({
       state.field.loading = true;
       state.field.errors = null;
     });
-    builder.addCase(obtainingCoordinate.fulfilled, (state, action: PayloadAction<resultsAB[]>) => {
+    builder.addCase(obtainingCoordinate.fulfilled, (state, action: PayloadAction<VehicleV2>) => {
       state.field.loading = false;
-      state.field.results = action.payload;
+      state.field.results = {
+        ...state.field.results,
+        ...action.payload,
+      };
     });
     builder.addCase(obtainingCoordinate.rejected, (state, { payload }) => {
       state.field.loading = false;

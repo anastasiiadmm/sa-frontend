@@ -4,12 +4,12 @@ import React from 'react';
 
 import notFoundImages from 'assets/images/notFound.svg';
 import PaginationComponent from 'components/TableComponent/PaginationComponent/PaginationComponent';
-import { companiesList, userVehicleInfo, userVehicles, userVehiclesPagination } from 'types/types';
+import { userVehiclesPagination } from 'types/types';
 
 interface Props {
   data: any | undefined;
   columns: any | null;
-  rowKey: (record: userVehicles | companiesList | userVehicleInfo) => Key;
+  rowKey: (record: any) => Key;
   loading: boolean;
   onChange?: () => void;
   params?: userVehiclesPagination | undefined | null;
@@ -58,7 +58,6 @@ const TableComponent: React.FC<Props> = ({
         params={params}
         pagePrevHandler={pagePrevHandler}
         pageNextHandler={pageNextHandler}
-        disabledButton={disabledButton}
       />
     </>
   );

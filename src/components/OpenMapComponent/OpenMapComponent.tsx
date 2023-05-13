@@ -1,11 +1,18 @@
-import { Alert, Button, Card, Spin, Tooltip, Typography } from 'antd';
+import { AimOutlined } from '@ant-design/icons';
+import { Button, Card, Spin, Tooltip, Typography } from 'antd';
 import bem from 'easy-bem';
-import L, { LatLngExpression, LatLngTuple } from 'leaflet';
+import L, { LatLngExpression } from 'leaflet';
 import React, { useEffect, useState } from 'react';
-import { CircleMarker, MapContainer, Marker, Polyline, Popup, TileLayer } from 'react-leaflet';
-import { useLocation, useNavigate, useParams } from 'react-router';
-
-import 'components/OpenMapComponent/_openMapComponent.scss';
+import {
+  CircleMarker,
+  MapContainer,
+  Marker,
+  Polyline,
+  Popup,
+  Rectangle,
+  TileLayer,
+} from 'react-leaflet';
+import { useNavigate, useParams } from 'react-router';
 
 import arrowLeft from 'assets/images/icons/arrow-left.svg';
 import endB from 'assets/images/icons/endB.svg';
@@ -14,10 +21,13 @@ import map from 'assets/images/icons/map.svg';
 import startA from 'assets/images/icons/startA.svg';
 import tractorBlue from 'assets/images/icons/tractor-blue.svg';
 import Errors from 'components/Errors/Errors';
-import { authSelector } from 'redux/auth/authSlice';
+
+import { accountsSelector, fetchVehicleInfo } from 'redux/accounts/accountsSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 
-import { clearField, mapSelector, obtainingCoordinate, tractorLocation } from 'redux/map/mapSlice';
+import { mapSelector, obtainingCoordinate } from 'redux/map/mapSlice';
+
+import 'components/OpenMapComponent/_openMapComponent.scss';
 
 const { Title } = Typography;
 
@@ -25,128 +35,217 @@ const purpleOptions = { color: '#1358BF' };
 
 const OpenMapComponent = () => {
   const b = bem('OpenMapComponent');
-  const { id, vehicleId } = useParams();
-  const { pathname } = useLocation();
+  const { id, field_name } = useParams();
   const { vehicle, field } = useAppSelector(mapSelector);
-  const { tokens } = useAppSelector(authSelector);
   const [bounds] = useState<number[][]>([
     [-90, -180],
     [90, 180],
   ]);
   const dispatch = useAppDispatch();
   const history = useNavigate();
+  const [socketMap, setSocketMap] = useState({
+    status: '',
+    latitude: '',
+    longitude: '',
+  });
+  const { userVehicleInfo, userVehicleInfoLoading } = useAppSelector(accountsSelector);
+  const [loadingMap, setLoadingMap] = useState(false);
+  const [loadingMapUpdate, setLoadingMapUpdate] = useState(false);
+  const [socketLoading, setSocketLoading] = useState(false);
+  const connectWebSocket = () => {
+    let connectionID = '';
+
+    const connect = () => {
+      const socket = new WebSocket('ws://159.89.30.209:8080/ws');
+      socket.onopen = () => {
+        setSocketLoading(true);
+        socket.send(
+          JSON.stringify({
+            kind: 'ping',
+            vehicle_id: Number(id),
+            connection_id: connectionID,
+          }),
+        );
+      };
+
+      if (socket.readyState === WebSocket.OPEN) {
+        socket.send(
+          JSON.stringify({
+            kind: 'ping',
+            vehicle_id: Number(id),
+            connection_id: connectionID,
+          }),
+        );
+      }
+
+      socket.onmessage = (event) => {
+        setSocketLoading(false);
+        const messageData = JSON.parse(event.data);
+        connectionID = messageData.connection_id;
+        setSocketMap({ ...socketMap, status: messageData.kind });
+        if (messageData?.data?.latitude && messageData?.data?.longitude) {
+          setSocketMap({ ...socketMap, ...messageData.data });
+        }
+      };
+
+      socket.onclose = (event) => {
+        if (event.code === 1000) {
+          socket.close();
+        } else {
+          connect();
+        }
+      };
+
+      return socket;
+    };
+
+    const socket = connect();
+    return socket;
+  };
+
   useEffect(() => {
-    if (tokens?.is_manager) {
-      dispatch(tractorLocation(`/companies/${id}/vehicle/${vehicleId}/`));
-    } else {
-      dispatch(tractorLocation(`/accounts/user/vehicle/${vehicleId}/`));
+    const socket = connectWebSocket();
+
+    return () => {
+      socket.close();
+    };
+  }, []);
+
+  useEffect(() => {
+    dispatch(fetchVehicleInfo({ vehicleId: String(id), pageUrl: '1' }));
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(
+      obtainingCoordinate({
+        id: Number(id),
+        field_name: !field_name?.includes('local-tractor') ? `?job=${field_name}` : '',
+      }),
+    );
+
+    if (field_name?.includes('local-tractor')) {
+      setLoadingMap(true);
+      setLoadingMapUpdate(true);
     }
   }, []);
 
   useEffect(() => {
-    const findResultsMap = vehicle.results?.processing_data.find((item) => item.id === Number(id));
-    if (findResultsMap && !pathname.includes('local-tractor')) {
-      dispatch(
-        obtainingCoordinate({
-          id: Number(vehicleId),
-          field_name: findResultsMap?.field_name || 'NotFound',
-        }),
-      );
-    } else {
-      dispatch(clearField());
+    if (loadingMapUpdate) {
+      setLoadingMapUpdate(false);
     }
-  }, [vehicle.results?.processing_data]);
-
-  const polyline = field.results.map((obj) => {
-    const [lat1, lon1] = obj.PointA.split(',');
-    const [lat2, lon2] = obj.PointB.split(',');
-    return [
-      [parseFloat(lat1), parseFloat(lon1)],
-      [parseFloat(lat2), parseFloat(lon2)],
-    ];
-  });
-
-  const positions = polyline.map((points) =>
-    points.map((point) => [point[0], point[1]] as LatLngTuple),
-  );
+  }, [loadingMapUpdate]);
 
   const duckIcon = new L.Icon({
     iconUrl: map,
     iconRetinaUrl: map,
-    iconAnchor: new L.Point(16, 17),
-    popupAnchor: new L.Point(16, 0),
-    iconSize: new L.Point(36, 36),
+    iconAnchor: new L.Point(14, 14),
+    popupAnchor: new L.Point(14, 0),
+    iconSize: new L.Point(28, 30),
     className: 'leaflet-div-icon',
   });
 
   const duckIconStart = new L.Icon({
     iconUrl: startA,
     iconRetinaUrl: startA,
-    iconAnchor: new L.Point(5, 17),
-    popupAnchor: new L.Point(16, 0),
-    iconSize: new L.Point(36, 36),
+    iconAnchor: new L.Point(14, 14),
+    popupAnchor: new L.Point(14, 0),
+    iconSize: new L.Point(30, 30),
     className: 'leaflet-div-icon',
   });
 
   const duckIconEnd = new L.Icon({
     iconUrl: endB,
     iconRetinaUrl: endB,
-    iconAnchor: new L.Point(5, 17),
-    popupAnchor: new L.Point(16, 0),
-    iconSize: new L.Point(36, 36),
+    iconAnchor: new L.Point(14, 14),
+    popupAnchor: new L.Point(14, 0),
+    iconSize: new L.Point(30, 30),
     className: 'leaflet-div-icon',
   });
 
   const centerMap = () => {
-    if (vehicle.results?.last_latitude && vehicle.results?.last_longitude) {
-      return [Number(vehicle.results.last_latitude), Number(vehicle.results?.last_longitude)];
+    if (socketMap.latitude && socketMap.longitude) {
+      return [Number(socketMap.latitude), Number(socketMap.longitude)];
     }
     return [0, 0];
   };
-  const lineMap = () => {
-    if (field.results.length) {
-      const number1 = field.results[0].PointA.split(',')[0];
-      const number2 =
-        field.results[0].PointA.split(',').length > 1 ? field.results[0].PointA.split(',')[1] : 0;
-      return [Number(number1), Number(number2)];
+
+  const centerMapHandler = () => {
+    if (loadingMap) {
+      return centerMap() as LatLngExpression;
     }
 
-    return [0, 0];
-  };
+    if (field.results.point_A_lon && field.results.point_B_lat) {
+      return [field.results.point_A_lat, field.results.point_A_lon] as LatLngExpression;
+    }
 
+    return centerMap() as LatLngExpression;
+  };
   const renderHandler = () => {
-    if (tokens?.is_manager) {
-      dispatch(tractorLocation(`/companies/${id}/vehicle/${vehicleId}/`));
-    } else {
-      dispatch(tractorLocation(`/accounts/user/vehicle/${id}/`));
-    }
-    const findResultsMap = vehicle.results?.processing_data.find(
-      (item) => item.id === Number(vehicleId),
-    );
-    if (findResultsMap) {
-      dispatch(obtainingCoordinate({ id: Number(id), field_name: findResultsMap.field_name }));
-    }
+    setLoadingMap(true);
+    setLoadingMapUpdate(true);
   };
 
   const backHandler = () => {
     history(-1);
   };
 
-  function getCoordinateByType(coordinates: number[][][], type: string): number[] {
-    if (coordinates.length) {
-      if (type === 'start') {
-        return coordinates[0][0];
-      }
-      if (type === 'end') {
-        const lastPair = coordinates[coordinates.length - 1];
-        return lastPair[lastPair.length - 1];
-      }
+  const positions = (): LatLngExpression[] => {
+    return [
+      [
+        field.results.point_A_lat as number,
+        field.results.point_A_lon as number,
+      ] as LatLngExpression,
+      [
+        field.results.point_B_lat as number,
+        field.results.point_B_lon as number,
+      ] as LatLngExpression,
+    ];
+  };
+
+  function getCoordinateByType(coordinates: LatLngExpression[], type: string): LatLngExpression {
+    if (type === 'start') {
+      return [field.results.point_A_lat as number, field.results.point_A_lon as number];
+    }
+    if (type === 'end') {
+      return [field.results.point_B_lat as number, field.results.point_B_lon as number];
     }
 
-    return [0, 0];
+    throw new Error('Invalid type provided');
   }
 
-  if (vehicle.loading || field.loading) {
+  const latLngBounds: L.LatLngBoundsExpression = L.latLngBounds(
+    bounds.map((coords: number[]) => [coords[0], coords[1]]),
+  );
+  const findResults = vehicle.results?.processing_data.find((item) => item.id === Number(id));
+
+  const lineMapHistory = () => {
+    const width = Number(field.results?.tool_width);
+    const center = [field.results.point_A_lat, field.results.point_A_lon];
+    const sizeInMeters = width / 100000;
+
+    let topLeft: LatLngExpression = [center[0] + sizeInMeters / 2, center[1]];
+
+    const bottomRight: LatLngExpression = [field.results.point_B_lat, field.results.point_B_lon];
+
+    if (center[0] > field.results.point_B_lat) {
+      const widthIncrease = width / 100000;
+      bottomRight[1] -= width / 100000;
+      topLeft = [field.results.point_A_lat, bottomRight[1] - widthIncrease];
+    } else {
+      bottomRight[0] += width / 100000;
+      topLeft = [topLeft[0], topLeft[1]];
+    }
+
+    return [topLeft, bottomRight];
+  };
+
+  if (
+    vehicle.loading ||
+    field.loading ||
+    loadingMapUpdate ||
+    socketLoading ||
+    userVehicleInfoLoading
+  ) {
     return (
       <div data-testid='loading' className={b('loading')}>
         <div>
@@ -156,7 +255,7 @@ const OpenMapComponent = () => {
     );
   }
 
-  if (vehicle.errors || field.errors) {
+  if (vehicle.errors?.detail || field.errors?.detail) {
     return (
       <div>
         <Errors
@@ -166,10 +265,7 @@ const OpenMapComponent = () => {
       </div>
     );
   }
-  const latLngBounds: L.LatLngBoundsExpression = L.latLngBounds(
-    bounds.map((coords: number[]) => [coords[0], coords[1]]),
-  );
-  const findResults = vehicle.results?.processing_data.find((item) => item.id === Number(id));
+
   return (
     <div className={b()}>
       <div className={b('card-block')}>
@@ -187,77 +283,61 @@ const OpenMapComponent = () => {
                 placement='topLeft'
               >
                 <p className={b('subtitle')}>
-                  <span>
-                    {!pathname.includes('local-tractor')
-                      ? findResults?.field_name
-                      : 'Местоположение трактора'}
-                  </span>
+                  <span>{field.results?.task_UID}</span>
                 </p>
               </Tooltip>
             </Title>
             <Title level={3} className={b('title')}>
               <img src={tractorBlue} alt='tractor' className={b('img-title img-tractor')} />
-              <p className={b('subtitle')}>{vehicle.results?.description}</p>
+              <p className={b('subtitle')}>{userVehicleInfo?.vehicle?.description}</p>
             </Title>
-            <Button onClick={() => renderHandler()} className={b('render_btn')}>
-              Обновить данные
-            </Button>
           </div>
-          {field.results.length ||
-          id === 'local-tractor' ||
-          pathname.includes('local-tractor') ? null : (
-            <Alert
-              message='Кординаты маршрута не найдены'
-              type='error'
-              style={{
-                marginTop: 20,
-              }}
-            />
-          )}
         </Card>
       </div>
+      <Button onClick={() => renderHandler()} className={b('render_btn')}>
+        <AimOutlined />
+      </Button>
       <div className={b('map-block')}>
-        <MapContainer
-          center={
-            field.results.length
-              ? (lineMap() as LatLngExpression)
-              : (centerMap() as LatLngExpression)
-          }
-          zoom={13}
-          minZoom={2}
-          maxZoom={18}
-          scrollWheelZoom
-          maxBounds={latLngBounds}
-          style={{ width: '100%', height: '100vh' }}
-        >
-          <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            url='https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'
-          />
-          <CircleMarker center={centerMap() as LatLngExpression} opacity={0} radius={10}>
-            <Marker position={centerMap() as LatLngExpression} icon={duckIcon}>
-              <Popup>
-                <span className={b('title_uppercase')}>{vehicle.results?.description}</span>
-              </Popup>
-            </Marker>
-          </CircleMarker>
-          {id === 'local-tractor' || pathname.includes('local-tractor') ? null : (
-            <Polyline weight={5} pathOptions={purpleOptions} positions={positions}>
-              <Marker
-                position={getCoordinateByType(positions, 'start') as LatLngExpression}
-                icon={duckIconStart}
-              >
+        {socketMap.latitude && socketMap.latitude ? (
+          <MapContainer
+            center={centerMapHandler()}
+            zoom={27}
+            minZoom={2}
+            maxZoom={18}
+            scrollWheelZoom
+            maxBounds={latLngBounds}
+            style={{ width: '100%', height: '100vh' }}
+          >
+            <TileLayer
+              attribution='&copy; <a href="https://www.esri.com/">Esri</a>'
+              url='https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'
+            />
+            <CircleMarker center={centerMap() as LatLngExpression} opacity={0} radius={10}>
+              <Marker position={centerMap() as LatLngExpression} icon={duckIcon}>
+                <Popup>
+                  <span className={b('title_uppercase')}>
+                    {userVehicleInfo?.vehicle?.description}
+                  </span>
+                </Popup>
+              </Marker>
+            </CircleMarker>
+            <Polyline weight={5} pathOptions={purpleOptions} positions={positions()}>
+              <Marker position={getCoordinateByType(positions(), 'start')} icon={duckIconStart}>
                 <Popup>Start</Popup>
               </Marker>
-              <Marker
-                position={getCoordinateByType(positions, 'end') as LatLngExpression}
-                icon={duckIconEnd}
-              >
+              <Marker position={getCoordinateByType(positions(), 'end')} icon={duckIconEnd}>
                 <Popup>End</Popup>
               </Marker>
             </Polyline>
-          )}
-        </MapContainer>
+
+            <Rectangle bounds={lineMapHistory()} color='#1EBF13FF' weight={2} />
+          </MapContainer>
+        ) : null}
+        {socketMap.status === 'no_geo' ? (
+          <div className={b('not_coordinates')}>
+            <h1>Координаты не найдены</h1>
+          </div>
+        ) : null}
       </div>
     </div>
   );

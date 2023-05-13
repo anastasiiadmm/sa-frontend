@@ -4,7 +4,7 @@
   &__card-block {
     position: fixed;
     margin: 0 30px 0 55px;
-    top: 87px;
+    top: 74px;
     z-index: 999;
     width: 76%;
   }
@@ -17,6 +17,17 @@
     padding: 0 10px;
     cursor: pointer;
     width: 35px;
+  }
+
+  &__not_coordinates {
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    > h1 {
+      font-weight: 400;
+      font-size: 26px;
+    }
   }
 
   &__header-title {
@@ -42,10 +53,11 @@
     padding-right: 7px;
     font-weight: 700 !important;
     text-transform: uppercase;
-
+    font-size: 20px;
     > span {
       display: block;
       width: 400px;
+      font-size: 20px;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
@@ -54,11 +66,15 @@
 
   &__render_btn {
     position: absolute;
-    right: 20px;
+    bottom: 150px;
     background-color: #689F3A!important;
     color: #ffffff!important;
     font-size: 14px;
-    height: 40px;
+    right: 10px;
+    width: 36px;
+    height: 36px;
+    z-index: 1000;
+    padding: 0px!important;
   }
 
   &__loading {
@@ -71,6 +87,13 @@
   &__title_uppercase {
     text-transform: uppercase;
   }
+}
+
+.leaflet-left {
+  right: 10px;
+  bottom: 80px;
+  left: auto;
+  top: auto;
 }
 
 .leaflet-div-icon {

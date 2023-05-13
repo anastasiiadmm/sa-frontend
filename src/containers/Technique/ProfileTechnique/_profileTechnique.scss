@@ -12,6 +12,12 @@
     width: 35px;
   }
 
+  &__back_handler {
+    outline: none;
+    border: 0;
+    background: transparent;
+  }
+
   &__header {
     margin-bottom: 33px;
     display: flex;

@@ -31,8 +31,27 @@ export interface Vehicle {
 }
 
 export interface resultsAB {
-  PointA: string;
-  PointB: string;
+  received_data: {
+    PointA: string;
+    PointB: string;
+  };
+}
+export interface IVehicleV2Actions {
+  results: resultsAB[];
+  resultsV2: VehicleV2;
+}
+
+export interface VehicleV2 {
+  id: number | null;
+  description: string;
+  image: string;
+  full_name: string;
+  point_A_lat: number;
+  point_A_lon: number;
+  point_B_lat: number;
+  point_B_lon: number;
+  tool_width: string;
+  task_UID: string;
 }
 
 export interface IMapState {
@@ -44,6 +63,6 @@ export interface IMapState {
   field: {
     loading: boolean;
     errors: IErrors | null;
-    results: resultsAB[];
+    results: VehicleV2;
   };
 }

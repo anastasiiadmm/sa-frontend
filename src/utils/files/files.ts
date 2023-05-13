@@ -8,7 +8,7 @@ export function getFilenameFromPath(path: string | null) {
   return '';
 }
 
-export const urlFormat = (url: string) => {
+export const urlFormat = (url: string | undefined) => {
   if (url) {
     const format = url.replace('http://sa-backend/', '');
     return `${apiUrlCrop}/${format}`;
