@@ -378,7 +378,7 @@ export const patchUserVehicleInfo = createAsyncThunk<userVehicleInfo, patchUserV
       );
 
       await dispatch(
-        fetchUserVehicleList({ data: { idVehicle: data?.userId, query: { page: 1 } } }),
+        fetchUserVehicleList({ data: { idVehicle: data?.vehicleId, query: { page: 1 } } }),
       );
       message.success('Данные успешно изменены!');
 
@@ -425,7 +425,6 @@ export const deleteUserVehicle = createAsyncThunk<void, deleteUserVehicleParams>
 );
 
 interface vehicleCreateParams {
-  userId: string | null | undefined;
   data: vehicleCreateData;
 }
 
@@ -433,8 +432,7 @@ export const vehicleCreate = createAsyncThunk<void, vehicleCreateParams>(
   `${nameSpace}/vehicleCreate`,
   async (data, { rejectWithValue }) => {
     try {
-      const resp = await axiosApi.post(`/companies/${data?.userId}/vehicles/`, data?.data);
-
+      const resp = await axiosApi2.post(`/vehicles/`, data?.data);
       return resp.data;
     } catch (e) {
       return rejectWithValue({
