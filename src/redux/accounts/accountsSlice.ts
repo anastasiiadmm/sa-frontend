@@ -254,7 +254,7 @@ export const requestApproveChangeProfile = createAsyncThunk<void, approveChangeP
   async ({ id, data }, { rejectWithValue }) => {
     try {
       const resp = await axiosApi2.post(`/common/inquiries/${id}/`, data);
-      message.success('Запрос успешно отправлен!');
+      message.success('Запрос успешно принят!');
       return resp.data;
     } catch (e) {
       return rejectWithValue(e);
