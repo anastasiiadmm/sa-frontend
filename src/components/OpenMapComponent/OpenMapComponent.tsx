@@ -28,6 +28,7 @@ import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { mapSelector, obtainingCoordinate } from 'redux/map/mapSlice';
 
 import 'components/OpenMapComponent/_openMapComponent.scss';
+import { socketApiSocket } from 'utils/config';
 
 const { Title } = Typography;
 
@@ -56,7 +57,7 @@ const OpenMapComponent = () => {
     let connectionID = '';
 
     const connect = () => {
-      const socket = new WebSocket('ws://159.89.30.209:8080/ws');
+      const socket = new WebSocket(socketApiSocket);
       socket.onopen = () => {
         setSocketLoading(true);
         socket.send(

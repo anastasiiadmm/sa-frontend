@@ -22,6 +22,7 @@ import {
   companiesSelector,
   deleteUserVehicle,
   fetchUserInfoByManager,
+  fetchUserVehicleInfo,
   fetchUserVehicleList,
   setNullReducerVehicleCreate,
 } from 'redux/companies/companiesSlice';
@@ -139,9 +140,9 @@ const UserTechnique: React.FC = () => {
   const goToTechniqueListHandler = () => {
     handleCreateOkCancel();
     const data = {
-      userId: id,
+      idVehicle,
       query: {
-        page: 1,
+        page: filters?.page,
       },
     };
 
@@ -149,6 +150,11 @@ const UserTechnique: React.FC = () => {
     dispatch(setNullReducerVehicleCreate());
   };
 
+  const editHandler = (id: string) => {
+    showEditModal();
+    setVehicleId(id);
+    dispatch(fetchUserVehicleInfo({ userId: id, vehicleId: id }));
+  };
   const columns: ColumnsType<vehicleList> = [
     {
       title: 'Код техники',
@@ -199,13 +205,7 @@ const UserTechnique: React.FC = () => {
               color='#BBBBBB'
               overlayInnerStyle={{ padding: '5px 15px', borderRadius: 15 }}
             >
-              <Button
-                type='text'
-                onClick={() => {
-                  showEditModal();
-                  setVehicleId(record?.id.toString());
-                }}
-              >
+              <Button type='text' onClick={() => editHandler(record?.id.toString())}>
                 <img src={edit} alt='edit' className='link-icons' />
               </Button>
             </Tooltip>
