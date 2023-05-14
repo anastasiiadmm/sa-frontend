@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import FormField from 'components/FormField/FormField';
+import SkeletonBlock from 'components/SkeletonBlock/SkeletonBlock';
 import UploadImageComponent from 'components/UploadImageComponent/UploadImageComponent';
 import { getErrorMessage, removeEmptyValuesFromObject } from 'helper';
 import { IValueFinish } from 'interfaces';
@@ -33,7 +34,6 @@ interface Props {
 const AddUpdateTechnique: React.FC<Props> = ({
   isEdit = false,
   isRequest = false,
-  userId,
   vehicleId,
   handleEditOkCancel,
   titleBool = true,
@@ -45,6 +45,7 @@ const AddUpdateTechnique: React.FC<Props> = ({
     vehicleCreateSuccess,
     userVehicleInfo,
     patchUserVehicleInfoLoading,
+    userVehicleInfoLoading,
   } = useAppSelector(companiesSelector);
   const { account, vehicleCreateRequestLoading, vehicleCreateRequestSuccess } =
     useAppSelector(accountsSelector);
@@ -64,11 +65,11 @@ const AddUpdateTechnique: React.FC<Props> = ({
     if (userVehicleInfo && isEdit) {
       form.setFieldsValue({
         description: userVehicleInfo?.description,
-        state_number: userVehicleInfo?.state_number,
-        vin_code: userVehicleInfo?.vin_code,
-        last_name: userVehicleInfo?.last_name,
-        first_name: userVehicleInfo?.first_name,
-        middle_name: userVehicleInfo?.middle_name,
+        state_number: userVehicleInfo?.license_plate,
+        vin_code: userVehicleInfo?.vin,
+        last_name: userVehicleInfo?.operator.last_name,
+        first_name: userVehicleInfo?.operator.first_name,
+        middle_name: userVehicleInfo?.operator.middle_name,
       });
     }
   }, [userVehicleInfo, form]);
@@ -78,7 +79,21 @@ const AddUpdateTechnique: React.FC<Props> = ({
       if (values) {
         const data = removeEmptyValuesFromObject(values);
         if (isEdit) {
-          await dispatch(patchUserVehicleInfo({ userId, vehicleId, data })).unwrap();
+          await dispatch(
+            patchUserVehicleInfo({
+              data: {
+                id: vehicleId,
+                vin: data.vin_code,
+                license_plate: data.state_number,
+                description: data.description,
+                operator: {
+                  first_name: data.first_name,
+                  last_name: data.last_name,
+                  middle_name: data.middle_name,
+                },
+              },
+            }),
+          ).unwrap();
           if (handleEditOkCancel) {
             handleEditOkCancel();
           }
@@ -158,6 +173,10 @@ const AddUpdateTechnique: React.FC<Props> = ({
   const onFileChange = (newFileList: UploadFile[]) => {
     setFileList(newFileList);
   };
+
+  if (userVehicleInfoLoading) {
+    return <SkeletonBlock active num={1} titleBool />;
+  }
 
   return (
     <Col

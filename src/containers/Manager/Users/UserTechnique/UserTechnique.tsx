@@ -129,7 +129,7 @@ const UserTechnique: React.FC = () => {
 
   const deleteTechniqueHandler = async () => {
     try {
-      await dispatch(deleteUserVehicle({ userId: id, vehicleId })).unwrap();
+      await dispatch(deleteUserVehicle(vehicleId)).unwrap();
       await handleDeleteOkCancel();
     } catch (e) {
       const errorMessage = getErrorMessage(e, 'username');
@@ -153,7 +153,7 @@ const UserTechnique: React.FC = () => {
   const editHandler = (id: string) => {
     showEditModal();
     setVehicleId(id);
-    dispatch(fetchUserVehicleInfo({ userId: id, vehicleId: id }));
+    dispatch(fetchUserVehicleInfo(id));
   };
   const columns: ColumnsType<vehicleList> = [
     {

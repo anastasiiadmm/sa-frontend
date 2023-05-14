@@ -6,12 +6,11 @@ import { RootState } from 'redux/hooks';
 import {
   companiesList,
   ICompany,
+  IVehicleV2,
   PostNewUser,
   requestData,
   requestUserProfileData,
   usersListPagination,
-  userVehicleInfo,
-  userVehicleInfoCompanies,
   vehicleCreateData,
   vehicleList,
   vehicleListPagination,
@@ -39,11 +38,11 @@ interface CompaniesState {
   updateUserDataError: Object | null;
   deleteUserInfoLoading: boolean;
   deleteUserInfoError: IErrors | null;
-  vehicleList: vehicleList | null;
+  vehicleList: vehicleList[];
   fetchVehicleListLoading: boolean;
   fetchVehicleListError: IErrors | null;
   vehicleListPagination: vehicleListPagination | null;
-  userVehicleInfo: userVehicleInfoCompanies | null;
+  userVehicleInfo: IVehicleV2 | null;
   userVehicleInfoLoading: boolean;
   userVehicleInfoError: IErrors | null;
   vehicleCreateLoading: boolean;
@@ -115,7 +114,7 @@ const INITIAL_STATE = {
   deleteUserInfoLoading: false,
   deleteUserInfoError: null,
 
-  vehicleList: null,
+  vehicleList: [],
   fetchVehicleListLoading: false,
   fetchVehicleListError: null,
   vehicleListPagination: null,
@@ -331,26 +330,12 @@ export const fetchUserVehicleList = createAsyncThunk<companiesList, fetchVehicle
   },
 );
 
-interface fetchUserVehicleInfoParams {
-  userId: string | null | undefined;
-  vehicleId: string | null | undefined;
-}
-
-export const fetchUserVehicleInfo = createAsyncThunk<userVehicleInfo, fetchUserVehicleInfoParams>(
+export const fetchUserVehicleInfo = createAsyncThunk(
   `${nameSpace}/fetchUserVehicleInfo`,
-  async (data, { rejectWithValue }) => {
+  async (id: string, { rejectWithValue }) => {
     try {
-      const resp = await axiosApi.get<userVehicleInfo | null>(
-        `/companies/${data?.userId}/vehicle/${data?.vehicleId}/`,
-      );
-
-      const userVehicleInfo = resp.data;
-
-      if (userVehicleInfo === null) {
-        throw new Error('Not Found!');
-      }
-
-      return userVehicleInfo;
+      const resp = await axiosApi2.get(`/vehicles/${id}/`);
+      return resp.data;
     } catch (e) {
       return rejectWithValue({
         detail: e?.response?.data?.detail,
@@ -360,33 +345,23 @@ export const fetchUserVehicleInfo = createAsyncThunk<userVehicleInfo, fetchUserV
   },
 );
 
-interface patchUserVehicleInfoParams {
-  userId: string | null | undefined;
-  vehicleId: string | null | undefined;
-  data: userVehicleInfo;
-}
-
-export const patchUserVehicleInfo = createAsyncThunk<userVehicleInfo, patchUserVehicleInfoParams>(
+export const patchUserVehicleInfo = createAsyncThunk(
   `${nameSpace}/patchUserVehicleInfo`,
-  async (data, { rejectWithValue, dispatch }) => {
+  async (
+    {
+      data,
+    }: {
+      data: IVehicleV2;
+    },
+    { rejectWithValue },
+  ) => {
     try {
-      const resp = await axiosApi.patch<userVehicleInfo | null>(
-        `/companies/${data?.userId}/vehicle/${data?.vehicleId}/`,
-        data?.data,
-      );
-
-      await dispatch(
-        fetchUserVehicleList({ data: { idVehicle: data?.vehicleId, query: { page: 1 } } }),
-      );
+      const resp = await axiosApi2.patch(`/vehicles/${data.id}/`, data);
       message.success('Данные успешно изменены!');
-
-      const userVehicleInfo = resp.data;
-
-      if (userVehicleInfo === null) {
-        throw new Error('Not Found!');
-      }
-
-      return userVehicleInfo;
+      return {
+        ...resp.data,
+        id: data.id,
+      };
     } catch (e) {
       return rejectWithValue({
         detail: e?.response?.data,
@@ -396,23 +371,13 @@ export const patchUserVehicleInfo = createAsyncThunk<userVehicleInfo, patchUserV
   },
 );
 
-interface deleteUserVehicleParams {
-  userId: string | null | undefined;
-  vehicleId: string | null | undefined;
-}
-
-export const deleteUserVehicle = createAsyncThunk<void, deleteUserVehicleParams>(
+export const deleteUserVehicle = createAsyncThunk(
   `${nameSpace}/deleteUserVehicle`,
-  async (data, { rejectWithValue, dispatch }) => {
+  async (id: string | null | undefined, { rejectWithValue, dispatch }) => {
     try {
-      const resp = await axiosApi.delete(`/companies/${data?.userId}/vehicle/${data?.vehicleId}/`);
-
-      await dispatch(
-        fetchUserVehicleList({ data: { idVehicle: data?.userId, query: { page: 1 } } }),
-      );
+      await axiosApi2.delete(`/vehicles/${id}/`);
       message.success('Данные успешно удалены!');
-
-      return resp.data;
+      return id;
     } catch (e) {
       return rejectWithValue({
         detail: e?.response?.data?.detail,
@@ -681,7 +646,7 @@ const companiesSlice = createSlice({
       state.userVehicleInfoLoading = true;
       state.userVehicleInfoError = null;
     });
-    builder.addCase(fetchUserVehicleInfo.fulfilled, (state, { payload }: any) => {
+    builder.addCase(fetchUserVehicleInfo.fulfilled, (state, { payload }) => {
       state.userVehicleInfoLoading = false;
       state.userVehicleInfo = payload;
     });
@@ -722,10 +687,22 @@ const companiesSlice = createSlice({
       state.patchUserVehicleInfoLoading = true;
       state.patchUserVehicleInfoError = null;
     });
-    builder.addCase(patchUserVehicleInfo.fulfilled, (state) => {
-      state.patchUserVehicleInfoLoading = false;
-      state.patchUserVehicleInfoError = null;
-    });
+    builder.addCase(
+      patchUserVehicleInfo.fulfilled,
+      (state, { payload }: PayloadAction<IVehicleV2>) => {
+        state.patchUserVehicleInfoLoading = false;
+        state.patchUserVehicleInfoError = null;
+        state.vehicleList = state.vehicleList.map((item) => {
+          if (item.id === Number(payload.id)) {
+            return {
+              ...item,
+              description: payload.description,
+            };
+          }
+          return item;
+        });
+      },
+    );
     builder.addCase(patchUserVehicleInfo.rejected, (state, { payload }) => {
       state.patchUserVehicleInfoLoading = false;
       if (payload && typeof payload === 'object' && 'detail' in payload && 'status' in payload) {
@@ -741,9 +718,10 @@ const companiesSlice = createSlice({
       state.deleteUserVehicleLoading = true;
       state.deleteUserVehicleError = null;
     });
-    builder.addCase(deleteUserVehicle.fulfilled, (state) => {
+    builder.addCase(deleteUserVehicle.fulfilled, (state, { payload }) => {
       state.deleteUserVehicleLoading = false;
       state.deleteUserVehicleError = null;
+      state.vehicleList = state.vehicleList.filter((item) => item.id !== Number(payload));
     });
     builder.addCase(deleteUserVehicle.rejected, (state, { payload }) => {
       state.deleteUserVehicleLoading = false;
