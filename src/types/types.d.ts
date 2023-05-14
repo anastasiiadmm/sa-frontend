@@ -321,6 +321,20 @@ export interface userVehicleInfo {
   vehicle: Vehicle;
 }
 
+interface Operator {
+  first_name: string;
+  last_name: string;
+  middle_name: string;
+}
+
+export interface IVehicleV2 {
+  id: string | null | undefined;
+  vin: string;
+  license_plate: string;
+  description: string;
+  operator: Operator;
+}
+
 export interface userVehicleInfoCompanies {
   id: number;
   image: string;
