@@ -163,7 +163,7 @@ interface fetchCompaniesParams {
   };
 }
 
-export const fetchUsersList = createAsyncThunk<companiesList, fetchCompaniesParams>(
+export const fetchUsersList = createAsyncThunk<requestUserProfileData, fetchCompaniesParams>(
   'accounts/fetchUsersList',
   async ({ data }, { rejectWithValue }) => {
     try {
@@ -171,7 +171,7 @@ export const fetchUsersList = createAsyncThunk<companiesList, fetchCompaniesPara
       if (data?.query) {
         query = toQueryParams(data.query);
       }
-      const resp = await axiosApi.get<companiesList | null>(`/companies/${query}`);
+      const resp = await axiosApi2.get<requestUserProfileData | null>(`/accounts/users/${query}`);
       const companies = resp.data;
 
       if (companies === null) {
@@ -540,8 +540,8 @@ const companiesSlice = createSlice({
       state.companiesListPagination = {
         ...state.companiesListPagination,
         count: payload.count,
-        next: payload.links.next,
-        previous: payload.links.previous,
+        next: payload.next,
+        previous: payload.previous,
         vehicles_amount: payload.vehicles_amount,
       };
     });
