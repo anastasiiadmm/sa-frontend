@@ -9,7 +9,6 @@ import {
   PostNewUser,
   requestData,
   requestUserProfileData,
-  UpdatedCompaniesList,
   usersListPagination,
   userVehicleInfo,
   userVehicleInfoCompanies,
@@ -260,15 +259,14 @@ export const fetchUserInfoByManager = createAsyncThunk<
 
 interface updateUserInfoParams {
   id: string | undefined;
-  data: ICompany | UpdatedCompaniesList | requestData;
+  data: requestUserProfileData;
 }
 
 export const updateUserInfo = createAsyncThunk<void, updateUserInfoParams>(
   `${nameSpace}/updateUserInfo`,
-  async ({ id, data }, { rejectWithValue, dispatch }) => {
+  async ({ id, data }, { rejectWithValue }) => {
     try {
-      const resp = await axiosApi.patch(`/companies/${id}/`, data);
-      await dispatch(fetchUserInfo({ id }));
+      const resp = await axiosApi2.patch(`/accounts/users/${id}/`, data);
       message.success('Успешно изминились данные');
       return resp.data;
     } catch (e) {

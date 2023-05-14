@@ -21,6 +21,7 @@ import {
   deleteUserInfo,
   fetchUserInfoByManager,
   setChangeUserProfile,
+  updateUserInfo,
 } from 'redux/companies/companiesSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { requestUserProfileData } from 'types/types';
@@ -43,6 +44,7 @@ const UserProfile: React.FC = () => {
     userInfoByManagerError,
   } = useAppSelector(companiesSelector);
   const { generatedPassword, generatePasswordLoading } = useAppSelector(accountsSelector);
+  const [formValid, setFormValid] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
   const [isModalPasswordOpen, setIsModalPasswordOpen] = useState(false);
@@ -151,20 +153,16 @@ const UserProfile: React.FC = () => {
     }
   };
 
-  const onFinish = async () => {
-    // поменять на редактирование v2
-    // try {
-    //   if (userInfoData) {
-    //     const { image, ...userWithoutImage, ...rest } = userInfoData;
-    //     const newObj = { ...rest, user: userWithoutImage };
-    //     const data = removeEmptyValuesFromObject(newObj);
-    //     await dispatch(updateUserInfo({ id, data })).unwrap();
-    //     history('/');
-    //   }
-    // } catch (e) {
-    //   const errorMessage = getErrorMessage(e, 'username');
-    //   await message.error(`${errorMessage}`);
-    // }
+  const onFinish = async (values: requestUserProfileData) => {
+    try {
+      if (values) {
+        await dispatch(updateUserInfo({ id, data: values })).unwrap();
+        history('/');
+      }
+    } catch (e) {
+      const errorMessage = getErrorMessage(e, 'username');
+      await message.error(`${errorMessage}`);
+    }
   };
 
   if (userInfoByManagerError) {
@@ -351,6 +349,10 @@ const UserProfile: React.FC = () => {
           onFinish={onFinish}
           inputChangeHandler={inputChangeHandler}
           loading={updateUserInfoLoading}
+          formValid={formValid}
+          onValuesChange={() =>
+            setFormValid(form.getFieldsError().some((item) => item.errors.length > 0))
+          }
         />
       </ModalComponent>
 
