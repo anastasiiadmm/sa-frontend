@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import FormField from 'components/FormField/FormField';
+import SkeletonBlock from 'components/SkeletonBlock/SkeletonBlock';
 import UploadImageComponent from 'components/UploadImageComponent/UploadImageComponent';
 import { getErrorMessage, removeEmptyValuesFromObject } from 'helper';
 import { IValueFinish } from 'interfaces';
@@ -18,7 +19,6 @@ import {
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 
 import 'components/ModalComponent/ModalChildrenComponents/AddUpdateTechnique/_addUpdateTechnique.scss';
-import SkeletonBlock from '../../../SkeletonBlock/SkeletonBlock';
 
 const { Title } = Typography;
 

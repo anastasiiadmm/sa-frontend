@@ -14,7 +14,7 @@ import {
 import { logoutUser } from 'redux/auth/authSlice';
 import { clearCompaniesPagination } from 'redux/companies/companiesSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { apiUrlCrop } from 'utils/config';
+import { urlFormat } from 'utils/files/files';
 import { logoutLocalStorage } from 'utils/token';
 
 import 'components/SliderMenu/_sliderMenu.scss';
@@ -72,11 +72,7 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
       <Avatar
         className='avatar-profile'
         size='large'
-        src={
-          account?.image || account?.image
-            ? `${apiUrlCrop}${account?.is_manager ? account?.image : account?.image}`
-            : null
-        }
+        src={urlFormat(account?.image)}
         icon={<UserOutlined />}
       />,
       [
