@@ -157,34 +157,36 @@ const EditUserProfileModal: React.FC<Props> = ({
           </div>
         ) : null}
 
-        <div className={b('image-upload')}>
-          <label htmlFor='image-input'>
-            {image ? (
-              <Avatar size={64} src={URL.createObjectURL(image)} style={{ cursor: 'pointer' }} />
-            ) : (
-              <Avatar
-                size={64}
-                src={
-                  account?.image
-                    ? `${apiUrlCrop}${account?.image}`
-                    : userInfo?.uploaded_files?.length
-                    ? `${apiUrlCrop}${userInfo?.uploaded_files?.[0]?.file}`
-                    : ''
-                }
-                style={{ cursor: 'pointer' }}
-                icon={<UserOutlined />}
-              />
-            )}
-          </label>
+        {updateUserData ? null : (
+          <div className={b('image-upload')}>
+            <label htmlFor='image-input'>
+              {image ? (
+                <Avatar size={64} src={URL.createObjectURL(image)} style={{ cursor: 'pointer' }} />
+              ) : (
+                <Avatar
+                  size={64}
+                  src={
+                    account?.image
+                      ? `${apiUrlCrop}${account?.image}`
+                      : userInfo?.uploaded_files?.length
+                      ? `${apiUrlCrop}${userInfo?.uploaded_files?.[0]?.file}`
+                      : ''
+                  }
+                  style={{ cursor: 'pointer' }}
+                  icon={<UserOutlined />}
+                />
+              )}
+            </label>
 
-          <input
-            data-testid='image-input'
-            id='image-input'
-            type='file'
-            onChange={onFileChange}
-            accept='image/png, image/gif, image/jpeg'
-          />
-        </div>
+            <input
+              data-testid='image-input'
+              id='image-input'
+              type='file'
+              onChange={onFileChange}
+              accept='image/png, image/gif, image/jpeg'
+            />
+          </div>
+        )}
 
         <FormField
           bordered
