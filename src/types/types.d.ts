@@ -108,18 +108,10 @@ export interface PostNewUser extends Omit<IUserAccount, 'user'> {
 export interface userVehicles {
   id: number;
   code: string;
-  vin_code: string;
-  image: string;
   description: string;
-  state_number: string;
-  first_name: string;
-  middle_name: string;
-  last_name: string;
-  enterprise: string;
-  vehicle_fields_data: {
-    field_count: number;
-    processed_area: number;
-  };
+  jobs_number: number;
+  area: string;
+  image: string;
 }
 
 export interface userVehiclesPagination {
@@ -359,7 +351,7 @@ export interface userVehicleInfoCompanies {
   enterprise: number;
 }
 
-interface Operator {
+interface IOperator {
   first_name: string;
   last_name: string;
   middle_name: string;
@@ -370,7 +362,7 @@ export interface vehicleCreateData {
   vin: string;
   license_plate: string;
   description: string;
-  operator: Operator;
+  operator: IOperator;
 }
 
 export interface generatedPassword {

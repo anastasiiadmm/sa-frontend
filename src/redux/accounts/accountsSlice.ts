@@ -198,30 +198,23 @@ export const fetchUser = createAsyncThunk('accounts/fetchUser', async (_, { reje
   }
 });
 
-interface fetchUserVehiclesParams {
-  data: {
-    query: {
-      page: number;
-    };
-  };
-}
-
-export const fetchUserVehicles = createAsyncThunk<userVehicles, fetchUserVehiclesParams>(
+export const fetchUserVehicles = createAsyncThunk(
   'accounts/fetchUserVehicles',
-  async ({ data }, { rejectWithValue }) => {
+  async (
+    {
+      id,
+      page,
+    }: {
+      id: number | undefined | null;
+      page: number | null | undefined;
+    },
+    { rejectWithValue },
+  ) => {
     try {
-      let query = '';
-      if (data?.query) {
-        query = toQueryParams(data.query);
-      }
-      const resp = await axiosApi.get<userVehicles | null>(`/accounts/user/vehicles/${query}`);
-      const userVehicles = resp.data;
-
-      if (userVehicles === null) {
-        throw new Error('Not Found!');
-      }
-
-      return userVehicles;
+      const resp = await axiosApi2.get<userVehicles | null>(
+        `/enterprises/${id}/vehicles/?page=${page}`,
+      );
+      return resp.data;
     } catch (e) {
       return rejectWithValue({
         detail: e?.response?.data?.detail,
@@ -575,8 +568,8 @@ const accountsSlice = createSlice({
       state.userVehiclesPagination = {
         ...state.userVehiclesPagination,
         count: payload.count,
-        next: payload.links.next,
-        previous: payload.links.previous,
+        next: payload.next,
+        previous: payload.previous,
       };
     });
     builder.addCase(fetchUserVehicles.rejected, (state, { payload }) => {
