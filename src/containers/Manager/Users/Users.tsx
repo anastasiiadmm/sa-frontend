@@ -12,7 +12,7 @@ import TableComponent from 'components/TableComponent/TableComponent';
 import { getPageNumber, getPageNumberPrevious } from 'helper';
 import { companiesSelector, fetchUsersList } from 'redux/companies/companiesSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { companiesList } from 'types/types';
+import { requestUserProfileData } from 'types/types';
 
 import 'containers/Manager/Users/_users.scss';
 
@@ -58,17 +58,17 @@ const Users: React.FC = () => {
     push(`/user-profile/${id}/`);
   };
 
-  const columns: ColumnsType<companiesList> = [
+  const columns: ColumnsType<requestUserProfileData> = [
     {
       key: 'last_name',
       title: 'ФИО',
       dataIndex: 'name',
       width: '30%',
       fixed: 'left',
-      render: (text: string, record: companiesList) => {
+      render: (text: string, record: requestUserProfileData) => {
         return (
           <p className={b('user-name')}>
-            {record?.user?.last_name} {record?.user?.first_name} {record?.user?.middle_name}
+            {record?.last_name} {record?.first_name} {record?.middle_name}
           </p>
         );
       },
@@ -78,14 +78,17 @@ const Users: React.FC = () => {
       dataIndex: 'name',
       filterSearch: true,
       width: '30%',
+      render: (text: string, record: requestUserProfileData) => {
+        return <p>{record?.company?.name}</p>;
+      },
     },
     {
       title: 'Номер телефона',
       dataIndex: 'phone',
       filterSearch: true,
       width: '30%',
-      render: (text: string, record: companiesList) => {
-        return <p>{record?.user?.phone}</p>;
+      render: (text: string, record: requestUserProfileData) => {
+        return <p>{record?.phone}</p>;
       },
     },
     {
@@ -93,9 +96,9 @@ const Users: React.FC = () => {
       dataIndex: 'autopilots_amount',
       filterSearch: true,
       width: '25%',
-      render: (text: string, record: companiesList) => (
+      render: (text: string, record: requestUserProfileData) => (
         <>
-          <span>{record.autopilots_amount}</span>
+          <span>{record?.company?.autopilots_amount}</span>
           <Tooltip
             title='Просмотреть профиль'
             color='#BBBBBB'
@@ -105,7 +108,7 @@ const Users: React.FC = () => {
             <Button
               type='link'
               className={b('profile-link')}
-              onClick={() => nextBrowserUserInfoHandler(record?.user?.id as number)}
+              onClick={() => nextBrowserUserInfoHandler(record?.id as number)}
             >
               <EyeOutlined style={{ fontSize: '23px' }} />
             </Button>

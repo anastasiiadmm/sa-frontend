@@ -128,6 +128,10 @@ export interface userVehiclesPagination {
   previous: string | undefined | null;
 }
 
+export interface usersList {
+
+}
+
 export interface companiesList {
   id?: number;
   name: string;
