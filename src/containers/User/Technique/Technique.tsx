@@ -24,6 +24,7 @@ import {
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { userVehicles } from 'types/types';
 import { apiUrlCrop } from 'utils/config';
+
 import 'containers/User/Technique/_technique.scss';
 
 const { Title } = Typography;
@@ -51,13 +52,15 @@ const Technique = () => {
   });
 
   useEffect(() => {
-    const data = {
-      query: {
-        page: filters?.page || 1,
-      },
-    };
-    dispatch(fetchUserVehicles({ data }));
-  }, [dispatch, filters]);
+    if (account?.company.id) {
+      const data = {
+        query: {
+          page: filters?.page || 1,
+        },
+      };
+      dispatch(fetchUserVehicles({ id: account?.company.id, page: data.query.page }));
+    }
+  }, [dispatch, account?.company.id, filters]);
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -76,11 +79,15 @@ const Technique = () => {
   };
 
   const pagePrevHandler = () => {
-    setFilters({ ...filters, page: filters.page - 1 });
+    if (account?.company.id) {
+      setFilters({ ...filters, page: filters.page - 1 });
+    }
   };
 
   const pageNextHandler = () => {
-    setFilters({ ...filters, page: filters.page + 1 });
+    if (account?.company.id) {
+      setFilters({ ...filters, page: filters.page + 1 });
+    }
   };
 
   const postInquiriesHandler = async () => {
@@ -125,7 +132,7 @@ const Technique = () => {
       dataIndex: 'field_count',
       width: '20%',
       render: (text: number, record) => (
-        <p className={b('name-column-style')}>{record?.vehicle_fields_data?.field_count}</p>
+        <p className={b('name-column-style')}>{record?.jobs_number}</p>
       ),
     },
     {
@@ -135,9 +142,7 @@ const Technique = () => {
       width: '28%',
       render: (text: number, record) => (
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'right' }}>
-          <p className={b('name-column-style-text')}>
-            {record?.vehicle_fields_data?.processed_area}
-          </p>
+          <p className={b('name-column-style-text')}>{record?.area}</p>
           <Tooltip
             title='Просмотреть профиль'
             color='#BBBBBB'
