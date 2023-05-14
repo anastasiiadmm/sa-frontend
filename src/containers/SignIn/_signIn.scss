@@ -23,12 +23,9 @@
     align-items: center;
   }
 
-  &__subtitle {
-    margin: 30px 0 5px 0;
-  }
-
   &__title {
-    margin: 0 0 30px 0;
+    font-size: 30px !important;
+    margin: 25px 0 30px 0;
   }
 
   &__login-form-button {

@@ -76,7 +76,6 @@ const SignIn: React.FC = () => {
         >
           <div className={b('block_form')}>
             <img src={logo} alt='logo' />
-            <p className={b('subtitle')}>Добро пожаловать</p>
             <Title data-testid='sign_in_test' className={b('title')}>
               Вход в аккаунт
             </Title>
@@ -95,7 +94,6 @@ const SignIn: React.FC = () => {
                 data-testid='email_id_login'
                 type='email'
                 id='email_id'
-                label='Логин'
                 name='username'
                 rules={[
                   {
@@ -110,7 +108,6 @@ const SignIn: React.FC = () => {
                 bordered
                 data-testid='password_id'
                 type='password'
-                label='Пароль'
                 name='password'
                 placeholder='Пароль'
               />

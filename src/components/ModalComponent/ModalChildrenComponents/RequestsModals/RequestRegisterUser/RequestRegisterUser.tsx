@@ -44,7 +44,7 @@ const RequestRegisterUser: React.FC<Props> = ({
     created_at: '',
     id: 0,
     object_id: 0,
-    requestor: '',
+    requestor: null,
     uploaded_files: [],
     data: {
       user: {
@@ -142,7 +142,7 @@ const RequestRegisterUser: React.FC<Props> = ({
       await dispatch(
         accountManagerConfirmationRequest({
           id: userId,
-          data: isEmptyObject(data) ? userData : data,
+          data: isEmptyObject(data) ? undefined : data,
         }),
       ).unwrap();
       showAgreeModal();

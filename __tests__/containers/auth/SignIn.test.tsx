@@ -59,7 +59,7 @@ describe('<SignIn />', () => {
       </BrowserRouter>,
     );
 
-    const email = screen.getByLabelText('Логин') as HTMLInputElement;
+    const email = screen.getByPlaceholderText('Логин') as HTMLInputElement;
     await waitFor(() => {
       expect(email).toBeInTheDocument();
     });
@@ -80,8 +80,8 @@ describe('<SignIn />', () => {
     );
 
     expect(screen.getByTestId('sign-in')).toBeInTheDocument();
-    const emailInput = screen.getByLabelText('Логин');
-    const passwordInput = screen.getByLabelText('Пароль');
+    const emailInput = screen.getByPlaceholderText('Логин');
+    const passwordInput = screen.getByPlaceholderText('Пароль');
     const button = await screen.findByRole('button', { name: 'Продолжить' });
     fireEvent.change(emailInput, { target: { value: 'manager' } });
     fireEvent.change(passwordInput, { target: { value: 'P33f2kmu!' } });

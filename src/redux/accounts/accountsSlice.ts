@@ -66,6 +66,8 @@ interface AccountsState {
   approveRegisterRequestSuccess: boolean;
   changeProfileLoading: boolean;
   changeProfileError: IErrors | null;
+  requestApproveChangeProfileLoading: boolean;
+  requestApproveChangeProfileError: IErrors | null;
 }
 
 const INITIAL_STATE = {
@@ -131,6 +133,9 @@ const INITIAL_STATE = {
 
   changeProfileLoading: false,
   changeProfileError: null,
+
+  requestApproveChangeProfileLoading: false,
+  requestApproveChangeProfileError: null,
 } as AccountsState;
 
 export const fetchAccount = createAsyncThunk(
@@ -226,12 +231,30 @@ export const fetchUserVehicles = createAsyncThunk<userVehicles, fetchUserVehicle
   },
 );
 
-export const requestChangeProfile = createAsyncThunk<void, IMyData | null>(
+export const requestChangeProfile = createAsyncThunk<void, IMyData | FormData>(
   `${nameSpace}/requestChangeProfile`,
   async (data, { rejectWithValue }) => {
     try {
       const resp = await axiosApi2.post(`/common/inquiries/`, data);
       message.success('Запрос успешно отправлен!');
+      return resp.data;
+    } catch (e) {
+      return rejectWithValue(e);
+    }
+  },
+);
+
+interface approveChangeProfileParams {
+  id: number | undefined;
+  data: FormData | null;
+}
+
+export const requestApproveChangeProfile = createAsyncThunk<void, approveChangeProfileParams>(
+  `${nameSpace}/requestApproveChangeProfile`,
+  async ({ id, data }, { rejectWithValue }) => {
+    try {
+      const resp = await axiosApi2.post(`/common/inquiries/${id}/`, data);
+      message.success('Запрос успешно принят!');
       return resp.data;
     } catch (e) {
       return rejectWithValue(e);
@@ -776,6 +799,25 @@ const accountsSlice = createSlice({
       if (payload && typeof payload === 'object' && 'detail' in payload && 'status' in payload) {
         state.userVehicleInfoError = {
           ...state.userVehicleInfoError,
+          detail: payload.detail as string | null,
+          status: payload.status as number | null,
+        };
+      }
+    });
+
+    builder.addCase(requestApproveChangeProfile.pending, (state) => {
+      state.requestApproveChangeProfileLoading = true;
+      state.requestApproveChangeProfileError = null;
+    });
+    builder.addCase(requestApproveChangeProfile.fulfilled, (state) => {
+      state.requestApproveChangeProfileLoading = false;
+      state.requestApproveChangeProfileError = null;
+    });
+    builder.addCase(requestApproveChangeProfile.rejected, (state, { payload }) => {
+      state.requestApproveChangeProfileLoading = false;
+      if (payload && typeof payload === 'object' && 'detail' in payload && 'status' in payload) {
+        state.requestApproveChangeProfileError = {
+          ...state.requestApproveChangeProfileError,
           detail: payload.detail as string | null,
           status: payload.status as number | null,
         };

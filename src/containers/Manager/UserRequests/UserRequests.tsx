@@ -18,13 +18,15 @@ import RequestAddTechnique from 'components/ModalComponent/ModalChildrenComponen
 import RequestRegisterUser from 'components/ModalComponent/ModalChildrenComponents/RequestsModals/RequestRegisterUser/RequestRegisterUser';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import TableComponent from 'components/TableComponent/TableComponent';
-import { getPageNumber, getPageNumberPrevious } from 'helper';
+import { appendDataFieldsAndDeleteEmptyKeys, getPageNumber, getPageNumberPrevious } from 'helper';
+import { IMyData, IMyDataApi } from 'interfaces';
 import {
   accountsSelector,
   approveRequest,
   deleteRequest,
   deleteRequests,
   fetchRequests,
+  requestApproveChangeProfile,
 } from 'redux/accounts/accountsSlice';
 import {
   clearUserInfo,
@@ -37,6 +39,7 @@ import {
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { RequestType } from 'types/types';
 import { dateMomentTypeDash } from 'utils/constants';
+import { fileSizeValidate, fileValidateImg } from 'utils/validate/validate';
 import 'containers/Manager/UserRequests/_userRequests.scss';
 
 const { Title } = Typography;
@@ -51,6 +54,7 @@ const UserRequests = () => {
     vehicleDeleteLoading,
     fetchRequestsError,
     approveRequestLoading,
+    requestApproveChangeProfileLoading,
   } = useAppSelector(accountsSelector);
   const { userInfo, userInfoLoading, userInfoError } = useAppSelector(companiesSelector);
   const { results, loading, errors } = useAppSelector(techniqueVehicleInfoSelector);
@@ -69,6 +73,27 @@ const UserRequests = () => {
   const [fieldClimateData, setFieldClimateData] = useState<RequestType | null>(null);
   const [confirmation_typeId, setConfirmation_typeId] = useState<number | null>(null);
   const [id, setId] = useState<number | null>(null);
+  const [data, setData] = useState<IMyDataApi>({
+    data: {
+      user: {
+        last_name: '',
+        first_name: '',
+        middle_name: '',
+        email: '',
+        phone: '',
+        username: '',
+      },
+      enterprise: {
+        name: '',
+        location: '',
+        autopilots_amount: '',
+      },
+    },
+  });
+  const [images, setImages] = useState<{ image: File | null; deleted_image: string | null }>({
+    image: null,
+    deleted_image: null,
+  });
 
   useEffect(() => {
     const data = {
@@ -212,25 +237,84 @@ const UserRequests = () => {
     dispatch(fetchRequests({ data }));
   };
 
+  const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    const [objName, propName] = name.split(',');
+    setData((prevData: IMyData | any) => {
+      const updatedObj = { ...prevData?.data?.[objName], [propName]: value };
+      return { ...prevData, data: { ...prevData?.data, [objName]: updatedObj } };
+    });
+  };
+
+  const onFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (files) {
+      if (fileSizeValidate(files[0]) && fileValidateImg(files[0])) {
+        setImages({ ...images, image: files[0], deleted_image: userInfo?.uploaded_files?.[0]?.id });
+      }
+    }
+  };
+
+  const onClickApproveChangeProfileDataHandler = async () => {
+    try {
+      const changeUserObj: any = {
+        object_id: id,
+      };
+
+      changeUserObj.data = data;
+
+      const formData = new FormData();
+
+      for (const name in changeUserObj) {
+        if (name === 'data') {
+          appendDataFieldsAndDeleteEmptyKeys(formData, changeUserObj[name]);
+        } else {
+          formData.append(name, changeUserObj[name]);
+        }
+      }
+
+      if (images?.image !== null) {
+        formData.append('files', images?.image as Blob);
+      }
+      if (images?.deleted_image !== undefined && images?.deleted_image !== null) {
+        formData.append('deleted_image', images?.deleted_image as string);
+      }
+
+      await dispatch(requestApproveChangeProfile({ id: userInfo?.id, data: formData })).unwrap();
+
+      const dataRequests = {
+        query: {
+          page: 1,
+        },
+      };
+
+      await dispatch(fetchRequests({ data: dataRequests }));
+      await setIsModalUserInfoRejectOpen(false);
+    } catch (e) {
+      await setIsModalUserInfoRejectOpen(false);
+      await message.error('Произошла ошибка.');
+    }
+  };
+
   const confirmationTypeHandler = (row: RequestType) => {
     switch (row?.category) {
       case 2:
-        setId(row.id);
+        setId(row?.id);
         setConfirmation_typeId(row?.category);
         showUserInfoModal();
         break;
       case 3:
-        setId(row.id);
+        setId(row?.id);
         setConfirmation_typeId(row?.category);
         showTechniqueModal(row);
         break;
       case 4:
-        setId(row.id);
+        setId(row?.id);
         setConfirmation_typeId(row?.category);
         showFieldClimateInfoModal(row);
         break;
       default:
-        setId(row.id);
+        setId(row?.id);
         setConfirmation_typeId(row?.category);
         showRegisterUserModal();
     }
@@ -392,6 +476,14 @@ const UserRequests = () => {
           handleOkCancel={handleOkUserInfoCancel}
           showRejectModal={showRejectModal}
           changeUserInfoRequest
+          userInfo={userInfo}
+          userId={id}
+          userInfoLoading={userInfoLoading}
+          inputChangeHandler={inputChangeHandler}
+          image={images?.image}
+          onFileChange={onFileChange}
+          loading={requestApproveChangeProfileLoading}
+          onClick={onClickApproveChangeProfileDataHandler}
         />
       </ModalComponent>
 

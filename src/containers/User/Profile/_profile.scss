@@ -15,6 +15,12 @@
     gap: 13px;
   }
 
+  &__image-upload {
+    >input {
+      display: none;
+    }
+  }
+
   &__input-styles {
     padding: 0;
   }

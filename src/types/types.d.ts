@@ -151,7 +151,11 @@ export interface requestData {
   created_at: string;
   id: number;
   object_id: number;
-  requestor: string;
+  requestor?: {
+    email: string;
+    name: string;
+    phone: string;
+  } | null;
   uploaded_files: Array;
   data: {
     user: {
@@ -229,7 +233,7 @@ export interface IUserRegister {
   };
 }
 
-export interface userRequestVehicle {
+export interface userRequest {
   id: number;
   created_at: string;
   confirmation_type: number;

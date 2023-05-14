@@ -16,6 +16,7 @@ interface Enterprise {
 export interface IMyData {
   category?: number | null;
   object_id?: number | undefined | null;
+  files?: File;
   data?: {
     user?: User | null;
     enterprise?: Enterprise | null;

@@ -277,3 +277,41 @@ export function isLineAbove(startPoint: any, endPoint: any): boolean {
 export const isEmptyObject = (data: any) => {
   return Object.keys(data).length === 0;
 };
+
+export const appendDataFields = (formData: FormData, data: Record<string, any>, prefix = '') => {
+  for (const key in data) {
+    if (Object.prototype.hasOwnProperty.call(data, key)) {
+      const value = data[key];
+      const fieldName = prefix ? `${prefix}.${key}` : key;
+
+      if (typeof value === 'object') {
+        appendDataFields(formData, value, fieldName);
+      } else {
+        formData.append(fieldName, value);
+      }
+    }
+  }
+};
+
+export const appendDataFieldsAndDeleteEmptyKeys = (
+  formData: FormData,
+  data: Record<string, any>,
+  prefix = '',
+) => {
+  for (const key in data) {
+    if (Object.prototype.hasOwnProperty.call(data, key)) {
+      const value = data[key];
+      const fieldName = prefix ? `${prefix}.${key}` : key;
+
+      if (typeof value === 'object') {
+        if (Object.keys(value).length > 0) {
+          appendDataFieldsAndDeleteEmptyKeys(formData, value, fieldName);
+        }
+      } else if (value !== null && value !== undefined && value !== '') {
+        formData.append(fieldName, value);
+      } else {
+        formData.delete(fieldName);
+      }
+    }
+  }
+};
