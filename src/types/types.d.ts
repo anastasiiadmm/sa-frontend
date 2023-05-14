@@ -37,7 +37,7 @@ export interface IAccount {
   email: string;
   phone: string;
   image: string;
-  coords_timeout: number,
+  coords_timeout: number;
   company: {
     autopilots_amount: number;
     id: number;
@@ -221,6 +221,18 @@ export interface usersListPagination {
   vehicles_amount: number;
 }
 
+export interface IUserRegister {
+  name: string;
+  location: string;
+  user: {
+    first_name: string;
+    middle_name: string;
+    last_name: string;
+    email: string;
+    phone: string;
+  };
+}
+
 export interface userRequest {
   id: number;
   created_at: string;
@@ -329,17 +341,18 @@ export interface userVehicleInfoCompanies {
   enterprise: number;
 }
 
-export interface vehicleCreateData {
-  vin_code: string;
-  code: string;
-  state_number: string;
-  description: string;
+interface Operator {
   first_name: string;
-  middle_name: string;
   last_name: string;
-  last_latitude: string;
-  last_longitude: string;
+  middle_name: string;
+}
+
+export interface vehicleCreateData {
   enterprise: number;
+  vin: string;
+  license_plate: string;
+  description: string;
+  operator: Operator;
 }
 
 export interface generatedPassword {
@@ -401,6 +414,11 @@ export interface accountsManagerConfirmation {
   id: number;
   password: string;
   username: string;
+}
+
+interface UserIds {
+  requestId: string | null;
+  userId: string | null;
 }
 
 interface climateOptions {

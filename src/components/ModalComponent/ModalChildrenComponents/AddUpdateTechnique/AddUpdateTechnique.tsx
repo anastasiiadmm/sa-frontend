@@ -3,6 +3,8 @@ import { UploadFile } from 'antd/es/upload/interface';
 import bem from 'easy-bem';
 import React, { useEffect, useState } from 'react';
 
+import { useParams } from 'react-router-dom';
+
 import FormField from 'components/FormField/FormField';
 import UploadImageComponent from 'components/UploadImageComponent/UploadImageComponent';
 import { getErrorMessage, removeEmptyValuesFromObject } from 'helper';
@@ -10,7 +12,6 @@ import { IValueFinish } from 'interfaces';
 import { accountsSelector, vehicleCreateRequest } from 'redux/accounts/accountsSlice';
 import {
   companiesSelector,
-  fetchUserVehicleInfo,
   patchUserVehicleInfo,
   vehicleCreate,
 } from 'redux/companies/companiesSlice';
@@ -48,6 +49,7 @@ const AddUpdateTechnique: React.FC<Props> = ({
   const { account, vehicleCreateRequestLoading, vehicleCreateRequestSuccess } =
     useAppSelector(accountsSelector);
   const [form] = Form.useForm();
+  const { idVehicle } = useParams();
   const [formValid, setFormValid] = useState(true);
   const [fileList, setFileList] = useState<UploadFile[]>([]);
 
@@ -57,12 +59,6 @@ const AddUpdateTechnique: React.FC<Props> = ({
       setFileList([]);
     }
   }, [form, vehicleCreateSuccess, vehicleCreateRequestSuccess, isEdit]);
-
-  useEffect(() => {
-    if (isEdit) {
-      dispatch(fetchUserVehicleInfo({ userId, vehicleId }));
-    }
-  }, [dispatch, isEdit, vehicleId]);
 
   useEffect(() => {
     if (userVehicleInfo && isEdit) {
@@ -134,7 +130,21 @@ const AddUpdateTechnique: React.FC<Props> = ({
             handleEditOkCancel();
           }
         } else {
-          await dispatch(vehicleCreate({ userId, data })).unwrap();
+          await dispatch(
+            vehicleCreate({
+              data: {
+                enterprise: Number(idVehicle),
+                vin: data.vin_code,
+                license_plate: data.state_number,
+                description: data.description,
+                operator: {
+                  first_name: data.first_name,
+                  last_name: data.last_name,
+                  middle_name: data.middle_name,
+                },
+              },
+            }),
+          ).unwrap();
         }
       }
     } catch (e) {
