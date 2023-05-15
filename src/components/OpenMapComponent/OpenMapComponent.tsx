@@ -37,6 +37,7 @@ const purpleOptions = { color: '#1358BF' };
 const OpenMapComponent = () => {
   const b = bem('OpenMapComponent');
   const { id, field_name } = useParams();
+  const { account } = useAppSelector(accountsSelector);
   const { vehicle, field } = useAppSelector(mapSelector);
   const [bounds] = useState<number[][]>([
     [-90, -180],
@@ -53,7 +54,7 @@ const OpenMapComponent = () => {
   const [loadingMap, setLoadingMap] = useState(false);
   const [loadingMapUpdate, setLoadingMapUpdate] = useState(false);
   const [socketLoading, setSocketLoading] = useState(false);
-  const connectWebSocket = () => {
+  const connectWebSocket = (time: number) => {
     let connectionID = '';
 
     const connect = () => {
@@ -63,6 +64,7 @@ const OpenMapComponent = () => {
         socket.send(
           JSON.stringify({
             kind: 'ping',
+            timeout: time,
             vehicle_id: Number(id),
             connection_id: connectionID,
           }),
@@ -73,6 +75,7 @@ const OpenMapComponent = () => {
         socket.send(
           JSON.stringify({
             kind: 'ping',
+            timeout: time,
             vehicle_id: Number(id),
             connection_id: connectionID,
           }),
@@ -105,12 +108,14 @@ const OpenMapComponent = () => {
   };
 
   useEffect(() => {
-    const socket = connectWebSocket();
+    if (account?.coords_timeout) {
+      const socket = connectWebSocket(account?.coords_timeout);
 
-    return () => {
-      socket.close();
-    };
-  }, []);
+      return () => {
+        socket.close();
+      };
+    }
+  }, [account?.coords_timeout]);
 
   useEffect(() => {
     dispatch(fetchVehicleInfo({ vehicleId: String(id), pageUrl: '1' }));
