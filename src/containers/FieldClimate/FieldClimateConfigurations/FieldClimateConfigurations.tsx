@@ -368,7 +368,7 @@ const FieldClimateConfigurations = () => {
                         readOnly
                         bordered
                         inputClassName={b('input-info-styles')}
-                        label='Longitude'
+                        label='Долгота'
                         data-testid='longitude_id'
                         id='longitude'
                         name='longitude'
@@ -378,7 +378,7 @@ const FieldClimateConfigurations = () => {
                         readOnly
                         bordered
                         inputClassName={b('input-info-styles')}
-                        label='Latitude'
+                        label='Широта'
                         data-testid='latitude_id'
                         id='latitude'
                         name='latitude'
@@ -398,7 +398,7 @@ const FieldClimateConfigurations = () => {
                       bordered
                       className={b('timezone-style')}
                       inputClassName={b('input-info-styles')}
-                      label='Station timezone'
+                      label='Часовой пояс станции'
                       data-testid='timezone_code_id'
                       id='timezone_code'
                       name='timezone_code'
