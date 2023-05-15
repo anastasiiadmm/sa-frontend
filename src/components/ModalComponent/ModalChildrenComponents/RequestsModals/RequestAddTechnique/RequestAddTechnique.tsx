@@ -140,10 +140,6 @@ ${resultsTechnique?.data.operator.middle_name}`;
         }}
         layout='vertical'
       >
-        <Title level={3} className={b('title')}>
-          Фото техники
-        </Title>
-
         <div className={b('form-block')}>
           <FormField
             readOnly
@@ -164,6 +160,10 @@ ${resultsTechnique?.data.operator.middle_name}`;
             placeholder='Название техники'
           />
         </div>
+
+        <Title level={3} className={b('title')}>
+          Фото техники
+        </Title>
 
         <UploadImageComponent fileList={images} setFileList={setFileList} />
 
