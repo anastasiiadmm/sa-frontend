@@ -506,7 +506,7 @@ const companiesSlice = createSlice({
         count: payload.count,
         next: payload.next,
         previous: payload.previous,
-        vehicles_amount: payload.vehicles_amount,
+        vehicles_count: payload.vehicles_amount,
       };
     });
     builder.addCase(fetchUsersList.rejected, (state, { payload }) => {
@@ -794,7 +794,6 @@ export const {
   setChangeUserProfile,
   setNullReducerVehicleCreate,
   clearUserInfo,
-  clearTechniqueVehicle,
   clearCompaniesPagination,
 } = companiesSlice.actions;
 export const companiesSelector = (state: RootState) => state.companies;
