@@ -290,7 +290,6 @@ ${resultsTechnique?.data.operator.middle_name}`;
           </Button>
 
           <Button
-            disabled={!images.length}
             type='primary'
             htmlType='submit'
             loading={techniqueVehicleUpdate.loading}
