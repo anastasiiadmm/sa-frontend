@@ -201,7 +201,7 @@ const Technique = () => {
                 ) : (
                   <div className={b('card-content')}>
                     <img src={tractorBlue} alt='group' />
-                    {/* <p>{account?.vehicles_amount}</p> добавить когда будет готов ключ на бэке */}
+                    <p>{userVehicles?.length}</p>
                   </div>
                 )}
               </div>
