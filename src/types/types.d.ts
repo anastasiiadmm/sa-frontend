@@ -120,10 +120,6 @@ export interface userVehiclesPagination {
   previous: string | undefined | null;
 }
 
-export interface usersList {
-
-}
-
 export interface companiesList {
   id?: number;
   name: string;
@@ -192,41 +188,11 @@ export interface requestUserProfileData {
   coords_timeout: number;
 }
 
-export interface UpdatedCompaniesList extends companiesList {
-  id?: number;
-  name?: string;
-  location?: string;
-  autopilots_amount?: number;
-  user?: {
-    id?: number;
-    username?: string;
-    password?: string;
-    first_name?: string;
-    middle_name?: string;
-    last_name?: string;
-    email?: string;
-    phone?: string;
-    image?: string;
-  };
-}
-
 export interface usersListPagination {
   count: number;
   next: string;
   previous: string;
-  vehicles_amount: number;
-}
-
-export interface IUserRegister {
-  name: string;
-  location: string;
-  user: {
-    first_name: string;
-    middle_name: string;
-    last_name: string;
-    email: string;
-    phone: string;
-  };
+  vehicles_count: number;
 }
 
 export interface userRequest {
