@@ -232,7 +232,7 @@ export const fetchUserInfo = createAsyncThunk<requestData, fetchCompanyParams>(
 );
 
 interface fetchUserInfoByManagerParams {
-  id: string | null;
+  id: string | undefined;
 }
 
 export const fetchUserInfoByManager = createAsyncThunk<
@@ -263,9 +263,10 @@ interface updateUserInfoParams {
 
 export const updateUserInfo = createAsyncThunk<void, updateUserInfoParams>(
   `${nameSpace}/updateUserInfo`,
-  async ({ id, data }, { rejectWithValue }) => {
+  async ({ id, data }, { rejectWithValue, dispatch }) => {
     try {
       const resp = await axiosApi2.patch(`/accounts/users/${id}/`, data);
+      dispatch(fetchUserInfoByManager({ id }));
       message.success('Успешно изминились данные');
       return resp.data;
     } catch (e) {
@@ -373,7 +374,7 @@ export const patchUserVehicleInfo = createAsyncThunk(
 
 export const deleteUserVehicle = createAsyncThunk(
   `${nameSpace}/deleteUserVehicle`,
-  async (id: string | null | undefined, { rejectWithValue, dispatch }) => {
+  async (id: string | null | undefined, { rejectWithValue }) => {
     try {
       await axiosApi2.delete(`/vehicles/${id}/`);
       message.success('Данные успешно удалены!');
