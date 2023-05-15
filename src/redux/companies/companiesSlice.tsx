@@ -506,7 +506,7 @@ const companiesSlice = createSlice({
         count: payload.count,
         next: payload.next,
         previous: payload.previous,
-        vehicles_count: payload.vehicles_amount,
+        vehicles_count: payload.vehicles_count,
       };
     });
     builder.addCase(fetchUsersList.rejected, (state, { payload }) => {

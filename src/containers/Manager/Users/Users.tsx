@@ -136,7 +136,7 @@ const Users: React.FC = () => {
           <Title className={b('card-title')}>Добавлено Техники</Title>
           <div className={b('card-content')}>
             <img src={tractorBlue} alt='group' />
-            <p>{companiesListPagination?.vehicles_count || 0}</p>
+            <p>{companiesListPagination?.vehicles_count}</p>
           </div>
         </Card>
       </div>
