@@ -136,12 +136,17 @@ const Profile = () => {
       await dispatch(requestChangeProfile(formData)).unwrap();
       await setIsModalOpen(false);
     } catch (e) {
-      await setIsModalOpen(false);
-      await message.error(
-        e?.response?.data?.non_field_errors[0] === 'Inquiry has already been sent to manager.'
-          ? 'Запрос ранне был отправлен. Дождитесь подтверждения.'
-          : 'Произошла ошибка.',
-      );
+      if (e.response.data.non_field_errors) {
+        const errorMessage = e.response.data.non_field_errors[0];
+
+        if (errorMessage === 'Inquiry has already been sent to manager.') {
+          await message.error('Запрос ранее был отправлен. Дождитесь подтверждения.');
+        }
+      } else if (e.response.data.data.user.email[0]) {
+        await message.error(e.response.data.data.user.email[0]);
+      } else {
+        await message.error('Произошла ошибка.');
+      }
     }
   };
 

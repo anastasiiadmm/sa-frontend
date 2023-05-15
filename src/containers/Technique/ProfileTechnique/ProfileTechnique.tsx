@@ -37,6 +37,7 @@ const ProfileTechnique = () => {
   useEffect(() => {
     dispatch(fetchVehicleInfo({ vehicleId, pageUrl: '1' }));
   }, [dispatch]);
+
   useEffect(() => {
     if (userVehicleInfo?.results.length) {
       setFields(
@@ -191,11 +192,8 @@ const ProfileTechnique = () => {
               </div>
             ) : (
               <Title level={3} className={b('title')}>
-                Профиль техники -{' '}
-                <p className={b('subtitle')}> {userVehicleInfo?.vehicle.license_plate} </p> -{' '}
-                {userVehicleInfo?.vehicle?.operator.middle_name}{' '}
-                {userVehicleInfo?.vehicle?.operator.first_name?.slice(0, 1)}.{' '}
-                {userVehicleInfo?.vehicle?.operator.last_name?.slice(0, 1)}
+                Профиль техники - {userVehicleInfo?.vehicle.license_plate} -{' '}
+                {userVehicleInfo?.vehicle?.description}{' '}
               </Title>
             )}
           </div>
@@ -249,6 +247,35 @@ const ProfileTechnique = () => {
                     label='VIN код'
                     name='vin'
                     placeholder='VIN код'
+                  />
+                </div>
+
+                <Title level={5} className={b('profile-title')}>
+                  Информация о механизаторе
+                </Title>
+                <div className={b('form-block')}>
+                  <FormField
+                    readOnly
+                    id='last_name'
+                    label='Фамилия'
+                    name={['operator', 'last_name']}
+                    placeholder='Фамилия'
+                  />
+
+                  <FormField
+                    readOnly
+                    id='first_name_id'
+                    label='Имя'
+                    name={['operator', 'first_name']}
+                    placeholder='Имя'
+                  />
+
+                  <FormField
+                    readOnly
+                    id='middle_name_id'
+                    label='Отчество'
+                    name={['operator', 'middle_name']}
+                    placeholder='Отчество'
                   />
                 </div>
               </Form>

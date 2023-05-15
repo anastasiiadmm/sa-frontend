@@ -157,7 +157,7 @@ const UserProfile: React.FC = () => {
     try {
       if (values) {
         await dispatch(updateUserInfo({ id, data: values })).unwrap();
-        history('/');
+        setIsModalOpen(!isModalOpen);
       }
     } catch (e) {
       const errorMessage = getErrorMessage(e, 'username');

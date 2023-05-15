@@ -285,7 +285,7 @@ const AddUpdateTechnique: React.FC<Props> = ({
         <div className={b('profile-buttons')}>
           <Button
             data-testid='button_id'
-            disabled={formValid || (!fileList.length && titleBool)}
+            disabled={formValid}
             type='primary'
             htmlType='submit'
             loading={

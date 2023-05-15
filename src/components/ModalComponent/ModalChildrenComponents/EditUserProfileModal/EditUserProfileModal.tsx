@@ -247,7 +247,13 @@ const EditUserProfileModal: React.FC<Props> = ({
             name={account || userInfo ? ['user', 'email'] : 'email'}
             placeholder='Email'
             onChange={inputChangeHandler}
-            rules={[{ required: true, message: 'Введите Email' }]}
+            rules={[
+              { required: true, message: 'Введите Email' },
+              {
+                type: 'email',
+                message: 'Введен неверный E-mail!',
+              },
+            ]}
           />
 
           <FormField

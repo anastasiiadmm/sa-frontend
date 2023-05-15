@@ -51,6 +51,10 @@ const Technique = () => {
       : Number(getPageNumberPrevious(userVehiclesPagination?.previous)),
   });
 
+  const cardStyle = {
+    width: account?.company?.meteo_requested ? 300 : account?.company?.weather_service ? 340 : 300,
+  };
+
   useEffect(() => {
     if (account?.company.id) {
       const data = {
@@ -197,12 +201,12 @@ const Technique = () => {
                 ) : (
                   <div className={b('card-content')}>
                     <img src={tractorBlue} alt='group' />
-                    {/* <p>{account?.vehicles_amount}</p> добавить когда будет готов ключ на бэке */}
+                    <p>{userVehicles?.length}</p>
                   </div>
                 )}
               </div>
               <div>
-                <Card className={b('card-style-cloud')} bordered={false}>
+                <Card style={cardStyle} className={b('card-style-cloud')} bordered={false}>
                   <div className={b('card-style-cloud-blocks')}>
                     <div>
                       <img src={cloudy} alt='cloudy' />
