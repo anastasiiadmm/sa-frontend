@@ -176,7 +176,7 @@ const OpenMapComponent = () => {
     }
 
     if (field.results.point_A_lon && field.results.point_B_lat) {
-      return [field.results.point_A_lat, field.results.point_A_lon] as LatLngExpression;
+      return [field.results.point_A_lon, field.results.point_A_lat] as LatLngExpression;
     }
 
     return centerMap() as LatLngExpression;
@@ -193,22 +193,22 @@ const OpenMapComponent = () => {
   const positions = (): LatLngExpression[] => {
     return [
       [
-        field.results.point_A_lat as number,
         field.results.point_A_lon as number,
+        field.results.point_A_lat as number,
       ] as LatLngExpression,
       [
-        field.results.point_B_lat as number,
         field.results.point_B_lon as number,
+        field.results.point_B_lat as number,
       ] as LatLngExpression,
     ];
   };
 
   function getCoordinateByType(coordinates: LatLngExpression[], type: string): LatLngExpression {
     if (type === 'start') {
-      return [field.results.point_A_lat as number, field.results.point_A_lon as number];
+      return [field.results.point_A_lon as number, field.results.point_A_lat as number];
     }
     if (type === 'end') {
-      return [field.results.point_B_lat as number, field.results.point_B_lon as number];
+      return [field.results.point_B_lon as number, field.results.point_B_lat as number];
     }
 
     throw new Error('Invalid type provided');
@@ -221,17 +221,17 @@ const OpenMapComponent = () => {
 
   const lineMapHistory = () => {
     const width = Number(field.results?.tool_width);
-    const center = [field.results.point_A_lat, field.results.point_A_lon];
+    const center = [field.results.point_A_lon, field.results.point_A_lat];
     const sizeInMeters = width / 100000;
 
     let topLeft: LatLngExpression = [center[0] + sizeInMeters / 2, center[1]];
 
-    const bottomRight: LatLngExpression = [field.results.point_B_lat, field.results.point_B_lon];
+    const bottomRight: LatLngExpression = [field.results.point_B_lon, field.results.point_B_lat];
 
-    if (center[0] > field.results.point_B_lat) {
+    if (center[0] > field.results.point_B_lon) {
       const widthIncrease = width / 100000;
       bottomRight[1] -= width / 100000;
-      topLeft = [field.results.point_A_lat, bottomRight[1] - widthIncrease];
+      topLeft = [field.results.point_A_lon, bottomRight[1] - widthIncrease];
     } else {
       bottomRight[0] += width / 100000;
       topLeft = [topLeft[0], topLeft[1]];
