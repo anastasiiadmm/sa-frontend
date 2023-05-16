@@ -28,12 +28,13 @@ variables:
   - apk add bash && apk add gettext
 
   - envsubst < docker-compose.yml.template > docker-compose.yml
+  - envsubst '${DOMAIN_NAME}' < webserver.template.conf > service.conf
 
   - ssh -T $DEPLOY_USER@$DEPLOY_SERVER "mkdir -p nginx/ssl"
   - ssh -T $DEPLOY_USER@$DEPLOY_SERVER "mkdir -p nginx/conf"
 
   - scp -r docker-compose.yml $DEPLOY_USER@$DEPLOY_SERVER:/home/$DEPLOY_USER/docker-compose.yml
-  - scp -r webserver.template.conf $DEPLOY_USER@$DEPLOY_SERVER:nginx/conf/service.conf
+  - scp -r service.conf $DEPLOY_USER@$DEPLOY_SERVER:nginx/conf/service.conf
 
 .deploy-script: &deploy_compose
   - ssh -T $DEPLOY_USER@$DEPLOY_SERVER "docker rm -f $SERVICE_NAME"
