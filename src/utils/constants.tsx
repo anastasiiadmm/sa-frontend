@@ -51,8 +51,8 @@ export const apiPathV2 = '/api/v2';
 export const domains = {
   [envs.local]: 'localhost',
   [envs.development]: 'agri.ltestl.com',
-  [envs.staging]: '',
-  [envs.production]: '',
+  [envs.staging]: '46.101.209.227',
+  [envs.production]: '46.101.209.227',
 };
 
 export const serverUrlsSocket = {
