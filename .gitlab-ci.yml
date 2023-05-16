@@ -1,7 +1,9 @@
 variables:
   DEPLOY_USER: "gitlab-runner-user"
   SERVICE_NAME: "sa-frontend"
-  SERVER_NAME: "agri.ltestl.com"
+  DOMAIN_DEV: "agri.ltestl.com"
+  DOMAIN_STAGING: "stage-agri.ltestl.com"
+  NETWORK: "sa_network"
 
 .add-ssh-private-key-script: &add-ssh-private-key
   - apk update
@@ -14,7 +16,7 @@ variables:
   - ssh-keyscan -p 22 -H $DEPLOY_SERVER >> ~/.ssh/known_hosts
 
 .build-and-push-script: &build-and-push
-  - docker build -t $SERVICE_NAME --cache-from $CI_REGISTRY_IMAGE/latest -f dockerfiles/Dockerfile --build-arg REACT_APP_API_URL=$REACT_APP_API_URL --build-arg REACT_APP_IMAGE_API=$REACT_APP_IMAGE_API --build-arg REACT_APP_ENVIRONMENT=$REACT_APP_ENVIRONMENT --build-arg REACT_APP_SENTRY_DSN=$REACT_APP_SENTRY_DSN --build-arg REACT_APP_CLIMATE_API_BASE_URL=$REACT_APP_CLIMATE_API_BASE_URL --build-arg REACT_APP_CLIMATE_API_PUBLIC_KEY=$REACT_APP_CLIMATE_API_PUBLIC_KEY --build-arg REACT_APP_CLIMATE_API_PRIVATE_KEY=$REACT_APP_CLIMATE_API_PRIVATE_KEY --build-arg REACT_APP_CLIMATE_STATION_ID=$REACT_APP_CLIMATE_STATION_ID --build-arg REACT_APP_GOOGLE_APIS_KEY=$REACT_APP_GOOGLE_APIS_KEY .
+  - docker build -t $SERVICE_NAME --cache-from $CI_REGISTRY_IMAGE/latest -f dockerfiles/Dockerfile --build-arg REACT_APP_ENVIRONMENT=$REACT_APP_ENVIRONMENT --build-arg REACT_APP_SENTRY_DSN=$REACT_APP_SENTRY_DSN .
   - docker tag $SERVICE_NAME $CI_REGISTRY_IMAGE/$CI_COMMIT_SHORT_SHA
   - docker tag $SERVICE_NAME $CI_REGISTRY_IMAGE/latest
   - docker push $CI_REGISTRY_IMAGE/$CI_COMMIT_SHORT_SHA
@@ -39,6 +41,27 @@ variables:
   - ssh -T $DEPLOY_USER@$DEPLOY_SERVER "docker pull $CI_REGISTRY_IMAGE/$CI_COMMIT_SHORT_SHA"
   - ssh -T $DEPLOY_USER@$DEPLOY_SERVER "docker-compose run -d -p 443:443 --name $SERVICE_NAME frontend"
 
+.build_template: &build_job
+  image: docker:stable
+  tags:
+    - $RUNNER_TAG
+  stage: build
+  before_script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+  script:
+    *build-and-push
+
+.deploy_template: &deploy_job
+  image: docker:stable
+  tags:
+    - $RUNNER_TAG
+  stage: deploy
+  before_script:
+    - *add-ssh-private-key
+  script:
+    - *create_and_copy_compose
+    - *deploy_compose
+
 stages:
   - test
   - build
@@ -57,27 +80,25 @@ test:
     - docker-compose -f docker-compose-tests.yml run --rm $SERVICE_NAME
 
 build&push-dev:
-  image: docker:stable
-  tags:
-    - $RUNNER_TAG
-  stage: build
+  <<: *build_job
   only:
     refs:
       - dev
   variables:
     REACT_APP_ENVIRONMENT: development
-    REACT_APP_API_URL: $REACT_APP_API_URL_DEV
-    REACT_APP_IMAGE_API: $REACT_APP_IMAGE_API_DEV
-    REACT_APP_SENTRY_DSN: $REACT_APP_SENTRY_DSN
-    REACT_APP_CLIMATE_API_BASE_URL: $REACT_APP_CLIMATE_API_BASE_URL_DEV
-    REACT_APP_CLIMATE_API_PUBLIC_KEY: $REACT_APP_CLIMATE_API_PUBLIC_KEY_DEV
-    REACT_APP_CLIMATE_API_PRIVATE_KEY: $REACT_APP_CLIMATE_API_PRIVATE_KEY_DEV
-    REACT_APP_CLIMATE_STATION_ID: $REACT_APP_CLIMATE_STATION_ID_DEV
-    REACT_APP_GOOGLE_APIS_KEY: $REACT_APP_GOOGLE_APIS_KEY_DEV
   before_script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-  script:
-    *build-and-push
+
+build&push-staging:
+  <<: *build_job
+  #  only:
+  #    refs:
+  #      - staging
+  variables:
+    REACT_APP_ENVIRONMENT: staging
+  before_script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+
 
 deploy-dev:
   image: docker:git
@@ -89,6 +110,21 @@ deploy-dev:
       - dev
   variables:
     DEPLOY_SERVER: $DEPLOY_SERVER_DEV
+    DOMAIN_NAME: $DOMAIN_DEV
+  before_script:
+    - *add-ssh-private-key
+  script:
+    - *create_and_copy_compose
+    - *deploy_compose
+
+deploy-staging:
+  <<: *deploy_job
+#  only:
+#    refs:
+#      - staging
+  variables:
+    DEPLOY_SERVER: $DEPLOY_SERVER_STAGING
+    DOMAIN_NAME: $DOMAIN_STAGING
   before_script:
     - *add-ssh-private-key
   script:
