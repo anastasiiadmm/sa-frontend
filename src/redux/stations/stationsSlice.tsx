@@ -4,6 +4,7 @@ import CryptoJS from 'crypto-js';
 
 import { unixTimestamp } from 'helper';
 import { RootState } from 'redux/hooks';
+import store from 'redux/store';
 import {
   APIError,
   APIWeatherResponse,
@@ -18,30 +19,7 @@ import {
   userStation,
 } from 'types/stationTypes';
 
-const {
-  REACT_APP_CLIMATE_API_BASE_URL,
-  REACT_APP_CLIMATE_API_PUBLIC_KEY,
-  REACT_APP_CLIMATE_API_PRIVATE_KEY,
-  REACT_APP_CLIMATE_STATION_ID,
-  REACT_APP_GOOGLE_APIS_KEY,
-} = process.env;
-
 const timestamp = new Date().toUTCString();
-
-const signContent = (method: string, request: string, timestamp: string) => {
-  const contentToSign = method + request + timestamp + REACT_APP_CLIMATE_API_PUBLIC_KEY;
-  const privateKey = REACT_APP_CLIMATE_API_PRIVATE_KEY || '';
-  return CryptoJS.HmacSHA256(contentToSign, privateKey);
-};
-
-const getAuthorizationHeader = (method: string, request: string) => {
-  const signature = signContent(method, request, timestamp);
-  const hmacStr = `hmac ${REACT_APP_CLIMATE_API_PUBLIC_KEY}:${signature}`;
-  return {
-    Authorization: hmacStr,
-    'Request-Date': timestamp,
-  };
-};
 
 const initialState: StationState = {
   user: null,
@@ -87,9 +65,31 @@ const initialState: StationState = {
   locationError: null,
 };
 
+const signContent = (method: string, request: string, timestamp: string) => {
+  const state = store.getState()?.accounts;
+  const publicKey = state?.configs?.meteo_service?.public_key ?? '';
+  const privateKey = state?.configs?.meteo_service?.private_key ?? '';
+  const contentToSign = method + request + timestamp + publicKey;
+  return CryptoJS.HmacSHA256(contentToSign, privateKey);
+};
+
+const getAuthorizationHeader = (method: string, request: string) => {
+  const state = store.getState()?.accounts;
+  const publicKey = state?.configs?.meteo_service?.public_key ?? '';
+  const signature = signContent(method, request, timestamp);
+  const hmacStr = `hmac ${publicKey}:${signature}`;
+  return {
+    Authorization: hmacStr,
+    'Request-Date': timestamp,
+  };
+};
+
 export const fetchUser = createAsyncThunk<userStation, void, { rejectValue: APIError }>(
   'stations/fetchUser',
   async () => {
+    const state = store.getState()?.accounts;
+    const baseUrl = state?.configs?.meteo_service?.base_url ?? '';
+
     const params = {
       method: 'GET',
       request: '/user',
@@ -99,7 +99,7 @@ export const fetchUser = createAsyncThunk<userStation, void, { rejectValue: APIE
       Accept: 'application/json',
     };
     try {
-      const response = await axios.get(REACT_APP_CLIMATE_API_BASE_URL + params.request, {
+      const response = await axios.get(baseUrl + params.request, {
         headers,
       });
 
@@ -114,16 +114,19 @@ export const fetchUser = createAsyncThunk<userStation, void, { rejectValue: APIE
 export const fetchWeather = createAsyncThunk<APIWeatherResponse, void, { rejectValue: APIError }>(
   'stations/fetchWeather',
   async (_, { rejectWithValue }) => {
+    const state = store.getState()?.accounts;
+    const baseUrl = state?.configs?.meteo_service?.base_url ?? '';
+
     const params = {
       method: 'GET',
-      request: `/data/${REACT_APP_CLIMATE_STATION_ID}/GROUP-BY/last/1`,
+      request: `/data/${state?.configs?.meteo_service?.station_id}/GROUP-BY/last/1`,
     };
     const headers = {
       ...getAuthorizationHeader(params.method, params.request),
       Accept: 'application/json',
     };
     try {
-      const response = await axios.get(REACT_APP_CLIMATE_API_BASE_URL + params.request, {
+      const response = await axios.get(baseUrl + params.request, {
         headers,
       });
 
@@ -138,6 +141,9 @@ export const fetchWeather = createAsyncThunk<APIWeatherResponse, void, { rejectV
 export const fetchStations = createAsyncThunk<stationInfo, void, { rejectValue: APIError }>(
   'stations/fetchStations',
   async (_, { rejectWithValue }) => {
+    const state = store.getState()?.accounts;
+    const baseUrl = state?.configs?.meteo_service?.base_url ?? '';
+
     const params = {
       method: 'GET',
       request: `/user/stations`,
@@ -147,7 +153,7 @@ export const fetchStations = createAsyncThunk<stationInfo, void, { rejectValue: 
       Accept: 'application/json',
     };
     try {
-      const response = await axios.get(REACT_APP_CLIMATE_API_BASE_URL + params.request, {
+      const response = await axios.get(baseUrl + params.request, {
         headers,
       });
 
@@ -168,6 +174,9 @@ export const fetchStationInfo = createAsyncThunk<
   stationInfoParams,
   { rejectValue: APIError }
 >('stations/fetchStationInfo', async ({ id }, { rejectWithValue }) => {
+  const state = store.getState()?.accounts;
+  const baseUrl = state?.configs?.meteo_service?.base_url ?? '';
+
   const params = {
     method: 'GET',
     request: `/station/${id}`,
@@ -177,7 +186,7 @@ export const fetchStationInfo = createAsyncThunk<
     Accept: 'application/json',
   };
   try {
-    const response = await axios.get(REACT_APP_CLIMATE_API_BASE_URL + params.request, {
+    const response = await axios.get(baseUrl + params.request, {
       headers,
     });
 
@@ -196,6 +205,9 @@ export const fetchStationSensors = createAsyncThunk<
   stationParams,
   { rejectValue: APIError }
 >('stations/fetchStationSensors', async ({ id }, { rejectWithValue }) => {
+  const state = store.getState()?.accounts;
+  const baseUrl = state?.configs?.meteo_service?.base_url ?? '';
+
   const params = {
     method: 'GET',
     request: `/station/${id}/sensors`,
@@ -206,7 +218,7 @@ export const fetchStationSensors = createAsyncThunk<
     'Accept-Language': 'ru',
   };
   try {
-    const response = await axios.get(REACT_APP_CLIMATE_API_BASE_URL + params.request, {
+    const response = await axios.get(baseUrl + params.request, {
       headers,
     });
 
@@ -226,6 +238,9 @@ export const updateStationSensor = createAsyncThunk<
   updateStationSensorParams,
   { rejectValue: APIError }
 >('stations/updateStationSensor', async ({ id, data }, { rejectWithValue }) => {
+  const state = store.getState()?.accounts;
+  const baseUrl = state?.configs?.meteo_service?.base_url ?? '';
+
   const params = {
     method: 'POST',
     request: `/station/${id}/sensors`,
@@ -236,7 +251,7 @@ export const updateStationSensor = createAsyncThunk<
     'Accept-Language': 'ru',
   };
   try {
-    const response = await axios.post(REACT_APP_CLIMATE_API_BASE_URL + params.request, data, {
+    const response = await axios.post(baseUrl + params.request, data, {
       headers,
     });
 
@@ -263,6 +278,9 @@ export const postStationSensors = createAsyncThunk<
   postStationSensorsParams,
   { rejectValue: APIError }
 >('stations/postStationSensors', async ({ data }, { rejectWithValue }) => {
+  const state = store.getState()?.accounts;
+  const baseUrl = state?.configs?.meteo_service?.base_url ?? '';
+
   const params = {
     method: 'POST',
     request: `/fc/${data?.id}/${data?.day_type}/from/${data?.date_from}/to/${data?.date_to}`,
@@ -273,7 +291,7 @@ export const postStationSensors = createAsyncThunk<
     'Accept-Language': 'ru',
   };
   try {
-    const response = await axios.post(REACT_APP_CLIMATE_API_BASE_URL + params.request, data?.name, {
+    const response = await axios.post(baseUrl + params.request, data?.name, {
       headers,
     });
 
@@ -291,6 +309,9 @@ interface putStationParams {
 export const putStation = createAsyncThunk<void, putStationParams, { rejectValue: APIError }>(
   'stations/putStation',
   async ({ id, data }, { rejectWithValue }) => {
+    const state = store.getState()?.accounts;
+    const baseUrl = state?.configs?.meteo_service?.base_url ?? '';
+
     const params = {
       method: 'PUT',
       request: `/station/${id}`,
@@ -301,7 +322,7 @@ export const putStation = createAsyncThunk<void, putStationParams, { rejectValue
       'Accept-Language': 'ru',
     };
     try {
-      const response = await axios.put(REACT_APP_CLIMATE_API_BASE_URL + params.request, data, {
+      const response = await axios.put(baseUrl + params.request, data, {
         headers,
       });
 
@@ -319,9 +340,12 @@ interface getTimezoneParams {
 export const getTimezone = createAsyncThunk<Timezone, getTimezoneParams, { rejectValue: APIError }>(
   'stations/getTimezone',
   async ({ position }, { rejectWithValue }) => {
+    const state = store.getState()?.accounts;
+    const googleKey = state?.configs?.google_api_key ?? '';
+
     try {
       const response = await axios.get(
-        `https://maps.googleapis.com/maps/api/timezone/json?location=${position[0]},${position[1]}&timestamp=${unixTimestamp}&key=${REACT_APP_GOOGLE_APIS_KEY}`,
+        `https://maps.googleapis.com/maps/api/timezone/json?location=${position[0]},${position[1]}&timestamp=${unixTimestamp}&key=${googleKey}`,
       );
       return await response.data;
     } catch (error) {
@@ -340,6 +364,9 @@ export const getElevation = createAsyncThunk<
   { rejectValue: APIError }
 >('stations/getElevation', async ({ position }, { rejectWithValue }) => {
   try {
+    const state = store.getState()?.accounts;
+    const baseUrl = state?.configs?.meteo_service?.base_url ?? '';
+
     const params = {
       method: 'GET',
       request: `/elevation?lat=${position[0]}&lon=${position[1]}`,
@@ -350,7 +377,7 @@ export const getElevation = createAsyncThunk<
       'Accept-Language': 'ru',
     };
     try {
-      const response = await axios.get(REACT_APP_CLIMATE_API_BASE_URL + params.request, {
+      const response = await axios.get(baseUrl + params.request, {
         headers,
       });
 
