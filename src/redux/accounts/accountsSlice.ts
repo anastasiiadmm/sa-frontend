@@ -3,6 +3,7 @@ import { message } from 'antd';
 
 import { getErrorMessage } from 'helper';
 import { IErrors, IMyData, IUpdateManagerDataMutation } from 'interfaces';
+import { IConfig } from 'interfaces/IConfig';
 import { RootState } from 'redux/hooks';
 import {
   accountsManagerConfirmation,
@@ -24,6 +25,9 @@ import toQueryParams from 'utils/toQueryParams';
 const nameSpace = 'accounts';
 
 interface AccountsState {
+  configs: IConfig | null;
+  configsLoading: boolean;
+  configsError: IErrors | null;
   account: IAccount | null;
   fetchLoadingAccount: boolean;
   fetchErrorAccount: IErrors | null;
@@ -71,6 +75,9 @@ interface AccountsState {
 }
 
 const INITIAL_STATE = {
+  configs: null,
+  configsLoading: false,
+  configsError: null,
   account: null,
   fetchLoadingAccount: false,
   fetchErrorAccount: null,
@@ -138,14 +145,32 @@ const INITIAL_STATE = {
   requestApproveChangeProfileError: null,
 } as AccountsState;
 
+export const fetchConfigs = createAsyncThunk<IConfig, void>(
+  'accounts/fetchConfigs',
+  async (_, { rejectWithValue }) => {
+    try {
+      const resp = await axiosApi2.get<IConfig>(`/common/config/`);
+      return resp.data;
+    } catch (e) {
+      return rejectWithValue({
+        detail: e?.response?.data?.detail,
+        status: e?.response?.status,
+      });
+    }
+  },
+);
+
 export const fetchAccount = createAsyncThunk(
   'accounts/fetchManager',
-  async (_, { rejectWithValue }) => {
+  async (_, { rejectWithValue, dispatch }) => {
     try {
       const resp = await axiosApi2.get<IAccount | null>('/accounts/');
       const account = resp.data;
       if (account === null) {
         throw new Error('Not Found!');
+      }
+      if (account?.company?.weather_service) {
+        await dispatch(fetchConfigs());
       }
       return account;
     } catch (e) {
@@ -498,6 +523,26 @@ const accountsSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    builder
+      .addCase(fetchConfigs.pending, (state) => {
+        state.configsLoading = true;
+        state.configsError = null;
+      })
+      .addCase(fetchConfigs.fulfilled, (state, action) => {
+        state.configsLoading = false;
+        state.configs = action.payload;
+      })
+      .addCase(fetchConfigs.rejected, (state, { payload }) => {
+        state.configsLoading = false;
+        if (payload && typeof payload === 'object' && 'detail' in payload && 'status' in payload) {
+          state.configsError = {
+            ...state.configsError,
+            detail: payload.detail as string | null,
+            status: payload.status as number | null,
+          };
+        }
+      });
+
     builder.addCase(fetchAccount.pending, (state) => {
       state.fetchErrorAccount = null;
       state.fetchLoadingAccount = true;
