@@ -9,6 +9,9 @@ import 'leaflet/dist/leaflet.css';
 import store from 'redux/store';
 import App from 'App';
 import 'assets/scss/_index.scss';
+import initSentry from 'sentry/sentry';
+
+initSentry();
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
