@@ -11,7 +11,7 @@ services:
       - TZ=Asia/Bishkek
       - LETSENCRYPT=true
       - LE_EMAIL=project.smartagriculture@gmail.com
-      - LE_FQDN=$SERVER_NAME
+      - LE_FQDN=$DOMAIN_NAME
 
 networks:
   default:
