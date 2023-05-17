@@ -93,9 +93,9 @@ build&push-dev:
 
 build&push-staging:
   <<: *build_job
-  #  only:
-  #    refs:
-  #      - staging
+  only:
+    refs:
+      - staging
   variables:
     REACT_APP_ENVIRONMENT: staging
     DOMAIN_NAME: $DOMAIN_STAGING
@@ -122,9 +122,9 @@ deploy-dev:
 
 deploy-staging:
   <<: *deploy_job
-#  only:
-#    refs:
-#      - staging
+  only:
+    refs:
+      - staging
   variables:
     DEPLOY_SERVER: $DEPLOY_SERVER_STAGING
     DOMAIN_NAME: $DOMAIN_STAGING
