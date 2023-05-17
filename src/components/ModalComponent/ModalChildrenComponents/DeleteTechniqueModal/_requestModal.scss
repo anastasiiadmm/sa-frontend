@@ -1,0 +1,25 @@
+@use 'assets/scss/_themes.scss';
+
+.RequestModal {
+  &__delete-modal-buttons {
+    display: flex;
+    gap: 12px;
+    padding-bottom: 6px;
+    margin-top: 20px;
+  }
+
+  &__cancel-profile-button {
+    background: #EAEAED !important;
+    border: none;
+    color: #273043!important;
+    box-shadow: none;
+    border-radius: 4px;
+  }
+
+  &__delete-profile-button {
+    background: themes.$red-color !important;
+    &:hover {
+      background: rgba(193, 16, 48, 0.6) !important;
+    }
+  }
+}

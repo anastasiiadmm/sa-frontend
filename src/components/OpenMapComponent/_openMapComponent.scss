@@ -1,0 +1,106 @@
+.OpenMapComponent {
+  position: relative;
+
+  &__card-block {
+    position: fixed;
+    margin: 0 30px 0 55px;
+    top: 74px;
+    z-index: 999;
+    width: 76%;
+  }
+
+  &__card-style {
+    display: flex;
+  }
+
+  &__arrow-left {
+    padding: 0 10px;
+    cursor: pointer;
+    width: 35px;
+  }
+
+  &__not_coordinates {
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    > h1 {
+      font-weight: 400;
+      font-size: 26px;
+    }
+  }
+
+  &__header-title {
+    display: flex;
+    align-items: center;
+  }
+
+  &__title {
+    display: flex;
+    align-items: baseline;
+    margin: 0 !important;
+    font-weight: 400 !important;
+  }
+
+  &__img-title {
+    margin: 0 10px 0 22px;
+    width: 15px;
+  }
+
+  &__subtitle {
+    margin: 0 !important;
+    padding-left: 7px;
+    padding-right: 7px;
+    font-weight: 700 !important;
+    text-transform: uppercase;
+    font-size: 20px;
+    > span {
+      display: block;
+      width: 400px;
+      font-size: 20px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
+  &__render_btn {
+    position: absolute;
+    bottom: 150px;
+    background-color: #689F3A!important;
+    color: #ffffff!important;
+    font-size: 14px;
+    right: 10px;
+    width: 36px;
+    height: 36px;
+    z-index: 1000;
+    padding: 0px!important;
+  }
+
+  &__loading {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  &__title_uppercase {
+    text-transform: uppercase;
+  }
+}
+
+.leaflet-left {
+  right: 10px;
+  bottom: 80px;
+  left: auto;
+  top: auto;
+}
+
+.leaflet-div-icon {
+  background-color: transparent!important;
+  border: none!important;
+}
+
+.img-tractor {
+  width: 20px;
+}

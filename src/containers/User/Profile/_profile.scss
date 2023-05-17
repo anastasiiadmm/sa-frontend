@@ -1,0 +1,57 @@
+@use 'assets/scss/_themes.scss';
+
+.Profile {
+  &__title {
+    margin-bottom: 30px;
+  }
+
+  &__request_link {
+    padding: 0;
+    color: themes.$primary-color;
+  }
+
+  &__form-block {
+    display: flex;
+    gap: 13px;
+  }
+
+  &__image-upload {
+    >input {
+      display: none;
+    }
+  }
+
+  &__input-styles {
+    padding: 0;
+  }
+
+  :where(.css-dev-only-do-not-override-sk7ap8).ant-btn-link {
+    color: themes.$primary-color;
+    padding: 0;
+  }
+
+  :where(.css-dev-only-do-not-override-sk7ap8).ant-btn-link:not(:disabled):hover {
+    color: themes.$disabled-color;
+  }
+
+  :where(.css-dev-only-do-not-override-sk7ap8).ant-form-item .ant-form-item-label >label.ant-form-item-required:not(.ant-form-item-required-mark-optional)::before {
+    display: none;
+  }
+
+  :where(.css-dev-only-do-not-override-sk7ap8).ant-form-item {
+    margin-bottom: 15px;
+  }
+
+  :where(.css-dev-only-do-not-override-sk7ap8).ant-form-item .ant-form-item-label > label.ant-form-item-required:not(.ant-form-item-required-mark-optional)::before {
+    display: none;
+  }
+
+  :where(.css-dev-only-do-not-override-sk7ap8).ant-form-item .ant-form-item-label > label {
+    color: themes.$gray-color;
+  }
+
+  :where(.css-dev-only-do-not-override-sk7ap8).ant-input {
+    color: themes.$font-title-color;
+    cursor: default;
+  }
+}

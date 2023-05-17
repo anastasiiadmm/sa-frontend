@@ -1,0 +1,93 @@
+@use 'assets/scss/_themes.scss';
+
+.Technique {
+  &__table {
+    padding: 16px;
+    background: themes.$white-color;
+  }
+
+  &__name-column-style-text {
+    position: absolute;
+    left: 20px;
+  }
+
+  &__card-block {
+    padding-bottom: 15px;
+  }
+
+  &__title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    > h3 {
+      margin: 0;
+    }
+
+    margin-bottom: 28px;
+  }
+
+  &__card-style {
+    height: 100%;
+  }
+
+  &__card-style-blocks {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  &__card-style-cloud {
+    background: themes.$cloud-color;
+  }
+
+  &__card-style-cloud-blocks {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+  }
+
+  &__card-style-cloud-button {
+    margin-top: 5px;
+    background: themes.$cloud-bg-button;
+    color: themes.$info-color;
+    font-weight: 700;
+    font-size: 12px;
+    border: transparent;
+  }
+
+  &__image-styles {
+    width: 48px;
+    height: 50px;
+    overflow: clip;
+    border-radius: 3px;
+    object-fit: cover;
+  }
+
+  &__card-title {
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase;
+    margin-bottom: 18px !important;
+  }
+
+  &__card-content {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 12px;
+
+    > p {
+      margin: 0;
+      font-size: 24px;
+      font-weight: 700;
+    }
+  }
+}
+
+.meteo-h1 {
+  margin: 0 !important;
+  padding: 0;
+}
+
+.send-button {
+  background: #0078a8;
+}

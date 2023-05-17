@@ -1,0 +1,18 @@
+.AddUpdateTechnique {
+  &__title {
+    font-size: 16px !important;
+    margin-bottom: 18px !important;
+  }
+
+  &__form-block {
+    display: flex;
+    gap: 13px;
+    > div {
+      width: 100%;
+    }
+  }
+}
+
+.form-fields {
+  width: 48%;
+}

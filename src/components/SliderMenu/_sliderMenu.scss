@@ -1,0 +1,93 @@
+@use 'assets/scss/_themes.scss';
+
+.SliderMenu {
+  &__logo {
+    text-align: center;
+    margin: 14px 10px 24px;
+    > img {
+      width: 100%;
+      max-width: 150px;
+    }
+  }
+
+  :where(.css-dev-only-do-not-override-sk7ap8).ant-menu-light.ant-menu-inline.ant-menu-sub.ant-menu-inline {
+    background: none;
+  }
+  :where(.css-dev-only-do-not-override-sk7ap8).ant-menu-light.ant-menu-submenu-selected > .ant-menu-submenu-title {
+    color: themes.$primary-color;
+  }
+}
+
+.menuItem {
+  display: flex;
+  margin-left: 36px;
+  flex-direction: column;
+  line-height: 1.3;
+  font-weight: bold;
+  > span {
+    font-weight: normal;
+  }
+}
+
+.trigger {
+  padding-left: 15px;
+}
+
+.avatar-profile {
+  padding: 0 !important;
+  position: absolute;
+  left: 18px;
+  > span {
+    margin: 0 auto !important;
+  }
+}
+
+.icon-styles {
+  width: 22px !important;
+  height: 20px;
+  display: inline-block !important;
+}
+
+.home-icon {
+  background: url('../../assets/images/icons/home.svg') no-repeat;
+}
+
+.add-icon {
+  background: url('../../assets/images/icons/add.svg') no-repeat;
+}
+
+.users-icon {
+  background: url('../../assets/images/icons/group.svg') no-repeat;
+}
+
+.technics-icon {
+  background: url('../../assets/images/icons/tractor.svg') no-repeat;
+}
+
+.request-icon {
+  background: url('../../assets/images/icons/request.svg') no-repeat;
+}
+
+:where(.css-dev-only-do-not-override-sk7ap8).ant-layout .ant-layout-header {
+  height: 70px !important;
+}
+
+:where(.css-dev-only-do-not-override-ixblex).ant-layout .ant-layout-sider {
+  background: #fff;
+}
+
+:where(.css-dev-only-do-not-override-ixblex).ant-menu-light .ant-menu-item-selected {
+  background: themes.$active-menu_background;
+}
+
+:where(.css-dev-only-do-not-override-ixblex).ant-menu-light .ant-menu-item-selected {
+  color: themes.$primary-color;
+}
+
+:where(.css-dev-only-do-not-override-ixblex).ant-avatar-lg.ant-avatar-icon >.anticon {
+  margin: 0 auto !important;
+}
+
+:where(.css-dev-only-do-not-override-ixblex).ant-menu-light .ant-menu-submenu-selected >.ant-menu-submenu-title {
+  color: themes.$primary-color;
+}

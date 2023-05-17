@@ -1,0 +1,18 @@
+.ResultComponent {
+  &__technique-name {
+    text-align: center;
+    font-weight: bold;
+  }
+}
+
+.ResultComponent {
+  padding: 0px!important;
+}
+
+
+.ant-result-content {
+  background-color: transparent!important;
+  margin-top: -5px!important;
+  padding: 0px!important;
+  margin-bottom: 35px;
+}

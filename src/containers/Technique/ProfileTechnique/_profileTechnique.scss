@@ -1,0 +1,99 @@
+@use 'assets/scss/_themes.scss';
+
+.ProfileTechnique {
+  &__table {
+    padding: 16px;
+    background: #ffffff;
+  }
+
+  &__arrow-left {
+    padding: 0 10px;
+    cursor: pointer;
+    width: 35px;
+  }
+
+  &__back_handler {
+    outline: none;
+    border: 0;
+    background: transparent;
+  }
+
+  &__header {
+    margin-bottom: 33px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__header-title {
+    display: flex;
+    align-items: baseline;
+  }
+
+  &__title {
+    display: flex;
+    font-weight: 400 !important;
+  }
+
+  &__technique-image {
+    width: 242px !important;
+    height: 182px !important;
+    vertical-align: middle;
+    object-fit: contain;
+  }
+
+  &__subtitle {
+    margin: 0;
+    padding-left: 7px;
+    padding-right: 7px;
+    font-weight: 700 !important;
+  }
+
+  &__technique-profile-info {
+    display: flex;
+    gap: 37px;
+    margin-bottom: 24px;
+  }
+
+  &__form-block {
+    display: flex;
+    gap: 13px;
+    > div {
+      width: 100%;
+    }
+  }
+
+  &__profile-title {
+    margin-top: 0;
+  }
+
+  .ant-input {
+    padding: 0;
+  }
+
+  &__open-map {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .text_hidden {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .ant-form-item .ant-form-item-label > label {
+    color: themes.$gray-color;
+  }
+
+  :where(.css-dev-only-do-not-override-sk7ap8).ant-form-vertical .ant-form-item-label,
+  :where(.css-dev-only-do-not-override-sk7ap8).ant-col-24.ant-form-item-label,
+  :where(.css-dev-only-do-not-override-sk7ap8).ant-col-xl-24.ant-form-item-label {
+    padding: 0;
+  }
+
+  :where(.css-dev-only-do-not-override-sk7ap8).ant-input {
+    padding: 0;
+  }
+}

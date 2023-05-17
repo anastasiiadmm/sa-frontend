@@ -1,0 +1,23 @@
+@use "assets/scss/_themes.scss";
+
+.DeleteUserModal {
+  &__delete-modal-buttons {
+    margin-top: 25px;
+    display: flex;
+    gap: 10px;
+  }
+
+  &__cancel-profile-button {
+    background: themes.$gray-color !important;
+    &:hover {
+      background: rgb(112, 121, 136) !important;
+    }
+  }
+
+  &__delete-profile-button {
+    background: themes.$red-color !important;
+    &:hover {
+      background: rgba(193, 16, 48, 0.6) !important;
+    }
+  }
+}

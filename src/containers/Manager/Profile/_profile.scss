@@ -1,0 +1,38 @@
+@use 'assets/scss/_themes.scss';
+
+.Profile {
+  &__form-block {
+    display: flex;
+    gap: 13px;
+    > div {
+      width: 100%;
+    }
+  }
+
+  &__generate-password {
+    display: flex;
+    justify-content: right;
+  }
+
+  &__password-button {
+    color: themes.$info-color !important;
+    padding: 0 3px;
+  }
+
+  &__form-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 16px 0;
+
+    h3 {
+      margin-bottom: 0;
+    }
+  }
+
+  &__image-upload {
+    >input {
+      display: none;
+    }
+  }
+}

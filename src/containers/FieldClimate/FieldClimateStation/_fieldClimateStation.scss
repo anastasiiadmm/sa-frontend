@@ -1,0 +1,98 @@
+.FieldClimateStation {
+  &__logo {
+    text-align: center;
+    > img {
+      width: 100%;
+      max-width: 150px;
+    }
+  }
+
+  &__card-style {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+  }
+
+  &__card-style-items {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+
+  &__card-style-items-sensors {
+    display: flex;
+    gap: 20px;
+  }
+
+  &__sider-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 17px;
+    background: white;
+    > ul > li > ul > li {
+      height: 168px !important;
+      padding: 5px !important;
+    }
+  }
+
+  &__station-block {
+    background: white;
+    border-radius: 8px;
+    margin-top: 20px;
+  }
+
+  .ant-menu-title-content > .menu-info {
+    height: 200px;
+    white-space: break-spaces;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .ant-menu-inline .ant-menu-item {
+    height: 200px;
+    padding: 0 10px !important;
+  }
+
+  .ant-layout-sider {
+    background: white !important;
+  }
+
+  .ant-menu .ant-menu-sub .ant-menu-vertical {
+    width: 200px !important;
+    height: 150px !important;
+  }
+
+  .ant-table-wrapper .ant-table-thead >tr>th, .ant-table-wrapper .ant-table-thead >tr>td {
+    text-align: center !important;
+  }
+
+  .ant-table-wrapper table {
+    text-align: center;
+  }
+
+  .ant-table-wrapper .ant-table-thead >tr>th, .ant-table-wrapper .ant-table-thead >tr>td {
+    border: none;
+  }
+
+  .ant-table-wrapper .ant-table-thead >tr>th:not(:last-child):not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell):not([colspan])::before, :where(.css-dev-only-do-not-override-6jf5y1).ant-table-wrapper .ant-table-thead >tr>td:not(:last-child):not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell):not([colspan])::before {
+    background: none;
+  }
+
+}
+
+.ant-menu-title-content > .menu-info {
+  width: 246px !important;
+  height: 131px !important;
+  line-height: 1.8;
+  white-space: break-spaces;
+  display: flex;
+  flex-direction: column;
+}
+
+.sider-width {
+  flex: 0 0 180px !important;
+  max-width: 180px !important;
+  min-width: 180px !important;
+  width: 180px !important;
+}

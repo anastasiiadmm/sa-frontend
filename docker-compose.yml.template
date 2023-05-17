@@ -1,0 +1,18 @@
+version: "3.5"
+services:
+  frontend:
+    restart: always
+    image: $CI_REGISTRY_IMAGE/$CI_COMMIT_SHORT_SHA
+    volumes:
+      - ./nginx/ssl:/etc/nginx/ssl:rw
+      - ./nginx/conf/service.conf:/etc/nginx/service.conf:ro
+      - ./data:/data:rw
+    environment:
+      - TZ=Asia/Bishkek
+      - LETSENCRYPT=true
+      - LE_EMAIL=project.smartagriculture@gmail.com
+      - LE_FQDN=$DOMAIN_NAME
+
+networks:
+  default:
+    name: $NETWORK
