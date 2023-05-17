@@ -352,7 +352,7 @@ const OpenMapComponent = () => {
             />
             <CircleMarker
               ref={markerRef}
-              center={markerPosition !== null ? markerPosition : [0, 0]}
+              center={markerPosition !== null ? markerPosition : (centerMap() as LatLngExpression)}
               opacity={0}
               radius={10}
             >
