@@ -40,7 +40,7 @@ variables:
   - ssh -T $DEPLOY_USER@$DEPLOY_SERVER "docker rm -f $SERVICE_NAME"
   - ssh -T $DEPLOY_USER@$DEPLOY_SERVER "docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY"
   - ssh -T $DEPLOY_USER@$DEPLOY_SERVER "docker pull $CI_REGISTRY_IMAGE/$CI_COMMIT_SHORT_SHA"
-  - ssh -T $DEPLOY_USER@$DEPLOY_SERVER "docker-compose run -d -p 443:443 --name $SERVICE_NAME frontend"
+  - ssh -T $DEPLOY_USER@$DEPLOY_SERVER "docker-compose run -d -p 80:80 -p 443:443 --name $SERVICE_NAME frontend"
 
 .build_template: &build_job
   image: docker:stable
