@@ -224,26 +224,20 @@ const OpenMapComponent = () => {
   );
   const findResults = vehicle.results?.processing_data.find((item) => item.id === Number(id));
 
-  const lineMapHistory = () => {
-    const width = Number(field.results?.tool_width);
-    const center = [field.results.point_A_lon, field.results.point_A_lat];
-    const sizeInMeters = width / 100000;
-
-    let topLeft: LatLngExpression = [center[0] + sizeInMeters / 2, center[1]];
-
-    const bottomRight: LatLngExpression = [field.results.point_B_lon, field.results.point_B_lat];
-
-    if (center[0] > field.results.point_B_lon) {
-      const widthIncrease = width / 100000;
-      bottomRight[1] -= width / 100000;
-      topLeft = [field.results.point_A_lon, bottomRight[1] - widthIncrease];
-    } else {
-      bottomRight[0] += width / 100000;
-      topLeft = [topLeft[0], topLeft[1]];
-    }
-
-    return [topLeft, bottomRight];
-  };
+  // const lineMapHistory = () => { // доработаем, когда из api будут присылаться данные
+  //   const width = Number(field.results?.tool_width);
+  //   const halfWidth = width / 2;
+  //   const a: LatLngExpression = [field.results.point_A_lon, field.results.point_A_lat];
+  //   const b: LatLngExpression = [field.results.point_B_lon, field.results.point_B_lat];
+  //
+  //   const resA = field.results.point_A_lon + halfWidth * 0.000008983;
+  //   const resB = field.results.point_B_lon + (halfWidth + width) * 0.000008983;
+  //
+  //   const bottomRight = [field.results.point_A_lat, resA];
+  //   const topLeft = [field.results.point_B_lat, resB];
+  //
+  //   return [topLeft, bottomRight];
+  // };
 
   if (
     vehicle.loading ||
@@ -336,7 +330,14 @@ const OpenMapComponent = () => {
               </Marker>
             </Polyline>
 
-            <Rectangle bounds={lineMapHistory()} color='#1EBF13FF' weight={2} />
+            <Rectangle
+              bounds={[
+                [56.28503, 44.241937],
+                [56.28635, 44.248452],
+              ]}
+              color='#1EBF13FF'
+              weight={2}
+            />
           </MapContainer>
         ) : null}
         {socketMap.status === 'no_geo' ? (
