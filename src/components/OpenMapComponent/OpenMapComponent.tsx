@@ -2,7 +2,7 @@ import { AimOutlined } from '@ant-design/icons';
 import { Button, Card, Spin, Tooltip, Typography } from 'antd';
 import bem from 'easy-bem';
 import L, { LatLngExpression } from 'leaflet';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   CircleMarker,
   MapContainer,
@@ -21,14 +21,11 @@ import map from 'assets/images/icons/map.svg';
 import startA from 'assets/images/icons/startA.svg';
 import tractorBlue from 'assets/images/icons/tractor-blue.svg';
 import Errors from 'components/Errors/Errors';
-
 import { accountsSelector, fetchVehicleInfo } from 'redux/accounts/accountsSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-
 import { mapSelector, obtainingCoordinate } from 'redux/map/mapSlice';
-
-import 'components/OpenMapComponent/_openMapComponent.scss';
 import { socketApiSocket } from 'utils/config';
+import 'components/OpenMapComponent/_openMapComponent.scss';
 
 const { Title } = Typography;
 
@@ -39,6 +36,8 @@ const OpenMapComponent = () => {
   const { id, field_name } = useParams();
   const { account } = useAppSelector(accountsSelector);
   const { vehicle, field } = useAppSelector(mapSelector);
+  const markerRef = useRef(null);
+  const [markerPosition, setMarkerPosition] = useState<[number, number] | null>(null);
   const [bounds] = useState<number[][]>([
     [-90, -180],
     [90, 180],
@@ -54,6 +53,9 @@ const OpenMapComponent = () => {
   const [loadingMap, setLoadingMap] = useState(false);
   const [loadingMapUpdate, setLoadingMapUpdate] = useState(false);
   const [socketLoading, setSocketLoading] = useState(false);
+
+  const moveSpeed = account?.coords_timeout ? account.coords_timeout * 1000 + 200 : 0;
+
   const connectWebSocket = (time: number) => {
     let connectionID = '';
 
@@ -136,6 +138,35 @@ const OpenMapComponent = () => {
   }, []);
 
   useEffect(() => {
+    if (markerRef.current && socketMap.latitude && socketMap.longitude) {
+      const newPosition = [Number(socketMap.latitude), Number(socketMap.longitude)];
+      const start = markerPosition || newPosition;
+      const end = newPosition;
+
+      const distance = Math.sqrt((end[0] - start[0]) ** 2 + (end[1] - start[1]) ** 2);
+
+      const duration = Math.max(moveSpeed, distance * 50);
+
+      let progress = 0;
+      const steps = 60;
+
+      const timer = setInterval(() => {
+        progress += 1 / steps;
+        const currentLng = start[1] + (end[1] - start[1]) * progress;
+        const currentLat = start[0] + (end[0] - start[0]) * progress;
+        const currentPos: [number, number] = [currentLat, currentLng];
+        setMarkerPosition(currentPos);
+
+        if (progress >= 1) {
+          clearInterval(timer);
+        }
+      }, duration / steps);
+
+      return () => clearInterval(timer);
+    }
+  }, [socketMap.latitude, socketMap.longitude]);
+
+  useEffect(() => {
     if (loadingMapUpdate) {
       setLoadingMapUpdate(false);
     }
@@ -186,6 +217,7 @@ const OpenMapComponent = () => {
 
     return centerMap() as LatLngExpression;
   };
+
   const renderHandler = () => {
     setLoadingMap(true);
     setLoadingMapUpdate(true);
@@ -303,7 +335,7 @@ const OpenMapComponent = () => {
             center={centerMapHandler()}
             zoom={27}
             minZoom={2}
-            maxZoom={18}
+            maxZoom={25}
             scrollWheelZoom
             maxBounds={latLngBounds}
             style={{ width: '100%', height: '100vh' }}
@@ -312,8 +344,18 @@ const OpenMapComponent = () => {
               attribution='&copy; <a href="https://www.esri.com/">Esri</a>'
               url='https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'
             />
-            <CircleMarker center={centerMap() as LatLngExpression} opacity={0} radius={10}>
-              <Marker position={centerMap() as LatLngExpression} icon={duckIcon}>
+            <CircleMarker
+              ref={markerRef}
+              center={markerPosition !== null ? markerPosition : (centerMap() as LatLngExpression)}
+              opacity={0}
+              radius={10}
+            >
+              <Marker
+                position={
+                  markerPosition !== null ? markerPosition : (centerMap() as LatLngExpression)
+                }
+                icon={duckIcon}
+              >
                 <Popup>
                   <span className={b('title_uppercase')}>
                     {userVehicleInfo?.vehicle?.description}
@@ -321,6 +363,7 @@ const OpenMapComponent = () => {
                 </Popup>
               </Marker>
             </CircleMarker>
+
             <Polyline weight={5} pathOptions={purpleOptions} positions={positions()}>
               <Marker position={getCoordinateByType(positions(), 'start')} icon={duckIconStart}>
                 <Popup>Start</Popup>
