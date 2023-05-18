@@ -48,18 +48,6 @@ export interface IAccount {
   };
 }
 
-export interface IManagerMutation {
-  username?: string;
-  password?: string;
-  confirm_password?: string;
-  first_name?: string;
-  middle_name?: string;
-  last_name?: string;
-  email?: string;
-  phone?: string;
-  image?: string;
-}
-
 export interface ValidationUpdateManagerProfile {
   [key: string]: string;
 }

@@ -9,7 +9,6 @@ import {
   accountsManagerConfirmation,
   generatedPassword,
   IAccount,
-  IUserAccount,
   RequestType,
   updateManagerDataMutation,
   userRequest,
@@ -19,7 +18,7 @@ import {
   userVehiclesPagination,
   ValidationUpdateManagerProfile,
 } from 'types/types';
-import { axiosApi, axiosApi2 } from 'utils/axios-api';
+import { axiosApi2 } from 'utils/axios-api';
 import toQueryParams from 'utils/toQueryParams';
 
 const nameSpace = 'accounts';
@@ -34,9 +33,6 @@ interface AccountsState {
   updateManagerData: updateManagerDataMutation;
   updateManagerDataLoading: boolean;
   updateManagerDataError: IErrors | null;
-  user: IUserAccount | null;
-  fetchLoadingUser: boolean;
-  fetchLoadingUserError: IErrors | null;
   userVehicles: userVehicles[] | undefined;
   userVehiclesPagination: userVehiclesPagination | null;
   fetchUserVehiclesLoading: boolean;
@@ -190,7 +186,7 @@ export const managerProfileUpdate = createAsyncThunk<void, updateManagerParams>(
   `${nameSpace}/managerProfileUpdate`,
   async ({ data }, { rejectWithValue, dispatch }) => {
     try {
-      const resp = await axiosApi.patch(`/accounts/manager/`, data);
+      const resp = await axiosApi2.patch(`/accounts/managers/`, data);
       message.success('Данные успешно изменены!');
       await dispatch(fetchAccount());
       return resp.data;
@@ -206,22 +202,6 @@ export const managerProfileUpdate = createAsyncThunk<void, updateManagerParams>(
     }
   },
 );
-
-export const fetchUser = createAsyncThunk('accounts/fetchUser', async (_, { rejectWithValue }) => {
-  try {
-    const resp = await axiosApi.get<IUserAccount | null>('/accounts/user/');
-    const user = resp.data;
-    if (user === null) {
-      throw new Error('Not Found!');
-    }
-    return user;
-  } catch (e) {
-    return rejectWithValue({
-      detail: e?.response?.data?.detail,
-      status: e?.response?.status,
-    });
-  }
-});
 
 export const fetchUserVehicles = createAsyncThunk(
   'accounts/fetchUserVehicles',
@@ -576,26 +556,6 @@ const accountsSlice = createSlice({
       if (payload && typeof payload === 'object' && 'detail' in payload && 'status' in payload) {
         state.updateManagerDataError = {
           ...state.updateManagerDataError,
-          detail: payload.detail as string | null,
-          status: payload.status as number | null,
-        };
-      }
-    });
-
-    builder.addCase(fetchUser.pending, (state) => {
-      state.fetchLoadingUser = true;
-      state.fetchLoadingUserError = null;
-    });
-    builder.addCase(fetchUser.fulfilled, (state, { payload: user }) => {
-      state.fetchLoadingUser = false;
-      state.fetchLoadingUserError = null;
-      state.user = user;
-    });
-    builder.addCase(fetchUser.rejected, (state, { payload }) => {
-      state.fetchLoadingUser = false;
-      if (payload && typeof payload === 'object' && 'detail' in payload && 'status' in payload) {
-        state.fetchLoadingUserError = {
-          ...state.fetchLoadingUserError,
           detail: payload.detail as string | null,
           status: payload.status as number | null,
         };
