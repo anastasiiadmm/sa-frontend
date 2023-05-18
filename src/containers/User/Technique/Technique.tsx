@@ -38,7 +38,6 @@ const Technique = () => {
     fetchUserVehiclesLoading,
     userVehiclesPagination,
     fetchUserVehiclesError,
-    fetchLoadingUserError,
     inquiriesLoading,
     inquiriesError,
   } = useAppSelector(accountsSelector);
@@ -175,15 +174,11 @@ const Technique = () => {
     },
   ];
 
-  if (fetchUserVehiclesError || fetchLoadingUserError || inquiriesError) {
+  if (fetchUserVehiclesError || inquiriesError) {
     return (
       <Errors
-        status={
-          fetchUserVehiclesError?.status || fetchLoadingUserError?.status || inquiriesError?.status
-        }
-        detail={
-          fetchUserVehiclesError?.detail || fetchLoadingUserError?.detail || inquiriesError?.detail
-        }
+        status={fetchUserVehiclesError?.status || inquiriesError?.status}
+        detail={fetchUserVehiclesError?.detail || inquiriesError?.detail}
       />
     );
   }
