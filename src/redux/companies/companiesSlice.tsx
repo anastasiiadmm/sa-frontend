@@ -194,7 +194,7 @@ export const userCreate = createAsyncThunk<void, userCreateParams>(
   `${nameSpace}/userCreate`,
   async ({ data }, { rejectWithValue }) => {
     try {
-      const resp = await axiosApi.post(`/companies/`, data);
+      const resp = await axiosApi2.post(`/accounts/users/`, data);
 
       return resp.data;
     } catch (e) {
