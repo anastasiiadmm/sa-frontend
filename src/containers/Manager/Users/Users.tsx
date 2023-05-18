@@ -129,7 +129,7 @@ const Users: React.FC = () => {
           <Title className={b('card-title')}>Добавлено пользователей</Title>
           <div className={b('card-content')}>
             <img src={people} alt='group' />
-            <p>{companies?.length || 0}</p>
+            <p>{companiesListPagination?.count || 0}</p>
           </div>
         </Card>
         <Card className={b('card-style')} bordered={false} style={{ width: 300 }}>
