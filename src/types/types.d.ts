@@ -99,7 +99,7 @@ export interface IUserAccount {
 }
 
 export interface PostNewUser {
-  username;
+  username: string;
   password: string;
 }
 
