@@ -18,6 +18,7 @@ import ModalComponent from 'components/ModalComponent/ModalComponent';
 import ResultComponent from 'components/ResultComponent/ResultComponent';
 import TableComponent from 'components/TableComponent/TableComponent';
 import { getErrorMessage, getPageNumber, getPageNumberPrevious } from 'helper';
+import { VehicleList } from 'interfaces';
 import {
   companiesSelector,
   deleteUserVehicle,
@@ -26,7 +27,6 @@ import {
   fetchUserVehicleList,
   setNullReducerVehicleCreate,
 } from 'redux/companies/companiesSlice';
-import { VehicleList } from 'interfaces';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { apiUrlCrop } from 'utils/config';
 

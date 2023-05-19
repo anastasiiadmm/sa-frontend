@@ -8,12 +8,13 @@ import {
   IErrors,
   ITechniqueVehicleInfoPut,
   IVehicle,
-  pagination, RequestType,
+  pagination,
+  RequestType,
   userMutation,
   VehicleList,
   vehicleListPagination,
-  VehicleType
-} from "interfaces";
+  VehicleType,
+} from 'interfaces';
 import { RootState } from 'redux/hooks';
 import { companiesList } from 'types/types';
 import { axiosApi, axiosApi2 } from 'utils/axios-api';

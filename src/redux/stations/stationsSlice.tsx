@@ -3,8 +3,6 @@ import axios from 'axios';
 import CryptoJS from 'crypto-js';
 
 import { unixTimestamp } from 'helper';
-import { RootState } from 'redux/hooks';
-import store from 'redux/store';
 import {
   APIError,
   APIWeatherResponse,
@@ -17,7 +15,9 @@ import {
   StationState,
   Timezone,
   userStation,
-} from 'interfaces/IStation';
+} from 'interfaces';
+import { RootState } from 'redux/hooks';
+import store from 'redux/store';
 
 const timestamp = new Date().toUTCString();
 

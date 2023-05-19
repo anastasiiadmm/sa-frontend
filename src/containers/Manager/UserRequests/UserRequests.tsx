@@ -249,7 +249,11 @@ const UserRequests = () => {
     const files = event.target.files;
     if (files) {
       if (fileSizeValidate(files[0]) && fileValidateImg(files[0])) {
-        setImages({ ...images, image: files[0], deleted_image: userInfo?.uploaded_files?.[0]?.id as any });
+        setImages({
+          ...images,
+          image: files[0],
+          deleted_image: userInfo?.uploaded_files?.[0]?.id as any,
+        });
       }
     }
   };

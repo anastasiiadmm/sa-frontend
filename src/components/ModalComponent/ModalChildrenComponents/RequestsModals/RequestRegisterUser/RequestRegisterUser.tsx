@@ -8,12 +8,12 @@ import CreateNewUserCredentials from 'components/ModalComponent/ModalChildrenCom
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import SkeletonBlock from 'components/SkeletonBlock/SkeletonBlock';
 import { getErrorMessage, isEmptyObject, mergeAndRemoveDuplicateValues } from 'helper';
+import { RequestType } from 'interfaces';
 import {
   accountManagerConfirmationRequest,
   accountsSelector,
   fetchRequests,
 } from 'redux/accounts/accountsSlice';
-import { RequestType } from 'interfaces';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import 'components/ModalComponent/ModalChildrenComponents/RequestsModals/RequestRegisterUser/_requestRegisterUser.scss';
 
