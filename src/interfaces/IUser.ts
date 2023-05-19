@@ -81,7 +81,7 @@ export interface accountsManagerConfirmation {
 
 export interface RequestType {
   id: number;
-  object_id: string;
+  object_id: string | number;
   category: number;
   created_at: string;
   inquiry_id?: string;
@@ -91,8 +91,8 @@ export interface RequestType {
         name: string;
         phone: string;
       }
-    | undefined;
-  uploaded_files: [{ id: number; file: string }];
+    | undefined | null;
+  uploaded_files: [{ id: number; file: string }] | null;
   data: {
     user: {
       username?: string;

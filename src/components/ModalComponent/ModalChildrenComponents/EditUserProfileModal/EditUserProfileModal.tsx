@@ -4,15 +4,14 @@ import bem from 'easy-bem';
 import React, { useEffect } from 'react';
 
 import FormField from 'components/FormField/FormField';
-import { IAccount, ICompany } from 'interfaces';
-import { requestData } from 'types/types';
+import { IAccount, ICompany, RequestType } from 'interfaces';
 import 'components/ModalComponent/ModalChildrenComponents/EditUserProfileModal/_editUserProfileModal.scss';
 import { apiUrlCrop } from 'utils/config';
 
 interface Props {
   updateUserData?: IAccount | ICompany | Object | null;
   account?: IAccount | null | undefined;
-  userInfo?: requestData | null;
+  userInfo?: RequestType | null;
   userId?: number | null;
   userInfoLoading?: boolean;
   changeUserInfoRequest?: boolean;

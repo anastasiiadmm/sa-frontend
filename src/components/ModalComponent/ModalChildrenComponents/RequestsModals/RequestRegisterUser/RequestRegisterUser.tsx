@@ -13,12 +13,12 @@ import {
   accountsSelector,
   fetchRequests,
 } from 'redux/accounts/accountsSlice';
+import { RequestType } from 'interfaces';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { requestData } from 'types/types';
 import 'components/ModalComponent/ModalChildrenComponents/RequestsModals/RequestRegisterUser/_requestRegisterUser.scss';
 
 interface Props {
-  userInfo: requestData | null;
+  userInfo: RequestType | null;
   userId: number | null;
   userInfoLoading: boolean;
   handleOkCancel: () => void;
@@ -39,13 +39,13 @@ const RequestRegisterUser: React.FC<Props> = ({
   const { accountManagerConfirmation, accountManagerConfirmationLoading } =
     useAppSelector(accountsSelector);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [userData, setUserData] = useState<requestData>({
+  const [userData, setUserData] = useState<RequestType>({
     category: 0,
     created_at: '',
     id: 0,
     object_id: 0,
     requestor: null,
-    uploaded_files: [],
+    uploaded_files: null,
     data: {
       user: {
         last_name: '',
@@ -110,7 +110,7 @@ const RequestRegisterUser: React.FC<Props> = ({
     if (name.startsWith('data,user,')) {
       const userKey = name.split(',')[2];
 
-      setUserData((prevUserData: requestData) => ({
+      setUserData((prevUserData: RequestType) => ({
         ...prevUserData,
         data: {
           ...prevUserData.data,
@@ -123,7 +123,7 @@ const RequestRegisterUser: React.FC<Props> = ({
     } else if (name.startsWith('data,enterprise,')) {
       const userKey = name.split(',')[2];
 
-      setUserData((prevUserData: requestData) => ({
+      setUserData((prevUserData: RequestType) => ({
         ...prevUserData,
         data: {
           ...prevUserData.data,
