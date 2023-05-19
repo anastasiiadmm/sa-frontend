@@ -4,7 +4,7 @@ import { IErrors, ITokens, IUser, userMutation } from 'interfaces';
 import { RootState } from 'redux/hooks';
 import store from 'redux/store';
 import { addCookies } from 'utils/addCookies/addCookies';
-import { axiosApi, axiosApi2 } from 'utils/axios-api';
+import { axiosApi2 } from 'utils/axios-api';
 
 interface AuthState {
   user: IUser | null;
@@ -56,25 +56,11 @@ export const loginUser = createAsyncThunk<ITokens, userMutation>(
 export const refreshToken = createAsyncThunk(`${nameSpace}/refreshToken`, async () => {
   const refresh = store.getState()?.auth?.tokens?.refresh;
   if (refresh) {
-    const asd = { refresh };
-    const resp = await axiosApi.post('/accounts/refresh/', asd);
+    const data = { refresh };
+    const resp = await axiosApi2.post('/accounts/refresh/', data);
     return resp.data;
   }
 });
-
-export const resetUserPasswordSendEmail = createAsyncThunk<void, Object>(
-  `${nameSpace}/resetUserPasswordSendEmail`,
-  async (data, { rejectWithValue }) => {
-    try {
-      await axiosApi.post('/accounts/password-reset/', data);
-    } catch (e) {
-      return rejectWithValue({
-        detail: e?.response?.data?.detail,
-        status: e?.response?.status,
-      });
-    }
-  },
-);
 
 export const authSlice = createSlice({
   name: nameSpace,
@@ -96,27 +82,6 @@ export const authSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(resetUserPasswordSendEmail.pending, (state) => {
-      state.loading = true;
-      state.success = false;
-    });
-    builder.addCase(resetUserPasswordSendEmail.fulfilled, (state) => {
-      state.loading = false;
-      state.success = true;
-    });
-    builder.addCase(resetUserPasswordSendEmail.rejected, (state, payload) => {
-      state.loading = false;
-      state.success = false;
-      if (payload && typeof payload === 'object' && 'detail' in payload && 'status' in payload) {
-        state.commonError = {
-          ...state.commonError,
-          detail: payload.detail as string | null,
-          status: payload.status as number | null,
-        };
-      }
-      state.errors = payload;
-    });
-
     builder.addCase(loginUser.pending, (state) => {
       state.loading = true;
       state.success = false;
