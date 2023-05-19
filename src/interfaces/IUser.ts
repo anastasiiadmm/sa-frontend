@@ -126,8 +126,8 @@ export interface companiesList {
 export type ICompany = Omit<companiesList, 'id'>;
 
 export interface pagination {
-  count: number;
-  next: string;
-  previous: string;
+  count: number | undefined;
+  next: string | null | undefined;
+  previous: string | null | undefined;
   vehicles_count?: string;
 }

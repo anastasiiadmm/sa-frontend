@@ -7,15 +7,7 @@ import { pagination } from 'interfaces';
 import 'components/TableComponent/PaginationComponent/_paginationComponent.scss';
 
 interface Props {
-  params:
-    | pagination
-    | {
-        previous: string | null | undefined;
-        next: string | null | undefined;
-        count: number | undefined;
-      }
-    | null
-    | undefined;
+  params: pagination | null | undefined;
   pagePrevHandler?: () => void;
   pageNextHandler?: () => void;
 }
