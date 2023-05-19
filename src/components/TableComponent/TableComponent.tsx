@@ -12,14 +12,7 @@ interface Props {
   rowKey: (record: any) => Key;
   loading: boolean;
   onChange?: () => void;
-  params?:
-    | pagination
-    | {
-        previous: string | null | undefined;
-        next: string | null | undefined;
-        count: number | undefined;
-      }
-    | null;
+  params?: pagination | null;
   pagePrevHandler?: () => void;
   pageNextHandler?: () => void;
   disabledButton?: boolean;
