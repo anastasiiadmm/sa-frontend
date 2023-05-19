@@ -70,7 +70,7 @@ const UserRequests = () => {
       : Number(getPageNumberPrevious(requestsPagination?.previous)),
   });
   const [fieldClimateData, setFieldClimateData] = useState<RequestType | null>(null);
-  const [confirmation_typeId, setConfirmation_typeId] = useState<number | null>(null);
+  const [confirmationTypeId, setConfirmationTypeId] = useState<number | null>(null);
   const [id, setId] = useState<number | null>(null);
   const [data, setData] = useState<IMyDataApi>({
     data: {
@@ -183,7 +183,7 @@ const UserRequests = () => {
       const data = {
         id,
         data: {
-          category: confirmation_typeId as number,
+          category: confirmationTypeId as number,
         },
       };
       await dispatch(approveRequest(data)).unwrap();
@@ -303,22 +303,22 @@ const UserRequests = () => {
     switch (row?.category) {
       case 2:
         setId(row?.id);
-        setConfirmation_typeId(row?.category);
+        setConfirmationTypeId(row?.category);
         showUserInfoModal();
         break;
       case 3:
         setId(row?.id);
-        setConfirmation_typeId(row?.category);
+        setConfirmationTypeId(row?.category);
         showTechniqueModal(row);
         break;
       case 4:
         setId(row?.id);
-        setConfirmation_typeId(row?.category);
+        setConfirmationTypeId(row?.category);
         showFieldClimateInfoModal(row);
         break;
       default:
         setId(row?.id);
-        setConfirmation_typeId(row?.category);
+        setConfirmationTypeId(row?.category);
         showRegisterUserModal();
     }
   };
