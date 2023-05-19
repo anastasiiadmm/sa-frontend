@@ -5,7 +5,6 @@ import {
   companiesList,
   IAccount,
   ICompany,
-  IConfirmation,
   IErrors,
   ITechniqueVehicleInfoPut,
   IVehicle,
@@ -17,7 +16,7 @@ import {
   VehicleType,
 } from 'interfaces';
 import { RootState } from 'redux/hooks';
-import { axiosApi, axiosApi2 } from 'utils/axios-api';
+import { axiosApi2 } from 'utils/axios-api';
 import toQueryParams from 'utils/toQueryParams';
 
 const nameSpace = 'companies';
@@ -63,11 +62,6 @@ interface CompaniesState {
     results: IVehicle | null;
     loading: boolean;
     errors: unknown;
-  };
-  saveTechniqueVehicle: {
-    results: IConfirmation | null;
-    loading: boolean;
-    errors: IErrors | null;
   };
   userInfoByManager: IAccount | null;
   userInfoByManagerLoading: boolean;
@@ -439,24 +433,6 @@ export const techniqueVehicleInfoPut = createAsyncThunk(
   },
 );
 
-export const techniqueVehicleConfirmation = createAsyncThunk(
-  `${nameSpace}/techniqueVehicleConfirmation`,
-  async (id: number, { rejectWithValue }) => {
-    try {
-      const response = await axiosApi.patch(`accounts/manager/confirmation/${id}/`);
-      return response.data;
-    } catch (e) {
-      if (e?.response?.data?.detail) {
-        await message.error(e?.response?.data?.detail);
-      }
-      return rejectWithValue({
-        detail: e?.response?.data?.detail,
-        status: e?.response?.status,
-      });
-    }
-  },
-);
-
 const companiesSlice = createSlice({
   name: nameSpace,
   initialState: INITIAL_STATE,
@@ -485,9 +461,6 @@ const companiesSlice = createSlice({
     },
     clearUserInfo: (state) => {
       state.userInfo = null;
-    },
-    clearTechniqueVehicle: (state) => {
-      state.saveTechniqueVehicle.results = null;
     },
     clearCompaniesPagination: (state) => {
       state.companiesListPagination = null;
@@ -769,26 +742,6 @@ const companiesSlice = createSlice({
       state.techniqueVehicleUpdate.loading = false;
       state.techniqueVehicleUpdate.errors = payload;
     });
-
-    builder.addCase(techniqueVehicleConfirmation.pending, (state) => {
-      state.saveTechniqueVehicle.loading = true;
-      state.saveTechniqueVehicle.errors = null;
-    });
-    builder.addCase(techniqueVehicleConfirmation.fulfilled, (state, action) => {
-      state.saveTechniqueVehicle.results = action.payload;
-      state.saveTechniqueVehicle.loading = false;
-      state.saveTechniqueVehicle.errors = null;
-    });
-    builder.addCase(techniqueVehicleConfirmation.rejected, (state, { payload }) => {
-      state.saveTechniqueVehicle.loading = false;
-      if (payload && typeof payload === 'object' && 'detail' in payload && 'status' in payload) {
-        state.saveTechniqueVehicle.errors = {
-          ...state.saveTechniqueVehicle.errors,
-          detail: payload.detail as string | null,
-          status: payload.status as number | null,
-        };
-      }
-    });
   },
 });
 
@@ -803,6 +756,4 @@ export const techniqueVehicleInfoSelector = (state: RootState) =>
   state.companies.techniqueVehicleInfo;
 export const techniqueVehicleUpdateSelector = (state: RootState) =>
   state.companies.techniqueVehicleUpdate;
-export const techniqueVehicleConfirmationSelector = (state: RootState) =>
-  state.companies.saveTechniqueVehicle;
 export default companiesSlice.reducer;

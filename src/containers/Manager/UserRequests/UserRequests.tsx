@@ -24,7 +24,6 @@ import {
   accountsSelector,
   approveRequest,
   deleteRequest,
-  deleteRequests,
   fetchRequests,
   requestApproveChangeProfile,
 } from 'redux/accounts/accountsSlice';
@@ -32,7 +31,6 @@ import {
   clearUserInfo,
   companiesSelector,
   fetchUserInfo,
-  techniqueVehicleConfirmationSelector,
   techniqueVehicleInfo,
   techniqueVehicleInfoSelector,
 } from 'redux/companies/companiesSlice';
@@ -57,7 +55,6 @@ const UserRequests = () => {
   } = useAppSelector(accountsSelector);
   const { userInfo, userInfoLoading, userInfoError } = useAppSelector(companiesSelector);
   const { results, loading, errors } = useAppSelector(techniqueVehicleInfoSelector);
-  const saveTechniqueVehicleState = useAppSelector(techniqueVehicleConfirmationSelector);
   const [isModalTechniqueOpen, setIsModalTechniqueOpen] = useState(false);
   const [isModalRegisterUserOpen, setIsModalRegisterUserTechniqueOpen] = useState(false);
   const [isModalRejectOpen, setIsModalRejectOpen] = useState(false);
@@ -108,12 +105,6 @@ const UserRequests = () => {
       dispatch(fetchUserInfo({ id }));
     }
   }, [dispatch, id]);
-
-  useEffect(() => {
-    if (saveTechniqueVehicleState.results) {
-      dispatch(deleteRequests(saveTechniqueVehicleState.results.id));
-    }
-  }, [saveTechniqueVehicleState]);
 
   const showRejectModal = () => {
     setIsModalRejectOpen(true);

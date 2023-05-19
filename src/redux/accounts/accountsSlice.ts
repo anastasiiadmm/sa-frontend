@@ -494,9 +494,6 @@ const accountsSlice = createSlice({
     inquiriesSuccessNull: (state) => {
       state.inquiriesSuccess = false;
     },
-    deleteRequests: (state, action) => {
-      state.requests = state.requests?.filter((item) => item.id !== action.payload);
-    },
     clearRequestsPagination: (state) => {
       state.requestsPagination = null;
       state.userVehiclesPagination = null;
@@ -828,7 +825,6 @@ export const {
   managerChangeProfileHandler,
   setManagerProfile,
   inquiriesSuccessNull,
-  deleteRequests,
   clearRequestsPagination,
 } = accountsSlice.actions;
 export const accountsSelector = (state: RootState) => state.accounts;
