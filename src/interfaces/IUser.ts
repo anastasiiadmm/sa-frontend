@@ -1,11 +1,13 @@
-import { companiesList } from 'types/types';
-
 export interface IUser {
+  id?: number;
   last_name: string;
   first_name: string;
   middle_name: string;
   email: string;
   phone: string;
+  username?: string;
+  password?: string;
+  image?: string;
 }
 
 export interface IUserAdd {
@@ -57,7 +59,7 @@ export interface ValidationUpdateManagerProfile {
 }
 
 export interface updateManagerDataMutation {
-  username: string;
+  username?: string;
   password?: string;
   confirm_password?: string;
   first_name: string;
@@ -91,18 +93,11 @@ export interface RequestType {
         name: string;
         phone: string;
       }
-    | undefined | null;
+    | undefined
+    | null;
   uploaded_files: [{ id: number; file: string }] | null;
   data: {
-    user: {
-      username?: string;
-      password?: string;
-      first_name: string;
-      middle_name: string;
-      last_name: string;
-      email: string;
-      phone: string;
-    };
+    user: IUser;
     enterprise: {
       location: string;
       name: string;
@@ -118,6 +113,14 @@ export interface IOperator {
   first_name: string;
   last_name: string;
   middle_name: string;
+}
+
+export interface companiesList {
+  id?: number;
+  name: string;
+  location: string;
+  autopilots_amount: number;
+  user: IUser;
 }
 
 export type ICompany = Omit<companiesList, 'id'>;

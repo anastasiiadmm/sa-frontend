@@ -13,11 +13,11 @@ import {
   RequestType,
   updateManagerDataMutation,
   userVehicleInfo,
+  userVehicles,
   ValidationUpdateManagerProfile,
 } from 'interfaces';
 import { IConfig } from 'interfaces/IConfig';
 import { RootState } from 'redux/hooks';
-import { userVehicles } from 'types/types';
 import { axiosApi2 } from 'utils/axios-api';
 import toQueryParams from 'utils/toQueryParams';
 

@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { message } from 'antd';
 
 import {
+  companiesList,
   IAccount,
   ICompany,
   IConfirmation,
@@ -16,7 +17,6 @@ import {
   VehicleType,
 } from 'interfaces';
 import { RootState } from 'redux/hooks';
-import { companiesList } from 'types/types';
 import { axiosApi, axiosApi2 } from 'utils/axios-api';
 import toQueryParams from 'utils/toQueryParams';
 

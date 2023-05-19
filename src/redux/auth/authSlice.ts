@@ -1,9 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-import { IErrors, ITokens, userMutation } from 'interfaces';
+import { IErrors, ITokens, IUser, userMutation } from 'interfaces';
 import { RootState } from 'redux/hooks';
 import store from 'redux/store';
-import { IUser } from 'types/types';
 import { addCookies } from 'utils/addCookies/addCookies';
 import { axiosApi, axiosApi2 } from 'utils/axios-api';
 

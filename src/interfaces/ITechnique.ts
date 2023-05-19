@@ -64,3 +64,12 @@ export interface userVehicleInfo {
   results: Result[];
   vehicle: VehicleType;
 }
+
+export interface userVehicles {
+  id: number;
+  code: string;
+  description: string;
+  jobs_number: number;
+  area: string;
+  image: string;
+}
