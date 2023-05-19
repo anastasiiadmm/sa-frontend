@@ -4,7 +4,7 @@ import React from 'react';
 
 import notFoundImages from 'assets/images/notFound.svg';
 import PaginationComponent from 'components/TableComponent/PaginationComponent/PaginationComponent';
-import { userVehiclesPagination } from 'types/types';
+import { pagination } from 'interfaces';
 
 interface Props {
   data: any | undefined;
@@ -12,7 +12,14 @@ interface Props {
   rowKey: (record: any) => Key;
   loading: boolean;
   onChange?: () => void;
-  params?: userVehiclesPagination | undefined | null;
+  params?:
+    | pagination
+    | {
+        previous: string | null | undefined;
+        next: string | null | undefined;
+        count: number | undefined;
+      }
+    | null;
   pagePrevHandler?: () => void;
   pageNextHandler?: () => void;
   disabledButton?: boolean;
@@ -27,7 +34,6 @@ const TableComponent: React.FC<Props> = ({
   params,
   pagePrevHandler,
   pageNextHandler,
-  disabledButton,
 }) => {
   const locale = {
     emptyText: (

@@ -17,7 +17,7 @@ import {
   StationState,
   Timezone,
   userStation,
-} from 'types/stationTypes';
+} from 'interfaces/IStation';
 
 const timestamp = new Date().toUTCString();
 

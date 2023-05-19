@@ -4,7 +4,7 @@ import React, { useEffect } from 'react';
 
 import cloud from 'assets/images/icons/cloud.svg';
 import FormField from 'components/FormField/FormField';
-import { RequestType } from 'types/types';
+import { RequestType } from 'interfaces';
 import 'components/ModalComponent/ModalChildrenComponents/FieldClimateModal/_fieldClimateModal.scss';
 
 const { Title } = Typography;

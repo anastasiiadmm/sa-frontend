@@ -6,7 +6,7 @@ import FormField from 'components/FormField/FormField';
 import Spinner from 'components/Spinner/Spinner';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { fetchStations, stationsSelector } from 'redux/stations/stationsSlice';
-import { MarkerData } from 'types/stationTypes';
+import { MarkerData } from 'interfaces/IStation';
 import { climateOptions } from 'utils/constants';
 import 'containers/FieldClimate/_fieldClimateDashboard.scss';
 

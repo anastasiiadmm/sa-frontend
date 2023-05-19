@@ -19,7 +19,7 @@ import RequestRegisterUser from 'components/ModalComponent/ModalChildrenComponen
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import TableComponent from 'components/TableComponent/TableComponent';
 import { appendDataFieldsAndDeleteEmptyKeys, getPageNumber, getPageNumberPrevious } from 'helper';
-import { IMyData, IMyDataApi } from 'interfaces';
+import { IMyData, IMyDataApi, RequestType } from 'interfaces';
 import {
   accountsSelector,
   approveRequest,
@@ -37,7 +37,6 @@ import {
   techniqueVehicleInfoSelector,
 } from 'redux/companies/companiesSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { RequestType } from 'types/types';
 import { dateMomentTypeDash } from 'utils/constants';
 import { fileSizeValidate, fileValidateImg } from 'utils/validate/validate';
 import 'containers/Manager/UserRequests/_userRequests.scss';
@@ -380,7 +379,7 @@ const UserRequests = () => {
       render: (text, row) => {
         return (
           <>
-            <span>{row?.requestor}</span>
+            <span>{row?.requestor?.name}</span>
             <Tooltip
               title='Просмотреть запрос'
               color='#BBBBBB'

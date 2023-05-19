@@ -9,13 +9,13 @@ import check from 'assets/images/icons/icon-check.png';
 import crossed from 'assets/images/icons/icon-crossed.png';
 import FieldClimateSettingsDashboard from 'containers/FieldClimate/FieldClimateSettingsDashboard/FieldClimateSettingsDashboard';
 import { updateDataNames } from 'helper';
+import { SensorDataEntry, SensorUpdate } from 'interfaces/IStation';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import {
   fetchStationSensors,
   stationsSelector,
   updateStationSensor,
 } from 'redux/stations/stationsSlice';
-import { SensorDataEntry, SensorUpdate } from 'types/stationTypes';
 import locales from 'utils/locales/fieldClimateLocales.json';
 import 'containers/FieldClimate/SensorsAndNodes/_sensorsAndNodes.scss';
 

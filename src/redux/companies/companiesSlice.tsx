@@ -1,20 +1,21 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { message } from 'antd';
 
-import { IConfirmation, IErrors, ITechniqueVehicleInfoPut, IVehicle } from 'interfaces';
-import { RootState } from 'redux/hooks';
 import {
-  companiesList,
+  IAccount,
   ICompany,
-  IVehicleV2,
-  PostNewUser,
-  requestData,
-  requestUserProfileData,
-  usersListPagination,
-  vehicleCreateData,
-  vehicleList,
+  IConfirmation,
+  IErrors,
+  ITechniqueVehicleInfoPut,
+  IVehicle,
+  pagination, RequestType,
+  userMutation,
+  VehicleList,
   vehicleListPagination,
-} from 'types/types';
+  VehicleType
+} from "interfaces";
+import { RootState } from 'redux/hooks';
+import { companiesList } from 'types/types';
 import { axiosApi, axiosApi2 } from 'utils/axios-api';
 import toQueryParams from 'utils/toQueryParams';
 
@@ -24,25 +25,25 @@ interface CompaniesState {
   companies: companiesList[] | null;
   fetchCompaniesLoading: boolean;
   fetchCompaniesError: IErrors | null;
-  companiesListPagination: usersListPagination | null;
-  userCreate: PostNewUser | null;
+  companiesListPagination: pagination | null;
+  userCreate: userMutation | null;
   userCreateLoading: boolean;
   userCreateError: IErrors | null;
-  userInfo: requestData | null;
+  userInfo: RequestType | null;
   userInfoLoading: boolean;
   userInfoError: IErrors | null;
   updateUserInfoLoading: boolean;
   updateUserInfoError: IErrors | null;
-  updateUserData: requestUserProfileData | null | Object;
+  updateUserData: IAccount | null | Object;
   updateUserDataLoading: boolean;
   updateUserDataError: Object | null;
   deleteUserInfoLoading: boolean;
   deleteUserInfoError: IErrors | null;
-  vehicleList: vehicleList[];
+  vehicleList: VehicleList[];
   fetchVehicleListLoading: boolean;
   fetchVehicleListError: IErrors | null;
   vehicleListPagination: vehicleListPagination | null;
-  userVehicleInfo: IVehicleV2 | null;
+  userVehicleInfo: VehicleType | null;
   userVehicleInfoLoading: boolean;
   userVehicleInfoError: IErrors | null;
   vehicleCreateLoading: boolean;
@@ -67,7 +68,7 @@ interface CompaniesState {
     loading: boolean;
     errors: IErrors | null;
   };
-  userInfoByManager: requestUserProfileData | null;
+  userInfoByManager: IAccount | null;
   userInfoByManagerLoading: boolean;
   userInfoByManagerError: IErrors | null;
 }
@@ -161,7 +162,7 @@ interface fetchCompaniesParams {
   };
 }
 
-export const fetchUsersList = createAsyncThunk<requestUserProfileData, fetchCompaniesParams>(
+export const fetchUsersList = createAsyncThunk<IAccount, fetchCompaniesParams>(
   'accounts/fetchUsersList',
   async ({ data }, { rejectWithValue }) => {
     try {
@@ -169,7 +170,7 @@ export const fetchUsersList = createAsyncThunk<requestUserProfileData, fetchComp
       if (data?.query) {
         query = toQueryParams(data.query);
       }
-      const resp = await axiosApi2.get<requestUserProfileData | null>(`/accounts/users/${query}`);
+      const resp = await axiosApi2.get<IAccount | null>(`/accounts/users/${query}`);
       const companies = resp.data;
 
       if (companies === null) {
@@ -210,11 +211,11 @@ interface fetchCompanyParams {
   id: number | string | null | undefined;
 }
 
-export const fetchUserInfo = createAsyncThunk<requestData, fetchCompanyParams>(
+export const fetchUserInfo = createAsyncThunk<RequestType, fetchCompanyParams>(
   'accounts/fetchUserInfo',
   async ({ id }, { rejectWithValue }) => {
     try {
-      const resp = await axiosApi2.get<requestData | null>(`/common/inquiries/${id}/`);
+      const resp = await axiosApi2.get<RequestType | null>(`/common/inquiries/${id}/`);
       const companyInfo = resp.data;
 
       if (companyInfo === null) {
@@ -235,30 +236,30 @@ interface fetchUserInfoByManagerParams {
   id: string | undefined;
 }
 
-export const fetchUserInfoByManager = createAsyncThunk<
-  requestUserProfileData,
-  fetchUserInfoByManagerParams
->('accounts/fetchUserInfoByManager', async ({ id }, { rejectWithValue }) => {
-  try {
-    const resp = await axiosApi2.get<requestUserProfileData | null>(`/accounts/users/${id}/`);
-    const userInfoByManager = resp.data;
+export const fetchUserInfoByManager = createAsyncThunk<IAccount, fetchUserInfoByManagerParams>(
+  'accounts/fetchUserInfoByManager',
+  async ({ id }, { rejectWithValue }) => {
+    try {
+      const resp = await axiosApi2.get<IAccount | null>(`/accounts/users/${id}/`);
+      const userInfoByManager = resp.data;
 
-    if (userInfoByManager === null) {
-      throw new Error('Not Found!');
+      if (userInfoByManager === null) {
+        throw new Error('Not Found!');
+      }
+
+      return userInfoByManager;
+    } catch (e) {
+      return rejectWithValue({
+        detail: e?.response?.data?.detail,
+        status: e?.response?.status,
+      });
     }
-
-    return userInfoByManager;
-  } catch (e) {
-    return rejectWithValue({
-      detail: e?.response?.data?.detail,
-      status: e?.response?.status,
-    });
-  }
-});
+  },
+);
 
 interface updateUserInfoParams {
   id: string | undefined;
-  data: requestUserProfileData;
+  data: IAccount;
 }
 
 export const updateUserInfo = createAsyncThunk<void, updateUserInfoParams>(
@@ -352,7 +353,7 @@ export const patchUserVehicleInfo = createAsyncThunk(
     {
       data,
     }: {
-      data: IVehicleV2;
+      data: VehicleType;
     },
     { rejectWithValue },
   ) => {
@@ -389,7 +390,7 @@ export const deleteUserVehicle = createAsyncThunk(
 );
 
 interface vehicleCreateParams {
-  data: vehicleCreateData;
+  data: VehicleType;
 }
 
 export const vehicleCreate = createAsyncThunk<void, vehicleCreateParams>(
@@ -459,7 +460,7 @@ const companiesSlice = createSlice({
   name: nameSpace,
   initialState: INITIAL_STATE,
   reducers: {
-    setChangeUserProfile: (state: any, action: PayloadAction<requestUserProfileData>) => {
+    setChangeUserProfile: (state: any, action: PayloadAction<IAccount>) => {
       state.updateUserData.coords_timeout = action.payload.coords_timeout;
       state.updateUserData.email = action.payload.email;
       state.updateUserData.first_name = action.payload.first_name;
@@ -690,7 +691,7 @@ const companiesSlice = createSlice({
     });
     builder.addCase(
       patchUserVehicleInfo.fulfilled,
-      (state, { payload }: PayloadAction<IVehicleV2>) => {
+      (state, { payload }: PayloadAction<VehicleType>) => {
         state.patchUserVehicleInfoLoading = false;
         state.patchUserVehicleInfoError = null;
         state.vehicleList = state.vehicleList.map((item) => {

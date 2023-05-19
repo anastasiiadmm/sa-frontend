@@ -15,6 +15,7 @@ import GeneratedPasswordModal from 'components/ModalComponent/ModalChildrenCompo
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import SkeletonBlock from 'components/SkeletonBlock/SkeletonBlock';
 import { getErrorMessage } from 'helper';
+import { IAccount } from 'interfaces';
 import { accountsSelector, generateNewPassword } from 'redux/accounts/accountsSlice';
 import {
   companiesSelector,
@@ -24,7 +25,6 @@ import {
   updateUserInfo,
 } from 'redux/companies/companiesSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { requestUserProfileData } from 'types/types';
 import 'containers/Manager/Users/UserProfile/_UserProfile.scss';
 
 const { Title } = Typography;
@@ -48,7 +48,7 @@ const UserProfile: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
   const [isModalPasswordOpen, setIsModalPasswordOpen] = useState(false);
-  const [userInfoData, setUserInfoData] = useState<requestUserProfileData>({
+  const [userInfoData, setUserInfoData] = useState<IAccount>({
     coords_timeout: 0,
     email: '',
     first_name: '',
@@ -153,7 +153,7 @@ const UserProfile: React.FC = () => {
     }
   };
 
-  const onFinish = async (values: requestUserProfileData) => {
+  const onFinish = async (values: IAccount) => {
     try {
       if (values) {
         await dispatch(updateUserInfo({ id, data: values })).unwrap();

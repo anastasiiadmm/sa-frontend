@@ -2,22 +2,22 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { message } from 'antd';
 
 import { getErrorMessage } from 'helper';
-import { IErrors, IMyData, IUpdateManagerDataMutation } from 'interfaces';
-import { IConfig } from 'interfaces/IConfig';
-import { RootState } from 'redux/hooks';
 import {
   accountsManagerConfirmation,
   generatedPassword,
   IAccount,
+  IErrors,
+  IMyData,
+  IUpdateManagerDataMutation,
+  pagination,
   RequestType,
   updateManagerDataMutation,
-  userRequest,
-  userRequestPagination,
   userVehicleInfo,
-  userVehicles,
-  userVehiclesPagination,
   ValidationUpdateManagerProfile,
-} from 'types/types';
+} from 'interfaces';
+import { IConfig } from 'interfaces/IConfig';
+import { RootState } from 'redux/hooks';
+import { userVehicles } from 'types/types';
 import { axiosApi2 } from 'utils/axios-api';
 import toQueryParams from 'utils/toQueryParams';
 
@@ -34,14 +34,14 @@ interface AccountsState {
   updateManagerDataLoading: boolean;
   updateManagerDataError: IErrors | null;
   userVehicles: userVehicles[] | undefined;
-  userVehiclesPagination: userVehiclesPagination | null;
+  userVehiclesPagination: pagination | null;
   fetchUserVehiclesLoading: boolean;
   fetchUserVehiclesError: IErrors | null;
   inquiriesLoading: boolean;
   inquiriesError: IErrors | null;
   inquiriesSuccess: boolean | null;
-  requests: userRequest[] | undefined;
-  requestsPagination: userRequestPagination | null;
+  requests: accountsManagerConfirmation[] | undefined;
+  requestsPagination: pagination | null;
   fetchRequestsLoading: boolean;
   fetchRequestsError: IErrors | null;
   userVehicleInfo: userVehicleInfo | null;
@@ -357,7 +357,7 @@ interface fetchRequestsParams {
   };
 }
 
-export const fetchRequests = createAsyncThunk<userRequest, fetchRequestsParams>(
+export const fetchRequests = createAsyncThunk<accountsManagerConfirmation, fetchRequestsParams>(
   'accounts/fetchRequests',
   async ({ data }, { rejectWithValue }) => {
     try {

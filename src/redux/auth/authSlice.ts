@@ -1,9 +1,9 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-import { IErrors } from 'interfaces';
+import { IErrors, ITokens, userMutation } from 'interfaces';
 import { RootState } from 'redux/hooks';
 import store from 'redux/store';
-import { ITokens, IUser, LoginMutation } from 'types/types';
+import { IUser } from 'types/types';
 import { addCookies } from 'utils/addCookies/addCookies';
 import { axiosApi, axiosApi2 } from 'utils/axios-api';
 
@@ -31,7 +31,7 @@ const INITIAL_STATE = {
   loading: false,
 } as AuthState;
 
-export const loginUser = createAsyncThunk<ITokens, LoginMutation>(
+export const loginUser = createAsyncThunk<ITokens, userMutation>(
   `${nameSpace}/loginUser`,
   async (loginData, { rejectWithValue }) => {
     try {
