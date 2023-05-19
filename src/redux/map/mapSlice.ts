@@ -1,17 +1,12 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { IMapState, Vehicle, VehicleV2 } from 'interfaces';
+import { IMapState, VehicleV2 } from 'interfaces';
 import { RootState } from 'redux/hooks';
-import { axiosApi, axiosApi2 } from 'utils/axios-api';
+import { axiosApi2 } from 'utils/axios-api';
 
 const nameSpace = 'map';
 
 const initialState = {
-  vehicle: {
-    loading: false,
-    errors: null,
-    results: null,
-  },
   field: {
     loading: false,
     errors: null,
@@ -29,21 +24,6 @@ const initialState = {
     },
   },
 } as IMapState;
-
-export const tractorLocation = createAsyncThunk(
-  `${nameSpace}/tractorLocation`,
-  async (link: string, { rejectWithValue }) => {
-    try {
-      const response = await axiosApi.get(link);
-      return response.data;
-    } catch (e) {
-      return rejectWithValue({
-        detail: e?.response?.data?.detail,
-        status: e?.response?.status,
-      });
-    }
-  },
-);
 
 export const obtainingCoordinate = createAsyncThunk(
   `${nameSpace}/obtainingCoordinate`,
@@ -78,24 +58,6 @@ const mapSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(tractorLocation.pending, (state) => {
-      state.vehicle.loading = true;
-      state.vehicle.errors = null;
-    });
-    builder.addCase(tractorLocation.fulfilled, (state, action: PayloadAction<Vehicle>) => {
-      state.vehicle.loading = false;
-      state.vehicle.results = action.payload;
-    });
-    builder.addCase(tractorLocation.rejected, (state, { payload }) => {
-      state.vehicle.loading = false;
-      if (payload && typeof payload === 'object' && 'detail' in payload && 'status' in payload) {
-        state.vehicle.errors = {
-          ...state.vehicle.errors,
-          detail: payload.detail as string | null,
-          status: payload.status as number | null,
-        };
-      }
-    });
     builder.addCase(obtainingCoordinate.pending, (state) => {
       state.field.loading = true;
       state.field.errors = null;
