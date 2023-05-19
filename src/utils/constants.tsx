@@ -45,7 +45,6 @@ export const envs = {
   production: 'production',
 };
 
-export const apiPath = '/api/v1';
 export const apiPathV2 = '/api/v2';
 
 export const domains = {
@@ -67,13 +66,6 @@ export const serverUrls = {
   [envs.development]: `https://${domains[envs.development]}`,
   [envs.staging]: `https://${domains[envs.staging]}`,
   [envs.production]: `https://${domains[envs.production]}`,
-};
-
-export const apiUrls = {
-  [envs.local]: `${serverUrls[envs.local]}${apiPath}`,
-  [envs.development]: `${serverUrls[envs.development]}${apiPath}`,
-  [envs.staging]: `${serverUrls[envs.staging]}${apiPath}`,
-  [envs.production]: `${serverUrls[envs.production]}${apiPath}`,
 };
 
 export const apiUrlsV2 = {
