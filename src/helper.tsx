@@ -232,13 +232,6 @@ export function getPageParam(url: string | undefined | null): string | null {
   return '';
 }
 
-export function isLineAbove(startPoint: any, endPoint: any): boolean {
-  const [, startY] = startPoint;
-  const [, endY] = endPoint;
-
-  return startY < endY;
-}
-
 export const isEmptyObject = (data: any) => {
   return Object.keys(data).length === 0;
 };
