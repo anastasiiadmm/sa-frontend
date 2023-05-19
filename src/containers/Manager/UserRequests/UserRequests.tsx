@@ -243,7 +243,7 @@ const UserRequests = () => {
         setImages({
           ...images,
           image: files[0],
-          deleted_image: userInfo?.uploaded_files?.[0]?.id as any,
+          deleted_image: userInfo?.uploaded_files?.[0]?.id as string,
         });
       }
     }

@@ -95,7 +95,7 @@ export interface RequestType {
       }
     | undefined
     | null;
-  uploaded_files: [{ id: number; file: string }] | null;
+  uploaded_files: [{ id: string; file: string }];
   data: {
     user: IUser;
     enterprise: {
