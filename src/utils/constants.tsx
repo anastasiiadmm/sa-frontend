@@ -68,7 +68,7 @@ export const serverUrls = {
   [envs.production]: `https://${domains[envs.production]}`,
 };
 
-export const apiUrlsV2 = {
+export const apiUrls = {
   [envs.local]: `${serverUrls[envs.local]}${apiPath}`,
   [envs.development]: `${serverUrls[envs.development]}${apiPath}`,
   [envs.staging]: `${serverUrls[envs.staging]}${apiPath}`,
