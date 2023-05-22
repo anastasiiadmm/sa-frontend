@@ -4,7 +4,7 @@ import { IErrors, ITokens, IUser, userMutation } from 'interfaces';
 import { RootState } from 'redux/hooks';
 import store from 'redux/store';
 import { addCookies } from 'utils/addCookies/addCookies';
-import { axiosApi2 } from 'utils/axios-api';
+import { axiosApi } from 'utils/axios-api';
 
 interface AuthState {
   user: IUser | null;
@@ -34,7 +34,7 @@ export const loginUser = createAsyncThunk<ITokens, userMutation>(
   `${nameSpace}/loginUser`,
   async (loginData, { rejectWithValue }) => {
     try {
-      const resp = await axiosApi2.post('/accounts/login/', loginData);
+      const resp = await axiosApi.post('/accounts/login/', loginData);
       addCookies('refresh', resp.data.refresh);
       localStorage.setItem(
         'users',
@@ -57,7 +57,7 @@ export const refreshToken = createAsyncThunk(`${nameSpace}/refreshToken`, async 
   const refresh = store.getState()?.auth?.tokens?.refresh;
   if (refresh) {
     const data = { refresh };
-    const resp = await axiosApi2.post('/accounts/refresh/', data);
+    const resp = await axiosApi.post('/accounts/refresh/', data);
     return resp.data;
   }
 });

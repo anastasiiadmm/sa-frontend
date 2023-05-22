@@ -11,7 +11,7 @@ const { REACT_APP_ENVIRONMENT } = process.env;
 
 const appEnvironment = REACT_APP_ENVIRONMENT || 'local';
 
-export const apiURL2 = apiUrlsV2[appEnvironment];
+export const apiURL = apiUrlsV2[appEnvironment];
 export const socketApiSocket = serverUrlsSocket[appEnvironment];
 
 export const apiUrlCrop = serverUrls[appEnvironment];

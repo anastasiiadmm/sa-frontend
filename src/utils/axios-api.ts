@@ -1,12 +1,12 @@
 import axios from 'axios';
 
-import { apiURL2, setupAxiosInterceptors, setupAxiosInterceptorsResponse } from 'utils/config';
+import { apiURL, setupAxiosInterceptors, setupAxiosInterceptorsResponse } from 'utils/config';
 
-const axiosApi2 = axios.create({
-  baseURL: apiURL2,
+const axiosApi = axios.create({
+  baseURL: apiURL,
 });
 
-setupAxiosInterceptors(axiosApi2);
-setupAxiosInterceptorsResponse(axiosApi2);
+setupAxiosInterceptors(axiosApi);
+setupAxiosInterceptorsResponse(axiosApi);
 
-export { axiosApi2 };
+export { axiosApi };

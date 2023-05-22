@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { IMapState, VehicleV2 } from 'interfaces';
 import { RootState } from 'redux/hooks';
-import { axiosApi2 } from 'utils/axios-api';
+import { axiosApi } from 'utils/axios-api';
 
 const nameSpace = 'map';
 
@@ -38,7 +38,7 @@ export const obtainingCoordinate = createAsyncThunk(
     { rejectWithValue },
   ) => {
     try {
-      const response = await axiosApi2.get(`/vehicles/${id}/routes/${field_name}`);
+      const response = await axiosApi.get(`/vehicles/${id}/routes/${field_name}`);
       return response.data;
     } catch (e) {
       return rejectWithValue({

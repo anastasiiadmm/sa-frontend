@@ -16,7 +16,7 @@ import {
   VehicleType,
 } from 'interfaces';
 import { RootState } from 'redux/hooks';
-import { axiosApi2 } from 'utils/axios-api';
+import { axiosApi } from 'utils/axios-api';
 import toQueryParams from 'utils/toQueryParams';
 
 const nameSpace = 'companies';
@@ -165,7 +165,7 @@ export const fetchUsersList = createAsyncThunk<IAccount, fetchCompaniesParams>(
       if (data?.query) {
         query = toQueryParams(data.query);
       }
-      const resp = await axiosApi2.get<IAccount | null>(`/accounts/users/${query}`);
+      const resp = await axiosApi.get<IAccount | null>(`/accounts/users/${query}`);
       const companies = resp.data;
 
       if (companies === null) {
@@ -190,7 +190,7 @@ export const userCreate = createAsyncThunk<void, userCreateParams>(
   `${nameSpace}/userCreate`,
   async ({ data }, { rejectWithValue }) => {
     try {
-      const resp = await axiosApi2.post(`/accounts/users/`, data);
+      const resp = await axiosApi.post(`/accounts/users/`, data);
 
       return resp.data;
     } catch (e) {
@@ -210,7 +210,7 @@ export const fetchUserInfo = createAsyncThunk<RequestType, fetchCompanyParams>(
   'accounts/fetchUserInfo',
   async ({ id }, { rejectWithValue }) => {
     try {
-      const resp = await axiosApi2.get<RequestType | null>(`/common/inquiries/${id}/`);
+      const resp = await axiosApi.get<RequestType | null>(`/common/inquiries/${id}/`);
       const companyInfo = resp.data;
 
       if (companyInfo === null) {
@@ -235,7 +235,7 @@ export const fetchUserInfoByManager = createAsyncThunk<IAccount, fetchUserInfoBy
   'accounts/fetchUserInfoByManager',
   async ({ id }, { rejectWithValue }) => {
     try {
-      const resp = await axiosApi2.get<IAccount | null>(`/accounts/users/${id}/`);
+      const resp = await axiosApi.get<IAccount | null>(`/accounts/users/${id}/`);
       const userInfoByManager = resp.data;
 
       if (userInfoByManager === null) {
@@ -261,7 +261,7 @@ export const updateUserInfo = createAsyncThunk<void, updateUserInfoParams>(
   `${nameSpace}/updateUserInfo`,
   async ({ id, data }, { rejectWithValue, dispatch }) => {
     try {
-      const resp = await axiosApi2.patch(`/accounts/users/${id}/`, data);
+      const resp = await axiosApi.patch(`/accounts/users/${id}/`, data);
       dispatch(fetchUserInfoByManager({ id }));
       message.success('Успешно изминились данные');
       return resp.data;
@@ -278,7 +278,7 @@ export const deleteUserInfo = createAsyncThunk<void, string>(
   `${nameSpace}/deleteUserInfo`,
   async (id, { rejectWithValue }) => {
     try {
-      const resp = await axiosApi2.delete(`/accounts/users/${id}/`);
+      const resp = await axiosApi.delete(`/accounts/users/${id}/`);
       message.success('Данные успешно удалены!');
 
       return resp.data;
@@ -308,7 +308,7 @@ export const fetchUserVehicleList = createAsyncThunk<companiesList, fetchVehicle
       if (data?.query) {
         query = toQueryParams(data.query);
       }
-      const resp = await axiosApi2.get<companiesList | null>(
+      const resp = await axiosApi.get<companiesList | null>(
         `/enterprises/${data?.idVehicle}/vehicles/${query}`,
       );
       const companies = resp.data;
@@ -331,7 +331,7 @@ export const fetchUserVehicleInfo = createAsyncThunk(
   `${nameSpace}/fetchUserVehicleInfo`,
   async (id: string, { rejectWithValue }) => {
     try {
-      const resp = await axiosApi2.get(`/vehicles/${id}/`);
+      const resp = await axiosApi.get(`/vehicles/${id}/`);
       return resp.data;
     } catch (e) {
       return rejectWithValue({
@@ -353,7 +353,7 @@ export const patchUserVehicleInfo = createAsyncThunk(
     { rejectWithValue },
   ) => {
     try {
-      const resp = await axiosApi2.patch(`/vehicles/${data.id}/`, data);
+      const resp = await axiosApi.patch(`/vehicles/${data.id}/`, data);
       message.success('Данные успешно изменены!');
       return {
         ...resp.data,
@@ -372,7 +372,7 @@ export const deleteUserVehicle = createAsyncThunk(
   `${nameSpace}/deleteUserVehicle`,
   async (id: string | null | undefined, { rejectWithValue }) => {
     try {
-      await axiosApi2.delete(`/vehicles/${id}/`);
+      await axiosApi.delete(`/vehicles/${id}/`);
       message.success('Данные успешно удалены!');
       return id;
     } catch (e) {
@@ -392,7 +392,7 @@ export const vehicleCreate = createAsyncThunk<void, vehicleCreateParams>(
   `${nameSpace}/vehicleCreate`,
   async (data, { rejectWithValue }) => {
     try {
-      const resp = await axiosApi2.post(`/vehicles/`, data?.data);
+      const resp = await axiosApi.post(`/vehicles/`, data?.data);
       return resp.data;
     } catch (e) {
       return rejectWithValue({
@@ -407,7 +407,7 @@ export const techniqueVehicleInfo = createAsyncThunk(
   `${nameSpace}/techniqueVehicleInfo`,
   async (id: number, { rejectWithValue }) => {
     try {
-      const response = await axiosApi2.get(`/common/inquiries/${id}/`);
+      const response = await axiosApi.get(`/common/inquiries/${id}/`);
       return response.data;
     } catch (e) {
       return rejectWithValue({
@@ -422,7 +422,7 @@ export const techniqueVehicleInfoPut = createAsyncThunk(
   `${nameSpace}/techniqueVehicleInfoPut`,
   async ({ id, formData }: ITechniqueVehicleInfoPut, { rejectWithValue }) => {
     try {
-      const response = await axiosApi2.post(`/common/inquiries/${id}/`, formData);
+      const response = await axiosApi.post(`/common/inquiries/${id}/`, formData);
       return response.data;
     } catch (e) {
       return rejectWithValue({
