@@ -264,8 +264,8 @@ const OpenMapComponent = () => {
   // };
 
   if (
-    vehicle.loading ||
-    field.loading ||
+    vehicle?.loading ||
+    field?.loading ||
     loadingMapUpdate ||
     socketLoading ||
     userVehicleInfoLoading
@@ -279,12 +279,12 @@ const OpenMapComponent = () => {
     );
   }
 
-  if (vehicle.errors?.detail || field.errors?.detail) {
+  if (vehicle?.errors?.detail || field?.errors?.detail) {
     return (
       <div>
         <Errors
-          status={vehicle.errors?.status || field.errors?.status}
-          detail={vehicle.errors?.detail || field.errors?.detail}
+          status={vehicle?.errors?.status || field?.errors?.status}
+          detail={vehicle?.errors?.detail || field?.errors?.detail}
         />
       </div>
     );
