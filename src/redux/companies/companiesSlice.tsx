@@ -1,21 +1,22 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { message } from 'antd';
 
-import { IConfirmation, IErrors, ITechniqueVehicleInfoPut, IVehicle } from 'interfaces';
-import { RootState } from 'redux/hooks';
 import {
   companiesList,
+  IAccount,
   ICompany,
-  IVehicleV2,
-  PostNewUser,
-  requestData,
-  requestUserProfileData,
-  usersListPagination,
-  vehicleCreateData,
-  vehicleList,
+  IErrors,
+  ITechniqueVehicleInfoPut,
+  IVehicle,
+  pagination,
+  RequestType,
+  userMutation,
+  VehicleList,
   vehicleListPagination,
-} from 'types/types';
-import { axiosApi, axiosApi2 } from 'utils/axios-api';
+  VehicleType,
+} from 'interfaces';
+import { RootState } from 'redux/hooks';
+import { axiosApi } from 'utils/axios-api';
 import toQueryParams from 'utils/toQueryParams';
 
 const nameSpace = 'companies';
@@ -24,25 +25,25 @@ interface CompaniesState {
   companies: companiesList[] | null;
   fetchCompaniesLoading: boolean;
   fetchCompaniesError: IErrors | null;
-  companiesListPagination: usersListPagination | null;
-  userCreate: PostNewUser | null;
+  companiesListPagination: pagination | null;
+  userCreate: userMutation | null;
   userCreateLoading: boolean;
   userCreateError: IErrors | null;
-  userInfo: requestData | null;
+  userInfo: RequestType | null;
   userInfoLoading: boolean;
   userInfoError: IErrors | null;
   updateUserInfoLoading: boolean;
   updateUserInfoError: IErrors | null;
-  updateUserData: requestUserProfileData | null | Object;
+  updateUserData: IAccount | null | Object;
   updateUserDataLoading: boolean;
   updateUserDataError: Object | null;
   deleteUserInfoLoading: boolean;
   deleteUserInfoError: IErrors | null;
-  vehicleList: vehicleList[];
+  vehicleList: VehicleList[];
   fetchVehicleListLoading: boolean;
   fetchVehicleListError: IErrors | null;
   vehicleListPagination: vehicleListPagination | null;
-  userVehicleInfo: IVehicleV2 | null;
+  userVehicleInfo: VehicleType | null;
   userVehicleInfoLoading: boolean;
   userVehicleInfoError: IErrors | null;
   vehicleCreateLoading: boolean;
@@ -62,12 +63,7 @@ interface CompaniesState {
     loading: boolean;
     errors: unknown;
   };
-  saveTechniqueVehicle: {
-    results: IConfirmation | null;
-    loading: boolean;
-    errors: IErrors | null;
-  };
-  userInfoByManager: requestUserProfileData | null;
+  userInfoByManager: IAccount | null;
   userInfoByManagerLoading: boolean;
   userInfoByManagerError: IErrors | null;
 }
@@ -161,7 +157,7 @@ interface fetchCompaniesParams {
   };
 }
 
-export const fetchUsersList = createAsyncThunk<requestUserProfileData, fetchCompaniesParams>(
+export const fetchUsersList = createAsyncThunk<IAccount, fetchCompaniesParams>(
   'accounts/fetchUsersList',
   async ({ data }, { rejectWithValue }) => {
     try {
@@ -169,7 +165,7 @@ export const fetchUsersList = createAsyncThunk<requestUserProfileData, fetchComp
       if (data?.query) {
         query = toQueryParams(data.query);
       }
-      const resp = await axiosApi2.get<requestUserProfileData | null>(`/accounts/users/${query}`);
+      const resp = await axiosApi.get<IAccount | null>(`/accounts/users/${query}`);
       const companies = resp.data;
 
       if (companies === null) {
@@ -194,7 +190,7 @@ export const userCreate = createAsyncThunk<void, userCreateParams>(
   `${nameSpace}/userCreate`,
   async ({ data }, { rejectWithValue }) => {
     try {
-      const resp = await axiosApi.post(`/companies/`, data);
+      const resp = await axiosApi.post(`/accounts/users/`, data);
 
       return resp.data;
     } catch (e) {
@@ -210,11 +206,11 @@ interface fetchCompanyParams {
   id: number | string | null | undefined;
 }
 
-export const fetchUserInfo = createAsyncThunk<requestData, fetchCompanyParams>(
+export const fetchUserInfo = createAsyncThunk<RequestType, fetchCompanyParams>(
   'accounts/fetchUserInfo',
   async ({ id }, { rejectWithValue }) => {
     try {
-      const resp = await axiosApi2.get<requestData | null>(`/common/inquiries/${id}/`);
+      const resp = await axiosApi.get<RequestType | null>(`/common/inquiries/${id}/`);
       const companyInfo = resp.data;
 
       if (companyInfo === null) {
@@ -235,37 +231,37 @@ interface fetchUserInfoByManagerParams {
   id: string | undefined;
 }
 
-export const fetchUserInfoByManager = createAsyncThunk<
-  requestUserProfileData,
-  fetchUserInfoByManagerParams
->('accounts/fetchUserInfoByManager', async ({ id }, { rejectWithValue }) => {
-  try {
-    const resp = await axiosApi2.get<requestUserProfileData | null>(`/accounts/users/${id}/`);
-    const userInfoByManager = resp.data;
+export const fetchUserInfoByManager = createAsyncThunk<IAccount, fetchUserInfoByManagerParams>(
+  'accounts/fetchUserInfoByManager',
+  async ({ id }, { rejectWithValue }) => {
+    try {
+      const resp = await axiosApi.get<IAccount | null>(`/accounts/users/${id}/`);
+      const userInfoByManager = resp.data;
 
-    if (userInfoByManager === null) {
-      throw new Error('Not Found!');
+      if (userInfoByManager === null) {
+        throw new Error('Not Found!');
+      }
+
+      return userInfoByManager;
+    } catch (e) {
+      return rejectWithValue({
+        detail: e?.response?.data?.detail,
+        status: e?.response?.status,
+      });
     }
-
-    return userInfoByManager;
-  } catch (e) {
-    return rejectWithValue({
-      detail: e?.response?.data?.detail,
-      status: e?.response?.status,
-    });
-  }
-});
+  },
+);
 
 interface updateUserInfoParams {
   id: string | undefined;
-  data: requestUserProfileData;
+  data: IAccount;
 }
 
 export const updateUserInfo = createAsyncThunk<void, updateUserInfoParams>(
   `${nameSpace}/updateUserInfo`,
   async ({ id, data }, { rejectWithValue, dispatch }) => {
     try {
-      const resp = await axiosApi2.patch(`/accounts/users/${id}/`, data);
+      const resp = await axiosApi.patch(`/accounts/users/${id}/`, data);
       dispatch(fetchUserInfoByManager({ id }));
       message.success('Успешно изминились данные');
       return resp.data;
@@ -282,7 +278,7 @@ export const deleteUserInfo = createAsyncThunk<void, string>(
   `${nameSpace}/deleteUserInfo`,
   async (id, { rejectWithValue }) => {
     try {
-      const resp = await axiosApi2.delete(`/accounts/users/${id}/`);
+      const resp = await axiosApi.delete(`/accounts/users/${id}/`);
       message.success('Данные успешно удалены!');
 
       return resp.data;
@@ -312,7 +308,7 @@ export const fetchUserVehicleList = createAsyncThunk<companiesList, fetchVehicle
       if (data?.query) {
         query = toQueryParams(data.query);
       }
-      const resp = await axiosApi2.get<companiesList | null>(
+      const resp = await axiosApi.get<companiesList | null>(
         `/enterprises/${data?.idVehicle}/vehicles/${query}`,
       );
       const companies = resp.data;
@@ -335,7 +331,7 @@ export const fetchUserVehicleInfo = createAsyncThunk(
   `${nameSpace}/fetchUserVehicleInfo`,
   async (id: string, { rejectWithValue }) => {
     try {
-      const resp = await axiosApi2.get(`/vehicles/${id}/`);
+      const resp = await axiosApi.get(`/vehicles/${id}/`);
       return resp.data;
     } catch (e) {
       return rejectWithValue({
@@ -352,12 +348,12 @@ export const patchUserVehicleInfo = createAsyncThunk(
     {
       data,
     }: {
-      data: IVehicleV2;
+      data: VehicleType;
     },
     { rejectWithValue },
   ) => {
     try {
-      const resp = await axiosApi2.patch(`/vehicles/${data.id}/`, data);
+      const resp = await axiosApi.patch(`/vehicles/${data.id}/`, data);
       message.success('Данные успешно изменены!');
       return {
         ...resp.data,
@@ -376,7 +372,7 @@ export const deleteUserVehicle = createAsyncThunk(
   `${nameSpace}/deleteUserVehicle`,
   async (id: string | null | undefined, { rejectWithValue }) => {
     try {
-      await axiosApi2.delete(`/vehicles/${id}/`);
+      await axiosApi.delete(`/vehicles/${id}/`);
       message.success('Данные успешно удалены!');
       return id;
     } catch (e) {
@@ -389,14 +385,14 @@ export const deleteUserVehicle = createAsyncThunk(
 );
 
 interface vehicleCreateParams {
-  data: vehicleCreateData;
+  data: VehicleType;
 }
 
 export const vehicleCreate = createAsyncThunk<void, vehicleCreateParams>(
   `${nameSpace}/vehicleCreate`,
   async (data, { rejectWithValue }) => {
     try {
-      const resp = await axiosApi2.post(`/vehicles/`, data?.data);
+      const resp = await axiosApi.post(`/vehicles/`, data?.data);
       return resp.data;
     } catch (e) {
       return rejectWithValue({
@@ -411,7 +407,7 @@ export const techniqueVehicleInfo = createAsyncThunk(
   `${nameSpace}/techniqueVehicleInfo`,
   async (id: number, { rejectWithValue }) => {
     try {
-      const response = await axiosApi2.get(`/common/inquiries/${id}/`);
+      const response = await axiosApi.get(`/common/inquiries/${id}/`);
       return response.data;
     } catch (e) {
       return rejectWithValue({
@@ -426,7 +422,7 @@ export const techniqueVehicleInfoPut = createAsyncThunk(
   `${nameSpace}/techniqueVehicleInfoPut`,
   async ({ id, formData }: ITechniqueVehicleInfoPut, { rejectWithValue }) => {
     try {
-      const response = await axiosApi2.post(`/common/inquiries/${id}/`, formData);
+      const response = await axiosApi.post(`/common/inquiries/${id}/`, formData);
       return response.data;
     } catch (e) {
       return rejectWithValue({
@@ -437,29 +433,11 @@ export const techniqueVehicleInfoPut = createAsyncThunk(
   },
 );
 
-export const techniqueVehicleConfirmation = createAsyncThunk(
-  `${nameSpace}/techniqueVehicleConfirmation`,
-  async (id: number, { rejectWithValue }) => {
-    try {
-      const response = await axiosApi.patch(`accounts/manager/confirmation/${id}/`);
-      return response.data;
-    } catch (e) {
-      if (e?.response?.data?.detail) {
-        await message.error(e?.response?.data?.detail);
-      }
-      return rejectWithValue({
-        detail: e?.response?.data?.detail,
-        status: e?.response?.status,
-      });
-    }
-  },
-);
-
 const companiesSlice = createSlice({
   name: nameSpace,
   initialState: INITIAL_STATE,
   reducers: {
-    setChangeUserProfile: (state: any, action: PayloadAction<requestUserProfileData>) => {
+    setChangeUserProfile: (state: any, action: PayloadAction<IAccount>) => {
       state.updateUserData.coords_timeout = action.payload.coords_timeout;
       state.updateUserData.email = action.payload.email;
       state.updateUserData.first_name = action.payload.first_name;
@@ -483,9 +461,6 @@ const companiesSlice = createSlice({
     },
     clearUserInfo: (state) => {
       state.userInfo = null;
-    },
-    clearTechniqueVehicle: (state) => {
-      state.saveTechniqueVehicle.results = null;
     },
     clearCompaniesPagination: (state) => {
       state.companiesListPagination = null;
@@ -690,7 +665,7 @@ const companiesSlice = createSlice({
     });
     builder.addCase(
       patchUserVehicleInfo.fulfilled,
-      (state, { payload }: PayloadAction<IVehicleV2>) => {
+      (state, { payload }: PayloadAction<VehicleType>) => {
         state.patchUserVehicleInfoLoading = false;
         state.patchUserVehicleInfoError = null;
         state.vehicleList = state.vehicleList.map((item) => {
@@ -767,26 +742,6 @@ const companiesSlice = createSlice({
       state.techniqueVehicleUpdate.loading = false;
       state.techniqueVehicleUpdate.errors = payload;
     });
-
-    builder.addCase(techniqueVehicleConfirmation.pending, (state) => {
-      state.saveTechniqueVehicle.loading = true;
-      state.saveTechniqueVehicle.errors = null;
-    });
-    builder.addCase(techniqueVehicleConfirmation.fulfilled, (state, action) => {
-      state.saveTechniqueVehicle.results = action.payload;
-      state.saveTechniqueVehicle.loading = false;
-      state.saveTechniqueVehicle.errors = null;
-    });
-    builder.addCase(techniqueVehicleConfirmation.rejected, (state, { payload }) => {
-      state.saveTechniqueVehicle.loading = false;
-      if (payload && typeof payload === 'object' && 'detail' in payload && 'status' in payload) {
-        state.saveTechniqueVehicle.errors = {
-          ...state.saveTechniqueVehicle.errors,
-          detail: payload.detail as string | null,
-          status: payload.status as number | null,
-        };
-      }
-    });
   },
 });
 
@@ -801,6 +756,4 @@ export const techniqueVehicleInfoSelector = (state: RootState) =>
   state.companies.techniqueVehicleInfo;
 export const techniqueVehicleUpdateSelector = (state: RootState) =>
   state.companies.techniqueVehicleUpdate;
-export const techniqueVehicleConfirmationSelector = (state: RootState) =>
-  state.companies.saveTechniqueVehicle;
 export default companiesSlice.reducer;

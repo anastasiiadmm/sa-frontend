@@ -30,17 +30,6 @@ export interface Vehicle {
   enterprise: number;
 }
 
-export interface resultsAB {
-  received_data: {
-    PointA: string;
-    PointB: string;
-  };
-}
-export interface IVehicleV2Actions {
-  results: resultsAB[];
-  resultsV2: VehicleV2;
-}
-
 export interface VehicleV2 {
   id: number | null;
   description: string;

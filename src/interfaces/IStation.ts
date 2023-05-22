@@ -334,8 +334,14 @@ export interface Location {
   type: string;
   importance: number;
   icon: string;
-}[];
+}
+[];
 
 export interface Locales {
   [key: string]: string;
+}
+
+export interface climateOptions {
+  value: string;
+  label: string;
 }

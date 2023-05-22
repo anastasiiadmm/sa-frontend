@@ -18,6 +18,7 @@ import ModalComponent from 'components/ModalComponent/ModalComponent';
 import ResultComponent from 'components/ResultComponent/ResultComponent';
 import TableComponent from 'components/TableComponent/TableComponent';
 import { getErrorMessage, getPageNumber, getPageNumberPrevious } from 'helper';
+import { ErrorObject, userVehicles } from 'interfaces';
 import {
   companiesSelector,
   deleteUserVehicle,
@@ -27,7 +28,6 @@ import {
   setNullReducerVehicleCreate,
 } from 'redux/companies/companiesSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { vehicleList } from 'types/types';
 import { apiUrlCrop } from 'utils/config';
 
 import 'containers/Manager/Users/UserTechnique/_userTechnique.scss';
@@ -132,7 +132,7 @@ const UserTechnique: React.FC = () => {
       await dispatch(deleteUserVehicle(vehicleId)).unwrap();
       await handleDeleteOkCancel();
     } catch (e) {
-      const errorMessage = getErrorMessage(e, 'username');
+      const errorMessage = getErrorMessage(e as ErrorObject, 'username');
       await message.error(`${errorMessage}`);
     }
   };
@@ -155,13 +155,13 @@ const UserTechnique: React.FC = () => {
     setVehicleId(id);
     dispatch(fetchUserVehicleInfo(id));
   };
-  const columns: ColumnsType<vehicleList> = [
+  const columns: ColumnsType<userVehicles> = [
     {
       title: 'Код техники',
       dataIndex: 'code',
       width: '20%',
       fixed: 'left',
-      render: (text: string, record: vehicleList) => {
+      render: (text: string, record: userVehicles) => {
         return (
           <div style={{ display: 'flex', gap: 12 }}>
             <img
@@ -181,25 +181,23 @@ const UserTechnique: React.FC = () => {
       width: '20%',
     },
     {
-      title: 'Поля',
-      dataIndex: 'field_count',
+      title: 'Задача на обработку',
+      dataIndex: 'jobs_number',
       filterSearch: true,
       width: '20%',
-      render: (text: string, record: vehicleList) => {
-        return <p>{record?.vehicle_fields_data?.field_count}</p>;
+      render: (text: number, record: userVehicles) => {
+        return <p>{record?.jobs_number}</p>;
       },
     },
     {
       title: 'Общая Площадь',
-      dataIndex: 'processed_area',
+      dataIndex: 'area',
       filterSearch: true,
       width: '45%',
-      render: (text: string, record: vehicleList) => {
+      render: (text: number, record: userVehicles) => {
         return (
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'right' }}>
-            <p className={b('text_processed_area')}>
-              {record?.vehicle_fields_data?.processed_area || 0}
-            </p>
+            <p className={b('text_processed_area')}>{record?.area || 0}</p>
             <Tooltip
               title='Редактировать'
               color='#BBBBBB'

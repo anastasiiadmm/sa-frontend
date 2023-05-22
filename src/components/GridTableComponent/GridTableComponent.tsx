@@ -3,7 +3,7 @@ import { CompareFn, SortOrder } from 'antd/es/table/interface';
 import moment from 'moment';
 import React from 'react';
 
-import { gridSensor, headerGrid } from 'types/stationTypes';
+import { gridSensor, headerGrid } from 'interfaces/IStation';
 
 interface Props {
   data: gridSensor;

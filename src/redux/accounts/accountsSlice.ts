@@ -2,24 +2,23 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { message } from 'antd';
 
 import { getErrorMessage } from 'helper';
-import { IErrors, IMyData, IUpdateManagerDataMutation } from 'interfaces';
-import { IConfig } from 'interfaces/IConfig';
-import { RootState } from 'redux/hooks';
 import {
   accountsManagerConfirmation,
   generatedPassword,
   IAccount,
-  IUserAccount,
+  IErrors,
+  IMyData,
+  IUpdateManagerDataMutation,
+  pagination,
   RequestType,
   updateManagerDataMutation,
-  userRequest,
-  userRequestPagination,
   userVehicleInfo,
   userVehicles,
-  userVehiclesPagination,
   ValidationUpdateManagerProfile,
-} from 'types/types';
-import { axiosApi, axiosApi2 } from 'utils/axios-api';
+} from 'interfaces';
+import { IConfig } from 'interfaces/IConfig';
+import { RootState } from 'redux/hooks';
+import { axiosApi } from 'utils/axios-api';
 import toQueryParams from 'utils/toQueryParams';
 
 const nameSpace = 'accounts';
@@ -34,18 +33,15 @@ interface AccountsState {
   updateManagerData: updateManagerDataMutation;
   updateManagerDataLoading: boolean;
   updateManagerDataError: IErrors | null;
-  user: IUserAccount | null;
-  fetchLoadingUser: boolean;
-  fetchLoadingUserError: IErrors | null;
   userVehicles: userVehicles[] | undefined;
-  userVehiclesPagination: userVehiclesPagination | null;
+  userVehiclesPagination: pagination | null;
   fetchUserVehiclesLoading: boolean;
   fetchUserVehiclesError: IErrors | null;
   inquiriesLoading: boolean;
   inquiriesError: IErrors | null;
   inquiriesSuccess: boolean | null;
-  requests: userRequest[] | undefined;
-  requestsPagination: userRequestPagination | null;
+  requests: accountsManagerConfirmation[] | undefined;
+  requestsPagination: pagination | null;
   fetchRequestsLoading: boolean;
   fetchRequestsError: IErrors | null;
   userVehicleInfo: userVehicleInfo | null;
@@ -149,7 +145,7 @@ export const fetchConfigs = createAsyncThunk<IConfig, void>(
   'accounts/fetchConfigs',
   async (_, { rejectWithValue }) => {
     try {
-      const resp = await axiosApi2.get<IConfig>(`/common/config/`);
+      const resp = await axiosApi.get<IConfig>(`/common/config/`);
       return resp.data;
     } catch (e) {
       return rejectWithValue({
@@ -164,7 +160,7 @@ export const fetchAccount = createAsyncThunk(
   'accounts/fetchManager',
   async (_, { rejectWithValue, dispatch }) => {
     try {
-      const resp = await axiosApi2.get<IAccount | null>('/accounts/');
+      const resp = await axiosApi.get<IAccount | null>('/accounts/');
       const account = resp.data;
       if (account === null) {
         throw new Error('Not Found!');
@@ -190,7 +186,7 @@ export const managerProfileUpdate = createAsyncThunk<void, updateManagerParams>(
   `${nameSpace}/managerProfileUpdate`,
   async ({ data }, { rejectWithValue, dispatch }) => {
     try {
-      const resp = await axiosApi.patch(`/accounts/manager/`, data);
+      const resp = await axiosApi.patch(`/accounts/managers/`, data);
       message.success('Данные успешно изменены!');
       await dispatch(fetchAccount());
       return resp.data;
@@ -207,22 +203,6 @@ export const managerProfileUpdate = createAsyncThunk<void, updateManagerParams>(
   },
 );
 
-export const fetchUser = createAsyncThunk('accounts/fetchUser', async (_, { rejectWithValue }) => {
-  try {
-    const resp = await axiosApi.get<IUserAccount | null>('/accounts/user/');
-    const user = resp.data;
-    if (user === null) {
-      throw new Error('Not Found!');
-    }
-    return user;
-  } catch (e) {
-    return rejectWithValue({
-      detail: e?.response?.data?.detail,
-      status: e?.response?.status,
-    });
-  }
-});
-
 export const fetchUserVehicles = createAsyncThunk(
   'accounts/fetchUserVehicles',
   async (
@@ -236,7 +216,7 @@ export const fetchUserVehicles = createAsyncThunk(
     { rejectWithValue },
   ) => {
     try {
-      const resp = await axiosApi2.get<userVehicles | null>(
+      const resp = await axiosApi.get<userVehicles | null>(
         `/enterprises/${id}/vehicles/?page=${page}`,
       );
       return resp.data;
@@ -253,7 +233,7 @@ export const requestChangeProfile = createAsyncThunk<void, IMyData | FormData>(
   `${nameSpace}/requestChangeProfile`,
   async (data, { rejectWithValue }) => {
     try {
-      const resp = await axiosApi2.post(`/common/inquiries/`, data);
+      const resp = await axiosApi.post(`/common/inquiries/`, data);
       message.success('Запрос успешно отправлен!');
       return resp.data;
     } catch (e) {
@@ -271,7 +251,7 @@ export const requestApproveChangeProfile = createAsyncThunk<void, approveChangeP
   `${nameSpace}/requestApproveChangeProfile`,
   async ({ id, data }, { rejectWithValue }) => {
     try {
-      const resp = await axiosApi2.post(`/common/inquiries/${id}/`, data);
+      const resp = await axiosApi.post(`/common/inquiries/${id}/`, data);
       message.success('Запрос успешно принят!');
       return resp.data;
     } catch (e) {
@@ -284,7 +264,7 @@ export const approveFieldClimateRequest = createAsyncThunk<void, IMyData>(
   `${nameSpace}/approveFieldClimateRequest`,
   async (data, { rejectWithValue }) => {
     try {
-      const resp = await axiosApi2.post(`/common/inquiries/`, data);
+      const resp = await axiosApi.post(`/common/inquiries/`, data);
       message.success('Запрос успешно отправлен!');
 
       return resp.data;
@@ -307,7 +287,7 @@ export const approveRegisterRequest = createAsyncThunk<void, IMyData>(
   `${nameSpace}/approveRegisterRequest`,
   async (data, { rejectWithValue }) => {
     try {
-      const resp = await axiosApi2.post(`/common/inquiries/`, data);
+      const resp = await axiosApi.post(`/common/inquiries/`, data);
       message.success('Запрос успешно отправлен!');
 
       return resp.data;
@@ -332,7 +312,7 @@ export const approveRequest = createAsyncThunk<RequestType, approveRequestParams
   `${nameSpace}/approveRequest`,
   async (data, { rejectWithValue }) => {
     try {
-      const res = await axiosApi2.post(`/common/inquiries/${data?.id}/`, data?.data);
+      const res = await axiosApi.post(`/common/inquiries/${data?.id}/`, data?.data);
       message.success('Запрос принят!');
       return res?.data?.id;
     } catch (e) {
@@ -355,7 +335,7 @@ export const deleteRequest = createAsyncThunk(
     { rejectWithValue },
   ) => {
     try {
-      await axiosApi2.delete(`/common/inquiries/${id}/`);
+      await axiosApi.delete(`/common/inquiries/${id}/`);
       message.success('Успешно удалено');
       return {
         id,
@@ -377,7 +357,7 @@ interface fetchRequestsParams {
   };
 }
 
-export const fetchRequests = createAsyncThunk<userRequest, fetchRequestsParams>(
+export const fetchRequests = createAsyncThunk<accountsManagerConfirmation, fetchRequestsParams>(
   'accounts/fetchRequests',
   async ({ data }, { rejectWithValue }) => {
     try {
@@ -385,7 +365,7 @@ export const fetchRequests = createAsyncThunk<userRequest, fetchRequestsParams>(
       if (data?.query) {
         query = toQueryParams(data.query);
       }
-      const resp = await axiosApi2.get(`/common/inquiries/${query}`);
+      const resp = await axiosApi.get(`/common/inquiries/${query}`);
       const requests = resp.data;
 
       if (requests === null) {
@@ -410,7 +390,7 @@ export const vehicleCreateRequest = createAsyncThunk<void, vehicleCreateRequestP
   `${nameSpace}/vehicleCreateRequest`,
   async ({ data }, { rejectWithValue }) => {
     try {
-      const resp = await axiosApi2.post(`/common/inquiries/`, data);
+      const resp = await axiosApi.post(`/common/inquiries/`, data);
       message.success('Запрос успешно отправлен!');
 
       return resp.data;
@@ -433,7 +413,7 @@ export const accountManagerConfirmationRequest = createAsyncThunk<
   accountManagerConfirmationParams
 >('accounts/accountManagerConfirmationRequest', async ({ id, data }, { rejectWithValue }) => {
   try {
-    const resp = await axiosApi2.post<accountsManagerConfirmation | null>(
+    const resp = await axiosApi.post<accountsManagerConfirmation | null>(
       `/common/inquiries/${id}/`,
       data,
     );
@@ -459,7 +439,7 @@ export const fetchVehicleInfo = createAsyncThunk(
     { rejectWithValue },
   ) => {
     try {
-      const resp = await axiosApi2.get(`/vehicles/${vehicleId}/jobs/?page=${pageUrl}`);
+      const resp = await axiosApi.get(`/vehicles/${vehicleId}/jobs/?page=${pageUrl}`);
       return resp.data;
     } catch (e) {
       return rejectWithValue({
@@ -478,7 +458,7 @@ export const generateNewPassword = createAsyncThunk<generatedPassword, generateN
   `${nameSpace}/generateNewPassword`,
   async (data, { rejectWithValue }) => {
     try {
-      const resp = await axiosApi2.patch(`/accounts/new-password/`, data);
+      const resp = await axiosApi.patch(`/accounts/new-password/`, data);
       return resp.data;
     } catch (e) {
       return rejectWithValue({
@@ -513,9 +493,6 @@ const accountsSlice = createSlice({
     },
     inquiriesSuccessNull: (state) => {
       state.inquiriesSuccess = false;
-    },
-    deleteRequests: (state, action) => {
-      state.requests = state.requests?.filter((item) => item.id !== action.payload);
     },
     clearRequestsPagination: (state) => {
       state.requestsPagination = null;
@@ -576,26 +553,6 @@ const accountsSlice = createSlice({
       if (payload && typeof payload === 'object' && 'detail' in payload && 'status' in payload) {
         state.updateManagerDataError = {
           ...state.updateManagerDataError,
-          detail: payload.detail as string | null,
-          status: payload.status as number | null,
-        };
-      }
-    });
-
-    builder.addCase(fetchUser.pending, (state) => {
-      state.fetchLoadingUser = true;
-      state.fetchLoadingUserError = null;
-    });
-    builder.addCase(fetchUser.fulfilled, (state, { payload: user }) => {
-      state.fetchLoadingUser = false;
-      state.fetchLoadingUserError = null;
-      state.user = user;
-    });
-    builder.addCase(fetchUser.rejected, (state, { payload }) => {
-      state.fetchLoadingUser = false;
-      if (payload && typeof payload === 'object' && 'detail' in payload && 'status' in payload) {
-        state.fetchLoadingUserError = {
-          ...state.fetchLoadingUserError,
           detail: payload.detail as string | null,
           status: payload.status as number | null,
         };
@@ -868,7 +825,6 @@ export const {
   managerChangeProfileHandler,
   setManagerProfile,
   inquiriesSuccessNull,
-  deleteRequests,
   clearRequestsPagination,
 } = accountsSlice.actions;
 export const accountsSelector = (state: RootState) => state.accounts;

@@ -3,11 +3,11 @@ import bem from 'easy-bem';
 import React, { useEffect } from 'react';
 
 import FormField from 'components/FormField/FormField';
-import { accountsManagerConfirmation, PostNewUser } from 'types/types';
+import { accountsManagerConfirmation, userMutation } from 'interfaces';
 import 'components/ModalComponent/ModalChildrenComponents/CreateNewUserCredentials/_createNewUserCredentials.scss';
 
 interface Props {
-  userCreateData?: PostNewUser | null;
+  userCreateData?: userMutation | null;
   requestRegisterUserData?: accountsManagerConfirmation | null;
   handleOkCancel: () => void;
 }
@@ -23,10 +23,8 @@ const CreateNewUserCredentials: React.FC<Props> = ({
   useEffect(() => {
     if (userCreateData) {
       form.setFieldsValue({
-        user: {
-          username: userCreateData?.user?.username,
-          generated_password: userCreateData?.user?.generated_password,
-        },
+        username: userCreateData?.username,
+        password: userCreateData?.password,
       });
     }
 
@@ -53,7 +51,7 @@ const CreateNewUserCredentials: React.FC<Props> = ({
           data-testid='username_id'
           id='username_id'
           label='Логин'
-          name={userCreateData ? ['user', 'username'] : 'username'}
+          name='username'
           placeholder='Логин'
           inputClassName={b('username-info')}
         />
@@ -64,7 +62,7 @@ const CreateNewUserCredentials: React.FC<Props> = ({
             data-testid='generated_password_id'
             id='generated_password_id'
             label='Пароль'
-            name={userCreateData ? ['user', 'generated_password'] : 'password'}
+            name='password'
             placeholder='Пароль'
             inputClassName={b('username-info')}
           />

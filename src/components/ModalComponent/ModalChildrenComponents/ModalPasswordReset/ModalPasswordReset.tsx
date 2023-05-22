@@ -1,25 +1,21 @@
 import { Button, Form } from 'antd';
 import bem from 'easy-bem';
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import AlertComponent from 'components/AlertComponent/AlertComponent';
 import FormField from 'components/FormField/FormField';
-import { authSelector, resetUserPasswordSendEmail } from 'redux/auth/authSlice';
-import { AppDispatch } from 'redux/hooks';
-import { ResetEmail } from 'types/types';
+import { authSelector } from 'redux/auth/authSlice';
+import { ResetEmail } from 'interfaces';
 import 'containers/SignIn/_signIn.scss';
 
 const ModalPasswordReset: React.FC = () => {
   const b = bem('SignIn');
-  const [form] = Form.useForm();
-  const dispatch = useDispatch<AppDispatch>();
   const { loading, success, errors } = useSelector(authSelector);
   const [state, setState] = useState<ResetEmail | null>(null);
 
   const onFinish = (value: ResetEmail) => {
     setState(value);
-    dispatch(resetUserPasswordSendEmail(value));
   };
 
   const successSend = (

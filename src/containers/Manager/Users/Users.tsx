@@ -10,9 +10,9 @@ import tractorBlue from 'assets/images/icons/tractor-blue.svg';
 import Errors from 'components/Errors/Errors';
 import TableComponent from 'components/TableComponent/TableComponent';
 import { getPageNumber, getPageNumberPrevious } from 'helper';
+import { IAccount } from 'interfaces';
 import { companiesSelector, fetchUsersList } from 'redux/companies/companiesSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { requestUserProfileData } from 'types/types';
 
 import 'containers/Manager/Users/_users.scss';
 
@@ -58,14 +58,14 @@ const Users: React.FC = () => {
     push(`/user-profile/${id}/`);
   };
 
-  const columns: ColumnsType<requestUserProfileData> = [
+  const columns: ColumnsType<IAccount> = [
     {
       key: 'last_name',
       title: 'ФИО',
       dataIndex: 'name',
       width: '30%',
       fixed: 'left',
-      render: (text: string, record: requestUserProfileData) => {
+      render: (text: string, record: IAccount) => {
         return (
           <p className={b('user-name')}>
             {record?.last_name} {record?.first_name} {record?.middle_name}
@@ -78,7 +78,7 @@ const Users: React.FC = () => {
       dataIndex: 'name',
       filterSearch: true,
       width: '30%',
-      render: (text: string, record: requestUserProfileData) => {
+      render: (text: string, record: IAccount) => {
         return <p>{record?.company?.name}</p>;
       },
     },
@@ -87,7 +87,7 @@ const Users: React.FC = () => {
       dataIndex: 'phone',
       filterSearch: true,
       width: '30%',
-      render: (text: string, record: requestUserProfileData) => {
+      render: (text: string, record: IAccount) => {
         return <p>{record?.phone}</p>;
       },
     },
@@ -96,7 +96,7 @@ const Users: React.FC = () => {
       dataIndex: 'autopilots_amount',
       filterSearch: true,
       width: '25%',
-      render: (text: string, record: requestUserProfileData) => (
+      render: (text: string, record: IAccount) => (
         <>
           <span>{record?.company?.autopilots_amount}</span>
           <Tooltip
@@ -129,7 +129,7 @@ const Users: React.FC = () => {
           <Title className={b('card-title')}>Добавлено пользователей</Title>
           <div className={b('card-content')}>
             <img src={people} alt='group' />
-            <p>{companies?.length || 0}</p>
+            <p>{companiesListPagination?.count || 0}</p>
           </div>
         </Card>
         <Card className={b('card-style')} bordered={false} style={{ width: 300 }}>

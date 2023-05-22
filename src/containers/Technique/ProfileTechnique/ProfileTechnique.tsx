@@ -12,10 +12,10 @@ import Errors from 'components/Errors/Errors';
 import FormField from 'components/FormField/FormField';
 import TableComponent from 'components/TableComponent/TableComponent';
 import { getPageParam } from 'helper';
+import { Result } from 'interfaces';
 import { accountsSelector, fetchVehicleInfo } from 'redux/accounts/accountsSlice';
 import { companiesSelector } from 'redux/companies/companiesSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { Result } from 'types/types';
 import { urlFormat } from 'utils/files/files';
 
 import 'containers/Technique/ProfileTechnique/_profileTechnique.scss';

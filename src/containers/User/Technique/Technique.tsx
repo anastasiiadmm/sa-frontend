@@ -15,6 +15,7 @@ import ModalComponent from 'components/ModalComponent/ModalComponent';
 import SkeletonBlock from 'components/SkeletonBlock/SkeletonBlock';
 import TableComponent from 'components/TableComponent/TableComponent';
 import { getPageNumber, getPageNumberPrevious } from 'helper';
+import { userVehicles } from 'interfaces';
 import {
   accountsSelector,
   approveFieldClimateRequest,
@@ -22,7 +23,6 @@ import {
   fetchUserVehicles,
 } from 'redux/accounts/accountsSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { userVehicles } from 'types/types';
 import { apiUrlCrop } from 'utils/config';
 
 import 'containers/User/Technique/_technique.scss';
@@ -38,7 +38,6 @@ const Technique = () => {
     fetchUserVehiclesLoading,
     userVehiclesPagination,
     fetchUserVehiclesError,
-    fetchLoadingUserError,
     inquiriesLoading,
     inquiriesError,
   } = useAppSelector(accountsSelector);
@@ -131,9 +130,9 @@ const Technique = () => {
       width: '30%',
     },
     {
-      key: 'field_count',
-      title: 'Поля',
-      dataIndex: 'field_count',
+      key: 'jobs_number',
+      title: 'Задача на обработку',
+      dataIndex: 'jobs_number',
       width: '20%',
       render: (text: number, record) => (
         <p className={b('name-column-style')}>{record?.jobs_number}</p>
@@ -175,15 +174,11 @@ const Technique = () => {
     },
   ];
 
-  if (fetchUserVehiclesError || fetchLoadingUserError || inquiriesError) {
+  if (fetchUserVehiclesError || inquiriesError) {
     return (
       <Errors
-        status={
-          fetchUserVehiclesError?.status || fetchLoadingUserError?.status || inquiriesError?.status
-        }
-        detail={
-          fetchUserVehiclesError?.detail || fetchLoadingUserError?.detail || inquiriesError?.detail
-        }
+        status={fetchUserVehiclesError?.status || inquiriesError?.status}
+        detail={fetchUserVehiclesError?.detail || inquiriesError?.detail}
       />
     );
   }
@@ -201,7 +196,7 @@ const Technique = () => {
                 ) : (
                   <div className={b('card-content')}>
                     <img src={tractorBlue} alt='group' />
-                    <p>{userVehicles?.length}</p>
+                    <p>{userVehiclesPagination?.count}</p>
                   </div>
                 )}
               </div>

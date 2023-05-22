@@ -231,6 +231,7 @@ const FieldClimateConfigurations = () => {
       await dispatch(putStation({ id, data })).unwrap();
       await message.success('Данные успешно обновлены!');
       await dispatch(fetchStationInfo({ id }));
+      await setFormSearchValid(true);
     } catch (e) {
       await message.error(e?.detail);
     }
@@ -405,6 +406,7 @@ const FieldClimateConfigurations = () => {
                     />
 
                     <Button
+                      disabled={formSearchValid}
                       type='primary'
                       htmlType='submit'
                       loading={sensorPutLoading}

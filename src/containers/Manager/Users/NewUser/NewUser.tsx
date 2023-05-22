@@ -85,7 +85,7 @@ const NewUser: React.FC = () => {
                 id='last_name_id'
                 inputClassName={b('username')}
                 label='Фамилия'
-                name={['user', 'last_name']}
+                name='last_name'
                 placeholder='Фамилия'
                 rules={[{ required: true, message: 'Введите фамилию' }]}
               />
@@ -96,7 +96,7 @@ const NewUser: React.FC = () => {
                 id='first_name_id'
                 inputClassName={b('username')}
                 label='Имя'
-                name={['user', 'first_name']}
+                name='first_name'
                 placeholder='Имя'
                 rules={[{ required: true, message: 'Введите имя' }]}
               />
@@ -108,7 +108,7 @@ const NewUser: React.FC = () => {
               id='middle_name_id'
               inputClassName={b('username')}
               label='Отчество'
-              name={['user', 'middle_name']}
+              name='middle_name'
               placeholder='Отчество'
             />
 
@@ -120,7 +120,7 @@ const NewUser: React.FC = () => {
                 id='email_id'
                 inputClassName={b('username')}
                 label='Email'
-                name={['user', 'email']}
+                name='email'
                 placeholder='Email'
                 rules={[{ required: true, message: 'Введите Email' }]}
               />
@@ -129,7 +129,7 @@ const NewUser: React.FC = () => {
                 bordered
                 type='phone'
                 className='username'
-                name={['user', 'phone']}
+                name='phone'
                 label='Номер телефона'
                 placeholder='Номер телефона'
               />
@@ -141,7 +141,7 @@ const NewUser: React.FC = () => {
               id='name_id'
               inputClassName={b('username')}
               label='Название колхоза/фермы/компании'
-              name='name'
+              name={['company', 'name']}
               placeholder='Название колхоза/фермы/компании'
               rules={[{ required: true, message: 'Введите название колхоза/фермы/компании' }]}
             />
@@ -152,7 +152,7 @@ const NewUser: React.FC = () => {
               id='location_id'
               inputClassName={b('username')}
               label='Регион расположения'
-              name='location'
+              name={['company', 'location']}
               placeholder='Регион расположения'
               rules={[{ required: true, message: 'Введите регион расположения' }]}
             />
