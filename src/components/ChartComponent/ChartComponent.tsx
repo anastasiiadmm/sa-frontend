@@ -6,7 +6,7 @@ import HCSolidGauge from 'highcharts/modules/solid-gauge';
 import HighchartsReact from 'highcharts-react-official';
 import React, { useEffect, useState } from 'react';
 
-import { Sensor } from 'types/stationTypes';
+import { Sensor } from 'interfaces/IStation';
 import 'components/ChartComponent/_ChartComponent.scss';
 
 HighchartsAccessibility(Highcharts);

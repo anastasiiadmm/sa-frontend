@@ -3,11 +3,11 @@ import bem from 'easy-bem';
 import React from 'react';
 
 import nextIcons from 'assets/images/icons/white-arrow.svg';
-import { userVehiclesPagination } from 'types/types';
+import { pagination } from 'interfaces';
 import 'components/TableComponent/PaginationComponent/_paginationComponent.scss';
 
 interface Props {
-  params: userVehiclesPagination | null | undefined;
+  params: pagination | null | undefined;
   pagePrevHandler?: () => void;
   pageNextHandler?: () => void;
 }

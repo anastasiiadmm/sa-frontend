@@ -1,7 +1,7 @@
 import { Select } from 'antd';
 import React from 'react';
 
-import { climateOptions } from 'types/types';
+import { climateOptions } from 'interfaces';
 
 interface Props {
   handleChange?: () => void;

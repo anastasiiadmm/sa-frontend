@@ -3,11 +3,11 @@ import bem from 'easy-bem';
 import React, { useEffect } from 'react';
 
 import FormField from 'components/FormField/FormField';
-import { accountsManagerConfirmation, PostNewUser } from 'types/types';
+import { accountsManagerConfirmation, userMutation } from 'interfaces';
 import 'components/ModalComponent/ModalChildrenComponents/CreateNewUserCredentials/_createNewUserCredentials.scss';
 
 interface Props {
-  userCreateData?: PostNewUser | null;
+  userCreateData?: userMutation | null;
   requestRegisterUserData?: accountsManagerConfirmation | null;
   handleOkCancel: () => void;
 }

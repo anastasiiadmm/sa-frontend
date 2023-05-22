@@ -19,12 +19,11 @@ import RequestRegisterUser from 'components/ModalComponent/ModalChildrenComponen
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import TableComponent from 'components/TableComponent/TableComponent';
 import { appendDataFieldsAndDeleteEmptyKeys, getPageNumber, getPageNumberPrevious } from 'helper';
-import { IMyData, IMyDataApi } from 'interfaces';
+import { IMyData, IMyDataApi, RequestType } from 'interfaces';
 import {
   accountsSelector,
   approveRequest,
   deleteRequest,
-  deleteRequests,
   fetchRequests,
   requestApproveChangeProfile,
 } from 'redux/accounts/accountsSlice';
@@ -32,12 +31,10 @@ import {
   clearUserInfo,
   companiesSelector,
   fetchUserInfo,
-  techniqueVehicleConfirmationSelector,
   techniqueVehicleInfo,
   techniqueVehicleInfoSelector,
 } from 'redux/companies/companiesSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { RequestType } from 'types/types';
 import { dateMomentTypeDash } from 'utils/constants';
 import { fileSizeValidate, fileValidateImg } from 'utils/validate/validate';
 import 'containers/Manager/UserRequests/_userRequests.scss';
@@ -58,7 +55,6 @@ const UserRequests = () => {
   } = useAppSelector(accountsSelector);
   const { userInfo, userInfoLoading, userInfoError } = useAppSelector(companiesSelector);
   const { results, loading, errors } = useAppSelector(techniqueVehicleInfoSelector);
-  const saveTechniqueVehicleState = useAppSelector(techniqueVehicleConfirmationSelector);
   const [isModalTechniqueOpen, setIsModalTechniqueOpen] = useState(false);
   const [isModalRegisterUserOpen, setIsModalRegisterUserTechniqueOpen] = useState(false);
   const [isModalRejectOpen, setIsModalRejectOpen] = useState(false);
@@ -71,7 +67,7 @@ const UserRequests = () => {
       : Number(getPageNumberPrevious(requestsPagination?.previous)),
   });
   const [fieldClimateData, setFieldClimateData] = useState<RequestType | null>(null);
-  const [confirmation_typeId, setConfirmation_typeId] = useState<number | null>(null);
+  const [confirmationTypeId, setConfirmationTypeId] = useState<number | null>(null);
   const [id, setId] = useState<number | null>(null);
   const [data, setData] = useState<IMyDataApi>({
     data: {
@@ -109,12 +105,6 @@ const UserRequests = () => {
       dispatch(fetchUserInfo({ id }));
     }
   }, [dispatch, id]);
-
-  useEffect(() => {
-    if (saveTechniqueVehicleState.results) {
-      dispatch(deleteRequests(saveTechniqueVehicleState.results.id));
-    }
-  }, [saveTechniqueVehicleState]);
 
   const showRejectModal = () => {
     setIsModalRejectOpen(true);
@@ -184,7 +174,7 @@ const UserRequests = () => {
       const data = {
         id,
         data: {
-          category: confirmation_typeId as number,
+          category: confirmationTypeId as number,
         },
       };
       await dispatch(approveRequest(data)).unwrap();
@@ -250,7 +240,11 @@ const UserRequests = () => {
     const files = event.target.files;
     if (files) {
       if (fileSizeValidate(files[0]) && fileValidateImg(files[0])) {
-        setImages({ ...images, image: files[0], deleted_image: userInfo?.uploaded_files?.[0]?.id });
+        setImages({
+          ...images,
+          image: files[0],
+          deleted_image: userInfo?.uploaded_files?.[0]?.id as string,
+        });
       }
     }
   };
@@ -300,22 +294,22 @@ const UserRequests = () => {
     switch (row?.category) {
       case 2:
         setId(row?.id);
-        setConfirmation_typeId(row?.category);
+        setConfirmationTypeId(row?.category);
         showUserInfoModal();
         break;
       case 3:
         setId(row?.id);
-        setConfirmation_typeId(row?.category);
+        setConfirmationTypeId(row?.category);
         showTechniqueModal(row);
         break;
       case 4:
         setId(row?.id);
-        setConfirmation_typeId(row?.category);
+        setConfirmationTypeId(row?.category);
         showFieldClimateInfoModal(row);
         break;
       default:
         setId(row?.id);
-        setConfirmation_typeId(row?.category);
+        setConfirmationTypeId(row?.category);
         showRegisterUserModal();
     }
   };
@@ -380,7 +374,7 @@ const UserRequests = () => {
       render: (text, row) => {
         return (
           <>
-            <span>{row?.requestor}</span>
+            <span>{row?.requestor?.name}</span>
             <Tooltip
               title='Просмотреть запрос'
               color='#BBBBBB'
