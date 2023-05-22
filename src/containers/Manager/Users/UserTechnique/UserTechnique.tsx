@@ -18,6 +18,7 @@ import ModalComponent from 'components/ModalComponent/ModalComponent';
 import ResultComponent from 'components/ResultComponent/ResultComponent';
 import TableComponent from 'components/TableComponent/TableComponent';
 import { getErrorMessage, getPageNumber, getPageNumberPrevious } from 'helper';
+import { VehicleList } from 'interfaces';
 import {
   companiesSelector,
   deleteUserVehicle,
@@ -27,7 +28,6 @@ import {
   setNullReducerVehicleCreate,
 } from 'redux/companies/companiesSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { vehicleList } from 'types/types';
 import { apiUrlCrop } from 'utils/config';
 
 import 'containers/Manager/Users/UserTechnique/_userTechnique.scss';
@@ -155,13 +155,13 @@ const UserTechnique: React.FC = () => {
     setVehicleId(id);
     dispatch(fetchUserVehicleInfo(id));
   };
-  const columns: ColumnsType<vehicleList> = [
+  const columns: ColumnsType<VehicleList> = [
     {
       title: 'Код техники',
       dataIndex: 'code',
       width: '20%',
       fixed: 'left',
-      render: (text: string, record: vehicleList) => {
+      render: (text: string, record: VehicleList) => {
         return (
           <div style={{ display: 'flex', gap: 12 }}>
             <img
@@ -185,7 +185,7 @@ const UserTechnique: React.FC = () => {
       dataIndex: 'field_count',
       filterSearch: true,
       width: '20%',
-      render: (text: string, record: vehicleList) => {
+      render: (text: string, record: VehicleList) => {
         return <p>{record?.vehicle_fields_data?.field_count}</p>;
       },
     },
@@ -194,7 +194,7 @@ const UserTechnique: React.FC = () => {
       dataIndex: 'processed_area',
       filterSearch: true,
       width: '45%',
-      render: (text: string, record: vehicleList) => {
+      render: (text: string, record: VehicleList) => {
         return (
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'right' }}>
             <p className={b('text_processed_area')}>

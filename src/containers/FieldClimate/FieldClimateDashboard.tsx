@@ -4,9 +4,9 @@ import React, { useEffect, useState } from 'react';
 import FieldClimateOpenMapComponent from 'components/FieldClimateOpenMapComponent/FieldClimateOpenMapComponent';
 import FormField from 'components/FormField/FormField';
 import Spinner from 'components/Spinner/Spinner';
+import { MarkerData } from 'interfaces';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { fetchStations, stationsSelector } from 'redux/stations/stationsSlice';
-import { MarkerData } from 'types/stationTypes';
 import { climateOptions } from 'utils/constants';
 import 'containers/FieldClimate/_fieldClimateDashboard.scss';
 

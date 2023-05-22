@@ -1,5 +1,5 @@
-import { Locales, SensorDataEntry, stationInfo } from 'types/stationTypes';
-import { ErrorObject, ICompany, updateManagerDataMutation } from 'types/types';
+import { ErrorObject, updateManagerDataMutation } from 'interfaces';
+import { Locales, SensorDataEntry, stationInfo } from 'interfaces/IStation';
 import { dateMomentTypeString } from 'utils/constants';
 
 const moment = require('moment');
@@ -47,41 +47,6 @@ export const isObjectChangeValidate = (
     email: update.email,
     phone: update.phone,
   };
-  return (
-    JSON.stringify(originJson).replace(/ /g, '') === JSON.stringify(updateJson).replace(/ /g, '')
-  );
-};
-
-export const isObjectChangeUserProfileValidate = (origin: ICompany, update: ICompany) => {
-  const originJson = {
-    user: {
-      username: origin.user.username,
-      password: origin.user.password,
-      last_name: origin.user.last_name,
-      first_name: origin.user.first_name,
-      middle_name: origin.user.middle_name,
-      email: origin.user.email,
-      phone: origin.user.phone,
-    },
-    name: origin.name,
-    location: origin.location,
-    autopilots_amount: origin.autopilots_amount,
-  };
-  const updateJson = {
-    user: {
-      username: update.user.username,
-      password: update.user.password,
-      last_name: update.user.last_name,
-      first_name: update.user.first_name,
-      middle_name: update.user.middle_name,
-      email: update.user.email,
-      phone: update.user.phone,
-    },
-    name: update.name,
-    location: update.location,
-    autopilots_amount: update.autopilots_amount,
-  };
-
   return (
     JSON.stringify(originJson).replace(/ /g, '') === JSON.stringify(updateJson).replace(/ /g, '')
   );
@@ -265,13 +230,6 @@ export function getPageParam(url: string | undefined | null): string | null {
   }
 
   return '';
-}
-
-export function isLineAbove(startPoint: any, endPoint: any): boolean {
-  const [, startY] = startPoint;
-  const [, endY] = endPoint;
-
-  return startY < endY;
 }
 
 export const isEmptyObject = (data: any) => {

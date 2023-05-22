@@ -9,10 +9,10 @@ import tractor from 'assets/images/tracktor.png';
 import FormField from 'components/FormField/FormField';
 import RequestRegisterModal from 'components/ModalComponent/ModalChildrenComponents/RequestRegisterModal/RequestRegisterModal';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
+import { userMutation } from 'interfaces';
 import { inquiriesSuccessNull } from 'redux/accounts/accountsSlice';
 import { authSelector, loginUser } from 'redux/auth/authSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { LoginMutation } from 'types/types';
 import { userLocalStorage } from 'utils/token';
 import 'containers/SignIn/_signIn.scss';
 
@@ -40,7 +40,7 @@ const SignIn: React.FC = () => {
     setIsModalOpen(false);
   };
 
-  const onFinish = async (values: LoginMutation) => {
+  const onFinish = async (values: userMutation) => {
     try {
       await dispatch(loginUser(values)).unwrap();
     } catch (e) {
