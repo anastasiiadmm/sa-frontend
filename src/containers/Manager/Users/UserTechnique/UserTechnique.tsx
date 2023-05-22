@@ -18,6 +18,7 @@ import ModalComponent from 'components/ModalComponent/ModalComponent';
 import ResultComponent from 'components/ResultComponent/ResultComponent';
 import TableComponent from 'components/TableComponent/TableComponent';
 import { getErrorMessage, getPageNumber, getPageNumberPrevious } from 'helper';
+import { ErrorObject, userVehicles } from 'interfaces';
 import {
   companiesSelector,
   deleteUserVehicle,
@@ -27,7 +28,6 @@ import {
   setNullReducerVehicleCreate,
 } from 'redux/companies/companiesSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { ErrorObject, userVehicles } from 'types/types';
 import { apiUrlCrop } from 'utils/config';
 
 import 'containers/Manager/Users/UserTechnique/_userTechnique.scss';
