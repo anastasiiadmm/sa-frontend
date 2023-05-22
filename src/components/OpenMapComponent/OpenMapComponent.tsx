@@ -3,15 +3,7 @@ import { Button, Card, Spin, Tooltip, Typography } from 'antd';
 import bem from 'easy-bem';
 import L, { LatLngExpression } from 'leaflet';
 import React, { useEffect, useRef, useState } from 'react';
-import {
-  CircleMarker,
-  MapContainer,
-  Marker,
-  Polyline,
-  Popup,
-  Rectangle,
-  TileLayer,
-} from 'react-leaflet';
+import { CircleMarker, MapContainer, Marker, Polyline, Popup, TileLayer } from 'react-leaflet';
 import { useNavigate, useParams } from 'react-router';
 
 import arrowLeft from 'assets/images/icons/arrow-left.svg';
@@ -298,6 +290,84 @@ const OpenMapComponent = () => {
     );
   }
 
+  const fieldOne: LatLngExpression[] | LatLngExpression[][] = [
+    [
+      [52.68477, 39.618794],
+      [52.686644, 39.62108],
+    ],
+    [
+      [52.684656, 39.619088],
+      [52.688475, 39.623862],
+    ],
+    [
+      [52.686795, 39.621271],
+      [52.690209, 39.62566],
+    ],
+    [
+      [52.688709, 39.624191],
+      [52.690079, 39.625992],
+    ],
+    [
+      [52.689934, 39.626383],
+      [52.684515, 39.619354],
+    ],
+  ];
+
+  const fieldTwo: LatLngExpression[] | LatLngExpression[][] = [
+    [
+      [52.703808, 39.625391],
+      [52.707549, 39.610904],
+    ],
+    [
+      [52.703903, 39.62546],
+      [52.704985, 39.621277],
+    ],
+    [
+      [52.705126, 39.620722],
+      [52.707643, 39.61098],
+    ],
+    [
+      [52.707799, 39.611086],
+      [52.704948, 39.622093],
+    ],
+    [
+      [52.70492, 39.622222],
+      [52.704051, 39.625583],
+    ],
+    [
+      [52.704229, 39.625725],
+      [52.70639, 39.617251],
+    ],
+    [
+      [52.706635, 39.616292],
+      [52.707972, 39.61119],
+    ],
+  ];
+
+  const tractorFieldThree: LatLngExpression[] | LatLngExpression[][] = [
+    [
+      [45.229611, 39.590714],
+      [45.238571, 39.590604],
+    ],
+    [
+      [45.23857, 39.590778],
+      [45.237515, 39.590795],
+    ],
+    [
+      [45.237444, 39.590787],
+      [45.230102, 39.590888],
+    ],
+    [
+      [45.238577, 39.590958],
+      [45.229622, 39.591069],
+    ],
+  ];
+
+  const generateUniqueId = (() => {
+    let id = 0;
+    return () => `rectangle-${id++}`;
+  })();
+
   return (
     <div className={b()}>
       <div className={b('card-block')}>
@@ -364,7 +434,7 @@ const OpenMapComponent = () => {
               </Marker>
             </CircleMarker>
 
-            <Polyline weight={5} pathOptions={purpleOptions} positions={positions()}>
+            <Polyline weight={3} pathOptions={purpleOptions} positions={positions()}>
               <Marker position={getCoordinateByType(positions(), 'start')} icon={duckIconStart}>
                 <Popup>Start</Popup>
               </Marker>
@@ -372,15 +442,33 @@ const OpenMapComponent = () => {
                 <Popup>End</Popup>
               </Marker>
             </Polyline>
-
-            <Rectangle
-              bounds={[
-                [56.28503, 44.241937],
-                [56.28635, 44.248452],
-              ]}
-              color='#1EBF13FF'
-              weight={2}
-            />
+            {field?.results?.point_A_lat === 39.6186 && field?.results?.point_A_lon === 52.684864
+              ? fieldOne.map((bounds) => (
+                  <Polyline
+                    key={generateUniqueId()}
+                    positions={bounds}
+                    color='rgba(30, 191, 19, 0.5)'
+                    weight={33}
+                  />
+                ))
+              : field?.results?.point_A_lat === 39.625304 &&
+                field?.results?.point_A_lon === 52.703667
+              ? fieldTwo.map((bounds) => (
+                  <Polyline
+                    key={generateUniqueId()}
+                    positions={bounds}
+                    color='rgba(30, 191, 19, 0.5)'
+                    weight={33}
+                  />
+                ))
+              : tractorFieldThree.map((bounds) => (
+                  <Polyline
+                    key={generateUniqueId()}
+                    positions={bounds}
+                    color='rgba(30, 191, 19, 0.5)'
+                    weight={33}
+                  />
+                ))}
           </MapContainer>
         ) : null}
         {socketMap.status === 'no_geo' ? (
