@@ -203,8 +203,8 @@ const OpenMapComponent = () => {
       return centerMap() as LatLngExpression;
     }
 
-    if (field.results.point_A_lon && field.results.point_B_lat) {
-      return [field.results.point_A_lon, field.results.point_A_lat] as LatLngExpression;
+    if (field?.results.point_A_lon && field?.results.point_B_lat) {
+      return [field?.results.point_A_lon, field?.results.point_A_lat] as LatLngExpression;
     }
 
     return centerMap() as LatLngExpression;
@@ -222,22 +222,22 @@ const OpenMapComponent = () => {
   const positions = (): LatLngExpression[] => {
     return [
       [
-        field.results.point_A_lon as number,
-        field.results.point_A_lat as number,
+        field?.results.point_A_lon as number,
+        field?.results.point_A_lat as number,
       ] as LatLngExpression,
       [
-        field.results.point_B_lon as number,
-        field.results.point_B_lat as number,
+        field?.results.point_B_lon as number,
+        field?.results.point_B_lat as number,
       ] as LatLngExpression,
     ];
   };
 
   function getCoordinateByType(coordinates: LatLngExpression[], type: string): LatLngExpression {
     if (type === 'start') {
-      return [field.results.point_A_lon as number, field.results.point_A_lat as number];
+      return [field?.results.point_A_lon as number, field?.results.point_A_lat as number];
     }
     if (type === 'end') {
-      return [field.results.point_B_lon as number, field.results.point_B_lat as number];
+      return [field?.results.point_B_lon as number, field?.results.point_B_lat as number];
     }
 
     throw new Error('Invalid type provided');
@@ -246,7 +246,7 @@ const OpenMapComponent = () => {
   const latLngBounds: L.LatLngBoundsExpression = L.latLngBounds(
     bounds.map((coords: number[]) => [coords[0], coords[1]]),
   );
-  const findResults = vehicle.results?.processing_data.find((item) => item.id === Number(id));
+  const findResults = vehicle?.results?.processing_data.find((item) => item.id === Number(id));
 
   // const lineMapHistory = () => { // доработаем, когда из api будут присылаться данные
   //   const width = Number(field.results?.tool_width);
