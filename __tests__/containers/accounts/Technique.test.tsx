@@ -10,6 +10,7 @@ import userEvent from "@testing-library/user-event";
 import ModalComponent from "../../../src/components/ModalComponent/ModalComponent";
 import AddUpdateTechnique
   from "../../../src/components/ModalComponent/ModalChildrenComponents/AddUpdateTechnique/AddUpdateTechnique";
+import ProfileTechnique from "../../../src/containers/Technique/ProfileTechnique/ProfileTechnique";
 
 afterEach(cleanup);
 
@@ -31,6 +32,17 @@ const data = {
     }
 };
 
+const profileTechnique = {
+  id: 1234,
+  readable_id: 123,
+  tool: '',
+  tool_width: '',
+  tool_overlap: '',
+  tool_width_total: '',
+  left_right: '',
+  area: '',
+};
+
 describe("<Technique />", () => {
   test("Technique table component should be in the document", async () => {
     mockedUseSelectors.mockReturnValue(data);
@@ -47,6 +59,24 @@ describe("<Technique />", () => {
 
     await waitFor(() => {
       expect(techniqueComponent).toBeInTheDocument();
+    });
+  });
+
+  test("Profile technique table component should be in the document", async () => {
+    mockedUseSelectors.mockReturnValue(profileTechnique);
+    const dispatch = jest.fn();
+    mockedDispatch.mockReturnValue(dispatch);
+
+    render(
+      <BrowserRouter>
+        <ProfileTechnique />
+      </BrowserRouter>
+    );
+
+    const techniqueProfileComponent = screen.getByTestId('profile-technique-id');
+
+    await waitFor(() => {
+      expect(techniqueProfileComponent).toBeInTheDocument();
     });
   });
 

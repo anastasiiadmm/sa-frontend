@@ -179,7 +179,7 @@ const ProfileTechnique = () => {
     );
   }
   return (
-    <div className={b()}>
+    <div className={b()} data-testid='profile-technique-id'>
       <div className={b('table')}>
         <div className={b('header')}>
           <div className={b('header-title')}>
