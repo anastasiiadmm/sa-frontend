@@ -1,9 +1,9 @@
 import axios from 'axios';
 
 import { checkForTokens, logoutUser } from 'redux/auth/authSlice';
+import store from 'redux/store';
 import { apiURL } from 'utils/config';
 import { logoutLocalStorage } from 'utils/token';
-import store from 'redux/store';
 
 const axiosApi = axios.create({
   baseURL: apiURL,

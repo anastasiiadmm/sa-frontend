@@ -8,4 +8,3 @@ export const apiURL = apiUrls[appEnvironment];
 export const socketApiSocket = serverUrlsSocket[appEnvironment];
 
 export const apiUrlCrop = serverUrls[appEnvironment];
-

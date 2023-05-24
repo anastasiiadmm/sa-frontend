@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { IMapState, VehicleV2 } from 'interfaces';
 import { RootState } from 'redux/hooks';
-import { axiosApi } from 'utils/axios-api';
+import axiosApi from 'utils/axios-api';
 
 const nameSpace = 'map';
 

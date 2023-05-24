@@ -18,7 +18,7 @@ import {
 } from 'interfaces';
 import { IConfig } from 'interfaces/IConfig';
 import { RootState } from 'redux/hooks';
-import { axiosApi } from 'utils/axios-api';
+import axiosApi from 'utils/axios-api';
 import toQueryParams from 'utils/toQueryParams';
 
 const nameSpace = 'accounts';
