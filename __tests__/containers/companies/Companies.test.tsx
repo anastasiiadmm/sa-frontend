@@ -220,6 +220,8 @@ describe("<Users />", () => {
       loading: false,
       handleDeleteCancel: jest.fn(),
       deleteRejectTechniqueHandler: jest.fn(),
+      requestHandler: jest.fn(),
+      textCancel: 'Test',
     };
 
     render(
@@ -244,6 +246,8 @@ describe("<Users />", () => {
       loading: false,
       handleDeleteCancel: jest.fn(),
       deleteRejectTechniqueHandler: jest.fn(),
+      requestHandler: jest.fn(),
+      textCancel: 'Test',
     };
 
     render(
@@ -272,6 +276,8 @@ describe("<Users />", () => {
       loading: false,
       handleDeleteCancel: jest.fn(),
       deleteRejectTechniqueHandler: jest.fn(),
+      requestHandler: jest.fn(),
+      textCancel: 'Test',
     };
 
     const loadingProps = { ...props, loading: true };

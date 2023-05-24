@@ -336,6 +336,7 @@ const EditUserProfileModal: React.FC<Props> = ({
             </>
           ) : (
             <Button
+              data-testid='save_button_id'
               onClick={onClick}
               disabled={validateForm || formValid}
               type='primary'
