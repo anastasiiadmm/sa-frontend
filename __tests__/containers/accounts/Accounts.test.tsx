@@ -217,7 +217,7 @@ describe('<Profile />',  () => {
     };
 
     render(
-      <ModalComponent open title='Пароль' handleOk={yesHandler} handleCancel={handleClose}>
+      <ModalComponent open title='Запрос на изменение личной информации' handleOk={yesHandler} handleCancel={handleClose}>
         <EditUserProfileModal
           {...props}
         />
