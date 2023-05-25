@@ -139,22 +139,26 @@ describe("<FieldClimateStation />", () => {
   });
 
   test("renders FieldClimateStation component without errors", async () => {
-    render(
-      <BrowserRouter>
-        <ChartComponent data={data} />
-      </BrowserRouter>
-    );
+    await act(async () => {
+      render(
+        <BrowserRouter>
+          <ChartComponent data={data} />
+        </BrowserRouter>
+      );
+    });
 
     const chartComponent = await screen.getByTestId("chart-id");
     expect(chartComponent).toBeInTheDocument();
   });
 
   test("renders GridTableComponent component without errors", async () => {
-    render(
-      <BrowserRouter>
-        <GridTableComponent data={gridData} />
-      </BrowserRouter>
-    );
+    await act(async () => {
+      render(
+        <BrowserRouter>
+          <GridTableComponent data={gridData} />
+        </BrowserRouter>
+      );
+    });
 
     const chartComponent = await screen.getByTestId("chart-table-id");
     expect(chartComponent).toBeInTheDocument();
@@ -165,11 +169,13 @@ describe("<FieldClimateStation />", () => {
     const dispatch = jest.fn();
     mockedDispatch.mockReturnValue(dispatch);
 
-    render(
-      <BrowserRouter>
-        <SensorsAndNodes />
-      </BrowserRouter>
-    );
+    await act(async () => {
+      render(
+        <BrowserRouter>
+          <SensorsAndNodes />
+        </BrowserRouter>
+      );
+    });
 
     const SensorsAndNodesComponent = await screen.getByTestId("sensors-table-id");
     expect(SensorsAndNodesComponent).toBeInTheDocument();
