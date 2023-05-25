@@ -116,27 +116,27 @@ describe("<Technique />", () => {
       </ModalComponent>
     );
 
-    const name_technique = screen.getByLabelText('Название техники');
-    const state_number = screen.getByLabelText('Гос номер');
-    const vin_code = screen.getByLabelText('VIN код');
-    const last_name = screen.getByLabelText('Фамилия');
-    const first_name = screen.getByLabelText('Имя');
-    const middle_name = screen.getByLabelText('Отчество');
-
-    fireEvent.change(name_technique, { target: { value: 'Трактор' } });
-    expect(name_technique).toHaveDisplayValue('Трактор');
-    fireEvent.change(state_number, { target: { value: '01AD22BH' } });
-    expect(state_number).toHaveDisplayValue('01AD22BH');
-    fireEvent.change(vin_code, { target: { value: '01AD22BH' } });
-    expect(vin_code).toHaveDisplayValue('01AD22BH');
-    fireEvent.change(last_name, { target: { value: 'Тестовый' } });
-    expect(last_name).toHaveDisplayValue('Тестовый');
-    fireEvent.change(first_name, { target: { value: 'Тест' } });
-    expect(first_name).toHaveDisplayValue('Тест');
-    fireEvent.change(middle_name, { target: { value: 'Тест' } });
-    expect(middle_name).toHaveDisplayValue('Тест');
-
     await act(async () => {
+      const name_technique = screen.getByLabelText('Название техники');
+      const state_number = screen.getByLabelText('Гос номер');
+      const vin_code = screen.getByLabelText('VIN код');
+      const last_name = screen.getByLabelText('Фамилия');
+      const first_name = screen.getByLabelText('Имя');
+      const middle_name = screen.getByLabelText('Отчество');
+
+      fireEvent.change(name_technique, { target: { value: 'Трактор' } });
+      expect(name_technique).toHaveDisplayValue('Трактор');
+      fireEvent.change(state_number, { target: { value: '01AD22BH' } });
+      expect(state_number).toHaveDisplayValue('01AD22BH');
+      fireEvent.change(vin_code, { target: { value: '01AD22BH' } });
+      expect(vin_code).toHaveDisplayValue('01AD22BH');
+      fireEvent.change(last_name, { target: { value: 'Тестовый' } });
+      expect(last_name).toHaveDisplayValue('Тестовый');
+      fireEvent.change(first_name, { target: { value: 'Тест' } });
+      expect(first_name).toHaveDisplayValue('Тест');
+      fireEvent.change(middle_name, { target: { value: 'Тест' } });
+      expect(middle_name).toHaveDisplayValue('Тест');
+
       fireEvent.click(screen.getByTestId('button_id'));
     });
   });

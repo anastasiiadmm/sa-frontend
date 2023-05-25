@@ -10,6 +10,8 @@ import RequestAddTechnique
 import ModalComponent from "../../../src/components/ModalComponent/ModalComponent";
 import RequestRegisterUser
   from "../../../src/components/ModalComponent/ModalChildrenComponents/RequestsModals/RequestRegisterUser/RequestRegisterUser";
+import EditUserProfileModal
+  from "../../../src/components/ModalComponent/ModalChildrenComponents/EditUserProfileModal/EditUserProfileModal";
 
 const data = [
   {
@@ -183,32 +185,92 @@ describe("<UserRequests />", () => {
       </BrowserRouter>
     );
 
-    // const last_name = screen.getByLabelText("Фамилия");
-    // const first_name = screen.getByLabelText("Имя");
-    // const middle_name = screen.getByLabelText("Отчество");
-    // const email = screen.getByLabelText("Email");
-    // const phone = screen.getByLabelText("Номер телефона");
-    // const name = screen.getByLabelText("Название колхоза/фермы/компании");
-    // const location = screen.getByLabelText("Регион расположения");
-    //
-    // fireEvent.change(last_name, { target: { value: "Last name" } });
-    // expect(last_name).toHaveDisplayValue("Last name");
-    // fireEvent.change(first_name, { target: { value: "First name" } });
-    // expect(first_name).toHaveDisplayValue("First name");
-    // fireEvent.change(middle_name, { target: { value: "Middle name" } });
-    // expect(middle_name).toHaveDisplayValue("Middle name");
-    // fireEvent.change(email, { target: { value: 'test@gmail.com' } });
-    // expect(email).toHaveDisplayValue("test@gmail.com");
-    // fireEvent.change(phone, { target: { value: '+7 932 939 2939' } });
-    // expect(phone).toHaveDisplayValue("+7 932 939 2939");
-    // fireEvent.change(name, { target: { value: 'CO@CO' } });
-    // expect(name).toHaveDisplayValue("CO@CO");
-    // fireEvent.change(location, { target: { value: 'Moscow' } });
-    // expect(location).toHaveDisplayValue("Moscow");
-    //
-    // await act(async () => {
-    //   fireEvent.click(screen.getByTestId("approve-id-button"));
-    // });
+    const last_name = screen.getByLabelText("Фамилия");
+    const first_name = screen.getByLabelText("Имя");
+    const middle_name = screen.getByLabelText("Отчество");
+    const email = screen.getByLabelText("Email");
+    const phone = screen.getByLabelText("Номер телефона");
+    const name = screen.getByLabelText("Название колхоза/фермы/компании");
+    const location = screen.getByLabelText("Регион расположения");
+
+    fireEvent.change(last_name, { target: { value: "Last name" } });
+    expect(last_name).toHaveDisplayValue("Last name");
+    fireEvent.change(first_name, { target: { value: "First name" } });
+    expect(first_name).toHaveDisplayValue("First name");
+    fireEvent.change(middle_name, { target: { value: "Middle name" } });
+    expect(middle_name).toHaveDisplayValue("Middle name");
+    fireEvent.change(email, { target: { value: 'test@gmail.com' } });
+    expect(email).toHaveDisplayValue("test@gmail.com");
+    fireEvent.change(phone, { target: { value: '+7 (932) 939-29-39' } });
+    expect(phone).toHaveDisplayValue("+7 (932) 939-29-39");
+    fireEvent.change(name, { target: { value: 'CO@CO' } });
+    expect(name).toHaveDisplayValue("CO@CO");
+    fireEvent.change(location, { target: { value: 'Moscow' } });
+    expect(location).toHaveDisplayValue("Moscow");
+
+    await act(async () => {
+      fireEvent.click(screen.getByTestId("approve-id-button"));
+    });
+
+  });
+
+  test("UserRequest to change profile data modal should render and change data success", async () => {
+    const handleClose = jest.fn();
+    const yesHandler = jest.fn();
+    mockedUseSelectors.mockReturnValue({
+      requests: data,
+      requestsPagination: {
+        count: 2,
+        next: null,
+        previous: null
+      }
+    });
+    const dispatch = jest.fn();
+    mockedDispatch.mockReturnValue(dispatch);
+
+    const props = {
+      handleOkCancel: jest.fn(),
+      showRejectModal: jest.fn(),
+      inputChangeHandler: jest.fn(),
+      onFileChange: jest.fn(),
+      onClick: jest.fn(),
+      userInfo: userInfo,
+      userId: 123,
+      loading: false,
+      userInfoLoading: false,
+      changeUserInfoRequest: true,
+    };
+
+    render(
+      <BrowserRouter>
+        <ModalComponent dividerShow={false} open title="Запрос на изменение личной информации" handleOk={yesHandler} handleCancel={handleClose}>
+          <EditUserProfileModal
+            {...props}
+          />
+        </ModalComponent>
+      </BrowserRouter>
+    );
+
+    const last_name = screen.getByLabelText("Фамилия");
+    const first_name = screen.getByLabelText("Имя");
+    const middle_name = screen.getByLabelText("Отчество");
+    const name = screen.getByLabelText("Название колхоза/фермы/компании");
+    const location = screen.getByLabelText("Регион расположения");
+
+    await act(async () => {
+      fireEvent.change(last_name, { target: { value: "Last name" } });
+      expect(last_name).toHaveDisplayValue("Last name");
+      fireEvent.change(first_name, { target: { value: "First name" } });
+      expect(first_name).toHaveDisplayValue("First name");
+      fireEvent.change(middle_name, { target: { value: "Middle name" } });
+      expect(middle_name).toHaveDisplayValue("Middle name");
+      fireEvent.change(name, { target: { value: 'CO@CO' } });
+      expect(name).toHaveDisplayValue("CO@CO");
+      fireEvent.change(location, { target: { value: 'Moscow' } });
+      expect(location).toHaveDisplayValue("Moscow");
+
+      fireEvent.click(screen.getByTestId("approve_button_id"));
+    });
 
   });
 });

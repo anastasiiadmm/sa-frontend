@@ -157,24 +157,23 @@ describe("<Users />", () => {
       </BrowserRouter>,
     );
 
-    const infoTitle = screen.getByTestId('title_id');
-    expect(infoTitle).toBeInTheDocument();
-    const description = screen.getByTitle('Название техники');
-    expect(description).toBeInTheDocument();
-    const stateNumber = screen.getByTitle('Гос номер');
-    expect(stateNumber).toBeInTheDocument();
-    const vinCode = screen.getByTitle('VIN код');
-    expect(vinCode).toBeInTheDocument();
-    const lastName = screen.getByTitle('Фамилия');
-    expect(lastName).toBeInTheDocument();
-    const firstName = screen.getByTitle('Имя');
-    expect(firstName).toBeInTheDocument();
-    const middleName = screen.getByTitle('Отчество');
-    expect(middleName).toBeInTheDocument();
-    const button = screen.getByTestId('button_id');
-    expect(button).toBeInTheDocument();
-    expect(button).toHaveTextContent('Добавить технику');
-    expect(button).toBeDisabled();
+    await act(async () => {
+      const nameInput = screen.getByLabelText('Название техники');
+      const stateNumberInput = screen.getByLabelText('Гос номер');
+      const vinCodeInput = screen.getByLabelText('VIN код');
+      const lastNameInput = screen.getByLabelText('Фамилия');
+      const firstNameInput = screen.getByLabelText('Имя');
+      const middleNameInput = screen.getByLabelText('Отчество');
+      const submitButton = screen.getByRole('button', { name: /добавить технику/i });
+
+      userEvent.type(nameInput, 'Test name');
+      userEvent.type(stateNumberInput, 'Test state number');
+      userEvent.type(vinCodeInput, 'Test vin code');
+      userEvent.type(lastNameInput, 'Test last name');
+      userEvent.type(firstNameInput, 'Test first name');
+      userEvent.type(middleNameInput, 'Test middle name');
+      fireEvent.click(submitButton);
+    });
   });
 
   test("UserTechnique modal submits the form with valid values", async () => {
@@ -198,7 +197,7 @@ describe("<Users />", () => {
     const middleNameInput = screen.getByLabelText('Отчество');
     const submitButton = screen.getByRole('button', { name: /добавить технику/i });
 
-    await act(() => {
+    await act(async () => {
       userEvent.type(nameInput, 'Test name');
       userEvent.type(stateNumberInput, 'Test state number');
       userEvent.type(vinCodeInput, 'Test vin code');

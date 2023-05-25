@@ -324,6 +324,7 @@ const EditUserProfileModal: React.FC<Props> = ({
               </Button>
 
               <Button
+                data-testid='approve_button_id'
                 onClick={onClick}
                 type='primary'
                 htmlType='submit'

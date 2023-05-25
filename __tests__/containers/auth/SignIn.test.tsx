@@ -32,22 +32,26 @@ describe('<SignIn />', () => {
     const handleClose = jest.fn();
     const yesDeleteHandler = jest.fn();
 
-    render(
-      <ModalComponent open title='Восстановление пароля' handleOk={yesDeleteHandler} handleCancel={handleClose}>
-        <ModalPasswordReset />
-      </ModalComponent>
-    );
+    act(() => {
+      render(
+        <ModalComponent open title='Восстановление пароля' handleOk={yesDeleteHandler} handleCancel={handleClose}>
+          <ModalPasswordReset />
+        </ModalComponent>
+      );
+    });
   });
 
   it("Opening register modal and closing", () => {
     const handleClose = jest.fn();
     const yesDeleteHandler = jest.fn();
 
-    render(
-      <ModalComponent open title='Отправить запрос на регистрацию' handleOk={yesDeleteHandler} handleCancel={handleClose}>
-        <RequestRegisterModal onClose={handleClose}/>
-      </ModalComponent>
-    );
+    act(() => {
+      render(
+        <ModalComponent open title='Отправить запрос на регистрацию' handleOk={yesDeleteHandler} handleCancel={handleClose}>
+          <RequestRegisterModal onClose={handleClose} />
+        </ModalComponent>
+      );
+    });
   });
 
   test('Login form should be in the document', async () => {
@@ -83,10 +87,9 @@ describe('<SignIn />', () => {
     const emailInput = screen.getByPlaceholderText('Логин');
     const passwordInput = screen.getByPlaceholderText('Пароль');
     const button = await screen.findByRole('button', { name: 'Продолжить' });
-    fireEvent.change(emailInput, { target: { value: 'manager' } });
-    fireEvent.change(passwordInput, { target: { value: 'P33f2kmu!' } });
-    // eslint-disable-next-line testing-library/no-unnecessary-act
     await act(async () => {
+      fireEvent.change(emailInput, { target: { value: 'manager' } });
+      fireEvent.change(passwordInput, { target: { value: 'P33f2kmu!' } });
       fireEvent.click(button);
     });
 
@@ -117,22 +120,24 @@ describe('<SignIn />', () => {
       const locationInput = screen.getByLabelText("Регион расположения");
       const button = await screen.findByRole('button', { name: 'Отправить запрос' });
 
-      fireEvent.change(lastNameInput, { target: { value: 'Test last name' } });
-      expect(lastNameInput).toHaveDisplayValue('Test last name');
-      fireEvent.change(firstNameInput, { target: { value: 'Test first name' } });
-      expect(firstNameInput).toHaveDisplayValue('Test first name');
-      fireEvent.change(middleNameInput, { target: { value: 'Test middle name' } });
-      expect(middleNameInput).toHaveDisplayValue('Test middle name');
-      fireEvent.change(emailInput, { target: { value: 'email@gmail.com' } });
-      expect(emailInput).toHaveDisplayValue('email@gmail.com');
-      fireEvent.change(phoneInput, { target: { value: '+7 (999) 999-99-99' } });
-      expect(phoneInput).toHaveDisplayValue('+7 (999) 999-99-99');
-      fireEvent.change(locationInput, { target: { value: 'Test location' } });
-      expect(locationInput).toHaveDisplayValue('Test location');
-      fireEvent.change(nameInput, { target: { value: 'Test name' } });
-      expect(nameInput).toHaveDisplayValue('Test name');
+      await act(async () => {
+        fireEvent.change(lastNameInput, { target: { value: 'Test last name' } });
+        expect(lastNameInput).toHaveDisplayValue('Test last name');
+        fireEvent.change(firstNameInput, { target: { value: 'Test first name' } });
+        expect(firstNameInput).toHaveDisplayValue('Test first name');
+        fireEvent.change(middleNameInput, { target: { value: 'Test middle name' } });
+        expect(middleNameInput).toHaveDisplayValue('Test middle name');
+        fireEvent.change(emailInput, { target: { value: 'email@gmail.com' } });
+        expect(emailInput).toHaveDisplayValue('email@gmail.com');
+        fireEvent.change(phoneInput, { target: { value: '+7 (999) 999-99-99' } });
+        expect(phoneInput).toHaveDisplayValue('+7 (999) 999-99-99');
+        fireEvent.change(locationInput, { target: { value: 'Test location' } });
+        expect(locationInput).toHaveDisplayValue('Test location');
+        fireEvent.change(nameInput, { target: { value: 'Test name' } });
+        expect(nameInput).toHaveDisplayValue('Test name');
 
-      fireEvent.click(button);
+        fireEvent.click(button);
+      })
     });
   });
 });

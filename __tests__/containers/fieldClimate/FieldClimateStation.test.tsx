@@ -1,5 +1,6 @@
 import { BrowserRouter } from "react-router-dom";
 import { cleanup, render, screen } from "@testing-library/react";
+import { act } from "react-test-renderer";
 import "../../../__mocks__/matchMedia.mock";
 import "@testing-library/jest-dom";
 import ResizeObserver from "resize-observer-polyfill";
@@ -123,11 +124,13 @@ describe("<FieldClimateStation />", () => {
     const dispatch = jest.fn();
     mockedDispatch.mockReturnValue(dispatch);
 
-    render(
-      <BrowserRouter>
-        <FieldClimateStation />
-      </BrowserRouter>
-    );
+    await act(async () => {
+      render(
+        <BrowserRouter>
+          <FieldClimateStation />
+        </BrowserRouter>
+      );
+    });
 
     const stationComponent = await screen.getByTestId("station-id");
 
