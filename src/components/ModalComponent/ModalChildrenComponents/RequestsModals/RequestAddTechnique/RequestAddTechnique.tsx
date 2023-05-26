@@ -290,6 +290,7 @@ ${resultsTechnique?.data.operator.middle_name}`;
           </Button>
 
           <Button
+            data-testid='approve-button'
             type='primary'
             htmlType='submit'
             loading={techniqueVehicleUpdate.loading}

@@ -4,7 +4,7 @@ import { IErrors, ITokens, IUser, userMutation } from 'interfaces';
 import { RootState } from 'redux/hooks';
 import store from 'redux/store';
 import { addCookies } from 'utils/addCookies/addCookies';
-import { axiosApi } from 'utils/axios-api';
+import axiosApi from 'utils/axios-api';
 
 interface AuthState {
   user: IUser | null;

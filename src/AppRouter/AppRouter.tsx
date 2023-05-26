@@ -106,7 +106,6 @@ const AppRouter: React.FC = () => {
               )}
               <Route path='/open-map/:id/:field_name' element={<OpenMapComponent />} />
               <Route path='/profile-technique/:userId/:vehicleId' element={<ProfileTechnique />} />
-              <Route path='/open-map/:id/:field_name' element={<OpenMapComponent />} />
               <Route
                 path='*'
                 element={

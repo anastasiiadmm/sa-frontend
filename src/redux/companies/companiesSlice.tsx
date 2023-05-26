@@ -16,7 +16,7 @@ import {
   VehicleType,
 } from 'interfaces';
 import { RootState } from 'redux/hooks';
-import { axiosApi } from 'utils/axios-api';
+import axiosApi from 'utils/axios-api';
 import toQueryParams from 'utils/toQueryParams';
 
 const nameSpace = 'companies';

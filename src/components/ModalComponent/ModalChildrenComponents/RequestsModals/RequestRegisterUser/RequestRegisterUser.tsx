@@ -270,6 +270,7 @@ const RequestRegisterUser: React.FC<Props> = ({
               </Button>
 
               <Button
+                data-testid='approve-id-button'
                 type='primary'
                 htmlType='submit'
                 loading={accountManagerConfirmationLoading}

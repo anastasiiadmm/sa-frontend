@@ -130,9 +130,9 @@ const Technique = () => {
       width: '30%',
     },
     {
-      key: 'field_count',
-      title: 'Поля',
-      dataIndex: 'field_count',
+      key: 'jobs_number',
+      title: 'Задача на обработку',
+      dataIndex: 'jobs_number',
       width: '20%',
       render: (text: number, record) => (
         <p className={b('name-column-style')}>{record?.jobs_number}</p>

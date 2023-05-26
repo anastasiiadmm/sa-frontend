@@ -15,7 +15,7 @@ type Props = {
 
 const RequestRegisterModal: React.FC<Props> = ({ onClose }) => {
   const b = bem('RequestRegisterModal');
-  const [form] = Form.useForm();
+  const [RegisterForm] = Form.useForm();
   const dispatch = useAppDispatch();
   const { inquiriesLoading: loading, inquiriesSuccess } = useAppSelector(accountsSelector);
   const [userData, setUserData] = useState({
@@ -32,7 +32,7 @@ const RequestRegisterModal: React.FC<Props> = ({ onClose }) => {
 
   useEffect(() => {
     if (userData) {
-      form.setFieldsValue({
+      RegisterForm.setFieldsValue({
         first_name: userData?.user.first_name,
         last_name: userData?.user.last_name,
         middle_name: userData?.user.middle_name,
@@ -42,7 +42,7 @@ const RequestRegisterModal: React.FC<Props> = ({ onClose }) => {
         location: userData?.location,
       });
     }
-  }, [userData, form]);
+  }, [userData, RegisterForm]);
 
   const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -125,7 +125,7 @@ const RequestRegisterModal: React.FC<Props> = ({ onClose }) => {
     >
       <p style={{ marginBottom: 25 }}>После отправки заявки с вами свяжется наш менеджер.</p>
       <Form
-        form={form}
+        form={RegisterForm}
         initialValues={{ remember: true }}
         onFinish={onFinish}
         autoComplete='off'

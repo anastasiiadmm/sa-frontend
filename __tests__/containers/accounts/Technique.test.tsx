@@ -1,5 +1,5 @@
 import { BrowserRouter } from "react-router-dom";
-import { screen, render, waitFor, cleanup, act } from "@testing-library/react";
+import { screen, render, waitFor, cleanup, act, fireEvent } from "@testing-library/react";
 import "../../../__mocks__/matchMedia.mock";
 import "@testing-library/jest-dom";
 import { mockedDispatch, mockedUseSelectors } from "../../../__mocks__/utils";
@@ -7,6 +7,10 @@ import { mockedDispatch, mockedUseSelectors } from "../../../__mocks__/utils";
 import Technique from "../../../src/containers/User/Technique/Technique";
 import UploadImageComponent from "../../../src/components/UploadImageComponent/UploadImageComponent";
 import userEvent from "@testing-library/user-event";
+import ModalComponent from "../../../src/components/ModalComponent/ModalComponent";
+import AddUpdateTechnique
+  from "../../../src/components/ModalComponent/ModalChildrenComponents/AddUpdateTechnique/AddUpdateTechnique";
+import ProfileTechnique from "../../../src/containers/Technique/ProfileTechnique/ProfileTechnique";
 
 afterEach(cleanup);
 
@@ -28,6 +32,17 @@ const data = {
     }
 };
 
+const profileTechnique = {
+  id: 1234,
+  readable_id: 123,
+  tool: '',
+  tool_width: '',
+  tool_overlap: '',
+  tool_width_total: '',
+  left_right: '',
+  area: '',
+};
+
 describe("<Technique />", () => {
   test("Technique table component should be in the document", async () => {
     mockedUseSelectors.mockReturnValue(data);
@@ -47,6 +62,24 @@ describe("<Technique />", () => {
     });
   });
 
+  test("Profile technique table component should be in the document", async () => {
+    mockedUseSelectors.mockReturnValue(profileTechnique);
+    const dispatch = jest.fn();
+    mockedDispatch.mockReturnValue(dispatch);
+
+    render(
+      <BrowserRouter>
+        <ProfileTechnique />
+      </BrowserRouter>
+    );
+
+    const techniqueProfileComponent = screen.getByTestId('profile-technique-id');
+
+    await waitFor(() => {
+      expect(techniqueProfileComponent).toBeInTheDocument();
+    });
+  });
+
   test('UploadImageComponent should render and upload image', async() => {
     const dispatch = jest.fn();
     mockedDispatch.mockReturnValue(dispatch);
@@ -62,6 +95,49 @@ describe("<Technique />", () => {
 
     await act(() => {
       userEvent.upload(imageUpload, file);
+    });
+  });
+
+  test('Create new technique for user should create success', async() => {
+    const handleClose = jest.fn();
+    const yesHandler = jest.fn();
+
+    const props = {
+      userId: null,
+      isRequest: true,
+      handleEditOkCancel: jest.fn(),
+    };
+
+    render(
+      <ModalComponent open title='Добавить технику' handleOk={yesHandler} handleCancel={handleClose}>
+        <AddUpdateTechnique
+          {...props}
+        />
+      </ModalComponent>
+    );
+
+    await act(async () => {
+      const name_technique = screen.getByLabelText('Название техники');
+      const state_number = screen.getByLabelText('Гос номер');
+      const vin_code = screen.getByLabelText('VIN код');
+      const last_name = screen.getByLabelText('Фамилия');
+      const first_name = screen.getByLabelText('Имя');
+      const middle_name = screen.getByLabelText('Отчество');
+
+      fireEvent.change(name_technique, { target: { value: 'Трактор' } });
+      expect(name_technique).toHaveDisplayValue('Трактор');
+      fireEvent.change(state_number, { target: { value: '01AD22BH' } });
+      expect(state_number).toHaveDisplayValue('01AD22BH');
+      fireEvent.change(vin_code, { target: { value: '01AD22BH' } });
+      expect(vin_code).toHaveDisplayValue('01AD22BH');
+      fireEvent.change(last_name, { target: { value: 'Тестовый' } });
+      expect(last_name).toHaveDisplayValue('Тестовый');
+      fireEvent.change(first_name, { target: { value: 'Тест' } });
+      expect(first_name).toHaveDisplayValue('Тест');
+      fireEvent.change(middle_name, { target: { value: 'Тест' } });
+      expect(middle_name).toHaveDisplayValue('Тест');
+
+      fireEvent.click(screen.getByTestId('button_id'));
     });
   });
 });
