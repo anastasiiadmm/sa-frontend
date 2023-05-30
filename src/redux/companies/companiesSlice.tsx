@@ -34,7 +34,7 @@ interface CompaniesState {
   userInfoError: IErrors | null;
   updateUserInfoLoading: boolean;
   updateUserInfoError: IErrors | null;
-  updateUserData: IAccount | null | Object;
+  updateUserData: IAccount | null;
   updateUserDataLoading: boolean;
   updateUserDataError: Object | null;
   deleteUserInfoLoading: boolean;

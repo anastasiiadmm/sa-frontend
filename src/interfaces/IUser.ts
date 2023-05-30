@@ -37,11 +37,11 @@ export interface IAccount {
   password?: string;
   first_name: string;
   middle_name: string;
+  image: string;
   is_manager: boolean;
   last_name: string;
   email: string;
   phone: string;
-  image: string;
   coords_timeout: number;
   company: {
     autopilots_amount: number;
