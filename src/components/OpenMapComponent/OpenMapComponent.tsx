@@ -28,6 +28,8 @@ const OpenMapComponent = () => {
   const { id, field_name } = useParams();
   const { account } = useAppSelector(accountsSelector);
   const { vehicle, field } = useAppSelector(mapSelector);
+  console.log('vehicle', vehicle);
+  console.log('field', field);
   const markerRef = useRef(null);
   const [markerPosition, setMarkerPosition] = useState<[number, number] | null>(null);
   const [bounds] = useState<number[][]>([
@@ -376,19 +378,21 @@ const OpenMapComponent = () => {
             <button type='button' className='btn_none_style' onClick={backHandler}>
               <img className={b('arrow-left')} src={arrowLeft} alt='arrow' />
             </button>
-            <Title level={3} className={b('title')}>
-              <img src={locale} alt='locale' className={b('img-title')} />
-              <Tooltip
-                title={findResults?.field_name}
-                color='#BBBBBB'
-                overlayInnerStyle={{ padding: '5px 15px', borderRadius: 15 }}
-                placement='topLeft'
-              >
-                <p className={b('subtitle')}>
-                  <span>{field.results?.task_UID}</span>
-                </p>
-              </Tooltip>
-            </Title>
+            {field.results?.task_UID !== '' ? (
+              <Title level={3} className={b('title')}>
+                <img src={locale} alt='locale' className={b('img-title')} />
+                <Tooltip
+                  title={findResults?.field_name}
+                  color='#BBBBBB'
+                  overlayInnerStyle={{ padding: '5px 15px', borderRadius: 15 }}
+                  placement='topLeft'
+                >
+                  <p className={b('subtitle')}>
+                    <span>{field.results?.task_UID}</span>
+                  </p>
+                </Tooltip>
+              </Title>
+            ) : null}
             <Title level={3} className={b('title')}>
               <img src={tractorBlue} alt='tractor' className={b('img-title img-tractor')} />
               <p className={b('subtitle')}>{userVehicleInfo?.vehicle?.description}</p>
