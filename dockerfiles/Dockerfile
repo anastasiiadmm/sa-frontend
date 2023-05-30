@@ -1,4 +1,5 @@
 FROM node:18-alpine3.16 as build
+RUN apk add --update python3 make g++\ && rm -rf /var/cache/apk/*
 
 ARG REACT_APP_ENVIRONMENT
 ARG REACT_APP_SENTRY_DSN
