@@ -28,8 +28,6 @@ const OpenMapComponent = () => {
   const { id, field_name } = useParams();
   const { account } = useAppSelector(accountsSelector);
   const { vehicle, field } = useAppSelector(mapSelector);
-  console.log('vehicle', vehicle);
-  console.log('field', field);
   const markerRef = useRef(null);
   const [markerPosition, setMarkerPosition] = useState<[number, number] | null>(null);
   const [bounds] = useState<number[][]>([
