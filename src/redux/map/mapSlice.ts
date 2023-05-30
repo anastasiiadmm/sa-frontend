@@ -82,8 +82,6 @@ const mapSlice = createSlice({
   },
 });
 
-export const { clearField } = mapSlice.actions;
-
 export const mapSelector = (state: RootState) => state.map;
 
 export default mapSlice.reducer;
