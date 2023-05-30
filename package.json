@@ -20,7 +20,7 @@
       "^@/(.*)$": "<rootDir>/src/$1"
     },
     "transformIgnorePatterns": [
-      "node_modules/(?!variables/.*)"
+      "node_modules/(?!variables/.*|react-leaflet/)"
     ]
   },
   "dependencies": {
