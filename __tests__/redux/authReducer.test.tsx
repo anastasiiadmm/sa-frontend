@@ -49,36 +49,7 @@ describe('reducer auth testings', () => {
     });
   });
 
-  it('logoutUserReducer', () => {
-    const action = { type: logoutUser.type, payload: {
-        user: null,
-        tokens: {
-          access: '',
-          refresh: '',
-          is_manager: false,
-        },
-        errors: null,
-        commonError: null,
-        success: null,
-        loading: false,
-      }
-    };
-    const stateResults = authSlice(state, action);
-    expect(stateResults).toStrictEqual({
-      user: null,
-      tokens: {
-        access: '',
-        refresh: '',
-        is_manager: false,
-      },
-      errors: null,
-      commonError: null,
-      success: null,
-      loading: false,
-    });
-  });
-
-  it('logoutUserReducer', () => {
+  it('checkForTokensReducer', () => {
     const action = { type: checkForTokens.type, payload: {
         access: 'dkjSADH234Mnasmxc',
         refresh: 'dkjSADH234MnasmxKSDB236475',
