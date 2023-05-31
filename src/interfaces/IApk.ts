@@ -3,3 +3,5 @@ export interface IApk {
   version: string;
   description: string;
 }
+
+export interface UploadApk extends Omit<IApk, 'file'> {}

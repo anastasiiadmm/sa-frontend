@@ -13,6 +13,7 @@ import {
   pagination,
   RequestType,
   updateManagerDataMutation,
+  UploadApk,
   userVehicleInfo,
   userVehicles,
   ValidationUpdateManagerProfile,
@@ -28,6 +29,8 @@ interface AccountsState {
   apk: IApk | null;
   apkLoading: boolean;
   apkError: IErrors | null;
+  uploadLastApkLoading: boolean;
+  uploadLastApkError: IErrors | null;
   configs: IConfig | null;
   configsLoading: boolean;
   configsError: IErrors | null;
@@ -78,6 +81,8 @@ const INITIAL_STATE = {
   apk: null,
   apkLoading: false,
   apkError: null,
+  uploadLastApkLoading: false,
+  uploadLastApkError: null,
   configs: null,
   configsLoading: false,
   configsError: null,
@@ -153,6 +158,21 @@ export const fetchLastApk = createAsyncThunk<IApk, void>(
   async (_, { rejectWithValue }) => {
     try {
       const resp = await axiosApi.get<IApk>(`/common/apks/`);
+      return resp.data;
+    } catch (e) {
+      return rejectWithValue({
+        detail: e?.response?.data?.detail,
+        status: e?.response?.status,
+      });
+    }
+  },
+);
+
+export const uploadLastApk = createAsyncThunk<IApk, UploadApk>(
+  'accounts/uploadLastApk',
+  async (data, { rejectWithValue }) => {
+    try {
+      const resp = await axiosApi.post<IApk>(`/common/apks/`, data);
       return resp.data;
     } catch (e) {
       return rejectWithValue({
@@ -541,6 +561,25 @@ const accountsSlice = createSlice({
           };
         }
       });
+
+    builder.addCase(uploadLastApk.pending, (state) => {
+      state.uploadLastApkLoading = true;
+      state.uploadLastApkError = null;
+    });
+    builder.addCase(uploadLastApk.fulfilled, (state) => {
+      state.uploadLastApkLoading = false;
+      state.uploadLastApkError = null;
+    });
+    builder.addCase(uploadLastApk.rejected, (state, { payload }) => {
+      state.uploadLastApkLoading = false;
+      if (payload && typeof payload === 'object' && 'detail' in payload && 'status' in payload) {
+        state.uploadLastApkError = {
+          ...state.uploadLastApkError,
+          detail: payload.detail as string | null,
+          status: payload.status as number | null,
+        };
+      }
+    });
 
     builder
       .addCase(fetchConfigs.pending, (state) => {
