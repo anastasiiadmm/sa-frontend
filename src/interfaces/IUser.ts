@@ -87,14 +87,24 @@ export interface RequestType {
   category: number;
   created_at: string;
   inquiry_id?: string;
-  requestor?:
-    | {
-        email: string;
-        name: string;
-        phone: string;
-      }
-    | undefined
-    | null;
+  requestor?: { email: string; name: string; phone: string } | null | undefined;
+  uploaded_files: [{ id: string; file: string }] | null;
+  data: {
+    user: IUser;
+    enterprise: {
+      location: string;
+      name: string;
+    };
+  };
+}
+
+export interface Requestor {
+  id: number;
+  object_id: string | number;
+  category: number;
+  created_at: string;
+  inquiry_id?: string;
+  requestor?: null | undefined | string;
   uploaded_files: [{ id: string; file: string }] | null;
   data: {
     user: IUser;

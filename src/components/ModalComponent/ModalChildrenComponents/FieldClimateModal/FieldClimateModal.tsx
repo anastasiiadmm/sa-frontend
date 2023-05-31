@@ -4,13 +4,13 @@ import React, { useEffect } from 'react';
 
 import cloud from 'assets/images/icons/cloud.svg';
 import FormField from 'components/FormField/FormField';
-import { RequestType } from 'interfaces';
+import { Requestor } from 'interfaces';
 import 'components/ModalComponent/ModalChildrenComponents/FieldClimateModal/_fieldClimateModal.scss';
 
 const { Title } = Typography;
 
 interface Props {
-  fieldClimateData: RequestType | null;
+  fieldClimateData: Requestor | null;
   handleOkCancel: () => void;
   sendApprovedHandler: () => void;
   approveRequestLoading: boolean;

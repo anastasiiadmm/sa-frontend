@@ -19,7 +19,7 @@ import RequestRegisterUser from 'components/ModalComponent/ModalChildrenComponen
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import TableComponent from 'components/TableComponent/TableComponent';
 import { appendDataFieldsAndDeleteEmptyKeys, getPageNumber, getPageNumberPrevious } from 'helper';
-import { IMyData, IMyDataApi, RequestType } from 'interfaces';
+import { IMyData, IMyDataApi, Requestor } from 'interfaces';
 import {
   accountsSelector,
   approveRequest,
@@ -66,7 +66,7 @@ const UserRequests = () => {
       ? Number(getPageNumber(requestsPagination?.next))
       : Number(getPageNumberPrevious(requestsPagination?.previous)),
   });
-  const [fieldClimateData, setFieldClimateData] = useState<RequestType | null>(null);
+  const [fieldClimateData, setFieldClimateData] = useState<Requestor | null>(null);
   const [confirmationTypeId, setConfirmationTypeId] = useState<number | null>(null);
   const [id, setId] = useState<number | null>(null);
   const [data, setData] = useState<IMyDataApi>({
@@ -134,7 +134,7 @@ const UserRequests = () => {
     }
   };
 
-  const showTechniqueModal = (row: RequestType) => {
+  const showTechniqueModal = (row: Requestor) => {
     dispatch(clearUserInfo());
     dispatch(techniqueVehicleInfo(row.id));
     setIsModalTechniqueOpen(true);
@@ -160,7 +160,7 @@ const UserRequests = () => {
     setIsModalUserInfoRejectOpen(!isModalUserInfoOpen);
   };
 
-  const showFieldClimateInfoModal = (row: RequestType) => {
+  const showFieldClimateInfoModal = (row: Requestor) => {
     setFieldClimateData(row);
     setIsModalFieldClimateRequestOpen(true);
   };
@@ -290,7 +290,7 @@ const UserRequests = () => {
     }
   };
 
-  const confirmationTypeHandler = (row: RequestType) => {
+  const confirmationTypeHandler = (row: Requestor) => {
     switch (row?.category) {
       case 2:
         setId(row?.id);
@@ -314,7 +314,7 @@ const UserRequests = () => {
     }
   };
 
-  const columns: ColumnsType<RequestType> = [
+  const columns: ColumnsType<Requestor> = [
     {
       dataIndex: 'category',
       filterSearch: true,
@@ -374,7 +374,7 @@ const UserRequests = () => {
       render: (text, row) => {
         return (
           <>
-            <span>{row?.requestor?.name}</span>
+            <span>{row?.requestor as string}</span>
             <Tooltip
               title='Просмотреть запрос'
               color='#BBBBBB'
