@@ -6,6 +6,7 @@ import {
   accountsManagerConfirmation,
   generatedPassword,
   IAccount,
+  IApk,
   IErrors,
   IMyData,
   IUpdateManagerDataMutation,
@@ -24,6 +25,9 @@ import toQueryParams from 'utils/toQueryParams';
 const nameSpace = 'accounts';
 
 interface AccountsState {
+  apk: IApk | null;
+  apkLoading: boolean;
+  apkError: IErrors | null;
   configs: IConfig | null;
   configsLoading: boolean;
   configsError: IErrors | null;
@@ -71,6 +75,9 @@ interface AccountsState {
 }
 
 const INITIAL_STATE = {
+  apk: null,
+  apkLoading: false,
+  apkError: null,
   configs: null,
   configsLoading: false,
   configsError: null,
@@ -140,6 +147,21 @@ const INITIAL_STATE = {
   requestApproveChangeProfileLoading: false,
   requestApproveChangeProfileError: null,
 } as AccountsState;
+
+export const fetchLastApk = createAsyncThunk<IApk, void>(
+  'accounts/fetchLastApk',
+  async (_, { rejectWithValue }) => {
+    try {
+      const resp = await axiosApi.get<IApk>(`/common/apks/`);
+      return resp.data;
+    } catch (e) {
+      return rejectWithValue({
+        detail: e?.response?.data?.detail,
+        status: e?.response?.status,
+      });
+    }
+  },
+);
 
 export const fetchConfigs = createAsyncThunk<IConfig, void>(
   'accounts/fetchConfigs',
@@ -500,6 +522,26 @@ const accountsSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    builder
+      .addCase(fetchLastApk.pending, (state) => {
+        state.apkLoading = true;
+        state.apkError = null;
+      })
+      .addCase(fetchLastApk.fulfilled, (state, action) => {
+        state.apkLoading = false;
+        state.apk = action.payload;
+      })
+      .addCase(fetchLastApk.rejected, (state, { payload }) => {
+        state.apkLoading = false;
+        if (payload && typeof payload === 'object' && 'detail' in payload && 'status' in payload) {
+          state.apkError = {
+            ...state.apkError,
+            detail: payload.detail as string | null,
+            status: payload.status as number | null,
+          };
+        }
+      });
+
     builder
       .addCase(fetchConfigs.pending, (state) => {
         state.configsLoading = true;

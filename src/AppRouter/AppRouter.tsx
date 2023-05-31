@@ -13,6 +13,7 @@ import FieldClimateConfigurations from 'containers/FieldClimate/FieldClimateConf
 import FieldClimateDashboard from 'containers/FieldClimate/FieldClimateDashboard';
 import FieldClimateStation from 'containers/FieldClimate/FieldClimateStation/FieldClimateStation';
 import SensorsAndNodes from 'containers/FieldClimate/SensorsAndNodes/SensorsAndNodes';
+import ApksList from 'containers/Manager/ApksList/ApksList';
 import ManagerProfile from 'containers/Manager/Profile/Profile';
 import UserRequests from 'containers/Manager/UserRequests/UserRequests';
 import NewUser from 'containers/Manager/Users/NewUser/NewUser';
@@ -86,6 +87,7 @@ const AppRouter: React.FC = () => {
                   <Route path='/user-profile/:id' element={<UserProfile />} />
                   <Route path='/user-technique/:id/:idVehicle' element={<UserTechnique />} />
                   <Route path='/user-requests' element={<UserRequests />} />
+                  <Route path='/apks' element={<ApksList />} />
                 </>
               ) : (
                 <>

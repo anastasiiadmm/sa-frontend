@@ -1,0 +1,8 @@
+@use 'assets/scss/_themes.scss';
+
+.ApksList {
+  &__table {
+    padding: 16px;
+    background: themes.$white-color;
+  }
+}

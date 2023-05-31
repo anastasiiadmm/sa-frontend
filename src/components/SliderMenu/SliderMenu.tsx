@@ -1,15 +1,17 @@
 import { CloudOutlined, HomeOutlined, ImportOutlined, UserOutlined } from '@ant-design/icons';
-import { Avatar, Layout, Menu, Skeleton } from 'antd';
+import { Avatar, Button, Layout, Menu, Skeleton } from 'antd';
 import type { MenuProps } from 'antd';
 import bem from 'easy-bem';
 import React, { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 
+import star from 'assets/images/icons/star.svg';
 import logo from 'assets/images/logo.png';
 import {
   accountsSelector,
   clearRequestsPagination,
   fetchAccount,
+  fetchLastApk,
 } from 'redux/accounts/accountsSlice';
 import { logoutUser } from 'redux/auth/authSlice';
 import { clearCompaniesPagination } from 'redux/companies/companiesSlice';
@@ -55,6 +57,10 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
     dispatch(fetchAccount());
   }, [dispatch]);
 
+  useEffect(() => {
+    dispatch(fetchLastApk());
+  }, [dispatch]);
+
   const menuItems: MenuItem[] = [
     getItem(
       <div className='menuItem'>
@@ -98,6 +104,13 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
               <div className='icon-styles add-icon' />,
             ),
             getItem('Запросы', '/user-requests', <div className='icon-styles request-icon' />),
+            getItem(
+              <p>
+                Список версий <b>apk</b>
+              </p>,
+              '/apks',
+              <div className='icon-styles phone-icon' />,
+            ),
           ],
           'group',
         )
@@ -147,6 +160,15 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
         items={menuItems}
         onClick={pushLinks}
       />
+      <div className={b('apk-block')}>
+        <div>
+          <img src={star} alt='star' />
+        </div>
+        <div className={b('apk-info')}>
+          <p>Вышла новая версия приложения</p>
+          <Button type='default'>Скачать APK</Button>
+        </div>
+      </div>
     </Sider>
   );
 };
