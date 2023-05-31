@@ -5,6 +5,7 @@ import bem from 'easy-bem';
 import React, { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 
+import cancel from 'assets/images/icons/cancel.svg';
 import star from 'assets/images/icons/star.svg';
 import logo from 'assets/images/logo.png';
 import {
@@ -160,15 +161,20 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
         items={menuItems}
         onClick={pushLinks}
       />
-      <div className={b('apk-block')}>
-        <div>
-          <img src={star} alt='star' />
+      {account?.is_manager ? (
+        <div className={b('apk-block')}>
+          <div className={b('cancel-icon')}>
+            <img src={cancel} alt='cancel' />
+          </div>
+          <div>
+            <img src={star} alt='star' />
+          </div>
+          <div className={b('apk-info')}>
+            <p>Вышла новая версия приложения</p>
+            <Button type='default'>Скачать APK</Button>
+          </div>
         </div>
-        <div className={b('apk-info')}>
-          <p>Вышла новая версия приложения</p>
-          <Button type='default'>Скачать APK</Button>
-        </div>
-      </div>
+      ) : null}
     </Sider>
   );
 };

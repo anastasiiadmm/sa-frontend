@@ -11,6 +11,7 @@
   }
 
   &__apk-block {
+    position: relative;
     width: 214px;
     margin: 15px auto;
     background: rgb(104,159,58);
@@ -18,6 +19,13 @@
     border-radius: 10px;
     display: flex;
     padding: 18px;
+  }
+
+  &__cancel-icon {
+    cursor: pointer;
+    position: absolute;
+    right: -7px;
+    top: -8px;
   }
 
   &__apk-info {
