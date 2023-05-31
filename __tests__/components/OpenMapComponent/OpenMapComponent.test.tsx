@@ -55,7 +55,7 @@ const mapRender = {
           "work_area": 1213.006,
           "id": 1,
           "attachments": {
-            "Mode": "AB直线",
+            "Mode": "AB",
             "toolsWidth": "12",
             "toolsName": "Борона 24 метра",
             "skipOverlap": "-0.3",
