@@ -192,7 +192,7 @@ const ProfileTechnique = () => {
               </div>
             ) : (
               <Title level={3} className={b('title')}>
-                Профиль техники - {userVehicleInfo?.vehicle.license_plate} -{' '}
+                Профиль техники - {userVehicleInfo?.vehicle?.license_plate} -{' '}
                 {userVehicleInfo?.vehicle?.description}{' '}
               </Title>
             )}
