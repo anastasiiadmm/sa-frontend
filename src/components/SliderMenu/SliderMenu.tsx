@@ -53,9 +53,8 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
   const location = useLocation();
   const { account, fetchLoadingAccount } = useAppSelector(accountsSelector);
   const [isCancelled, setIsCancelled] = useState(false);
-  const cancelIconClassName = isCancelled
-    ? b('apk-block', { 'cancel-icon-active': true })
-    : b('apk-block');
+  const cancelIconClassName =
+    isCancelled || collapsed ? b('apk-block', { 'cancel-icon-active': true }) : b('apk-block');
   const isFieldClimate = location.pathname.includes('/field-climate');
 
   useEffect(() => {
