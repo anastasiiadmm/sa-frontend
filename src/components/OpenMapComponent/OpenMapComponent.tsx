@@ -376,7 +376,7 @@ const OpenMapComponent = () => {
             <button type='button' className='btn_none_style' onClick={backHandler}>
               <img className={b('arrow-left')} src={arrowLeft} alt='arrow' />
             </button>
-            {field.results?.task_UID !== '' ? (
+            {field.results?.task_UID !== null ? (
               <Title level={3} className={b('title')}>
                 <img src={locale} alt='locale' className={b('img-title')} />
                 <Tooltip
