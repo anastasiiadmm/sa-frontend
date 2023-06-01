@@ -7,8 +7,8 @@ import ApksList from "../../../src/containers/Manager/ApksList/ApksList";
 
 afterEach(cleanup);
 
-describe("<Technique />", () => {
-  test("Technique table component should be in the document", async () => {
+describe("<ApksList />", () => {
+  test("ApksList table component should be in the document", async () => {
     mockedUseSelectors.mockReturnValue({});
     const dispatch = jest.fn();
     mockedDispatch.mockReturnValue(dispatch);
