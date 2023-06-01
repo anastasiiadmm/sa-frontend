@@ -51,7 +51,7 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
   const push = useNavigate();
   const dispatch = useAppDispatch();
   const location = useLocation();
-  const { account, fetchLoadingAccount } = useAppSelector(accountsSelector);
+  const { account, apk, fetchLoadingAccount } = useAppSelector(accountsSelector);
   const [isCancelled, setIsCancelled] = useState(false);
   const cancelIconClassName =
     isCancelled || collapsed ? b('apk-block', { 'cancel-icon-active': true }) : b('apk-block');
@@ -164,7 +164,7 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
         items={menuItems}
         onClick={pushLinks}
       />
-      {account?.is_manager ? (
+      {account?.is_manager && apk?.file !== null ? (
         <div className={cancelIconClassName}>
           <button type='button' className={b('cancel-icon')} onClick={() => setIsCancelled(true)}>
             <img src={cancel} alt='cancel' />
