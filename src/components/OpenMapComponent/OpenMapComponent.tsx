@@ -46,9 +46,10 @@ const OpenMapComponent = () => {
   const [loadingMapUpdate, setLoadingMapUpdate] = useState(false);
   const [socketLoading, setSocketLoading] = useState(false);
 
+  const secretFromAPI = 'your-secret-from-api';
   const moveSpeed = account?.coords_timeout ? account.coords_timeout * 1000 + 200 : 0;
 
-  const connectWebSocket = (time: number) => {
+  const connectWebSocket = (time: number, secret: string) => {
     let connectionID = '';
 
     const connect = () => {
@@ -61,6 +62,7 @@ const OpenMapComponent = () => {
             timeout: time,
             vehicle_id: Number(id),
             connection_id: connectionID,
+            secret,
           }),
         );
       };
@@ -103,7 +105,7 @@ const OpenMapComponent = () => {
 
   useEffect(() => {
     if (account?.coords_timeout) {
-      const socket = connectWebSocket(account?.coords_timeout);
+      const socket = connectWebSocket(account?.coords_timeout, secretFromAPI);
 
       return () => {
         socket.close();
@@ -376,7 +378,7 @@ const OpenMapComponent = () => {
             <button type='button' className='btn_none_style' onClick={backHandler}>
               <img className={b('arrow-left')} src={arrowLeft} alt='arrow' />
             </button>
-            {field.results?.task_UID !== '' ? (
+            {field.results?.task_UID !== null ? (
               <Title level={3} className={b('title')}>
                 <img src={locale} alt='locale' className={b('img-title')} />
                 <Tooltip
