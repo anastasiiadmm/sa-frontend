@@ -26,6 +26,13 @@
     position: absolute;
     right: -7px;
     top: -8px;
+    border: none;
+    background: transparent;
+    outline: none;
+  }
+
+  &__apk-block--cancel-icon-active {
+    display: none;
   }
 
   &__apk-info {

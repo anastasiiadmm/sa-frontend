@@ -2,7 +2,7 @@ import { CloudOutlined, HomeOutlined, ImportOutlined, UserOutlined } from '@ant-
 import { Avatar, Button, Layout, Menu, Skeleton } from 'antd';
 import type { MenuProps } from 'antd';
 import bem from 'easy-bem';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 
 import cancel from 'assets/images/icons/cancel.svg';
@@ -52,6 +52,10 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
   const dispatch = useAppDispatch();
   const location = useLocation();
   const { account, fetchLoadingAccount } = useAppSelector(accountsSelector);
+  const [isCancelled, setIsCancelled] = useState(false);
+  const cancelIconClassName = isCancelled
+    ? b('apk-block', { 'cancel-icon-active': true })
+    : b('apk-block');
   const isFieldClimate = location.pathname.includes('/field-climate');
 
   useEffect(() => {
@@ -162,10 +166,10 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
         onClick={pushLinks}
       />
       {account?.is_manager ? (
-        <div className={b('apk-block')}>
-          <div className={b('cancel-icon')}>
+        <div className={cancelIconClassName}>
+          <button type='button' className={b('cancel-icon')} onClick={() => setIsCancelled(true)}>
             <img src={cancel} alt='cancel' />
-          </div>
+          </button>
           <div>
             <img src={star} alt='star' />
           </div>
