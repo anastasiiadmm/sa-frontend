@@ -75,6 +75,7 @@ const Users: React.FC = () => {
     },
     {
       title: 'Название компании',
+      key: 'name',
       dataIndex: 'name',
       filterSearch: true,
       width: '30%',
@@ -85,6 +86,7 @@ const Users: React.FC = () => {
     {
       title: 'Номер телефона',
       dataIndex: 'phone',
+      key: 'phone',
       filterSearch: true,
       width: '30%',
       render: (text: string, record: IAccount) => {
@@ -93,6 +95,7 @@ const Users: React.FC = () => {
     },
     {
       title: 'Блоки автопилота',
+      key: 'autopilots_amount',
       dataIndex: 'autopilots_amount',
       filterSearch: true,
       width: '25%',
