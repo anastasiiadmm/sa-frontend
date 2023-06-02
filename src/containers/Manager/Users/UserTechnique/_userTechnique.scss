@@ -35,6 +35,15 @@
     font-weight: 400 !important;
   }
 
+  &__view-button {
+    background: #ECF4FF;
+    border: none;
+    color: #1358BF;
+    font-weight: 700;
+    font-size: 14px;
+    margin-left: 12px;
+  }
+
   &__subtitle {
     margin: 0;
     padding-left: 7px;
