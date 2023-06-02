@@ -1,0 +1,51 @@
+.DrawerComponent {
+  display: flex;
+  flex-direction: column;
+
+  .ant-drawer-body {
+    padding: 0;
+  }
+
+  &__info-block {
+    display: flex;
+    flex-direction: column;
+    margin: 26px;
+  }
+
+  &__form-block {
+    display: flex;
+    flex-wrap: wrap;
+    > div {
+      width: 150px;
+    }
+  }
+
+  &__profile-title {
+    margin: 12px 0;
+  }
+
+  &__view-button {
+    background: #ECF4FF;
+    border: none;
+    color: #1358BF;
+    font-weight: 700;
+    font-size: 14px;
+  }
+
+  &__close-button {
+    padding: 0;
+    background: none;
+    position: absolute;
+    left: -84px;
+    top: 20px;
+    width: 40px;
+    height: 40px;
+    &:active {
+      background-color: transparent;
+    }
+  }
+
+  .input-styles {
+    padding: 0;
+  }
+}

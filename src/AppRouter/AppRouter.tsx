@@ -21,6 +21,7 @@ import UserProfile from 'containers/Manager/Users/UserProfile/UserProfile';
 import Users from 'containers/Manager/Users/Users';
 import UserTechnique from 'containers/Manager/Users/UserTechnique/UserTechnique';
 import ProfileTechnique from 'containers/Technique/ProfileTechnique/ProfileTechnique';
+import TechniqueMap from 'containers/TechniqueMap/TechniqueMap';
 import Profile from 'containers/User/Profile/Profile';
 import Technique from 'containers/User/Technique/Technique';
 import { accountsSelector } from 'redux/accounts/accountsSlice';
@@ -69,7 +70,9 @@ const AppRouter: React.FC = () => {
         <Content
           style={{
             margin:
-              pathname.includes('/field-climate') || pathname.includes('/open-map')
+              pathname.includes('/field-climate') ||
+              pathname.includes('/open-map') ||
+              pathname.includes('/technique-map')
                 ? 0
                 : '24px 16px',
             padding: 24,
@@ -107,6 +110,7 @@ const AppRouter: React.FC = () => {
                 </>
               )}
               <Route path='/open-map/:id/:field_name' element={<OpenMapComponent />} />
+              <Route path='/technique-map' element={<TechniqueMap />} />
               <Route path='/profile-technique/:userId/:vehicleId' element={<ProfileTechnique />} />
               <Route
                 path='*'
