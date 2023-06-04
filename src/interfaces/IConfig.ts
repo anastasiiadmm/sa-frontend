@@ -6,5 +6,6 @@ export interface IConfig {
     station_id: number;
   };
   google_api_key: string;
-  coords_timeout: string;
+  coords_timeout: string | undefined;
+  websocket_auth_secret_key: string;
 }
