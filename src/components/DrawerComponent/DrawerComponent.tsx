@@ -20,7 +20,14 @@ const DrawerComponent: React.FC<Props> = ({ onClose, open }) => {
   const b = bem('DrawerComponent');
 
   return (
-    <Drawer className={b('')} placement='right' closable={false} onClose={onClose} open={open}>
+    <Drawer
+      className={b('')}
+      placement='right'
+      closable={false}
+      onClose={onClose}
+      open={open}
+      data-testid='drawer-id'
+    >
       <Button
         onClick={onClose}
         size='large'

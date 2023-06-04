@@ -119,3 +119,129 @@ exports[`OpenMapComponents render 1`] = `
   />
 </div>
 `;
+
+exports[`OpenMapComponents render technique map success 1`] = `
+<div
+  className="TechniqueMap"
+>
+  <div
+    className="TechniqueMap__card-block"
+  >
+    <div
+      className="ant-card TechniqueMap__card-style css-dev-only-do-not-override-15rg2km"
+    >
+      <div
+        className="ant-card-body"
+        style={{}}
+      >
+        <div
+          className="TechniqueMap__header-title"
+        >
+          <button
+            className="btn_none_style"
+            onClick={[Function]}
+            type="button"
+          >
+            <img
+              alt="arrow"
+              className="TechniqueMap__arrow-left"
+              src={
+                {
+                  "process": [Function],
+                }
+              }
+            />
+          </button>
+          <span
+            className="ant-typography TechniqueMap__title css-dev-only-do-not-override-15rg2km"
+            style={
+              {
+                "WebkitLineClamp": undefined,
+              }
+            }
+          >
+            Всего техники - 
+            <span
+              className="ant-typography css-dev-only-do-not-override-15rg2km"
+              style={
+                {
+                  "WebkitLineClamp": undefined,
+                }
+              }
+            >
+              <strong>
+                123 техники
+              </strong>
+            </span>
+          </span>
+          <span
+            className="ant-typography TechniqueMap__title css-dev-only-do-not-override-15rg2km"
+            style={
+              {
+                "WebkitLineClamp": undefined,
+              }
+            }
+          >
+            <img
+              alt="locale"
+              className="TechniqueMap__img-title"
+              src={
+                {
+                  "process": [Function],
+                }
+              }
+            />
+            Активны - 
+            <span
+              className="ant-typography css-dev-only-do-not-override-15rg2km"
+              style={
+                {
+                  "WebkitLineClamp": undefined,
+                }
+              }
+            >
+              <strong>
+                24
+              </strong>
+            </span>
+          </span>
+          <span
+            className="ant-typography TechniqueMap__title css-dev-only-do-not-override-15rg2km"
+            style={
+              {
+                "WebkitLineClamp": undefined,
+              }
+            }
+          >
+            <img
+              alt="locale"
+              className="TechniqueMap__img-title"
+              src={
+                {
+                  "process": [Function],
+                }
+              }
+            />
+            Неактивны - 
+            <span
+              className="ant-typography css-dev-only-do-not-override-15rg2km"
+              style={
+                {
+                  "WebkitLineClamp": undefined,
+                }
+              }
+            >
+              <strong>
+                12
+              </strong>
+            </span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    className="TechniqueMap__map-block"
+  />
+</div>
+`;
