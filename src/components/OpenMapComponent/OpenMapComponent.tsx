@@ -1,7 +1,9 @@
 import { AimOutlined } from '@ant-design/icons';
 import { Button, Card, Spin, Tooltip, Typography } from 'antd';
+import { AES } from 'crypto-js';
 import bem from 'easy-bem';
 import L, { LatLngExpression } from 'leaflet';
+import moment from 'moment';
 import React, { useEffect, useRef, useState } from 'react';
 import { CircleMarker, MapContainer, Marker, Polyline, Popup, TileLayer } from 'react-leaflet';
 import { useNavigate, useParams } from 'react-router';
@@ -26,7 +28,7 @@ const purpleOptions = { color: '#1358BF' };
 const OpenMapComponent = () => {
   const b = bem('OpenMapComponent');
   const { id, field_name } = useParams();
-  const { account } = useAppSelector(accountsSelector);
+  const { account, configs } = useAppSelector(accountsSelector);
   const { vehicle, field } = useAppSelector(mapSelector);
   const markerRef = useRef(null);
   const [markerPosition, setMarkerPosition] = useState<[number, number] | null>(null);
@@ -46,11 +48,13 @@ const OpenMapComponent = () => {
   const [loadingMapUpdate, setLoadingMapUpdate] = useState(false);
   const [socketLoading, setSocketLoading] = useState(false);
 
-  const secretFromAPI = 'your-secret-from-api';
   const moveSpeed = account?.coords_timeout ? account.coords_timeout * 1000 + 200 : 0;
 
   const connectWebSocket = (time: number, secret: string) => {
     let connectionID = '';
+    const message = moment().format('YYYY-DD-MM');
+
+    const encrypted = AES.encrypt(message, secret).toString();
 
     const connect = () => {
       const socket = new WebSocket(socketApiSocket);
@@ -62,7 +66,7 @@ const OpenMapComponent = () => {
             timeout: time,
             vehicle_id: Number(id),
             connection_id: connectionID,
-            secret,
+            secret: encrypted,
           }),
         );
       };
@@ -74,6 +78,7 @@ const OpenMapComponent = () => {
             timeout: time,
             vehicle_id: Number(id),
             connection_id: connectionID,
+            secret: encrypted,
           }),
         );
       }
@@ -104,14 +109,17 @@ const OpenMapComponent = () => {
   };
 
   useEffect(() => {
-    if (account?.coords_timeout) {
-      const socket = connectWebSocket(account?.coords_timeout, secretFromAPI);
+    if (account?.coords_timeout !== undefined || configs?.websocket_auth_secret_key) {
+      const socket = connectWebSocket(
+        account?.coords_timeout ?? 0,
+        configs?.websocket_auth_secret_key ?? '',
+      );
 
       return () => {
         socket.close();
       };
     }
-  }, [account?.coords_timeout]);
+  }, [account?.coords_timeout, configs?.websocket_auth_secret_key]);
 
   useEffect(() => {
     dispatch(fetchVehicleInfo({ vehicleId: String(id), pageUrl: '1' }));

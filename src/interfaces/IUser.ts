@@ -42,7 +42,7 @@ export interface IAccount {
   last_name: string;
   email: string;
   phone: string;
-  coords_timeout: number;
+  coords_timeout: number | undefined;
   company: {
     autopilots_amount: number;
     id?: number;
