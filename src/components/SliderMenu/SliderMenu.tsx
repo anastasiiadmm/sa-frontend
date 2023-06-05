@@ -8,6 +8,7 @@ import { useLocation, useNavigate } from 'react-router';
 import cancel from 'assets/images/icons/cancel.svg';
 import star from 'assets/images/icons/star.svg';
 import logo from 'assets/images/logo.png';
+import Spinner from 'components/Spinner/Spinner';
 import {
   accountsSelector,
   clearRequestsPagination,
@@ -21,7 +22,6 @@ import { urlFormat } from 'utils/files/files';
 import { logoutLocalStorage } from 'utils/token';
 
 import 'components/SliderMenu/_sliderMenu.scss';
-import Spinner from '../Spinner/Spinner';
 
 const { Sider } = Layout;
 
