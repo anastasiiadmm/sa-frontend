@@ -293,6 +293,11 @@ const UserTechnique: React.FC = () => {
               <Button type='primary' onClick={showModal}>
                 Добавить технику
               </Button>
+              <Link to='/technique-map'>
+                <Button type='default' className={b('view-button')}>
+                  Посмотреть всю технику
+                </Button>
+              </Link>
             </div>
           </div>
 

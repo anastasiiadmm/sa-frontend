@@ -256,9 +256,16 @@ const Technique = () => {
               Техника
             </Title>
 
-            <Button type='primary' onClick={showModal}>
-              Запрос на добавление техники
-            </Button>
+            <div>
+              <Button type='primary' onClick={showModal} style={{ marginRight: 15 }}>
+                Запрос на добавление техники
+              </Button>
+              <Link to='/technique-map'>
+                <Button type='default' className={b('view-button')}>
+                  Посмотреть всю технику
+                </Button>
+              </Link>
+            </div>
           </div>
 
           <TableComponent

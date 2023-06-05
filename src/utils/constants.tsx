@@ -36,7 +36,7 @@ export const rangeDataHoursSensors = [
 ];
 
 export const dateMomentTypeString = 'YYYY-MM-DD HH:mm:ss';
-export const dateMomentTypeDash = 'DD/MM/YYYY';
+export const dateMomentTypeDash = 'DD.MM.YYYY';
 
 export const envs = {
   local: 'local',

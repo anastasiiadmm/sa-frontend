@@ -8,6 +8,7 @@ import { useLocation, useNavigate } from 'react-router';
 import cancel from 'assets/images/icons/cancel.svg';
 import star from 'assets/images/icons/star.svg';
 import logo from 'assets/images/logo.png';
+import Spinner from 'components/Spinner/Spinner';
 import {
   accountsSelector,
   clearRequestsPagination,
@@ -51,7 +52,7 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
   const push = useNavigate();
   const dispatch = useAppDispatch();
   const location = useLocation();
-  const { account, apk, fetchLoadingAccount } = useAppSelector(accountsSelector);
+  const { account, apk, apkLoading, fetchLoadingAccount } = useAppSelector(accountsSelector);
   const [isCancelled, setIsCancelled] = useState(false);
   const cancelIconClassName =
     isCancelled || collapsed ? b('apk-block', { 'cancel-icon-active': true }) : b('apk-block');
@@ -165,18 +166,22 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
         onClick={pushLinks}
       />
       {account?.is_manager && apk?.file !== null ? (
-        <div className={cancelIconClassName}>
-          <button type='button' className={b('cancel-icon')} onClick={() => setIsCancelled(true)}>
-            <img src={cancel} alt='cancel' />
-          </button>
-          <div>
-            <img src={star} alt='star' />
+        apkLoading ? (
+          <Spinner />
+        ) : (
+          <div className={cancelIconClassName}>
+            <button type='button' className={b('cancel-icon')} onClick={() => setIsCancelled(true)}>
+              <img src={cancel} alt='cancel' />
+            </button>
+            <div>
+              <img src={star} alt='star' />
+            </div>
+            <div className={b('apk-info')}>
+              <p>Вышла новая версия приложения</p>
+              <Button type='default'>Скачать APK</Button>
+            </div>
           </div>
-          <div className={b('apk-info')}>
-            <p>Вышла новая версия приложения</p>
-            <Button type='default'>Скачать APK</Button>
-          </div>
-        </div>
+        )
       ) : null}
     </Sider>
   );
