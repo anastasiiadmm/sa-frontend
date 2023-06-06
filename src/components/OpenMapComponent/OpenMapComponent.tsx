@@ -78,7 +78,6 @@ const OpenMapComponent = () => {
             timeout: time,
             vehicle_id: Number(id),
             connection_id: connectionID,
-            secret: encrypted,
           }),
         );
       }
