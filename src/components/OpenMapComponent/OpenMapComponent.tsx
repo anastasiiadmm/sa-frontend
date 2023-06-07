@@ -1,6 +1,6 @@
 import { AimOutlined } from '@ant-design/icons';
 import { Button, Card, Spin, Tooltip, Typography } from 'antd';
-import { AES } from 'crypto-js';
+import { AES, mode } from 'crypto-js';
 import bem from 'easy-bem';
 import L, { LatLngExpression } from 'leaflet';
 import moment from 'moment';
@@ -15,7 +15,7 @@ import map from 'assets/images/icons/map.svg';
 import startA from 'assets/images/icons/startA.svg';
 import tractorBlue from 'assets/images/icons/tractor-blue.svg';
 import Errors from 'components/Errors/Errors';
-import { accountsSelector, fetchVehicleInfo } from 'redux/accounts/accountsSlice';
+import { accountsSelector, fetchConfigs, fetchVehicleInfo } from 'redux/accounts/accountsSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { mapSelector, obtainingCoordinate } from 'redux/map/mapSlice';
 import { socketApiSocket } from 'utils/config';
@@ -52,12 +52,13 @@ const OpenMapComponent = () => {
 
   const connectWebSocket = (time: number, secret: string) => {
     let connectionID = '';
-    const message = moment().format('YYYY-DD-MM');
+    const message = moment().format('YYYY-MM-DD');
 
-    const encrypted = AES.encrypt(message, secret).toString();
+    const encrypted = AES.encrypt(message, secret, { mode: mode.ECB }).toString();
 
     const connect = () => {
-      const socket = new WebSocket(socketApiSocket);
+      const socket = new WebSocket(`${socketApiSocket}?Authentication=${encrypted}`);
+
       socket.onopen = () => {
         setSocketLoading(true);
         socket.send(
@@ -66,7 +67,6 @@ const OpenMapComponent = () => {
             timeout: time,
             vehicle_id: Number(id),
             connection_id: connectionID,
-            secret: encrypted,
           }),
         );
       };
@@ -106,6 +106,10 @@ const OpenMapComponent = () => {
     const socket = connect();
     return socket;
   };
+
+  useEffect(() => {
+    dispatch(fetchConfigs());
+  }, [dispatch]);
 
   useEffect(() => {
     if (account?.coords_timeout !== undefined || configs?.websocket_auth_secret_key) {
