@@ -15,7 +15,7 @@ import map from 'assets/images/icons/map.svg';
 import startA from 'assets/images/icons/startA.svg';
 import tractorBlue from 'assets/images/icons/tractor-blue.svg';
 import Errors from 'components/Errors/Errors';
-import { accountsSelector, fetchVehicleInfo } from 'redux/accounts/accountsSlice';
+import { accountsSelector, fetchConfigs, fetchVehicleInfo } from 'redux/accounts/accountsSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { mapSelector, obtainingCoordinate } from 'redux/map/mapSlice';
 import { socketApiSocket } from 'utils/config';
@@ -106,6 +106,10 @@ const OpenMapComponent = () => {
     const socket = connect();
     return socket;
   };
+
+  useEffect(() => {
+    dispatch(fetchConfigs());
+  }, [dispatch]);
 
   useEffect(() => {
     if (account?.coords_timeout !== undefined || configs?.websocket_auth_secret_key) {

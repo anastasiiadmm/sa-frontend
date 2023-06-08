@@ -1,4 +1,5 @@
 @use "assets/scss/_themes.scss";
+@use 'assets/scss/_mixins.scss';
 
 .SignIn {
   overflow: hidden;
@@ -78,6 +79,12 @@
     font-weight: bold;
     &:hover {
       color: themes.$disabled-color !important;
+    }
+  }
+
+  @include mixins.bp(desktop) {
+    &__image-block {
+      display: none;
     }
   }
 }

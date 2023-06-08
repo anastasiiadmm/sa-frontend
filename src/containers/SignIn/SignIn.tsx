@@ -65,7 +65,12 @@ const SignIn: React.FC = () => {
   return (
     <>
       <Row justify='space-between' data-testid='sign-in' className={b()}>
-        <Col xs={{ span: 24, offset: 0 }} md={{ span: 24, offset: 0 }} lg={{ span: 12, offset: 0 }}>
+        <Col
+          xs={{ span: 24, offset: 0 }}
+          md={{ span: 24, offset: 0 }}
+          lg={{ span: 12, offset: 0 }}
+          className={b('image-block')}
+        >
           <img src={tractor} alt='tractor' className={b('image-styles')} />
         </Col>
         <Col
