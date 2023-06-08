@@ -1,6 +1,6 @@
 import { AimOutlined } from '@ant-design/icons';
 import { Button, Card, Spin, Tooltip, Typography } from 'antd';
-import { AES } from 'crypto-js';
+import { AES, enc, mode } from 'crypto-js';
 import bem from 'easy-bem';
 import L, { LatLngExpression } from 'leaflet';
 import moment from 'moment';
@@ -52,12 +52,13 @@ const OpenMapComponent = () => {
 
   const connectWebSocket = (time: number, secret: string) => {
     let connectionID = '';
-    const message = moment().format('YYYY-DD-MM');
-
-    const encrypted = AES.encrypt(message, secret).toString();
+    const message = moment().format('YYYY-MM-DD');
+    const key = enc.Utf8.parse(secret);
+    const encrypted = AES.encrypt(message, key, { mode: mode.ECB }).toString();
 
     const connect = () => {
-      const socket = new WebSocket(socketApiSocket);
+      const socket = new WebSocket(`${socketApiSocket}?Authentication=${encrypted}`);
+
       socket.onopen = () => {
         setSocketLoading(true);
         socket.send(
@@ -66,7 +67,6 @@ const OpenMapComponent = () => {
             timeout: time,
             vehicle_id: Number(id),
             connection_id: connectionID,
-            secret: encrypted,
           }),
         );
       };
