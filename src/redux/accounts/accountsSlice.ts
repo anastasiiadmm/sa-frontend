@@ -4,6 +4,7 @@ import { message } from 'antd';
 import { getErrorMessage } from 'helper';
 import {
   accountsManagerConfirmation,
+  apksPagination,
   generatedPassword,
   IAccount,
   IApk,
@@ -26,7 +27,8 @@ import toQueryParams from 'utils/toQueryParams';
 const nameSpace = 'accounts';
 
 interface AccountsState {
-  apk: IApk | null;
+  apk: IApk[] | null;
+  apksPagination: apksPagination | null;
   apkLoading: boolean;
   apkError: IErrors | null;
   uploadLastApkLoading: boolean;
@@ -79,6 +81,7 @@ interface AccountsState {
 
 const INITIAL_STATE = {
   apk: null,
+  apksPagination: null,
   apkLoading: false,
   apkError: null,
   uploadLastApkLoading: false,
@@ -153,11 +156,24 @@ const INITIAL_STATE = {
   requestApproveChangeProfileError: null,
 } as AccountsState;
 
-export const fetchLastApk = createAsyncThunk<IApk, void>(
-  'accounts/fetchLastApk',
-  async (_, { rejectWithValue }) => {
+interface fetchApksParams {
+  data?: {
+    query?: {
+      page?: number | undefined;
+    };
+  };
+}
+
+export const fetchApks = createAsyncThunk<apksPagination, fetchApksParams>(
+  'accounts/fetchApks',
+  async ({ data }, { rejectWithValue }) => {
     try {
-      const resp = await axiosApi.get<IApk>(`/common/apks/`);
+      let query = '';
+      if (data?.query) {
+        query = toQueryParams(data.query);
+      }
+
+      const resp = await axiosApi.get<apksPagination>(`/common/apks/${query}`);
       return resp.data;
     } catch (e) {
       return rejectWithValue({
@@ -543,15 +559,21 @@ const accountsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchLastApk.pending, (state) => {
+      .addCase(fetchApks.pending, (state) => {
         state.apkLoading = true;
         state.apkError = null;
       })
-      .addCase(fetchLastApk.fulfilled, (state, action) => {
+      .addCase(fetchApks.fulfilled, (state, { payload }: any) => {
         state.apkLoading = false;
-        state.apk = action.payload;
+        state.apk = payload.results;
+        state.apksPagination = {
+          ...state.apksPagination,
+          count: payload.count,
+          next: payload.links.next,
+          previous: payload.links.previous,
+        } as apksPagination;
       })
-      .addCase(fetchLastApk.rejected, (state, { payload }) => {
+      .addCase(fetchApks.rejected, (state, { payload }) => {
         state.apkLoading = false;
         if (payload && typeof payload === 'object' && 'detail' in payload && 'status' in payload) {
           state.apkError = {

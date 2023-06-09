@@ -13,7 +13,7 @@ import {
   accountsSelector,
   clearRequestsPagination,
   fetchAccount,
-  fetchLastApk,
+  fetchApks,
 } from 'redux/accounts/accountsSlice';
 import { logoutUser } from 'redux/auth/authSlice';
 import { clearCompaniesPagination } from 'redux/companies/companiesSlice';
@@ -63,7 +63,7 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
   }, [dispatch]);
 
   useEffect(() => {
-    dispatch(fetchLastApk());
+    dispatch(fetchApks({}));
   }, [dispatch]);
 
   const menuItems: MenuItem[] = [
@@ -165,7 +165,7 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
         items={menuItems}
         onClick={pushLinks}
       />
-      {account?.is_manager && apk?.file !== null ? (
+      {account?.is_manager && apk?.length ? (
         apkLoading ? (
           <Spinner />
         ) : (
