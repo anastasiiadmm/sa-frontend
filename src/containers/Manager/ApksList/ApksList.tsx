@@ -1,5 +1,6 @@
-import { Badge, Button, Tag, Typography } from 'antd';
+import { Badge, Button, TablePaginationConfig, Tag, Typography } from 'antd';
 import { ColumnsType } from 'antd/es/table';
+import { FilterValue, SorterResult } from 'antd/es/table/interface';
 import bem from 'easy-bem';
 import React, { useEffect, useState } from 'react';
 
@@ -21,15 +22,17 @@ const ApksList = () => {
       ? Number(getPageNumber(apksPagination?.next))
       : Number(getPageNumberPrevious(apksPagination?.previous)),
   });
+  const [orderSort, setOrderSort] = useState({ ordering: '' });
 
   useEffect(() => {
     const data = {
       query: {
         page: filters?.page,
+        ordering: orderSort?.ordering,
       },
     };
     dispatch(fetchApks({ data }));
-  }, [dispatch, filters]);
+  }, [dispatch, filters, orderSort?.ordering]);
 
   const columns: ColumnsType<IApk> = [
     {
@@ -39,7 +42,11 @@ const ApksList = () => {
       fixed: 'left',
       width: 170,
       render: (text, record, index) => {
-        const highestVersion = apk !== null && index > 0 ? apk[0]?.version : '0.0.1';
+        const highestVersion =
+          apk !== null &&
+          apk.reduce((highest, obj) => {
+            return obj.version > highest ? obj.version : highest;
+          }, '');
         const previousVersion =
           apk !== null && index > 0 ? apk[index - 1]?.version ?? '0.0.1' : '0.0.1';
 
@@ -79,6 +86,7 @@ const ApksList = () => {
       dataIndex: 'version',
       filterSearch: true,
       sorter: true,
+      sortDirections: ['descend', 'ascend'],
       width: 170,
       render: (text) => {
         return <p>ver {`${text}`}</p>;
@@ -119,6 +127,21 @@ const ApksList = () => {
     });
   };
 
+  const handleTableSortChange = (
+    pagination: TablePaginationConfig,
+    filters: Record<string, FilterValue | null>,
+    sorter: SorterResult<any> | SorterResult<any>[],
+  ) => {
+    const order = Array.isArray(sorter) ? sorter[0]?.order : sorter?.order;
+    const filteredOrderSort = Object.fromEntries(
+      Object.entries(orderSort).filter(([key]) => key !== undefined),
+    );
+    setOrderSort({
+      ...filteredOrderSort,
+      ordering: order === 'descend' ? '-id' : 'id',
+    });
+  };
+
   return (
     <div className={b()} data-testid='apks-id'>
       <div className={b('table')}>
@@ -130,6 +153,7 @@ const ApksList = () => {
           loading={apkLoading}
           columns={columns}
           data={apk}
+          onChange={handleTableSortChange}
           rowKey={(record) => record?.version}
           params={apkLoading ? { previous: null, next: null, count: 0 } : apksPagination}
           pagePrevHandler={pagePrevHandler}

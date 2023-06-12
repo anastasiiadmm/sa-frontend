@@ -1,4 +1,5 @@
 import { JSX } from 'react';
+
 import { IOperator } from 'interfaces/IUser';
 
 export interface IValueFinish {

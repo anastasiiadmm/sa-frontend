@@ -1,4 +1,5 @@
-import { Empty, Table } from 'antd';
+import { Empty, Table, TablePaginationConfig } from 'antd';
+import { FilterValue, SorterResult, TableCurrentDataSource } from 'antd/es/table/interface';
 import { Key } from 'antd/lib/table/interface';
 import React from 'react';
 
@@ -11,7 +12,12 @@ interface Props {
   columns: any | null;
   rowKey: (record: any) => Key;
   loading: boolean;
-  onChange?: () => void;
+  onChange?: (
+    pagination: TablePaginationConfig,
+    filters: Record<string, FilterValue | null>,
+    sorter: SorterResult<any> | SorterResult<any>[],
+    extra: TableCurrentDataSource<any>,
+  ) => void;
   params?: pagination | null;
   pagePrevHandler?: () => void;
   pageNextHandler?: () => void;
