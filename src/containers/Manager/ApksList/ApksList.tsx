@@ -130,7 +130,7 @@ const ApksList = () => {
   const handleTableSortChange = (
     pagination: TablePaginationConfig,
     filters: Record<string, FilterValue | null>,
-    sorter: SorterResult<any> | SorterResult<any>[],
+    sorter: SorterResult<string> | SorterResult<string>[],
   ) => {
     const order = Array.isArray(sorter) ? sorter[0]?.order : sorter?.order;
     const filteredOrderSort = Object.fromEntries(
