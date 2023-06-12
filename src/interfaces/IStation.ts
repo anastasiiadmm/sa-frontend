@@ -34,7 +34,6 @@ export interface SensorDataEntry {
     min: number;
   };
 }
-[];
 
 export interface SensorUpdate {
   channel: number;
@@ -335,7 +334,6 @@ export interface Location {
   importance: number;
   icon: string;
 }
-[];
 
 export interface Locales {
   [key: string]: string;

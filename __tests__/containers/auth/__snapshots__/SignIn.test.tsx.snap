@@ -7,7 +7,7 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
   style={{}}
 >
   <div
-    className="ant-col ant-col-xs-24 ant-col-xs-offset-0 ant-col-md-24 ant-col-md-offset-0 ant-col-lg-12 ant-col-lg-offset-0 css-dev-only-do-not-override-15rg2km"
+    className="ant-col SignIn__image-block ant-col-xs-24 ant-col-xs-offset-0 ant-col-md-24 ant-col-md-offset-0 ant-col-lg-12 ant-col-lg-offset-0 css-dev-only-do-not-override-15rg2km"
     style={{}}
   >
     <img
