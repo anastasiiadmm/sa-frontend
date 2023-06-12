@@ -563,14 +563,14 @@ const accountsSlice = createSlice({
         state.apkLoading = true;
         state.apkError = null;
       })
-      .addCase(fetchApks.fulfilled, (state, { payload }: any) => {
+      .addCase(fetchApks.fulfilled, (state, { payload }) => {
         state.apkLoading = false;
         state.apk = payload.results;
         state.apksPagination = {
           ...state.apksPagination,
           count: payload.count,
-          next: payload.links.next,
-          previous: payload.links.previous,
+          next: payload.links?.next || null,
+          previous: payload.links?.previous || null,
         } as apksPagination;
       })
       .addCase(fetchApks.rejected, (state, { payload }) => {

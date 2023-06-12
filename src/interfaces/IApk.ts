@@ -11,4 +11,8 @@ export interface apksPagination {
   next: string | null;
   previous: string | null;
   results: IApk[];
+  links?: {
+    next: string | undefined;
+    previous: string | undefined;
+  };
 }
