@@ -55,9 +55,10 @@ const OpenMapComponent = () => {
     const message = moment().format('YYYY-MM-DD');
     const key = enc.Utf8.parse(secret);
     const encrypted = AES.encrypt(message, key, { mode: mode.ECB }).toString();
+    const encodedEncrypted = encodeURIComponent(encrypted);
 
     const connect = () => {
-      const socket = new WebSocket(`${socketApiSocket}?Authentication=${encrypted}`);
+      const socket = new WebSocket(`${socketApiSocket}?Authentication=${encodedEncrypted}`);
 
       socket.onopen = () => {
         setSocketLoading(true);
@@ -259,6 +260,7 @@ const OpenMapComponent = () => {
   const latLngBounds: L.LatLngBoundsExpression = L.latLngBounds(
     bounds.map((coords: number[]) => [coords[0], coords[1]]),
   );
+
   const findResults = vehicle?.results?.processing_data.find((item) => item.id === Number(id));
 
   // const lineMapHistory = () => { // доработаем, когда из api будут присылаться данные

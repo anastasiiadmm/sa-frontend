@@ -1,6 +1,6 @@
 import axios, { AxiosRequestHeaders } from 'axios';
 
-import { checkForTokens, logoutUser } from 'redux/auth/authSlice';
+import { checkForTokens } from 'redux/auth/authSlice';
 import store from 'redux/store';
 import { deleteCookie } from 'utils/addCookies/addCookies';
 import { apiURL } from 'utils/config';
@@ -57,6 +57,7 @@ axiosApi.interceptors.response.use(
           delete obj.token.refresh;
           localStorage.setItem('users', JSON.stringify(obj));
           window.dispatchEvent(new Event('storage'));
+
           return axiosApi(originalRequest);
         }
       } catch (e) {
@@ -67,8 +68,6 @@ axiosApi.interceptors.response.use(
         }
       }
     }
-
-    store.dispatch(logoutUser());
 
     return Promise.reject(error);
   },
