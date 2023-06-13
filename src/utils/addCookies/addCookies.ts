@@ -1,3 +1,4 @@
+export const nameRefreshCookies = 'infoCookiesRefresh';
 export const addCookies = (name: string, value: string) => {
   const maxAge = 259200;
   document.cookie = `${name}=${value}=;Max-Age=${maxAge};path=/`;
