@@ -1,6 +1,7 @@
 import { EyeOutlined } from '@ant-design/icons';
-import { Button, message, Tooltip, Typography } from 'antd';
+import { Button, message, TablePaginationConfig, Tooltip, Typography } from 'antd';
 import { ColumnsType } from 'antd/es/table';
+import { FilterValue, SorterResult } from 'antd/es/table/interface';
 import bem from 'easy-bem';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
@@ -90,21 +91,47 @@ const UserRequests = () => {
     image: null,
     deleted_image: null,
   });
+  const [orderSort, setOrderSort] = useState({ ordering: '' });
 
   useEffect(() => {
     const data = {
       query: {
         page: filters?.page,
+        ordering: orderSort?.ordering,
       },
     };
     dispatch(fetchRequests({ data }));
-  }, [dispatch, filters]);
+  }, [dispatch, filters, orderSort]);
 
   useEffect(() => {
     if (id) {
       dispatch(fetchUserInfo({ id }));
     }
   }, [dispatch, id]);
+
+  const handleTableSortChange = (
+    pagination: TablePaginationConfig,
+    filters: Record<string, FilterValue | null>,
+    sorter: SorterResult<string> | SorterResult<string>[],
+  ) => {
+    const columnKey = Array.isArray(sorter)
+      ? sorter[0]?.column?.dataIndex
+      : sorter?.column?.dataIndex;
+    const order = Array.isArray(sorter) ? sorter[0]?.order : sorter?.order;
+    const sortableColumnKeys = ['created_at', 'category'];
+
+    const orderingMap: Record<string, string> = {
+      created_at: '-created_at',
+      category: '-category',
+    };
+
+    if (columnKey && sortableColumnKeys.includes(columnKey as string)) {
+      const ordering =
+        order === 'descend' ? orderingMap[columnKey as string] : (columnKey as string);
+
+      setOrderSort({ ordering });
+    }
+  };
 
   const showRejectModal = () => {
     setIsModalRejectOpen(true);
@@ -337,6 +364,7 @@ const UserRequests = () => {
       dataIndex: 'created_at',
       width: '20%',
       sorter: true,
+      sortDirections: ['descend', 'ascend'],
       render: (text: string) => {
         return <p>{moment(text, dateMomentTypeDash).format(dateMomentTypeDash)}</p>;
       },
@@ -347,6 +375,7 @@ const UserRequests = () => {
       filterSearch: true,
       width: '35%',
       sorter: true,
+      sortDirections: ['descend', 'ascend'],
       render: (text, row) => {
         let confirmationTypeText;
         switch (row?.category) {
@@ -405,6 +434,7 @@ const UserRequests = () => {
           <TableComponent
             loading={fetchRequestsLoading}
             columns={columns}
+            onChange={handleTableSortChange}
             data={requests}
             rowKey={(record) => record.id as number}
             params={
