@@ -78,6 +78,7 @@ const ApksList = () => {
       title: 'Дата загрузки',
       dataIndex: 'created_at',
       sorter: true,
+      sortDirections: ['descend', 'ascend'],
       width: 170,
     },
     {
@@ -132,14 +133,16 @@ const ApksList = () => {
     filters: Record<string, FilterValue | null>,
     sorter: SorterResult<string> | SorterResult<string>[],
   ) => {
+    const columnKey = Array.isArray(sorter) ? sorter[0]?.column?.key : sorter?.column?.key;
     const order = Array.isArray(sorter) ? sorter[0]?.order : sorter?.order;
-    const filteredOrderSort = Object.fromEntries(
-      Object.entries(orderSort).filter(([key]) => key !== undefined),
-    );
-    setOrderSort({
-      ...filteredOrderSort,
-      ordering: order === 'descend' ? '-id' : 'id',
-    });
+
+    const sortableColumnKeys = ['created_at', 'version'];
+
+    if (columnKey && sortableColumnKeys.includes(columnKey as string)) {
+      setOrderSort({
+        ordering: order === 'descend' ? '-id' : 'id',
+      });
+    }
   };
 
   return (
