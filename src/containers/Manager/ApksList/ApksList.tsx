@@ -7,9 +7,10 @@ import React, { useEffect, useState } from 'react';
 import TableComponent from 'components/TableComponent/TableComponent';
 import { getPageNumber, getPageNumberPrevious } from 'helper';
 import { IApk } from 'interfaces';
-import { accountsSelector, fetchApks } from 'redux/accounts/accountsSlice';
+import { accountsSelector, fetchApks, uploadLastApk } from 'redux/accounts/accountsSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import 'containers/Manager/ApksList/_apksList.scss';
+import axios from "axios";
 
 const { Title } = Typography;
 
@@ -33,6 +34,67 @@ const ApksList = () => {
     };
     dispatch(fetchApks({ data }));
   }, [dispatch, filters, orderSort?.ordering]);
+
+  const downloadApkFileHandler = (file) => {
+    axios({
+      url: 'https://agri.ltestl.com' + file,
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/octet-stream'
+      }
+    })
+      .then((response) => {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'text.apk';
+        document.body.append(link);
+
+        // Create and dispatch a mouse click event on the link element
+        const clickEvent = new MouseEvent('click', {
+          view: window,
+          bubbles: true,
+          cancelable: true,
+        });
+        link.dispatchEvent(clickEvent);
+
+        link.remove();
+      })
+      .catch((error) => {
+        console.error('Error downloading file:', error);
+      });
+  };
+
+
+
+  const pagePrevHandler = () => {
+    setFilters({
+      ...filters,
+      page: filters.page - 1,
+    });
+  };
+
+  const pageNextHandler = () => {
+    setFilters({
+      ...filters,
+      page: Number(getPageNumber(apksPagination?.next)) + 1,
+    });
+  };
+
+  const handleTableSortChange = (
+    pagination: TablePaginationConfig,
+    filters: Record<string, FilterValue | null>,
+    sorter: SorterResult<string> | SorterResult<string>[],
+  ) => {
+    const order = Array.isArray(sorter) ? sorter[0]?.order : sorter?.order;
+    const filteredOrderSort = Object.fromEntries(
+      Object.entries(orderSort).filter(([key]) => key !== undefined),
+    );
+    setOrderSort({
+      ...filteredOrderSort,
+      ordering: order === 'descend' ? '-id' : 'id',
+    });
+  };
 
   const columns: ColumnsType<IApk> = [
     {
@@ -102,9 +164,15 @@ const ApksList = () => {
       key: 'button',
       dataIndex: 'button',
       filterSearch: true,
-      render: () => {
+      render: (text, record) => {
         return (
-          <Button type='default' style={{ float: 'right' }}>
+          <Button
+            type='default'
+            style={{ float: 'right' }}
+            onClick={() =>
+              downloadApkFileHandler(record?.file)
+            }
+          >
             Скачать
           </Button>
         );
@@ -112,35 +180,6 @@ const ApksList = () => {
       width: 170,
     },
   ];
-
-  const pagePrevHandler = () => {
-    setFilters({
-      ...filters,
-      page: filters.page - 1,
-    });
-  };
-
-  const pageNextHandler = () => {
-    setFilters({
-      ...filters,
-      page: Number(getPageNumber(apksPagination?.next)) + 1,
-    });
-  };
-
-  const handleTableSortChange = (
-    pagination: TablePaginationConfig,
-    filters: Record<string, FilterValue | null>,
-    sorter: SorterResult<string> | SorterResult<string>[],
-  ) => {
-    const order = Array.isArray(sorter) ? sorter[0]?.order : sorter?.order;
-    const filteredOrderSort = Object.fromEntries(
-      Object.entries(orderSort).filter(([key]) => key !== undefined),
-    );
-    setOrderSort({
-      ...filteredOrderSort,
-      ordering: order === 'descend' ? '-id' : 'id',
-    });
-  };
 
   return (
     <div className={b()} data-testid='apks-id'>

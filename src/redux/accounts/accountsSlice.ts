@@ -23,6 +23,7 @@ import { IConfig } from 'interfaces/IConfig';
 import { RootState } from 'redux/hooks';
 import axiosApi from 'utils/axios-api';
 import toQueryParams from 'utils/toQueryParams';
+import axios from 'axios';
 
 const nameSpace = 'accounts';
 
@@ -184,16 +185,30 @@ export const fetchApks = createAsyncThunk<apksPagination, fetchApksParams>(
   },
 );
 
-export const uploadLastApk = createAsyncThunk<IApk, UploadApk>(
+interface ApkParams {
+  file: string;
+}
+
+export const uploadLastApk = createAsyncThunk<IApk, ApkParams>(
   'accounts/uploadLastApk',
   async (data, { rejectWithValue }) => {
+    console.log(data);
     try {
-      const resp = await axiosApi.post<IApk>(`/common/apks/`, data);
-      return resp.data;
-    } catch (e) {
+      const response = await axiosApi.get(data?.file, {
+        responseType: 'blob',
+      });
+
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'filename.apk');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {
       return rejectWithValue({
-        detail: e?.response?.data?.detail,
-        status: e?.response?.status,
+        detail: error?.response?.data?.detail,
+        status: error?.response?.status,
       });
     }
   },
