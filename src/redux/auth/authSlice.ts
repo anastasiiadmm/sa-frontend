@@ -3,8 +3,10 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { IErrors, ITokens, IUser, userMutation } from 'interfaces';
 import { RootState } from 'redux/hooks';
 import store from 'redux/store';
-import { addCookies } from 'utils/addCookies/addCookies';
+import { addCookies, nameRefreshCookies } from 'utils/addCookies/addCookies';
 import axiosApi from 'utils/axios-api';
+
+import { nameLocalStorage } from 'utils/token';
 
 interface AuthState {
   user: IUser | null;
@@ -35,9 +37,9 @@ export const loginUser = createAsyncThunk<ITokens, userMutation>(
   async (loginData, { rejectWithValue }) => {
     try {
       const resp = await axiosApi.post('/accounts/login/', loginData);
-      addCookies('refresh', resp.data.refresh);
+      addCookies(nameRefreshCookies, resp.data.refresh);
       localStorage.setItem(
-        'users',
+        nameLocalStorage,
         JSON.stringify({
           access: resp.data.access,
           is_manager: resp.data.is_manager,
@@ -75,10 +77,11 @@ export const authSlice = createSlice({
     refreshAccessToken: (state, { payload }) => {
       state.tokens = { ...state.tokens, ...payload };
     },
-    checkForTokens: (state, payload) => {
-      state.tokens.access = payload.payload?.access;
-      state.tokens.refresh = payload.payload?.refresh;
-      state.tokens.is_manager = payload.payload?.is_manager;
+    checkForTokens: (state, { payload }) => {
+      state.tokens = {
+        ...state.tokens,
+        ...payload,
+      };
     },
   },
   extraReducers: (builder) => {

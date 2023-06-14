@@ -8,7 +8,7 @@ exports[`OpenMapComponents render 1`] = `
     className="OpenMapComponent__card-block"
   >
     <div
-      className="ant-card OpenMapComponent__card-style css-dev-only-do-not-override-15rg2km"
+      className="ant-card OpenMapComponent__card-style css-dev-only-do-not-override-12jzuas"
     >
       <div
         className="ant-card-body"
@@ -33,7 +33,7 @@ exports[`OpenMapComponents render 1`] = `
             />
           </button>
           <h3
-            className="ant-typography OpenMapComponent__title css-dev-only-do-not-override-15rg2km"
+            className="ant-typography OpenMapComponent__title css-dev-only-do-not-override-12jzuas"
             style={
               {
                 "WebkitLineClamp": undefined,
@@ -58,7 +58,7 @@ exports[`OpenMapComponents render 1`] = `
             </p>
           </h3>
           <h3
-            className="ant-typography OpenMapComponent__title css-dev-only-do-not-override-15rg2km"
+            className="ant-typography OpenMapComponent__title css-dev-only-do-not-override-12jzuas"
             style={
               {
                 "WebkitLineClamp": undefined,
@@ -83,9 +83,10 @@ exports[`OpenMapComponents render 1`] = `
     </div>
   </div>
   <button
-    className="ant-btn css-dev-only-do-not-override-15rg2km ant-btn-default OpenMapComponent__render_btn"
+    className="ant-btn css-dev-only-do-not-override-12jzuas ant-btn-default OpenMapComponent__render_btn"
     disabled={false}
     onClick={[Function]}
+    style={{}}
     type="button"
   >
     <span
@@ -128,7 +129,7 @@ exports[`OpenMapComponents render technique map success 1`] = `
     className="TechniqueMap__card-block"
   >
     <div
-      className="ant-card TechniqueMap__card-style css-dev-only-do-not-override-15rg2km"
+      className="ant-card TechniqueMap__card-style css-dev-only-do-not-override-12jzuas"
     >
       <div
         className="ant-card-body"
@@ -153,7 +154,7 @@ exports[`OpenMapComponents render technique map success 1`] = `
             />
           </button>
           <span
-            className="ant-typography TechniqueMap__title css-dev-only-do-not-override-15rg2km"
+            className="ant-typography TechniqueMap__title css-dev-only-do-not-override-12jzuas"
             style={
               {
                 "WebkitLineClamp": undefined,
@@ -162,7 +163,7 @@ exports[`OpenMapComponents render technique map success 1`] = `
           >
             Всего техники - 
             <span
-              className="ant-typography css-dev-only-do-not-override-15rg2km"
+              className="ant-typography css-dev-only-do-not-override-12jzuas"
               style={
                 {
                   "WebkitLineClamp": undefined,
@@ -175,7 +176,7 @@ exports[`OpenMapComponents render technique map success 1`] = `
             </span>
           </span>
           <span
-            className="ant-typography TechniqueMap__title css-dev-only-do-not-override-15rg2km"
+            className="ant-typography TechniqueMap__title css-dev-only-do-not-override-12jzuas"
             style={
               {
                 "WebkitLineClamp": undefined,
@@ -193,7 +194,7 @@ exports[`OpenMapComponents render technique map success 1`] = `
             />
             Активны - 
             <span
-              className="ant-typography css-dev-only-do-not-override-15rg2km"
+              className="ant-typography css-dev-only-do-not-override-12jzuas"
               style={
                 {
                   "WebkitLineClamp": undefined,
@@ -206,7 +207,7 @@ exports[`OpenMapComponents render technique map success 1`] = `
             </span>
           </span>
           <span
-            className="ant-typography TechniqueMap__title css-dev-only-do-not-override-15rg2km"
+            className="ant-typography TechniqueMap__title css-dev-only-do-not-override-12jzuas"
             style={
               {
                 "WebkitLineClamp": undefined,
@@ -224,7 +225,7 @@ exports[`OpenMapComponents render technique map success 1`] = `
             />
             Неактивны - 
             <span
-              className="ant-typography css-dev-only-do-not-override-15rg2km"
+              className="ant-typography css-dev-only-do-not-override-12jzuas"
               style={
                 {
                   "WebkitLineClamp": undefined,
