@@ -4,11 +4,21 @@ import type { MenuProps } from 'antd';
 import bem from 'easy-bem';
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router';
+import { NavLink } from 'react-router-dom';
 
+import activeNotification from 'assets/images/icons/active-notification.svg';
+import activePhone from 'assets/images/icons/active-phone.svg';
+import activeUsers from 'assets/images/icons/active-users.svg';
+import add from 'assets/images/icons/add_icon.svg';
 import cancel from 'assets/images/icons/cancel.svg';
+import phone from 'assets/images/icons/mobile-phone.svg';
+import more from 'assets/images/icons/more.svg';
+import notification from 'assets/images/icons/notification.svg';
 import star from 'assets/images/icons/star.svg';
+import users from 'assets/images/icons/users.svg';
 import logo from 'assets/images/logo.png';
 import Spinner from 'components/Spinner/Spinner';
+import useWindowWidth from 'hooks/useWindowWidth';
 import {
   accountsSelector,
   clearRequestsPagination,
@@ -47,12 +57,46 @@ function getItem(
   } as MenuItem;
 }
 
+const buttonsData = [
+  {
+    key: '/',
+    text: 'Клиенты',
+    icon: <img src={users} alt='users' />,
+    activeIcon: <img src={activeUsers} alt='users' />,
+  },
+  {
+    key: '/user-requests',
+    text: 'Запросы',
+    icon: <img src={notification} alt='notification' />,
+    activeIcon: <img src={activeNotification} alt='notification' />,
+  },
+  {
+    key: '/add-new-user',
+    text: 'Добавить клиента',
+    icon: <img src={add} alt='add' />,
+    activeIcon: <img src={add} alt='add' />,
+  },
+  {
+    key: '/apks',
+    text: 'Приложение',
+    icon: <img src={phone} alt='phone' />,
+    activeIcon: <img src={activePhone} alt='activePhone' />,
+  },
+  {
+    key: '/test',
+    text: 'Еще',
+    icon: <img src={more} alt='more' />,
+    activeIcon: <img src={more} alt='more' />,
+  },
+];
+
 const SliderMenu: React.FC<Props> = ({ collapsed }) => {
   const b = bem('SliderMenu');
   const push = useNavigate();
   const dispatch = useAppDispatch();
   const location = useLocation();
   const { account, apk, apkLoading, fetchLoadingAccount } = useAppSelector(accountsSelector);
+  const windowWidth = useWindowWidth();
   const [isCancelled, setIsCancelled] = useState(false);
   const cancelIconClassName =
     isCancelled || collapsed ? b('apk-block', { 'cancel-icon-active': true }) : b('apk-block');
@@ -150,7 +194,24 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
     }
   };
 
-  return (
+  return windowWidth <= 600 ? (
+    <div className={b('mobile-menu')}>
+      <div className={b('mobile-block')}>
+        {buttonsData.map((button) => (
+          <NavLink key={button.key} to={button.key}>
+            <Button
+              type='link'
+              icon={location.pathname === button.key ? button?.activeIcon : button.icon}
+              className={b('link-button margin-top')}
+              size='small'
+            >
+              {button?.text}
+            </Button>
+          </NavLink>
+        ))}
+      </div>
+    </div>
+  ) : (
     <Sider width={250} trigger={null} collapsible collapsed={collapsed} className={b()}>
       <div className={b('logo')}>
         <img src={logo} alt='logo' />
