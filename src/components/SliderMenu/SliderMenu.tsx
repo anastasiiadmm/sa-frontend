@@ -159,12 +159,7 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
     {
       key: '/sign-out',
       label: (
-        <Button
-          type='link'
-          icon={<ImportOutlined />}
-          className={b('link-button margin-top')}
-          size='small'
-        >
+        <Button type='link' icon={<ImportOutlined />} className={b('link-button')} size='small'>
           Выход
         </Button>
       ),
