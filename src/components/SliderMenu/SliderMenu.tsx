@@ -1,5 +1,5 @@
 import { CloudOutlined, HomeOutlined, ImportOutlined, UserOutlined } from '@ant-design/icons';
-import { Avatar, Button, Layout, Menu, Skeleton } from 'antd';
+import { Avatar, Button, Dropdown, Layout, Menu, Skeleton } from 'antd';
 import type { MenuProps } from 'antd';
 import bem from 'easy-bem';
 import React, { useEffect, useState } from 'react';
@@ -155,6 +155,22 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
     }
   };
 
+  const items: MenuProps['items'] = [
+    {
+      key: '/sign-out',
+      label: (
+        <Button
+          type='link'
+          icon={<ImportOutlined />}
+          className={b('link-button margin-top')}
+          size='small'
+        >
+          Выход
+        </Button>
+      ),
+    },
+  ];
+
   return windowWidth <= 600 ? (
     <div className={b('mobile-menu')}>
       <div className={b('mobile-block')}>
@@ -170,15 +186,23 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
             </Button>
           </NavLink>
         ))}
-        <Button
-          style={{ marginTop: 59 }}
-          type='link'
-          icon={<img src={more} alt='more' />}
-          className={b('link-button margin-top')}
-          size='small'
+        <Dropdown
+          trigger={['click']}
+          menu={{
+            items,
+            onClick: pushLinks,
+          }}
         >
-          Еще
-        </Button>
+          <Button
+            style={{ marginTop: 59 }}
+            type='link'
+            icon={<img src={more} alt='more' />}
+            className={b('link-button margin-top')}
+            size='small'
+          >
+            Еще
+          </Button>
+        </Dropdown>
       </div>
     </div>
   ) : (
