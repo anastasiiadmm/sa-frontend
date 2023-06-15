@@ -31,7 +31,7 @@ const GridTableComponent: React.FC<Props> = ({ data }) => {
   const convertHeadersToColumns = (headers: headerGrid[]) => {
     const columns: Column[] = [];
 
-    headers.forEach((header) => {
+    headers?.forEach((header) => {
       if (header.groupId) {
         const children = header?.children?.map((child) => ({
           title: child.headerName,
@@ -79,7 +79,7 @@ const GridTableComponent: React.FC<Props> = ({ data }) => {
   const dataSource = data?.data?.map((item: string | number, index) => {
     const obj: Record<string, number> = { key: index };
     if (typeof item === 'object') {
-      Object.keys(item).forEach((key) => {
+      Object.keys(item)?.forEach((key) => {
         obj[key] = item[key] as number;
       });
     }

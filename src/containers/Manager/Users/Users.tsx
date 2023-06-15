@@ -1,22 +1,25 @@
 import { EyeOutlined } from '@ant-design/icons';
 import { Button, Card, Tooltip, Typography } from 'antd';
 import { ColumnsType } from 'antd/es/table';
+import { Spin } from 'antd/lib';
 import bem from 'easy-bem';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 
 import people from 'assets/images/icons/group-active.svg';
 import tractorBlue from 'assets/images/icons/tractor-blue.svg';
+import notFoundImages from 'assets/images/notFound.svg';
 import Errors from 'components/Errors/Errors';
 import TableComponent from 'components/TableComponent/TableComponent';
 import { getPageNumber, getPageNumberPrevious } from 'helper';
+import useWindowWidth from 'hooks/useWindowWidth';
 import { IAccount } from 'interfaces';
 import { companiesSelector, fetchUsersList } from 'redux/companies/companiesSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 
 import 'containers/Manager/Users/_users.scss';
 
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 const Users: React.FC = () => {
   const b = bem('Users');
@@ -24,6 +27,7 @@ const Users: React.FC = () => {
   const { companies, fetchCompaniesLoading, companiesListPagination, fetchCompaniesError } =
     useAppSelector(companiesSelector);
   const dispatch = useAppDispatch();
+  const windowWidth = useWindowWidth();
   const [filters, setFilters] = useState({
     page: companiesListPagination?.next
       ? Number(getPageNumber(companiesListPagination?.next))
@@ -128,14 +132,14 @@ const Users: React.FC = () => {
   return (
     <div className={b()} data-testid='companies-id'>
       <div className={b('card-block')}>
-        <Card className={b('card-style')} bordered={false} style={{ width: 300 }}>
+        <Card className={b('card-style')} bordered={false}>
           <Title className={b('card-title')}>Добавлено пользователей</Title>
           <div className={b('card-content')}>
             <img src={people} alt='group' />
             <p>{companiesListPagination?.count || 0}</p>
           </div>
         </Card>
-        <Card className={b('card-style')} bordered={false} style={{ width: 300 }}>
+        <Card className={b('card-style')} bordered={false}>
           <Title className={b('card-title')}>Добавлено Техники</Title>
           <div className={b('card-content')}>
             <img src={tractorBlue} alt='group' />
@@ -143,24 +147,59 @@ const Users: React.FC = () => {
           </div>
         </Card>
       </div>
-      <div className={b('table')}>
-        <Title level={3} data-testid='sign_in_test' className={b('title')}>
-          Пользователи
-        </Title>
-        <TableComponent
-          rowKey={(record) => record.id as number}
-          loading={fetchCompaniesLoading}
-          columns={columns}
-          data={companies}
-          params={
-            fetchCompaniesLoading
-              ? { previous: null, next: null, count: 0 }
-              : companiesListPagination
-          }
-          pagePrevHandler={pagePrevHandler}
-          pageNextHandler={pageNextHandler}
-        />
-      </div>
+      {windowWidth <= 600 ? (
+        fetchCompaniesLoading ? (
+          <Spin />
+        ) : companies?.length === 0 ? (
+          <img src={notFoundImages} alt='notFoundImages' />
+        ) : (
+          companies?.map((comp) => {
+            return (
+              <Card className={b('card-style-mobile')} bordered={false} key={comp?.id}>
+                <Title level={3} style={{ margin: 0 }}>
+                  {comp?.last_name} {comp?.first_name?.charAt(0)}.{' '}
+                  {comp?.middle_name === '' ? null : `${comp?.middle_name.charAt(0)}.`}
+                </Title>
+                <div className={b('card-content-mobile')}>
+                  <div className={b('mobile-titles-block')}>
+                    <Text type='secondary'>Название компании</Text>
+                    <Text strong>{comp?.company?.name}</Text>
+                  </div>
+                  <div className={b('mobile-info-block')}>
+                    <div className={b('mobile-titles-block')}>
+                      <Text type='secondary'>Номер телефона</Text>
+                      <Text strong>{comp?.phone}</Text>
+                    </div>
+                    <div className={b('mobile-titles-block')}>
+                      <Text type='secondary'>Блоки автопилота</Text>
+                      <Text strong>{comp?.company?.autopilots_amount}</Text>
+                    </div>
+                  </div>
+                </div>
+              </Card>
+            );
+          })
+        )
+      ) : (
+        <div className={b('table')}>
+          <Title level={3} data-testid='sign_in_test' className={b('title')}>
+            Пользователи
+          </Title>
+          <TableComponent
+            rowKey={(record) => record.id as number}
+            loading={fetchCompaniesLoading}
+            columns={columns}
+            data={companies}
+            params={
+              fetchCompaniesLoading
+                ? { previous: null, next: null, count: 0 }
+                : companiesListPagination
+            }
+            pagePrevHandler={pagePrevHandler}
+            pageNextHandler={pageNextHandler}
+          />
+        </div>
+      )}
     </div>
   );
 };
