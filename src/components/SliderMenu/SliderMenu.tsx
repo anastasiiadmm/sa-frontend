@@ -6,18 +6,12 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 import { NavLink } from 'react-router-dom';
 
-import activeNotification from 'assets/images/icons/active-notification.svg';
-import activePhone from 'assets/images/icons/active-phone.svg';
-import activeUsers from 'assets/images/icons/active-users.svg';
-import add from 'assets/images/icons/add_icon.svg';
 import cancel from 'assets/images/icons/cancel.svg';
-import phone from 'assets/images/icons/mobile-phone.svg';
 import more from 'assets/images/icons/more.svg';
-import notification from 'assets/images/icons/notification.svg';
 import star from 'assets/images/icons/star.svg';
-import users from 'assets/images/icons/users.svg';
 import logo from 'assets/images/logo.png';
 import Spinner from 'components/Spinner/Spinner';
+import { buttonsData } from 'helper';
 import useWindowWidth from 'hooks/useWindowWidth';
 import {
   accountsSelector,
@@ -56,39 +50,6 @@ function getItem(
     type,
   } as MenuItem;
 }
-
-const buttonsData = [
-  {
-    key: '/',
-    text: 'Клиенты',
-    icon: <img src={users} alt='users' />,
-    activeIcon: <img src={activeUsers} alt='users' />,
-  },
-  {
-    key: '/user-requests',
-    text: 'Запросы',
-    icon: <img src={notification} alt='notification' />,
-    activeIcon: <img src={activeNotification} alt='notification' />,
-  },
-  {
-    key: '/add-new-user',
-    text: 'Добавить клиента',
-    icon: <img src={add} alt='add' />,
-    activeIcon: <img src={add} alt='add' />,
-  },
-  {
-    key: '/apks',
-    text: 'Приложение',
-    icon: <img src={phone} alt='phone' />,
-    activeIcon: <img src={activePhone} alt='activePhone' />,
-  },
-  {
-    key: '/test',
-    text: 'Еще',
-    icon: <img src={more} alt='more' />,
-    activeIcon: <img src={more} alt='more' />,
-  },
-];
 
 const SliderMenu: React.FC<Props> = ({ collapsed }) => {
   const b = bem('SliderMenu');
@@ -209,6 +170,15 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
             </Button>
           </NavLink>
         ))}
+        <Button
+          style={{ marginTop: 59 }}
+          type='link'
+          icon={<img src={more} alt='more' />}
+          className={b('link-button margin-top')}
+          size='small'
+        >
+          Еще
+        </Button>
       </div>
     </div>
   ) : (

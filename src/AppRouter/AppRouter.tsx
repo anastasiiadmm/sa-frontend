@@ -1,5 +1,5 @@
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
-import { Layout, theme } from 'antd';
+import { Layout, theme, Typography } from 'antd';
 import bem from 'easy-bem';
 import React, { PropsWithChildren, useState } from 'react';
 import { Route, useLocation } from 'react-router';
@@ -24,6 +24,8 @@ import ProfileTechnique from 'containers/Technique/ProfileTechnique/ProfileTechn
 import TechniqueMap from 'containers/TechniqueMap/TechniqueMap';
 import Profile from 'containers/User/Profile/Profile';
 import Technique from 'containers/User/Technique/Technique';
+import { buttonsData } from 'helper';
+import useWindowWidth from 'hooks/useWindowWidth';
 import { accountsSelector } from 'redux/accounts/accountsSlice';
 import { authSelector } from 'redux/auth/authSlice';
 import { useAppSelector } from 'redux/hooks';
@@ -31,6 +33,7 @@ import { useAppSelector } from 'redux/hooks';
 import 'AppRouter/appRouter.scss';
 
 const { Header, Content } = Layout;
+const { Title } = Typography;
 
 interface AppRouterWrapperProps extends PropsWithChildren<{}> {}
 
@@ -56,16 +59,26 @@ const AppRouter: React.FC = () => {
     token: { colorBgContainer },
   } = theme.useToken();
   const { pathname } = useLocation();
+  const windowWidth = useWindowWidth();
 
   return (
     <Layout style={{ height: '100vh' }} className={b('')}>
       <SliderMenu collapsed={collapsed} />
       <Layout className='site-layout'>
         <Header style={{ padding: 0, background: colorBgContainer }}>
-          {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
-            className: 'trigger',
-            onClick: () => setCollapsed(!collapsed),
-          })}
+          {windowWidth <= 600
+            ? buttonsData.map(
+                (button) =>
+                  pathname === button.key && (
+                    <Title level={3} key={button?.key} className={b('title-mobile')}>
+                      {button?.text}
+                    </Title>
+                  ),
+              )
+            : React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
+                className: 'trigger',
+                onClick: () => setCollapsed(!collapsed),
+              })}
         </Header>
         <Content
           style={{
