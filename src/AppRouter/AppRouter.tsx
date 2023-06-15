@@ -87,6 +87,8 @@ const AppRouter: React.FC = () => {
               pathname.includes('/open-map') ||
               pathname.includes('/technique-map')
                 ? 0
+                : windowWidth <= 600
+                ? '0 0 71px 0'
                 : '24px 16px',
             padding: 24,
             minHeight: 280,
