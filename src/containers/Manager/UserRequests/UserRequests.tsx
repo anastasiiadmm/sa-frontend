@@ -15,15 +15,15 @@ import bem from 'easy-bem';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 
+import changeProfile from 'assets/images/icons/change-profile-mobile.svg';
+import newTechnique from 'assets/images/icons/new-technique-mobile.svg';
+import newUserMobile from 'assets/images/icons/new-user-mobile.svg';
 import newUser from 'assets/images/icons/new_user_request.svg';
 import sun from 'assets/images/icons/sun.svg';
 import tractorRequest from 'assets/images/icons/tractor_request.svg';
 import user from 'assets/images/icons/user_request.svg';
-import newTechnique from 'assets/images/icons/new-technique-mobile.svg';
-import newUserMobile from 'assets/images/icons/new-user-mobile.svg';
-import notFoundImages from 'assets/images/notFound.svg';
 import newWeather from 'assets/images/icons/weather-mobile.svg';
-import changeProfile from 'assets/images/icons/change-profile-mobile.svg';
+import notFoundImages from 'assets/images/notFound.svg';
 import Errors from 'components/Errors/Errors';
 import RequestModal from 'components/ModalComponent/ModalChildrenComponents/DeleteTechniqueModal/RequestModal';
 import EditUserProfileModal from 'components/ModalComponent/ModalChildrenComponents/EditUserProfileModal/EditUserProfileModal';
@@ -34,6 +34,7 @@ import RequestRegisterUser from 'components/ModalComponent/ModalChildrenComponen
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import TableComponent from 'components/TableComponent/TableComponent';
 import { appendDataFieldsAndDeleteEmptyKeys, getPageNumber, getPageNumberPrevious } from 'helper';
+import useWindowWidth from 'hooks/useWindowWidth';
 import { IMyData, IMyDataApi, Requestor } from 'interfaces';
 import {
   accountsSelector,
@@ -49,7 +50,6 @@ import {
   techniqueVehicleInfo,
   techniqueVehicleInfoSelector,
 } from 'redux/companies/companiesSlice';
-import useWindowWidth from 'hooks/useWindowWidth';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { dateMomentTypeDash } from 'utils/constants';
 import { fileSizeValidate, fileValidateImg } from 'utils/validate/validate';
@@ -458,20 +458,18 @@ const UserRequests = () => {
                   onClick={() => confirmationTypeHandler(request)}
                 >
                   <div className={b('image-request')}>
-                    {
-                      <img
-                        src={
-                          request?.category === 1
-                            ? newUserMobile
-                            : request?.category === 2
-                            ? changeProfile
-                            : request?.category === 3
-                            ? newTechnique
-                            : newWeather
-                        }
-                        alt='request'
-                      />
-                    }
+                    <img
+                      src={
+                        request?.category === 1
+                          ? newUserMobile
+                          : request?.category === 2
+                          ? changeProfile
+                          : request?.category === 3
+                          ? newTechnique
+                          : newWeather
+                      }
+                      alt='request'
+                    />
                   </div>
                   <div className={b('request-block')}>
                     <div>
