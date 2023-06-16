@@ -11,14 +11,15 @@ import {
   IErrors,
   IMyData,
   IUpdateManagerDataMutation,
-  pagination, Requestor,
+  pagination,
+  Requestor,
   RequestType,
   updateManagerDataMutation,
   UploadApk,
   userVehicleInfo,
   userVehicles,
-  ValidationUpdateManagerProfile
-} from "interfaces";
+  ValidationUpdateManagerProfile,
+} from 'interfaces';
 import { IConfig } from 'interfaces/IConfig';
 import { RootState } from 'redux/hooks';
 import axiosApi from 'utils/axios-api';
