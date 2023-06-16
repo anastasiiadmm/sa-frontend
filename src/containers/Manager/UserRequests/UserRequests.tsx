@@ -357,6 +357,32 @@ const UserRequests = () => {
     }
   };
 
+  const getRequestData = (request: Requestor) => {
+    let imageSrc;
+    let requestTitle;
+
+    switch (request?.category) {
+      case 1:
+        imageSrc = newUserMobile;
+        requestTitle = 'Регистрация нового профиля';
+        break;
+      case 2:
+        imageSrc = changeProfile;
+        requestTitle = 'Личная информация';
+        break;
+      case 3:
+        imageSrc = newTechnique;
+        requestTitle = 'Добавление техники';
+        break;
+      default:
+        imageSrc = newWeather;
+        requestTitle = 'Запрос на подключение метеосервиса';
+        break;
+    }
+
+    return { imageSrc, requestTitle };
+  };
+
   const columns: ColumnsType<Requestor> = [
     {
       dataIndex: 'category',
@@ -449,38 +475,7 @@ const UserRequests = () => {
             <img src={notFoundImages} alt='notFoundImages' />
           ) : (
             requests?.map((request) => {
-              let imageSrc;
-              let requestTitle;
-
-              switch (request?.category) {
-                case 1:
-                  imageSrc = newUserMobile;
-                  break;
-                case 2:
-                  imageSrc = changeProfile;
-                  break;
-                case 3:
-                  imageSrc = newTechnique;
-                  break;
-                default:
-                  imageSrc = newWeather;
-                  break;
-              }
-
-              switch (request?.category) {
-                case 1:
-                  requestTitle = 'Регистрация нового профиля';
-                  break;
-                case 2:
-                  requestTitle = 'Личная информация';
-                  break;
-                case 3:
-                  requestTitle = 'Добавление техники';
-                  break;
-                default:
-                  requestTitle = 'Запрос на подключение метеосервиса';
-                  break;
-              }
+              const { imageSrc, requestTitle } = getRequestData(request);
 
               return (
                 <Card
