@@ -1,4 +1,5 @@
 @use 'assets/scss/_themes.scss';
+@use 'assets/scss/_mixins.scss';
 
 .SliderMenu {
   &__logo {
@@ -70,7 +71,6 @@
   &__mobile-block {
     display: flex;
     align-items: center;
-    justify-content: center;
     position: absolute;
     top: -29px;
     width: 100%;
@@ -98,6 +98,18 @@
     position: absolute;
     top: -25px;
     left: 43%;
+  }
+
+  @include mixins.bp(desktop) {
+    &__mobile-block {
+      justify-content: space-evenly;
+    }
+  }
+
+  @include mixins.bp(mobile) {
+    &__mobile-block {
+      justify-content: center;
+    }
   }
 }
 
