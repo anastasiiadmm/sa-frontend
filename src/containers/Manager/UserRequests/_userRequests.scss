@@ -13,7 +13,34 @@
       color: themes.$info-hover-color;
     }
   }
+
   &__btn {
     float: right;
+  }
+
+  &__card-style-mobile {
+    margin: 15px auto;
+    width: 300px;
+    border-radius: 8px;
+    > div {
+      display: flex;
+      gap: 12px;
+      padding: 13px !important;
+    }
+  }
+
+  &__request-block {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  &__request-title {
+    margin: 0 !important;
+  }
+
+  &__request-info {
+    display: flex;
+    flex-direction: column;
   }
 }

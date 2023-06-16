@@ -66,7 +66,7 @@ const AppRouter: React.FC = () => {
       <SliderMenu collapsed={collapsed} />
       <Layout className='site-layout'>
         <Header style={{ padding: 0, background: colorBgContainer }}>
-          {windowWidth <= 600
+          {windowWidth <= 990
             ? buttonsData.map(
                 (button) =>
                   pathname === button.key && (
@@ -87,7 +87,7 @@ const AppRouter: React.FC = () => {
               pathname.includes('/open-map') ||
               pathname.includes('/technique-map')
                 ? 0
-                : windowWidth <= 600
+                : windowWidth <= 990
                 ? '0 0 71px 0'
                 : '24px 16px',
             padding: 24,

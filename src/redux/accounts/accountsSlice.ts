@@ -12,6 +12,7 @@ import {
   IMyData,
   IUpdateManagerDataMutation,
   pagination,
+  Requestor,
   RequestType,
   updateManagerDataMutation,
   UploadApk,
@@ -49,7 +50,7 @@ interface AccountsState {
   inquiriesLoading: boolean;
   inquiriesError: IErrors | null;
   inquiriesSuccess: boolean | null;
-  requests: accountsManagerConfirmation[] | undefined;
+  requests: Requestor[] | undefined;
   requestsPagination: pagination | null;
   fetchRequestsLoading: boolean;
   fetchRequestsError: IErrors | null;
