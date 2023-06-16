@@ -449,6 +449,39 @@ const UserRequests = () => {
             <img src={notFoundImages} alt='notFoundImages' />
           ) : (
             requests?.map((request) => {
+              let imageSrc;
+              let requestTitle;
+
+              switch (request?.category) {
+                case 1:
+                  imageSrc = newUserMobile;
+                  break;
+                case 2:
+                  imageSrc = changeProfile;
+                  break;
+                case 3:
+                  imageSrc = newTechnique;
+                  break;
+                default:
+                  imageSrc = newWeather;
+                  break;
+              }
+
+              switch (request?.category) {
+                case 1:
+                  requestTitle = 'Регистрация нового профиля';
+                  break;
+                case 2:
+                  requestTitle = 'Личная информация';
+                  break;
+                case 3:
+                  requestTitle = 'Добавление техники';
+                  break;
+                default:
+                  requestTitle = 'Запрос на подключение метеосервиса';
+                  break;
+              }
+
               return (
                 <Card
                   hoverable
@@ -458,29 +491,12 @@ const UserRequests = () => {
                   onClick={() => confirmationTypeHandler(request)}
                 >
                   <div className={b('image-request')}>
-                    <img
-                      src={
-                        request?.category === 1
-                          ? newUserMobile
-                          : request?.category === 2
-                          ? changeProfile
-                          : request?.category === 3
-                          ? newTechnique
-                          : newWeather
-                      }
-                      alt='request'
-                    />
+                    <img src={imageSrc} alt='request' />
                   </div>
                   <div className={b('request-block')}>
                     <div>
                       <Title level={4} className={b('request-title')}>
-                        {request?.category === 1
-                          ? 'Регистрация нового профиля'
-                          : request?.category === 2
-                          ? 'Личная информация'
-                          : request?.category === 3
-                          ? 'Добавление техники'
-                          : 'Запрос на подключение метеосервиса'}
+                        {requestTitle}
                       </Title>
                       <Text type='secondary'>
                         {moment(request?.created_at, dateMomentTypeDash).format(dateMomentTypeDash)}
