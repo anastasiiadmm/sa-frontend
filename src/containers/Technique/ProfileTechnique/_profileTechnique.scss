@@ -97,3 +97,28 @@
     padding: 0;
   }
 }
+
+@media screen and (max-width: 600px) {
+  .ProfileTechnique {
+    &__header {
+      flex-wrap: wrap;
+    }
+
+    &__technique-profile-info {
+      flex-wrap: wrap;
+    }
+
+    .ant-typography {
+      font-size: 22px;
+    }
+  }
+}
+
+@media screen and (max-width: 390px) {
+  .ProfileTechnique {
+    &__form-block {
+      flex-wrap: wrap;
+      gap: 0;
+    }
+  }
+}
