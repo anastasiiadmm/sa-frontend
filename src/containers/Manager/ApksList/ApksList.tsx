@@ -1,4 +1,4 @@
-import { Badge, Button, TablePaginationConfig, Tag, Typography } from 'antd';
+import { Badge, Button, message, TablePaginationConfig, Tag, Typography } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { FilterValue, SorterResult } from 'antd/es/table/interface';
 import bem from 'easy-bem';
@@ -7,10 +7,9 @@ import React, { useEffect, useState } from 'react';
 import TableComponent from 'components/TableComponent/TableComponent';
 import { getPageNumber, getPageNumberPrevious } from 'helper';
 import { IApk } from 'interfaces';
-import { accountsSelector, fetchApks, uploadLastApk } from 'redux/accounts/accountsSlice';
+import { accountsSelector, fetchApks } from 'redux/accounts/accountsSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import 'containers/Manager/ApksList/_apksList.scss';
-import axios from "axios";
 
 const { Title } = Typography;
 
@@ -35,37 +34,18 @@ const ApksList = () => {
     dispatch(fetchApks({ data }));
   }, [dispatch, filters, orderSort?.ordering]);
 
-  const downloadApkFileHandler = (file) => {
-    axios({
-      url: 'https://agri.ltestl.com' + file,
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/octet-stream'
-      }
-    })
-      .then((response) => {
-        const url = window.URL.createObjectURL(new Blob([response.data]));
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = 'text.apk';
-        document.body.append(link);
-
-        // Create and dispatch a mouse click event on the link element
-        const clickEvent = new MouseEvent('click', {
-          view: window,
-          bubbles: true,
-          cancelable: true,
-        });
-        link.dispatchEvent(clickEvent);
-
-        link.remove();
-      })
-      .catch((error) => {
-        console.error('Error downloading file:', error);
-      });
+  const downloadApkFileHandler = async (file: string) => {
+    try {
+      const link = document.createElement('a');
+      link.href = `https://agri.ltestl.com${file}`;
+      link.setAttribute('download', '');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {
+      await message.error(error?.detail);
+    }
   };
-
-
 
   const pagePrevHandler = () => {
     setFilters({
@@ -167,11 +147,11 @@ const ApksList = () => {
       render: (text, record) => {
         return (
           <Button
+            role='button'
+            data-testid='download-button'
             type='default'
             style={{ float: 'right' }}
-            onClick={() =>
-              downloadApkFileHandler(record?.file)
-            }
+            onClick={() => downloadApkFileHandler(record?.file)}
           >
             Скачать
           </Button>

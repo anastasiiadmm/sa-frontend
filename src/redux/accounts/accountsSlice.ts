@@ -14,7 +14,6 @@ import {
   pagination,
   RequestType,
   updateManagerDataMutation,
-  UploadApk,
   userVehicleInfo,
   userVehicles,
   ValidationUpdateManagerProfile,
@@ -23,7 +22,6 @@ import { IConfig } from 'interfaces/IConfig';
 import { RootState } from 'redux/hooks';
 import axiosApi from 'utils/axios-api';
 import toQueryParams from 'utils/toQueryParams';
-import axios from 'axios';
 
 const nameSpace = 'accounts';
 
@@ -180,35 +178,6 @@ export const fetchApks = createAsyncThunk<apksPagination, fetchApksParams>(
       return rejectWithValue({
         detail: e?.response?.data?.detail,
         status: e?.response?.status,
-      });
-    }
-  },
-);
-
-interface ApkParams {
-  file: string;
-}
-
-export const uploadLastApk = createAsyncThunk<IApk, ApkParams>(
-  'accounts/uploadLastApk',
-  async (data, { rejectWithValue }) => {
-    console.log(data);
-    try {
-      const response = await axiosApi.get(data?.file, {
-        responseType: 'blob',
-      });
-
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-      const link = document.createElement('a');
-      link.href = url;
-      link.setAttribute('download', 'filename.apk');
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    } catch (error) {
-      return rejectWithValue({
-        detail: error?.response?.data?.detail,
-        status: error?.response?.status,
       });
     }
   },
@@ -598,25 +567,6 @@ const accountsSlice = createSlice({
           };
         }
       });
-
-    builder.addCase(uploadLastApk.pending, (state) => {
-      state.uploadLastApkLoading = true;
-      state.uploadLastApkError = null;
-    });
-    builder.addCase(uploadLastApk.fulfilled, (state) => {
-      state.uploadLastApkLoading = false;
-      state.uploadLastApkError = null;
-    });
-    builder.addCase(uploadLastApk.rejected, (state, { payload }) => {
-      state.uploadLastApkLoading = false;
-      if (payload && typeof payload === 'object' && 'detail' in payload && 'status' in payload) {
-        state.uploadLastApkError = {
-          ...state.uploadLastApkError,
-          detail: payload.detail as string | null,
-          status: payload.status as number | null,
-        };
-      }
-    });
 
     builder
       .addCase(fetchConfigs.pending, (state) => {
