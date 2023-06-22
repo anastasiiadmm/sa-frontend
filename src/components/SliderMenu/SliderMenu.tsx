@@ -1,5 +1,5 @@
 import { CloudOutlined, HomeOutlined, ImportOutlined, UserOutlined } from '@ant-design/icons';
-import { Avatar, Button, Layout, Menu, Skeleton } from 'antd';
+import { Avatar, Button, Layout, Menu, message, Skeleton } from 'antd';
 import type { MenuProps } from 'antd';
 import bem from 'easy-bem';
 import React, { useEffect, useState } from 'react';
@@ -150,6 +150,19 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
     }
   };
 
+  const downloadApkFileHandler = async (file: string) => {
+    try {
+      const link = document.createElement('a');
+      link.href = `https://agri.ltestl.com${file}`;
+      link.setAttribute('download', '');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {
+      await message.error(error?.detail);
+    }
+  };
+
   return (
     <Sider width={250} trigger={null} collapsible collapsed={collapsed} className={b()}>
       <div className={b('logo')}>
@@ -178,7 +191,9 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
             </div>
             <div className={b('apk-info')}>
               <p>Вышла новая версия приложения</p>
-              <Button type='default'>Скачать APK</Button>
+              <Button type='default' onClick={() => downloadApkFileHandler(apk?.[0]?.file)}>
+                Скачать APK
+              </Button>
             </div>
           </div>
         )
