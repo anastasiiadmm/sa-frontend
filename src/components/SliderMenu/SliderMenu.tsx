@@ -168,7 +168,6 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
     }
   };
 
-  return (
   const items: MenuProps['items'] = [
     {
       key: '/sign-out',
