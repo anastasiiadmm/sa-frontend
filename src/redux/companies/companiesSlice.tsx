@@ -22,7 +22,7 @@ import toQueryParams from 'utils/toQueryParams';
 const nameSpace = 'companies';
 
 interface CompaniesState {
-  companies: companiesList[] | null;
+  companies: IAccount[] | null;
   fetchCompaniesLoading: boolean;
   fetchCompaniesError: IErrors | null;
   companiesListPagination: pagination | null;

@@ -1,8 +1,9 @@
-import { deleteCookie } from 'utils/addCookies/addCookies';
+import { deleteCookie, nameRefreshCookies } from 'utils/addCookies/addCookies';
 
+export const nameLocalStorage = 'infoLocalStorage';
 export const userLocalStorage = (refresh = '') => {
   try {
-    const tokenLocal = JSON.parse(localStorage.getItem('users') || '');
+    const tokenLocal = JSON.parse(localStorage.getItem(nameLocalStorage) || '');
     if (tokenLocal) {
       tokenLocal.refresh = refresh;
     }
@@ -13,6 +14,6 @@ export const userLocalStorage = (refresh = '') => {
   }
 };
 export const logoutLocalStorage = () => {
-  deleteCookie('refresh');
-  localStorage.setItem('users', JSON.stringify({ user: null, token: null }));
+  deleteCookie(nameRefreshCookies);
+  localStorage.setItem(nameLocalStorage, JSON.stringify({ user: null, token: null }));
 };

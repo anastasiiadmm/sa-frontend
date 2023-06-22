@@ -1,14 +1,18 @@
 import { CloudOutlined, HomeOutlined, ImportOutlined, UserOutlined } from '@ant-design/icons';
-import { Avatar, Button, Layout, Menu, message, Skeleton } from 'antd';
+import { Avatar, Button, Dropdown, Layout, Menu, message, Skeleton } from 'antd';
 import type { MenuProps } from 'antd';
 import bem from 'easy-bem';
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router';
+import { NavLink } from 'react-router-dom';
 
 import cancel from 'assets/images/icons/cancel.svg';
+import more from 'assets/images/icons/more.svg';
 import star from 'assets/images/icons/star.svg';
 import logo from 'assets/images/logo.png';
 import Spinner from 'components/Spinner/Spinner';
+import { buttonsData } from 'helper';
+import useWindowWidth from 'hooks/useWindowWidth';
 import {
   accountsSelector,
   clearRequestsPagination,
@@ -53,6 +57,7 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
   const dispatch = useAppDispatch();
   const location = useLocation();
   const { account, apk, apkLoading, fetchLoadingAccount } = useAppSelector(accountsSelector);
+  const windowWidth = useWindowWidth();
   const [isCancelled, setIsCancelled] = useState(false);
   const cancelIconClassName =
     isCancelled || collapsed ? b('apk-block', { 'cancel-icon-active': true }) : b('apk-block');
@@ -164,6 +169,52 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
   };
 
   return (
+  const items: MenuProps['items'] = [
+    {
+      key: '/sign-out',
+      label: (
+        <Button type='link' icon={<ImportOutlined />} className={b('link-button')} size='small'>
+          Выход
+        </Button>
+      ),
+    },
+  ];
+
+  return windowWidth <= 600 ? (
+    <div className={b('mobile-menu')}>
+      <div className={b('mobile-block')}>
+        {buttonsData.map((button) => (
+          <NavLink key={button.key} to={button.key}>
+            <Button
+              type='link'
+              icon={location.pathname === button.key ? button?.activeIcon : button.icon}
+              className={b('link-button margin-top')}
+              size='small'
+            >
+              {button?.text}
+            </Button>
+          </NavLink>
+        ))}
+        <Dropdown
+          trigger={['click']}
+          menu={{
+            items,
+            onClick: pushLinks,
+          }}
+        >
+          <Button
+            style={{ marginTop: 59 }}
+            type='link'
+            icon={<img src={more} alt='more' />}
+            className={b('link-button margin-top')}
+            size='small'
+          >
+            Еще
+          </Button>
+        </Dropdown>
+      </div>
+    </div>
+  ) : (
     <Sider width={250} trigger={null} collapsible collapsed={collapsed} className={b()}>
       <div className={b('logo')}>
         <img src={logo} alt='logo' />

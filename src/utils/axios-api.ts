@@ -2,9 +2,9 @@ import axios, { AxiosRequestHeaders } from 'axios';
 
 import { checkForTokens } from 'redux/auth/authSlice';
 import store from 'redux/store';
-import { deleteCookie } from 'utils/addCookies/addCookies';
+import { deleteCookie, nameRefreshCookies } from 'utils/addCookies/addCookies';
 import { apiURL } from 'utils/config';
-import { logoutLocalStorage } from 'utils/token';
+import { logoutLocalStorage, nameLocalStorage } from 'utils/token';
 
 const axiosApi = axios.create({
   baseURL: apiURL,
@@ -33,7 +33,7 @@ axiosApi.interceptors.response.use(
     const index = store;
     const { tokens } = index.getState().auth;
     if (
-      tokens &&
+      tokens?.access &&
       statusCode === 401 &&
       error.config &&
       !error.config._isReady &&
@@ -52,18 +52,21 @@ axiosApi.interceptors.response.use(
               refresh: tokens.refresh,
             },
           };
-          index.dispatch(checkForTokens(usersLocal));
-          const obj: any = usersLocal;
-          delete obj.token.refresh;
-          localStorage.setItem('users', JSON.stringify(obj));
+          index.dispatch(checkForTokens({ access: newTokens.access }));
+          localStorage.setItem(
+            nameLocalStorage,
+            JSON.stringify({
+              access: usersLocal.token.access,
+              is_manager: index.getState()?.auth?.tokens?.is_manager,
+            }),
+          );
           window.dispatchEvent(new Event('storage'));
-
           return axiosApi(originalRequest);
         }
       } catch (e) {
         if (e?.response?.status === 401) {
           logoutLocalStorage();
-          deleteCookie('refresh');
+          deleteCookie(nameRefreshCookies);
           window.location.reload();
         }
       }

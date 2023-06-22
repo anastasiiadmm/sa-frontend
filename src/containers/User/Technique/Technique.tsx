@@ -63,7 +63,7 @@ const Technique = () => {
       };
       dispatch(fetchUserVehicles({ id: account?.company.id, page: data.query.page }));
     }
-  }, [dispatch, account?.company.id, filters]);
+  }, [dispatch, account?.company?.id, filters]);
 
   const showModal = () => {
     setIsModalOpen(true);
