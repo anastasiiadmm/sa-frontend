@@ -10,9 +10,9 @@ import notification from 'assets/images/icons/notification.svg';
 import users from 'assets/images/icons/users.svg';
 import { ErrorObject, updateManagerDataMutation } from 'interfaces';
 import { Locales, SensorDataEntry, stationInfo } from 'interfaces/IStation';
+import { apiUrlCrop } from 'utils/config';
 import { dateMomentTypeString } from 'utils/constants';
 
-const { REACT_APP_FILE_LINK } = process.env;
 const moment = require('moment');
 
 type IndexableObject = {
@@ -315,7 +315,7 @@ export const buttonsData = [
 export const downloadApkFileHandler = async (file: string) => {
   try {
     const link = document.createElement('a');
-    link.href = `${REACT_APP_FILE_LINK}${file}`;
+    link.href = `${apiUrlCrop}${file}`;
     link.setAttribute('download', '');
     document.body.appendChild(link);
     link.click();
