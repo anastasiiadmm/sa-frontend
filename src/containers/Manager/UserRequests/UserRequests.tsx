@@ -33,6 +33,7 @@ import RequestAddTechnique from 'components/ModalComponent/ModalChildrenComponen
 import RequestRegisterUser from 'components/ModalComponent/ModalChildrenComponents/RequestsModals/RequestRegisterUser/RequestRegisterUser';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import TableComponent from 'components/TableComponent/TableComponent';
+import useWindowWidth from 'hooks/useWindowWidth';
 import { IMyData, IMyDataApi, Requestor } from 'interfaces';
 import {
   accountsSelector,
