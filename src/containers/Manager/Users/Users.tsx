@@ -6,6 +6,8 @@ import bem from 'easy-bem';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 
+import addedTechnique from 'assets/images/icons/added-technique.svg';
+import addedUsers from 'assets/images/icons/added-users.svg';
 import people from 'assets/images/icons/group-active.svg';
 import tractorBlue from 'assets/images/icons/tractor-blue.svg';
 import notFoundImages from 'assets/images/notFound.svg';
@@ -132,53 +134,86 @@ const Users: React.FC = () => {
   return (
     <div className={b()} data-testid='companies-id'>
       <div className={b('card-block')}>
-        <Card className={b('card-style')} bordered={false}>
-          <Title className={b('card-title')}>Добавлено пользователей</Title>
-          <div className={b('card-content')}>
-            <img src={people} alt='group' />
-            <p>{companiesListPagination?.count || 0}</p>
-          </div>
-        </Card>
-        <Card className={b('card-style')} bordered={false}>
-          <Title className={b('card-title')}>Добавлено Техники</Title>
-          <div className={b('card-content')}>
-            <img src={tractorBlue} alt='group' />
-            <p>{companiesListPagination?.vehicles_count}</p>
-          </div>
-        </Card>
+        {windowWidth <= 990 && windowWidth >= 600 ? (
+          <>
+            <Card className={b('card-style-desk')} bordered={false}>
+              <img src={addedUsers} alt='addedUsers' />
+              <div className={b('card-content-desk')}>
+                <Text type='secondary'>Добавлено клиентов</Text>
+                <Title style={{ margin: 0 }} level={4}>
+                  {companiesListPagination?.count || 0}
+                </Title>
+              </div>
+            </Card>
+            <Card className={b('card-style-desk')} bordered={false}>
+              <img src={addedTechnique} alt='addedTechnique' />
+              <div className={b('card-content-desk')}>
+                <Text type='secondary'>Добавлено Техники</Text>
+                <Title style={{ margin: 0 }} level={4}>
+                  {companiesListPagination?.vehicles_count || 0}
+                </Title>
+              </div>
+            </Card>
+          </>
+        ) : (
+          <>
+            <Card className={b('card-style')} bordered={false}>
+              <Title className={b('card-title')}>Добавлено пользователей</Title>
+              <div className={b('card-content')}>
+                <img src={people} alt='group' />
+                <p>{companiesListPagination?.count || 0}</p>
+              </div>
+            </Card>
+            <Card className={b('card-style')} bordered={false}>
+              <Title className={b('card-title')}>Добавлено Техники</Title>
+              <div className={b('card-content')}>
+                <img src={tractorBlue} alt='group' />
+                <p>{companiesListPagination?.vehicles_count}</p>
+              </div>
+            </Card>
+          </>
+        )}
       </div>
-      {windowWidth <= 600 ? (
+      {windowWidth <= 990 ? (
         fetchCompaniesLoading ? (
           <Spin />
         ) : companies?.length === 0 ? (
           <img src={notFoundImages} alt='notFoundImages' />
         ) : (
-          companies?.map((comp) => {
-            return (
-              <Card className={b('card-style-mobile')} bordered={false} key={comp?.id}>
-                <Title level={3} style={{ margin: 0 }}>
-                  {comp?.last_name} {comp?.first_name?.charAt(0)}.{' '}
-                  {comp?.middle_name === '' ? null : `${comp?.middle_name.charAt(0)}.`}
-                </Title>
-                <div className={b('card-content-mobile')}>
-                  <div className={b('mobile-titles-block')}>
-                    <Text type='secondary'>Название компании</Text>
-                    <Text strong>{comp?.company?.name}</Text>
-                  </div>
-                  <div className={b('mobile-info-block')}>
+          <div className={b('list-block')}>
+            {companies?.map((comp) => {
+              return (
+                <Card
+                  hoverable
+                  className={b('card-style-mobile')}
+                  bordered={false}
+                  key={comp?.id}
+                  onClick={() => nextBrowserUserInfoHandler(comp?.id as number)}
+                >
+                  <Title level={3} style={{ margin: 0 }}>
+                    {comp?.last_name} {comp?.first_name?.charAt(0)}.{' '}
+                    {comp?.middle_name === '' ? null : `${comp?.middle_name.charAt(0)}.`}
+                  </Title>
+                  <div className={b('card-content-mobile')}>
                     <div className={b('mobile-titles-block')}>
-                      <Text type='secondary'>Номер телефона</Text>
-                      <Text strong>{comp?.phone}</Text>
+                      <Text type='secondary'>Название компании</Text>
+                      <Text strong>{comp?.company?.name}</Text>
                     </div>
-                    <div className={b('mobile-titles-block')}>
-                      <Text type='secondary'>Блоки автопилота</Text>
-                      <Text strong>{comp?.company?.autopilots_amount}</Text>
+                    <div className={b('mobile-info-block')}>
+                      <div className={b('mobile-titles-block')}>
+                        <Text type='secondary'>Номер телефона</Text>
+                        <Text strong>{comp?.phone}</Text>
+                      </div>
+                      <div className={b('mobile-titles-block')}>
+                        <Text type='secondary'>Блоки автопилота</Text>
+                        <Text strong>{comp?.company?.autopilots_amount}</Text>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </Card>
-            );
-          })
+                </Card>
+              );
+            })}
+          </div>
         )
       ) : (
         <div className={b('table')}>

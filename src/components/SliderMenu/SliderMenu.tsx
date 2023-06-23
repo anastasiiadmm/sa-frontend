@@ -166,7 +166,7 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
     },
   ];
 
-  return windowWidth <= 600 ? (
+  return windowWidth <= 990 ? (
     <div className={b('mobile-menu')}>
       <div className={b('mobile-block')}>
         {buttonsData.map((button) => (

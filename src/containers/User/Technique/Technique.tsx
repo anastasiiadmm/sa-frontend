@@ -109,7 +109,6 @@ const Technique = () => {
       title: 'Код техники',
       dataIndex: 'code',
       width: '20%',
-      fixed: 'left',
       render: (text: string, record) => {
         return (
           <div style={{ display: 'flex', gap: 12 }}>
@@ -182,7 +181,6 @@ const Technique = () => {
       />
     );
   }
-
   return (
     <>
       <div className={b()} data-testid='technique-id'>

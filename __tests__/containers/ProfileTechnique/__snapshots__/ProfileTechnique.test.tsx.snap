@@ -1,0 +1,908 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ProfileTechnique /> Users table component should be in the document 1`] = `
+<div
+  className="ProfileTechnique"
+  data-testid="profile-technique-id"
+>
+  <div
+    className="ProfileTechnique__table"
+  >
+    <div
+      className="ProfileTechnique__header"
+    >
+      <div
+        className="ProfileTechnique__header-title"
+      >
+        <button
+          className="ProfileTechnique__back_handler"
+          onClick={[Function]}
+          type="button"
+        >
+          <img
+            alt="arrow"
+            className="ProfileTechnique__arrow-left"
+            src={
+              {
+                "process": [Function],
+              }
+            }
+          />
+        </button>
+        <h3
+          className="ant-typography ProfileTechnique__title css-dev-only-do-not-override-1wazalj"
+          style={
+            {
+              "WebkitLineClamp": undefined,
+            }
+          }
+        >
+          Профиль техники - 
+           -
+           
+           
+        </h3>
+      </div>
+      <div>
+        <a
+          href="/open-map/undefined/local-tractor"
+          onClick={[Function]}
+        >
+          <button
+            className="ant-btn css-dev-only-do-not-override-1wazalj ant-btn-link ant-btn-lg ProfileTechnique__open-map"
+            disabled={false}
+            onClick={[Function]}
+            style={{}}
+            type="button"
+          >
+            <span
+              className="ant-btn-icon"
+              style={{}}
+            >
+              <img
+                alt="Техника на карте"
+                src={
+                  {
+                    "process": [Function],
+                  }
+                }
+                width={18}
+              />
+            </span>
+            <span>
+              Техника на карте
+            </span>
+          </button>
+        </a>
+      </div>
+    </div>
+    <div
+      className="ProfileTechnique__technique-profile-info"
+    >
+      <div
+        className="ant-image css-dev-only-do-not-override-1wazalj"
+        style={
+          {
+            "height": undefined,
+            "width": 242,
+          }
+        }
+      >
+        <img
+          className="ant-image-img ProfileTechnique__technique-image"
+          onLoad={[Function]}
+          src="https://localhost:8000test/photos"
+          style={
+            {
+              "borderRadius": 4,
+              "height": undefined,
+            }
+          }
+          width={242}
+        />
+      </div>
+      <div
+        className="ProfileTechnique__profile-info"
+      >
+        <form
+          className="ant-form ant-form-vertical css-dev-only-do-not-override-1wazalj"
+          onReset={[Function]}
+          onSubmit={[Function]}
+        >
+          <h5
+            className="ant-typography ProfileTechnique__profile-title css-dev-only-do-not-override-1wazalj"
+            style={
+              {
+                "WebkitLineClamp": undefined,
+              }
+            }
+          >
+            Информация о технике
+          </h5>
+          <div
+            className="ProfileTechnique__form-block"
+          >
+            <div
+              className="ant-form-item css-dev-only-do-not-override-1wazalj"
+            >
+              <div
+                className="ant-row ant-form-item-row css-dev-only-do-not-override-1wazalj"
+                style={{}}
+              >
+                <div
+                  className="ant-col ant-form-item-label css-dev-only-do-not-override-1wazalj"
+                  style={{}}
+                >
+                  <label
+                    className=""
+                    htmlFor="description"
+                    title="Название техники"
+                  >
+                    Название техники
+                  </label>
+                </div>
+                <div
+                  className="ant-col ant-form-item-control css-dev-only-do-not-override-1wazalj"
+                  style={{}}
+                >
+                  <div
+                    className="ant-form-item-control-input"
+                  >
+                    <div
+                      className="ant-form-item-control-input-content"
+                    >
+                      <input
+                        className="ant-input ant-input-borderless css-dev-only-do-not-override-1wazalj input-styles undefined"
+                        disabled={false}
+                        id="description"
+                        name="description"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        onKeyDown={[Function]}
+                        placeholder="Название техники"
+                        readOnly={true}
+                        style={{}}
+                        type="text"
+                        value=""
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              className="ant-form-item css-dev-only-do-not-override-1wazalj"
+            >
+              <div
+                className="ant-row ant-form-item-row css-dev-only-do-not-override-1wazalj"
+                style={{}}
+              >
+                <div
+                  className="ant-col ant-form-item-label css-dev-only-do-not-override-1wazalj"
+                  style={{}}
+                >
+                  <label
+                    className=""
+                    htmlFor="license_plate"
+                    title="Гос номер"
+                  >
+                    Гос номер
+                  </label>
+                </div>
+                <div
+                  className="ant-col ant-form-item-control css-dev-only-do-not-override-1wazalj"
+                  style={{}}
+                >
+                  <div
+                    className="ant-form-item-control-input"
+                  >
+                    <div
+                      className="ant-form-item-control-input-content"
+                    >
+                      <input
+                        className="ant-input ant-input-borderless css-dev-only-do-not-override-1wazalj input-styles undefined"
+                        disabled={false}
+                        id="license_plate"
+                        name="license_plate"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        onKeyDown={[Function]}
+                        placeholder="Гос номер"
+                        readOnly={true}
+                        style={{}}
+                        type="text"
+                        value=""
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              className="ant-form-item css-dev-only-do-not-override-1wazalj"
+            >
+              <div
+                className="ant-row ant-form-item-row css-dev-only-do-not-override-1wazalj"
+                style={{}}
+              >
+                <div
+                  className="ant-col ant-form-item-label css-dev-only-do-not-override-1wazalj"
+                  style={{}}
+                >
+                  <label
+                    className=""
+                    htmlFor="vin"
+                    title="VIN код"
+                  >
+                    VIN код
+                  </label>
+                </div>
+                <div
+                  className="ant-col ant-form-item-control css-dev-only-do-not-override-1wazalj"
+                  style={{}}
+                >
+                  <div
+                    className="ant-form-item-control-input"
+                  >
+                    <div
+                      className="ant-form-item-control-input-content"
+                    >
+                      <input
+                        className="ant-input ant-input-borderless css-dev-only-do-not-override-1wazalj input-styles undefined"
+                        disabled={false}
+                        id="vin"
+                        name="vin"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        onKeyDown={[Function]}
+                        placeholder="VIN код"
+                        readOnly={true}
+                        style={{}}
+                        type="text"
+                        value=""
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <h5
+            className="ant-typography ProfileTechnique__profile-title css-dev-only-do-not-override-1wazalj"
+            style={
+              {
+                "WebkitLineClamp": undefined,
+              }
+            }
+          >
+            Информация о механизаторе
+          </h5>
+          <div
+            className="ProfileTechnique__form-block"
+          >
+            <div
+              className="ant-form-item css-dev-only-do-not-override-1wazalj"
+            >
+              <div
+                className="ant-row ant-form-item-row css-dev-only-do-not-override-1wazalj"
+                style={{}}
+              >
+                <div
+                  className="ant-col ant-form-item-label css-dev-only-do-not-override-1wazalj"
+                  style={{}}
+                >
+                  <label
+                    className=""
+                    htmlFor="operator_last_name"
+                    title="Фамилия"
+                  >
+                    Фамилия
+                  </label>
+                </div>
+                <div
+                  className="ant-col ant-form-item-control css-dev-only-do-not-override-1wazalj"
+                  style={{}}
+                >
+                  <div
+                    className="ant-form-item-control-input"
+                  >
+                    <div
+                      className="ant-form-item-control-input-content"
+                    >
+                      <input
+                        className="ant-input ant-input-borderless css-dev-only-do-not-override-1wazalj input-styles undefined"
+                        disabled={false}
+                        id="operator_last_name"
+                        name={
+                          [
+                            "operator",
+                            "last_name",
+                          ]
+                        }
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        onKeyDown={[Function]}
+                        placeholder="Фамилия"
+                        readOnly={true}
+                        style={{}}
+                        type="text"
+                        value=""
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              className="ant-form-item css-dev-only-do-not-override-1wazalj"
+            >
+              <div
+                className="ant-row ant-form-item-row css-dev-only-do-not-override-1wazalj"
+                style={{}}
+              >
+                <div
+                  className="ant-col ant-form-item-label css-dev-only-do-not-override-1wazalj"
+                  style={{}}
+                >
+                  <label
+                    className=""
+                    htmlFor="operator_first_name"
+                    title="Имя"
+                  >
+                    Имя
+                  </label>
+                </div>
+                <div
+                  className="ant-col ant-form-item-control css-dev-only-do-not-override-1wazalj"
+                  style={{}}
+                >
+                  <div
+                    className="ant-form-item-control-input"
+                  >
+                    <div
+                      className="ant-form-item-control-input-content"
+                    >
+                      <input
+                        className="ant-input ant-input-borderless css-dev-only-do-not-override-1wazalj input-styles undefined"
+                        disabled={false}
+                        id="operator_first_name"
+                        name={
+                          [
+                            "operator",
+                            "first_name",
+                          ]
+                        }
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        onKeyDown={[Function]}
+                        placeholder="Имя"
+                        readOnly={true}
+                        style={{}}
+                        type="text"
+                        value=""
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              className="ant-form-item css-dev-only-do-not-override-1wazalj"
+            >
+              <div
+                className="ant-row ant-form-item-row css-dev-only-do-not-override-1wazalj"
+                style={{}}
+              >
+                <div
+                  className="ant-col ant-form-item-label css-dev-only-do-not-override-1wazalj"
+                  style={{}}
+                >
+                  <label
+                    className=""
+                    htmlFor="operator_middle_name"
+                    title="Отчество"
+                  >
+                    Отчество
+                  </label>
+                </div>
+                <div
+                  className="ant-col ant-form-item-control css-dev-only-do-not-override-1wazalj"
+                  style={{}}
+                >
+                  <div
+                    className="ant-form-item-control-input"
+                  >
+                    <div
+                      className="ant-form-item-control-input-content"
+                    >
+                      <input
+                        className="ant-input ant-input-borderless css-dev-only-do-not-override-1wazalj input-styles undefined"
+                        disabled={false}
+                        id="operator_middle_name"
+                        name={
+                          [
+                            "operator",
+                            "middle_name",
+                          ]
+                        }
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        onKeyDown={[Function]}
+                        placeholder="Отчество"
+                        readOnly={true}
+                        style={{}}
+                        type="text"
+                        value=""
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div
+      className="ant-table-wrapper css-dev-only-do-not-override-1wazalj"
+    >
+      <div
+        className="ant-spin-nested-loading css-dev-only-do-not-override-1wazalj"
+      >
+        <div
+          className="ant-spin-container"
+        >
+          <div
+            className="ant-table ant-table-empty ant-table-scroll-horizontal"
+          >
+            <div
+              className="ant-table-container"
+            >
+              <div
+                className="ant-table-content"
+                onScroll={[Function]}
+                style={
+                  {
+                    "overflowX": "auto",
+                    "overflowY": "hidden",
+                  }
+                }
+              >
+                <table
+                  style={
+                    {
+                      "minWidth": "100%",
+                      "tableLayout": "auto",
+                      "width": 950,
+                    }
+                  }
+                >
+                  <colgroup>
+                    <col
+                      style={
+                        {
+                          "width": "20%",
+                        }
+                      }
+                    />
+                    <col
+                      style={
+                        {
+                          "width": "20%",
+                        }
+                      }
+                    />
+                    <col
+                      style={
+                        {
+                          "width": "20%",
+                        }
+                      }
+                    />
+                    <col
+                      style={
+                        {
+                          "width": "20%",
+                        }
+                      }
+                    />
+                    <col
+                      style={
+                        {
+                          "width": "20%",
+                        }
+                      }
+                    />
+                    <col
+                      style={
+                        {
+                          "width": "20%",
+                        }
+                      }
+                    />
+                    <col
+                      style={
+                        {
+                          "width": "20%",
+                        }
+                      }
+                    />
+                    <col
+                      style={
+                        {
+                          "width": "18%",
+                        }
+                      }
+                    />
+                  </colgroup>
+                  <thead
+                    className="ant-table-thead"
+                  >
+                    <tr>
+                      <th
+                        className="ant-table-cell"
+                        colSpan={null}
+                        onMouseEnter={[Function]}
+                        onMouseLeave={[Function]}
+                        rowSpan={null}
+                        scope="col"
+                        style={{}}
+                      >
+                        Задача на обработку
+                      </th>
+                      <th
+                        className="ant-table-cell"
+                        colSpan={null}
+                        onMouseEnter={[Function]}
+                        onMouseLeave={[Function]}
+                        rowSpan={null}
+                        scope="col"
+                        style={{}}
+                      >
+                        Инструмент
+                      </th>
+                      <th
+                        className="ant-table-cell"
+                        colSpan={null}
+                        onMouseEnter={[Function]}
+                        onMouseLeave={[Function]}
+                        rowSpan={null}
+                        scope="col"
+                        style={{}}
+                      >
+                        Обрабатываемая ширина, м
+                      </th>
+                      <th
+                        className="ant-table-cell"
+                        colSpan={null}
+                        onMouseEnter={[Function]}
+                        onMouseLeave={[Function]}
+                        rowSpan={null}
+                        scope="col"
+                        style={{}}
+                      >
+                        Ширина перекрытия, м
+                      </th>
+                      <th
+                        className="ant-table-cell"
+                        colSpan={null}
+                        onMouseEnter={[Function]}
+                        onMouseLeave={[Function]}
+                        rowSpan={null}
+                        scope="col"
+                        style={{}}
+                      >
+                        Итоговая ширина, м
+                      </th>
+                      <th
+                        className="ant-table-cell"
+                        colSpan={null}
+                        onMouseEnter={[Function]}
+                        onMouseLeave={[Function]}
+                        rowSpan={null}
+                        scope="col"
+                        style={{}}
+                      >
+                        Смещение, м
+                      </th>
+                      <th
+                        className="ant-table-cell"
+                        colSpan={null}
+                        onMouseEnter={[Function]}
+                        onMouseLeave={[Function]}
+                        rowSpan={null}
+                        scope="col"
+                        style={{}}
+                      >
+                        Обрабатываемая площадь, га
+                      </th>
+                      <td
+                        className="ant-table-cell"
+                        colSpan={null}
+                        onMouseEnter={[Function]}
+                        onMouseLeave={[Function]}
+                        rowSpan={null}
+                        scope={null}
+                        style={{}}
+                      />
+                    </tr>
+                  </thead>
+                  <tbody
+                    className="ant-table-tbody"
+                  >
+                    <tr
+                      aria-hidden="true"
+                      className="ant-table-measure-row"
+                      style={
+                        {
+                          "fontSize": 0,
+                          "height": 0,
+                        }
+                      }
+                    >
+                      <td
+                        style={
+                          {
+                            "border": 0,
+                            "height": 0,
+                            "padding": 0,
+                          }
+                        }
+                      >
+                        <div
+                          style={
+                            {
+                              "height": 0,
+                              "overflow": "hidden",
+                            }
+                          }
+                        >
+                           
+                        </div>
+                      </td>
+                      <td
+                        style={
+                          {
+                            "border": 0,
+                            "height": 0,
+                            "padding": 0,
+                          }
+                        }
+                      >
+                        <div
+                          style={
+                            {
+                              "height": 0,
+                              "overflow": "hidden",
+                            }
+                          }
+                        >
+                           
+                        </div>
+                      </td>
+                      <td
+                        style={
+                          {
+                            "border": 0,
+                            "height": 0,
+                            "padding": 0,
+                          }
+                        }
+                      >
+                        <div
+                          style={
+                            {
+                              "height": 0,
+                              "overflow": "hidden",
+                            }
+                          }
+                        >
+                           
+                        </div>
+                      </td>
+                      <td
+                        style={
+                          {
+                            "border": 0,
+                            "height": 0,
+                            "padding": 0,
+                          }
+                        }
+                      >
+                        <div
+                          style={
+                            {
+                              "height": 0,
+                              "overflow": "hidden",
+                            }
+                          }
+                        >
+                           
+                        </div>
+                      </td>
+                      <td
+                        style={
+                          {
+                            "border": 0,
+                            "height": 0,
+                            "padding": 0,
+                          }
+                        }
+                      >
+                        <div
+                          style={
+                            {
+                              "height": 0,
+                              "overflow": "hidden",
+                            }
+                          }
+                        >
+                           
+                        </div>
+                      </td>
+                      <td
+                        style={
+                          {
+                            "border": 0,
+                            "height": 0,
+                            "padding": 0,
+                          }
+                        }
+                      >
+                        <div
+                          style={
+                            {
+                              "height": 0,
+                              "overflow": "hidden",
+                            }
+                          }
+                        >
+                           
+                        </div>
+                      </td>
+                      <td
+                        style={
+                          {
+                            "border": 0,
+                            "height": 0,
+                            "padding": 0,
+                          }
+                        }
+                      >
+                        <div
+                          style={
+                            {
+                              "height": 0,
+                              "overflow": "hidden",
+                            }
+                          }
+                        >
+                           
+                        </div>
+                      </td>
+                      <td
+                        style={
+                          {
+                            "border": 0,
+                            "height": 0,
+                            "padding": 0,
+                          }
+                        }
+                      >
+                        <div
+                          style={
+                            {
+                              "height": 0,
+                              "overflow": "hidden",
+                            }
+                          }
+                        >
+                           
+                        </div>
+                      </td>
+                    </tr>
+                    <tr
+                      className="ant-table-placeholder"
+                      style={
+                        {
+                          "display": null,
+                        }
+                      }
+                    >
+                      <td
+                        className="ant-table-cell"
+                        colSpan={8}
+                        onMouseEnter={[Function]}
+                        onMouseLeave={[Function]}
+                        rowSpan={null}
+                        style={{}}
+                      >
+                        <div
+                          className="ant-table-expanded-row-fixed"
+                          style={
+                            {
+                              "left": 0,
+                              "overflow": "hidden",
+                              "position": "sticky",
+                              "width": 0,
+                            }
+                          }
+                        />
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="pagination"
+    >
+      <div
+        className="pagination__pagination_show"
+      >
+        <div
+          className="glav_pagination"
+        >
+          <div
+            className="next_table"
+          >
+            <button
+              className="ant-btn css-dev-only-do-not-override-1wazalj ant-btn-default ant-btn-icon-only pagination_buttons pagination_buttons-prev"
+              disabled={true}
+              onClick={[Function]}
+              style={{}}
+              type="button"
+            >
+              <span
+                className="ant-btn-icon"
+                style={{}}
+              >
+                <img
+                  alt="backIcons"
+                  src={
+                    {
+                      "process": [Function],
+                    }
+                  }
+                />
+              </span>
+            </button>
+            <button
+              className="ant-btn css-dev-only-do-not-override-1wazalj ant-btn-default ant-btn-icon-only pagination_buttons pagination_buttons-next"
+              disabled={true}
+              onClick={[Function]}
+              role="button"
+              style={{}}
+              type="button"
+            >
+              <span
+                className="ant-btn-icon"
+                style={{}}
+              >
+                <img
+                  alt="nextIcons"
+                  src={
+                    {
+                      "process": [Function],
+                    }
+                  }
+                />
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
