@@ -1,7 +1,8 @@
 export interface IApk {
   file: string;
-  version: string;
+  version: string | number;
   description: string;
+  created_at: string;
 }
 
 export interface UploadApk extends Omit<IApk, 'file'> {}
