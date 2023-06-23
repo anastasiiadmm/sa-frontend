@@ -17,7 +17,6 @@ import RequestModal from 'components/ModalComponent/ModalChildrenComponents/Dele
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import ResultComponent from 'components/ResultComponent/ResultComponent';
 import TableComponent from 'components/TableComponent/TableComponent';
-import { getErrorMessage, getPageNumber, getPageNumberPrevious } from 'utils/helper';
 import { ErrorObject, userVehicles } from 'interfaces';
 import {
   companiesSelector,
@@ -29,6 +28,7 @@ import {
 } from 'redux/companies/companiesSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { apiUrlCrop } from 'utils/config';
+import { getErrorMessage, getPageNumber, getPageNumberPrevious } from 'utils/helper';
 
 import 'containers/Manager/Users/UserTechnique/_userTechnique.scss';
 

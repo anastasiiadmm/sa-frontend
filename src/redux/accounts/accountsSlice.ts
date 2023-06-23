@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { message } from 'antd';
 
-import { getErrorMessage } from 'utils/helper';
 import {
   accountsManagerConfirmation,
   apksPagination,
@@ -21,6 +20,7 @@ import {
 import { IConfig } from 'interfaces/IConfig';
 import { RootState } from 'redux/hooks';
 import axiosApi from 'utils/axios-api';
+import { getErrorMessage } from 'utils/helper';
 import toQueryParams from 'utils/toQueryParams';
 
 const nameSpace = 'accounts';

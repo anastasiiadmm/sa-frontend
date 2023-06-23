@@ -1,6 +1,5 @@
 import { message } from 'antd';
 import React from 'react';
-const { REACT_APP_FILE_LINK } = process.env;
 
 import activeNotification from 'assets/images/icons/active-notification.svg';
 import activePhone from 'assets/images/icons/active-phone.svg';
@@ -13,6 +12,7 @@ import { ErrorObject, updateManagerDataMutation } from 'interfaces';
 import { Locales, SensorDataEntry, stationInfo } from 'interfaces/IStation';
 import { dateMomentTypeString } from 'utils/constants';
 
+const { REACT_APP_FILE_LINK } = process.env;
 const moment = require('moment');
 
 type IndexableObject = {

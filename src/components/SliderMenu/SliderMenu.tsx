@@ -11,7 +11,6 @@ import more from 'assets/images/icons/more.svg';
 import star from 'assets/images/icons/star.svg';
 import logo from 'assets/images/logo.png';
 import Spinner from 'components/Spinner/Spinner';
-import { buttonsData, downloadApkFileHandler } from "utils/helper";
 import useWindowWidth from 'hooks/useWindowWidth';
 import {
   accountsSelector,
@@ -23,6 +22,7 @@ import { logoutUser } from 'redux/auth/authSlice';
 import { clearCompaniesPagination } from 'redux/companies/companiesSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { urlFormat } from 'utils/files/files';
+import { buttonsData, downloadApkFileHandler } from 'utils/helper';
 import { logoutLocalStorage } from 'utils/token';
 
 import 'components/SliderMenu/_sliderMenu.scss';

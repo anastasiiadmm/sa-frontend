@@ -8,7 +8,6 @@ import FormField from 'components/FormField/FormField';
 import GeneratedPasswordModal from 'components/ModalComponent/ModalChildrenComponents/GeneratedPasswordModal/GeneratedPasswordModal';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import SkeletonBlock from 'components/SkeletonBlock/SkeletonBlock';
-import { isObjectChangeValidate, removeEmptyValuesFromObject } from 'utils/helper';
 import {
   accountsSelector,
   fetchAccount,
@@ -19,6 +18,7 @@ import {
 } from 'redux/accounts/accountsSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { apiUrlCrop } from 'utils/config';
+import { isObjectChangeValidate, removeEmptyValuesFromObject } from 'utils/helper';
 import { fileSizeValidate, fileValidateImg } from 'utils/validate/validate';
 import 'containers/Manager/Profile/_profile.scss';
 

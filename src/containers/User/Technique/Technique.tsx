@@ -14,7 +14,6 @@ import RequestModal from 'components/ModalComponent/ModalChildrenComponents/Dele
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import SkeletonBlock from 'components/SkeletonBlock/SkeletonBlock';
 import TableComponent from 'components/TableComponent/TableComponent';
-import { getPageNumber, getPageNumberPrevious } from 'utils/helper';
 import { userVehicles } from 'interfaces';
 import {
   accountsSelector,
@@ -24,6 +23,7 @@ import {
 } from 'redux/accounts/accountsSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { apiUrlCrop } from 'utils/config';
+import { getPageNumber, getPageNumberPrevious } from 'utils/helper';
 
 import 'containers/User/Technique/_technique.scss';
 
