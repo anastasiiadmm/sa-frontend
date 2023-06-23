@@ -8,7 +8,7 @@ import FormField from 'components/FormField/FormField';
 import GeneratedPasswordModal from 'components/ModalComponent/ModalChildrenComponents/GeneratedPasswordModal/GeneratedPasswordModal';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import SkeletonBlock from 'components/SkeletonBlock/SkeletonBlock';
-import { isObjectChangeValidate, removeEmptyValuesFromObject } from 'helper';
+import { isObjectChangeValidate, removeEmptyValuesFromObject } from 'utils/helper';
 import {
   accountsSelector,
   fetchAccount,

@@ -11,7 +11,7 @@ import tractorBlue from 'assets/images/icons/tractor-blue.svg';
 import Errors from 'components/Errors/Errors';
 import FormField from 'components/FormField/FormField';
 import TableComponent from 'components/TableComponent/TableComponent';
-import { getPageParam } from 'helper';
+import { getPageParam } from 'utils/helper';
 import { Result } from 'interfaces';
 import { accountsSelector, fetchVehicleInfo } from 'redux/accounts/accountsSlice';
 import { companiesSelector } from 'redux/companies/companiesSlice';

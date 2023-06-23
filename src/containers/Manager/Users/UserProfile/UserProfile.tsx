@@ -14,7 +14,7 @@ import EditUserProfileModal from 'components/ModalComponent/ModalChildrenCompone
 import GeneratedPasswordModal from 'components/ModalComponent/ModalChildrenComponents/GeneratedPasswordModal/GeneratedPasswordModal';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import SkeletonBlock from 'components/SkeletonBlock/SkeletonBlock';
-import { getErrorMessage } from 'helper';
+import { getErrorMessage } from 'utils/helper';
 import { IAccount } from 'interfaces';
 import { accountsSelector, generateNewPassword } from 'redux/accounts/accountsSlice';
 import {

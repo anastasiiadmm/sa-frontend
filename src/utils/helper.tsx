@@ -1,4 +1,6 @@
+import { message } from 'antd';
 import React from 'react';
+const { REACT_APP_FILE_LINK } = process.env;
 
 import activeNotification from 'assets/images/icons/active-notification.svg';
 import activePhone from 'assets/images/icons/active-phone.svg';
@@ -309,3 +311,16 @@ export const buttonsData = [
     activeIcon: <img src={activePhone} alt='activePhone' />,
   },
 ];
+
+export const downloadApkFileHandler = async (file: string) => {
+  try {
+    const link = document.createElement('a');
+    link.href = `${REACT_APP_FILE_LINK}${file}`;
+    link.setAttribute('download', '');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  } catch (error) {
+    await message.error(error?.detail);
+  }
+};

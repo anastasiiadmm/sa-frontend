@@ -14,7 +14,7 @@ import RequestModal from 'components/ModalComponent/ModalChildrenComponents/Dele
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import SkeletonBlock from 'components/SkeletonBlock/SkeletonBlock';
 import TableComponent from 'components/TableComponent/TableComponent';
-import { getPageNumber, getPageNumberPrevious } from 'helper';
+import { getPageNumber, getPageNumberPrevious } from 'utils/helper';
 import { userVehicles } from 'interfaces';
 import {
   accountsSelector,

@@ -1,5 +1,5 @@
 import { CloudOutlined, HomeOutlined, ImportOutlined, UserOutlined } from '@ant-design/icons';
-import { Avatar, Button, Dropdown, Layout, Menu, message, Skeleton } from 'antd';
+import { Avatar, Button, Dropdown, Layout, Menu, Skeleton } from 'antd';
 import type { MenuProps } from 'antd';
 import bem from 'easy-bem';
 import React, { useEffect, useState } from 'react';
@@ -11,7 +11,7 @@ import more from 'assets/images/icons/more.svg';
 import star from 'assets/images/icons/star.svg';
 import logo from 'assets/images/logo.png';
 import Spinner from 'components/Spinner/Spinner';
-import { buttonsData } from 'helper';
+import { buttonsData, downloadApkFileHandler } from "utils/helper";
 import useWindowWidth from 'hooks/useWindowWidth';
 import {
   accountsSelector,
@@ -152,19 +152,6 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
       push(e.key);
       dispatch(clearCompaniesPagination());
       dispatch(clearRequestsPagination());
-    }
-  };
-
-  const downloadApkFileHandler = async (file: string) => {
-    try {
-      const link = document.createElement('a');
-      link.href = `https://agri.ltestl.com${file}`;
-      link.setAttribute('download', '');
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    } catch (error) {
-      await message.error(error?.detail);
     }
   };
 

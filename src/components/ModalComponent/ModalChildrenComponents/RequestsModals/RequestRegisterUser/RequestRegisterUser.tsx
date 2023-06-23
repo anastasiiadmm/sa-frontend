@@ -7,7 +7,7 @@ import FormField from 'components/FormField/FormField';
 import CreateNewUserCredentials from 'components/ModalComponent/ModalChildrenComponents/CreateNewUserCredentials/CreateNewUserCredentials';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import SkeletonBlock from 'components/SkeletonBlock/SkeletonBlock';
-import { getErrorMessage, isEmptyObject, mergeAndRemoveDuplicateValues } from 'helper';
+import { getErrorMessage, isEmptyObject, mergeAndRemoveDuplicateValues } from 'utils/helper';
 import { RequestType } from 'interfaces';
 import {
   accountManagerConfirmationRequest,

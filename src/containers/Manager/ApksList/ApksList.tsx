@@ -1,14 +1,14 @@
-import { Badge, Button, message, TablePaginationConfig, Tag, Typography } from 'antd';
+import { Badge, Button, TablePaginationConfig, Tag, Typography } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { FilterValue, SorterResult } from 'antd/es/table/interface';
 import bem from 'easy-bem';
 import React, { useEffect, useState } from 'react';
 
 import TableComponent from 'components/TableComponent/TableComponent';
-import { getPageNumber, getPageNumberPrevious } from 'helper';
 import { IApk } from 'interfaces';
 import { accountsSelector, fetchApks } from 'redux/accounts/accountsSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { downloadApkFileHandler, getPageNumber, getPageNumberPrevious } from 'utils/helper';
 import 'containers/Manager/ApksList/_apksList.scss';
 
 const { Title } = Typography;
@@ -33,19 +33,6 @@ const ApksList = () => {
     };
     dispatch(fetchApks({ data }));
   }, [dispatch, filters, orderSort?.ordering]);
-
-  const downloadApkFileHandler = async (file: string) => {
-    try {
-      const link = document.createElement('a');
-      link.href = `https://agri.ltestl.com${file}`;
-      link.setAttribute('download', '');
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    } catch (error) {
-      await message.error(error?.detail);
-    }
-  };
 
   const pagePrevHandler = () => {
     setFilters({

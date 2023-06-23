@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import CryptoJS from 'crypto-js';
 
-import { unixTimestamp } from 'helper';
+import { unixTimestamp } from 'utils/helper';
 import {
   APIError,
   APIWeatherResponse,

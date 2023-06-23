@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { message } from 'antd';
 
-import { getErrorMessage } from 'helper';
+import { getErrorMessage } from 'utils/helper';
 import {
   accountsManagerConfirmation,
   apksPagination,

@@ -17,7 +17,7 @@ import RequestModal from 'components/ModalComponent/ModalChildrenComponents/Dele
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import ResultComponent from 'components/ResultComponent/ResultComponent';
 import TableComponent from 'components/TableComponent/TableComponent';
-import { getErrorMessage, getPageNumber, getPageNumberPrevious } from 'helper';
+import { getErrorMessage, getPageNumber, getPageNumberPrevious } from 'utils/helper';
 import { ErrorObject, userVehicles } from 'interfaces';
 import {
   companiesSelector,

@@ -11,7 +11,7 @@ import tractorBlue from 'assets/images/icons/tractor-blue.svg';
 import notFoundImages from 'assets/images/notFound.svg';
 import Errors from 'components/Errors/Errors';
 import TableComponent from 'components/TableComponent/TableComponent';
-import { getPageNumber, getPageNumberPrevious } from 'helper';
+import { getPageNumber, getPageNumberPrevious } from 'utils/helper';
 import useWindowWidth from 'hooks/useWindowWidth';
 import { IAccount } from 'interfaces';
 import { companiesSelector, fetchUsersList } from 'redux/companies/companiesSlice';

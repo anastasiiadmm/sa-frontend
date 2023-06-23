@@ -8,7 +8,7 @@ import { useParams } from 'react-router-dom';
 import check from 'assets/images/icons/icon-check.png';
 import crossed from 'assets/images/icons/icon-crossed.png';
 import FieldClimateSettingsDashboard from 'containers/FieldClimate/FieldClimateSettingsDashboard/FieldClimateSettingsDashboard';
-import { updateDataNames } from 'helper';
+import { updateDataNames } from 'utils/helper';
 import { SensorDataEntry, SensorUpdate } from 'interfaces/IStation';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import {
