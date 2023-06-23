@@ -89,6 +89,10 @@
       font-weight: 700;
     }
   }
+
+  &__card-title {
+    margin-right: 10px;
+  }
 }
 
 .meteo-h1 {
@@ -98,4 +102,64 @@
 
 .send-button {
   background: #0078a8;
+}
+
+@media screen and (max-width: 600px) {
+  .Technique__title {
+    > h3 {
+      width: 100%;
+    }
+    > div {
+      display: block;
+      > button {
+        float: right;
+        margin-right: 0px!important;
+        margin-bottom: 10px;
+      }
+      > a {
+        float: right;
+      }
+    }
+  }
+
+  .Technique__card-style-blocks {
+   flex-wrap: wrap;
+  }
+}
+
+@media screen and (max-width: 560px) {
+  .Technique__card-style-blocks {
+    justify-content: center;
+  }
+
+  .Technique__card-content {
+    justify-content: center;
+  }
+}
+@media screen and (max-width: 400px) {
+  .Technique__title {
+    display: block;
+    > h3 {
+      text-align: center;
+    }
+
+    > div {
+      height: 76px;
+      > button {
+        margin-top: 10px;
+        width: 100%;
+      }
+
+      > a {
+        float: initial;
+        > button {
+          width: 100%;
+        }
+      }
+    }
+  }
+
+  .Technique__card-style-cloud-blocks {
+    justify-content: center;
+  }
 }

@@ -160,7 +160,6 @@ const UserTechnique: React.FC = () => {
       title: 'Код техники',
       dataIndex: 'code',
       width: '20%',
-      fixed: 'left',
       render: (text: string, record: userVehicles) => {
         return (
           <div style={{ display: 'flex', gap: 12 }}>
@@ -289,7 +288,7 @@ const UserTechnique: React.FC = () => {
               </div>
             )}
 
-            <div>
+            <div className={b('btn_handler')}>
               <Button type='primary' onClick={showModal}>
                 Добавить технику
               </Button>

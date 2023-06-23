@@ -1,15 +1,29 @@
 import { EyeOutlined } from '@ant-design/icons';
-import { Button, message, TablePaginationConfig, Tooltip, Typography } from 'antd';
+import {
+  Button,
+  Card,
+  Divider,
+  message,
+  Spin,
+  TablePaginationConfig,
+  Tooltip,
+  Typography,
+} from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { FilterValue, SorterResult } from 'antd/es/table/interface';
 import bem from 'easy-bem';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 
+import changeProfile from 'assets/images/icons/change-profile-mobile.svg';
+import newTechnique from 'assets/images/icons/new-technique-mobile.svg';
+import newUserMobile from 'assets/images/icons/new-user-mobile.svg';
 import newUser from 'assets/images/icons/new_user_request.svg';
 import sun from 'assets/images/icons/sun.svg';
 import tractorRequest from 'assets/images/icons/tractor_request.svg';
 import user from 'assets/images/icons/user_request.svg';
+import newWeather from 'assets/images/icons/weather-mobile.svg';
+import notFoundImages from 'assets/images/notFound.svg';
 import Errors from 'components/Errors/Errors';
 import RequestModal from 'components/ModalComponent/ModalChildrenComponents/DeleteTechniqueModal/RequestModal';
 import EditUserProfileModal from 'components/ModalComponent/ModalChildrenComponents/EditUserProfileModal/EditUserProfileModal';
@@ -40,7 +54,7 @@ import { dateMomentTypeDash } from 'utils/constants';
 import { fileSizeValidate, fileValidateImg } from 'utils/validate/validate';
 import 'containers/Manager/UserRequests/_userRequests.scss';
 
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 const UserRequests = () => {
   const b = bem('UserRequests');
@@ -56,6 +70,7 @@ const UserRequests = () => {
   } = useAppSelector(accountsSelector);
   const { userInfo, userInfoLoading, userInfoError } = useAppSelector(companiesSelector);
   const { results, loading, errors } = useAppSelector(techniqueVehicleInfoSelector);
+  const windowWidth = useWindowWidth();
   const [isModalTechniqueOpen, setIsModalTechniqueOpen] = useState(false);
   const [isModalRegisterUserOpen, setIsModalRegisterUserTechniqueOpen] = useState(false);
   const [isModalRejectOpen, setIsModalRejectOpen] = useState(false);
@@ -341,6 +356,32 @@ const UserRequests = () => {
     }
   };
 
+  const getRequestData = (request: Requestor) => {
+    let imageSrc;
+    let requestTitle;
+
+    switch (request?.category) {
+      case 1:
+        imageSrc = newUserMobile;
+        requestTitle = 'Регистрация нового профиля';
+        break;
+      case 2:
+        imageSrc = changeProfile;
+        requestTitle = 'Личная информация';
+        break;
+      case 3:
+        imageSrc = newTechnique;
+        requestTitle = 'Добавление техники';
+        break;
+      default:
+        imageSrc = newWeather;
+        requestTitle = 'Запрос на подключение метеосервиса';
+        break;
+    }
+
+    return { imageSrc, requestTitle };
+  };
+
   const columns: ColumnsType<Requestor> = [
     {
       dataIndex: 'category',
@@ -426,24 +467,67 @@ const UserRequests = () => {
   return (
     <>
       <div className={b()} data-testid='requests-id'>
-        <div className={b('table')}>
-          <Title level={3} data-testid='sign_in_test' className={b('title')}>
-            Запросы
-          </Title>
+        {windowWidth <= 600 ? (
+          fetchRequestsLoading ? (
+            <Spin />
+          ) : requests?.length === 0 ? (
+            <img src={notFoundImages} alt='notFoundImages' />
+          ) : (
+            requests?.map((request) => {
+              const { imageSrc, requestTitle } = getRequestData(request);
 
-          <TableComponent
-            loading={fetchRequestsLoading}
-            columns={columns}
-            onChange={handleTableSortChange}
-            data={requests}
-            rowKey={(record) => record.id as number}
-            params={
-              fetchRequestsLoading ? { previous: null, next: null, count: 0 } : requestsPagination
-            }
-            pagePrevHandler={pagePrevHandler}
-            pageNextHandler={pageNextHandler}
-          />
-        </div>
+              return (
+                <Card
+                  hoverable
+                  className={b('card-style-mobile')}
+                  bordered={false}
+                  key={request?.id}
+                  onClick={() => confirmationTypeHandler(request)}
+                >
+                  <div className={b('image-request')}>
+                    <img src={imageSrc} alt='request' />
+                  </div>
+                  <div className={b('request-block')}>
+                    <div>
+                      <Title level={4} className={b('request-title')}>
+                        {requestTitle}
+                      </Title>
+                      <Text type='secondary'>
+                        {moment(request?.created_at, dateMomentTypeDash).format(dateMomentTypeDash)}
+                      </Text>
+                    </div>
+                    <Divider style={{ margin: 0 }} />
+                    <div className={b('request-info')}>
+                      <Text type='secondary'>Источник запроса</Text>
+                      <Text strong>
+                        {request?.requestor === null ? 'Не указан' : request?.requestor}
+                      </Text>
+                    </div>
+                  </div>
+                </Card>
+              );
+            })
+          )
+        ) : (
+          <div className={b('table')}>
+            <Title level={3} data-testid='sign_in_test' className={b('title')}>
+              Запросы
+            </Title>
+
+            <TableComponent
+              loading={fetchRequestsLoading}
+              columns={columns}
+              onChange={handleTableSortChange}
+              data={requests}
+              rowKey={(record) => record.id as number}
+              params={
+                fetchRequestsLoading ? { previous: null, next: null, count: 0 } : requestsPagination
+              }
+              pagePrevHandler={pagePrevHandler}
+              pageNextHandler={pageNextHandler}
+            />
+          </div>
+        )}
       </div>
 
       <ModalComponent

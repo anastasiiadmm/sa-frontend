@@ -71,7 +71,6 @@ const ProfileTechnique = () => {
       title: 'Задача на обработку',
       dataIndex: 'readable_id',
       width: '20%',
-      fixed: 'left',
     },
     {
       key: 'description',
@@ -178,6 +177,7 @@ const ProfileTechnique = () => {
       />
     );
   }
+
   return (
     <div className={b()} data-testid='profile-technique-id'>
       <div className={b('table')}>
