@@ -5,10 +5,10 @@ import bem from 'easy-bem';
 import React, { useEffect, useState } from 'react';
 
 import TableComponent from 'components/TableComponent/TableComponent';
-import { getPageNumber, getPageNumberPrevious } from 'helper';
 import { IApk } from 'interfaces';
 import { accountsSelector, fetchApks } from 'redux/accounts/accountsSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { downloadApkFileHandler, getPageNumber, getPageNumberPrevious } from 'utils/helper';
 import 'containers/Manager/ApksList/_apksList.scss';
 
 const { Title } = Typography;
@@ -33,6 +33,35 @@ const ApksList = () => {
     };
     dispatch(fetchApks({ data }));
   }, [dispatch, filters, orderSort?.ordering]);
+
+  const pagePrevHandler = () => {
+    setFilters({
+      ...filters,
+      page: filters.page - 1,
+    });
+  };
+
+  const pageNextHandler = () => {
+    setFilters({
+      ...filters,
+      page: Number(getPageNumber(apksPagination?.next)) + 1,
+    });
+  };
+
+  const handleTableSortChange = (
+    pagination: TablePaginationConfig,
+    filters: Record<string, FilterValue | null>,
+    sorter: SorterResult<string> | SorterResult<string>[],
+  ) => {
+    const order = Array.isArray(sorter) ? sorter[0]?.order : sorter?.order;
+    const filteredOrderSort = Object.fromEntries(
+      Object.entries(orderSort).filter(([key]) => key !== undefined),
+    );
+    setOrderSort({
+      ...filteredOrderSort,
+      ordering: order === 'descend' ? '-id' : 'id',
+    });
+  };
 
   const columns: ColumnsType<IApk> = [
     {
@@ -103,9 +132,15 @@ const ApksList = () => {
       key: 'button',
       dataIndex: 'button',
       filterSearch: true,
-      render: () => {
+      render: (text, record) => {
         return (
-          <Button type='default' style={{ float: 'right' }}>
+          <Button
+            role='button'
+            data-testid='download-button'
+            type='default'
+            style={{ float: 'right' }}
+            onClick={() => downloadApkFileHandler(record?.file)}
+          >
             Скачать
           </Button>
         );
@@ -113,37 +148,6 @@ const ApksList = () => {
       width: 170,
     },
   ];
-
-  const pagePrevHandler = () => {
-    setFilters({
-      ...filters,
-      page: filters.page - 1,
-    });
-  };
-
-  const pageNextHandler = () => {
-    setFilters({
-      ...filters,
-      page: Number(getPageNumber(apksPagination?.next)) + 1,
-    });
-  };
-
-  const handleTableSortChange = (
-    pagination: TablePaginationConfig,
-    filters: Record<string, FilterValue | null>,
-    sorter: SorterResult<string> | SorterResult<string>[],
-  ) => {
-    const columnKey = Array.isArray(sorter) ? sorter[0]?.column?.key : sorter?.column?.key;
-    const order = Array.isArray(sorter) ? sorter[0]?.order : sorter?.order;
-
-    const sortableColumnKeys = ['created_at', 'version'];
-
-    if (columnKey && sortableColumnKeys.includes(columnKey as string)) {
-      setOrderSort({
-        ordering: order === 'descend' ? '-id' : 'id',
-      });
-    }
-  };
 
   return (
     <div className={b()} data-testid='apks-id'>

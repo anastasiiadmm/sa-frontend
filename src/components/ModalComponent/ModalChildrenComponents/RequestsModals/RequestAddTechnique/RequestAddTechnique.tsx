@@ -6,16 +6,15 @@ import React, { useEffect, useState } from 'react';
 import FormField from 'components/FormField/FormField';
 import SkeletonBlock from 'components/SkeletonBlock/SkeletonBlock';
 import UploadImageComponent from 'components/UploadImageComponent/UploadImageComponent';
-import { getErrorMessage } from 'helper';
 import 'components/ModalComponent/ModalChildrenComponents/RequestsModals/RequestAddTechnique/_requestAddTechnique.scss';
 import { IValueRequest, IVehicle } from 'interfaces';
-
 import {
   techniqueVehicleInfoPut,
   techniqueVehicleUpdateSelector,
 } from 'redux/companies/companiesSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { getFilenameFromPath, urlFormat } from 'utils/files/files';
+import { getErrorMessage } from 'utils/helper';
 
 const { Title } = Typography;
 

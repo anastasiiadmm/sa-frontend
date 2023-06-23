@@ -33,7 +33,6 @@ import RequestAddTechnique from 'components/ModalComponent/ModalChildrenComponen
 import RequestRegisterUser from 'components/ModalComponent/ModalChildrenComponents/RequestsModals/RequestRegisterUser/RequestRegisterUser';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import TableComponent from 'components/TableComponent/TableComponent';
-import { appendDataFieldsAndDeleteEmptyKeys, getPageNumber, getPageNumberPrevious } from 'helper';
 import useWindowWidth from 'hooks/useWindowWidth';
 import { IMyData, IMyDataApi, Requestor } from 'interfaces';
 import {
@@ -52,6 +51,11 @@ import {
 } from 'redux/companies/companiesSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { dateMomentTypeDash } from 'utils/constants';
+import {
+  appendDataFieldsAndDeleteEmptyKeys,
+  getPageNumber,
+  getPageNumberPrevious,
+} from 'utils/helper';
 import { fileSizeValidate, fileValidateImg } from 'utils/validate/validate';
 import 'containers/Manager/UserRequests/_userRequests.scss';
 

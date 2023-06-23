@@ -5,9 +5,9 @@ import React, { useState } from 'react';
 import { MapContainer, Marker, Popup, TileLayer, Tooltip } from 'react-leaflet';
 import { useNavigate } from 'react-router';
 
-import { checkTooltipVisibility, lastCommunication } from 'helper';
 import { MarkerData } from 'interfaces/IStation';
 import { climateColors } from 'utils/constants';
+import { checkTooltipVisibility, lastCommunication } from 'utils/helper';
 import 'components/FieldClimateOpenMapComponent/_fieldClimateOpenMapComponent.scss';
 import 'leaflet/dist/leaflet.css';
 

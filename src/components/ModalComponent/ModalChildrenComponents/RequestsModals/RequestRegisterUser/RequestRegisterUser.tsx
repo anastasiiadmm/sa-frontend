@@ -7,7 +7,6 @@ import FormField from 'components/FormField/FormField';
 import CreateNewUserCredentials from 'components/ModalComponent/ModalChildrenComponents/CreateNewUserCredentials/CreateNewUserCredentials';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import SkeletonBlock from 'components/SkeletonBlock/SkeletonBlock';
-import { getErrorMessage, isEmptyObject, mergeAndRemoveDuplicateValues } from 'helper';
 import { RequestType } from 'interfaces';
 import {
   accountManagerConfirmationRequest,
@@ -15,6 +14,7 @@ import {
   fetchRequests,
 } from 'redux/accounts/accountsSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { getErrorMessage, isEmptyObject, mergeAndRemoveDuplicateValues } from 'utils/helper';
 import 'components/ModalComponent/ModalChildrenComponents/RequestsModals/RequestRegisterUser/_requestRegisterUser.scss';
 
 interface Props {

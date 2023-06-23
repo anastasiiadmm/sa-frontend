@@ -8,7 +8,6 @@ import { useParams } from 'react-router-dom';
 import FormField from 'components/FormField/FormField';
 import SkeletonBlock from 'components/SkeletonBlock/SkeletonBlock';
 import UploadImageComponent from 'components/UploadImageComponent/UploadImageComponent';
-import { getErrorMessage, removeEmptyValuesFromObject } from 'helper';
 import { IValueFinish } from 'interfaces';
 import { accountsSelector, vehicleCreateRequest } from 'redux/accounts/accountsSlice';
 import {
@@ -17,6 +16,7 @@ import {
   vehicleCreate,
 } from 'redux/companies/companiesSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { getErrorMessage, removeEmptyValuesFromObject } from 'utils/helper';
 
 import 'components/ModalComponent/ModalChildrenComponents/AddUpdateTechnique/_addUpdateTechnique.scss';
 

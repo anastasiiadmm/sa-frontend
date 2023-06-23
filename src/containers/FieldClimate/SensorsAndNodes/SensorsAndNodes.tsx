@@ -8,7 +8,6 @@ import { useParams } from 'react-router-dom';
 import check from 'assets/images/icons/icon-check.png';
 import crossed from 'assets/images/icons/icon-crossed.png';
 import FieldClimateSettingsDashboard from 'containers/FieldClimate/FieldClimateSettingsDashboard/FieldClimateSettingsDashboard';
-import { updateDataNames } from 'helper';
 import { SensorDataEntry, SensorUpdate } from 'interfaces/IStation';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import {
@@ -16,6 +15,7 @@ import {
   stationsSelector,
   updateStationSensor,
 } from 'redux/stations/stationsSlice';
+import { updateDataNames } from 'utils/helper';
 import locales from 'utils/locales/fieldClimateLocales.json';
 import 'containers/FieldClimate/SensorsAndNodes/_sensorsAndNodes.scss';
 

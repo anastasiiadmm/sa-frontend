@@ -11,7 +11,6 @@ import more from 'assets/images/icons/more.svg';
 import star from 'assets/images/icons/star.svg';
 import logo from 'assets/images/logo.png';
 import Spinner from 'components/Spinner/Spinner';
-import { buttonsData } from 'helper';
 import useWindowWidth from 'hooks/useWindowWidth';
 import {
   accountsSelector,
@@ -23,6 +22,7 @@ import { logoutUser } from 'redux/auth/authSlice';
 import { clearCompaniesPagination } from 'redux/companies/companiesSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { urlFormat } from 'utils/files/files';
+import { buttonsData, downloadApkFileHandler } from 'utils/helper';
 import { logoutLocalStorage } from 'utils/token';
 
 import 'components/SliderMenu/_sliderMenu.scss';
@@ -228,7 +228,9 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
             </div>
             <div className={b('apk-info')}>
               <p>Вышла новая версия приложения</p>
-              <Button type='default'>Скачать APK</Button>
+              <Button type='default' onClick={() => downloadApkFileHandler(apk?.[0]?.file)}>
+                Скачать APK
+              </Button>
             </div>
           </div>
         )

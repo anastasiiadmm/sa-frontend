@@ -14,7 +14,6 @@ import EditUserProfileModal from 'components/ModalComponent/ModalChildrenCompone
 import GeneratedPasswordModal from 'components/ModalComponent/ModalChildrenComponents/GeneratedPasswordModal/GeneratedPasswordModal';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import SkeletonBlock from 'components/SkeletonBlock/SkeletonBlock';
-import { getErrorMessage } from 'helper';
 import { IAccount } from 'interfaces';
 import { accountsSelector, generateNewPassword } from 'redux/accounts/accountsSlice';
 import {
@@ -25,6 +24,7 @@ import {
   updateUserInfo,
 } from 'redux/companies/companiesSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { getErrorMessage } from 'utils/helper';
 import 'containers/Manager/Users/UserProfile/_UserProfile.scss';
 
 const { Title } = Typography;
