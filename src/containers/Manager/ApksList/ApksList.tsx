@@ -47,7 +47,7 @@ const ApksList = () => {
   }, [dispatch, filters, orderSort?.ordering]);
 
   const highestVersion =
-    apk !== null &&
+    apk &&
     apk?.reduce((highest: string | number, obj: IApk) => {
       return obj.version > highest ? obj.version : highest;
     }, '0.0.0');
@@ -99,7 +99,7 @@ const ApksList = () => {
           );
         }
 
-        if (text < highestVersion) {
+        if (highestVersion !== null && text < highestVersion) {
           return (
             <Tag color='geekblue' style={{ width: 115 }}>
               <Badge color='#3A629F' /> Стабильное
@@ -170,7 +170,7 @@ const ApksList = () => {
           <div className={b('apks-list-block')}>
             {apk?.map((apk: IApk, index: number, apkArray: IApk[]) => {
               const previousVersion =
-                apk !== null && index > 0 ? apkArray[index - 1]?.version ?? '0.0.1' : '0.0.1';
+                apk && index > 0 ? apkArray[index - 1]?.version ?? '0.0.1' : '0.0.1';
 
               let tagColor: string;
               let badgeColor: string;
@@ -183,7 +183,7 @@ const ApksList = () => {
                   tagLabel = 'Актуальное';
                   break;
 
-                case apk?.version < highestVersion.toString():
+                case highestVersion !== null && apk?.version < highestVersion.toString():
                   tagColor = 'geekblue';
                   badgeColor = '#3A629F';
                   tagLabel = 'Стабильное';
