@@ -12,7 +12,6 @@ import FormField from 'components/FormField/FormField';
 import GridTableComponent from 'components/GridTableComponent/GridTableComponent';
 import Spinner from 'components/Spinner/Spinner';
 import FieldClimateInnerDashboard from 'containers/FieldClimate/FieldClimateInnerDashboard/FieldClimateInnerDashboard';
-import { calculateDateRange } from 'helper';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import {
   fetchStationInfo,
@@ -20,6 +19,7 @@ import {
   stationsSelector,
 } from 'redux/stations/stationsSlice';
 import { dateMomentTypeString, rangeDataDaysSensors, rangeDataHoursSensors } from 'utils/constants';
+import { calculateDateRange } from 'utils/helper';
 import 'containers/FieldClimate/FieldClimateStation/_fieldClimateStation.scss';
 
 const { Text, Title } = Typography;

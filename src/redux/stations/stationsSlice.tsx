@@ -2,7 +2,6 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import CryptoJS from 'crypto-js';
 
-import { unixTimestamp } from 'helper';
 import {
   APIError,
   APIWeatherResponse,
@@ -18,6 +17,7 @@ import {
 } from 'interfaces';
 import { RootState } from 'redux/hooks';
 import store from 'redux/store';
+import { unixTimestamp } from 'utils/helper';
 
 const timestamp = new Date().toUTCString();
 

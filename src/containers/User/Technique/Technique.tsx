@@ -14,7 +14,6 @@ import RequestModal from 'components/ModalComponent/ModalChildrenComponents/Dele
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import SkeletonBlock from 'components/SkeletonBlock/SkeletonBlock';
 import TableComponent from 'components/TableComponent/TableComponent';
-import { getPageNumber, getPageNumberPrevious } from 'helper';
 import { userVehicles } from 'interfaces';
 import {
   accountsSelector,
@@ -24,6 +23,7 @@ import {
 } from 'redux/accounts/accountsSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { apiUrlCrop } from 'utils/config';
+import { getPageNumber, getPageNumberPrevious } from 'utils/helper';
 
 import 'containers/User/Technique/_technique.scss';
 
@@ -109,7 +109,6 @@ const Technique = () => {
       title: 'Код техники',
       dataIndex: 'code',
       width: '20%',
-      fixed: 'left',
       render: (text: string, record) => {
         return (
           <div style={{ display: 'flex', gap: 12 }}>
@@ -182,7 +181,6 @@ const Technique = () => {
       />
     );
   }
-
   return (
     <>
       <div className={b()} data-testid='technique-id'>

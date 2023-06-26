@@ -5,9 +5,9 @@ import React, { useEffect, useState } from 'react';
 import AlertComponent from 'components/AlertComponent/AlertComponent';
 import FormField from 'components/FormField/FormField';
 import 'components/ModalComponent/ModalChildrenComponents/RequestRegisterModal/_requestRegisterModal.scss';
-import { getErrorMessage, removeEmptyValuesFromObject } from 'helper';
 import { accountsSelector, approveRegisterRequest } from 'redux/accounts/accountsSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { getErrorMessage, removeEmptyValuesFromObject } from 'utils/helper';
 
 type Props = {
   onClose: () => void;

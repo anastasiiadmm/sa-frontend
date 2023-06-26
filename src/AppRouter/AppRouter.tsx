@@ -24,11 +24,11 @@ import ProfileTechnique from 'containers/Technique/ProfileTechnique/ProfileTechn
 import TechniqueMap from 'containers/TechniqueMap/TechniqueMap';
 import Profile from 'containers/User/Profile/Profile';
 import Technique from 'containers/User/Technique/Technique';
-import { buttonsData } from 'helper';
 import useWindowWidth from 'hooks/useWindowWidth';
 import { accountsSelector } from 'redux/accounts/accountsSlice';
 import { authSelector } from 'redux/auth/authSlice';
 import { useAppSelector } from 'redux/hooks';
+import { buttonsData } from 'utils/helper';
 
 import 'AppRouter/appRouter.scss';
 
