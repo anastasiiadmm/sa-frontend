@@ -1,21 +1,33 @@
-import { Badge, Button, TablePaginationConfig, Tag, Typography } from 'antd';
+import {
+  Badge,
+  Button,
+  Card,
+  Divider,
+  TablePaginationConfig,
+  Tag,
+  Tooltip,
+  Typography,
+} from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { FilterValue, SorterResult } from 'antd/es/table/interface';
+import { Spin } from 'antd/lib';
 import bem from 'easy-bem';
 import React, { useEffect, useState } from 'react';
 
 import TableComponent from 'components/TableComponent/TableComponent';
+import useWindowWidth from 'hooks/useWindowWidth';
 import { IApk } from 'interfaces';
 import { accountsSelector, fetchApks } from 'redux/accounts/accountsSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { downloadApkFileHandler, getPageNumber, getPageNumberPrevious } from 'utils/helper';
 import 'containers/Manager/ApksList/_apksList.scss';
 
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 const ApksList = () => {
   const b = bem('ApksList');
   const dispatch = useAppDispatch();
+  const windowWidth = useWindowWidth();
   const { apk, apksPagination, apkLoading } = useAppSelector(accountsSelector);
   const [filters, setFilters] = useState({
     page: apksPagination?.next
@@ -33,6 +45,12 @@ const ApksList = () => {
     };
     dispatch(fetchApks({ data }));
   }, [dispatch, filters, orderSort?.ordering]);
+
+  const highestVersion =
+    apk &&
+    apk?.reduce((highest: string | number, obj: IApk) => {
+      return obj.version > highest ? obj.version : highest;
+    }, '0.0.0');
 
   const pagePrevHandler = () => {
     setFilters({
@@ -71,13 +89,7 @@ const ApksList = () => {
       fixed: 'left',
       width: 170,
       render: (text, record, index) => {
-        const highestVersion =
-          apk !== null &&
-          apk.reduce((highest, obj) => {
-            return obj.version > highest ? obj.version : highest;
-          }, '');
-        const previousVersion =
-          apk !== null && index > 0 ? apk[index - 1]?.version ?? '0.0.1' : '0.0.1';
+        const previousVersion = apk && index > 0 ? apk[index - 1]?.version ?? '0.0.1' : '0.0.1';
 
         if (text > previousVersion) {
           return (
@@ -87,7 +99,7 @@ const ApksList = () => {
           );
         }
 
-        if (text < highestVersion) {
+        if (highestVersion !== null && text < highestVersion) {
           return (
             <Tag color='geekblue' style={{ width: 115 }}>
               <Badge color='#3A629F' /> Стабильное
@@ -151,22 +163,85 @@ const ApksList = () => {
 
   return (
     <div className={b()} data-testid='apks-id'>
-      <div className={b('table')}>
-        <Title level={3} data-testid='sign_in_test' className={b('title')}>
-          Версии приложения
-        </Title>
+      {windowWidth <= 990 ? (
+        apkLoading ? (
+          <Spin className='spin' />
+        ) : (
+          <div className={b('apks-list-block')}>
+            {apk?.map((apk: IApk, index: number, apkArray: IApk[]) => {
+              const previousVersion =
+                apk && index > 0 ? apkArray[index - 1]?.version ?? '0.0.1' : '0.0.1';
 
-        <TableComponent
-          loading={apkLoading}
-          columns={columns}
-          data={apk}
-          onChange={handleTableSortChange}
-          rowKey={(record) => record?.version}
-          params={apkLoading ? { previous: null, next: null, count: 0 } : apksPagination}
-          pagePrevHandler={pagePrevHandler}
-          pageNextHandler={pageNextHandler}
-        />
-      </div>
+              let tagColor: string;
+              let badgeColor: string;
+              let tagLabel: string;
+
+              switch (true) {
+                case apk?.version > previousVersion:
+                  tagColor = 'green';
+                  badgeColor = '#689F3A';
+                  tagLabel = 'Актуальное';
+                  break;
+
+                case highestVersion !== null && apk?.version < highestVersion.toString():
+                  tagColor = 'geekblue';
+                  badgeColor = '#3A629F';
+                  tagLabel = 'Стабильное';
+                  break;
+
+                default:
+                  tagColor = 'orange';
+                  badgeColor = '#FAC473';
+                  tagLabel = 'Архив';
+                  break;
+              }
+
+              return (
+                <Card bordered={false} key={apk?.version} className={b('apks-block')}>
+                  <Tag color={tagColor} style={{ width: 115 }}>
+                    <Badge color={badgeColor} /> {tagLabel}
+                  </Tag>
+                  <Text strong style={{ fontSize: 20 }}>
+                    ver {apk?.version}
+                  </Text>
+                  <Text type='secondary'>ver {apk?.created_at}</Text>
+                  <Divider style={{ margin: '10px 0' }} />
+                  <Text type='secondary'>Изменения</Text>
+                  <Tooltip placement='top' title={apk?.description}>
+                    <Text type='secondary' className={b('apk-description')}>
+                      {apk?.description}
+                    </Text>
+                  </Tooltip>
+                  <Button
+                    type='default'
+                    className={b('apks-button')}
+                    onClick={() => downloadApkFileHandler(apk?.file)}
+                  >
+                    Скачать
+                  </Button>
+                </Card>
+              );
+            })}
+          </div>
+        )
+      ) : (
+        <div className={b('table')}>
+          <Title level={3} data-testid='sign_in_test' className={b('title')}>
+            Версии приложения
+          </Title>
+
+          <TableComponent
+            loading={apkLoading}
+            columns={columns}
+            data={apk}
+            onChange={handleTableSortChange}
+            rowKey={(record) => record?.version}
+            params={apkLoading ? { previous: null, next: null, count: 0 } : apksPagination}
+            pagePrevHandler={pagePrevHandler}
+            pageNextHandler={pageNextHandler}
+          />
+        </div>
+      )}
     </div>
   );
 };
