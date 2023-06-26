@@ -176,7 +176,7 @@ const ApksList = () => {
     <div className={b()} data-testid='apks-id'>
       {windowWidth <= 990 ? (
         apkLoading ? (
-          <Spin />
+          <Spin className='spin' />
         ) : (
           <div className={b('apks-list-block')}>
             {apk?.map((apk: IApk, index: number, apkArray: IApk[]) => {
