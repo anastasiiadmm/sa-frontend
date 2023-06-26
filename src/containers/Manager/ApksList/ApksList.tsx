@@ -90,7 +90,7 @@ const ApksList = () => {
       width: 170,
       render: (text, record, index) => {
         const previousVersion =
-          apk !== null && index > 0 ? apk[index - 1]?.version ?? '0.0.1' : '0.0.1';
+          apk && index > 0 ? apk[index - 1]?.version ?? '0.0.1' : '0.0.1';
 
         if (text > previousVersion) {
           return (
