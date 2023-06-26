@@ -1,4 +1,3 @@
-import { message } from 'antd';
 import React from 'react';
 
 import activeNotification from 'assets/images/icons/active-notification.svg';
@@ -312,15 +311,15 @@ export const buttonsData = [
   },
 ];
 
-export const downloadApkFileHandler = async (file: string) => {
-  try {
-    const link = document.createElement('a');
-    link.href = `${apiUrlCrop}${file}`;
-    link.setAttribute('download', '');
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  } catch (error) {
-    await message.error(error?.detail);
-  }
+export const downloadApkFileHandler = (file: string, setIsLoadingCallback: () => void) => {
+  const link = document.createElement('a');
+  link.href = `${apiUrlCrop}${file}`;
+  link.setAttribute('download', '');
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+
+  setTimeout(() => {
+    setIsLoadingCallback();
+  }, 1000);
 };
