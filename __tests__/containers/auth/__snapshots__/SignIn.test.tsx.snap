@@ -254,7 +254,13 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
         className="ant-row SignIn__buttons-row css-dev-only-do-not-override-15rg2km"
         style={{}}
       >
-        <p>
+        <p
+          style={
+            {
+              "margin": "17px auto",
+            }
+          }
+        >
           Хотите стать клиентом?
         </p>
         <button

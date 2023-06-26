@@ -59,6 +59,7 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
   const { account, apk, apkLoading, fetchLoadingAccount } = useAppSelector(accountsSelector);
   const windowWidth = useWindowWidth();
   const [isCancelled, setIsCancelled] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const cancelIconClassName =
     isCancelled || collapsed ? b('apk-block', { 'cancel-icon-active': true }) : b('apk-block');
   const isFieldClimate = location.pathname.includes('/field-climate');
@@ -228,7 +229,11 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
             </div>
             <div className={b('apk-info')}>
               <p>Вышла новая версия приложения</p>
-              <Button type='default' onClick={() => downloadApkFileHandler(apk?.[0]?.file)}>
+              <Button
+                type='default'
+                loading={isLoading}
+                onClick={() => downloadApkFileHandler(apk?.[0]?.file, setIsLoading)}
+              >
                 Скачать APK
               </Button>
             </div>

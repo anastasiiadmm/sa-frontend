@@ -23,6 +23,7 @@ const ApksList = () => {
       : Number(getPageNumberPrevious(apksPagination?.previous)),
   });
   const [orderSort, setOrderSort] = useState({ ordering: '' });
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const data = {
@@ -139,7 +140,8 @@ const ApksList = () => {
             data-testid='download-button'
             type='default'
             style={{ float: 'right' }}
-            onClick={() => downloadApkFileHandler(record?.file)}
+            loading={isLoading}
+            onClick={() => downloadApkFileHandler(record?.file, setIsLoading)}
           >
             Скачать
           </Button>

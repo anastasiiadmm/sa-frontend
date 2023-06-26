@@ -312,15 +312,23 @@ export const buttonsData = [
   },
 ];
 
-export const downloadApkFileHandler = async (file: string) => {
+export const downloadApkFileHandler = async (
+  file: string,
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
+) => {
   try {
+    setIsLoading(true);
+
     const link = document.createElement('a');
     link.href = `${apiUrlCrop}${file}`;
     link.setAttribute('download', '');
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+
+    setIsLoading(false);
   } catch (error) {
     await message.error(error?.detail);
+    setIsLoading(false);
   }
 };
