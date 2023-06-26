@@ -23,7 +23,7 @@ const ApksList = () => {
       : Number(getPageNumberPrevious(apksPagination?.previous)),
   });
   const [orderSort, setOrderSort] = useState({ ordering: '' });
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingMap, setIsLoadingMap] = useState<{ [key: string]: boolean }>({});
 
   useEffect(() => {
     const data = {
@@ -62,6 +62,13 @@ const ApksList = () => {
       ...filteredOrderSort,
       ordering: order === 'descend' ? '-id' : 'id',
     });
+  };
+
+  const handleDownloadClick = (file: string) => {
+    setIsLoadingMap((prevIsLoadingMap) => ({ ...prevIsLoadingMap, [file]: true }));
+    downloadApkFileHandler(file, () =>
+      setIsLoadingMap((prevIsLoadingMap) => ({ ...prevIsLoadingMap, [file]: false })),
+    );
   };
 
   const columns: ColumnsType<IApk> = [
@@ -134,6 +141,8 @@ const ApksList = () => {
       dataIndex: 'button',
       filterSearch: true,
       render: (text, record) => {
+        const isLoading = isLoadingMap[record?.file];
+
         return (
           <Button
             role='button'
@@ -141,7 +150,7 @@ const ApksList = () => {
             type='default'
             style={{ float: 'right' }}
             loading={isLoading}
-            onClick={() => downloadApkFileHandler(record?.file, setIsLoading)}
+            onClick={() => handleDownloadClick(record?.file)}
           >
             Скачать
           </Button>

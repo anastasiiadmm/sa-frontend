@@ -232,7 +232,7 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
               <Button
                 type='default'
                 loading={isLoading}
-                onClick={() => downloadApkFileHandler(apk?.[0]?.file, setIsLoading)}
+                // onClick={() => downloadApkFileHandler(apk?.[0]?.file, setIsLoading)}
               >
                 Скачать APK
               </Button>
