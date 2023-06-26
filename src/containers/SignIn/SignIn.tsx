@@ -139,7 +139,7 @@ const SignIn: React.FC = () => {
               </Button>
             </Form>
             <Row className={b('buttons-row')}>
-              <p>Хотите стать клиентом?</p>
+              <p style={{ margin: '17px auto' }}>Хотите стать клиентом?</p>
               <Button size='large' type='primary' onClick={showModal}>
                 Зарегистрироваться
               </Button>
