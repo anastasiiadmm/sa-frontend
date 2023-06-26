@@ -3,7 +3,6 @@ import {
   Button,
   Card,
   Divider,
-  message,
   TablePaginationConfig,
   Tag,
   Tooltip,
@@ -46,19 +45,6 @@ const ApksList = () => {
     };
     dispatch(fetchApks({ data }));
   }, [dispatch, filters, orderSort?.ordering]);
-
-  const downloadApkFileHandler = async (file: string) => {
-    try {
-      const link = document.createElement('a');
-      link.href = `https://agri.ltestl.com${file}`;
-      link.setAttribute('download', '');
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    } catch (error) {
-      await message.error(error?.detail);
-    }
-  };
 
   const highestVersion =
     apk !== null &&
