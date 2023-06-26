@@ -59,7 +59,7 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
   const { account, apk, apkLoading, fetchLoadingAccount } = useAppSelector(accountsSelector);
   const windowWidth = useWindowWidth();
   const [isCancelled, setIsCancelled] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingMap, setIsLoadingMap] = useState<{ [key: string]: boolean }>({});
   const cancelIconClassName =
     isCancelled || collapsed ? b('apk-block', { 'cancel-icon-active': true }) : b('apk-block');
   const isFieldClimate = location.pathname.includes('/field-climate');
@@ -71,6 +71,13 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
   useEffect(() => {
     dispatch(fetchApks({}));
   }, [dispatch]);
+
+  const handleDownloadClick = (file: string) => {
+    setIsLoadingMap((prevIsLoadingMap) => ({ ...prevIsLoadingMap, [file]: true }));
+    downloadApkFileHandler(file, () =>
+      setIsLoadingMap((prevIsLoadingMap) => ({ ...prevIsLoadingMap, [file]: false })),
+    );
+  };
 
   const menuItems: MenuItem[] = [
     getItem(
@@ -231,8 +238,8 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
               <p>Вышла новая версия приложения</p>
               <Button
                 type='default'
-                loading={isLoading}
-                // onClick={() => downloadApkFileHandler(apk?.[0]?.file, setIsLoading)}
+                loading={isLoadingMap}
+                onClick={() => handleDownloadClick(apk?.[0]?.file)}
               >
                 Скачать APK
               </Button>

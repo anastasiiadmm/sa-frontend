@@ -1,4 +1,3 @@
-import { message } from 'antd';
 import React from 'react';
 
 import activeNotification from 'assets/images/icons/active-notification.svg';
