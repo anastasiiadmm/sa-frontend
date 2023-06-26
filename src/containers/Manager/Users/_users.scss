@@ -102,8 +102,9 @@
       }
     }
 
-    &__card-content-desk {
-
+    &__mobile-titles-block {
+      display: flex;
+      flex-direction: column;
     }
   }
 
