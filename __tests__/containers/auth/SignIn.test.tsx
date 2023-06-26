@@ -86,7 +86,7 @@ describe('<SignIn />', () => {
     expect(screen.getByTestId('sign-in')).toBeInTheDocument();
     const emailInput = screen.getByPlaceholderText('Логин');
     const passwordInput = screen.getByPlaceholderText('Пароль');
-    const button = await screen.findByRole('button', { name: 'Продолжить' });
+    const button = await screen.findByRole('button', { name: 'Войти' });
     await act(async () => {
       fireEvent.change(emailInput, { target: { value: 'manager' } });
       fireEvent.change(passwordInput, { target: { value: 'P33f2kmu!' } });
