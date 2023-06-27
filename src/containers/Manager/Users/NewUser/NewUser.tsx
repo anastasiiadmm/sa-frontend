@@ -31,10 +31,10 @@ const NewUser: React.FC = () => {
     setIsModalOpen(true);
   };
 
-  const handleOkCancel = () => {
+  const handleOkCancel = async () => {
     setIsModalOpen(!isModalOpen);
     history('/');
-    message.success('Новый пользователь успешно создан!');
+    await message.success('Новый пользователь успешно создан!');
   };
 
   const onFinish = async (values: IUserAdd) => {

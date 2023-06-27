@@ -19,7 +19,12 @@ import useWindowWidth from 'hooks/useWindowWidth';
 import { IApk } from 'interfaces';
 import { accountsSelector, fetchApks } from 'redux/accounts/accountsSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { downloadApkFileHandler, getPageNumber, getPageNumberPrevious } from 'utils/helper';
+import {
+  deleteEmptyQueryStrings,
+  downloadApkFileHandler,
+  getPageNumber,
+  getPageNumberPrevious,
+} from 'utils/helper';
 import 'containers/Manager/ApksList/_apksList.scss';
 
 const { Title, Text } = Typography;
@@ -38,11 +43,13 @@ const ApksList = () => {
   const [isLoadingMap, setIsLoadingMap] = useState<{ [key: string]: boolean }>({});
 
   useEffect(() => {
+    const queryObj = {
+      page: filters?.page,
+      ordering: orderSort?.ordering,
+    };
+    const validateQuery = deleteEmptyQueryStrings(queryObj);
     const data = {
-      query: {
-        page: filters?.page,
-        ordering: orderSort?.ordering,
-      },
+      query: validateQuery,
     };
     dispatch(fetchApks({ data }));
   }, [dispatch, filters, orderSort?.ordering]);

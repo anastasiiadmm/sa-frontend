@@ -53,6 +53,7 @@ import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { dateMomentTypeDash } from 'utils/constants';
 import {
   appendDataFieldsAndDeleteEmptyKeys,
+  deleteEmptyQueryStrings,
   getPageNumber,
   getPageNumberPrevious,
 } from 'utils/helper';
@@ -114,11 +115,13 @@ const UserRequests = () => {
   const [orderSort, setOrderSort] = useState({ ordering: '' });
 
   useEffect(() => {
+    const queryObj = {
+      page: filters?.page,
+      ordering: orderSort?.ordering,
+    };
+    const validateQuery = deleteEmptyQueryStrings(queryObj);
     const data = {
-      query: {
-        page: filters?.page,
-        ordering: orderSort?.ordering,
-      },
+      query: validateQuery,
     };
     dispatch(fetchRequests({ data }));
   }, [dispatch, filters, orderSort]);

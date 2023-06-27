@@ -45,6 +45,7 @@ const TableComponent: React.FC<Props> = ({
       />
     ),
   };
+
   return (
     <>
       <Table
