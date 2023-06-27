@@ -72,7 +72,7 @@ export const getErrorMessage = (errors: ErrorObject, key: string): string => {
 
   if (Array.isArray(errorValue)) {
     const firstError = errorValue[0];
-    return typeof firstError === 'string' ? firstError : '';
+    return firstError || '';
   }
 
   if (typeof errorValue === 'object') {
@@ -234,9 +234,7 @@ export const updateDataNames = (data: SensorDataEntry[], jsonData: Locales) => {
 export function getPageParam(url: string | undefined | null): string | null {
   if (url) {
     const urlParams = new URLSearchParams(url.split('?')[1]);
-    const page = urlParams.get('page');
-
-    return page;
+    return urlParams.get('page');
   }
 
   return '';
