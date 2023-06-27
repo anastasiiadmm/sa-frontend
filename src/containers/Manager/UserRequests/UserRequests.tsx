@@ -216,7 +216,7 @@ const UserRequests = () => {
     setIsModalFieldClimateRequestOpen(!isModalFieldClimateRequestOpen);
   };
 
-  const sendApprovedHandler = async () => {
+  const sendApprovedHandler = async (): Promise<void> => {
     try {
       const data = {
         id,
@@ -225,7 +225,7 @@ const UserRequests = () => {
         },
       };
       await dispatch(approveRequest(data)).unwrap();
-      await setIsModalFieldClimateRequestOpen(false);
+      setIsModalFieldClimateRequestOpen(false);
 
       const dataRequests = {
         query: {
@@ -236,7 +236,7 @@ const UserRequests = () => {
       await dispatch(fetchRequests({ data: dataRequests }));
     } catch (e) {
       message.error('Не удалось принять запрос');
-      await setIsModalFieldClimateRequestOpen(false);
+      setIsModalFieldClimateRequestOpen(false);
     }
   };
 
@@ -330,9 +330,9 @@ const UserRequests = () => {
       };
 
       await dispatch(fetchRequests({ data: dataRequests }));
-      await setIsModalUserInfoRejectOpen(false);
+      setIsModalUserInfoRejectOpen(false);
     } catch (e) {
-      await setIsModalUserInfoRejectOpen(false);
+      setIsModalUserInfoRejectOpen(false);
       await message.error('Произошла ошибка.');
     }
   };
