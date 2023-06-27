@@ -73,11 +73,7 @@ const ApksList = () => {
     sorter: SorterResult<string> | SorterResult<string>[],
   ) => {
     const order = Array.isArray(sorter) ? sorter[0]?.order : sorter?.order;
-    const filteredOrderSort = Object.fromEntries(
-      Object.entries(orderSort).filter(([key]) => key !== undefined),
-    );
     setOrderSort({
-      ...filteredOrderSort,
       ordering: order === 'descend' ? '-id' : 'id',
     });
   };
@@ -226,7 +222,7 @@ const ApksList = () => {
                   <Button
                     type='default'
                     className={b('apks-button')}
-                    onClick={() => downloadApkFileHandler(apk?.file)}
+                    onClick={() => handleDownloadClick(apk?.file)}
                   >
                     Скачать
                   </Button>
