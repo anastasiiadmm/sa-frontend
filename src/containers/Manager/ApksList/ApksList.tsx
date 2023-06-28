@@ -226,7 +226,7 @@ const ApksList = () => {
                   <Button
                     type='default'
                     className={b('apks-button')}
-                    onClick={() => downloadApkFileHandler(apk?.file)}
+                    onClick={() => handleDownloadClick(apk?.file)}
                   >
                     Скачать
                   </Button>
