@@ -4,7 +4,7 @@ import "../../../__mocks__/matchMedia.mock";
 import "@testing-library/jest-dom";
 import { mockedDispatch, mockedUseSelectors } from "../../../__mocks__/utils";
 
-import renderer from "react-test-renderer";
+import * as TestRenderer from 'react-test-renderer';
 import ProfileTechnique from "../../../src/containers/Technique/ProfileTechnique/ProfileTechnique";
 
 afterEach(cleanup);
@@ -84,7 +84,7 @@ describe("<ProfileTechnique />", () => {
         const dispatch = jest.fn();
         mockedDispatch.mockReturnValue(dispatch);
 
-        const tree = renderer
+        const tree = TestRenderer
             .create(
                 <BrowserRouter>
                     <ProfileTechnique />

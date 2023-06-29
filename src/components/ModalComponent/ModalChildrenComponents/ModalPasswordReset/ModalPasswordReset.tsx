@@ -5,8 +5,8 @@ import { useSelector } from 'react-redux';
 
 import AlertComponent from 'components/AlertComponent/AlertComponent';
 import FormField from 'components/FormField/FormField';
-import { authSelector } from 'redux/auth/authSlice';
 import { ResetEmail } from 'interfaces';
+import { authSelector } from 'redux/auth/authSlice';
 import 'containers/SignIn/_signIn.scss';
 
 const ModalPasswordReset: React.FC = () => {

@@ -2,7 +2,7 @@ import "@testing-library/jest-dom";
 import {mockedDispatch, mockedUseSelectors} from "../../../__mocks__/utils";
 import {screen, render, cleanup} from "@testing-library/react";
 import {BrowserRouter} from "react-router-dom";
-import renderer from "react-test-renderer";
+import * as TestRenderer from 'react-test-renderer';
 import "../../../__mocks__/matchMedia.mock";
 import OpenMapComponent from "../../../src/components/OpenMapComponent/OpenMapComponent";
 import TechniqueMap from "../../../src/containers/TechniqueMap/TechniqueMap";
@@ -132,7 +132,7 @@ describe('OpenMapComponents', () => {
     const dispatch = jest.fn();
     mockedDispatch.mockReturnValue(dispatch);
 
-    const tree = renderer
+    const tree = TestRenderer
       .create(
         <BrowserRouter>
           <OpenMapComponent />
@@ -148,7 +148,7 @@ describe('OpenMapComponents', () => {
     const dispatch = jest.fn();
     mockedDispatch.mockReturnValue(dispatch);
 
-    const tree = renderer
+    const tree = TestRenderer
       .create(
         <BrowserRouter>
           <TechniqueMap />
