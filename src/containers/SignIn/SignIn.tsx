@@ -109,6 +109,7 @@ const SignIn: React.FC = () => {
                   },
                 ]}
                 placeholder='Логин'
+                inputClassName={b('sign-in-input')}
               />
 
               <FormField
@@ -117,6 +118,7 @@ const SignIn: React.FC = () => {
                 type='password'
                 name='password'
                 placeholder='Пароль'
+                inputClassName={b('sign-in-input')}
               />
 
               <FormField

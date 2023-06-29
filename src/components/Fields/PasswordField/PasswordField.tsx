@@ -33,7 +33,6 @@ const PasswordField: React.FC<Props> = ({
 
   return name === 'confirm_password' ? (
     <Form.Item
-      hasFeedback
       className={className || b()}
       label={label}
       name={name}
@@ -60,20 +59,20 @@ const PasswordField: React.FC<Props> = ({
         placeholder={placeholder}
         className={`input-styles ${inputClassName}`}
         style={{ borderRadius: '7px' }}
-        autoComplete='on'
+        autoComplete='off'
         onChange={onChange}
         name={name}
       />
     </Form.Item>
   ) : !required ? (
-    <Form.Item id={id} className={className || b()} label={label} name={name} hasFeedback>
+    <Form.Item id={id} className={className || b()} label={label} name={name}>
       <Input.Password
         readOnly={readOnly}
         bordered={bordered}
         placeholder={placeholder}
         className={`input-styles ${inputClassName}`}
         style={{ borderRadius: '7px' }}
-        autoComplete='on'
+        autoComplete='off'
         onChange={onChange}
         name={name}
       />
@@ -84,7 +83,6 @@ const PasswordField: React.FC<Props> = ({
       className={className || b()}
       label={label}
       name={name}
-      hasFeedback
       rules={[
         {
           required: true,
@@ -107,7 +105,7 @@ const PasswordField: React.FC<Props> = ({
         placeholder={placeholder}
         className={`input-styles ${inputClassName}`}
         style={{ borderRadius: '7px' }}
-        autoComplete='on'
+        autoComplete='off'
         onChange={onChange}
         name={name}
       />
