@@ -1,0 +1,35 @@
+@use 'assets/scss/_themes.scss';
+
+.RequestRegisterModal {
+  &__form-block {
+    display: flex;
+    gap: 13px;
+    > div {
+      width: 100%;
+    }
+  }
+
+  &__form-modal-buttons {
+    margin-top: 35px;
+    display: flex;
+    gap: 10px;
+  }
+
+  &__cancel-profile-button {
+    background: themes.$gray-color !important;
+    &:hover {
+      background: rgb(112, 121, 136) !important;
+    }
+  }
+
+  &__delete-profile-button {
+    background: themes.$red-color !important;
+    &:hover {
+      background: rgba(193, 16, 48, 0.6) !important;
+    }
+  }
+
+  &__close-form-button {
+    background: themes.$primary-color;
+  }
+}

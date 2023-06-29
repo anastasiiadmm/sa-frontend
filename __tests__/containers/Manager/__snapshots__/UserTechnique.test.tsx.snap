@@ -29,7 +29,7 @@ exports[`<UserTechnique /> Users table component should be in the document 1`] =
           />
         </a>
         <h3
-          className="ant-typography UserTechnique__title css-dev-only-do-not-override-15rg2km"
+          className="ant-typography UserTechnique__title css-dev-only-do-not-override-12upa3x"
           style={
             {
               "WebkitLineClamp": undefined,
@@ -52,9 +52,10 @@ exports[`<UserTechnique /> Users table component should be in the document 1`] =
         className="UserTechnique__btn_handler"
       >
         <button
-          className="ant-btn css-dev-only-do-not-override-15rg2km ant-btn-primary"
+          className="ant-btn css-dev-only-do-not-override-12upa3x ant-btn-primary"
           disabled={false}
           onClick={[Function]}
+          style={{}}
           type="button"
         >
           <span>
@@ -66,9 +67,10 @@ exports[`<UserTechnique /> Users table component should be in the document 1`] =
           onClick={[Function]}
         >
           <button
-            className="ant-btn css-dev-only-do-not-override-15rg2km ant-btn-default UserTechnique__view-button"
+            className="ant-btn css-dev-only-do-not-override-12upa3x ant-btn-default UserTechnique__view-button"
             disabled={false}
             onClick={[Function]}
+            style={{}}
             type="button"
           >
             <span>
@@ -79,10 +81,10 @@ exports[`<UserTechnique /> Users table component should be in the document 1`] =
       </div>
     </div>
     <div
-      className="ant-table-wrapper css-dev-only-do-not-override-15rg2km"
+      className="ant-table-wrapper css-dev-only-do-not-override-12upa3x"
     >
       <div
-        className="ant-spin-nested-loading css-dev-only-do-not-override-15rg2km"
+        className="ant-spin-nested-loading css-dev-only-do-not-override-12upa3x"
       >
         <div
           className="ant-spin-container"
@@ -365,11 +367,12 @@ exports[`<UserTechnique /> Users table component should be in the document 1`] =
                             927.006
                           </p>
                           <button
-                            className="ant-btn css-dev-only-do-not-override-15rg2km ant-btn-text"
+                            className="ant-btn css-dev-only-do-not-override-12upa3x ant-btn-text"
                             disabled={false}
                             onClick={[Function]}
                             onMouseEnter={[Function]}
                             onMouseLeave={[Function]}
+                            style={{}}
                             type="button"
                           >
                             <img
@@ -389,9 +392,10 @@ exports[`<UserTechnique /> Users table component should be in the document 1`] =
                             onMouseLeave={[Function]}
                           >
                             <button
-                              className="ant-btn css-dev-only-do-not-override-15rg2km ant-btn-text"
+                              className="ant-btn css-dev-only-do-not-override-12upa3x ant-btn-text"
                               disabled={false}
                               onClick={[Function]}
+                              style={{}}
                               type="button"
                             >
                               <span
@@ -428,7 +432,7 @@ exports[`<UserTechnique /> Users table component should be in the document 1`] =
                             onMouseLeave={[Function]}
                           >
                             <button
-                              className="ant-btn css-dev-only-do-not-override-15rg2km ant-btn-text"
+                              className="ant-btn css-dev-only-do-not-override-12upa3x ant-btn-text"
                               disabled={false}
                               onClick={[Function]}
                               style={
@@ -451,11 +455,12 @@ exports[`<UserTechnique /> Users table component should be in the document 1`] =
                             </button>
                           </a>
                           <button
-                            className="ant-btn css-dev-only-do-not-override-15rg2km ant-btn-text"
+                            className="ant-btn css-dev-only-do-not-override-12upa3x ant-btn-text"
                             disabled={false}
                             onClick={[Function]}
                             onMouseEnter={[Function]}
                             onMouseLeave={[Function]}
+                            style={{}}
                             type="button"
                           >
                             <img
@@ -492,13 +497,15 @@ exports[`<UserTechnique /> Users table component should be in the document 1`] =
             className="next_table"
           >
             <button
-              className="ant-btn css-dev-only-do-not-override-15rg2km ant-btn-default ant-btn-icon-only pagination_buttons pagination_buttons-prev"
+              className="ant-btn css-dev-only-do-not-override-12upa3x ant-btn-default ant-btn-icon-only pagination_buttons pagination_buttons-prev"
               disabled={true}
               onClick={[Function]}
+              style={{}}
               type="button"
             >
               <span
                 className="ant-btn-icon"
+                style={{}}
               >
                 <img
                   alt="backIcons"
@@ -511,14 +518,16 @@ exports[`<UserTechnique /> Users table component should be in the document 1`] =
               </span>
             </button>
             <button
-              className="ant-btn css-dev-only-do-not-override-15rg2km ant-btn-default ant-btn-icon-only pagination_buttons pagination_buttons-next"
+              className="ant-btn css-dev-only-do-not-override-12upa3x ant-btn-default ant-btn-icon-only pagination_buttons pagination_buttons-next"
               disabled={true}
               onClick={[Function]}
               role="button"
+              style={{}}
               type="button"
             >
               <span
                 className="ant-btn-icon"
+                style={{}}
               >
                 <img
                   alt="nextIcons"
