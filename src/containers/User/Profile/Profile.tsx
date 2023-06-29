@@ -7,10 +7,10 @@ import FormField from 'components/FormField/FormField';
 import EditUserProfileModal from 'components/ModalComponent/ModalChildrenComponents/EditUserProfileModal/EditUserProfileModal';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import SkeletonBlock from 'components/SkeletonBlock/SkeletonBlock';
-import { appendDataFields } from 'helper';
 import { IMyData, IMyDataApi } from 'interfaces';
 import { accountsSelector, requestChangeProfile } from 'redux/accounts/accountsSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { appendDataFields } from 'utils/helper';
 import { fileSizeValidate, fileValidateImg } from 'utils/validate/validate';
 import 'containers/User/Profile/_profile.scss';
 

@@ -7,11 +7,11 @@ import Errors from 'components/Errors/Errors';
 import FormField from 'components/FormField/FormField';
 import CreateNewUserCredentials from 'components/ModalComponent/ModalChildrenComponents/CreateNewUserCredentials/CreateNewUserCredentials';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
-import { getErrorMessage, removeEmptyValuesFromObject } from 'helper';
 import { IUserAdd } from 'interfaces';
 import { accountsSelector } from 'redux/accounts/accountsSlice';
 import { companiesSelector, userCreate } from 'redux/companies/companiesSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { getErrorMessage, removeEmptyValuesFromObject } from 'utils/helper';
 
 import 'containers/Manager/Users/NewUser/_NewUser.scss';
 

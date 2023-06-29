@@ -1,4 +1,4 @@
-@use "assets/scss/_themes.scss";
+@use 'assets/scss/_themes.scss';
 @use 'assets/scss/_mixins.scss';
 
 .SignIn {
@@ -21,7 +21,7 @@
     margin: 0 auto;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: initial;
   }
 
   &__title {
@@ -36,41 +36,19 @@
     }
   }
 
-  &__buttons-col {
-    display: flex;
-    flex-direction: column;
-    padding: 4px 0;
-    align-items: flex-start;
-    margin-top: 20px;
-    > button {
-      color: themes.$primary-color;
-      padding: 4px 15px 4px 0;
-      &:hover {
-        color: themes.$disabled-color !important;
-      }
-      > a {
-        padding: 4px 15px 4px 0;
-        color: themes.$primary-color;
-        font-weight: bold;
-        &:hover {
-          color: themes.$disabled-color;
-        }
-      }
-    }
-  }
-
   &__buttons-row {
-    display: flex;
-    flex-direction: column;
-    padding: 4px 0;
-    align-items: flex-start;
-    margin-top: 20px;
+    position: absolute;
+    bottom: 53px;
+    width: 100%;
+    text-align: center;
 
     > button {
       width: 100%;
-      background-color: themes.$info-color;
+      color: themes.$primary-color;
+      background-color: themes.$light-gray-color;
       &:hover {
-        background-color: themes.$info-hover-color !important;
+        color: themes.$primary-color !important;
+        background-color: themes.$light-gray-color !important;
       }
     }
   }
@@ -80,6 +58,17 @@
     &:hover {
       color: themes.$disabled-color !important;
     }
+  }
+
+  &__title-text {
+    margin: 0 0 25px 0 !important;
+    font-size: 25px !important;
+  }
+
+  &__logo-image {
+    width: 100px;
+    display: flex;
+    margin: 15px auto 0 auto;
   }
 
   @include mixins.bp(desktop) {

@@ -11,7 +11,6 @@ import more from 'assets/images/icons/more.svg';
 import star from 'assets/images/icons/star.svg';
 import logo from 'assets/images/logo.png';
 import Spinner from 'components/Spinner/Spinner';
-import { buttonsData } from 'helper';
 import useWindowWidth from 'hooks/useWindowWidth';
 import {
   accountsSelector,
@@ -23,6 +22,7 @@ import { logoutUser } from 'redux/auth/authSlice';
 import { clearCompaniesPagination } from 'redux/companies/companiesSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { urlFormat } from 'utils/files/files';
+import { buttonsData, downloadApkFileHandler } from 'utils/helper';
 import { logoutLocalStorage } from 'utils/token';
 
 import 'components/SliderMenu/_sliderMenu.scss';
@@ -59,6 +59,7 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
   const { account, apk, apkLoading, fetchLoadingAccount } = useAppSelector(accountsSelector);
   const windowWidth = useWindowWidth();
   const [isCancelled, setIsCancelled] = useState(false);
+  const [isLoadingMap, setIsLoadingMap] = useState<{ [key: string]: boolean }>({});
   const cancelIconClassName =
     isCancelled || collapsed ? b('apk-block', { 'cancel-icon-active': true }) : b('apk-block');
   const isFieldClimate = location.pathname.includes('/field-climate');
@@ -70,6 +71,13 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
   useEffect(() => {
     dispatch(fetchApks({}));
   }, [dispatch]);
+
+  const handleDownloadClick = (file: string) => {
+    setIsLoadingMap((prevIsLoadingMap) => ({ ...prevIsLoadingMap, [file]: true }));
+    downloadApkFileHandler(file, () =>
+      setIsLoadingMap((prevIsLoadingMap) => ({ ...prevIsLoadingMap, [file]: false })),
+    );
+  };
 
   const menuItems: MenuItem[] = [
     getItem(
@@ -228,7 +236,13 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
             </div>
             <div className={b('apk-info')}>
               <p>Вышла новая версия приложения</p>
-              <Button type='default'>Скачать APK</Button>
+              <Button
+                type='default'
+                loading={isLoadingMap}
+                onClick={() => handleDownloadClick(apk?.[0]?.file)}
+              >
+                Скачать APK
+              </Button>
             </div>
           </div>
         )

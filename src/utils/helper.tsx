@@ -9,6 +9,7 @@ import notification from 'assets/images/icons/notification.svg';
 import users from 'assets/images/icons/users.svg';
 import { ErrorObject, updateManagerDataMutation } from 'interfaces';
 import { Locales, SensorDataEntry, stationInfo } from 'interfaces/IStation';
+import { apiUrlCrop } from 'utils/config';
 import { dateMomentTypeString } from 'utils/constants';
 
 const moment = require('moment');
@@ -309,3 +310,16 @@ export const buttonsData = [
     activeIcon: <img src={activePhone} alt='activePhone' />,
   },
 ];
+
+export const downloadApkFileHandler = (file: string, setIsLoadingCallback: () => void) => {
+  const link = document.createElement('a');
+  link.href = `${apiUrlCrop}${file}`;
+  link.setAttribute('download', '');
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+
+  setTimeout(() => {
+    setIsLoadingCallback();
+  }, 1000);
+};

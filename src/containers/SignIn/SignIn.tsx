@@ -1,4 +1,4 @@
-import { Button, Col, Form, message, Row, Typography } from 'antd';
+import { Button, Col, Divider, Form, message, Row, Typography } from 'antd';
 import { CheckboxChangeEvent } from 'antd/es/checkbox';
 import bem from 'easy-bem';
 import React, { useEffect, useState } from 'react';
@@ -16,7 +16,7 @@ import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { userLocalStorage } from 'utils/token';
 import 'containers/SignIn/_signIn.scss';
 
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 const SignIn: React.FC = () => {
   const b = bem('SignIn');
@@ -75,14 +75,16 @@ const SignIn: React.FC = () => {
         </Col>
         <Col
           className={b('main-colum-styles')}
-          xs={{ span: 13, offset: 5 }}
+          xs={{ span: 16, offset: 5 }}
           md={{ span: 13, offset: 5 }}
           lg={{ span: 7, offset: 1 }}
         >
           <div className={b('block_form')}>
-            <img src={logo} alt='logo' />
-            <Title data-testid='sign_in_test' className={b('title')}>
-              Вход в аккаунт
+            <img src={logo} alt='logo' className={b('logo-image')} />
+            <Divider style={{ margin: '34px 0' }} />
+            <Text type='secondary'>Рады вас видеть</Text>
+            <Title data-testid='sign_in_test' className={b('title-text')}>
+              Войдите в аккаунт
             </Title>
 
             <Form
@@ -92,6 +94,7 @@ const SignIn: React.FC = () => {
               className='login-form'
               autoComplete='off'
               layout='vertical'
+              size='large'
             >
               <FormField
                 bordered
@@ -132,12 +135,12 @@ const SignIn: React.FC = () => {
                 style={{ width: '100%', borderRadius: 4 }}
                 className={b('login-form-button')}
               >
-                Продолжить
+                Войти
               </Button>
             </Form>
             <Row className={b('buttons-row')}>
-              <p>Хотите стать клиентом?</p>
-              <Button type='primary' onClick={showModal}>
+              <p style={{ margin: '17px auto' }}>Хотите стать клиентом?</p>
+              <Button size='large' type='primary' onClick={showModal}>
                 Зарегистрироваться
               </Button>
             </Row>
