@@ -237,12 +237,6 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
           className="ant-btn css-dev-only-do-not-override-15rg2km ant-btn-primary ant-btn-lg SignIn__login-form-button"
           disabled={false}
           onClick={[Function]}
-          style={
-            {
-              "borderRadius": 4,
-              "width": "100%",
-            }
-          }
           type="submit"
         >
           <span>
