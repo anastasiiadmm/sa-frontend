@@ -475,9 +475,9 @@ const UserRequests = () => {
   return (
     <>
       <div className={b()} data-testid='requests-id'>
-        {windowWidth <= 600 ? (
+        {windowWidth <= 990 ? (
           fetchRequestsLoading ? (
-            <Spin />
+            <Spin className='spin' />
           ) : requests?.length === 0 ? (
             <img src={notFoundImages} alt='notFoundImages' />
           ) : (
