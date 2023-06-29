@@ -176,7 +176,7 @@ const Users: React.FC = () => {
       </div>
       {windowWidth <= 990 ? (
         fetchCompaniesLoading ? (
-          <Spin />
+          <Spin className='spin' />
         ) : companies?.length === 0 ? (
           <img src={notFoundImages} alt='notFoundImages' />
         ) : (

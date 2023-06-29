@@ -142,6 +142,15 @@ ${resultsTechnique?.data.operator.middle_name}`;
         <div className={b('form-block')}>
           <FormField
             readOnly
+            data-testid='requestor_id'
+            id='requestor_id'
+            inputClassName={b('username-info')}
+            label='Источник запроса'
+            name={['requestor', 'name']}
+            placeholder='Источник запроса'
+          />
+          <FormField
+            readOnly
             data-testid='fullName_id'
             id='fullName_id'
             inputClassName={b('username-info')}

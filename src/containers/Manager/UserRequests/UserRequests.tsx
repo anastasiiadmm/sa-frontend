@@ -53,6 +53,7 @@ import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { dateMomentTypeDash } from 'utils/constants';
 import {
   appendDataFieldsAndDeleteEmptyKeys,
+  deleteEmptyQueryStrings,
   getPageNumber,
   getPageNumberPrevious,
 } from 'utils/helper';
@@ -114,11 +115,13 @@ const UserRequests = () => {
   const [orderSort, setOrderSort] = useState({ ordering: '' });
 
   useEffect(() => {
+    const queryObj = {
+      page: filters?.page,
+      ordering: orderSort?.ordering,
+    };
+    const validateQuery = deleteEmptyQueryStrings(queryObj);
     const data = {
-      query: {
-        page: filters?.page,
-        ordering: orderSort?.ordering,
-      },
+      query: validateQuery,
     };
     dispatch(fetchRequests({ data }));
   }, [dispatch, filters, orderSort]);
@@ -216,7 +219,7 @@ const UserRequests = () => {
     setIsModalFieldClimateRequestOpen(!isModalFieldClimateRequestOpen);
   };
 
-  const sendApprovedHandler = async () => {
+  const sendApprovedHandler = async (): Promise<void> => {
     try {
       const data = {
         id,
@@ -225,7 +228,7 @@ const UserRequests = () => {
         },
       };
       await dispatch(approveRequest(data)).unwrap();
-      await setIsModalFieldClimateRequestOpen(false);
+      setIsModalFieldClimateRequestOpen(false);
 
       const dataRequests = {
         query: {
@@ -236,7 +239,7 @@ const UserRequests = () => {
       await dispatch(fetchRequests({ data: dataRequests }));
     } catch (e) {
       message.error('Не удалось принять запрос');
-      await setIsModalFieldClimateRequestOpen(false);
+      setIsModalFieldClimateRequestOpen(false);
     }
   };
 
@@ -330,9 +333,9 @@ const UserRequests = () => {
       };
 
       await dispatch(fetchRequests({ data: dataRequests }));
-      await setIsModalUserInfoRejectOpen(false);
+      setIsModalUserInfoRejectOpen(false);
     } catch (e) {
-      await setIsModalUserInfoRejectOpen(false);
+      setIsModalUserInfoRejectOpen(false);
       await message.error('Произошла ошибка.');
     }
   };
@@ -472,9 +475,9 @@ const UserRequests = () => {
   return (
     <>
       <div className={b()} data-testid='requests-id'>
-        {windowWidth <= 600 ? (
+        {windowWidth <= 990 ? (
           fetchRequestsLoading ? (
-            <Spin />
+            <Spin className='spin' />
           ) : requests?.length === 0 ? (
             <img src={notFoundImages} alt='notFoundImages' />
           ) : (

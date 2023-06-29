@@ -97,7 +97,7 @@ const Technique = () => {
     try {
       await dispatch(approveFieldClimateRequest({ category: 4, object_id: account?.company?.id }));
       await dispatch(fetchAccount());
-      await setIsModalFieldClimateOpen(false);
+      setIsModalFieldClimateOpen(false);
     } catch (e) {
       await message.error('Не удалось отправить запрос');
     }

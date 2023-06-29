@@ -5,8 +5,6 @@ export interface IApk {
   created_at: string;
 }
 
-export interface UploadApk extends Omit<IApk, 'file'> {}
-
 export interface apksPagination {
   count: number;
   next: string | null;

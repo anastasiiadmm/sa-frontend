@@ -19,7 +19,12 @@ import useWindowWidth from 'hooks/useWindowWidth';
 import { IApk } from 'interfaces';
 import { accountsSelector, fetchApks } from 'redux/accounts/accountsSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { downloadApkFileHandler, getPageNumber, getPageNumberPrevious } from 'utils/helper';
+import {
+  deleteEmptyQueryStrings,
+  downloadApkFileHandler,
+  getPageNumber,
+  getPageNumberPrevious,
+} from 'utils/helper';
 import 'containers/Manager/ApksList/_apksList.scss';
 
 const { Title, Text } = Typography;
@@ -36,22 +41,48 @@ const ApksList = () => {
   });
   const [orderSort, setOrderSort] = useState({ ordering: '' });
   const [isLoadingMap, setIsLoadingMap] = useState<{ [key: string]: boolean }>({});
+  const [statusMap, setStatusMap] = useState<{ [key: string]: string }>({});
 
   useEffect(() => {
+    const newStatusMap: { [key: string]: string } = {};
+
+    if (apk && apk?.length > 0) {
+      const sortedApk = [...apk].sort((a, b) => String(a.version).localeCompare(String(b.version)));
+
+      for (let i = 0; i < sortedApk.length; i++) {
+        const version = sortedApk[i].version;
+        if (i === sortedApk.length - 1) {
+          newStatusMap[version] = 'Актуальное';
+        } else if (i === sortedApk.length - 2) {
+          newStatusMap[version] = 'Стабильное';
+        } else {
+          newStatusMap[version] = 'Архив';
+        }
+      }
+    }
+
+    setStatusMap((prevStatusMap: { [key: string]: string }) => {
+      const updatedStatusMap = { ...prevStatusMap };
+      Object.keys(updatedStatusMap).forEach((version) => {
+        if (!Object.prototype.hasOwnProperty.call(newStatusMap, version)) {
+          delete updatedStatusMap[version];
+        }
+      });
+      return { ...updatedStatusMap, ...newStatusMap };
+    });
+  }, [apk]);
+
+  useEffect(() => {
+    const queryObj = {
+      page: filters?.page,
+      ordering: orderSort?.ordering,
+    };
+    const validateQuery = deleteEmptyQueryStrings(queryObj);
     const data = {
-      query: {
-        page: filters?.page,
-        ordering: orderSort?.ordering,
-      },
+      query: validateQuery,
     };
     dispatch(fetchApks({ data }));
   }, [dispatch, filters, orderSort?.ordering]);
-
-  const highestVersion =
-    apk &&
-    apk?.reduce((highest: string | number, obj: IApk) => {
-      return obj.version > highest ? obj.version : highest;
-    }, '0.0.0');
 
   const pagePrevHandler = () => {
     setFilters({
@@ -73,11 +104,7 @@ const ApksList = () => {
     sorter: SorterResult<string> | SorterResult<string>[],
   ) => {
     const order = Array.isArray(sorter) ? sorter[0]?.order : sorter?.order;
-    const filteredOrderSort = Object.fromEntries(
-      Object.entries(orderSort).filter(([key]) => key !== undefined),
-    );
     setOrderSort({
-      ...filteredOrderSort,
       ordering: order === 'descend' ? '-id' : 'id',
     });
   };
@@ -96,28 +123,25 @@ const ApksList = () => {
       dataIndex: 'version',
       fixed: 'left',
       width: 170,
-      render: (text, record, index) => {
-        const previousVersion = apk && index > 0 ? apk[index - 1]?.version ?? '0.0.1' : '0.0.1';
-
-        if (text > previousVersion) {
-          return (
-            <Tag color='green' style={{ width: 115 }}>
-              <Badge color='#689F3A' /> Актуальное
-            </Tag>
-          );
-        }
-
-        if (highestVersion !== null && text < highestVersion) {
-          return (
-            <Tag color='geekblue' style={{ width: 115 }}>
-              <Badge color='#3A629F' /> Стабильное
-            </Tag>
-          );
-        }
-
+      render: (text) => {
+        const status = statusMap[text];
         return (
-          <Tag color='orange' style={{ width: 115 }}>
-            <Badge color='#FAC473' /> Архив
+          <Tag
+            color={
+              status === 'Актуальное' ? 'green' : status === 'Стабильное' ? 'geekblue' : 'orange'
+            }
+            style={{ width: 115 }}
+          >
+            <Badge
+              color={
+                status === 'Актуальное'
+                  ? '#689F3A'
+                  : status === 'Стабильное'
+                  ? '#3A629F'
+                  : '#FAC473'
+              }
+            />{' '}
+            {status}
           </Tag>
         );
       },
@@ -179,22 +203,21 @@ const ApksList = () => {
           <Spin className='spin' />
         ) : (
           <div className={b('apks-list-block')}>
-            {apk?.map((apk: IApk, index: number, apkArray: IApk[]) => {
-              const previousVersion =
-                apk && index > 0 ? apkArray[index - 1]?.version ?? '0.0.1' : '0.0.1';
+            {apk?.map((apk: IApk) => {
+              const status = statusMap[apk?.version];
 
               let tagColor: string;
               let badgeColor: string;
               let tagLabel: string;
 
-              switch (true) {
-                case apk?.version > previousVersion:
+              switch (status) {
+                case 'Актуальное':
                   tagColor = 'green';
                   badgeColor = '#689F3A';
                   tagLabel = 'Актуальное';
                   break;
 
-                case highestVersion !== null && apk?.version < highestVersion.toString():
+                case 'Стабильное':
                   tagColor = 'geekblue';
                   badgeColor = '#3A629F';
                   tagLabel = 'Стабильное';

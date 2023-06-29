@@ -1,4 +1,5 @@
 @use 'assets/scss/_themes.scss';
+@use 'assets/scss/_mixins.scss';
 
 .UserRequests {
 
@@ -42,5 +43,10 @@
   &__request-info {
     display: flex;
     flex-direction: column;
+  }
+
+  @include mixins.bp(desktop) {
+    display: flex;
+    flex-wrap: wrap;
   }
 }

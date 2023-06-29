@@ -109,6 +109,7 @@ const SignIn: React.FC = () => {
                   },
                 ]}
                 placeholder='Логин'
+                inputClassName={b('sign-in-input')}
               />
 
               <FormField
@@ -117,6 +118,7 @@ const SignIn: React.FC = () => {
                 type='password'
                 name='password'
                 placeholder='Пароль'
+                inputClassName={b('sign-in-input')}
               />
 
               <FormField
@@ -132,7 +134,6 @@ const SignIn: React.FC = () => {
                 type='primary'
                 htmlType='submit'
                 loading={!!loading}
-                style={{ width: '100%', borderRadius: 4 }}
                 className={b('login-form-button')}
               >
                 Войти

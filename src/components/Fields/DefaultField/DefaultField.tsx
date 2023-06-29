@@ -28,7 +28,13 @@ const DefaultField: React.FC<Props> = ({
   onChange,
 }) => {
   return (
-    <Form.Item label={label} name={name} rules={rules} className={className}>
+    <Form.Item
+      wrapperCol={{ span: 8 }}
+      label={label}
+      name={name}
+      rules={rules}
+      className={className}
+    >
       <Input
         name={name}
         readOnly={readOnly}
