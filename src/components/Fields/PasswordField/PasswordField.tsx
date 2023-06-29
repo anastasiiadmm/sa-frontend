@@ -101,6 +101,7 @@ const PasswordField: React.FC<Props> = ({
       ]}
     >
       <Input.Password
+        data-testid='works'
         readOnly={readOnly}
         bordered={bordered}
         placeholder={placeholder}

@@ -120,6 +120,7 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
                       aria-required="true"
                       autoComplete="on"
                       className="ant-input css-dev-only-do-not-override-1wazalj"
+                      data-testid="works"
                       disabled={false}
                       hidden={null}
                       id="password"

@@ -32,13 +32,20 @@ const PhoneField: React.FC<Props> = ({
   rules,
 }) => {
   return (
-    <Form.Item name={name} label={label} className={className} rules={rules}>
+    <Form.Item
+      data-testid='phone-field'
+      name={name}
+      label={label}
+      className={className}
+      rules={rules}
+    >
       <InputMask
         name={name}
         onChange={onChange}
         readOnly={readOnly}
         mask='+7 (999) 999-99-99'
         autoComplete='off'
+        data-testid='phone-field-input'
       >
         <Input className={inputClassName} bordered={bordered} placeholder={placeholder} />
       </InputMask>
