@@ -140,7 +140,7 @@ exports[`<ProfileTechnique /> Users table component should be in the document 1`
                   </label>
                 </div>
                 <div
-                  className="ant-col ant-form-item-control css-dev-only-do-not-override-15rg2km"
+                  className="ant-col ant-col-8 ant-form-item-control css-dev-only-do-not-override-15rg2km"
                   style={{}}
                 >
                   <div
@@ -189,7 +189,7 @@ exports[`<ProfileTechnique /> Users table component should be in the document 1`
                   </label>
                 </div>
                 <div
-                  className="ant-col ant-form-item-control css-dev-only-do-not-override-15rg2km"
+                  className="ant-col ant-col-8 ant-form-item-control css-dev-only-do-not-override-15rg2km"
                   style={{}}
                 >
                   <div
@@ -238,7 +238,7 @@ exports[`<ProfileTechnique /> Users table component should be in the document 1`
                   </label>
                 </div>
                 <div
-                  className="ant-col ant-form-item-control css-dev-only-do-not-override-15rg2km"
+                  className="ant-col ant-col-8 ant-form-item-control css-dev-only-do-not-override-15rg2km"
                   style={{}}
                 >
                   <div
@@ -301,7 +301,7 @@ exports[`<ProfileTechnique /> Users table component should be in the document 1`
                   </label>
                 </div>
                 <div
-                  className="ant-col ant-form-item-control css-dev-only-do-not-override-15rg2km"
+                  className="ant-col ant-col-8 ant-form-item-control css-dev-only-do-not-override-15rg2km"
                   style={{}}
                 >
                   <div
@@ -355,7 +355,7 @@ exports[`<ProfileTechnique /> Users table component should be in the document 1`
                   </label>
                 </div>
                 <div
-                  className="ant-col ant-form-item-control css-dev-only-do-not-override-15rg2km"
+                  className="ant-col ant-col-8 ant-form-item-control css-dev-only-do-not-override-15rg2km"
                   style={{}}
                 >
                   <div
@@ -409,7 +409,7 @@ exports[`<ProfileTechnique /> Users table component should be in the document 1`
                   </label>
                 </div>
                 <div
-                  className="ant-col ant-form-item-control css-dev-only-do-not-override-15rg2km"
+                  className="ant-col ant-col-8 ant-form-item-control css-dev-only-do-not-override-15rg2km"
                   style={{}}
                 >
                   <div
