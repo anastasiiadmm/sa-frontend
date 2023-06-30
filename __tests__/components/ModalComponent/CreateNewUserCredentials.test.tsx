@@ -1,5 +1,6 @@
 import { render, fireEvent, waitFor, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import '../../../__mocks__/matchMedia.mock';
 import CreateNewUserCredentials
     from "../../../src/components/ModalComponent/ModalChildrenComponents/CreateNewUserCredentials/CreateNewUserCredentials";
 
@@ -7,21 +8,6 @@ import CreateNewUserCredentials
 describe('CreateNewUserCredentials', () => {
     let handleOkCancel:any;
 
-    beforeAll(() => {
-        Object.defineProperty(window, "matchMedia", {
-            writable: true,
-            value: jest.fn().mockImplementation(query => ({
-                matches: false,
-                media: query,
-                onchange: null,
-                addListener: jest.fn(),
-                removeListener: jest.fn(),
-                addEventListener: jest.fn(),
-                removeEventListener: jest.fn(),
-                dispatchEvent: jest.fn(),
-            }))
-        });
-    });
     beforeEach(() => {
         handleOkCancel = jest.fn();
     });

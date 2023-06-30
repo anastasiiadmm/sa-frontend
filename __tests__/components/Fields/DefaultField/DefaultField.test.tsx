@@ -1,26 +1,10 @@
 import React from 'react';
 import "@testing-library/jest-dom";
-
+import '../../../../__mocks__/matchMedia.mock';
 import { render, fireEvent, screen } from '@testing-library/react';
 import DefaultField from "../../../../src/components/Fields/DefaultField/DefaultField";
 
 describe('DefaultField', () => {
-    beforeAll(() => {
-        Object.defineProperty(window, "matchMedia", {
-            writable: true,
-            value: jest.fn().mockImplementation(query => ({
-                matches: false,
-                media: query,
-                onchange: null,
-                addListener: jest.fn(),
-                removeListener: jest.fn(),
-                addEventListener: jest.fn(),
-                removeEventListener: jest.fn(),
-                dispatchEvent: jest.fn(),
-            }))
-        });
-    });
-
     test('displays label correctly', () => {
         const label = 'Test Label';
         render(<DefaultField label={label} />);

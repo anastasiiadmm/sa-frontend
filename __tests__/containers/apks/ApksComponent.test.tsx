@@ -2,6 +2,7 @@ import { BrowserRouter } from "react-router-dom";
 import { screen, render, waitFor, cleanup } from "@testing-library/react";
 import "../../../__mocks__/matchMedia.mock";
 import "@testing-library/jest-dom";
+import { act } from "react-dom/test-utils";
 import { mockedDispatch, mockedUseSelectors } from "../../../__mocks__/utils";
 import ApksList from "../../../src/containers/Manager/ApksList/ApksList";
 
@@ -13,11 +14,13 @@ describe("<ApksList />", () => {
     const dispatch = jest.fn();
     mockedDispatch.mockReturnValue(dispatch);
 
-    render(
-      <BrowserRouter>
-        <ApksList />
-      </BrowserRouter>
-    );
+    await act(async () => {
+      render(
+        <BrowserRouter>
+          <ApksList />
+        </BrowserRouter>
+      );
+    });
 
     const ApksListComponent = screen.getByTestId("apks-id");
 

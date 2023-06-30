@@ -1,27 +1,12 @@
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import '../../../__mocks__/matchMedia.mock';
 import DeleteUserModal
     from "../../../src/components/ModalComponent/ModalChildrenComponents/DeleteUserModal/DeleteUserModal";
 
 describe('DeleteUserModal', () => {
     let handleDeleteCancel: jest.Mock;
     let deleteUserHandler: jest.Mock;
-
-    beforeAll(() => {
-        Object.defineProperty(window, "matchMedia", {
-            writable: true,
-            value: jest.fn().mockImplementation(query => ({
-                matches: false,
-                media: query,
-                onchange: null,
-                addListener: jest.fn(),
-                removeListener: jest.fn(),
-                addEventListener: jest.fn(),
-                removeEventListener: jest.fn(),
-                dispatchEvent: jest.fn(),
-            }))
-        });
-    });
 
     beforeEach(() => {
         handleDeleteCancel = jest.fn();

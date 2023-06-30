@@ -1,25 +1,11 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
+import '../../../__mocks__/matchMedia.mock';
 import '@testing-library/jest-dom';
 import GeneratedPasswordModal
     from "../../../src/components/ModalComponent/ModalChildrenComponents/GeneratedPasswordModal/GeneratedPasswordModal";
 
 describe('<GeneratedPasswordModal />', () => {
-    beforeAll(() => {
-        Object.defineProperty(window, "matchMedia", {
-            writable: true,
-            value: jest.fn().mockImplementation(query => ({
-                matches: false,
-                media: query,
-                onchange: null,
-                addListener: jest.fn(),
-                removeListener: jest.fn(),
-                addEventListener: jest.fn(),
-                removeEventListener: jest.fn(),
-                dispatchEvent: jest.fn(),
-            }))
-        });
-    });
     it('renders the subtitle and password', () => {
         const subtitle = 'Test Subtitle';
         const password = 'TestPassword';

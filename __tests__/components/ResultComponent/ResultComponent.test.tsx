@@ -1,24 +1,10 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import React from 'react';
+import '../../../__mocks__/matchMedia.mock';
 import ResultComponent from "../../../src/components/ResultComponent/ResultComponent";
 
 describe('ResultComponent', () => {
-    beforeAll(() => {
-        Object.defineProperty(window, "matchMedia", {
-            writable: true,
-            value: jest.fn().mockImplementation(query => ({
-                matches: false,
-                media: query,
-                onchange: null,
-                addListener: jest.fn(),
-                removeListener: jest.fn(),
-                addEventListener: jest.fn(),
-                removeEventListener: jest.fn(),
-                dispatchEvent: jest.fn(),
-            }))
-        });
-    });
     it('renders with an icon if provided', () => {
         const icon = <i data-testid="icon" className="fas fa-check"></i>;
         render(<ResultComponent status="success" icon={icon} />);

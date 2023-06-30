@@ -1,4 +1,4 @@
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter } from "react-router-dom";
 import renderer, { act } from "react-test-renderer";
 import { screen, render, waitFor, fireEvent } from "@testing-library/react";
 import '../../../__mocks__/matchMedia.mock';
@@ -12,6 +12,13 @@ import ModalPasswordReset
   from "../../../src/components/ModalComponent/ModalChildrenComponents/ModalPasswordReset/ModalPasswordReset";
 import RequestRegisterModal
   from "../../../src/components/ModalComponent/ModalChildrenComponents/RequestRegisterModal/RequestRegisterModal";
+
+jest.mock('antd', () => ({
+  ...jest.requireActual('antd'),
+  message: {
+    error: jest.fn(),
+  },
+}));
 
 describe('<SignIn />', () => {
   test('Render component toMatchSnapshot()', () => {
@@ -140,4 +147,33 @@ describe('<SignIn />', () => {
       })
     });
   });
+
+  test('Should show success message for successful login', async () => {
+    mockedUseSelectors.mockReturnValue([]);
+
+    const dispatch = jest.fn();
+    mockedDispatch.mockReturnValue(dispatch);
+
+    render(
+      <BrowserRouter>
+        <SignIn />
+      </BrowserRouter>,
+    );
+
+    expect(screen.getByTestId('sign-in')).toBeInTheDocument();
+    const emailInput = screen.getByPlaceholderText('Логин');
+    const passwordInput = screen.getByPlaceholderText('Пароль');
+    const button = await screen.findByRole('button', { name: 'Войти' });
+    await act(async () => {
+      fireEvent.change(emailInput, { target: { value: 'manager' } });
+      fireEvent.change(passwordInput, { target: { value: 'reto4321' } });
+      fireEvent.click(button);
+    });
+
+    await waitFor(() => {
+      expect(window.location.pathname).toBe('/');
+    });
+  });
+
+
 });
