@@ -177,7 +177,6 @@ const ProfileTechnique = () => {
       />
     );
   }
-
   return (
     <div className={b()} data-testid='profile-technique-id'>
       <div className={b('table')}>

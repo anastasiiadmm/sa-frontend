@@ -3,21 +3,21 @@ import { render } from '@testing-library/react';
 import ChartComponent from "../../../src/components/ChartComponent/ChartComponent";
 
 describe('ChartComponent', () => {
-    const mockData:any = [
+    const mockData = [
         { series: [{ data: [1, 2, 3] }] },
         { series: [{ data: [4, 5, 6] }] },
         { series: [] },
         null,
     ];
 
-    const nullData:any = [
+    const nullData = [
         null,
         null,
         null,
         null,
     ];
 
-    const undefinedData:any = [
+    const undefinedData = [
         undefined,
         undefined,
         undefined,

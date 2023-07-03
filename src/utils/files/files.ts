@@ -10,8 +10,7 @@ export function getFilenameFromPath(path: string | null) {
 
 export const urlFormat = (url: string | undefined) => {
   if (url) {
-    const format = url.replace('http://sa-backend/', '');
-    return `${apiUrlCrop}${format}`;
+    return `${apiUrlCrop}${url}`;
   }
 
   return '';

@@ -6,7 +6,7 @@ import CreateNewUserCredentials
 
 
 describe('CreateNewUserCredentials', () => {
-    let handleOkCancel:any;
+    let handleOkCancel;
 
     beforeEach(() => {
         handleOkCancel = jest.fn();
@@ -22,8 +22,8 @@ describe('CreateNewUserCredentials', () => {
                 }}
             />
         );
-        const username:any = screen.queryByPlaceholderText('Логин');
-        const password:any = screen.queryByPlaceholderText('Пароль');
+        const username = screen.queryByPlaceholderText('Логин') as HTMLInputElement;
+        const password = screen.queryByPlaceholderText('Пароль') as HTMLInputElement;
         expect(username.value).toBe('testuser');
         expect(password.value).toBe('testpassword');
     });

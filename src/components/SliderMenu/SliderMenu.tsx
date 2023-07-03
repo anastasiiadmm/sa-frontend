@@ -23,7 +23,7 @@ import { clearCompaniesPagination } from 'redux/companies/companiesSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { urlFormat } from 'utils/files/files';
 import { buttonsData, downloadApkFileHandler } from 'utils/helper';
-import { logoutLocalStorage } from 'utils/token';
+import { logoutLocalStorage } from 'utils/addLocalStorage/addLocalStorage';
 
 import 'components/SliderMenu/_sliderMenu.scss';
 

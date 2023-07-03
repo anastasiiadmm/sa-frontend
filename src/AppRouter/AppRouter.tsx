@@ -61,25 +61,25 @@ const AppRouter: React.FC = () => {
   const { pathname } = useLocation();
   const windowWidth = useWindowWidth();
 
+  const renderSlider =
+    windowWidth <= 990
+      ? buttonsData.map(
+          (button) =>
+            pathname === button.key && (
+              <Title level={3} key={button?.key} className={b('title-mobile')}>
+                {button?.text}
+              </Title>
+            ),
+        )
+      : React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
+          className: 'trigger',
+          onClick: () => setCollapsed(!collapsed),
+        });
   return (
     <Layout style={{ height: '100vh' }} className={b('')}>
       <SliderMenu collapsed={collapsed} />
       <Layout className='site-layout'>
-        <Header style={{ padding: 0, background: colorBgContainer }}>
-          {windowWidth <= 990
-            ? buttonsData.map(
-                (button) =>
-                  pathname === button.key && (
-                    <Title level={3} key={button?.key} className={b('title-mobile')}>
-                      {button?.text}
-                    </Title>
-                  ),
-              )
-            : React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
-                className: 'trigger',
-                onClick: () => setCollapsed(!collapsed),
-              })}
-        </Header>
+        <Header style={{ padding: 0, background: colorBgContainer }}>{renderSlider}</Header>
         <Content
           style={{
             margin:
