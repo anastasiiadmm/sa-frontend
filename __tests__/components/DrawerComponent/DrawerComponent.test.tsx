@@ -1,28 +1,15 @@
 import React from 'react';
-import { render, fireEvent, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
+import '../../../__mocks__/matchMedia.mock';
 import DrawerComponent from "../../../src/components/DrawerComponent/DrawerComponent";
+import { act } from "react-dom/test-utils";
 
 describe('DrawerComponent', () => {
     let onCloseMock = jest.fn();
 
-    beforeAll(() => {
-        Object.defineProperty(window, "matchMedia", {
-            writable: true,
-            value: jest.fn().mockImplementation(query => ({
-                matches: false,
-                media: query,
-                onchange: null,
-                addListener: jest.fn(),
-                removeListener: jest.fn(),
-                addEventListener: jest.fn(),
-                removeEventListener: jest.fn(),
-                dispatchEvent: jest.fn(),
-            }))
-        });
-    });
     beforeEach(() => {
         onCloseMock = jest.fn();
         render(
@@ -47,9 +34,11 @@ describe('DrawerComponent', () => {
         expect(screen.getByPlaceholderText('Отчество')).toBeInTheDocument();
     });
 
-    it('should redirect to the correct route when the button is clicked', () => {
+    it('should redirect to the correct route when the button is clicked', async () => {
         const viewButton = screen.getByText('Посмотреть полностью');
-        userEvent.click(viewButton);
-        expect(window.location.pathname).toBe('/technique-map');
+        await act(async () => {
+            userEvent.click(viewButton);
+            expect(window.location.pathname).toBe('/technique-map');
+        });
     });
 });

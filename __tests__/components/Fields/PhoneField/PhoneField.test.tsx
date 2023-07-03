@@ -1,25 +1,10 @@
 import React from 'react';
 import "@testing-library/jest-dom";
-
+import '../../../../__mocks__/matchMedia.mock';
 import {render, fireEvent, screen} from '@testing-library/react';
 import PhoneField from "../../../../src/components/Fields/PhoneField/PhoneField";
 
 describe('PhoneField', () => {
-    beforeAll(() => {
-        Object.defineProperty(window, "matchMedia", {
-            writable: true,
-            value: jest.fn().mockImplementation(query => ({
-                matches: false,
-                media: query,
-                onchange: null,
-                addListener: jest.fn(),
-                removeListener: jest.fn(),
-                addEventListener: jest.fn(),
-                removeEventListener: jest.fn(),
-                dispatchEvent: jest.fn(),
-            }))
-        });
-    });
     it('renders without crashing', () => {
         const { getByTestId } = render(<PhoneField />);
         expect(getByTestId('phone-field')).toBeInTheDocument();
