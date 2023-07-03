@@ -13,13 +13,6 @@ import ModalPasswordReset
 import RequestRegisterModal
   from "../../../src/components/ModalComponent/ModalChildrenComponents/RequestRegisterModal/RequestRegisterModal";
 
-jest.mock('antd', () => ({
-  ...jest.requireActual('antd'),
-  message: {
-    error: jest.fn(),
-  },
-}));
-
 describe('<SignIn />', () => {
   test('Render component toMatchSnapshot()', () => {
     mockedUseSelectors.mockReturnValue([]);
@@ -148,7 +141,7 @@ describe('<SignIn />', () => {
     });
   });
 
-  test('Should show success message for successful login', async () => {
+  test('Should show success message for successful login and redirect to /', async () => {
     mockedUseSelectors.mockReturnValue([]);
 
     const dispatch = jest.fn();
@@ -174,6 +167,5 @@ describe('<SignIn />', () => {
       expect(window.location.pathname).toBe('/');
     });
   });
-
 
 });
