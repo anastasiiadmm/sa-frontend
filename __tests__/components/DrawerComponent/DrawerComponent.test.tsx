@@ -47,7 +47,7 @@ describe('DrawerComponent', () => {
         expect(screen.getByPlaceholderText('Отчество')).toBeInTheDocument();
     });
 
-    it('should redirect to the correct route when the button is clicked', () => {
+    it('should redirect to the correct route when the button is clicked', async () => {
         const viewButton = screen.getByText('Посмотреть полностью');
         userEvent.click(viewButton);
         expect(window.location.pathname).toBe(`/profile-technique/${vehicleData?.id}`);

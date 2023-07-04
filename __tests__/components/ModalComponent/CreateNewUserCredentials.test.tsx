@@ -1,27 +1,13 @@
 import { render, fireEvent, waitFor, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import '../../../__mocks__/matchMedia.mock';
 import CreateNewUserCredentials
     from "../../../src/components/ModalComponent/ModalChildrenComponents/CreateNewUserCredentials/CreateNewUserCredentials";
 
 
 describe('CreateNewUserCredentials', () => {
-    let handleOkCancel:any;
+    let handleOkCancel;
 
-    beforeAll(() => {
-        Object.defineProperty(window, "matchMedia", {
-            writable: true,
-            value: jest.fn().mockImplementation(query => ({
-                matches: false,
-                media: query,
-                onchange: null,
-                addListener: jest.fn(),
-                removeListener: jest.fn(),
-                addEventListener: jest.fn(),
-                removeEventListener: jest.fn(),
-                dispatchEvent: jest.fn(),
-            }))
-        });
-    });
     beforeEach(() => {
         handleOkCancel = jest.fn();
     });
@@ -36,8 +22,8 @@ describe('CreateNewUserCredentials', () => {
                 }}
             />
         );
-        const username:any = screen.queryByPlaceholderText('Логин');
-        const password:any = screen.queryByPlaceholderText('Пароль');
+        const username = screen.queryByPlaceholderText('Логин') as HTMLInputElement;
+        const password = screen.queryByPlaceholderText('Пароль') as HTMLInputElement;
         expect(username.value).toBe('testuser');
         expect(password.value).toBe('testpassword');
     });

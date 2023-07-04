@@ -9,10 +9,7 @@ import { CircleMarker, MapContainer, Marker, Polyline, Popup, TileLayer } from '
 import { useNavigate, useParams } from 'react-router';
 
 import arrowLeft from 'assets/images/icons/arrow-left.svg';
-import endB from 'assets/images/icons/endB.svg';
 import locale from 'assets/images/icons/locale.svg';
-import map from 'assets/images/icons/map.svg';
-import startA from 'assets/images/icons/startA.svg';
 import tractorBlue from 'assets/images/icons/tractor-blue.svg';
 import Errors from 'components/Errors/Errors';
 import { accountsSelector, fetchConfigs, fetchVehicleInfo } from 'redux/accounts/accountsSlice';
@@ -20,6 +17,7 @@ import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { mapSelector, obtainingCoordinate } from 'redux/map/mapSlice';
 import { socketApiSocket } from 'utils/config';
 import 'components/OpenMapComponent/_openMapComponent.scss';
+import { duckIcon, duckIconEnd, duckIconStart } from 'utils/constantMap';
 
 const { Title } = Typography;
 
@@ -177,33 +175,6 @@ const OpenMapComponent = () => {
     }
   }, [loadingMapUpdate]);
 
-  const duckIcon = new L.Icon({
-    iconUrl: map,
-    iconRetinaUrl: map,
-    iconAnchor: new L.Point(14, 14),
-    popupAnchor: new L.Point(14, 0),
-    iconSize: new L.Point(28, 30),
-    className: 'leaflet-div-icon',
-  });
-
-  const duckIconStart = new L.Icon({
-    iconUrl: startA,
-    iconRetinaUrl: startA,
-    iconAnchor: new L.Point(14, 14),
-    popupAnchor: new L.Point(14, 0),
-    iconSize: new L.Point(30, 30),
-    className: 'leaflet-div-icon',
-  });
-
-  const duckIconEnd = new L.Icon({
-    iconUrl: endB,
-    iconRetinaUrl: endB,
-    iconAnchor: new L.Point(14, 14),
-    popupAnchor: new L.Point(14, 0),
-    iconSize: new L.Point(30, 30),
-    className: 'leaflet-div-icon',
-  });
-
   const centerMap = () => {
     if (socketMap.latitude && socketMap.longitude) {
       return [Number(socketMap.latitude), Number(socketMap.longitude)];
@@ -293,17 +264,6 @@ const OpenMapComponent = () => {
     );
   }
 
-  if (vehicle?.errors?.detail || field?.errors?.detail) {
-    return (
-      <div>
-        <Errors
-          status={vehicle?.errors?.status || field?.errors?.status}
-          detail={vehicle?.errors?.detail || field?.errors?.detail}
-        />
-      </div>
-    );
-  }
-
   const fieldOne: LatLngExpression[] | LatLngExpression[][] = [
     [
       [52.68477, 39.618794],
@@ -376,6 +336,17 @@ const OpenMapComponent = () => {
       [45.229622, 39.591069],
     ],
   ];
+
+  if (vehicle?.errors?.detail || field?.errors?.detail) {
+    return (
+      <div>
+        <Errors
+          status={vehicle?.errors?.status || field?.errors?.status}
+          detail={vehicle?.errors?.detail || field?.errors?.detail}
+        />
+      </div>
+    );
+  }
 
   const generateUniqueId = (() => {
     let id = 0;

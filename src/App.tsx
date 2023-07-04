@@ -9,7 +9,11 @@ import { IListener } from 'interfaces';
 import { authSelector, checkForTokens, logoutUser } from 'redux/auth/authSlice';
 import { useAppSelector } from 'redux/hooks';
 import { getCookie, nameRefreshCookies } from 'utils/addCookies/addCookies';
-import { logoutLocalStorage, nameLocalStorage, userLocalStorage } from 'utils/token';
+import {
+  logoutLocalStorage,
+  nameLocalStorage,
+  userLocalStorage,
+} from 'utils/addLocalStorage/addLocalStorage';
 
 const App: React.FC = () => {
   const { tokens } = useAppSelector(authSelector);
@@ -42,7 +46,7 @@ const App: React.FC = () => {
       }
     }
   };
-  return tokens?.access ? (
+  return tokens?.access && tokens?.refresh ? (
     <AppRouter />
   ) : (
     <Routes>{tokens?.access ? null : <Route path='*' element={<SignIn />} />}</Routes>

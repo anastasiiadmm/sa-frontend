@@ -1,4 +1,4 @@
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter } from "react-router-dom";
 import renderer, { act } from "react-test-renderer";
 import { screen, render, waitFor, fireEvent } from "@testing-library/react";
 import '../../../__mocks__/matchMedia.mock';
@@ -140,4 +140,32 @@ describe('<SignIn />', () => {
       })
     });
   });
+
+  test('Should show success message for successful login and redirect to /', async () => {
+    mockedUseSelectors.mockReturnValue([]);
+
+    const dispatch = jest.fn();
+    mockedDispatch.mockReturnValue(dispatch);
+
+    render(
+      <BrowserRouter>
+        <SignIn />
+      </BrowserRouter>,
+    );
+
+    expect(screen.getByTestId('sign-in')).toBeInTheDocument();
+    const emailInput = screen.getByPlaceholderText('Логин');
+    const passwordInput = screen.getByPlaceholderText('Пароль');
+    const button = await screen.findByRole('button', { name: 'Войти' });
+    await act(async () => {
+      fireEvent.change(emailInput, { target: { value: 'manager' } });
+      fireEvent.change(passwordInput, { target: { value: 'reto4321' } });
+      fireEvent.click(button);
+    });
+
+    await waitFor(() => {
+      expect(window.location.pathname).toBe('/');
+    });
+  });
+
 });

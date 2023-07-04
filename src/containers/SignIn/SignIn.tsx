@@ -13,7 +13,7 @@ import { userMutation } from 'interfaces';
 import { inquiriesSuccessNull } from 'redux/accounts/accountsSlice';
 import { authSelector, loginUser } from 'redux/auth/authSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { userLocalStorage } from 'utils/token';
+import { userLocalStorage } from 'utils/addLocalStorage/addLocalStorage';
 import 'containers/SignIn/_signIn.scss';
 
 const { Title, Text } = Typography;

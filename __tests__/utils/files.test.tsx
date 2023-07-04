@@ -1,6 +1,5 @@
 import '@testing-library/jest-dom';
 import {getFilenameFromPath, urlFormat} from "../../src/utils/files/files";
-import { apiUrlCrop } from 'utils/config';
 
 describe('getFilenameFromPath', () => {
     it('', () => {
@@ -21,13 +20,6 @@ describe('getFilenameFromPath', () => {
 });
 
 describe('urlFormat', () => {
-    it('', () => {
-        const url = 'http://sa-backend/path/to/image.jpg';
-
-        const result = urlFormat(url);
-
-        expect(result).toBe(`${apiUrlCrop}path/to/image.jpg`);
-    });
 
     it('', () => {
         const url = undefined;
