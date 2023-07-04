@@ -170,7 +170,7 @@ exports[`OpenMapComponents render technique map success 1`] = `
               }
             >
               <strong>
-                123 техники
+                0
               </strong>
             </span>
           </span>
@@ -201,7 +201,7 @@ exports[`OpenMapComponents render technique map success 1`] = `
               }
             >
               <strong>
-                24
+                0
               </strong>
             </span>
           </span>
@@ -232,7 +232,7 @@ exports[`OpenMapComponents render technique map success 1`] = `
               }
             >
               <strong>
-                12
+                0
               </strong>
             </span>
           </span>

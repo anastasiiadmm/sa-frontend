@@ -212,7 +212,7 @@ const UserTechnique: React.FC = () => {
               color='#BBBBBB'
               overlayInnerStyle={{ padding: '5px 15px', borderRadius: 15 }}
             >
-              <Link to={`/profile-technique/${id}/${record?.id}`}>
+              <Link to={`/profile-technique/${record?.id}`}>
                 <Button type='text'>
                   <EyeOutlined style={{ fontSize: '27px', color: '#1358bf' }} />
                 </Button>
@@ -224,7 +224,7 @@ const UserTechnique: React.FC = () => {
               color='#BBBBBB'
               overlayInnerStyle={{ padding: '5px 15px', borderRadius: 15 }}
             >
-              <Link to={`/open-map/${record.id}/local-tractor`}>
+              <Link to={`/open-map/${record.id}/local-tractor/${record?.code}`}>
                 <Button type='text' style={{ display: 'flex', alignItems: 'center' }}>
                   <img
                     src={tractorBlue}
@@ -292,7 +292,7 @@ const UserTechnique: React.FC = () => {
               <Button type='primary' onClick={showModal}>
                 Добавить технику
               </Button>
-              <Link to='/technique-map'>
+              <Link to={`/technique-map/${idVehicle}`}>
                 <Button type='default' className={b('view-button')}>
                   Посмотреть всю технику
                 </Button>

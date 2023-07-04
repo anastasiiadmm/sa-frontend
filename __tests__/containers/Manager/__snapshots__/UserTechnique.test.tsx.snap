@@ -62,7 +62,7 @@ exports[`<UserTechnique /> Users table component should be in the document 1`] =
           </span>
         </button>
         <a
-          href="/technique-map"
+          href="/technique-map/undefined"
           onClick={[Function]}
         >
           <button
@@ -383,7 +383,7 @@ exports[`<UserTechnique /> Users table component should be in the document 1`] =
                             />
                           </button>
                           <a
-                            href="/profile-technique/undefined/91"
+                            href="/profile-technique/91"
                             onClick={[Function]}
                             onMouseEnter={[Function]}
                             onMouseLeave={[Function]}
@@ -422,7 +422,7 @@ exports[`<UserTechnique /> Users table component should be in the document 1`] =
                             </button>
                           </a>
                           <a
-                            href="/open-map/91/local-tractor"
+                            href="/open-map/91/local-tractor/D8BN8TR61"
                             onClick={[Function]}
                             onMouseEnter={[Function]}
                             onMouseLeave={[Function]}

@@ -67,14 +67,13 @@ const AppRouter: React.FC = () => {
       <Layout className='site-layout'>
         <Header style={{ padding: 0, background: colorBgContainer }}>
           {windowWidth <= 990
-            ? buttonsData.map(
-                (button) =>
-                  pathname === button.key && (
-                    <Title level={3} key={button?.key} className={b('title-mobile')}>
-                      {button?.text}
-                    </Title>
-                  ),
-              )
+            ? buttonsData.map((button) => {
+                return pathname === button.key ? (
+                  <Title level={3} key={button?.key} className={b('title-mobile')}>
+                    {button?.text}
+                  </Title>
+                ) : null;
+              })
             : React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
                 className: 'trigger',
                 onClick: () => setCollapsed(!collapsed),
@@ -124,9 +123,9 @@ const AppRouter: React.FC = () => {
                   ) : null}
                 </>
               )}
-              <Route path='/open-map/:id/:field_name' element={<OpenMapComponent />} />
-              <Route path='/technique-map' element={<TechniqueMap />} />
-              <Route path='/profile-technique/:userId/:vehicleId' element={<ProfileTechnique />} />
+              <Route path='/open-map/:id/:field_name/:code?' element={<OpenMapComponent />} />
+              <Route path='/technique-map/:techniqueId' element={<TechniqueMap />} />
+              <Route path='/profile-technique/:vehicleId' element={<ProfileTechnique />} />
               <Route
                 path='*'
                 element={
