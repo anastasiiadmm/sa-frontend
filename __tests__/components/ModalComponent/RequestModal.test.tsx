@@ -5,8 +5,8 @@ import RequestModal
     from "../../../src/components/ModalComponent/ModalChildrenComponents/DeleteTechniqueModal/RequestModal";
 
 describe('RequestModal', () => {
-    let handleDeleteCancel:any;
-    let requestHandler:any;
+    let handleDeleteCancel;
+    let requestHandler;
 
     beforeEach(() => {
         handleDeleteCancel = jest.fn();

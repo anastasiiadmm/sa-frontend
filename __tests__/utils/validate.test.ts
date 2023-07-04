@@ -10,21 +10,21 @@ jest.mock('antd', () => ({
 
 describe('fileValidateImg', () => {
     it('', () => {
-        const file:any = {
+        const file = {
             type: 'image/jpeg',
         };
 
-        const result = fileValidateImg(file);
+        const result = fileValidateImg(file as File);
 
         expect(result).toBe(true);
     });
 
     it('', () => {
-        const file:any = {
+        const file = {
             type: 'application/pdf',
         };
 
-        const result = fileValidateImg(file);
+        const result = fileValidateImg(file as File);
 
         expect(result).toBe(false);
         expect(message.error).toHaveBeenCalledWith('Неверный формат изображения');
@@ -33,21 +33,21 @@ describe('fileValidateImg', () => {
 
 describe('fileSizeValidate', () => {
     it('', () => {
-        const file:any = {
+        const file = {
             size: 4000000,
         };
 
-        const result = fileSizeValidate(file);
+        const result = fileSizeValidate(file as File);
 
         expect(result).toBe(true);
     });
 
     it('', () => {
-        const file:any = {
+        const file = {
             size: 6000000,
         };
 
-        const result = fileSizeValidate(file);
+        const result = fileSizeValidate(file as File);
 
         expect(result).toBe(false);
         expect(message.error).toHaveBeenCalledWith('Размер изображения слишком большой');

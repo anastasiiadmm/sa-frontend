@@ -3,8 +3,8 @@ import axios, { AxiosRequestHeaders } from 'axios';
 import { checkForTokens } from 'redux/auth/authSlice';
 import store from 'redux/store';
 import { deleteCookie, nameRefreshCookies } from 'utils/addCookies/addCookies';
+import { addLocalStorage, logoutLocalStorage } from 'utils/addLocalStorage/addLocalStorage';
 import { apiURL } from 'utils/config';
-import { logoutLocalStorage, nameLocalStorage } from 'utils/token';
 
 const axiosApi = axios.create({
   baseURL: apiURL,
@@ -53,18 +53,19 @@ axiosApi.interceptors.response.use(
             },
           };
           index.dispatch(checkForTokens({ access: newTokens.access }));
-          localStorage.setItem(
-            nameLocalStorage,
-            JSON.stringify({
-              access: usersLocal.token.access,
-              is_manager: index.getState()?.auth?.tokens?.is_manager,
-            }),
-          );
+          addLocalStorage({
+            access: usersLocal.token.access,
+            is_manager: index.getState()?.auth?.tokens?.is_manager,
+          });
           window.dispatchEvent(new Event('storage'));
           return axiosApi(originalRequest);
         }
       } catch (e) {
-        if (e?.response?.status === 401) {
+        if (
+          e?.response?.status === 401 ||
+          e?.response?.status === 400 ||
+          e?.response?.status === 404
+        ) {
           logoutLocalStorage();
           deleteCookie(nameRefreshCookies);
           window.location.reload();
