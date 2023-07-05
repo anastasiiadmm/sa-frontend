@@ -1,41 +1,34 @@
 import { Button, Drawer, Form, Typography } from 'antd';
 import bem from 'easy-bem';
-import React, { ReactNode, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import close from 'assets/images/icons/close_button.svg';
+import speed from 'assets/images/icons/speedometer.svg';
 import tractorWhite from 'assets/images/icons/technique-white.svg';
 import tractor from 'assets/images/technique.jpg';
-import speed from 'assets/images/icons/speedometer.svg';
 import FormField from 'components/FormField/FormField';
-import { ITechniquesMap } from 'interfaces';
+import { ITechniquesMap, ITechniquesMapActiveButton } from 'interfaces';
 import 'components/DrawerComponent/_drawerComponent.scss';
 
 interface Props {
   onClose: () => void;
   open: boolean;
-  vehicle: ITechniquesMap | null;
-}
-
-interface VehicleButtonProps {
-  isDanger?: boolean;
-  icon: string;
-  children: ReactNode;
+  vehicle: ITechniquesMap | null | undefined;
+  vehicleActive?: ITechniquesMapActiveButton | null | undefined;
 }
 
 const { Title } = Typography;
 
-const DrawerComponent: React.FC<Props> = ({ onClose, open, vehicle }) => {
+const DrawerComponent: React.FC<Props> = ({ onClose, open, vehicle, vehicleActive }) => {
   const b = bem('DrawerComponent');
   const [form] = Form.useForm();
-
-  console.log('vehicle', vehicle);
+  const [speedStatus, setSpeedStatus] = useState('');
 
   useEffect(() => {
     if (vehicle) {
       form.setFieldsValue({
-        description: vehicle?.description,
-        license_plate: vehicle?.license_plate,
+        description: vehicle?.description,        license_plate: vehicle?.license_plate,
         last_name: vehicle?.operator.last_name,
         first_name: vehicle?.operator.first_name,
         middle_name: vehicle?.operator.middle_name,
@@ -43,16 +36,13 @@ const DrawerComponent: React.FC<Props> = ({ onClose, open, vehicle }) => {
     }
   }, [vehicle, form]);
 
-  const VehicleButton = ({ isDanger = false, icon, children }: VehicleButtonProps) => (
-    <Button
-      type='primary'
-      danger={isDanger}
-      icon={<img src={icon} alt={icon} />}
-      style={{ borderRadius: 26, width: 130 }}
-    >
-      {children}
-    </Button>
-  );
+  useEffect(() => {
+    if (vehicleActive === null) {
+      setSpeedStatus('Неактивен');
+    } else {
+      setSpeedStatus(vehicleActive ? `${vehicleActive.speed}` : '');
+    }
+  }, [speedStatus, vehicle?.speed, vehicleActive]);
 
   return (
     <Drawer
@@ -75,15 +65,32 @@ const DrawerComponent: React.FC<Props> = ({ onClose, open, vehicle }) => {
         <img src={tractor} alt='tractor' />
       </div>
       <div className={b('info-block')}>
-        {vehicle?.speed === 0 ? (
-          <VehicleButton isDanger={true} icon={tractorWhite}>
+        {speedStatus === 'Неактивен' ? (
+          <Button
+            type='primary'
+            danger
+            icon={<img src={tractorWhite} alt={tractorWhite} />}
+            style={{ borderRadius: 26, width: 130 }}
+          >
             Неактивен
-          </VehicleButton>
+          </Button>
         ) : (
-          <>
-            <VehicleButton icon={tractorWhite}>Активен</VehicleButton>
-            <VehicleButton icon={speed}>{`${vehicle?.speed} км/ч`}</VehicleButton>
-          </>
+          <div className={b('active-buttons-block')}>
+            <Button
+              type='primary'
+              icon={<img src={tractorWhite} alt={tractorWhite} />}
+              style={{ borderRadius: 26, width: 130 }}
+            >
+              Активен
+            </Button>
+            <Button
+              className={b('speed-button')}
+              type='primary'
+              icon={<img src={speed} alt={speed} />}
+            >
+              {`${speedStatus} км/ч`}
+            </Button>
+          </div>
         )}
 
         <div className={b('profile-info')}>

@@ -84,3 +84,9 @@ export interface ITechniquesMapActive {
     speed: string;
   };
 }
+
+export interface ITechniquesMapActiveButton {
+  latitude: string;
+  longitude: string;
+  speed: string;
+}

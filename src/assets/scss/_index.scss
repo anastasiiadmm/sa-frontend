@@ -137,10 +137,6 @@ button:disabled {
   background-color: themes.$disabled-color;
 }
 
-.ant-input {
-  width: 300% !important;
-}
-
 :where(.css-dev-only-do-not-override-sk7ap8).ant-input-affix-wrapper:not(:where(.css-dev-only-do-not-override-sk7ap8).ant-input-affix-wrapper-disabled):hover {
   border-color: themes.$primary-color;
 }

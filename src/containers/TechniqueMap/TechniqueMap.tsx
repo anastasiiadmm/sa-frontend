@@ -1,7 +1,7 @@
 import { Card, Spin, Typography } from 'antd';
 import { AES, enc, mode } from 'crypto-js';
 import bem from 'easy-bem';
-import L, { DivIcon, Icon, IconOptions, LatLngExpression } from 'leaflet';
+import { DivIcon, Icon, IconOptions, LatLngExpression } from 'leaflet';
 import moment from 'moment/moment';
 import React, { useEffect, useState } from 'react';
 import { CircleMarker, MapContainer, Marker, TileLayer } from 'react-leaflet';
@@ -12,31 +12,19 @@ import active from 'assets/images/icons/active_tracktor.svg';
 import arrowLeft from 'assets/images/icons/arrow-left.svg';
 import inactive from 'assets/images/icons/inactive_tracktor.svg';
 import DrawerComponent from 'components/DrawerComponent/DrawerComponent';
-import { ITechniquesMap, ITechniquesMapActive, VehicleData } from 'interfaces';
+import {
+  ITechniquesMap,
+  ITechniquesMapActive,
+  ITechniquesMapActiveButton,
+  VehicleData,
+} from 'interfaces';
 import { accountsSelector, fetchConfigs } from 'redux/accounts/accountsSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { socketApiSocket } from 'utils/config';
+import { activeIcon, inactiveIcon } from 'utils/constantMap';
 import 'containers/TechniqueMap/_techniqueMap.scss';
 
 const { Text } = Typography;
-
-const activeIcon = new L.Icon({
-  iconUrl: active,
-  iconRetinaUrl: active,
-  iconAnchor: new L.Point(14, 14),
-  popupAnchor: new L.Point(14, 0),
-  iconSize: new L.Point(28, 30),
-  className: 'leaflet-div-icon',
-});
-
-const inactiveIcon = new L.Icon({
-  iconUrl: inactive,
-  iconRetinaUrl: inactive,
-  iconAnchor: new L.Point(14, 14),
-  popupAnchor: new L.Point(14, 0),
-  iconSize: new L.Point(28, 30),
-  className: 'leaflet-div-icon',
-});
 
 const TechniqueMap = () => {
   const b = bem('TechniqueMap');
@@ -52,6 +40,7 @@ const TechniqueMap = () => {
     all_vehicles_info: null,
   });
   const [vehicle, setVehicle] = useState<ITechniquesMap | null>(null);
+  const [vehicleActive, setVehicleActive] = useState<ITechniquesMapActiveButton | null>(null);
 
   const connectWebSocket = (time: number, secret: string) => {
     let connectionID = '';
@@ -127,9 +116,18 @@ const TechniqueMap = () => {
     }
   }, [account?.coords_timeout, configs?.websocket_auth_secret_key]);
 
-  const showDrawer = (vehicleData: ITechniquesMap) => {
+  const showDrawer = (
+    vehicleData: ITechniquesMap,
+    onlineVehicle: ITechniquesMapActive | undefined,
+  ) => {
     setOpen(true);
     setVehicle(vehicleData);
+    if (onlineVehicle) {
+      const activeVehicleButton: ITechniquesMapActiveButton = onlineVehicle[vehicleData.id];
+      setVehicleActive(activeVehicleButton);
+    } else {
+      setVehicleActive(null);
+    }
   };
 
   const backHandler = () => {
@@ -140,16 +138,20 @@ const TechniqueMap = () => {
     vehicleData: ITechniquesMap,
     position: LatLngExpression,
     icon: Icon<IconOptions> | DivIcon | undefined,
-    showDrawer: (vehicleData: ITechniquesMap) => void,
+    showDrawer: (
+      vehicleData: ITechniquesMap,
+      vehicleInOnlineVehicles?: ITechniquesMapActive | undefined,
+    ) => void,
+    vehicleInOnlineVehicles?: ITechniquesMapActive | undefined,
   ) => {
-    const vehicleId = (vehicleData as ITechniquesMap).id;
+    const vehicleId = vehicleData.id;
 
     return (
       <CircleMarker key={vehicleId} center={position} opacity={0} radius={10}>
         <Marker
           position={position}
           icon={icon}
-          eventHandlers={{ click: () => showDrawer(vehicleData) }}
+          eventHandlers={{ click: () => showDrawer(vehicleData, vehicleInOnlineVehicles) }}
         />
       </CircleMarker>
     );
@@ -236,7 +238,13 @@ const TechniqueMap = () => {
               if (vehicleInOnlineVehicles) {
                 const latitude = parseFloat(vehicleInOnlineVehicles[vehicle?.id]?.latitude);
                 const longitude = parseFloat(vehicleInOnlineVehicles[vehicle?.id]?.longitude);
-                return renderCircleMarker(vehicle, [latitude, longitude], activeIcon, showDrawer);
+                return renderCircleMarker(
+                  vehicle,
+                  [latitude, longitude],
+                  activeIcon,
+                  showDrawer,
+                  vehicleInOnlineVehicles,
+                );
               }
 
               return renderCircleMarker(
@@ -250,7 +258,12 @@ const TechniqueMap = () => {
         </div>
       </div>
 
-      <DrawerComponent vehicle={vehicle} onClose={() => setOpen(!open)} open={open} />
+      <DrawerComponent
+        vehicle={vehicle}
+        vehicleActive={vehicleActive}
+        onClose={() => setOpen(!open)}
+        open={open}
+      />
     </>
   );
 };
