@@ -186,7 +186,7 @@ const TechniqueMap = () => {
     return (
       <div data-testid='loading' className='loading'>
         <div>
-          <Spin size='large' />
+          <Spin className='spin' size='large' />
         </div>
       </div>
     );
