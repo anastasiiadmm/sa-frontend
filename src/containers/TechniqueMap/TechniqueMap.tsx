@@ -48,8 +48,8 @@ const TechniqueMap = () => {
 
   useEffect(() => {
     if (vehicle && latestSocketData) {
-      const activeVehicleData = latestSocketData?.online_vehicle_ids.find(
-        (vehicleData: ITechniquesMapActive) => vehicleData[vehicle?.id] !== undefined,
+      const activeVehicleData = latestSocketData?.online_vehicle_ids?.find(
+        (item) => item[vehicle?.id],
       );
 
       if (activeVehicleData) {
