@@ -75,6 +75,7 @@ const AppRouter: React.FC = () => {
           className: 'trigger',
           onClick: () => setCollapsed(!collapsed),
         });
+
   return (
     <Layout style={{ height: '100vh' }} className={b('')}>
       <SliderMenu collapsed={collapsed} />
@@ -124,9 +125,9 @@ const AppRouter: React.FC = () => {
                   ) : null}
                 </>
               )}
-              <Route path='/open-map/:id/:field_name' element={<OpenMapComponent />} />
-              <Route path='/technique-map' element={<TechniqueMap />} />
-              <Route path='/profile-technique/:userId/:vehicleId' element={<ProfileTechnique />} />
+              <Route path='/open-map/:id/:field_name/:code?' element={<OpenMapComponent />} />
+              <Route path='/technique-map/:techniqueId' element={<TechniqueMap />} />
+              <Route path='/profile-technique/:vehicleId' element={<ProfileTechnique />} />
               <Route
                 path='*'
                 element={

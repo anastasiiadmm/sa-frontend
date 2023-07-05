@@ -1,3 +1,5 @@
+@use 'assets/scss/_themes.scss';
+
 .DrawerComponent {
   display: flex;
   flex-direction: column;
@@ -43,6 +45,21 @@
     &:active {
       background-color: transparent;
     }
+  }
+
+  &__active-buttons-block {
+    display: flex;
+    gap: 12px;
+  }
+
+  .cursor {
+    cursor: default;
+  }
+
+  &__speed-button {
+    border-radius: 26px;
+    width: 130px;
+    background-color: themes.$orange;
   }
 
   .input-styles {

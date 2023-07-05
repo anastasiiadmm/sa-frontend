@@ -25,7 +25,7 @@ const { Title } = Typography;
 const ProfileTechnique = () => {
   const b = bem('ProfileTechnique');
   const dispatch = useAppDispatch();
-  const { vehicleId } = useParams() as { userId: string; vehicleId: string };
+  const { vehicleId } = useParams() as { vehicleId: string };
   const history = useNavigate();
 
   const userVehicleInfoState = useAppSelector(companiesSelector);
@@ -136,22 +136,24 @@ const ProfileTechnique = () => {
       dataIndex: 'profile',
       filterSearch: true,
       width: '18%',
-      render: (_, record) => (
-        <div style={{ display: 'flex', gap: 37, justifyContent: 'right' }}>
-          <Tooltip
-            title='Просмотреть на карте'
-            color='#BBBBBB'
-            overlayInnerStyle={{ padding: '5px 15px', borderRadius: 15 }}
-            placement='topRight'
-          >
-            <Link className={b('profile-link')} to={`/open-map/${vehicleId}/${record.id}`}>
-              <Button type='text'>
-                <img src={planet} alt='Просмотреть на карте' width={20} />
-              </Button>
-            </Link>
-          </Tooltip>
-        </div>
-      ),
+      render: (_, record) => {
+        return (
+          <div style={{ display: 'flex', gap: 37, justifyContent: 'right' }}>
+            <Tooltip
+              title='Просмотреть на карте'
+              color='#BBBBBB'
+              overlayInnerStyle={{ padding: '5px 15px', borderRadius: 15 }}
+              placement='topRight'
+            >
+              <Link className={b('profile-link')} to={`/open-map/${vehicleId}/${record.id}`}>
+                <Button type='text'>
+                  <img src={planet} alt='Просмотреть на карте' width={20} />
+                </Button>
+              </Link>
+            </Tooltip>
+          </div>
+        );
+      },
     },
   ];
 

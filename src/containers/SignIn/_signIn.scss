@@ -101,4 +101,8 @@
     transition: background-color 5000s ease-in-out 0s;
     background: -webkit-linear-gradient(top,  rgba(231, 240, 254, 0) 0%, rgba(231, 240, 254, 0) 50%, rgba(231, 240, 254, 0) 51%, rgba(231, 240, 254, 0) 100%);
   }
+
+  .ant-form-item {
+    margin-bottom: 12px !important;
+  }
 }

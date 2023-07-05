@@ -25,7 +25,7 @@ const purpleOptions = { color: '#1358BF' };
 
 const OpenMapComponent = () => {
   const b = bem('OpenMapComponent');
-  const { id, field_name } = useParams();
+  const { id, field_name, code } = useParams() as { id: string; field_name: string; code: string };
   const { account, configs } = useAppSelector(accountsSelector);
   const { vehicle, field } = useAppSelector(mapSelector);
   const markerRef = useRef(null);
@@ -64,7 +64,7 @@ const OpenMapComponent = () => {
           JSON.stringify({
             kind: 'ping',
             timeout: time,
-            vehicle_id: Number(id),
+            vehicle_code: code,
             connection_id: connectionID,
           }),
         );
@@ -75,7 +75,7 @@ const OpenMapComponent = () => {
           JSON.stringify({
             kind: 'ping',
             timeout: time,
-            vehicle_id: Number(id),
+            vehicle_code: code,
             connection_id: connectionID,
           }),
         );

@@ -18,7 +18,7 @@ import {
   fetchAccount,
   fetchApks,
 } from 'redux/accounts/accountsSlice';
-import { logoutUser } from 'redux/auth/authSlice';
+import { authSelector, logoutUser } from 'redux/auth/authSlice';
 import { clearCompaniesPagination } from 'redux/companies/companiesSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { logoutLocalStorage } from 'utils/addLocalStorage/addLocalStorage';
@@ -56,6 +56,7 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
   const push = useNavigate();
   const dispatch = useAppDispatch();
   const location = useLocation();
+  const { tokens } = useAppSelector(authSelector);
   const { account, apk, apkLoading, fetchLoadingAccount } = useAppSelector(accountsSelector);
   const windowWidth = useWindowWidth();
   const [isCancelled, setIsCancelled] = useState(false);
@@ -174,7 +175,7 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
     },
   ];
 
-  return windowWidth <= 990 ? (
+  return windowWidth <= 990 && tokens?.is_manager ? (
     <div className={b('mobile-menu')}>
       <div className={b('mobile-block')}>
         {buttonsData.map((button) => (
