@@ -52,8 +52,11 @@
     gap: 12px;
   }
 
+  .cursor {
+    cursor: default;
+  }
+
   &__speed-button {
-    cursor: not-allowed;
     border-radius: 26px;
     width: 130px;
     background-color: themes.$orange;

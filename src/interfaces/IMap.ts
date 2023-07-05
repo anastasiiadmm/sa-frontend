@@ -90,3 +90,7 @@ export interface ITechniquesMapActiveButton {
   longitude: string;
   speed: string;
 }
+
+export interface ITechniquesMapActiveButtonState {
+  online_vehicle_ids: ITechniquesMapActive[];
+}

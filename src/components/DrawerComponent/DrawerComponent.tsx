@@ -70,6 +70,7 @@ const DrawerComponent: React.FC<Props> = ({ onClose, open, vehicle, vehicleActiv
           <Button
             type='primary'
             danger
+            className='cursor'
             icon={<img src={tractorWhite} alt={tractorWhite} />}
             style={{ borderRadius: 26, width: 130 }}
           >
@@ -81,11 +82,12 @@ const DrawerComponent: React.FC<Props> = ({ onClose, open, vehicle, vehicleActiv
               type='primary'
               icon={<img src={tractorWhite} alt={tractorWhite} />}
               style={{ borderRadius: 26, width: 130 }}
+              className='cursor'
             >
               Активен
             </Button>
             <Button
-              className={b('speed-button')}
+              className={b('speed-button cursor')}
               type='primary'
               icon={<img src={speed} alt={speed} />}
             >

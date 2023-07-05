@@ -16,6 +16,7 @@ import {
   ITechniquesMap,
   ITechniquesMapActive,
   ITechniquesMapActiveButton,
+  ITechniquesMapActiveButtonState,
   VehicleData,
 } from 'interfaces';
 import { accountsSelector, fetchConfigs } from 'redux/accounts/accountsSlice';
@@ -40,7 +41,9 @@ const TechniqueMap = () => {
     all_vehicles_info: null,
   });
   const [vehicle, setVehicle] = useState<ITechniquesMap | null>(null);
-  const [latestSocketData, setLatestSocketData] = useState<any | null>(null);
+  const [latestSocketData, setLatestSocketData] = useState<ITechniquesMapActiveButtonState | null>(
+    null,
+  );
   const [vehicleActive, setVehicleActive] = useState<ITechniquesMapActiveButton | null>(null);
 
   useEffect(() => {
@@ -94,7 +97,7 @@ const TechniqueMap = () => {
         const messageData = JSON.parse(event.data);
         connectionID = messageData.connection_id;
         setSocketMap({ ...socketMap, status: messageData.kind });
-        if (Object.keys(messageData?.data || {}).length !== 0) {
+        if (Object.keys(messageData?.data || {}).length) {
           setSocketMap({ ...socketMap, ...messageData.data });
           setLatestSocketData(messageData?.data);
         }
@@ -119,7 +122,7 @@ const TechniqueMap = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (account?.coords_timeout !== undefined || configs?.websocket_auth_secret_key) {
+    if (account?.coords_timeout || configs?.websocket_auth_secret_key) {
       const socket = connectWebSocket(
         account?.coords_timeout ?? 0,
         configs?.websocket_auth_secret_key ?? '',
@@ -257,7 +260,10 @@ const TechniqueMap = () => {
       <DrawerComponent
         vehicle={vehicle}
         vehicleActive={vehicleActive}
-        onClose={() => setOpen(!open)}
+        onClose={() => {
+          setOpen(!open);
+          setVehicleActive(null);
+        }}
         open={open}
       />
     </>
