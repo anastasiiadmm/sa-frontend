@@ -40,7 +40,21 @@ const TechniqueMap = () => {
     all_vehicles_info: null,
   });
   const [vehicle, setVehicle] = useState<ITechniquesMap | null>(null);
+  const [latestSocketData, setLatestSocketData] = useState<any | null>(null);
   const [vehicleActive, setVehicleActive] = useState<ITechniquesMapActiveButton | null>(null);
+
+  useEffect(() => {
+    if (vehicle && latestSocketData) {
+      const activeVehicleData = latestSocketData?.online_vehicle_ids.find(
+        (vehicleData: ITechniquesMapActive) => vehicleData[vehicle?.id] !== undefined,
+      );
+
+      if (activeVehicleData) {
+        const activeVehicle = activeVehicleData[vehicle?.id];
+        setVehicleActive(activeVehicle);
+      }
+    }
+  }, [vehicle, latestSocketData]);
 
   const connectWebSocket = (time: number, secret: string) => {
     let connectionID = '';
@@ -82,6 +96,7 @@ const TechniqueMap = () => {
         setSocketMap({ ...socketMap, status: messageData.kind });
         if (Object.keys(messageData?.data || {}).length !== 0) {
           setSocketMap({ ...socketMap, ...messageData.data });
+          setLatestSocketData(messageData?.data);
         }
       };
 
@@ -116,18 +131,9 @@ const TechniqueMap = () => {
     }
   }, [account?.coords_timeout, configs?.websocket_auth_secret_key]);
 
-  const showDrawer = (
-    vehicleData: ITechniquesMap,
-    onlineVehicle: ITechniquesMapActive | undefined,
-  ) => {
+  const showDrawer = (vehicleData: ITechniquesMap) => {
     setOpen(true);
     setVehicle(vehicleData);
-    if (onlineVehicle) {
-      const activeVehicleButton: ITechniquesMapActiveButton = onlineVehicle[vehicleData.id];
-      setVehicleActive(activeVehicleButton);
-    } else {
-      setVehicleActive(null);
-    }
   };
 
   const backHandler = () => {
@@ -138,11 +144,7 @@ const TechniqueMap = () => {
     vehicleData: ITechniquesMap,
     position: LatLngExpression,
     icon: Icon<IconOptions> | DivIcon | undefined,
-    showDrawer: (
-      vehicleData: ITechniquesMap,
-      vehicleInOnlineVehicles?: ITechniquesMapActive | undefined,
-    ) => void,
-    vehicleInOnlineVehicles?: ITechniquesMapActive | undefined,
+    showDrawer: (vehicleData: ITechniquesMap) => void,
   ) => {
     const vehicleId = vehicleData.id;
 
@@ -151,7 +153,7 @@ const TechniqueMap = () => {
         <Marker
           position={position}
           icon={icon}
-          eventHandlers={{ click: () => showDrawer(vehicleData, vehicleInOnlineVehicles) }}
+          eventHandlers={{ click: () => showDrawer(vehicleData) }}
         />
       </CircleMarker>
     );
@@ -238,13 +240,7 @@ const TechniqueMap = () => {
               if (vehicleInOnlineVehicles) {
                 const latitude = parseFloat(vehicleInOnlineVehicles[vehicle?.id]?.latitude);
                 const longitude = parseFloat(vehicleInOnlineVehicles[vehicle?.id]?.longitude);
-                return renderCircleMarker(
-                  vehicle,
-                  [latitude, longitude],
-                  activeIcon,
-                  showDrawer,
-                  vehicleInOnlineVehicles,
-                );
+                return renderCircleMarker(vehicle, [latitude, longitude], activeIcon, showDrawer);
               }
 
               return renderCircleMarker(
