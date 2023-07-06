@@ -18,7 +18,7 @@ import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { mapSelector, obtainingCoordinate } from 'redux/map/mapSlice';
 import { socketApiSocket } from 'utils/config';
 import 'components/OpenMapComponent/_openMapComponent.scss';
-import { duckIcon, duckIconEnd, duckIconStart } from 'utils/constantMap';
+import { activeIcon, duckIconEnd, duckIconStart, inactiveIcon } from 'utils/constantMap';
 
 const { Title } = Typography;
 
@@ -425,7 +425,11 @@ const OpenMapComponent = () => {
               position={
                 markerPosition !== null ? markerPosition : (centerMap() as LatLngExpression)
               }
-              icon={duckIcon}
+              icon={
+                socketMap?.latitude === '' && socketMap?.longitude === ''
+                  ? inactiveIcon
+                  : activeIcon
+              }
             >
               <Popup>
                 <span className={b('title_uppercase')}>
