@@ -9,15 +9,16 @@ import { CircleMarker, MapContainer, Marker, Polyline, Popup, TileLayer } from '
 import { useNavigate, useParams } from 'react-router';
 
 import arrowLeft from 'assets/images/icons/arrow-left.svg';
-import locale from 'assets/images/icons/locale.svg';
-import tractorBlue from 'assets/images/icons/tractor-blue.svg';
+import localeRound from 'assets/images/icons/field-location.svg';
+import speedRound from 'assets/images/icons/speed-round.svg';
+import tractorBlue from 'assets/images/icons/traktor-round.svg';
 import Errors from 'components/Errors/Errors';
 import { accountsSelector, fetchConfigs, fetchVehicleInfo } from 'redux/accounts/accountsSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { mapSelector, obtainingCoordinate } from 'redux/map/mapSlice';
 import { socketApiSocket } from 'utils/config';
 import 'components/OpenMapComponent/_openMapComponent.scss';
-import { duckIcon, duckIconEnd, duckIconStart } from 'utils/constantMap';
+import { activeIcon, duckIconEnd, duckIconStart, inactiveIcon } from 'utils/constantMap';
 
 const { Title } = Typography;
 
@@ -40,6 +41,7 @@ const OpenMapComponent = () => {
     status: '',
     latitude: '',
     longitude: '',
+    speed: '',
   });
   const { userVehicleInfo, userVehicleInfoLoading } = useAppSelector(accountsSelector);
   const [loadingMap, setLoadingMap] = useState(false);
@@ -179,6 +181,9 @@ const OpenMapComponent = () => {
     if (socketMap.latitude && socketMap.longitude) {
       return [Number(socketMap.latitude), Number(socketMap.longitude)];
     }
+    if (field?.results?.last_latitude && field?.results?.last_longitude) {
+      return [Number(field?.results?.last_latitude), Number(field?.results?.last_longitude)];
+    }
     return [0, 0];
   };
 
@@ -232,21 +237,6 @@ const OpenMapComponent = () => {
   );
 
   const findResults = vehicle?.results?.processing_data.find((item) => item.id === Number(id));
-
-  // const lineMapHistory = () => { // доработаем, когда из api будут присылаться данные
-  //   const width = Number(field.results?.tool_width);
-  //   const halfWidth = width / 2;
-  //   const a: LatLngExpression = [field.results.point_A_lon, field.results.point_A_lat];
-  //   const b: LatLngExpression = [field.results.point_B_lon, field.results.point_B_lat];
-  //
-  //   const resA = field.results.point_A_lon + halfWidth * 0.000008983;
-  //   const resB = field.results.point_B_lon + (halfWidth + width) * 0.000008983;
-  //
-  //   const bottomRight = [field.results.point_A_lat, resA];
-  //   const topLeft = [field.results.point_B_lat, resB];
-  //
-  //   return [topLeft, bottomRight];
-  // };
 
   if (
     vehicle?.loading ||
@@ -356,113 +346,134 @@ const OpenMapComponent = () => {
   return (
     <div className={b()}>
       <div className={b('card-block')}>
-        <Card className={b('card-style')} bordered={false}>
-          <div className={b('header-title')}>
-            <button type='button' className='btn_none_style' onClick={backHandler}>
-              <img className={b('arrow-left')} src={arrowLeft} alt='arrow' />
-            </button>
-            {field.results?.task_UID !== null ? (
+        <div>
+          <Card className={b('card-style')} bordered={false}>
+            <div className={b('header-title')}>
+              <button type='button' className='btn_none_style' onClick={backHandler}>
+                <img className={b('arrow-left')} src={arrowLeft} alt='arrow' />
+              </button>
+            </div>
+          </Card>
+        </div>
+        <div className={b('card-block-info')}>
+          {field.results?.task_UID !== null ? (
+            <Card className={b('card-style')} bordered={false}>
+              <div className={b('header-title')}>
+                <Title level={3} className={b('title')}>
+                  <img src={localeRound} alt='locale' className={b('img-title')} />
+                  <Tooltip
+                    title={findResults?.field_name}
+                    color='#BBBBBB'
+                    overlayInnerStyle={{ padding: '5px 15px', borderRadius: 15 }}
+                    placement='topLeft'
+                  >
+                    <p className={b('subtitle')}>
+                      <span>{field.results?.task_UID}</span>
+                    </p>
+                  </Tooltip>
+                </Title>
+              </div>
+            </Card>
+          ) : null}
+          <Card className={b('card-style')} bordered={false}>
+            <div className={b('header-title')}>
               <Title level={3} className={b('title')}>
-                <img src={locale} alt='locale' className={b('img-title')} />
-                <Tooltip
-                  title={findResults?.field_name}
-                  color='#BBBBBB'
-                  overlayInnerStyle={{ padding: '5px 15px', borderRadius: 15 }}
-                  placement='topLeft'
-                >
-                  <p className={b('subtitle')}>
-                    <span>{field.results?.task_UID}</span>
-                  </p>
-                </Tooltip>
+                <img src={tractorBlue} alt='tractor' className={b('img-title img-tractor')} />
+                <p className={b('subtitle')}>{userVehicleInfo?.vehicle?.description}</p>
               </Title>
-            ) : null}
-            <Title level={3} className={b('title')}>
-              <img src={tractorBlue} alt='tractor' className={b('img-title img-tractor')} />
-              <p className={b('subtitle')}>{userVehicleInfo?.vehicle?.description}</p>
-            </Title>
-          </div>
-        </Card>
+            </div>
+          </Card>
+          <Card className={b('card-style')} bordered={false}>
+            <div className={b('header-title')}>
+              <Title level={3} className={b('title')}>
+                <img src={speedRound} alt='speedRound' className={b('img-title img-tractor')} />
+                <p className={b('subtitle')}>
+                  {socketMap.status !== 'no_geo' && Number(socketMap?.speed) >= 2
+                    ? Math.floor(Number(socketMap?.speed))
+                    : 0}{' '}
+                  км/ч
+                </p>
+              </Title>
+            </div>
+          </Card>
+        </div>
       </div>
       <Button onClick={() => renderHandler()} className={b('render_btn')}>
         <AimOutlined />
       </Button>
       <div className={b('map-block')}>
-        {socketMap.latitude && socketMap.latitude ? (
-          <MapContainer
-            center={centerMapHandler()}
-            zoom={27}
-            minZoom={2}
-            maxZoom={18}
-            scrollWheelZoom
-            maxBounds={latLngBounds}
-            style={{ width: '100%', height: '100vh' }}
+        <MapContainer
+          center={centerMapHandler()}
+          zoom={27}
+          minZoom={2}
+          maxZoom={18}
+          scrollWheelZoom
+          maxBounds={latLngBounds}
+          style={{ width: '100%', height: '100vh' }}
+        >
+          <TileLayer
+            attribution='&copy; <a href="https://www.esri.com/">Esri</a>'
+            url='https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'
+          />
+          <CircleMarker
+            ref={markerRef}
+            center={markerPosition !== null ? markerPosition : (centerMap() as LatLngExpression)}
+            opacity={0}
+            radius={10}
           >
-            <TileLayer
-              attribution='&copy; <a href="https://www.esri.com/">Esri</a>'
-              url='https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'
-            />
-            <CircleMarker
-              ref={markerRef}
-              center={markerPosition !== null ? markerPosition : (centerMap() as LatLngExpression)}
-              opacity={0}
-              radius={10}
+            <Marker
+              position={
+                markerPosition !== null ? markerPosition : (centerMap() as LatLngExpression)
+              }
+              icon={
+                socketMap?.latitude === '' && socketMap?.longitude === ''
+                  ? inactiveIcon
+                  : activeIcon
+              }
             >
-              <Marker
-                position={
-                  markerPosition !== null ? markerPosition : (centerMap() as LatLngExpression)
-                }
-                icon={duckIcon}
-              >
-                <Popup>
-                  <span className={b('title_uppercase')}>
-                    {userVehicleInfo?.vehicle?.description}
-                  </span>
-                </Popup>
-              </Marker>
-            </CircleMarker>
+              <Popup>
+                <span className={b('title_uppercase')}>
+                  {userVehicleInfo?.vehicle?.description}
+                </span>
+              </Popup>
+            </Marker>
+          </CircleMarker>
 
-            <Polyline weight={3} pathOptions={purpleOptions} positions={positions()}>
-              <Marker position={getCoordinateByType(positions(), 'start')} icon={duckIconStart}>
-                <Popup>Start</Popup>
-              </Marker>
-              <Marker position={getCoordinateByType(positions(), 'end')} icon={duckIconEnd}>
-                <Popup>End</Popup>
-              </Marker>
-            </Polyline>
-            {field?.results?.point_A_lat === 39.6186 && field?.results?.point_A_lon === 52.684864
-              ? fieldOne.map((bounds) => (
-                  <Polyline
-                    key={generateUniqueId()}
-                    positions={bounds}
-                    color='rgba(30, 191, 19, 0.5)'
-                    weight={33}
-                  />
-                ))
-              : field?.results?.point_A_lat === 39.625304 &&
-                field?.results?.point_A_lon === 52.703667
-              ? fieldTwo.map((bounds) => (
-                  <Polyline
-                    key={generateUniqueId()}
-                    positions={bounds}
-                    color='rgba(30, 191, 19, 0.5)'
-                    weight={33}
-                  />
-                ))
-              : tractorFieldThree.map((bounds) => (
-                  <Polyline
-                    key={generateUniqueId()}
-                    positions={bounds}
-                    color='rgba(30, 191, 19, 0.5)'
-                    weight={33}
-                  />
-                ))}
-          </MapContainer>
-        ) : null}
-        {socketMap.status === 'no_geo' ? (
-          <div className={b('not_coordinates')}>
-            <h1>Координаты не найдены</h1>
-          </div>
-        ) : null}
+          <Polyline weight={3} pathOptions={purpleOptions} positions={positions()}>
+            <Marker position={getCoordinateByType(positions(), 'start')} icon={duckIconStart}>
+              <Popup>Start</Popup>
+            </Marker>
+            <Marker position={getCoordinateByType(positions(), 'end')} icon={duckIconEnd}>
+              <Popup>End</Popup>
+            </Marker>
+          </Polyline>
+          {field?.results?.point_A_lat === 39.6186 && field?.results?.point_A_lon === 52.684864
+            ? fieldOne.map((bounds) => (
+                <Polyline
+                  key={generateUniqueId()}
+                  positions={bounds}
+                  color='rgba(30, 191, 19, 0.5)'
+                  weight={33}
+                />
+              ))
+            : field?.results?.point_A_lat === 39.625304 && field?.results?.point_A_lon === 52.703667
+            ? fieldTwo.map((bounds) => (
+                <Polyline
+                  key={generateUniqueId()}
+                  positions={bounds}
+                  color='rgba(30, 191, 19, 0.5)'
+                  weight={33}
+                />
+              ))
+            : tractorFieldThree.map((bounds) => (
+                <Polyline
+                  key={generateUniqueId()}
+                  positions={bounds}
+                  color='rgba(30, 191, 19, 0.5)'
+                  weight={33}
+                />
+              ))}
+        </MapContainer>
       </div>
     </div>
   );

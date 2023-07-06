@@ -32,9 +32,13 @@ export interface Vehicle {
 
 export interface VehicleV2 {
   id: number | null;
+  job_id: number | null;
   description: string;
-  image: string;
+  code: string;
+  image: string | null;
   full_name: string;
+  last_latitude: number;
+  last_longitude: number;
   point_A_lat: number;
   point_A_lon: number;
   point_B_lat: number;
