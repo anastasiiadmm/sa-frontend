@@ -13,8 +13,11 @@ const initialState = {
     results: {
       id: null,
       description: '',
+      code: '',
       image: '',
       full_name: '',
+      last_latitude: 0,
+      last_longitude: 0,
       point_A_lat: 0,
       point_A_lon: 0,
       point_B_lat: 0,
