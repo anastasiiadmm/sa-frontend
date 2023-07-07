@@ -296,7 +296,7 @@ const TechniqueMap = () => {
             center={[60.735277, 92.628906]}
             zoom={3}
             minZoom={2}
-            maxZoom={18}
+            maxZoom={17}
             scrollWheelZoom
             style={{ width: '100%', height: '100vh' }}
           >
