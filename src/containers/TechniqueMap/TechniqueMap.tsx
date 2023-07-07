@@ -28,8 +28,21 @@ import 'containers/TechniqueMap/_techniqueMap.scss';
 
 const { Text } = Typography;
 
+const b = bem('TechniqueMap');
+
+const CardBlock = ({ image, title, value }: { image: string; title: string; value: number }) => (
+  <Card className={b('card-style')} bordered={false}>
+    <div className={b('title')}>
+      <img src={image} alt={title} className={b('img-title')} />
+      <div className={b('title-info')}>
+        <Text className={b('title')}>{title}</Text>
+        <Text strong>{value}</Text>
+      </div>
+    </div>
+  </Card>
+);
+
 const TechniqueMap = () => {
-  const b = bem('TechniqueMap');
   const markerRef = useRef(null);
   const history = useNavigate();
   const dispatch = useAppDispatch();
@@ -261,33 +274,13 @@ const TechniqueMap = () => {
             </Card>
           </div>
           <div className={b('card-block-info')}>
-            <Card className={b('card-style')} bordered={false}>
-              <div className={b('title')}>
-                <img src={tractorBlue} alt='tractorBlue' className={b('img-title')} />
-                <div className={b('title-info')}>
-                  <Text className={b('title')}>Всего техники</Text>
-                  <Text strong>{socketMap?.all_vehicles_info?.length || 0}</Text>
-                </div>
-              </div>
-            </Card>
-            <Card className={b('card-style')} bordered={false}>
-              <div className={b('title')}>
-                <img src={active} alt='locale' className={b('img-title')} />
-                <div className={b('title-info')}>
-                  <Text className={b('title')}>Активны</Text>
-                  <Text strong>{activeCount}</Text>
-                </div>
-              </div>
-            </Card>
-            <Card className={b('card-style')} bordered={false}>
-              <div className={b('title')}>
-                <img src={inactive} alt='locale' className={b('img-title')} />
-                <div className={b('title-info')}>
-                  <Text className={b('title')}>Неактивны</Text>
-                  <Text strong>{inactiveCount}</Text>
-                </div>
-              </div>
-            </Card>
+            <CardBlock
+              image={tractorBlue}
+              title='Всего техники'
+              value={socketMap?.all_vehicles_info?.length || 0}
+            />
+            <CardBlock image={active} title='Активны' value={activeCount} />
+            <CardBlock image={inactive} title='Неактивны' value={inactiveCount} />
           </div>
         </div>
 
