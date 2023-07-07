@@ -45,6 +45,9 @@
     &:active {
       background-color: transparent;
     }
+    &:hover {
+      background-color: transparent !important;
+    }
   }
 
   &__active-buttons-block {
@@ -56,10 +59,21 @@
     cursor: default;
   }
 
+  &__active-button {
+    border-radius: 26px;
+    width: 130px;
+    &:hover {
+      background-color: themes.$primary-color !important;
+    }
+  }
+
   &__speed-button {
     border-radius: 26px;
     width: 130px;
     background-color: themes.$orange;
+    &:hover {
+      background-color: themes.$orange !important;
+    }
   }
 
   .input-styles {

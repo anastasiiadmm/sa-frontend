@@ -197,60 +197,96 @@ exports[`OpenMapComponents render technique map success 1`] = `
   <div
     className="TechniqueMap__card-block"
   >
-    <div
-      className="ant-card TechniqueMap__card-style css-dev-only-do-not-override-15rg2km"
-    >
+    <div>
       <div
-        className="ant-card-body"
-        style={{}}
+        className="ant-card TechniqueMap__card-style css-dev-only-do-not-override-15rg2km"
       >
         <div
-          className="TechniqueMap__header-title"
+          className="ant-card-body"
+          style={{}}
         >
-          <button
-            className="btn_none_style"
-            onClick={[Function]}
-            type="button"
+          <div
+            className="TechniqueMap__header-title"
+          >
+            <button
+              className="btn_none_style"
+              onClick={[Function]}
+              type="button"
+            >
+              <img
+                alt="arrow"
+                className="TechniqueMap__arrow-left"
+                src={
+                  {
+                    "process": [Function],
+                  }
+                }
+              />
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="TechniqueMap__card-block-info"
+    >
+      <div
+        className="ant-card TechniqueMap__card-style css-dev-only-do-not-override-15rg2km"
+      >
+        <div
+          className="ant-card-body"
+          style={{}}
+        >
+          <div
+            className="TechniqueMap__title"
           >
             <img
-              alt="arrow"
-              className="TechniqueMap__arrow-left"
+              alt="tractorBlue"
+              className="TechniqueMap__img-title"
               src={
                 {
                   "process": [Function],
                 }
               }
             />
-          </button>
-          <span
-            className="ant-typography TechniqueMap__title css-dev-only-do-not-override-15rg2km"
-            style={
-              {
-                "WebkitLineClamp": undefined,
-              }
-            }
-          >
-            Всего техники - 
-            <span
-              className="ant-typography css-dev-only-do-not-override-15rg2km"
-              style={
-                {
-                  "WebkitLineClamp": undefined,
-                }
-              }
+            <div
+              className="TechniqueMap__title-info"
             >
-              <strong>
-                0
-              </strong>
-            </span>
-          </span>
-          <span
-            className="ant-typography TechniqueMap__title css-dev-only-do-not-override-15rg2km"
-            style={
-              {
-                "WebkitLineClamp": undefined,
-              }
-            }
+              <span
+                className="ant-typography TechniqueMap__title css-dev-only-do-not-override-15rg2km"
+                style={
+                  {
+                    "WebkitLineClamp": undefined,
+                  }
+                }
+              >
+                Всего техники
+              </span>
+              <span
+                className="ant-typography css-dev-only-do-not-override-15rg2km"
+                style={
+                  {
+                    "WebkitLineClamp": undefined,
+                  }
+                }
+              >
+                <strong>
+                  0
+                </strong>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="ant-card TechniqueMap__card-style css-dev-only-do-not-override-15rg2km"
+      >
+        <div
+          className="ant-card-body"
+          style={{}}
+        >
+          <div
+            className="TechniqueMap__title"
           >
             <img
               alt="locale"
@@ -261,27 +297,44 @@ exports[`OpenMapComponents render technique map success 1`] = `
                 }
               }
             />
-            Активны - 
-            <span
-              className="ant-typography css-dev-only-do-not-override-15rg2km"
-              style={
-                {
-                  "WebkitLineClamp": undefined,
-                }
-              }
+            <div
+              className="TechniqueMap__title-info"
             >
-              <strong>
-                0
-              </strong>
-            </span>
-          </span>
-          <span
-            className="ant-typography TechniqueMap__title css-dev-only-do-not-override-15rg2km"
-            style={
-              {
-                "WebkitLineClamp": undefined,
-              }
-            }
+              <span
+                className="ant-typography TechniqueMap__title css-dev-only-do-not-override-15rg2km"
+                style={
+                  {
+                    "WebkitLineClamp": undefined,
+                  }
+                }
+              >
+                Активны
+              </span>
+              <span
+                className="ant-typography css-dev-only-do-not-override-15rg2km"
+                style={
+                  {
+                    "WebkitLineClamp": undefined,
+                  }
+                }
+              >
+                <strong>
+                  0
+                </strong>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="ant-card TechniqueMap__card-style css-dev-only-do-not-override-15rg2km"
+      >
+        <div
+          className="ant-card-body"
+          style={{}}
+        >
+          <div
+            className="TechniqueMap__title"
           >
             <img
               alt="locale"
@@ -292,20 +345,33 @@ exports[`OpenMapComponents render technique map success 1`] = `
                 }
               }
             />
-            Неактивны - 
-            <span
-              className="ant-typography css-dev-only-do-not-override-15rg2km"
-              style={
-                {
-                  "WebkitLineClamp": undefined,
-                }
-              }
+            <div
+              className="TechniqueMap__title-info"
             >
-              <strong>
-                0
-              </strong>
-            </span>
-          </span>
+              <span
+                className="ant-typography TechniqueMap__title css-dev-only-do-not-override-15rg2km"
+                style={
+                  {
+                    "WebkitLineClamp": undefined,
+                  }
+                }
+              >
+                Неактивны
+              </span>
+              <span
+                className="ant-typography css-dev-only-do-not-override-15rg2km"
+                style={
+                  {
+                    "WebkitLineClamp": undefined,
+                  }
+                }
+              >
+                <strong>
+                  0
+                </strong>
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
