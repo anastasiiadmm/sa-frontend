@@ -81,8 +81,7 @@ const DrawerComponent: React.FC<Props> = ({ onClose, open, vehicle, vehicleActiv
             <Button
               type='primary'
               icon={<img src={tractorWhite} alt={tractorWhite} />}
-              style={{ borderRadius: 26, width: 130 }}
-              className='cursor'
+              className={b('active-button cursor')}
             >
               Активен
             </Button>
@@ -91,7 +90,7 @@ const DrawerComponent: React.FC<Props> = ({ onClose, open, vehicle, vehicleActiv
               type='primary'
               icon={<img src={speed} alt={speed} />}
             >
-              {`${speedStatus} км/ч`}
+              {`${Number(speedStatus) >= 2 ? Math.floor(Number(speedStatus)) : 0} км/ч`}
             </Button>
           </div>
         )}

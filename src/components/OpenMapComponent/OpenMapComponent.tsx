@@ -143,7 +143,12 @@ const OpenMapComponent = () => {
   }, []);
 
   useEffect(() => {
-    if (markerRef.current && socketMap.latitude && socketMap.longitude) {
+    if (
+      markerRef.current &&
+      socketMap.latitude &&
+      socketMap.longitude &&
+      Number(socketMap?.speed) !== 0
+    ) {
       const newPosition = [Number(socketMap.latitude), Number(socketMap.longitude)];
       const start = markerPosition || newPosition;
       const end = newPosition;
@@ -169,7 +174,7 @@ const OpenMapComponent = () => {
 
       return () => clearInterval(timer);
     }
-  }, [socketMap.latitude, socketMap.longitude]);
+  }, [socketMap.latitude, socketMap.longitude, socketMap.speed]);
 
   useEffect(() => {
     if (loadingMapUpdate) {
@@ -420,6 +425,7 @@ const OpenMapComponent = () => {
             center={markerPosition !== null ? markerPosition : (centerMap() as LatLngExpression)}
             opacity={0}
             radius={10}
+            interactive={false}
           >
             <Marker
               position={
