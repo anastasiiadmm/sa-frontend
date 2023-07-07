@@ -294,7 +294,7 @@ const TechniqueMap = () => {
         <div className={b('map-block')}>
           <MapContainer
             center={[60.735277, 92.628906]}
-            zoom={27}
+            zoom={3}
             minZoom={2}
             maxZoom={18}
             scrollWheelZoom
