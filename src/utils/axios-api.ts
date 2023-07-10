@@ -61,15 +61,9 @@ axiosApi.interceptors.response.use(
           return axiosApi(originalRequest);
         }
       } catch (e) {
-        if (
-          e?.response?.status === 401 ||
-          e?.response?.status === 400 ||
-          e?.response?.status === 404
-        ) {
-          logoutLocalStorage();
-          deleteCookie(nameRefreshCookies);
-          window.location.reload();
-        }
+        logoutLocalStorage();
+        deleteCookie(nameRefreshCookies);
+        window.location.reload();
       }
     }
 
