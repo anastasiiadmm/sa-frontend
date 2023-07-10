@@ -77,7 +77,7 @@ const AppRouter: React.FC = () => {
         });
 
   return (
-    <Layout style={{ height: '100vh' }} className={b('')}>
+    <Layout style={{ height: '100vh' }} className={b('')} data-testid='app-router'>
       <SliderMenu collapsed={collapsed} />
       <Layout className='site-layout'>
         <Header style={{ padding: 0, background: colorBgContainer }}>{renderSlider}</Header>
