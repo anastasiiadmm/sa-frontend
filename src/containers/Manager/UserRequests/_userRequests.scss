@@ -48,5 +48,10 @@
   @include mixins.bp(desktop) {
     display: flex;
     flex-wrap: wrap;
+    height: 100%;
+
+    &__table {
+      width: 100%;
+    }
   }
 }

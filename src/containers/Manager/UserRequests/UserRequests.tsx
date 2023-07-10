@@ -390,19 +390,21 @@ const UserRequests = () => {
     return { imageSrc, requestTitle };
   };
 
+  const rowClickHandler = (record: Requestor) => {
+    confirmationTypeHandler(record);
+  };
+
   const columns: ColumnsType<Requestor> = [
     {
       dataIndex: 'category',
-      filterSearch: true,
       width: '10%',
-      fixed: 'left',
       render: (text, row) => {
         const categoryToImage: { [key: number]: string } = {
-          2: user,
-          3: tractorRequest,
-          4: sun,
+          2: windowWidth <= 990 ? changeProfile : user,
+          3: windowWidth <= 990 ? newTechnique : tractorRequest,
+          4: windowWidth <= 990 ? newWeather : sun,
         };
-        const defaultImage = newUser;
+        const defaultImage = windowWidth <= 990 ? newUserMobile : newUser;
         const imageSource = categoryToImage[row?.category] || defaultImage;
 
         return <img alt='info' src={imageSource} />;
@@ -453,15 +455,21 @@ const UserRequests = () => {
         return (
           <>
             <span>{row?.requestor as string}</span>
-            <Tooltip
-              title='Просмотреть запрос'
-              color='#BBBBBB'
-              overlayInnerStyle={{ padding: '5px 15px', borderRadius: 15 }}
-            >
-              <Button className={b('btn')} type='link' onClick={() => confirmationTypeHandler(row)}>
-                <EyeOutlined style={{ fontSize: '20px' }} />
-              </Button>
-            </Tooltip>
+            {windowWidth > 990 && (
+              <Tooltip
+                title='Просмотреть запрос'
+                color='#BBBBBB'
+                overlayInnerStyle={{ padding: '5px 15px', borderRadius: 15 }}
+              >
+                <Button
+                  className={b('btn')}
+                  type='link'
+                  onClick={() => confirmationTypeHandler(row)}
+                >
+                  <EyeOutlined style={{ fontSize: '20px' }} />
+                </Button>
+              </Tooltip>
+            )}
           </>
         );
       },
@@ -475,7 +483,7 @@ const UserRequests = () => {
   return (
     <>
       <div className={b()} data-testid='requests-id'>
-        {windowWidth <= 990 ? (
+        {windowWidth <= 601 ? (
           fetchRequestsLoading ? (
             <Spin className='spin' />
           ) : requests?.length === 0 ? (
@@ -518,11 +526,15 @@ const UserRequests = () => {
           )
         ) : (
           <div className={b('table')}>
-            <Title level={3} data-testid='sign_in_test' className={b('title')}>
-              Запросы
-            </Title>
+            {windowWidth >= 990 && (
+              <Title level={3} data-testid='sign_in_test' className={b('title')}>
+                Запросы
+              </Title>
+            )}
 
             <TableComponent
+              scroll={windowWidth <= 990 ? { x: '100%' } : undefined}
+              rowClickHandler={rowClickHandler}
               loading={fetchRequestsLoading}
               columns={columns}
               onChange={handleTableSortChange}
