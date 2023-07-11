@@ -5,7 +5,7 @@ import React from 'react';
 
 import notFoundImages from 'assets/images/notFound.svg';
 import PaginationComponent from 'components/TableComponent/PaginationComponent/PaginationComponent';
-import { pagination } from 'interfaces';
+import { pagination, Requestor } from 'interfaces';
 
 interface Props {
   data: any | undefined;
@@ -21,10 +21,16 @@ interface Props {
   params?: pagination | null;
   pagePrevHandler?: () => void;
   pageNextHandler?: () => void;
+  rowClickHandler?: (record: Requestor) => void;
   disabledButton?: boolean;
+  scroll?:
+    | { x?: string | number; y?: string | number } & {
+        scrollToFirstRowOnChange?: boolean;
+      };
 }
 
 const TableComponent: React.FC<Props> = ({
+  scroll = { x: 950 },
   loading,
   columns,
   data,
@@ -33,7 +39,15 @@ const TableComponent: React.FC<Props> = ({
   params,
   pagePrevHandler,
   pageNextHandler,
+  rowClickHandler,
 }) => {
+  const rowClassName = (record: Requestor, index: number) => {
+    if (index % 2 === 0) {
+      return '';
+    }
+    return 'blue-row';
+  };
+
   const locale = {
     emptyText: (
       <Empty
@@ -49,9 +63,10 @@ const TableComponent: React.FC<Props> = ({
   return (
     <>
       <Table
-        scroll={{
-          x: 950,
-        }}
+        scroll={scroll}
+        onRow={(record) => ({
+          onClick: () => rowClickHandler && rowClickHandler(record),
+        })}
         loading={loading}
         rowKey={rowKey}
         locale={locale}
@@ -59,6 +74,7 @@ const TableComponent: React.FC<Props> = ({
         dataSource={data}
         onChange={onChange}
         pagination={false}
+        rowClassName={rowClassName}
       />
       <PaginationComponent
         params={params}

@@ -119,6 +119,10 @@ button:disabled {
   }
 }
 
+.blue-row {
+  background-color: themes.$light-blue-bg;
+}
+
 .ant-form-item .ant-form-item-label > label {
   color: themes.$gray-color !important;
 }

@@ -41,7 +41,7 @@ const OpenMapComponent = () => {
     status: '',
     latitude: '',
     longitude: '',
-    speed: '',
+    speed: 0,
   });
   const { userVehicleInfo, userVehicleInfoLoading } = useAppSelector(accountsSelector);
   const [loadingMap, setLoadingMap] = useState(false);
@@ -147,7 +147,7 @@ const OpenMapComponent = () => {
       markerRef.current &&
       socketMap.latitude &&
       socketMap.longitude &&
-      Number(socketMap?.speed) !== 0
+      Number(socketMap?.speed) >= 2
     ) {
       const newPosition = [Number(socketMap.latitude), Number(socketMap.longitude)];
       const start = markerPosition || newPosition;

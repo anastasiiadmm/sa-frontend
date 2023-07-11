@@ -145,7 +145,10 @@ const ProfileTechnique = () => {
               overlayInnerStyle={{ padding: '5px 15px', borderRadius: 15 }}
               placement='topRight'
             >
-              <Link className={b('profile-link')} to={`/open-map/${vehicleId}/${record.id}`}>
+              <Link
+                className={b('profile-link')}
+                to={`/open-map/${vehicleId}/${record.id}/${userVehicleInfo?.vehicle?.code}`}
+              >
                 <Button type='text'>
                   <img src={planet} alt='Просмотреть на карте' width={20} />
                 </Button>
@@ -179,6 +182,7 @@ const ProfileTechnique = () => {
       />
     );
   }
+
   return (
     <div className={b()} data-testid='profile-technique-id'>
       <div className={b('table')}>
@@ -199,7 +203,7 @@ const ProfileTechnique = () => {
             )}
           </div>
           <div>
-            <Link to={`/open-map/${vehicleId}/local-tractor`}>
+            <Link to={`/open-map/${vehicleId}/local-tractor/${userVehicleInfo?.vehicle?.code}`}>
               <Button
                 type='link'
                 icon={<img src={tractorBlue} alt='Техника на карте' width={18} />}

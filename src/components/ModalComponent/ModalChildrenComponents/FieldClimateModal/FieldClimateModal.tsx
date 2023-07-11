@@ -2,7 +2,7 @@ import { Button, Form, Typography } from 'antd';
 import bem from 'easy-bem';
 import React, { useEffect } from 'react';
 
-import cloud from 'assets/images/icons/cloud.svg';
+import sun from 'assets/images/icons/sun-large.svg';
 import FormField from 'components/FormField/FormField';
 import { Requestor } from 'interfaces';
 import 'components/ModalComponent/ModalChildrenComponents/FieldClimateModal/_fieldClimateModal.scss';
@@ -35,7 +35,7 @@ const FieldClimateModal: React.FC<Props> = ({
 
   return (
     <div>
-      <img src={cloud} alt='cloud' />
+      <img src={sun} alt='sun' style={{ width: 83, height: 83 }} />
       <Title level={3}>Запрос на подключение метеосервиса</Title>
 
       <Form form={form} initialValues={{ remember: true }} autoComplete='off' layout='vertical'>
@@ -55,7 +55,7 @@ const FieldClimateModal: React.FC<Props> = ({
       <div className={b('profile-buttons')}>
         <Button
           type='primary'
-          style={{ width: '100%', borderRadius: 4 }}
+          style={{ width: '100%', borderRadius: 6 }}
           className={b('delete-button')}
           onClick={handleOkCancel}
         >
@@ -66,7 +66,7 @@ const FieldClimateModal: React.FC<Props> = ({
           type='primary'
           htmlType='submit'
           loading={approveRequestLoading}
-          style={{ width: '100%', borderRadius: 4 }}
+          style={{ width: '100%', borderRadius: 6 }}
           className={b('save-button')}
           onClick={sendApprovedHandler}
         >

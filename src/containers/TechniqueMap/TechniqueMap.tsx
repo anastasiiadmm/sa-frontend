@@ -77,7 +77,7 @@ const TechniqueMap = () => {
 
           const distance = Math.sqrt((end[0] - start[0]) ** 2 + (end[1] - start[1]) ** 2);
 
-          if (Number(speed) !== 0) {
+          if (Number(speed) >= 2) {
             const duration = Math.max(moveSpeed, distance * 50);
 
             let progress = 0;

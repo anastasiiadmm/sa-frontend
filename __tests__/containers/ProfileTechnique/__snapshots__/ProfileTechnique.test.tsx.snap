@@ -45,7 +45,7 @@ exports[`<ProfileTechnique /> Users table component should be in the document 1`
       </div>
       <div>
         <a
-          href="/open-map/undefined/local-tractor"
+          href="/open-map/undefined/local-tractor/undefined"
           onClick={[Function]}
         >
           <button

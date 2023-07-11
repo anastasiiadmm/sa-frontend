@@ -51,6 +51,7 @@ export interface VehicleList {
 export interface VehicleType {
   id?: string | null | undefined;
   vin: string;
+  code?: string;
   license_plate: string;
   description: string;
   image?: string;
