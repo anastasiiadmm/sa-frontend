@@ -25,7 +25,7 @@ const { Title } = Typography;
 const ProfileTechnique = () => {
   const b = bem('ProfileTechnique');
   const dispatch = useAppDispatch();
-  const { vehicleId } = useParams() as { vehicleId: string };
+  const { vehicleId, code } = useParams() as { vehicleId: string; code?: string };
   const history = useNavigate();
 
   const userVehicleInfoState = useAppSelector(companiesSelector);
@@ -145,7 +145,10 @@ const ProfileTechnique = () => {
               overlayInnerStyle={{ padding: '5px 15px', borderRadius: 15 }}
               placement='topRight'
             >
-              <Link className={b('profile-link')} to={`/open-map/${vehicleId}/${record.id}`}>
+              <Link
+                className={b('profile-link')}
+                to={`/open-map/${vehicleId}/${record.id}/${code}`}
+              >
                 <Button type='text'>
                   <img src={planet} alt='Просмотреть на карте' width={20} />
                 </Button>
@@ -179,6 +182,7 @@ const ProfileTechnique = () => {
       />
     );
   }
+
   return (
     <div className={b()} data-testid='profile-technique-id'>
       <div className={b('table')}>

@@ -157,7 +157,7 @@ const UserRequests = () => {
   };
 
   const showRejectModal = () => {
-    setIsModalRejectOpen(true);
+    setIsModalRejectOpen(!isModalRejectOpen);
   };
 
   const handleOkRejectCancel = () => {

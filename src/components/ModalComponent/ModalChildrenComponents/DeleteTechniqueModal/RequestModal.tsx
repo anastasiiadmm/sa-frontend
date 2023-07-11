@@ -2,7 +2,7 @@ import { Button } from 'antd';
 import bem from 'easy-bem';
 import React from 'react';
 
-import warning from 'assets/images/icons/warning.svg';
+import warning from 'assets/images/icons/notification-round.svg';
 import ResultComponent from 'components/ResultComponent/ResultComponent';
 import 'components/ModalComponent/ModalChildrenComponents/DeleteTechniqueModal/_requestModal.scss';
 
@@ -36,7 +36,7 @@ const RequestModal: React.FC<Props> = ({
       <div className={b('delete-modal-buttons')}>
         <Button
           type='primary'
-          style={{ width: '100%', borderRadius: 4 }}
+          style={{ width: '100%', borderRadius: 8 }}
           className={b('cancel-profile-button')}
           onClick={handleDeleteCancel}
         >
@@ -45,7 +45,7 @@ const RequestModal: React.FC<Props> = ({
         <Button
           type='primary'
           loading={loading}
-          style={{ width: '100%', borderRadius: 4 }}
+          style={{ width: '100%', borderRadius: 8 }}
           onClick={requestHandler}
         >
           {textCancel}
