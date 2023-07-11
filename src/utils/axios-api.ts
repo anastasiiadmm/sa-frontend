@@ -1,6 +1,6 @@
 import axios, { AxiosRequestHeaders } from 'axios';
 
-import { checkForTokens } from 'redux/auth/authSlice';
+import { checkForTokens, clearTokens } from 'redux/auth/authSlice';
 import store from 'redux/store';
 import { deleteCookie, nameRefreshCookies } from 'utils/addCookies/addCookies';
 import { addLocalStorage, logoutLocalStorage } from 'utils/addLocalStorage/addLocalStorage';
@@ -63,7 +63,7 @@ axiosApi.interceptors.response.use(
       } catch (e) {
         logoutLocalStorage();
         deleteCookie(nameRefreshCookies);
-        window.location.reload();
+        index.dispatch(clearTokens());
       }
     }
 
