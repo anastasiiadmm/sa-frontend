@@ -79,6 +79,9 @@ export const authSlice = createSlice({
         ...payload,
       };
     },
+    clearTokens: (state) => {
+      state.tokens = INITIAL_STATE.tokens;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(loginUser.pending, (state) => {
@@ -111,6 +114,6 @@ export const authSlice = createSlice({
   },
 });
 
-export const { logoutUser, checkForTokens } = authSlice.actions;
+export const { logoutUser, checkForTokens, clearTokens } = authSlice.actions;
 export const authSelector = (state: RootState) => state.auth;
 export default authSlice.reducer;

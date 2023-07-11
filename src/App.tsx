@@ -49,7 +49,9 @@ const App: React.FC = () => {
   return tokens?.access && tokens?.refresh ? (
     <AppRouter />
   ) : (
-    <Routes>{tokens?.access ? null : <Route path='*' element={<SignIn />} />}</Routes>
+    <Routes>
+      {tokens?.access && tokens?.refresh ? null : <Route path='*' element={<SignIn />} />}
+    </Routes>
   );
 };
 
