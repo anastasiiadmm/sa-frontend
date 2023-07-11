@@ -127,7 +127,7 @@ const AppRouter: React.FC = () => {
               )}
               <Route path='/open-map/:id/:field_name/:code?' element={<OpenMapComponent />} />
               <Route path='/technique-map/:techniqueId' element={<TechniqueMap />} />
-              <Route path='/profile-technique/:vehicleId/:code?' element={<ProfileTechnique />} />
+              <Route path='/profile-technique/:vehicleId' element={<ProfileTechnique />} />
               <Route
                 path='*'
                 element={

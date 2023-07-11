@@ -383,7 +383,7 @@ exports[`<UserTechnique /> Users table component should be in the document 1`] =
                             />
                           </button>
                           <a
-                            href="/profile-technique/91/D8BN8TR61"
+                            href="/profile-technique/91"
                             onClick={[Function]}
                             onMouseEnter={[Function]}
                             onMouseLeave={[Function]}

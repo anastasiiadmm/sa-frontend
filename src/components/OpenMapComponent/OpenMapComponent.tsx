@@ -411,7 +411,7 @@ const OpenMapComponent = () => {
           center={centerMapHandler()}
           zoom={27}
           minZoom={2}
-          maxZoom={28}
+          maxZoom={18}
           scrollWheelZoom
           maxBounds={latLngBounds}
           style={{ width: '100%', height: '100vh' }}

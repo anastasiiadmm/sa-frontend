@@ -25,7 +25,7 @@ const { Title } = Typography;
 const ProfileTechnique = () => {
   const b = bem('ProfileTechnique');
   const dispatch = useAppDispatch();
-  const { vehicleId, code } = useParams() as { vehicleId: string; code?: string };
+  const { vehicleId } = useParams() as { vehicleId: string };
   const history = useNavigate();
 
   const userVehicleInfoState = useAppSelector(companiesSelector);
@@ -147,7 +147,7 @@ const ProfileTechnique = () => {
             >
               <Link
                 className={b('profile-link')}
-                to={`/open-map/${vehicleId}/${record.id}/${code}`}
+                to={`/open-map/${vehicleId}/${record.id}/${userVehicleInfo?.vehicle?.code}`}
               >
                 <Button type='text'>
                   <img src={planet} alt='Просмотреть на карте' width={20} />
@@ -203,7 +203,7 @@ const ProfileTechnique = () => {
             )}
           </div>
           <div>
-            <Link to={`/open-map/${vehicleId}/local-tractor`}>
+            <Link to={`/open-map/${vehicleId}/local-tractor/${userVehicleInfo?.vehicle?.code}`}>
               <Button
                 type='link'
                 icon={<img src={tractorBlue} alt='Техника на карте' width={18} />}

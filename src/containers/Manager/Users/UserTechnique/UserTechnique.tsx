@@ -212,7 +212,7 @@ const UserTechnique: React.FC = () => {
               color='#BBBBBB'
               overlayInnerStyle={{ padding: '5px 15px', borderRadius: 15 }}
             >
-              <Link to={`/profile-technique/${record?.id}/${record?.code}`}>
+              <Link to={`/profile-technique/${record?.id}`}>
                 <Button type='text'>
                   <EyeOutlined style={{ fontSize: '27px', color: '#1358bf' }} />
                 </Button>

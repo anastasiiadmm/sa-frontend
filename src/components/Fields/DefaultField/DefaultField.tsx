@@ -16,10 +16,12 @@ interface Props {
   onChange?: () => void;
 }
 
+const pattern = /^[A-Za-zА-Яа-яЁё0-9\s]*$/;
+
 const DefaultField: React.FC<Props> = ({
   label,
   name,
-  rules,
+  rules = [],
   placeholder,
   className,
   inputClassName,
@@ -27,8 +29,15 @@ const DefaultField: React.FC<Props> = ({
   readOnly = false,
   onChange,
 }) => {
+  const defaultRules = [
+    {
+      pattern,
+      message: 'Допустимы только буквы кириллицы, латиницы и цифры!',
+    },
+  ];
+
   return (
-    <Form.Item label={label} name={name} rules={rules} className={className}>
+    <Form.Item label={label} name={name} rules={[...defaultRules, ...rules]} className={className}>
       <Input
         name={name}
         readOnly={readOnly}
