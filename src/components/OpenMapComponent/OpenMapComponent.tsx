@@ -112,7 +112,7 @@ const OpenMapComponent = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (account?.coords_timeout !== undefined || configs?.websocket_auth_secret_key) {
+    if (account?.coords_timeout && configs?.websocket_auth_secret_key) {
       const socket = connectWebSocket(
         account?.coords_timeout ?? 0,
         configs?.websocket_auth_secret_key ?? '',
