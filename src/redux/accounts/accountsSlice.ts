@@ -77,6 +77,8 @@ interface AccountsState {
   changeProfileError: IErrors | null;
   requestApproveChangeProfileLoading: boolean;
   requestApproveChangeProfileError: IErrors | null;
+  postNotificationRequestLoading: boolean;
+  postNotificationRequestError: IErrors | null;
 }
 
 const INITIAL_STATE = {
@@ -154,6 +156,9 @@ const INITIAL_STATE = {
 
   requestApproveChangeProfileLoading: false,
   requestApproveChangeProfileError: null,
+
+  postNotificationRequestLoading: false,
+  postNotificationRequestError: null,
 } as AccountsState;
 
 interface fetchApksParams {
@@ -503,6 +508,21 @@ export const generateNewPassword = createAsyncThunk<generatedPassword, generateN
     try {
       const resp = await axiosApi.patch(`/accounts/new-password/`, data);
       return resp.data;
+    } catch (e) {
+      return rejectWithValue({
+        detail: e?.response?.data,
+        status: e?.response?.status,
+      });
+    }
+  },
+);
+
+export const postNotificationRequest = createAsyncThunk(
+  `${nameSpace}/postNotificationRequest`,
+  async (_, { rejectWithValue }) => {
+    try {
+      const res = await axiosApi.post(`/accounts/latest-version/`);
+      return res?.data;
     } catch (e) {
       return rejectWithValue({
         detail: e?.response?.data,
@@ -887,6 +907,26 @@ const accountsSlice = createSlice({
         };
       }
     });
+
+    builder
+      .addCase(postNotificationRequest.pending, (state) => {
+        state.postNotificationRequestLoading = true;
+        state.postNotificationRequestError = null;
+      })
+      .addCase(postNotificationRequest.fulfilled, (state) => {
+        state.postNotificationRequestLoading = false;
+        state.postNotificationRequestError = null;
+      })
+      .addCase(postNotificationRequest.rejected, (state, { payload }) => {
+        state.postNotificationRequestLoading = false;
+        if (payload && typeof payload === 'object' && 'detail' in payload && 'status' in payload) {
+          state.postNotificationRequestError = {
+            ...state.postNotificationRequestError,
+            detail: payload.detail as string | null,
+            status: payload.status as number | null,
+          };
+        }
+      });
   },
 });
 

@@ -43,6 +43,7 @@ export interface IAccount {
   email: string;
   phone: string;
   coords_timeout: number | undefined;
+  user_latest_version?: boolean;
   company: {
     autopilots_amount: number;
     id?: number;
