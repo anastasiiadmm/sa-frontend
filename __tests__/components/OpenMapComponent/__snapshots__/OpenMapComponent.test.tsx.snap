@@ -9,7 +9,7 @@ exports[`OpenMapComponents render 1`] = `
   >
     <div>
       <div
-        className="ant-card OpenMapComponent__card-style css-dev-only-do-not-override-14wwjjs"
+        className="ant-card OpenMapComponent__card-style css-dev-only-do-not-override-15rg2km"
       >
         <div
           className="ant-card-body"
@@ -41,7 +41,7 @@ exports[`OpenMapComponents render 1`] = `
       className="OpenMapComponent__card-block-info"
     >
       <div
-        className="ant-card OpenMapComponent__card-style css-dev-only-do-not-override-14wwjjs"
+        className="ant-card OpenMapComponent__card-style css-dev-only-do-not-override-15rg2km"
       >
         <div
           className="ant-card-body"
@@ -51,7 +51,7 @@ exports[`OpenMapComponents render 1`] = `
             className="OpenMapComponent__header-title"
           >
             <h3
-              className="ant-typography OpenMapComponent__title css-dev-only-do-not-override-14wwjjs"
+              className="ant-typography OpenMapComponent__title css-dev-only-do-not-override-15rg2km"
               style={
                 {
                   "WebkitLineClamp": undefined,
@@ -79,7 +79,7 @@ exports[`OpenMapComponents render 1`] = `
         </div>
       </div>
       <div
-        className="ant-card OpenMapComponent__card-style css-dev-only-do-not-override-14wwjjs"
+        className="ant-card OpenMapComponent__card-style css-dev-only-do-not-override-15rg2km"
       >
         <div
           className="ant-card-body"
@@ -89,7 +89,7 @@ exports[`OpenMapComponents render 1`] = `
             className="OpenMapComponent__header-title"
           >
             <h3
-              className="ant-typography OpenMapComponent__title css-dev-only-do-not-override-14wwjjs"
+              className="ant-typography OpenMapComponent__title css-dev-only-do-not-override-15rg2km"
               style={
                 {
                   "WebkitLineClamp": undefined,
@@ -113,7 +113,7 @@ exports[`OpenMapComponents render 1`] = `
         </div>
       </div>
       <div
-        className="ant-card OpenMapComponent__card-style css-dev-only-do-not-override-14wwjjs"
+        className="ant-card OpenMapComponent__card-style css-dev-only-do-not-override-15rg2km"
       >
         <div
           className="ant-card-body"
@@ -123,7 +123,7 @@ exports[`OpenMapComponents render 1`] = `
             className="OpenMapComponent__header-title"
           >
             <h3
-              className="ant-typography OpenMapComponent__title css-dev-only-do-not-override-14wwjjs"
+              className="ant-typography OpenMapComponent__title css-dev-only-do-not-override-15rg2km"
               style={
                 {
                   "WebkitLineClamp": undefined,
@@ -153,10 +153,9 @@ exports[`OpenMapComponents render 1`] = `
     </div>
   </div>
   <button
-    className="ant-btn css-dev-only-do-not-override-14wwjjs ant-btn-default OpenMapComponent__render_btn"
+    className="ant-btn css-dev-only-do-not-override-15rg2km ant-btn-default OpenMapComponent__render_btn"
     disabled={false}
     onClick={[Function]}
-    style={{}}
     type="button"
   >
     <span
@@ -200,7 +199,7 @@ exports[`OpenMapComponents render technique map success 1`] = `
   >
     <div>
       <div
-        className="ant-card TechniqueMap__card-style css-dev-only-do-not-override-14wwjjs"
+        className="ant-card TechniqueMap__card-style css-dev-only-do-not-override-15rg2km"
       >
         <div
           className="ant-card-body"
@@ -232,7 +231,7 @@ exports[`OpenMapComponents render technique map success 1`] = `
       className="TechniqueMap__card-block-info"
     >
       <div
-        className="ant-card TechniqueMap__card-style css-dev-only-do-not-override-14wwjjs"
+        className="ant-card TechniqueMap__card-style css-dev-only-do-not-override-15rg2km"
       >
         <div
           className="ant-card-body"
@@ -254,7 +253,7 @@ exports[`OpenMapComponents render technique map success 1`] = `
               className="TechniqueMap__title-info"
             >
               <span
-                className="ant-typography TechniqueMap__title css-dev-only-do-not-override-14wwjjs"
+                className="ant-typography TechniqueMap__title css-dev-only-do-not-override-15rg2km"
                 style={
                   {
                     "WebkitLineClamp": undefined,
@@ -264,7 +263,7 @@ exports[`OpenMapComponents render technique map success 1`] = `
                 Всего техники
               </span>
               <span
-                className="ant-typography css-dev-only-do-not-override-14wwjjs"
+                className="ant-typography css-dev-only-do-not-override-15rg2km"
                 style={
                   {
                     "WebkitLineClamp": undefined,
@@ -280,7 +279,7 @@ exports[`OpenMapComponents render technique map success 1`] = `
         </div>
       </div>
       <div
-        className="ant-card TechniqueMap__card-style css-dev-only-do-not-override-14wwjjs"
+        className="ant-card TechniqueMap__card-style css-dev-only-do-not-override-15rg2km"
       >
         <div
           className="ant-card-body"
@@ -302,7 +301,7 @@ exports[`OpenMapComponents render technique map success 1`] = `
               className="TechniqueMap__title-info"
             >
               <span
-                className="ant-typography TechniqueMap__title css-dev-only-do-not-override-14wwjjs"
+                className="ant-typography TechniqueMap__title css-dev-only-do-not-override-15rg2km"
                 style={
                   {
                     "WebkitLineClamp": undefined,
@@ -312,7 +311,7 @@ exports[`OpenMapComponents render technique map success 1`] = `
                 Активны
               </span>
               <span
-                className="ant-typography css-dev-only-do-not-override-14wwjjs"
+                className="ant-typography css-dev-only-do-not-override-15rg2km"
                 style={
                   {
                     "WebkitLineClamp": undefined,
@@ -328,7 +327,7 @@ exports[`OpenMapComponents render technique map success 1`] = `
         </div>
       </div>
       <div
-        className="ant-card TechniqueMap__card-style css-dev-only-do-not-override-14wwjjs"
+        className="ant-card TechniqueMap__card-style css-dev-only-do-not-override-15rg2km"
       >
         <div
           className="ant-card-body"
@@ -350,7 +349,7 @@ exports[`OpenMapComponents render technique map success 1`] = `
               className="TechniqueMap__title-info"
             >
               <span
-                className="ant-typography TechniqueMap__title css-dev-only-do-not-override-14wwjjs"
+                className="ant-typography TechniqueMap__title css-dev-only-do-not-override-15rg2km"
                 style={
                   {
                     "WebkitLineClamp": undefined,
@@ -360,7 +359,7 @@ exports[`OpenMapComponents render technique map success 1`] = `
                 Неактивны
               </span>
               <span
-                className="ant-typography css-dev-only-do-not-override-14wwjjs"
+                className="ant-typography css-dev-only-do-not-override-15rg2km"
                 style={
                   {
                     "WebkitLineClamp": undefined,

@@ -17,6 +17,7 @@ import {
   clearRequestsPagination,
   fetchAccount,
   fetchApks,
+  postNotificationRequest,
 } from 'redux/accounts/accountsSlice';
 import { authSelector, logoutUser } from 'redux/auth/authSlice';
 import { clearCompaniesPagination } from 'redux/companies/companiesSlice';
@@ -73,11 +74,13 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
     dispatch(fetchApks({}));
   }, [dispatch]);
 
-  const handleDownloadClick = (file: string) => {
+  const handleDownloadClick = async (file: string) => {
     setIsLoadingMap((prevIsLoadingMap) => ({ ...prevIsLoadingMap, [file]: true }));
-    downloadApkFileHandler(file, () =>
+    await downloadApkFileHandler(file, () =>
       setIsLoadingMap((prevIsLoadingMap) => ({ ...prevIsLoadingMap, [file]: false })),
     );
+    await dispatch(postNotificationRequest());
+    setIsCancelled(true);
   };
 
   const menuItems: MenuItem[] = [
@@ -224,12 +227,19 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
         items={menuItems}
         onClick={pushLinks}
       />
-      {account?.is_manager && apk?.length ? (
+      {account?.is_manager && apk?.length && !account?.user_latest_version ? (
         apkLoading ? (
           <Spinner />
         ) : (
           <div className={cancelIconClassName}>
-            <button type='button' className={b('cancel-icon')} onClick={() => setIsCancelled(true)}>
+            <button
+              type='button'
+              className={b('cancel-icon')}
+              onClick={() => {
+                dispatch(postNotificationRequest());
+                setIsCancelled(true);
+              }}
+            >
               <img src={cancel} alt='cancel' />
             </button>
             <div>
