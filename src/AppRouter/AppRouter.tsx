@@ -60,7 +60,6 @@ const AppRouter: React.FC = () => {
   } = theme.useToken();
   const { pathname } = useLocation();
   const windowWidth = useWindowWidth();
-
   const renderSlider =
     windowWidth <= 990
       ? buttonsData.map(

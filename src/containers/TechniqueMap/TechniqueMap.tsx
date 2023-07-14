@@ -178,7 +178,7 @@ const TechniqueMap = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (account?.coords_timeout || configs?.websocket_auth_secret_key) {
+    if (account?.coords_timeout && configs?.websocket_auth_secret_key) {
       const socket = connectWebSocket(
         account?.coords_timeout ?? 0,
         configs?.websocket_auth_secret_key ?? '',
@@ -265,11 +265,12 @@ const TechniqueMap = () => {
       <div className={b()}>
         <div className={b('card-block')}>
           <div>
-            <Card className={b('card-style')} bordered={false}>
+            <Card className={`${b('card-style')} top_btn`} bordered={false}>
               <div className={b('header-title')}>
                 <button type='button' className='btn_none_style' onClick={backHandler}>
                   <img className={b('arrow-left')} src={arrowLeft} alt='arrow' />
                 </button>
+                <p className={b('title_maps')}>Вся техника</p>
               </div>
             </Card>
           </div>

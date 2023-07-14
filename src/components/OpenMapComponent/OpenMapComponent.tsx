@@ -352,11 +352,12 @@ const OpenMapComponent = () => {
     <div className={b()}>
       <div className={b('card-block')}>
         <div>
-          <Card className={b('card-style')} bordered={false}>
+          <Card className={`${b('card-style')} top_btn`} bordered={false}>
             <div className={b('header-title')}>
               <button type='button' className='btn_none_style' onClick={backHandler}>
                 <img className={b('arrow-left')} src={arrowLeft} alt='arrow' />
               </button>
+              <p className={b('title_maps')}>Техника на карте</p>
             </div>
           </Card>
         </div>
