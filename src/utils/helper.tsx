@@ -4,8 +4,12 @@ import activeNotification from 'assets/images/icons/active-notification.svg';
 import activePhone from 'assets/images/icons/active-phone.svg';
 import activeUsers from 'assets/images/icons/active-users.svg';
 import add from 'assets/images/icons/add_icon.svg';
+import deleteIcon from 'assets/images/icons/delete-round.svg';
+import lockIcon from 'assets/images/icons/lock-round.svg';
 import phone from 'assets/images/icons/mobile-phone.svg';
 import notification from 'assets/images/icons/notification.svg';
+import pen from 'assets/images/icons/pen-green.svg';
+import tractorGreen from 'assets/images/icons/tractor-green.svg';
 import users from 'assets/images/icons/users.svg';
 import { ErrorObject, updateManagerDataMutation } from 'interfaces';
 import { Locales, SensorDataEntry, stationInfo } from 'interfaces/IStation';
@@ -330,3 +334,16 @@ export const deleteEmptyQueryStrings = (params: { [key: string]: string | number
   }
   return params;
 };
+
+export const routesTitles: { [key: string]: string } = {
+  '/user-profile/': 'Данные о клиенте',
+  '/add-new-user': 'Добавить нового пользователя',
+  '/manager-profile': 'Профиль',
+};
+
+export const buttonsMenu = [
+  { key: 1, image: tractorGreen, text: 'Техника пользователя', action: 'showEquipment' },
+  { key: 2, image: pen, text: 'Редактировать пользователя', action: 'edit-user' },
+  { key: 3, image: deleteIcon, text: 'Удалить пользователя', action: 'showDeleteModal' },
+  { key: 4, image: lockIcon, text: 'Сгенерировать пароль', action: 'generatePassword' },
+];

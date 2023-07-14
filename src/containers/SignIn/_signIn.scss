@@ -105,4 +105,31 @@
   .ant-form-item {
     margin-bottom: 12px !important;
   }
+
+  .checkbox-styles {
+    > div {
+      background-color: transparent;
+      padding: 0 !important;
+    }
+  }
+
+  .ant-input-affix-wrapper {
+    background-color: transparent;
+    border-color: transparent;
+  }
+
+  .ant-input-affix-wrapper-lg {
+    padding: 7px 0;
+  }
+
+  .ant-form-vertical .ant-form-item-row {
+    padding: 0 15px;
+  }
+
+  .input-styles:focus {
+    border-color: transparent !important;
+  }
+  .input-styles:hover {
+    border-color: transparent !important;
+  }
 }

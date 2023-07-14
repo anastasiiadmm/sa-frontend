@@ -191,7 +191,7 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
           </div>
         </div>
         <div
-          className="ant-form-item css-dev-only-do-not-override-15rg2km"
+          className="ant-form-item checkbox-styles css-dev-only-do-not-override-15rg2km"
         >
           <div
             className="ant-row ant-form-item-row css-dev-only-do-not-override-15rg2km"
