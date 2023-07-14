@@ -127,33 +127,14 @@ const TechniqueMap = () => {
 
       socket.onopen = () => {
         setSocketLoading(true);
-        socket.send(
-          JSON.stringify({
-            kind: 'info',
-            timeout: time,
-            company_id: techniqueId,
-            connection_id: connectionID,
-          }),
-        );
       };
-
-      if (socket.readyState === WebSocket.OPEN) {
-        socket.send(
-          JSON.stringify({
-            kind: 'info',
-            timeout: time,
-            company_id: techniqueId,
-            connection_id: connectionID,
-          }),
-        );
-      }
 
       socket.onmessage = (event) => {
         setSocketLoading(false);
         const messageData = JSON.parse(event.data);
         connectionID = messageData.connection_id;
         setSocketMap({ ...socketMap, status: messageData.kind });
-        if (Object.keys(messageData?.data || {}).length) {
+        if (messageData?.data?.latitude && messageData?.data?.longitude) {
           setSocketMap({ ...socketMap, ...messageData.data });
           setLatestSocketData(messageData?.data);
         }
@@ -165,6 +146,17 @@ const TechniqueMap = () => {
         } else {
           connect();
         }
+      };
+
+      socket.onopen = () => {
+        socket.send(
+          JSON.stringify({
+            kind: 'info',
+            timeout: time,
+            company_id: techniqueId,
+            connection_id: connectionID,
+          }),
+        );
       };
 
       return socket;
