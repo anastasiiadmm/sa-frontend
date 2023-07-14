@@ -6,9 +6,9 @@ import { Routes } from 'react-router-dom';
 import AppRouter from 'AppRouter/AppRouter';
 import SignIn from 'containers/SignIn/SignIn';
 import { IListener } from 'interfaces';
-import { authSelector, checkForTokens, logoutUser } from 'redux/auth/authSlice';
+import { authSelector, checkForTokens, clearTokens, logoutUser } from 'redux/auth/authSlice';
 import { useAppSelector } from 'redux/hooks';
-import { getCookie, nameRefreshCookies } from 'utils/addCookies/addCookies';
+import { deleteCookie, getCookie, nameRefreshCookies } from 'utils/addCookies/addCookies';
 import {
   logoutLocalStorage,
   nameLocalStorage,
@@ -21,8 +21,12 @@ const App: React.FC = () => {
 
   useEffect(() => {
     const tokensLocal = userLocalStorage(getCookie(nameRefreshCookies));
-    if (tokensLocal) {
+    if (tokensLocal?.access && tokensLocal?.refresh) {
       dispatch(checkForTokens(tokensLocal));
+    } else {
+      deleteCookie(nameRefreshCookies);
+      logoutLocalStorage();
+      dispatch(clearTokens());
     }
   }, [dispatch]);
 
