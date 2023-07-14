@@ -134,7 +134,7 @@ const TechniqueMap = () => {
         const messageData = JSON.parse(event.data);
         connectionID = messageData.connection_id;
         setSocketMap({ ...socketMap, status: messageData.kind });
-        if (messageData?.data?.latitude && messageData?.data?.longitude) {
+        if (Object.keys(messageData?.data || {})?.length) {
           setSocketMap({ ...socketMap, ...messageData.data });
           setLatestSocketData(messageData?.data);
         }
