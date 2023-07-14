@@ -62,26 +62,7 @@ const OpenMapComponent = () => {
 
       socket.onopen = () => {
         setSocketLoading(true);
-        socket.send(
-          JSON.stringify({
-            kind: 'ping',
-            timeout: time,
-            vehicle_code: code,
-            connection_id: connectionID,
-          }),
-        );
       };
-
-      if (socket.readyState === WebSocket.OPEN) {
-        socket.send(
-          JSON.stringify({
-            kind: 'ping',
-            timeout: time,
-            vehicle_code: code,
-            connection_id: connectionID,
-          }),
-        );
-      }
 
       socket.onmessage = (event) => {
         setSocketLoading(false);
@@ -99,6 +80,17 @@ const OpenMapComponent = () => {
         } else {
           connect();
         }
+      };
+
+      socket.onopen = () => {
+        socket.send(
+          JSON.stringify({
+            kind: 'ping',
+            timeout: time,
+            vehicle_code: code,
+            connection_id: connectionID,
+          }),
+        );
       };
 
       return socket;
