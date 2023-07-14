@@ -1,13 +1,14 @@
 .TechniqueMap {
   &__card-block {
     position: fixed;
-    margin: 0 30px 0 55px;
-    width: 75%;
+    padding-left: 20px;
     top: 74px;
     z-index: 999;
     display: flex;
+    min-width: 100%;
     flex-direction: row;
     justify-content: space-between;
+    gap: 15px;
     align-items: center;
   }
 
@@ -15,6 +16,7 @@
     display: flex;
     flex-direction: row;
     gap: 15px;
+    padding-right: 270px;
   }
 
   &__card-style {
@@ -32,7 +34,10 @@
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    gap: 20px;
+  }
+
+  &__title_maps {
+    display: none;
   }
 
   &__title-info {
@@ -53,11 +58,97 @@
     font-size: 12px;
   }
 
-  &__header-title * {
-    margin: 0 !important;
-  }
-
   .ant-card .ant-card-body {
     padding: 4px 15px 4px 9px;
   }
 }
+
+@media (max-width: 990px) {
+  .TechniqueMap {
+    &__card-block-info {
+      padding-right: 20px;
+    }
+    .leaflet-left {
+      bottom: 140px;
+    }
+
+    &__render_btn {
+      bottom: 210px;
+    }
+    &__title_maps {
+      display: block;
+    }
+
+    &__header-title > button {
+      position: relative;
+      z-index: 100;
+    }
+  }
+
+  .top_btn {
+    width: 100%;
+    position: absolute;
+    top: -50px;
+    left: 0;
+    z-index: 100;
+    box-shadow: 0 0 0 0 #ffffff!important;
+    > div {
+      width: 100%;
+      padding: 0!important;
+      > div > p {
+        width: 100%;
+        text-align: center;
+        margin-top: -23px;
+        font-weight: 500;
+        font-size: 15px;
+      }
+    }
+  }
+}
+
+@media (max-width: 720px) {
+  .TechniqueMap {
+    &__card-block {
+      top: auto;
+      display: block;
+      padding-left: 0;
+    }
+    &__card-block-info {
+      width: 100%;
+      justify-content: center;
+      background-color: #ffffff;
+      gap: 0;
+      margin-top: -5px;
+      padding-bottom: 10px;
+    }
+
+    &__card-style {
+      box-shadow: 0 0 0 0 #ffffff!important;
+    }
+
+    &__subtitle {
+      font-size: 14px!important;
+      padding-left: 0;
+      padding-right: 0;
+
+      > span {
+        font-size: 14px;
+      }
+    }
+
+    &__img-title {
+      margin: -3px 5px 0px -6px;
+      width: 23px;
+    }
+  }
+
+  .img-tractor {
+    width: 23px;
+  }
+
+  .top_btn > div > div > p {
+    border-bottom: 1px solid #EBF3FF;
+    padding-bottom: 12px;
+  }
+}
+

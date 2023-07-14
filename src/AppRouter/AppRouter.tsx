@@ -52,7 +52,7 @@ const AppRouterWrapper: React.FC<AppRouterWrapperProps> = ({ children }) => {
   );
 };
 
-const AppRouter = () => {
+const AppRouter: React.FC = () => {
   const b = bem('AppRouter');
   const history = useNavigate();
   const { tokens } = useAppSelector(authSelector);
