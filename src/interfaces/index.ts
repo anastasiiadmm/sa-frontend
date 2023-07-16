@@ -9,3 +9,4 @@ export * from 'interfaces/IAccounts';
 export * from 'interfaces/IStation';
 export * from 'interfaces/IApk';
 export * from 'interfaces/ILocalStorage';
+export * from 'interfaces/ISliderMenu';

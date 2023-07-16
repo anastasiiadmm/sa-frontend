@@ -12,6 +12,7 @@ import star from 'assets/images/icons/star.svg';
 import logo from 'assets/images/logo.png';
 import Spinner from 'components/Spinner/Spinner';
 import useWindowWidth from 'hooks/useWindowWidth';
+import { IButtonsData } from 'interfaces';
 import {
   accountsSelector,
   clearRequestsPagination,
@@ -22,9 +23,10 @@ import {
 import { authSelector, logoutUser } from 'redux/auth/authSlice';
 import { clearCompaniesPagination } from 'redux/companies/companiesSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { deleteCookie, nameRefreshCookies } from 'utils/addCookies/addCookies';
 import { logoutLocalStorage } from 'utils/addLocalStorage/addLocalStorage';
 import { urlFormat } from 'utils/files/files';
-import { buttonsData, downloadApkFileHandler } from 'utils/helper';
+import { buttonsDataManager, buttonsDataUser, downloadApkFileHandler } from 'utils/helper';
 
 import 'components/SliderMenu/_sliderMenu.scss';
 
@@ -158,6 +160,7 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
     if (e.key === '/sign-out') {
       push('/');
       logoutLocalStorage();
+      deleteCookie(nameRefreshCookies);
       dispatch(logoutUser());
       window.location.reload();
     } else {
@@ -178,21 +181,31 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
     },
   ];
 
-  return windowWidth <= 990 && tokens?.is_manager ? (
+  const renderButtons = (buttonsData: IButtonsData[]) => {
+    return buttonsData.map((button) => (
+      <NavLink key={button.key} to={button.key}>
+        <Button
+          type='link'
+          icon={location.pathname === button.key ? button?.activeIcon : button.icon}
+          className={b('link-button margin-top')}
+          size='small'
+        >
+          {button?.text}
+        </Button>
+      </NavLink>
+    ));
+  };
+
+  const renderMobile = (
     <div className={b('mobile-menu')}>
-      <div className={b('mobile-block')}>
-        {buttonsData.map((button) => (
-          <NavLink key={button.key} to={button.key}>
-            <Button
-              type='link'
-              icon={location.pathname === button.key ? button?.activeIcon : button.icon}
-              className={b('link-button margin-top')}
-              size='small'
-            >
-              {button?.text}
-            </Button>
-          </NavLink>
-        ))}
+      <div
+        className={b('mobile-block')}
+        style={{
+          top: tokens?.is_manager ? '-29px' : '0',
+          justifyContent: tokens?.is_manager ? 'justify-center' : 'space-around',
+        }}
+      >
+        {tokens?.is_manager ? renderButtons(buttonsDataManager) : renderButtons(buttonsDataUser)}
         <Dropdown
           trigger={['click']}
           menu={{
@@ -201,7 +214,7 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
           }}
         >
           <Button
-            style={{ marginTop: 59 }}
+            style={{ marginTop: tokens?.is_manager ? 59 : 18 }}
             type='link'
             icon={<img src={more} alt='more' />}
             className={b('link-button margin-top')}
@@ -212,7 +225,16 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
         </Dropdown>
       </div>
     </div>
-  ) : (
+  );
+
+  if (windowWidth <= 990) {
+    if (tokens?.is_manager) {
+      return renderMobile;
+    }
+    return renderMobile;
+  }
+
+  return (
     <Sider width={250} trigger={null} collapsible collapsed={collapsed} className={b()}>
       <div className={b('logo')}>
         <img src={logo} alt='logo' />

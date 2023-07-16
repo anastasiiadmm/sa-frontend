@@ -377,7 +377,9 @@ const OpenMapComponent = () => {
             <div className={b('header-title')}>
               <Title level={3} className={b('title')}>
                 <img src={tractorBlue} alt='tractor' className={b('img-title img-tractor')} />
-                <p className={b('subtitle')}>{userVehicleInfo?.vehicle?.description}</p>
+                <p className={`${b('subtitle')} textEllipsis`}>
+                  {userVehicleInfo?.vehicle?.description}
+                </p>
               </Title>
             </div>
           </Card>
