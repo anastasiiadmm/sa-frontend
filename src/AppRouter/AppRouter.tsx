@@ -19,6 +19,7 @@ import ManagerProfile from 'containers/Manager/Profile/Profile';
 import UserRequests from 'containers/Manager/UserRequests/UserRequests';
 import NewUser from 'containers/Manager/Users/NewUser/NewUser';
 import UserProfile from 'containers/Manager/Users/UserProfile/UserProfile';
+import UserProfileTablet from 'containers/Manager/Users/UserProfile/UserProfileTablet/UserProfileTablet';
 import Users from 'containers/Manager/Users/Users';
 import UserTechnique from 'containers/Manager/Users/UserTechnique/UserTechnique';
 import ProfileTechnique from 'containers/Technique/ProfileTechnique/ProfileTechnique';
@@ -32,7 +33,6 @@ import { useAppSelector } from 'redux/hooks';
 import { buttonsData, routesTitles } from 'utils/helper';
 
 import 'AppRouter/appRouter.scss';
-import UserProfileTablet from "../containers/Manager/Users/UserProfile/UserProfileTablet/UserProfileTablet";
 
 const { Header, Content } = Layout;
 const { Title } = Typography;

@@ -426,7 +426,7 @@ const UserProfile: React.FC = () => {
                       {windowWidth <= 601 ? <img src={arrowRight} alt='arrowRight' /> : null}
                     </>
                   ) : (
-                    <Link to={`/${button.action}`}>
+                    <Link to={`/${button.action}/${id}`}>
                       <img src={button?.image} alt='icon' />
                       <div className={b('card-content')}>
                         <Title
