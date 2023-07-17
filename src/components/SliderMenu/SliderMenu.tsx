@@ -228,9 +228,6 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
   );
 
   if (windowWidth <= 990) {
-    if (tokens?.is_manager) {
-      return renderMobile;
-    }
     return renderMobile;
   }
 
