@@ -12,13 +12,6 @@ html, body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-.textEllipsis {
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-  width: 120px;
-}
-
 body::-webkit-scrollbar {
   width: 0;
 }
