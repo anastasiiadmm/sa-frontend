@@ -258,7 +258,7 @@ const Technique = () => {
               <Button type='primary' onClick={showModal} style={{ marginRight: 15 }}>
                 Запрос на добавление техники
               </Button>
-              <Link to='/technique-map'>
+              <Link to={`/technique-map/${account?.company?.id}`}>
                 <Button type='default' className={b('view-button')}>
                   Посмотреть всю технику
                 </Button>

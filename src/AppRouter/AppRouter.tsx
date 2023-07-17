@@ -28,7 +28,7 @@ import useWindowWidth from 'hooks/useWindowWidth';
 import { accountsSelector } from 'redux/accounts/accountsSlice';
 import { authSelector } from 'redux/auth/authSlice';
 import { useAppSelector } from 'redux/hooks';
-import { buttonsData } from 'utils/helper';
+import { buttonsDataManager, buttonsDataUser } from 'utils/helper';
 
 import 'AppRouter/appRouter.scss';
 
@@ -60,26 +60,39 @@ const AppRouter: React.FC = () => {
   } = theme.useToken();
   const { pathname } = useLocation();
   const windowWidth = useWindowWidth();
-  const renderSlider =
-    windowWidth <= 990
-      ? buttonsData.map(
+  const renderSlider = () => {
+    if (windowWidth <= 990) {
+      if (tokens?.is_manager) {
+        return buttonsDataManager.map(
           (button) =>
             pathname === button.key && (
               <Title level={3} key={button?.key} className={b('title-mobile')}>
                 {button?.text}
               </Title>
             ),
-        )
-      : React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
-          className: 'trigger',
-          onClick: () => setCollapsed(!collapsed),
-        });
+        );
+      }
+      return buttonsDataUser.map(
+        (button) =>
+          pathname === button.key && (
+            <Title level={3} key={button?.key} className={b('title-mobile')}>
+              {button?.text}
+            </Title>
+          ),
+      );
+    }
+
+    return React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
+      className: 'trigger',
+      onClick: () => setCollapsed(!collapsed),
+    });
+  };
 
   return (
     <Layout style={{ height: '100vh' }} className={b('')} data-testid='app-router'>
       <SliderMenu collapsed={collapsed} />
       <Layout className='site-layout'>
-        <Header style={{ padding: 0, background: colorBgContainer }}>{renderSlider}</Header>
+        <Header style={{ padding: 0, background: colorBgContainer }}>{renderSlider()}</Header>
         <Content
           style={{
             margin:
