@@ -30,9 +30,9 @@ const DrawerComponent: React.FC<Props> = ({ onClose, open, vehicle, vehicleActiv
       form.setFieldsValue({
         description: vehicle?.description,
         license_plate: vehicle?.license_plate,
-        last_name: vehicle?.operator.last_name,
-        first_name: vehicle?.operator.first_name,
-        middle_name: vehicle?.operator.middle_name,
+        last_name: vehicle?.operator?.last_name,
+        first_name: vehicle?.operator?.first_name,
+        middle_name: vehicle?.operator?.middle_name,
       });
     }
   }, [vehicle, form]);

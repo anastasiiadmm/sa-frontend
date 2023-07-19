@@ -31,6 +31,7 @@ import { accountsSelector } from 'redux/accounts/accountsSlice';
 import { authSelector } from 'redux/auth/authSlice';
 import { useAppSelector } from 'redux/hooks';
 import { buttonsData, routesTitles } from 'utils/helper';
+import { buttonsDataManager, buttonsDataUser } from 'utils/helper';
 
 import 'AppRouter/appRouter.scss';
 
@@ -110,7 +111,7 @@ const AppRouter: React.FC = () => {
     <Layout style={{ height: '100vh' }} className={b('')} data-testid='app-router'>
       <SliderMenu collapsed={collapsed} />
       <Layout className='site-layout'>
-        <Header style={{ padding: 0, background: colorBgContainer }}>{renderSlider}</Header>
+        <Header style={{ padding: 0, background: colorBgContainer }}>{renderSlider()}</Header>
         <Content
           style={{
             margin:

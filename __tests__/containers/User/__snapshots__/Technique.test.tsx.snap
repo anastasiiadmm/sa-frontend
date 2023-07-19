@@ -140,7 +140,7 @@ exports[`<Technique /> Users table component should be in the document 1`] = `
           </span>
         </button>
         <a
-          href="/technique-map"
+          href="/technique-map/undefined"
           onClick={[Function]}
         >
           <button

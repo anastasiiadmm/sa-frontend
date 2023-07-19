@@ -286,7 +286,7 @@ export const appendDataFieldsAndDeleteEmptyKeys = (
   }
 };
 
-export const buttonsData = [
+export const buttonsDataManager = [
   {
     key: '/',
     text: 'Клиенты',
@@ -310,6 +310,15 @@ export const buttonsData = [
     text: 'Приложение',
     icon: <img src={phone} alt='phone' />,
     activeIcon: <img src={activePhone} alt='activePhone' />,
+  },
+];
+
+export const buttonsDataUser = [
+  {
+    key: '/',
+    text: 'Техника',
+    icon: <img src={users} alt='users' />,
+    activeIcon: <img src={activeUsers} alt='users' />,
   },
 ];
 
