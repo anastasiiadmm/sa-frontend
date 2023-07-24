@@ -51,7 +51,6 @@ const EditUserProfileModal: React.FC<Props> = ({
   const b = bem('EditUserProfileModal');
   const [form] = Form.useForm();
   const windowWidth = useWindowWidth();
-  console.log('updateUserData', updateUserData);
 
   useEffect(() => {
     if (updateUserData) {
