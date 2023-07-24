@@ -115,7 +115,7 @@ const AppRouter: React.FC = () => {
           style={{ padding: 0, background: colorBgContainer }}
           className={pathname.includes('user-technique') ? 'header_none' : ''}
         >
-          {renderSlider()}
+          {renderSlider}
         </Header>
         <Content
           style={{

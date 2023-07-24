@@ -76,6 +76,10 @@
     left: 20px;
   }
 
+  &__deleteBg {
+    background-color: #FFE2E2!important;
+  }
+
   &__btn_table {
     background-color: #E4F0FD;
     width: 36px;
@@ -86,7 +90,6 @@
     border-radius: 8px;
     margin-right: 10px;
   }
-}
 
   @include mixins.bp(tablet) {
     &__title {
@@ -108,12 +111,50 @@
     }
   }
 
+  @include mixins.bp(mobile) {
+    &__header-title {
+      display: block;
+    }
+    &__header {
+      display: block;
+    }
+
+    &__btn_handler {
+      position: relative;
+      top: 0;
+      left: 0;
+      > button {
+        width: 100%;
+      }
+
+      a {
+        > button {
+          margin-left: 0;
+          width: 100%;
+          margin-top: 15px;
+        }
+      }
+    }
+    &__title {
+      display: block;
+      margin-top: 12px;
+    }
+    &__subtitle {
+      padding-left: 0;
+    }
+  }
+
+  .ant-typography h3 {
+    margin: 0;
+  }
+}
+
 @media screen and (max-width: 990px) {
   .UserTechnique {
     &__btn_handler {
       position: absolute;
       left: 16px;
-      top: 120px;
+      top: 165px;
 
       > button {
         width: 192px;
@@ -134,7 +175,7 @@
   }
 }
 
-@media screen and (max-width: 460px) {
+@media screen and (max-width: 620px) {
   .UserTechnique {
     &__header-title {
       display: block;

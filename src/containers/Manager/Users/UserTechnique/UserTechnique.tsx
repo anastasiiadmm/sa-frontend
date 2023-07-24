@@ -21,6 +21,7 @@ import RequestModal from 'components/ModalComponent/ModalChildrenComponents/Dele
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import ResultComponent from 'components/ResultComponent/ResultComponent';
 import TableComponent from 'components/TableComponent/TableComponent';
+import useWindowWidth from 'hooks/useWindowWidth';
 import { ErrorObject, userVehicles, VehicleList } from 'interfaces';
 import {
   companiesSelector,
@@ -33,6 +34,7 @@ import {
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { apiUrlCrop } from 'utils/config';
 import { urlFormat } from 'utils/files/files';
+
 import { getErrorMessage, getPageNumber, getPageNumberPrevious } from 'utils/helper';
 import 'containers/Manager/Users/UserTechnique/_userTechnique.scss';
 
@@ -162,14 +164,12 @@ const UserTechnique: React.FC = () => {
     dispatch(fetchUserVehicleInfo(id));
   };
 
+  const overlayInnerStyle = { padding: '5px 15px', borderRadius: 15 };
+
   const renderIcons = (record: VehicleList | userVehicles) => {
     return (
       <>
-        <Tooltip
-          title='Редактировать'
-          color='#BBBBBB'
-          overlayInnerStyle={{ padding: '5px 15px', borderRadius: 15 }}
-        >
+        <Tooltip title='Редактировать' color='#BBBBBB' overlayInnerStyle={overlayInnerStyle}>
           <Button
             type='text'
             onClick={() => editHandler(record?.id.toString())}
@@ -179,48 +179,25 @@ const UserTechnique: React.FC = () => {
           </Button>
         </Tooltip>
 
-        <Tooltip
-          title='Просмотреть профиль'
-          color='#BBBBBB'
-          overlayInnerStyle={{ padding: '5px 15px', borderRadius: 15 }}
-        >
+        <Tooltip title='Просмотреть профиль' color='#BBBBBB' overlayInnerStyle={overlayInnerStyle}>
           <Link to={`/profile-technique/${record?.id}`}>
-            <Button
-              className={b('btn_table')}
-              type='text'
-              style={{ display: 'flex', alignItems: 'center' }}
-            >
+            <Button className={b('btn_table')} type='text'>
               <img src={tractorBlue} alt='tractorBlue' className={b('tractor-blue link-icons')} />
             </Button>
           </Link>
         </Tooltip>
 
-        <Tooltip
-          title='Просмотреть на карте'
-          color='#BBBBBB'
-          overlayInnerStyle={{ padding: '5px 15px', borderRadius: 15 }}
-        >
+        <Tooltip title='Просмотреть на карте' color='#BBBBBB' overlayInnerStyle={overlayInnerStyle}>
           <Link to={`/open-map/${record.id}/local-tractor/${record?.code}`}>
-            <Button
-              className={b('btn_table')}
-              type='text'
-              style={{ display: 'flex', alignItems: 'center' }}
-            >
+            <Button className={b('btn_table')} type='text'>
               <img src={mapIcon} alt='tractorBlue' className={b('tractor-blue link-icons')} />
             </Button>
           </Link>
         </Tooltip>
-        <Tooltip
-          title='Удалить'
-          color='#BBBBBB'
-          overlayInnerStyle={{ padding: '5px 15px', borderRadius: 15 }}
-        >
+        <Tooltip title='Удалить' color='#BBBBBB' overlayInnerStyle={overlayInnerStyle}>
           <Button
             type='text'
-            className={b('btn_table')}
-            style={{
-              backgroundColor: '#FFE2E2',
-            }}
+            className={`${b('btn_table')} ${b('deleteBg')}`}
             onClick={() => {
               showDeleteModal();
               setVehicleId(record?.id.toString());
@@ -330,9 +307,9 @@ const UserTechnique: React.FC = () => {
       <div className={b()} data-testid='user-technique-id'>
         <HeaderMobile>
           <>
-            <Link to={`/user-profile/${id}`}>
+            <button onClick={() => push(-1)} type='button'>
               <img className={b('arrow-left')} src={arrowLeft} alt='arrow' />
-            </Link>
+            </button>
             <span>Техника пользователя</span>
           </>
         </HeaderMobile>

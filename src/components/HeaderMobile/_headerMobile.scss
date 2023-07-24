@@ -8,10 +8,12 @@
     display: block;
     text-align: center;
     font-weight: 500;
-    margin-top: -15px;
+    margin-top: -20px;
   }
 
-  > a {
+  > button {
+    background-color: transparent;
+    border: none;
     display: block;
     padding-top: 18px;
     padding-left: 10px;
