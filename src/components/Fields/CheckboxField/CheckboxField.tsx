@@ -12,9 +12,22 @@ interface Props {
   onChange?: () => void;
 }
 
-const CheckboxField: React.FC<Props> = ({ id, name, valuePropName, label, onChange, checked }) => {
+const CheckboxField: React.FC<Props> = ({
+  className,
+  id,
+  name,
+  valuePropName,
+  label,
+  onChange,
+  checked,
+}) => {
   return (
-    <Form.Item name={name} valuePropName={valuePropName} wrapperCol={{ offset: 0, span: 16 }}>
+    <Form.Item
+      name={name}
+      className={className}
+      valuePropName={valuePropName}
+      wrapperCol={{ offset: 0, span: 16 }}
+    >
       <Checkbox checked={checked} onChange={onChange} id={id}>
         {label}
       </Checkbox>

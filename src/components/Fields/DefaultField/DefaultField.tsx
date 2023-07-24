@@ -16,7 +16,7 @@ interface Props {
   onChange?: () => void;
 }
 
-const pattern = /^[A-Za-zА-Яа-яЁё0-9\s]*$/;
+const pattern = /^[A-Za-zА-Яа-яЁё0-9_\s]*$/;
 
 const DefaultField: React.FC<Props> = ({
   label,

@@ -6,4 +6,29 @@
   &__title-mobile {
     margin: 14px 32px;
   }
+
+  &__top-sidebar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  &__sidebar-arrow {
+    margin-left: 20px;
+    cursor: pointer;
+  }
+
+  &__sidebar-info {
+    flex-grow: 1;
+  }
+
+  &__sidebar-title {
+    text-align: center;
+  }
+
+  &__sidebar-button {
+    border: none;
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0.02);
+  }
 }

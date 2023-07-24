@@ -7,7 +7,7 @@ import add from 'assets/images/icons/add_icon.svg';
 import phone from 'assets/images/icons/mobile-phone.svg';
 import notification from 'assets/images/icons/notification.svg';
 import users from 'assets/images/icons/users.svg';
-import { ErrorObject, updateManagerDataMutation } from 'interfaces';
+import { ErrorObject, IAccount, SetUserInfoData, updateManagerDataMutation } from 'interfaces';
 import { Locales, SensorDataEntry, stationInfo } from 'interfaces/IStation';
 import { apiUrlCrop } from 'utils/config';
 import { dateMomentTypeString } from 'utils/constants';
@@ -338,4 +338,27 @@ export const deleteEmptyQueryStrings = (params: { [key: string]: string | number
     }
   }
   return params;
+};
+
+export const inputChangeFormHandler = (
+  e: React.ChangeEvent<HTMLInputElement>,
+  userInfoData: IAccount,
+  setUserInfoData: SetUserInfoData,
+) => {
+  const { name, value } = e.target;
+  if (name.startsWith('company,')) {
+    const userKey = name.split(',')[1];
+    setUserInfoData((prevUserData) => ({
+      ...prevUserData,
+      company: {
+        ...prevUserData.company,
+        [userKey]: value,
+      },
+    }));
+  } else {
+    setUserInfoData((prevUserData) => ({
+      ...prevUserData,
+      [name]: value,
+    }));
+  }
 };

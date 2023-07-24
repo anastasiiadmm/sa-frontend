@@ -22,7 +22,7 @@ describe('DeleteUserModal', () => {
             />
         );
 
-        expect(getByText(/Вы действительно хотите удалить профиль пользователя?/i)).toBeInTheDocument();
+        expect(getByText(/Вы уверены, что хотите удалить пользователя?/i)).toBeInTheDocument();
     });
 
     it('triggers handleDeleteCancel on cancel button click', async () => {

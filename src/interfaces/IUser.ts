@@ -1,3 +1,5 @@
+import React from 'react';
+
 export interface IUser {
   id?: number;
   last_name: string;
@@ -54,6 +56,8 @@ export interface IAccount {
     weather_service: boolean;
   };
 }
+
+export type SetUserInfoData = React.Dispatch<React.SetStateAction<IAccount>>;
 
 export interface ValidationUpdateManagerProfile {
   [key: string]: string;

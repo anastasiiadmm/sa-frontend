@@ -17,6 +17,7 @@ import RequestModal from 'components/ModalComponent/ModalChildrenComponents/Dele
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import ResultComponent from 'components/ResultComponent/ResultComponent';
 import TableComponent from 'components/TableComponent/TableComponent';
+import useWindowWidth from 'hooks/useWindowWidth';
 import { ErrorObject, userVehicles } from 'interfaces';
 import {
   companiesSelector,
@@ -32,12 +33,13 @@ import { getErrorMessage, getPageNumber, getPageNumberPrevious } from 'utils/hel
 
 import 'containers/Manager/Users/UserTechnique/_userTechnique.scss';
 
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 const UserTechnique: React.FC = () => {
   const b = bem('UserTechnique');
   const dispatch = useAppDispatch();
   const { id, idVehicle } = useParams() as { id: string; idVehicle: string };
+  const windowWidth = useWindowWidth();
   const {
     vehicleList,
     fetchVehicleListLoading,
@@ -273,18 +275,32 @@ const UserTechnique: React.FC = () => {
               <Skeleton active />
             ) : (
               <div className={b('header-title')}>
-                <Link to={`/user-profile/${id}`}>
-                  <img className={b('arrow-left')} src={arrowLeft} alt='arrow' />
-                </Link>
-                <Title level={3} className={b('title')}>
-                  Техника пользователя -{' '}
-                  <p className={b('subtitle')}>
-                    {userInfoByManager?.last_name} {userInfoByManager?.first_name?.charAt(0)}.{' '}
-                    {userInfoByManager?.middle_name === ''
-                      ? null
-                      : `${userInfoByManager?.middle_name.charAt(0)}.`}
-                  </p>
-                </Title>
+                {windowWidth <= 990 ? (
+                  <Title level={3} className={b('title')}>
+                    <h3 className={b('subtitle')}>
+                      {userInfoByManager?.last_name} {userInfoByManager?.first_name?.charAt(0)}.{' '}
+                      {userInfoByManager?.middle_name === ''
+                        ? null
+                        : `${userInfoByManager?.middle_name.charAt(0)}.`}
+                    </h3>
+                    <Text className={b('subtitle')}>Техника пользователя</Text>
+                  </Title>
+                ) : (
+                  <>
+                    <Link to={`/user-profile/${id}`}>
+                      <img className={b('arrow-left')} src={arrowLeft} alt='arrow' />
+                    </Link>
+                    <Title level={3} className={b('title')}>
+                      Техника пользователя -{' '}
+                      <p className={b('subtitle')}>
+                        {userInfoByManager?.last_name} {userInfoByManager?.first_name?.charAt(0)}.{' '}
+                        {userInfoByManager?.middle_name === ''
+                          ? null
+                          : `${userInfoByManager?.middle_name.charAt(0)}.`}
+                      </p>
+                    </Title>
+                  </>
+                )}
               </div>
             )}
 

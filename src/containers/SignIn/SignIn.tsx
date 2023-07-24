@@ -122,6 +122,7 @@ const SignIn: React.FC = () => {
               />
 
               <FormField
+                className='checkbox-styles'
                 id='remember_id'
                 type='checkbox'
                 label='Запомнить меня'

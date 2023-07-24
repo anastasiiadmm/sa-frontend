@@ -163,7 +163,7 @@ const ApksList = () => {
       sortDirections: ['descend', 'ascend'],
       width: 170,
       render: (text) => {
-        return <p>ver {`${text}`}</p>;
+        return <p>ver {text}</p>;
       },
     },
     {

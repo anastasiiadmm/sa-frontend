@@ -1,3 +1,8 @@
+import deleteIcon from 'assets/images/icons/delete-round.svg';
+import lockIcon from 'assets/images/icons/lock-round.svg';
+import pen from 'assets/images/icons/pen-green.svg';
+import tractorGreen from 'assets/images/icons/tractor-green.svg';
+
 export const climateOptions = [
   { value: 'last_communication', label: 'Последнее соединение' },
   { value: 'airTemp', label: 'Температура воздуха' },
@@ -74,3 +79,19 @@ export const apiUrls = {
   [envs.staging]: `${serverUrls[envs.staging]}${apiPath}`,
   [envs.production]: `${serverUrls[envs.production]}${apiPath}`,
 };
+
+export const routesTitles: { [key: string]: string } = {
+  '/user-profile/': 'Данные о клиенте',
+  '/add-new-user': 'Добавить нового пользователя',
+  '/manager-profile': 'Профиль',
+  '/profile-technique/': 'Информация о технике',
+  '/edit-user/': 'Редактирование профиля пользователя',
+  '/user-technique/': 'Техника пользователя',
+};
+
+export const buttonsMenu = [
+  { key: '1', image: tractorGreen, text: 'Техника пользователя', action: 'user-technique' },
+  { key: '2', image: pen, text: 'Редактировать пользователя', action: 'edit-user' },
+  { key: '3', image: deleteIcon, text: 'Удалить пользователя', action: 'showDeleteModal' },
+  { key: '4', image: lockIcon, text: 'Сгенерировать пароль', action: 'generatePassword' },
+];
