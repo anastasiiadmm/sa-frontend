@@ -29,6 +29,12 @@ code {
   stroke-linecap: butt !important;
 }
 
+.block_next {
+  position: absolute;
+  top: -10px;
+  z-index: 1000;
+}
+
 ::-webkit-scrollbar {
   width: 5px;
 }

@@ -42,6 +42,7 @@ export interface VehicleList {
   last_latitude: string;
   last_longitude: string;
   enterprise: number;
+  jobs_number?: string;
   vehicle_fields_data: {
     field_count: number;
     processed_area: number | null;

@@ -1,24 +1,28 @@
-import { EyeOutlined } from '@ant-design/icons';
 import { Button, message, Skeleton, Tooltip, Typography } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import bem from 'easy-bem';
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
 import { Link, useParams } from 'react-router-dom';
 
 import arrowLeft from 'assets/images/icons/arrow-left.svg';
-import deleteIcon from 'assets/images/icons/delete.svg';
-import edit from 'assets/images/icons/edit.svg';
+import mapProfileIcon from 'assets/images/icons/mapProfile.svg';
+import deleteIcon from 'assets/images/icons/newIcon/delete.svg';
+import edit from 'assets/images/icons/newIcon/edit.svg';
+import mapIcon from 'assets/images/icons/newIcon/map.svg';
+import tractorBlue from 'assets/images/icons/newIcon/tractor.svg';
 import successIcon from 'assets/images/icons/success.svg';
-import tractorBlue from 'assets/images/icons/tractor-blue.svg';
 import tractor from 'assets/images/icons/tractor-image.svg';
+import tractorProfileIcon from 'assets/images/icons/tratorProfile.svg';
 import Errors from 'components/Errors/Errors';
+import HeaderMobile from 'components/HeaderMobile/HeaderMobile';
 import AddUpdateTechnique from 'components/ModalComponent/ModalChildrenComponents/AddUpdateTechnique/AddUpdateTechnique';
 import RequestModal from 'components/ModalComponent/ModalChildrenComponents/DeleteTechniqueModal/RequestModal';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import ResultComponent from 'components/ResultComponent/ResultComponent';
 import TableComponent from 'components/TableComponent/TableComponent';
 import useWindowWidth from 'hooks/useWindowWidth';
-import { ErrorObject, userVehicles } from 'interfaces';
+import { ErrorObject, userVehicles, VehicleList } from 'interfaces';
 import {
   companiesSelector,
   deleteUserVehicle,
@@ -29,8 +33,9 @@ import {
 } from 'redux/companies/companiesSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { apiUrlCrop } from 'utils/config';
-import { getErrorMessage, getPageNumber, getPageNumberPrevious } from 'utils/helper';
+import { urlFormat } from 'utils/files/files';
 
+import { getErrorMessage, getPageNumber, getPageNumberPrevious } from 'utils/helper';
 import 'containers/Manager/Users/UserTechnique/_userTechnique.scss';
 
 const { Title, Text } = Typography;
@@ -56,6 +61,7 @@ const UserTechnique: React.FC = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteEditModalOpen] = useState(false);
   const [vehicleId, setVehicleId] = useState<string | null>(null);
+  const push = useNavigate();
   const [filters, setFilters] = useState({
     page: vehicleListPagination?.next
       ? Number(getPageNumber(vehicleListPagination?.next))
@@ -157,6 +163,52 @@ const UserTechnique: React.FC = () => {
     setVehicleId(id);
     dispatch(fetchUserVehicleInfo(id));
   };
+
+  const overlayInnerStyle = { padding: '5px 15px', borderRadius: 15 };
+
+  const renderIcons = (record: VehicleList | userVehicles) => {
+    return (
+      <>
+        <Tooltip title='Редактировать' color='#BBBBBB' overlayInnerStyle={overlayInnerStyle}>
+          <Button
+            type='text'
+            onClick={() => editHandler(record?.id.toString())}
+            className={b('btn_table')}
+          >
+            <img src={edit} alt='edit' className='link-icons' />
+          </Button>
+        </Tooltip>
+
+        <Tooltip title='Просмотреть профиль' color='#BBBBBB' overlayInnerStyle={overlayInnerStyle}>
+          <Link to={`/profile-technique/${record?.id}`}>
+            <Button className={b('btn_table')} type='text'>
+              <img src={tractorBlue} alt='tractorBlue' className={b('tractor-blue link-icons')} />
+            </Button>
+          </Link>
+        </Tooltip>
+
+        <Tooltip title='Просмотреть на карте' color='#BBBBBB' overlayInnerStyle={overlayInnerStyle}>
+          <Link to={`/open-map/${record.id}/local-tractor/${record?.code}`}>
+            <Button className={b('btn_table')} type='text'>
+              <img src={mapIcon} alt='tractorBlue' className={b('tractor-blue link-icons')} />
+            </Button>
+          </Link>
+        </Tooltip>
+        <Tooltip title='Удалить' color='#BBBBBB' overlayInnerStyle={overlayInnerStyle}>
+          <Button
+            type='text'
+            className={`${b('btn_table')} ${b('deleteBg')}`}
+            onClick={() => {
+              showDeleteModal();
+              setVehicleId(record?.id.toString());
+            }}
+          >
+            <img src={deleteIcon} alt='deleteIcon' className='link-icons' />
+          </Button>
+        </Tooltip>
+      </>
+    );
+  };
   const columns: ColumnsType<userVehicles> = [
     {
       title: 'Код техники',
@@ -199,58 +251,7 @@ const UserTechnique: React.FC = () => {
         return (
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'right' }}>
             <p className={b('text_processed_area')}>{record?.area || 0}</p>
-            <Tooltip
-              title='Редактировать'
-              color='#BBBBBB'
-              overlayInnerStyle={{ padding: '5px 15px', borderRadius: 15 }}
-            >
-              <Button type='text' onClick={() => editHandler(record?.id.toString())}>
-                <img src={edit} alt='edit' className='link-icons' />
-              </Button>
-            </Tooltip>
-
-            <Tooltip
-              title='Просмотреть профиль'
-              color='#BBBBBB'
-              overlayInnerStyle={{ padding: '5px 15px', borderRadius: 15 }}
-            >
-              <Link to={`/profile-technique/${record?.id}`}>
-                <Button type='text'>
-                  <EyeOutlined style={{ fontSize: '27px', color: '#1358bf' }} />
-                </Button>
-              </Link>
-            </Tooltip>
-
-            <Tooltip
-              title='Просмотреть на карте'
-              color='#BBBBBB'
-              overlayInnerStyle={{ padding: '5px 15px', borderRadius: 15 }}
-            >
-              <Link to={`/open-map/${record.id}/local-tractor/${record?.code}`}>
-                <Button type='text' style={{ display: 'flex', alignItems: 'center' }}>
-                  <img
-                    src={tractorBlue}
-                    alt='tractorBlue'
-                    className={b('tractor-blue link-icons')}
-                  />
-                </Button>
-              </Link>
-            </Tooltip>
-            <Tooltip
-              title='Удалить'
-              color='#BBBBBB'
-              overlayInnerStyle={{ padding: '5px 15px', borderRadius: 15 }}
-            >
-              <Button
-                type='text'
-                onClick={() => {
-                  showDeleteModal();
-                  setVehicleId(record?.id.toString());
-                }}
-              >
-                <img src={deleteIcon} alt='deleteIcon' className='link-icons' />
-              </Button>
-            </Tooltip>
+            {renderIcons(record)}
           </div>
         );
       },
@@ -266,9 +267,52 @@ const UserTechnique: React.FC = () => {
     );
   }
 
+  const renderMobileTable = () => {
+    if (fetchVehicleListLoading) {
+      return <Skeleton active />;
+    }
+
+    return vehicleList.map((item) => {
+      return (
+        <div className={b('table_mobile')} key={item.id}>
+          <div className='block_avatar'>
+            <div>
+              <img src={urlFormat(item.image)} alt={item.first_name} />
+            </div>
+            <div className='block_title'>
+              <p>
+                <b>Название техники</b>
+              </p>
+              <p className='todo'>{item.description}</p>
+              <p className='todo'>
+                Задачи <b>{item.jobs_number}</b>
+              </p>
+            </div>
+          </div>
+          <div
+            style={{
+              display: 'flex',
+              marginTop: 10,
+            }}
+          >
+            {renderIcons(item as VehicleList)}
+          </div>
+        </div>
+      );
+    });
+  };
+
   return (
     <>
       <div className={b()} data-testid='user-technique-id'>
+        <HeaderMobile>
+          <>
+            <button onClick={() => push(-1)} type='button'>
+              <img className={b('arrow-left')} src={arrowLeft} alt='arrow' />
+            </button>
+            <span>Техника пользователя</span>
+          </>
+        </HeaderMobile>
         <div className={b('table')}>
           <div className={b('header')}>
             {userInfoByManagerLoading ? (
@@ -303,33 +347,54 @@ const UserTechnique: React.FC = () => {
                 )}
               </div>
             )}
-
+            <div className={b('mobile_block')}>
+              <Button onClick={showModal}>
+                <div>
+                  <p>
+                    <img src={tractorProfileIcon} alt='tractorProfileIcon' />
+                  </p>
+                  <p>Добавить технику</p>
+                </div>
+              </Button>
+              <Button onClick={() => push(`/technique-map/${idVehicle}`)}>
+                <div>
+                  <p>
+                    <img src={mapProfileIcon} alt='tractorProfileIcon' />
+                  </p>
+                  <p>
+                    Посмотреть всю <br /> технику
+                  </p>
+                </div>
+              </Button>
+            </div>
             <div className={b('btn_handler')}>
               <Button type='primary' onClick={showModal}>
                 Добавить технику
               </Button>
               <Link to={`/technique-map/${idVehicle}`}>
                 <Button type='default' className={b('view-button')}>
-                  Посмотреть всю технику
+                  Вся техника на карте
                 </Button>
               </Link>
             </div>
           </div>
-
-          <TableComponent
-            rowKey={(record) => record.id as number}
-            loading={fetchVehicleListLoading}
-            columns={columns}
-            data={vehicleList}
-            params={
-              fetchVehicleListLoading
-                ? { previous: null, next: null, count: 0 }
-                : vehicleListPagination
-            }
-            pagePrevHandler={pagePrevHandler}
-            pageNextHandler={pageNextHandler}
-          />
+          <div className={b('table_list')}>
+            <TableComponent
+              rowKey={(record) => record.id as number}
+              loading={fetchVehicleListLoading}
+              columns={columns}
+              data={vehicleList}
+              params={
+                fetchVehicleListLoading
+                  ? { previous: null, next: null, count: 0 }
+                  : vehicleListPagination
+              }
+              pagePrevHandler={pagePrevHandler}
+              pageNextHandler={pageNextHandler}
+            />
+          </div>
         </div>
+        <div className={b('list_table_mobile')}>{renderMobileTable()}</div>
       </div>
 
       <ModalComponent
