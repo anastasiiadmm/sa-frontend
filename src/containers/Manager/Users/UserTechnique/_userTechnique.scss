@@ -76,10 +76,6 @@
     left: 20px;
   }
 
-  &__deleteBg {
-    background-color: #FFE2E2!important;
-  }
-
   &__btn_table {
     background-color: #E4F0FD;
     width: 36px;
@@ -89,6 +85,10 @@
     align-items: center;
     border-radius: 8px;
     margin-right: 10px;
+  }
+
+  &__deleteBg {
+    background-color: #FFE2E2;
   }
 
   @include mixins.bp(tablet) {
