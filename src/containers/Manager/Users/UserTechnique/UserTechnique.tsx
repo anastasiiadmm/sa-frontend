@@ -36,12 +36,13 @@ import { urlFormat } from 'utils/files/files';
 import { getErrorMessage, getPageNumber, getPageNumberPrevious } from 'utils/helper';
 import 'containers/Manager/Users/UserTechnique/_userTechnique.scss';
 
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 const UserTechnique: React.FC = () => {
   const b = bem('UserTechnique');
   const dispatch = useAppDispatch();
   const { id, idVehicle } = useParams() as { id: string; idVehicle: string };
+  const windowWidth = useWindowWidth();
   const {
     vehicleList,
     fetchVehicleListLoading,
@@ -340,19 +341,33 @@ const UserTechnique: React.FC = () => {
             {userInfoByManagerLoading ? (
               <Skeleton active />
             ) : (
-              <div className={b(`${'header-title'}`)}>
-                <Link to={`/user-profile/${id}`} className='btn_block'>
-                  <img className={b('arrow-left')} src={arrowLeft} alt='arrow' />
-                </Link>
-                <Title level={3} className={b('title')}>
-                  <span className='block_title btn_block'>Техника пользователя - </span>
-                  <p className={b('subtitle')}>
-                    {userInfoByManager?.last_name} {userInfoByManager?.first_name?.charAt(0)}.{' '}
-                    {userInfoByManager?.middle_name === ''
-                      ? null
-                      : `${userInfoByManager?.middle_name.charAt(0)}.`}
-                  </p>
-                </Title>
+              <div className={b('header-title')}>
+                {windowWidth <= 990 ? (
+                  <Title level={3} className={b('title')}>
+                    <h3 className={b('subtitle')}>
+                      {userInfoByManager?.last_name} {userInfoByManager?.first_name?.charAt(0)}.{' '}
+                      {userInfoByManager?.middle_name === ''
+                        ? null
+                        : `${userInfoByManager?.middle_name.charAt(0)}.`}
+                    </h3>
+                    <Text className={b('subtitle')}>Техника пользователя</Text>
+                  </Title>
+                ) : (
+                  <>
+                    <Link to={`/user-profile/${id}`}>
+                      <img className={b('arrow-left')} src={arrowLeft} alt='arrow' />
+                    </Link>
+                    <Title level={3} className={b('title')}>
+                      Техника пользователя -{' '}
+                      <p className={b('subtitle')}>
+                        {userInfoByManager?.last_name} {userInfoByManager?.first_name?.charAt(0)}.{' '}
+                        {userInfoByManager?.middle_name === ''
+                          ? null
+                          : `${userInfoByManager?.middle_name.charAt(0)}.`}
+                      </p>
+                    </Title>
+                  </>
+                )}
               </div>
             )}
             <div className={b('mobile_block')}>

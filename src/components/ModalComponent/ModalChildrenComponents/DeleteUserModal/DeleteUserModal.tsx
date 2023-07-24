@@ -1,8 +1,8 @@
-import { Button } from 'antd';
+import { Button, Typography } from 'antd';
 import bem from 'easy-bem';
 import React from 'react';
 
-import AlertComponent from 'components/AlertComponent/AlertComponent';
+import deleteIcon from 'assets/images/icons/delete-round.svg';
 import 'components/ModalComponent/ModalChildrenComponents/DeleteUserModal/_deleteUserModal.scss';
 
 interface Props {
@@ -11,16 +11,16 @@ interface Props {
   loading?: boolean | { delay?: number | undefined } | undefined;
 }
 
+const { Title, Text } = Typography;
+
 const DeleteUserModal: React.FC<Props> = ({ handleDeleteCancel, deleteUserHandler, loading }) => {
   const b = bem('DeleteUserModal');
 
   return (
-    <>
-      <AlertComponent
-        message='Вы действительно хотите удалить профиль пользователя? После удаления данные невозможно будет восстановить'
-        type='error'
-        showIcon
-      />
+    <div className={b('delete-container')}>
+      <img className={b('delete-image')} src={deleteIcon} alt='deleteIcon' />
+      <Title level={4}>Удалить профиль?</Title>
+      <Text>Вы уверены, что хотите удалить пользователя?</Text>
       <div className={b('delete-modal-buttons')}>
         <Button
           type='primary'
@@ -41,7 +41,7 @@ const DeleteUserModal: React.FC<Props> = ({ handleDeleteCancel, deleteUserHandle
           Удалить
         </Button>
       </div>
-    </>
+    </div>
   );
 };
 

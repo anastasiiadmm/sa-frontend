@@ -9,3 +9,5 @@ export interface IConfig {
   coords_timeout: string | undefined;
   websocket_auth_secret_key: string;
 }
+
+export type FunctionMap = { [key: string]: (() => void) | (() => Promise<void>) };

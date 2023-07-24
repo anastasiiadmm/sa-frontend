@@ -20,6 +20,16 @@
     gap: 10px;
   }
 
+  &__cancel-profile-button {
+    width: 100%;
+    background: themes.$light-gray-color !important;
+    color: themes.$primary-color;
+    box-shadow: 0 0 0 rgba(55, 81, 13, 0.19);
+    &:hover {
+      background: rgb(112, 121, 136) !important;
+    }
+  }
+
   &__delete-button {
     background: themes.$red-color !important;
     &:hover {

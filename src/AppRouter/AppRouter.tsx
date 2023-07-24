@@ -1,10 +1,11 @@
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
-import { Layout, theme, Typography } from 'antd';
+import { Button, Layout, theme, Typography } from 'antd';
 import bem from 'easy-bem';
 import React, { PropsWithChildren, useState } from 'react';
-import { Route, useLocation } from 'react-router';
+import { Route, useLocation, useNavigate } from 'react-router';
 import { Routes } from 'react-router-dom';
 
+import arrowLeft from 'assets/images/icons/arrow_left.svg';
 import NotFound from 'components/Errors/NotFound/NotFound';
 import FieldClimateSideBar from 'components/FieldClimateSideBar/FieldClimateSideBar';
 import OpenMapComponent from 'components/OpenMapComponent/OpenMapComponent';
@@ -18,6 +19,7 @@ import ManagerProfile from 'containers/Manager/Profile/Profile';
 import UserRequests from 'containers/Manager/UserRequests/UserRequests';
 import NewUser from 'containers/Manager/Users/NewUser/NewUser';
 import UserProfile from 'containers/Manager/Users/UserProfile/UserProfile';
+import UserProfileTablet from 'containers/Manager/Users/UserProfile/UserProfileTablet/UserProfileTablet';
 import Users from 'containers/Manager/Users/Users';
 import UserTechnique from 'containers/Manager/Users/UserTechnique/UserTechnique';
 import ProfileTechnique from 'containers/Technique/ProfileTechnique/ProfileTechnique';
@@ -28,7 +30,8 @@ import useWindowWidth from 'hooks/useWindowWidth';
 import { accountsSelector } from 'redux/accounts/accountsSlice';
 import { authSelector } from 'redux/auth/authSlice';
 import { useAppSelector } from 'redux/hooks';
-import { buttonsDataManager, buttonsDataUser } from 'utils/helper';
+import { routesTitles } from 'utils/constants';
+import { buttonsDataManager } from 'utils/helper';
 
 import 'AppRouter/appRouter.scss';
 
@@ -52,6 +55,7 @@ const AppRouterWrapper: React.FC<AppRouterWrapperProps> = ({ children }) => {
 
 const AppRouter: React.FC = () => {
   const b = bem('AppRouter');
+  const history = useNavigate();
   const { tokens } = useAppSelector(authSelector);
   const { account } = useAppSelector(accountsSelector);
   const [collapsed, setCollapsed] = useState(false);
@@ -60,33 +64,48 @@ const AppRouter: React.FC = () => {
   } = theme.useToken();
   const { pathname } = useLocation();
   const windowWidth = useWindowWidth();
-  const renderSlider = () => {
-    if (windowWidth <= 990) {
-      if (tokens?.is_manager) {
-        return buttonsDataManager.map(
-          (button) =>
-            pathname === button.key && (
-              <Title level={3} key={button?.key} className={b('title-mobile')}>
-                {button?.text}
-              </Title>
-            ),
-        );
-      }
-      return buttonsDataUser.map(
-        (button) =>
-          pathname === button.key && (
-            <Title level={3} key={button?.key} className={b('title-mobile')}>
-              {button?.text}
-            </Title>
-          ),
-      );
-    }
 
-    return React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
-      className: 'trigger',
-      onClick: () => setCollapsed(!collapsed),
-    });
+  const backHandler = () => {
+    history(-1);
   };
+
+  let title = Object.keys(routesTitles).find((route) => pathname.includes(route));
+  title = title ? routesTitles[title] : '';
+
+  const renderSlider =
+    windowWidth <= 990 ? (
+      title ? (
+        <div className={b('top-sidebar')}>
+          <Button
+            icon={<img src={arrowLeft} alt='arrowLeft' className={b('sidebar-arrow')} />}
+            className={b('sidebar-button')}
+            role='button'
+            onClick={backHandler}
+          />
+
+          <div className={b('sidebar-info')}>
+            <Title level={4} className={b('sidebar-title')}>
+              {title}
+            </Title>
+          </div>
+        </div>
+      ) : (
+        buttonsDataManager.map((button) =>
+          pathname === button?.key && tokens?.is_manager ? (
+            <Title level={4} key={button.key} className={b('title-mobile')}>
+              {button.text}
+            </Title>
+          ) : null,
+        )
+      )
+    ) : (
+      <>
+        {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
+          className: 'trigger',
+          onClick: () => setCollapsed(!collapsed),
+        })}
+      </>
+    );
 
   return (
     <Layout style={{ height: '100vh' }} className={b('')} data-testid='app-router'>
@@ -121,6 +140,7 @@ const AppRouter: React.FC = () => {
                   <Route path='/add-new-user' element={<NewUser />} />
                   <Route path='/manager-profile' element={<ManagerProfile />} />
                   <Route path='/user-profile/:id' element={<UserProfile />} />
+                  <Route path='/edit-user/:id' element={<UserProfileTablet />} />
                   <Route path='/user-technique/:id/:idVehicle' element={<UserTechnique />} />
                   <Route path='/user-requests' element={<UserRequests />} />
                   <Route path='/apks' element={<ApksList />} />
