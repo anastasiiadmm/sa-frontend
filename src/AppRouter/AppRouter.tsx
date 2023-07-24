@@ -30,8 +30,8 @@ import useWindowWidth from 'hooks/useWindowWidth';
 import { accountsSelector } from 'redux/accounts/accountsSlice';
 import { authSelector } from 'redux/auth/authSlice';
 import { useAppSelector } from 'redux/hooks';
-import { buttonsData, routesTitles } from 'utils/helper';
-import { buttonsDataManager, buttonsDataUser } from 'utils/helper';
+import { routesTitles } from 'utils/constants';
+import { buttonsDataManager } from 'utils/helper';
 
 import 'AppRouter/appRouter.scss';
 
@@ -84,15 +84,15 @@ const AppRouter: React.FC = () => {
           />
 
           <div className={b('sidebar-info')}>
-            <Title level={3} className={b('sidebar-title')}>
+            <Title level={4} className={b('sidebar-title')}>
               {title}
             </Title>
           </div>
         </div>
       ) : (
-        buttonsData.map((button) =>
-          pathname === button.key ? (
-            <Title level={3} key={button.key} className={b('title-mobile')}>
+        buttonsDataManager.map((button) =>
+          pathname === button?.key && tokens?.is_manager ? (
+            <Title level={4} key={button.key} className={b('title-mobile')}>
               {button.text}
             </Title>
           ) : null,
@@ -111,7 +111,7 @@ const AppRouter: React.FC = () => {
     <Layout style={{ height: '100vh' }} className={b('')} data-testid='app-router'>
       <SliderMenu collapsed={collapsed} />
       <Layout className='site-layout'>
-        <Header style={{ padding: 0, background: colorBgContainer }}>{renderSlider()}</Header>
+        <Header style={{ padding: 0, background: colorBgContainer }}>{renderSlider}</Header>
         <Content
           style={{
             margin:

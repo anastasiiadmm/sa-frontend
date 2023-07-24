@@ -319,15 +319,19 @@ button:disabled {
 }
 
 .ant-input-focused {
-  box-shadow: 0 0 0 0 rgba(55, 81, 13, 0.19);
+  box-shadow: 0 0 0 0 rgba(55, 81, 13, 0.19) !important;
 }
 
 .ant-input {
   padding: 0;
-  background-color: transparent;
-  border-color: transparent;
+  background-color: transparent !important;
+  border-color: transparent !important;
 }
 
 :where(.css-dev-only-do-not-override-17dxcc2).ant-form-vertical .ant-form-item-label, :where(.css-dev-only-do-not-override-17dxcc2).ant-col-24.ant-form-item-label, :where(.css-dev-only-do-not-override-17dxcc2).ant-col-xl-24.ant-form-item-label {
   padding: 0 0 0 3px !important;
+}
+
+:where(.css-dev-only-do-not-override-17dxcc2).ant-input:focus, :where(.css-dev-only-do-not-override-17dxcc2).ant-input-focused {
+  box-shadow: 0 0 0 0 rgba(55, 81, 13, 0.19) !important;
 }

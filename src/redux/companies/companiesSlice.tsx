@@ -263,7 +263,7 @@ export const updateUserInfo = createAsyncThunk<void, updateUserInfoParams>(
     try {
       const resp = await axiosApi.patch(`/accounts/users/${id}/`, data);
       dispatch(fetchUserInfoByManager({ id }));
-      message.success('Успешно изминились данные');
+      message.success('Данные успешно изменены');
       return resp.data;
     } catch (e) {
       return rejectWithValue({

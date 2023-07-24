@@ -4,9 +4,10 @@ import bem from 'easy-bem';
 import React, { useEffect } from 'react';
 
 import FormField from 'components/FormField/FormField';
+import useWindowWidth from 'hooks/useWindowWidth';
 import { IAccount, ICompany, RequestType } from 'interfaces';
-import 'components/ModalComponent/ModalChildrenComponents/EditUserProfileModal/_editUserProfileModal.scss';
 import { apiUrlCrop } from 'utils/config';
+import 'components/ModalComponent/ModalChildrenComponents/EditUserProfileModal/_editUserProfileModal.scss';
 
 interface Props {
   updateUserData?: IAccount | ICompany | Object | null;
@@ -19,6 +20,7 @@ interface Props {
   loading?: boolean;
   handleOkCancel?: () => void;
   showRejectModal?: () => void;
+  prevButtonHandler?: () => void;
   inputChangeHandler?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onFinish?: (values: any) => void;
   onClick?: () => void;
@@ -35,6 +37,7 @@ const EditUserProfileModal: React.FC<Props> = ({
   validateForm,
   inputChangeHandler,
   changeUserInfoRequest = false,
+  prevButtonHandler,
   handleOkCancel,
   showRejectModal,
   onFinish,
@@ -47,6 +50,8 @@ const EditUserProfileModal: React.FC<Props> = ({
 }) => {
   const b = bem('EditUserProfileModal');
   const [form] = Form.useForm();
+  const windowWidth = useWindowWidth();
+  console.log('updateUserData', updateUserData);
 
   useEffect(() => {
     if (updateUserData) {
@@ -336,18 +341,32 @@ const EditUserProfileModal: React.FC<Props> = ({
               </Button>
             </>
           ) : (
-            <Button
-              data-testid='save_button_id'
-              onClick={onClick}
-              disabled={validateForm || formValid}
-              type='primary'
-              htmlType='submit'
-              loading={loading}
-              style={{ width: '100%', borderRadius: 4 }}
-              className={b('save-button')}
-            >
-              Сохранить изменения
-            </Button>
+            <>
+              {windowWidth <= 990 && updateUserData ? (
+                <Button
+                  data-testid='save_button_id'
+                  onClick={prevButtonHandler}
+                  type='primary'
+                  htmlType='submit'
+                  loading={loading}
+                  className={b('cancel-profile-button')}
+                >
+                  Отменить
+                </Button>
+              ) : null}
+              <Button
+                data-testid='save_button_id'
+                onClick={onClick}
+                disabled={validateForm || formValid}
+                type='primary'
+                htmlType='submit'
+                loading={loading}
+                style={{ width: '100%', borderRadius: 4 }}
+                className={b('save-button')}
+              >
+                Сохранить изменения
+              </Button>
+            </>
           )}
         </div>
       </Form>

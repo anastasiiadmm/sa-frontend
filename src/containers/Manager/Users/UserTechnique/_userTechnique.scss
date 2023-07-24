@@ -1,8 +1,16 @@
+@use 'assets/scss/_mixins.scss';
+
 .UserTechnique {
   position: relative;
   &__table {
     padding: 16px;
     background: #ffffff;
+  }
+
+  &__btn_handler {
+    position: absolute;
+    right: 16px;
+    top: 84px;
   }
 
   &__image-styles {
@@ -47,7 +55,6 @@
 
   &__subtitle {
     margin: 0;
-    padding-left: 7px;
     font-weight: 700 !important;
   }
 
@@ -59,24 +66,28 @@
     position: absolute;
     left: 20px;
   }
-}
 
-.link-icons {
-  cursor: pointer;
-}
+  @include mixins.bp(tablet) {
+    &__title {
+      display: block;
+    }
 
-@media screen and (max-width: 1120px) {
-  .UserTechnique {
+    &__subtitle {
+      margin-bottom: 0 !important;
+    }
+
     &__btn_handler {
-      position: absolute;
-      right: 16px;
-      top: 84px;
+      position: initial;
+    }
+
+    &__header {
+      flex-direction: column;
+      align-items: initial;
+      padding-left: 7px;
     }
   }
-}
 
-@media screen and (max-width: 450px) {
-  .UserTechnique {
+  @include mixins.bp(mobile) {
     &__header-title {
       display: block;
     }
@@ -87,7 +98,7 @@
     &__btn_handler {
       position: relative;
       top: 0;
-      left: 0px;
+      left: 0;
       > button {
         width: 100%;
       }
@@ -108,4 +119,13 @@
       padding-left: 0;
     }
   }
+
+  .ant-typography h3 {
+    margin: 0;
+  }
 }
+
+.link-icons {
+  cursor: pointer;
+}
+

@@ -27,7 +27,8 @@ import {
   updateUserInfo,
 } from 'redux/companies/companiesSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { buttonsMenu, getErrorMessage } from 'utils/helper';
+import { buttonsMenu } from 'utils/constants';
+import { getErrorMessage, inputChangeFormHandler } from 'utils/helper';
 import 'containers/Manager/Users/UserProfile/_UserProfile.scss';
 
 const { Title } = Typography;
@@ -142,19 +143,7 @@ const UserProfile: React.FC = () => {
   };
 
   const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    if (name.startsWith('company,')) {
-      const userKey = name.split(',')[1];
-      setUserInfoData((prevUserData) => ({
-        ...prevUserData,
-        company: {
-          ...prevUserData.company,
-          [userKey]: value,
-        },
-      }));
-    } else {
-      setUserInfoData({ ...userInfoData, [name]: value });
-    }
+    inputChangeFormHandler(e, userInfoData, setUserInfoData);
   };
 
   const functionMap: FunctionMap = {
@@ -186,166 +175,94 @@ const UserProfile: React.FC = () => {
       autoComplete='off'
       layout='vertical'
     >
-      {windowWidth <= 990 ? (
-        <div className={b('tablet-form')}>
-          <div>
-            <FormField
-              readOnly
-              data-testid='email_id_login'
-              type='email'
-              id='email_id'
-              label='Email'
-              name='email'
-              placeholder='Email'
-              inputClassName={b('username-info')}
-            />
-            <FormField
-              readOnly
-              inputClassName={b('username-info')}
-              data-testid='username_id'
-              id='username_id'
-              label='Username'
-              name='username'
-              placeholder='Username'
-            />
-            <FormField
-              readOnly
-              data-testid='last_name_id'
-              id='last_name_id'
-              label='ФИО'
-              name='last_name'
-              placeholder='Фамилия'
-              inputClassName={b('username-info')}
-            />
-            <FormField
-              readOnly
-              type='phone'
-              name='phone'
-              label='Номер телефона'
-              placeholder='Номер телефона'
-              inputClassName={b('username-info')}
-            />
-          </div>
-          <div>
-            <FormField
-              readOnly
-              data-testid='location_id'
-              id='location_id'
-              label='Регион расположения'
-              name='location'
-              placeholder='Регион расположения'
-              inputClassName={b('username-info')}
-            />
-            <FormField
-              readOnly
-              data-testid='name_id'
-              id='name_id'
-              label='Название колхоза/фермы/компании'
-              name='name'
-              placeholder='Название колхоза/фермы/компании'
-              inputClassName={b('username-info')}
-            />
-            <FormField
-              readOnly
-              data-testid='autopilots_amount_id'
-              id='autopilots_amount_id'
-              label='Количество оплаченных блоков автопилота'
-              name='autopilots_amount'
-              placeholder='Количество оплаченных блоков автопилота'
-              inputClassName={b('username-info')}
-            />
-          </div>
+      <>
+        <FormField
+          readOnly
+          inputClassName={b('username-info')}
+          data-testid='username_id'
+          id='username_id'
+          label='Username'
+          name='username'
+          placeholder='Username'
+        />
+        <div className={b('form-block')}>
+          <FormField
+            readOnly
+            data-testid='last_name_id'
+            id='last_name_id'
+            label='Фамилия'
+            name='last_name'
+            placeholder='Фамилия'
+            inputClassName={b('username-info')}
+          />
+          <FormField
+            readOnly
+            data-testid='first_name_id'
+            id='first_name_id'
+            label='Имя'
+            name='first_name'
+            placeholder='Имя'
+            inputClassName={b('username-info')}
+          />
+          <FormField
+            readOnly
+            data-testid='middle_name_id'
+            id='middle_name_id'
+            label='Отчество'
+            name='middle_name'
+            placeholder='Отчество'
+            inputClassName={b('username-info')}
+          />
         </div>
-      ) : (
-        <>
+        <div className={b('form-block')}>
           <FormField
             readOnly
+            data-testid='email_id_login'
+            type='email'
+            id='email_id'
+            label='Email'
+            name='email'
+            placeholder='Email'
             inputClassName={b('username-info')}
-            data-testid='username_id'
-            id='username_id'
-            label='Username'
-            name='username'
-            placeholder='Username'
           />
-          <div className={b('form-block')}>
-            <FormField
-              readOnly
-              data-testid='last_name_id'
-              id='last_name_id'
-              label='Фамилия'
-              name='last_name'
-              placeholder='Фамилия'
-              inputClassName={b('username-info')}
-            />
-            <FormField
-              readOnly
-              data-testid='first_name_id'
-              id='first_name_id'
-              label='Имя'
-              name='first_name'
-              placeholder='Имя'
-              inputClassName={b('username-info')}
-            />
-            <FormField
-              readOnly
-              data-testid='middle_name_id'
-              id='middle_name_id'
-              label='Отчество'
-              name='middle_name'
-              placeholder='Отчество'
-              inputClassName={b('username-info')}
-            />
-          </div>
-          <div className={b('form-block')}>
-            <FormField
-              readOnly
-              data-testid='email_id_login'
-              type='email'
-              id='email_id'
-              label='Email'
-              name='email'
-              placeholder='Email'
-              inputClassName={b('username-info')}
-            />
 
-            <FormField
-              readOnly
-              type='phone'
-              name='phone'
-              label='Номер телефона'
-              placeholder='Номер телефона'
-              inputClassName={b('username-info')}
-            />
-          </div>
           <FormField
             readOnly
-            data-testid='name_id'
-            id='name_id'
-            label='Название колхоза/фермы/компании'
-            name='name'
-            placeholder='Название колхоза/фермы/компании'
+            type='phone'
+            name='phone'
+            label='Номер телефона'
+            placeholder='Номер телефона'
             inputClassName={b('username-info')}
           />
-          <FormField
-            readOnly
-            data-testid='location_id'
-            id='location_id'
-            label='Регион расположения'
-            name='location'
-            placeholder='Регион расположения'
-            inputClassName={b('username-info')}
-          />
-          <FormField
-            readOnly
-            data-testid='autopilots_amount_id'
-            id='autopilots_amount_id'
-            label='Количество оплаченных блоков автопилота'
-            name='autopilots_amount'
-            placeholder='Количество оплаченных блоков автопилота'
-            inputClassName={b('username-info')}
-          />
-        </>
-      )}
+        </div>
+        <FormField
+          readOnly
+          data-testid='name_id'
+          id='name_id'
+          label='Название колхоза/фермы/компании'
+          name='name'
+          placeholder='Название колхоза/фермы/компании'
+          inputClassName={b('username-info')}
+        />
+        <FormField
+          readOnly
+          data-testid='location_id'
+          id='location_id'
+          label='Регион расположения'
+          name='location'
+          placeholder='Регион расположения'
+          inputClassName={b('username-info')}
+        />
+        <FormField
+          readOnly
+          data-testid='autopilots_amount_id'
+          id='autopilots_amount_id'
+          label='Количество оплаченных блоков автопилота'
+          name='autopilots_amount'
+          placeholder='Количество оплаченных блоков автопилота'
+          inputClassName={b('username-info')}
+        />
+      </>
 
       {windowWidth <= 990 ? null : (
         <>
@@ -426,7 +343,13 @@ const UserProfile: React.FC = () => {
                       {windowWidth <= 601 ? <img src={arrowRight} alt='arrowRight' /> : null}
                     </>
                   ) : (
-                    <Link to={`/${button.action}/${id}`}>
+                    <Link
+                      to={
+                        button.action === 'user-technique'
+                          ? `/user-technique/${id}/${userInfoByManager?.company?.id}`
+                          : `/${button.action}/${id}`
+                      }
+                    >
                       <img src={button?.image} alt='icon' />
                       <div className={b('card-content')}>
                         <Title
