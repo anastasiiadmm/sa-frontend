@@ -6,8 +6,12 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import cloudy from 'assets/images/icons/cloudy.svg';
+import group from 'assets/images/icons/newIcon/group.svg';
+
+import tractorNew from 'assets/images/icons/newIcon/tractor.svg';
 import tractorBlue from 'assets/images/icons/tractor-blue.svg';
 import tractor from 'assets/images/icons/tractor-image.svg';
+import logo from 'assets/images/logo.svg';
 import Errors from 'components/Errors/Errors';
 import AddUpdateTechnique from 'components/ModalComponent/ModalChildrenComponents/AddUpdateTechnique/AddUpdateTechnique';
 import RequestModal from 'components/ModalComponent/ModalChildrenComponents/DeleteTechniqueModal/RequestModal';
@@ -184,10 +188,13 @@ const Technique = () => {
   return (
     <>
       <div className={b()} data-testid='technique-id'>
+        <div className={b('logo')}>
+          <img src={logo} alt='logo' />
+        </div>
         <div className={b('card-block')}>
           <Card className={b('card-style')} bordered={false}>
             <div className={b('card-style-blocks')}>
-              <div>
+              <div className={b('card-technique')}>
                 <Title className={b('card-title')}>Количество техники</Title>
                 {fetchLoadingAccount ? (
                   <SkeletonBlock active={fetchLoadingAccount} num={1} titleBool />
@@ -198,7 +205,84 @@ const Technique = () => {
                   </div>
                 )}
               </div>
-              <div>
+              <div className={b('card-technique-block')}>
+                <div className='logo_mobile'>
+                  <img src={tractorNew} alt='group' />
+                </div>
+                <p>Кол-во техники</p>
+                {fetchLoadingAccount ? (
+                  <SkeletonBlock active={fetchLoadingAccount} num={1} titleBool />
+                ) : (
+                  <div className={b('card-content')}>
+                    <p>{userVehiclesPagination?.count}</p>
+                  </div>
+                )}
+              </div>
+              <div className={b('cloud_block_style')}>
+                <Card
+                  style={{
+                    ...cardStyle,
+                    width: 214,
+                    height: 94,
+                    borderRadius: 12,
+                  }}
+                  className={b('card-style-cloud')}
+                  bordered={false}
+                >
+                  <div className={b('card-style-cloud-blocks')}>
+                    <div>
+                      {fetchLoadingAccount ? (
+                        <Spin className={b('card-style-cloud-button')} />
+                      ) : account?.company?.meteo_requested ? (
+                        <div className={b('')}>
+                          <div className={b('cloudy_img_not')}>
+                            <img src={group} alt='cloudy' />
+                          </div>
+                          <p className='meteo-title_cloudy'>Все про погоду и почву</p>
+                          <p className='meteo-title'>Подключите метеосервис</p>
+                          <Button
+                            disabled
+                            type='primary'
+                            danger
+                            className={b('card-style-cloud-button_meteo')}
+                          >
+                            Запрос на рассмотрении
+                          </Button>
+                        </div>
+                      ) : account?.company?.weather_service ? (
+                        <>
+                          <div className={b('cloudy_img')}>
+                            <img src={group} alt='cloudy' />
+                          </div>
+                          <Button
+                            icon={<CheckOutlined />}
+                            disabled
+                            type='dashed'
+                            className={b('card-style-cloud-button')}
+                          >
+                            Метеостанция подключена
+                          </Button>
+                        </>
+                      ) : (
+                        <div className={b('')}>
+                          <div className={b('cloudy_img_not')}>
+                            <img src={group} alt='cloudy' />
+                          </div>
+                          <p className='meteo-title_cloudy'>Все про погоду и почву</p>
+                          <p className='meteo-title'>Подключите метеосервис</p>
+                          <Button
+                            className={b('card-style-cloud-button_meteo')}
+                            onClick={showFieldClimateModal}
+                          >
+                            Отправить запрос
+                          </Button>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </Card>
+              </div>
+              <div className={b('cloud_block')}>
                 <Card style={cardStyle} className={b('card-style-cloud')} bordered={false}>
                   <div className={b('card-style-cloud-blocks')}>
                     <div>
@@ -254,7 +338,7 @@ const Technique = () => {
               Техника
             </Title>
 
-            <div>
+            <div className={b('btn_title')}>
               <Button type='primary' onClick={showModal} style={{ marginRight: 15 }}>
                 Запрос на добавление техники
               </Button>

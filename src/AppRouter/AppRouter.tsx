@@ -110,10 +110,15 @@ const AppRouter: React.FC = () => {
   return (
     <Layout style={{ height: '100vh' }} className={b('')} data-testid='app-router'>
       <SliderMenu collapsed={collapsed} />
+
       <Layout className='site-layout'>
         <Header
           style={{ padding: 0, background: colorBgContainer }}
-          className={pathname.includes('user-technique') ? 'header_none' : ''}
+          className={
+            pathname.includes('user-technique') || pathname.includes('user-profile-view')
+              ? 'header_none'
+              : ''
+          }
         >
           {renderSlider}
         </Header>
