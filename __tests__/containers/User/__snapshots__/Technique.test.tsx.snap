@@ -6,10 +6,22 @@ exports[`<Technique /> Users table component should be in the document 1`] = `
   data-testid="technique-id"
 >
   <div
+    className="Technique__logo"
+  >
+    <img
+      alt="logo"
+      src={
+        {
+          "process": [Function],
+        }
+      }
+    />
+  </div>
+  <div
     className="Technique__card-block"
   >
     <div
-      className="ant-card Technique__card-style css-dev-only-do-not-override-1jr9qlj"
+      className="ant-card Technique__card-style css-dev-only-do-not-override-txh9fw"
       style={{}}
     >
       <div
@@ -19,9 +31,11 @@ exports[`<Technique /> Users table component should be in the document 1`] = `
         <div
           className="Technique__card-style-blocks"
         >
-          <div>
+          <div
+            className="Technique__card-technique"
+          >
             <h1
-              className="ant-typography Technique__card-title css-dev-only-do-not-override-1jr9qlj"
+              className="ant-typography Technique__card-title css-dev-only-do-not-override-txh9fw"
               style={
                 {
                   "WebkitLineClamp": undefined,
@@ -44,9 +58,98 @@ exports[`<Technique /> Users table component should be in the document 1`] = `
               <p />
             </div>
           </div>
-          <div>
+          <div
+            className="Technique__card-technique-block"
+          >
             <div
-              className="ant-card Technique__card-style-cloud css-dev-only-do-not-override-1jr9qlj"
+              className="logo_mobile"
+            >
+              <img
+                alt="group"
+                src={
+                  {
+                    "process": [Function],
+                  }
+                }
+              />
+            </div>
+            <p>
+              Кол-во техники
+            </p>
+            <div
+              className="Technique__card-content"
+            >
+              <p />
+            </div>
+          </div>
+          <div
+            className="Technique__cloud_block_style"
+          >
+            <div
+              className="ant-card Technique__card-style-cloud css-dev-only-do-not-override-txh9fw"
+              style={
+                {
+                  "borderRadius": 12,
+                  "height": 94,
+                  "width": 214,
+                }
+              }
+            >
+              <div
+                className="ant-card-body"
+                style={{}}
+              >
+                <div
+                  className="Technique__card-style-cloud-blocks"
+                >
+                  <div>
+                    <div
+                      className="Technique"
+                    >
+                      <div
+                        className="Technique__cloudy_img_not"
+                      >
+                        <img
+                          alt="cloudy"
+                          src={
+                            {
+                              "process": [Function],
+                            }
+                          }
+                        />
+                      </div>
+                      <p
+                        className="meteo-title_cloudy"
+                      >
+                        Все про погоду и почву
+                      </p>
+                      <p
+                        className="meteo-title"
+                      >
+                        Подключите метеосервис
+                      </p>
+                      <button
+                        className="ant-btn css-dev-only-do-not-override-txh9fw ant-btn-default Technique__card-style-cloud-button_meteo"
+                        disabled={false}
+                        onClick={[Function]}
+                        style={{}}
+                        type="button"
+                      >
+                        <span>
+                          Отправить запрос
+                        </span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            className="Technique__cloud_block"
+          >
+            <div
+              className="ant-card Technique__card-style-cloud css-dev-only-do-not-override-txh9fw"
               style={
                 {
                   "width": 300,
@@ -72,7 +175,7 @@ exports[`<Technique /> Users table component should be in the document 1`] = `
                   </div>
                   <div>
                     <h1
-                      className="ant-typography Technique__card-title meteo-h1 css-dev-only-do-not-override-1jr9qlj"
+                      className="ant-typography Technique__card-title meteo-h1 css-dev-only-do-not-override-txh9fw"
                       style={
                         {
                           "WebkitLineClamp": undefined,
@@ -87,7 +190,7 @@ exports[`<Technique /> Users table component should be in the document 1`] = `
                       Все про погоду и почву
                     </p>
                     <button
-                      className="ant-btn css-dev-only-do-not-override-1jr9qlj ant-btn-default Technique__card-style-cloud-button"
+                      className="ant-btn css-dev-only-do-not-override-txh9fw ant-btn-default Technique__card-style-cloud-button"
                       disabled={false}
                       onClick={[Function]}
                       style={{}}
@@ -113,7 +216,7 @@ exports[`<Technique /> Users table component should be in the document 1`] = `
       className="Technique__title"
     >
       <h3
-        className="ant-typography Technique__title css-dev-only-do-not-override-1jr9qlj"
+        className="ant-typography Technique__title css-dev-only-do-not-override-txh9fw"
         data-testid="sign_in_test"
         style={
           {
@@ -123,9 +226,11 @@ exports[`<Technique /> Users table component should be in the document 1`] = `
       >
         Техника
       </h3>
-      <div>
+      <div
+        className="Technique__btn_title"
+      >
         <button
-          className="ant-btn css-dev-only-do-not-override-1jr9qlj ant-btn-primary"
+          className="ant-btn css-dev-only-do-not-override-txh9fw ant-btn-primary"
           disabled={false}
           onClick={[Function]}
           style={
@@ -144,7 +249,7 @@ exports[`<Technique /> Users table component should be in the document 1`] = `
           onClick={[Function]}
         >
           <button
-            className="ant-btn css-dev-only-do-not-override-1jr9qlj ant-btn-default Technique__view-button"
+            className="ant-btn css-dev-only-do-not-override-txh9fw ant-btn-default Technique__view-button"
             disabled={false}
             onClick={[Function]}
             style={{}}
@@ -158,11 +263,11 @@ exports[`<Technique /> Users table component should be in the document 1`] = `
       </div>
     </div>
     <div
-      className="ant-table-wrapper css-dev-only-do-not-override-1jr9qlj"
+      className="ant-table-wrapper css-dev-only-do-not-override-txh9fw"
       style={{}}
     >
       <div
-        className="ant-spin-nested-loading css-dev-only-do-not-override-1jr9qlj"
+        className="ant-spin-nested-loading css-dev-only-do-not-override-txh9fw"
       >
         <div
           className="ant-spin-container"
@@ -453,7 +558,7 @@ exports[`<Technique /> Users table component should be in the document 1`] = `
                             onMouseLeave={[Function]}
                           >
                             <button
-                              className="ant-btn css-dev-only-do-not-override-1jr9qlj ant-btn-text"
+                              className="ant-btn css-dev-only-do-not-override-txh9fw ant-btn-text"
                               disabled={false}
                               onClick={[Function]}
                               style={{}}
@@ -493,7 +598,7 @@ exports[`<Technique /> Users table component should be in the document 1`] = `
                             onMouseLeave={[Function]}
                           >
                             <button
-                              className="ant-btn css-dev-only-do-not-override-1jr9qlj ant-btn-text"
+                              className="ant-btn css-dev-only-do-not-override-txh9fw ant-btn-text"
                               disabled={false}
                               onClick={[Function]}
                               style={
@@ -543,7 +648,7 @@ exports[`<Technique /> Users table component should be in the document 1`] = `
             className="next_table"
           >
             <button
-              className="ant-btn css-dev-only-do-not-override-1jr9qlj ant-btn-default ant-btn-icon-only pagination_buttons pagination_buttons-prev"
+              className="ant-btn css-dev-only-do-not-override-txh9fw ant-btn-default ant-btn-icon-only pagination_buttons pagination_buttons-prev"
               disabled={true}
               onClick={[Function]}
               style={{}}
@@ -564,7 +669,7 @@ exports[`<Technique /> Users table component should be in the document 1`] = `
               </span>
             </button>
             <button
-              className="ant-btn css-dev-only-do-not-override-1jr9qlj ant-btn-default ant-btn-icon-only pagination_buttons pagination_buttons-next"
+              className="ant-btn css-dev-only-do-not-override-txh9fw ant-btn-default ant-btn-icon-only pagination_buttons pagination_buttons-next"
               disabled={true}
               onClick={[Function]}
               role="button"

@@ -10,6 +10,10 @@
     color: themes.$primary-color;
   }
 
+  &__loading {
+    margin-left: 30px;
+  }
+
   &__form-block {
     display: flex;
     gap: 13px;
@@ -53,5 +57,112 @@
   :where(.css-dev-only-do-not-override-sk7ap8).ant-input {
     color: themes.$font-title-color;
     cursor: default;
+  }
+
+  :where(.css-dev-only-do-not-override-1gg88bo).ant-col-lg-11 {
+    max-width: 100%;
+  }
+}
+
+@media screen and (max-width: 990px) {
+  .Profile {
+    &__mobile_navigate {
+      height: 52px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid #EBF3FF;
+      margin-bottom: 20px;
+      > button {
+        background-color: transparent;
+        border: none;
+        > img {
+          width: 14px;
+          height: 13px;
+        }
+      }
+
+      > p {
+        width: 100%;
+        text-align: center;
+        font-weight: 600;
+      }
+    }
+
+    &__avatar {
+      width: 103px;
+      height: 103px;
+      border-radius: 71px;
+      margin-left: 20px;
+    }
+
+    &__title_first_name {
+      margin-left: 20px;
+    }
+
+    &__request_link_mobile {
+      width: 220px;
+      height: 110px;
+      display: flex;
+      align-items: center;
+      margin-top: 20px;
+      padding-top: 20px;
+      margin-left: 20px;
+      margin-bottom: 20px;
+      background-color: #FFFFFF;
+      border: none;
+      color: #000000!important;
+      > div {
+        > img {
+          float: left;
+        }
+
+        > p {
+          text-align: left;
+          font-weight: 600;
+        }
+      }
+    }
+    :where(.css-dev-only-do-not-override-1gg88bo).ant-col-md-18 {
+      max-width: 100%;
+      margin-inline-start: auto;
+    }
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .Profile {
+    &__avatar_title {
+      display: flex;
+      justify-content: center;
+      margin-left: 0;
+    }
+
+    &__title_first_name {
+      text-align: center;
+      margin-left: 0;
+      font-weight: 500;
+    }
+
+    &__form-block {
+      display: block;
+    }
+
+    &__block_request_link {
+      margin: 20px;
+    }
+
+    &__request_link_mobiles {
+      width: 100%;
+      height: 46px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #689F3A;
+      color: #FFFFFF!important;
+      > img {
+        padding-right: 10px;
+      }
+    }
   }
 }

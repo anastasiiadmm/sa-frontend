@@ -93,6 +93,18 @@
   &__card-title {
     margin-right: 10px;
   }
+
+  &__logo {
+    display: none;
+  }
+
+  &__card-technique-block {
+    display: none;
+  }
+
+  &__cloud_block_style {
+    display: none;
+  }
 }
 
 .meteo-h1 {
@@ -102,6 +114,156 @@
 
 .send-button {
   background: #0078a8;
+}
+
+@media screen and (max-width: 990px) {
+  .Technique {
+    &__card-style-blocks {
+      justify-content: left;
+    }
+
+    &__logo {
+      display: block;
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      z-index: 200;
+
+      > img {
+        width: 96px;
+        height: 40px;
+      }
+    }
+
+    &__card-technique {
+     display: none;
+    }
+
+    &__card-technique-block {
+      display: block;
+      width: 214px;
+      background-color: #F5F6FF;
+      padding: 14px 16px 0px 12px;
+      border-radius: 12px;
+      margin-right: 20px;
+      .logo_mobile {
+        width: 24px;
+        height: 24px;
+        background-color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 30px;
+        > img {
+          width: 16px;
+          height: 16px;
+        }
+      }
+
+      > p {
+        margin-top: 3px;
+      }
+    }
+
+    &__card-content {
+      margin-top: -15px;
+      > p {
+        font-size: 13px;
+      }
+    }
+
+    &__cloud_block {
+      display: none;
+    }
+
+    &__cloud_block_style {
+      display: block;
+    }
+
+    &__card-style-cloud {
+      background: linear-gradient(103.37deg, #3D9FFF 2.9%, #1785F0 64.65%);
+    }
+    &__cloudy_img_not {
+      position: absolute;
+      top: 8px;
+      left: 15px;
+    }
+
+    .meteo-title_cloudy {
+      color: #FFFFFF;
+      font-weight: 400;
+      font-size: 12px;
+      margin-left: -10px;
+      margin-top: 6px;
+    }
+    .meteo-title {
+      color: #ffffff;
+      font-size: 12px;
+      margin-left: -10px;
+      margin-top: -16px;
+      font-weight: 600;
+    }
+
+    &__cloudy_img {
+      margin-left: -10px;
+    }
+
+    &__card-style-cloud-button_meteo {
+      position: absolute;
+      left: 0;
+      bottom: 2px;
+      background: transparent!important;
+      border: none;
+      color: #FFFFFF;
+      font-weight: 500;
+      font-size: 12px;
+    }
+
+    &__card-style-cloud-button_meteo:disabled {
+      position: absolute;
+      left: 0;
+      bottom: 2px;
+      background: transparent!important;
+      border: none;
+      color: #FFFFFF;
+      font-weight: 500;
+      font-size: 12px;
+    }
+
+    &__card-style-cloud-button {
+      position: absolute;
+      left: 0;
+      top: 40px;
+      background: transparent!important;
+      font-size: 11px;
+    }
+
+    &__card-style-cloud-button:disabled {
+      background: transparent!important;
+      color: #ffffff;
+    }
+
+    &__title {
+      display: block;
+    }
+
+    &__btn_title {
+      margin-top: 10px;
+      > button {
+        width: 242px;
+        height: 40px;
+        border-radius: 8px;
+      }
+    }
+
+    &__view-button {
+      width: 242px;
+      height: 40px;
+      background-color: #F8F8F8;
+      border-radius: 8px;
+      color: #689F3A;
+    }
+  }
 }
 
 @media screen and (max-width: 600px) {

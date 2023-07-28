@@ -2,14 +2,21 @@ import { Button, Col, Form, message, Typography } from 'antd';
 import bem from 'easy-bem';
 import React, { useEffect, useState } from 'react';
 
+import { useNavigate } from 'react-router';
+
+import edit from 'assets/images/icons/newIcon/editWhite.svg';
+import frame from 'assets/images/icons/newIcon/frame.svg';
+import next from 'assets/images/icons/newIcon/next.svg';
 import Errors from 'components/Errors/Errors';
 import FormField from 'components/FormField/FormField';
 import EditUserProfileModal from 'components/ModalComponent/ModalChildrenComponents/EditUserProfileModal/EditUserProfileModal';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import SkeletonBlock from 'components/SkeletonBlock/SkeletonBlock';
+import useWindowWidth from 'hooks/useWindowWidth';
 import { IMyData, IMyDataApi } from 'interfaces';
 import { accountsSelector, requestChangeProfile } from 'redux/accounts/accountsSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { urlFormat } from 'utils/files/files';
 import { appendDataFields } from 'utils/helper';
 import { fileSizeValidate, fileValidateImg } from 'utils/validate/validate';
 import 'containers/User/Profile/_profile.scss';
@@ -21,6 +28,9 @@ const Profile = () => {
   const [form] = Form.useForm();
   const dispatch = useAppDispatch();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const history = useNavigate();
+  const windowWidth = useWindowWidth();
+
   const { account, fetchErrorAccount, fetchLoadingAccount, changeProfileLoading } =
     useAppSelector(accountsSelector);
   const [data, setData] = useState<IMyDataApi>({
@@ -159,7 +169,9 @@ const Profile = () => {
       <div className={b()} data-testid='user-profile-id'>
         <div className='layout'>
           {fetchLoadingAccount ? (
-            <SkeletonBlock active={fetchLoadingAccount} num={1} titleBool />
+            <div className={b('loading')}>
+              <SkeletonBlock active={fetchLoadingAccount} num={1} titleBool />
+            </div>
           ) : (
             <Col
               className={b('')}
@@ -167,23 +179,47 @@ const Profile = () => {
               md={{ span: 18, offset: 3 }}
               lg={{ span: 11, offset: 1 }}
             >
-              <div className={b('title')}>
-                <Title level={3} data-testid='sign_in_test' className={b('title')}>
-                  Профиль
-                </Title>
-                <p>
-                  Для того чтобы изменить или добавить информацию в вашем профиле обратись к вашему
-                  менеджеру.
-                </p>
-                <Button onClick={showModal} type='link' className={b('request_link')}>
-                  Запрос на изменение личной информации
-                </Button>
-              </div>
+              {windowWidth < 990 ? (
+                <>
+                  <div className={b('mobile_navigate')}>
+                    <Button onClick={() => history(-1)}>
+                      <img src={next} alt='next' />
+                    </Button>
+                    <p>Профиль</p>
+                  </div>
+                  <div className={b('avatar_title')}>
+                    <div>
+                      <img src={urlFormat(account?.image)} alt='avatar' className={b('avatar')} />
+                      <h2 className={b('title_first_name')}>
+                        {account?.first_name} {account?.last_name.slice(0, 1)}.
+                        {account?.middle_name.slice(0, 1)}
+                      </h2>
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <div className={b('title')}>
+                  <Title level={3} data-testid='sign_in_test' className={b('title')}>
+                    Профиль
+                  </Title>
+                  <p>
+                    Для того чтобы изменить или добавить информацию в вашем профиле обратись к
+                    вашему менеджеру.
+                  </p>
+                  <Button onClick={showModal} type='link' className={b('request_link')}>
+                    Запрос на изменение личной информации
+                  </Button>
+                </div>
+              )}
 
               <Form
                 form={form}
                 initialValues={{ remember: true }}
                 autoComplete='off'
+                style={{
+                  paddingRight: 20,
+                  paddingLeft: 20,
+                }}
                 layout='vertical'
               >
                 <FormField
@@ -290,6 +326,24 @@ const Profile = () => {
             </Col>
           )}
         </div>
+        {windowWidth < 990 && windowWidth > 600 ? (
+          <Button className={b('request_link_mobile')} onClick={showModal}>
+            <div>
+              <img src={frame} alt='frame' /> <br />
+              <p>
+                Запрос на изменение <br /> личной информации
+              </p>
+            </div>
+          </Button>
+        ) : null}
+        {windowWidth < 600 ? (
+          <div className={b('block_request_link')}>
+            <Button className={b('request_link_mobiles')} onClick={showModal}>
+              <img src={edit} alt='frame' />
+              <span>Запрос на редактирование</span>
+            </Button>
+          </div>
+        ) : null}
       </div>
 
       <ModalComponent
