@@ -3,29 +3,37 @@ import bem from 'easy-bem';
 import React from 'react';
 
 import deleteIcon from 'assets/images/icons/delete-round.svg';
-import 'components/ModalComponent/ModalChildrenComponents/DeleteUserModal/_deleteUserModal.scss';
+import 'components/ModalComponent/ModalChildrenComponents/DeleteModal/_DeleteModal.scss';
 
 interface Props {
   handleDeleteCancel?: () => void;
   deleteUserHandler?: () => void;
+  title: string;
+  text: string;
   loading?: boolean | { delay?: number | undefined } | undefined;
 }
 
 const { Title, Text } = Typography;
 
-const DeleteUserModal: React.FC<Props> = ({ handleDeleteCancel, deleteUserHandler, loading }) => {
-  const b = bem('DeleteUserModal');
+const DeleteModal: React.FC<Props> = ({
+  title,
+  text,
+  handleDeleteCancel,
+  deleteUserHandler,
+  loading,
+}) => {
+  const b = bem('DeleteModal');
 
   return (
     <div className={b('delete-container')}>
       <img className={b('delete-image')} src={deleteIcon} alt='deleteIcon' />
-      <Title level={4}>Удалить профиль?</Title>
-      <Text>Вы уверены, что хотите удалить пользователя?</Text>
+      <Title level={4}>{title}</Title>
+      <Text>{text}</Text>
       <div className={b('delete-modal-buttons')}>
         <Button
           type='primary'
           style={{ width: '100%', borderRadius: 4 }}
-          className={b('cancel-profile-button')}
+          className='button-style'
           onClick={handleDeleteCancel}
         >
           Отменить
@@ -45,4 +53,4 @@ const DeleteUserModal: React.FC<Props> = ({ handleDeleteCancel, deleteUserHandle
   );
 };
 
-export default DeleteUserModal;
+export default DeleteModal;
