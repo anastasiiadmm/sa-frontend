@@ -1,4 +1,4 @@
-import { Card, Spin, Typography } from 'antd';
+import { Button, Card, Form, Spin, Typography } from 'antd';
 import { AES, enc, mode } from 'crypto-js';
 import bem from 'easy-bem';
 import { DivIcon, Icon, IconOptions, LatLngExpression } from 'leaflet';
@@ -6,13 +6,18 @@ import moment from 'moment/moment';
 import React, { useEffect, useRef, useState } from 'react';
 import { CircleMarker, MapContainer, Marker, TileLayer } from 'react-leaflet';
 import { useNavigate } from 'react-router';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 import active from 'assets/images/icons/active_tracktor.svg';
 import arrowLeft from 'assets/images/icons/arrow-left.svg';
+import close from 'assets/images/icons/close_button.svg';
 import inactive from 'assets/images/icons/inactive_tracktor.svg';
+import speed from 'assets/images/icons/speedometer.svg';
+import tractorWhite from 'assets/images/icons/technique-white.svg';
 import tractorBlue from 'assets/images/icons/traktor-round.svg';
+import tractor from 'assets/images/technique.jpg';
 import DrawerComponent from 'components/DrawerComponent/DrawerComponent';
+import FormField from 'components/FormField/FormField';
 import {
   ITechniquesMap,
   ITechniquesMapActive,
@@ -26,7 +31,7 @@ import { socketApiSocket } from 'utils/config';
 import { activeIcon, inactiveIcon } from 'utils/constantMap';
 import 'containers/TechniqueMap/_techniqueMap.scss';
 
-const { Text } = Typography;
+const { Text, Title } = Typography;
 
 const b = bem('TechniqueMap');
 
@@ -49,6 +54,8 @@ const TechniqueMap = () => {
   const { techniqueId } = useParams() as { techniqueId: string };
   const { account, configs } = useAppSelector(accountsSelector);
   const [open, setOpen] = useState(false);
+  const [form] = Form.useForm();
+  const [speedStatus, setSpeedStatus] = useState('');
   const [socketLoading, setSocketLoading] = useState(false);
   const [socketMap, setSocketMap] = useState<VehicleData | null>({
     status: '',
@@ -182,6 +189,26 @@ const TechniqueMap = () => {
     }
   }, [account?.coords_timeout, configs?.websocket_auth_secret_key]);
 
+  useEffect(() => {
+    if (vehicle) {
+      form.setFieldsValue({
+        description: vehicle?.description,
+        license_plate: vehicle?.license_plate,
+        last_name: vehicle?.operator?.last_name,
+        first_name: vehicle?.operator?.first_name,
+        middle_name: vehicle?.operator?.middle_name,
+      });
+    }
+  }, [vehicle, form]);
+
+  useEffect(() => {
+    if (vehicleActive === null) {
+      setSpeedStatus('Неактивен');
+    } else {
+      setSpeedStatus(vehicleActive ? `${vehicleActive.speed}` : '');
+    }
+  }, [speedStatus, vehicle?.speed, vehicleActive]);
+
   const showDrawer = (vehicleData: ITechniquesMap) => {
     setOpen(true);
     setVehicle(vehicleData);
@@ -312,15 +339,119 @@ const TechniqueMap = () => {
         </div>
       </div>
 
-      <DrawerComponent
-        vehicle={vehicle}
-        vehicleActive={vehicleActive}
-        onClose={() => {
-          setOpen(!open);
-          setVehicleActive(null);
-        }}
-        open={open}
-      />
+      <DrawerComponent open={open} placement='right'>
+        <Button
+          onClick={() => {
+            setOpen(!open);
+            setVehicleActive(null);
+          }}
+          size='large'
+          className={b('close-button')}
+          type='primary'
+          shape='circle'
+          icon={<img src={close} alt='close' />}
+        />
+        <div className={b('drawer-block')}>
+          <div>
+            <img src={tractor} alt='tractor' />
+          </div>
+          <div className={b('info-block')}>
+            {speedStatus === 'Неактивен' ? (
+              <Button
+                type='primary'
+                danger
+                className='cursor'
+                icon={<img src={tractorWhite} alt={tractorWhite} />}
+                style={{ borderRadius: 26, width: 130 }}
+              >
+                Неактивен
+              </Button>
+            ) : (
+              <div className={b('active-buttons-block')}>
+                <Button
+                  type='primary'
+                  icon={<img src={tractorWhite} alt={tractorWhite} />}
+                  className={b('active-button cursor')}
+                >
+                  Активен
+                </Button>
+                <Button
+                  className={b('speed-button cursor')}
+                  type='primary'
+                  icon={<img src={speed} alt={speed} />}
+                >
+                  {`${Number(speedStatus) >= 2 ? Math.floor(Number(speedStatus)) : 0} км/ч`}
+                </Button>
+              </div>
+            )}
+
+            <div className={b('profile-info')}>
+              <Form layout='vertical' form={form}>
+                <Title level={5} className={b('profile-title')}>
+                  Информация о технике
+                </Title>
+                <div className={b('form-block')}>
+                  <FormField
+                    readOnly
+                    id='description'
+                    label='Название техники'
+                    name='description'
+                    placeholder='Название техники'
+                    inputClassName='input-styles'
+                  />
+
+                  <FormField
+                    readOnly
+                    id='state_number_id'
+                    label='Гос номер'
+                    name='license_plate'
+                    placeholder='Гос номер'
+                    inputClassName='input-styles'
+                  />
+                </div>
+
+                <Title level={5} className={b('profile-title')}>
+                  Информация о механизаторе
+                </Title>
+                <div className={b('form-block')}>
+                  <FormField
+                    readOnly
+                    id='last_name'
+                    label='Фамилия'
+                    name='last_name'
+                    placeholder='Фамилия'
+                    inputClassName='input-styles'
+                  />
+
+                  <FormField
+                    readOnly
+                    id='first_name_id'
+                    label='Имя'
+                    name='first_name'
+                    placeholder='Имя'
+                    inputClassName='input-styles'
+                  />
+
+                  <FormField
+                    readOnly
+                    id='middle_name_id'
+                    label='Отчество'
+                    name='middle_name'
+                    placeholder='Отчество'
+                    inputClassName='input-styles'
+                  />
+                </div>
+
+                <Link to={`/profile-technique/${vehicle?.id}`}>
+                  <Button type='default' className={b('view-button')}>
+                    Посмотреть полностью
+                  </Button>
+                </Link>
+              </Form>
+            </div>
+          </div>
+        </div>
+      </DrawerComponent>
     </>
   );
 };

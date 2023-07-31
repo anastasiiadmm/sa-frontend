@@ -10,7 +10,7 @@ import arrowRight from 'assets/images/icons/arrow-right.svg';
 import tractorBlue from 'assets/images/icons/tractor-blue.svg';
 import Errors from 'components/Errors/Errors';
 import FormField from 'components/FormField/FormField';
-import DeleteUserModal from 'components/ModalComponent/ModalChildrenComponents/DeleteUserModal/DeleteUserModal';
+import DeleteUserModal from 'components/ModalComponent/ModalChildrenComponents/DeleteModal/DeleteModal';
 import EditUserProfileModal from 'components/ModalComponent/ModalChildrenComponents/EditUserProfileModal/EditUserProfileModal';
 import GeneratedPasswordModal from 'components/ModalComponent/ModalChildrenComponents/GeneratedPasswordModal/GeneratedPasswordModal';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
@@ -344,6 +344,7 @@ const UserProfile: React.FC = () => {
                     </>
                   ) : (
                     <Link
+                      className={b('route-links')}
                       to={
                         button.action === 'user-technique'
                           ? `/user-technique/${id}/${userInfoByManager?.company?.id}`
@@ -435,6 +436,8 @@ const UserProfile: React.FC = () => {
         handleCancel={handleDeleteOkCancel}
       >
         <DeleteUserModal
+          title='Удалить профиль?'
+          text='Вы уверены, что хотите удалить пользователя?'
           handleDeleteCancel={handleDeleteOkCancel}
           deleteUserHandler={deleteUserHandler}
           loading={deleteUserInfoLoading}

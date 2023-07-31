@@ -144,6 +144,11 @@
       }
     }
 
+    &__route-links {
+      display: flex;
+      width: 100%;
+    }
+
     &__card-content {
       flex-grow: 2;
     }

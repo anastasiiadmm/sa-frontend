@@ -1,15 +1,23 @@
-import { CloudOutlined, HomeOutlined, ImportOutlined, UserOutlined } from '@ant-design/icons';
-import { Avatar, Button, Dropdown, Layout, Menu, Skeleton } from 'antd';
+import {
+  CloudOutlined,
+  HomeOutlined,
+  ImportOutlined,
+  RetweetOutlined,
+  UserOutlined,
+} from '@ant-design/icons';
+import { Avatar, Button, Layout, Menu, Skeleton } from 'antd';
 import type { MenuProps } from 'antd';
 import bem from 'easy-bem';
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
 import cancel from 'assets/images/icons/cancel.svg';
+import meteo from 'assets/images/icons/cloud-tablet.svg';
 import more from 'assets/images/icons/more.svg';
 import star from 'assets/images/icons/star.svg';
 import logo from 'assets/images/logo.png';
+import DrawerComponent from 'components/DrawerComponent/DrawerComponent';
 import Spinner from 'components/Spinner/Spinner';
 import useWindowWidth from 'hooks/useWindowWidth';
 import { IButtonsData } from 'interfaces';
@@ -25,8 +33,9 @@ import { clearCompaniesPagination } from 'redux/companies/companiesSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { deleteCookie, nameRefreshCookies } from 'utils/addCookies/addCookies';
 import { logoutLocalStorage } from 'utils/addLocalStorage/addLocalStorage';
+import { buttonsDataManager, buttonsDataUser } from 'utils/constants';
 import { urlFormat } from 'utils/files/files';
-import { buttonsDataManager, buttonsDataUser, downloadApkFileHandler } from 'utils/helper';
+import { downloadApkFileHandler, isPathInButtonsData } from 'utils/helper';
 
 import 'components/SliderMenu/_sliderMenu.scss';
 
@@ -62,6 +71,7 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
   const { tokens } = useAppSelector(authSelector);
   const { account, apk, apkLoading, fetchLoadingAccount } = useAppSelector(accountsSelector);
   const windowWidth = useWindowWidth();
+  const [open, setOpen] = useState(false);
   const [isCancelled, setIsCancelled] = useState(false);
   const [isLoadingMap, setIsLoadingMap] = useState<{ [key: string]: boolean }>({});
   const cancelIconClassName =
@@ -154,32 +164,53 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
           ],
           'group',
         ),
+    getItem('Конвертер', '/converter', <div className='icon-styles converter-icon' />),
+  ];
+
+  const menuDropdown = [
+    {
+      key: tokens?.is_manager ? '/manager-profile' : '/user-profile-view',
+      icon: <UserOutlined style={{ fontSize: 20 }} />,
+      name: 'Профиль',
+    },
+    {
+      key: '/converter',
+      icon: <RetweetOutlined style={{ fontSize: 20 }} />,
+      name: 'Конвертер',
+    },
+    {
+      key: '/field-climate',
+      icon: <img src={meteo} alt='meteo' style={{ fontSize: 20 }} />,
+      name: 'Метеосервис',
+    },
+    {
+      key: '/sign-out',
+      icon: <ImportOutlined style={{ fontSize: 20 }} />,
+      name: 'Выход',
+    },
   ];
 
   const pushLinks: MenuProps['onClick'] = (e) => {
-    if (e.key === '/sign-out') {
+    handleMenuClick(e.key);
+  };
+
+  const pushLinksItem = (key: string) => {
+    handleMenuClick(key);
+  };
+
+  const handleMenuClick = (key: string) => {
+    if (key === '/sign-out') {
       push('/');
       logoutLocalStorage();
       deleteCookie(nameRefreshCookies);
       dispatch(logoutUser());
       window.location.reload();
     } else {
-      push(e.key);
+      push(key);
       dispatch(clearCompaniesPagination());
       dispatch(clearRequestsPagination());
     }
   };
-
-  const items: MenuProps['items'] = [
-    {
-      key: '/sign-out',
-      label: (
-        <Button type='link' icon={<ImportOutlined />} className={b('link-button')} size='small'>
-          Выход
-        </Button>
-      ),
-    },
-  ];
 
   const renderButtons = (buttonsData: IButtonsData[]) => {
     return buttonsData.map((button) => (
@@ -196,7 +227,19 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
     ));
   };
 
-  const renderMobile = (
+  const showDrawer = () => {
+    setOpen(true);
+  };
+
+  const onClose = () => {
+    setOpen(false);
+  };
+
+  const shouldRenderMobile =
+    isPathInButtonsData(location.pathname, buttonsDataManager) ||
+    isPathInButtonsData(location.pathname, buttonsDataUser);
+
+  const renderMobile = shouldRenderMobile ? (
     <div className={b('mobile-menu')}>
       <div
         className={b('mobile-block')}
@@ -206,26 +249,51 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
         }}
       >
         {tokens?.is_manager ? renderButtons(buttonsDataManager) : renderButtons(buttonsDataUser)}
-        <Dropdown
-          trigger={['click']}
-          menu={{
-            items,
-            onClick: pushLinks,
-          }}
+        <Button
+          style={{ marginTop: tokens?.is_manager ? 59 : 18 }}
+          type='link'
+          icon={<img src={more} alt='more' />}
+          className={b('link-button margin-top')}
+          size='small'
+          onClick={showDrawer}
         >
-          <Button
-            style={{ marginTop: tokens?.is_manager ? 59 : 18 }}
-            type='link'
-            icon={<img src={more} alt='more' />}
-            className={b('link-button margin-top')}
-            size='small'
-          >
-            Еще
-          </Button>
-        </Dropdown>
+          Еще
+        </Button>
       </div>
+
+      <DrawerComponent open={open} onClose={onClose} placement='bottom' height={85}>
+        <div className={b('drawer-block')}>
+          {menuDropdown?.map((item) => (
+            <React.Fragment key={item.key}>
+              {item.key === '/sign-out' ? (
+                <Button
+                  type='link'
+                  icon={item.icon}
+                  className={b('link-button')}
+                  size='small'
+                  onClick={() => pushLinksItem(item.key)}
+                >
+                  {item.name}
+                </Button>
+              ) : (
+                <Link to={item.key}>
+                  <Button
+                    onClick={onClose}
+                    type='link'
+                    icon={item.icon}
+                    className={b('link-button')}
+                    size='small'
+                  >
+                    {item.name}
+                  </Button>
+                </Link>
+              )}
+            </React.Fragment>
+          ))}
+        </div>
+      </DrawerComponent>
     </div>
-  );
+  ) : null;
 
   if (windowWidth <= 990) {
     return renderMobile;
@@ -236,6 +304,7 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
       <div className={b('logo')}>
         <img src={logo} alt='logo' />
       </div>
+      {}
       <Menu
         className='menu-items'
         mode='inline'

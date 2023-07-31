@@ -1,0 +1,41 @@
+.Files {
+  &__history-list {
+    margin: 24px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__card-file-block {
+    width: 380px;
+    > div {
+      padding: 12px !important;
+    }
+  }
+
+  &__converter-card {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  &__info {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  &__heading {
+    margin: 0 !important;
+  }
+
+  &__close-button {
+    border: none;
+    &:hover {
+      border: none;
+    }
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0.02);
+  }
+
+}
