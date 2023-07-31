@@ -379,7 +379,7 @@ const UserTechnique: React.FC = () => {
             </div>
           </div>
           {windowWidth < 620 && !vehicleList.length ? (
-            <Errors status={null} detail='Техники нету' />
+            <Errors status={null} detail='Техники нет' />
           ) : null}
           <div className={b('table_list')}>
             <TableComponent
