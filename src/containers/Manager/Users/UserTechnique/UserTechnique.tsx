@@ -378,6 +378,9 @@ const UserTechnique: React.FC = () => {
               </Link>
             </div>
           </div>
+          {windowWidth < 620 && !vehicleList.length ? (
+            <Errors status={null} detail='Техники нету' />
+          ) : null}
           <div className={b('table_list')}>
             <TableComponent
               rowKey={(record) => record.id as number}

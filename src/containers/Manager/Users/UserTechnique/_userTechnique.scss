@@ -149,6 +149,10 @@
   }
 }
 
+:where(.css-dev-only-do-not-override-1gg88bo).ant-btn-text:not(:disabled):not(.ant-btn-disabled):hover {
+  background-color: transparent!important;
+}
+
 @media screen and (max-width: 990px) {
   .UserTechnique {
     &__btn_handler {
