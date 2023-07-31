@@ -2,7 +2,7 @@ import { render, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import '../../../__mocks__/matchMedia.mock';
 import DeleteUserModal
-    from "../../../src/components/ModalComponent/ModalChildrenComponents/DeleteUserModal/DeleteUserModal";
+    from "../../../src/components/ModalComponent/ModalChildrenComponents/DeleteModal/DeleteModal";
 
 describe('DeleteUserModal', () => {
     let handleDeleteCancel: jest.Mock;

@@ -1,16 +1,9 @@
 import React from 'react';
 
-import activeNotification from 'assets/images/icons/active-notification.svg';
-import activePhone from 'assets/images/icons/active-phone.svg';
-import activeUsers from 'assets/images/icons/active-users.svg';
-import add from 'assets/images/icons/add_icon.svg';
-import phone from 'assets/images/icons/mobile-phone.svg';
-import notification from 'assets/images/icons/notification.svg';
-import users from 'assets/images/icons/users.svg';
 import { ErrorObject, IAccount, SetUserInfoData, updateManagerDataMutation } from 'interfaces';
 import { Locales, SensorDataEntry, stationInfo } from 'interfaces/IStation';
 import { apiUrlCrop } from 'utils/config';
-import { dateMomentTypeString } from 'utils/constants';
+import { buttonsDataManager, dateMomentTypeString } from 'utils/constants';
 
 const moment = require('moment');
 
@@ -282,42 +275,6 @@ export const appendDataFieldsAndDeleteEmptyKeys = (
   }
 };
 
-export const buttonsDataManager = [
-  {
-    key: '/',
-    text: 'Клиенты',
-    icon: <img src={users} alt='users' />,
-    activeIcon: <img src={activeUsers} alt='users' />,
-  },
-  {
-    key: '/user-requests',
-    text: 'Запросы',
-    icon: <img src={notification} alt='notification' />,
-    activeIcon: <img src={activeNotification} alt='notification' />,
-  },
-  {
-    key: '/add-new-user',
-    text: 'Добавить клиента',
-    icon: <img src={add} alt='add' />,
-    activeIcon: <img src={add} alt='add' />,
-  },
-  {
-    key: '/apks',
-    text: 'Приложение',
-    icon: <img src={phone} alt='phone' />,
-    activeIcon: <img src={activePhone} alt='activePhone' />,
-  },
-];
-
-export const buttonsDataUser = [
-  {
-    key: '/',
-    text: 'Техника',
-    icon: <img src={users} alt='users' />,
-    activeIcon: <img src={activeUsers} alt='users' />,
-  },
-];
-
 export const downloadApkFileHandler = (file: string, setIsLoadingCallback: () => void) => {
   const link = document.createElement('a');
   link.href = `${apiUrlCrop}${file}`;
@@ -361,4 +318,11 @@ export const inputChangeFormHandler = (
       [name]: value,
     }));
   }
+};
+
+export const isPathInButtonsData = (
+  pathname: string,
+  buttonsData: (typeof buttonsDataManager)[number][],
+) => {
+  return buttonsData.some((item) => item.key === pathname);
 };
