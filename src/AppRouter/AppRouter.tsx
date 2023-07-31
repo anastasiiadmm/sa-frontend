@@ -10,6 +10,9 @@ import NotFound from 'components/Errors/NotFound/NotFound';
 import FieldClimateSideBar from 'components/FieldClimateSideBar/FieldClimateSideBar';
 import OpenMapComponent from 'components/OpenMapComponent/OpenMapComponent';
 import SliderMenu from 'components/SliderMenu/SliderMenu';
+import Converter from 'containers/Converter/Converter';
+import ConverterList from 'containers/Converter/ConverterList/ConverterList';
+import Files from 'containers/Converter/Files/Files';
 import FieldClimateConfigurations from 'containers/FieldClimate/FieldClimateConfigurations/FieldClimateConfigurations';
 import FieldClimateDashboard from 'containers/FieldClimate/FieldClimateDashboard';
 import FieldClimateStation from 'containers/FieldClimate/FieldClimateStation/FieldClimateStation';
@@ -30,8 +33,7 @@ import useWindowWidth from 'hooks/useWindowWidth';
 import { accountsSelector } from 'redux/accounts/accountsSlice';
 import { authSelector } from 'redux/auth/authSlice';
 import { useAppSelector } from 'redux/hooks';
-import { routesTitles } from 'utils/constants';
-import { buttonsDataManager } from 'utils/helper';
+import { buttonsDataManager, buttonsDataUser, routesTitles } from 'utils/constants';
 
 import 'AppRouter/appRouter.scss';
 
@@ -89,9 +91,17 @@ const AppRouter: React.FC = () => {
             </Title>
           </div>
         </div>
-      ) : (
+      ) : tokens?.is_manager ? (
         buttonsDataManager.map((button) =>
-          pathname === button?.key && tokens?.is_manager ? (
+          pathname === button?.key ? (
+            <Title level={4} key={button.key} className={b('title-mobile')}>
+              {button.text}
+            </Title>
+          ) : null,
+        )
+      ) : (
+        buttonsDataUser.map((button) =>
+          pathname === button?.key ? (
             <Title level={4} key={button.key} className={b('title-mobile')}>
               {button.text}
             </Title>
@@ -120,7 +130,7 @@ const AppRouter: React.FC = () => {
               pathname.includes('/technique-map')
                 ? 0
                 : windowWidth <= 990
-                ? '0 0 71px 0'
+                ? '0 0 5px 0'
                 : '24px 16px',
             padding: 24,
             minHeight: 280,
@@ -160,6 +170,9 @@ const AppRouter: React.FC = () => {
               <Route path='/open-map/:id/:field_name/:code?' element={<OpenMapComponent />} />
               <Route path='/technique-map/:techniqueId' element={<TechniqueMap />} />
               <Route path='/profile-technique/:vehicleId' element={<ProfileTechnique />} />
+              <Route path='/converter' element={<Converter />} />
+              <Route path='/files' element={<Files />} />
+              <Route path='/converter-list' element={<ConverterList />} />
               <Route
                 path='*'
                 element={
