@@ -16,7 +16,7 @@ describe('DeleteUserModal', () => {
     it('renders alert message', () => {
         const { getByText } = render(
             <DeleteUserModal
-                fio=''
+                fullName=''
                 handleDeleteCancel={handleDeleteCancel}
                 deleteUserHandler={deleteUserHandler}
                 loading={false}
@@ -29,7 +29,7 @@ describe('DeleteUserModal', () => {
     it('triggers handleDeleteCancel on cancel button click', async () => {
         const { getByText } = render(
             <DeleteUserModal
-                fio=''
+                fullName=''
                 handleDeleteCancel={handleDeleteCancel}
                 deleteUserHandler={deleteUserHandler}
                 loading={false}
@@ -43,7 +43,7 @@ describe('DeleteUserModal', () => {
     it('triggers deleteUserHandler on delete button click', async () => {
         const { getByText } = render(
             <DeleteUserModal
-                fio=''
+                fullName=''
                 handleDeleteCancel={handleDeleteCancel}
                 deleteUserHandler={deleteUserHandler}
                 loading={false}

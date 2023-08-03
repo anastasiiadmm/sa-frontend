@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router';
 import { Link, useParams } from 'react-router-dom';
 
 import arrowRight from 'assets/images/icons/arrow-right.svg';
+import deleteIcon from 'assets/images/icons/newIcon/warning.svg';
 import tractorBlue from 'assets/images/icons/tractor-blue.svg';
 import Errors from 'components/Errors/Errors';
 import FormField from 'components/FormField/FormField';
@@ -30,7 +31,6 @@ import { buttonsMenu } from 'utils/constants';
 import { capitalizeFirstLetter, getErrorMessage, inputChangeFormHandler } from 'utils/helper';
 
 import 'containers/Manager/Users/UserProfile/_UserProfile.scss';
-import deleteIcon from '../../../../assets/images/icons/newIcon/warning.svg';
 
 const { Title } = Typography;
 
@@ -525,7 +525,7 @@ const UserProfile: React.FC = () => {
         handleCancel={handleDeleteOkCancel}
       >
         <DeleteUserModal
-          fio={`${capitalizeFirstLetter(
+          fullName={`${capitalizeFirstLetter(
             userInfoByManager?.last_name,
           )} ${userInfoByManager?.first_name
             ?.charAt(0)

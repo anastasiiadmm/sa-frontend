@@ -9,7 +9,7 @@ interface Props {
   handleDeleteCancel?: () => void;
   deleteUserHandler?: () => void;
   loading?: boolean | { delay?: number | undefined } | undefined;
-  fio: string;
+  fullName: string;
 }
 
 const { Title, Text } = Typography;
@@ -18,7 +18,7 @@ const DeleteUserModal: React.FC<Props> = ({
   handleDeleteCancel,
   deleteUserHandler,
   loading,
-  fio,
+  fullName,
 }) => {
   const b = bem('DeleteUserModal');
 
@@ -31,7 +31,7 @@ const DeleteUserModal: React.FC<Props> = ({
           textAlign: 'center',
         }}
       >
-        Вы уверены, что хотите удалить <br /> <b>{fio}</b>
+        Вы уверены, что хотите удалить <br /> <b>{fullName}</b>
       </Text>
       <div className={b('delete-modal-buttons')}>
         <Button
