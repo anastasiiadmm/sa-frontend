@@ -74,3 +74,27 @@
   font-weight: 700 !important;
   color: themes.$font-title-color !important;
 }
+
+@media screen and (max-width: 500px) {
+  .EditUserProfileModal {
+    &__form-modal-block {
+      display: block;
+    }
+    &__profile-buttons {
+      padding-top: 20px;
+      padding-bottom: 20px;
+      padding-right: 44px;
+      width: 100%;
+      background-color: #FFFFFF;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: fixed;
+      bottom: 66px;
+
+      > button {
+        height: 36px;
+      }
+    }
+  }
+}

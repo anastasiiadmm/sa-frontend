@@ -116,12 +116,7 @@ const EditUserProfileModal: React.FC<Props> = ({
   }, [userInfo, form]);
 
   return (
-    <Col
-      className={b('')}
-      xs={{ span: 24, offset: 0 }}
-      md={{ span: 24, offset: 0 }}
-      lg={{ span: 24, offset: 0 }}
-    >
+    <Col xs={{ span: 24, offset: 0 }} md={{ span: 24, offset: 0 }} lg={{ span: 24, offset: 0 }}>
       <Form
         form={form}
         onFinish={onFinish}
