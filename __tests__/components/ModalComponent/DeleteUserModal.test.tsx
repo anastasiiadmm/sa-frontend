@@ -16,18 +16,20 @@ describe('DeleteUserModal', () => {
     it('renders alert message', () => {
         const { getByText } = render(
             <DeleteUserModal
+                fio=''
                 handleDeleteCancel={handleDeleteCancel}
                 deleteUserHandler={deleteUserHandler}
                 loading={false}
             />
         );
 
-        expect(getByText(/Вы уверены, что хотите удалить пользователя?/i)).toBeInTheDocument();
+        expect(getByText(/Вы уверены, что хотите удалить/i)).toBeInTheDocument();
     });
 
     it('triggers handleDeleteCancel on cancel button click', async () => {
         const { getByText } = render(
             <DeleteUserModal
+                fio=''
                 handleDeleteCancel={handleDeleteCancel}
                 deleteUserHandler={deleteUserHandler}
                 loading={false}
@@ -41,6 +43,7 @@ describe('DeleteUserModal', () => {
     it('triggers deleteUserHandler on delete button click', async () => {
         const { getByText } = render(
             <DeleteUserModal
+                fio=''
                 handleDeleteCancel={handleDeleteCancel}
                 deleteUserHandler={deleteUserHandler}
                 loading={false}
