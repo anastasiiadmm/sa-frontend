@@ -10,6 +10,8 @@ type Props = {
   handleOk?: () => void;
   handleCancel?: () => void;
   classNameTitle?: string;
+  width?: number;
+  className?: string;
 };
 
 const ModalComponent: React.FC<Props> = ({
@@ -21,9 +23,13 @@ const ModalComponent: React.FC<Props> = ({
   handleOk,
   handleCancel,
   classNameTitle,
+  width,
+  className,
 }) => {
   return (
     <Modal
+      className={className}
+      width={width}
       closable={closable}
       title={<span className={classNameTitle}>{title}</span>}
       open={open}
