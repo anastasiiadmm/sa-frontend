@@ -37,6 +37,22 @@
     }
   }
 
+  &__profile-buttons {
+    padding: 20px;
+    width: 100%;
+    background-color: #FFFFFF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+
+    > button {
+      height: 36px;
+    }
+  }
+
   &__save-button {
     background: themes.$primary-color;
   }
@@ -79,22 +95,6 @@
   .EditUserProfileModal {
     &__form-modal-block {
       display: block;
-    }
-    &__profile-buttons {
-      padding-top: 20px;
-      padding-bottom: 20px;
-      padding-right: 44px;
-      width: 100%;
-      background-color: #FFFFFF;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      position: fixed;
-      bottom: 66px;
-
-      > button {
-        height: 36px;
-      }
     }
   }
 }

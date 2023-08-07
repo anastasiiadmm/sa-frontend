@@ -6,7 +6,7 @@ exports[`<FieldClimateDashboard /> FieldClimateDashboard map component should be
 >
   <div>
     <div
-      className="ant-select css-dev-only-do-not-override-19gw05y ant-select-single ant-select-show-arrow"
+      className="ant-select css-dev-only-do-not-override-fpg3f5 ant-select-single ant-select-show-arrow"
       onBlur={[Function]}
       onFocus={[Function]}
       onKeyDown={[Function]}

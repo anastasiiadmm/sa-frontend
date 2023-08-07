@@ -59,13 +59,13 @@ const Technique = () => {
   };
 
   useEffect(() => {
-    if (account?.company.id) {
+    if (account?.company?.id) {
       const data = {
         query: {
           page: filters?.page || 1,
         },
       };
-      dispatch(fetchUserVehicles({ id: account?.company.id, page: data.query.page }));
+      dispatch(fetchUserVehicles({ id: account?.company?.id, page: data.query.page }));
     }
   }, [dispatch, account?.company?.id, filters]);
 
@@ -86,13 +86,13 @@ const Technique = () => {
   };
 
   const pagePrevHandler = () => {
-    if (account?.company.id) {
+    if (account?.company?.id) {
       setFilters({ ...filters, page: filters.page - 1 });
     }
   };
 
   const pageNextHandler = () => {
-    if (account?.company.id) {
+    if (account?.company?.id) {
       setFilters({ ...filters, page: filters.page + 1 });
     }
   };
