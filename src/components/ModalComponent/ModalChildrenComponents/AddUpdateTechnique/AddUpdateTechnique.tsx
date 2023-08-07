@@ -112,7 +112,7 @@ const AddUpdateTechnique: React.FC<Props> = ({
           };
           const formData = new FormData();
           formData.append('category', '3');
-          formData.append('object_id', String(account?.company.id));
+          formData.append('object_id', String(account?.company?.id));
 
           for (const name in obj.vehicle) {
             if (name) {

@@ -271,7 +271,6 @@ const Profile: React.FC = () => {
                   Отменить
                 </Button>
                 <Button
-                  data-testid='button_change'
                   disabled={validateForm}
                   type='primary'
                   htmlType='submit'
