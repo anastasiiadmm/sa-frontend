@@ -176,6 +176,7 @@ const UserProfile: React.FC = () => {
   const formItem = (
     <Form
       form={form}
+      className={b('form_block_2')}
       initialValues={{ userInfoData }}
       onFinish={onFinish}
       autoComplete='off'
@@ -191,56 +192,52 @@ const UserProfile: React.FC = () => {
           name='username'
           placeholder='Username'
         />
-        <div className={b('form-block')}>
-          <FormField
-            readOnly
-            data-testid='last_name_id'
-            id='last_name_id'
-            label='Фамилия'
-            name='last_name'
-            placeholder='Фамилия'
-            inputClassName={b('username-info')}
-          />
-          <FormField
-            readOnly
-            data-testid='first_name_id'
-            id='first_name_id'
-            label='Имя'
-            name='first_name'
-            placeholder='Имя'
-            inputClassName={b('username-info')}
-          />
-          <FormField
-            readOnly
-            data-testid='middle_name_id'
-            id='middle_name_id'
-            label='Отчество'
-            name='middle_name'
-            placeholder='Отчество'
-            inputClassName={b('username-info')}
-          />
-        </div>
-        <div className={b('form-block')}>
-          <FormField
-            readOnly
-            data-testid='email_id_login'
-            type='email'
-            id='email_id'
-            label='Email'
-            name='email'
-            placeholder='Email'
-            inputClassName={b('username-info')}
-          />
+        <FormField
+          readOnly
+          data-testid='last_name_id'
+          id='last_name_id'
+          label='Фамилия'
+          name='last_name'
+          placeholder='Фамилия'
+          inputClassName={b('username-info')}
+        />
+        <FormField
+          readOnly
+          data-testid='first_name_id'
+          id='first_name_id'
+          label='Имя'
+          name='first_name'
+          placeholder='Имя'
+          inputClassName={b('username-info')}
+        />
+        <FormField
+          readOnly
+          data-testid='middle_name_id'
+          id='middle_name_id'
+          label='Отчество'
+          name='middle_name'
+          placeholder='Отчество'
+          inputClassName={b('username-info')}
+        />
+        <FormField
+          readOnly
+          data-testid='email_id_login'
+          type='email'
+          id='email_id'
+          label='Email'
+          name='email'
+          placeholder='Email'
+          inputClassName={b('username-info')}
+        />
 
-          <FormField
-            readOnly
-            type='phone'
-            name='phone'
-            label='Номер телефона'
-            placeholder='Номер телефона'
-            inputClassName={b('username-info')}
-          />
-        </div>
+        <FormField
+          readOnly
+          type='phone'
+          name='phone'
+          label='Номер телефона'
+          placeholder='Номер телефона'
+          inputClassName={b('username-info')}
+        />
         <FormField
           readOnly
           data-testid='name_id'

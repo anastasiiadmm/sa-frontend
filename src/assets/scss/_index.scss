@@ -311,30 +311,10 @@ button:disabled {
   display: none;
 }
 
-.ant-form-vertical .ant-form-item-row {
-  background: #F6F6F6;
-  border-radius: 8px;
-  padding: 12px;
-}
-
-.input-styles:focus {
-  border-color: transparent !important;
-  box-shadow: 0 0 0 0 rgba(55, 81, 13, 0.19);
-}
-
-.input-styles:hover {
-  border-color: transparent !important;
-}
-
 .ant-input-focused {
   box-shadow: 0 0 0 0 rgba(55, 81, 13, 0.19) !important;
 }
 
-.ant-input {
-  padding: 0;
-  background-color: transparent !important;
-  border-color: transparent !important;
-}
 
 :where(.css-dev-only-do-not-override-17dxcc2).ant-form-vertical .ant-form-item-label, :where(.css-dev-only-do-not-override-17dxcc2).ant-col-24.ant-form-item-label, :where(.css-dev-only-do-not-override-17dxcc2).ant-col-xl-24.ant-form-item-label {
   padding: 0 0 0 3px !important;
@@ -342,4 +322,52 @@ button:disabled {
 
 :where(.css-dev-only-do-not-override-17dxcc2).ant-input:focus, :where(.css-dev-only-do-not-override-17dxcc2).ant-input-focused {
   box-shadow: 0 0 0 0 rgba(55, 81, 13, 0.19) !important;
+}
+
+:where(.css-dev-only-do-not-override-1ffqmss).ant-form-item .ant-form-item-label >label.ant-form-item-required:not(.ant-form-item-required-mark-optional)::before {
+  display: none;
+}
+
+@media screen and (max-width: 990px) {
+  .ant-form-vertical .ant-form-item-row {
+    background: #F6F6F6;
+    border-radius: 8px;
+    padding: 12px;
+  }
+
+  .ant-form-vertical .ant-form-item-row {
+    border-radius: 8px;
+    padding: 6px 12px 6px 12px;
+  }
+
+  :where(.css-dev-only-do-not-override-1ffqmss).ant-form-vertical .ant-form-item-label, :where(.css-dev-only-do-not-override-1ffqmss).ant-col-24.ant-form-item-label, :where(.css-dev-only-do-not-override-1ffqmss).ant-col-xl-24.ant-form-item-label {
+    padding: 0 0 0;
+  }
+
+  .ant-input {
+    padding: 0;
+    background-color: transparent !important;
+    border-color: transparent !important;
+  }
+
+  .input-styles:hover {
+    border-color: transparent !important;
+  }
+
+  .input-styles:focus {
+    border-color: transparent !important;
+    box-shadow: 0 0 0 0 rgba(55, 81, 13, 0.19);
+  }
+  :where(.css-dev-only-do-not-override-1ffqmss).ant-col-md-offset-2 {
+    margin-inline-start: 0;
+    margin-left: 30px;
+  }
+  :where(.css-dev-only-do-not-override-1ffqmss).ant-col-md-offset-2 {
+    max-width: 100%;
+    margin-right: 30px;
+  }
+
+  .mobile_sliderMenu_none {
+    display: none;
+  }
 }

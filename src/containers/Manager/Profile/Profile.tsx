@@ -3,6 +3,9 @@ import { Avatar, Button, Col, Form, message, Typography } from 'antd';
 import bem from 'easy-bem';
 import React, { useEffect, useState } from 'react';
 
+import { useNavigate } from 'react-router';
+
+import blockIcon from 'assets/images/icons/newIcon/block.svg';
 import Errors from 'components/Errors/Errors';
 import FormField from 'components/FormField/FormField';
 import GeneratedPasswordModal from 'components/ModalComponent/ModalChildrenComponents/GeneratedPasswordModal/GeneratedPasswordModal';
@@ -26,6 +29,7 @@ const { Title } = Typography;
 
 const Profile: React.FC = () => {
   const b = bem('Profile');
+  const push = useNavigate();
   const {
     generatedPassword,
     generatePasswordLoading,
@@ -137,7 +141,7 @@ const Profile: React.FC = () => {
           <>
             <div className={b('form-header')}>
               <div className={b('image-upload')}>
-                <label htmlFor='image-input'>
+                <label htmlFor='image-input' className={b('avatar_block')}>
                   {image ? (
                     <Avatar
                       size={64}
@@ -262,10 +266,32 @@ const Profile: React.FC = () => {
               >
                 Сохранить изменения
               </Button>
+              <div className={b('button_mobile')}>
+                <Button className='cancel' onClick={() => push(-1)}>
+                  Отменить
+                </Button>
+                <Button
+                  data-testid='button_change'
+                  disabled={validateForm}
+                  type='primary'
+                  htmlType='submit'
+                  loading={updateManagerDataLoading}
+                >
+                  Сохранить
+                </Button>
+              </div>
             </Form>
           </>
         )}
       </Col>
+      <div className={b('block_generator_mobile')}>
+        <Button onClick={generatePassword}>
+          <div>
+            <img src={blockIcon} alt='block' />
+          </div>
+          <p>Сгенерировать пароль</p>
+        </Button>
+      </div>
       <ModalComponent
         title='Пароль'
         open={isModalPasswordOpen}

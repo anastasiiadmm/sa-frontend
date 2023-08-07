@@ -35,4 +35,132 @@
       display: none;
     }
   }
+
+  &__button_mobile {
+    display: none;
+  }
+
+  &__block_generator_mobile {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 990px) {
+  .Profile {
+    &__form-header {
+      display: block;
+    }
+
+    &__avatar_block {
+      margin-left: 0;
+      > span {
+        width: 89px!important;
+        height: 89px!important;
+        border: 5px solid #F5F8FF;
+
+        > img {
+        }
+      }
+    }
+
+    &__button_mobile {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-column-gap: 10px;
+      grid-row-gap: 10px;
+      padding-bottom: 30px;
+      > button {
+        height: 44px;
+        border-radius: 12px;
+        border: none;
+      }
+
+      .cancel {
+        background: #F8F8F8;
+        color: #689f3a;
+      }
+    }
+
+    &__generate-password {
+      display: none;
+    }
+    &__login-form-button {
+      display: none;
+    }
+
+    &__button_mobile {
+      width: 100%;
+      padding: 20px 30px 20px 30px;
+      background-color: #FFFFFF;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      z-index: 1000;
+    }
+    &__block_generator_mobile {
+      background-color: #F6F6F6;
+      display: block;
+      padding-left: 30px;
+      padding-top: 30px;
+      padding-bottom: 30px;
+      > button {
+        border: none;
+        background-color: #FFFFFF;
+        border-radius: 12px;
+        width: 188px;
+        height: 110px;
+        cursor: pointer;
+        padding-top: 20px;
+        > div {
+          text-align: left;
+          > img {
+          }
+        }
+
+        > p {
+          text-align: left;
+          margin-top: 0px;
+          font-weight: 500;
+        }
+      }
+    }
+  }
+
+  .layout {
+    border: none!important;
+    padding-bottom: 0!important;
+  }
+}
+
+@media screen and (max-width: 560px) {
+  .Profile {
+    &__form-header {
+      text-align: center;
+    }
+
+    &__block_generator_mobile {
+      padding-right: 30px;
+      > button {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        padding: 9px 0 4px 15px;
+        > p {
+          margin-top: 10px;
+          padding-left: 10px;
+        }
+      }
+
+      > button:after {
+        text-align: right;
+        content: " ❯";
+        font-size: 16px;
+        position: absolute;
+        right: 20px;
+        margin-top: -6px;
+      }
+    }
+  }
 }

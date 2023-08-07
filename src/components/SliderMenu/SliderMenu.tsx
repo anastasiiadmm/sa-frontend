@@ -60,6 +60,7 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
   const dispatch = useAppDispatch();
   const location = useLocation();
   const { tokens } = useAppSelector(authSelector);
+  const { pathname } = useLocation();
   const { account, apk, apkLoading, fetchLoadingAccount } = useAppSelector(accountsSelector);
   const windowWidth = useWindowWidth();
   const [isCancelled, setIsCancelled] = useState(false);
@@ -197,7 +198,15 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
   };
 
   const renderMobile = (
-    <div className={b('mobile-menu')}>
+    <div
+      className={
+        pathname.includes('edit-user') ||
+        pathname.includes('user-profile') ||
+        pathname.includes('manager-profile')
+          ? `${b('mobile-menu')} mobile_sliderMenu_none`
+          : b('mobile-menu')
+      }
+    >
       <div
         className={b('mobile-block')}
         style={{
