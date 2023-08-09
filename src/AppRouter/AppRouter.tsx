@@ -115,7 +115,9 @@ const AppRouter: React.FC = () => {
         <Header
           style={{ padding: 0, background: colorBgContainer }}
           className={
-            pathname.includes('user-technique') || pathname.includes('user-profile-view')
+            pathname.includes('user-technique') ||
+            pathname.includes('user-profile-view') ||
+            (!account?.is_manager && !pathname.split('/')[1] && windowWidth < 540)
               ? 'header_none'
               : ''
           }
