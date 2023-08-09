@@ -32,10 +32,10 @@ import {
 } from 'redux/accounts/accountsSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { apiUrlCrop } from 'utils/config';
+import { urlFormat } from 'utils/files/files';
 import { getPageNumber, getPageNumberPrevious } from 'utils/helper';
 
 import 'containers/User/Technique/_technique.scss';
-import { urlFormat } from '../../../utils/files/files';
 
 const { Title } = Typography;
 
