@@ -206,6 +206,86 @@ exports[`<Technique /> Users table component should be in the document 1`] = `
             </div>
           </div>
         </div>
+        <div
+          className="Technique__mobile_data"
+        >
+          <div
+            className="tractor"
+          >
+            <div>
+              <img
+                alt="tractorNew"
+                src={
+                  {
+                    "process": [Function],
+                  }
+                }
+              />
+            </div>
+            <div
+              className="text_mobile_header"
+            >
+              Ваша техника 
+              <br />
+              <b />
+            </div>
+          </div>
+          <div
+            className="Technique__btn_mobile"
+          >
+            <h3>
+              Техника
+            </h3>
+            <div>
+              <button
+                className="ant-btn css-dev-only-do-not-override-fpg3f5 ant-btn-default"
+                disabled={false}
+                onClick={[Function]}
+                style={{}}
+                type="button"
+              >
+                <div>
+                  <img
+                    alt="tractor"
+                    src={
+                      {
+                        "process": [Function],
+                      }
+                    }
+                  />
+                </div>
+                <p>
+                  Запрос на 
+                  <br />
+                  добавление техники
+                </p>
+              </button>
+              <button
+                className="ant-btn css-dev-only-do-not-override-fpg3f5 ant-btn-default"
+                disabled={false}
+                onClick={[Function]}
+                style={{}}
+                type="button"
+              >
+                <div>
+                  <img
+                    alt="geolocationIcon"
+                    src={
+                      {
+                        "process": [Function],
+                      }
+                    }
+                  />
+                </div>
+                <p>
+                  Посмотреть всю 
+                  <br />
+                  технику
+                </p>
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -263,439 +343,513 @@ exports[`<Technique /> Users table component should be in the document 1`] = `
       </div>
     </div>
     <div
-      className="ant-table-wrapper css-dev-only-do-not-override-fpg3f5"
-      style={{}}
+      className="Technique__table"
     >
       <div
-        className="ant-spin-nested-loading css-dev-only-do-not-override-fpg3f5"
+        className="ant-table-wrapper css-dev-only-do-not-override-fpg3f5"
+        style={{}}
       >
         <div
-          className="ant-spin-container"
+          className="ant-spin-nested-loading css-dev-only-do-not-override-fpg3f5"
         >
           <div
-            className="ant-table ant-table-scroll-horizontal"
+            className="ant-spin-container"
           >
             <div
-              className="ant-table-container"
+              className="ant-table ant-table-scroll-horizontal"
             >
               <div
-                className="ant-table-content"
-                onScroll={[Function]}
-                style={
-                  {
-                    "overflowX": "auto",
-                    "overflowY": "hidden",
-                  }
-                }
+                className="ant-table-container"
               >
-                <table
+                <div
+                  className="ant-table-content"
+                  onScroll={[Function]}
                   style={
                     {
-                      "minWidth": "100%",
-                      "tableLayout": "auto",
-                      "width": 950,
+                      "overflowX": "auto",
+                      "overflowY": "hidden",
                     }
                   }
                 >
-                  <colgroup>
-                    <col
-                      style={
-                        {
-                          "width": "20%",
-                        }
+                  <table
+                    style={
+                      {
+                        "minWidth": "100%",
+                        "tableLayout": "auto",
+                        "width": 950,
                       }
-                    />
-                    <col
-                      style={
-                        {
-                          "width": "30%",
-                        }
-                      }
-                    />
-                    <col
-                      style={
-                        {
-                          "width": "20%",
-                        }
-                      }
-                    />
-                    <col
-                      style={
-                        {
-                          "width": "28%",
-                        }
-                      }
-                    />
-                  </colgroup>
-                  <thead
-                    className="ant-table-thead"
+                    }
                   >
-                    <tr>
-                      <th
-                        className="ant-table-cell"
-                        colSpan={null}
-                        onMouseEnter={[Function]}
-                        onMouseLeave={[Function]}
-                        rowSpan={null}
-                        scope="col"
-                        style={{}}
-                      >
-                        Код техники
-                      </th>
-                      <th
-                        className="ant-table-cell"
-                        colSpan={null}
-                        onMouseEnter={[Function]}
-                        onMouseLeave={[Function]}
-                        rowSpan={null}
-                        scope="col"
-                        style={{}}
-                      >
-                        Название
-                      </th>
-                      <th
-                        className="ant-table-cell"
-                        colSpan={null}
-                        onMouseEnter={[Function]}
-                        onMouseLeave={[Function]}
-                        rowSpan={null}
-                        scope="col"
-                        style={{}}
-                      >
-                        Задача на обработку
-                      </th>
-                      <th
-                        className="ant-table-cell"
-                        colSpan={null}
-                        onMouseEnter={[Function]}
-                        onMouseLeave={[Function]}
-                        rowSpan={null}
-                        scope="col"
-                        style={{}}
-                      >
-                        Общая Площадь
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody
-                    className="ant-table-tbody"
-                  >
-                    <tr
-                      aria-hidden="true"
-                      className="ant-table-measure-row"
-                      style={
-                        {
-                          "fontSize": 0,
-                          "height": 0,
+                    <colgroup>
+                      <col
+                        style={
+                          {
+                            "width": "20%",
+                          }
                         }
-                      }
+                      />
+                      <col
+                        style={
+                          {
+                            "width": "30%",
+                          }
+                        }
+                      />
+                      <col
+                        style={
+                          {
+                            "width": "20%",
+                          }
+                        }
+                      />
+                      <col
+                        style={
+                          {
+                            "width": "28%",
+                          }
+                        }
+                      />
+                    </colgroup>
+                    <thead
+                      className="ant-table-thead"
                     >
-                      <td
-                        style={
-                          {
-                            "border": 0,
-                            "height": 0,
-                            "padding": 0,
-                          }
-                        }
-                      >
-                        <div
-                          style={
-                            {
-                              "height": 0,
-                              "overflow": "hidden",
-                            }
-                          }
+                      <tr>
+                        <th
+                          className="ant-table-cell"
+                          colSpan={null}
+                          onMouseEnter={[Function]}
+                          onMouseLeave={[Function]}
+                          rowSpan={null}
+                          scope="col"
+                          style={{}}
                         >
-                           
-                        </div>
-                      </td>
-                      <td
-                        style={
-                          {
-                            "border": 0,
-                            "height": 0,
-                            "padding": 0,
-                          }
-                        }
-                      >
-                        <div
-                          style={
-                            {
-                              "height": 0,
-                              "overflow": "hidden",
-                            }
-                          }
+                          Код техники
+                        </th>
+                        <th
+                          className="ant-table-cell"
+                          colSpan={null}
+                          onMouseEnter={[Function]}
+                          onMouseLeave={[Function]}
+                          rowSpan={null}
+                          scope="col"
+                          style={{}}
                         >
-                           
-                        </div>
-                      </td>
-                      <td
-                        style={
-                          {
-                            "border": 0,
-                            "height": 0,
-                            "padding": 0,
-                          }
-                        }
-                      >
-                        <div
-                          style={
-                            {
-                              "height": 0,
-                              "overflow": "hidden",
-                            }
-                          }
+                          Название
+                        </th>
+                        <th
+                          className="ant-table-cell"
+                          colSpan={null}
+                          onMouseEnter={[Function]}
+                          onMouseLeave={[Function]}
+                          rowSpan={null}
+                          scope="col"
+                          style={{}}
                         >
-                           
-                        </div>
-                      </td>
-                      <td
-                        style={
-                          {
-                            "border": 0,
-                            "height": 0,
-                            "padding": 0,
-                          }
-                        }
-                      >
-                        <div
-                          style={
-                            {
-                              "height": 0,
-                              "overflow": "hidden",
-                            }
-                          }
+                          Задача на обработку
+                        </th>
+                        <th
+                          className="ant-table-cell"
+                          colSpan={null}
+                          onMouseEnter={[Function]}
+                          onMouseLeave={[Function]}
+                          rowSpan={null}
+                          scope="col"
+                          style={{}}
                         >
-                           
-                        </div>
-                      </td>
-                    </tr>
-                    <tr
-                      className="ant-table-row ant-table-row-level-0"
-                      data-row-key={94}
-                      onClick={[Function]}
-                      style={{}}
+                          Общая Площадь
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody
+                      className="ant-table-tbody"
                     >
-                      <td
-                        className="ant-table-cell"
-                        colSpan={null}
-                        onMouseEnter={[Function]}
-                        onMouseLeave={[Function]}
-                        rowSpan={null}
+                      <tr
+                        aria-hidden="true"
+                        className="ant-table-measure-row"
+                        style={
+                          {
+                            "fontSize": 0,
+                            "height": 0,
+                          }
+                        }
+                      >
+                        <td
+                          style={
+                            {
+                              "border": 0,
+                              "height": 0,
+                              "padding": 0,
+                            }
+                          }
+                        >
+                          <div
+                            style={
+                              {
+                                "height": 0,
+                                "overflow": "hidden",
+                              }
+                            }
+                          >
+                             
+                          </div>
+                        </td>
+                        <td
+                          style={
+                            {
+                              "border": 0,
+                              "height": 0,
+                              "padding": 0,
+                            }
+                          }
+                        >
+                          <div
+                            style={
+                              {
+                                "height": 0,
+                                "overflow": "hidden",
+                              }
+                            }
+                          >
+                             
+                          </div>
+                        </td>
+                        <td
+                          style={
+                            {
+                              "border": 0,
+                              "height": 0,
+                              "padding": 0,
+                            }
+                          }
+                        >
+                          <div
+                            style={
+                              {
+                                "height": 0,
+                                "overflow": "hidden",
+                              }
+                            }
+                          >
+                             
+                          </div>
+                        </td>
+                        <td
+                          style={
+                            {
+                              "border": 0,
+                              "height": 0,
+                              "padding": 0,
+                            }
+                          }
+                        >
+                          <div
+                            style={
+                              {
+                                "height": 0,
+                                "overflow": "hidden",
+                              }
+                            }
+                          >
+                             
+                          </div>
+                        </td>
+                      </tr>
+                      <tr
+                        className="ant-table-row ant-table-row-level-0"
+                        data-row-key={94}
+                        onClick={[Function]}
                         style={{}}
                       >
-                        <div
-                          style={
-                            {
-                              "display": "flex",
-                              "gap": 12,
-                            }
-                          }
+                        <td
+                          className="ant-table-cell"
+                          colSpan={null}
+                          onMouseEnter={[Function]}
+                          onMouseLeave={[Function]}
+                          rowSpan={null}
+                          style={{}}
                         >
-                          <img
-                            alt="tractor"
-                            className="Technique__image-styles"
-                            src="https://localhost:8000/media/files/inquiries/219/.jpeg"
-                          />
+                          <div
+                            style={
+                              {
+                                "display": "flex",
+                                "gap": 12,
+                              }
+                            }
+                          >
+                            <img
+                              alt="tractor"
+                              className="Technique__image-styles"
+                              src="https://localhost:8000/media/files/inquiries/219/.jpeg"
+                            />
+                            <p
+                              className="Technique__name-column-style"
+                            >
+                              P4L7SG518
+                            </p>
+                          </div>
+                        </td>
+                        <td
+                          className="ant-table-cell"
+                          colSpan={null}
+                          onMouseEnter={[Function]}
+                          onMouseLeave={[Function]}
+                          rowSpan={null}
+                          style={{}}
+                        >
+                          adasdasd213123
+                        </td>
+                        <td
+                          className="ant-table-cell"
+                          colSpan={null}
+                          onMouseEnter={[Function]}
+                          onMouseLeave={[Function]}
+                          rowSpan={null}
+                          style={{}}
+                        >
                           <p
                             className="Technique__name-column-style"
                           >
-                            P4L7SG518
-                          </p>
-                        </div>
-                      </td>
-                      <td
-                        className="ant-table-cell"
-                        colSpan={null}
-                        onMouseEnter={[Function]}
-                        onMouseLeave={[Function]}
-                        rowSpan={null}
-                        style={{}}
-                      >
-                        adasdasd213123
-                      </td>
-                      <td
-                        className="ant-table-cell"
-                        colSpan={null}
-                        onMouseEnter={[Function]}
-                        onMouseLeave={[Function]}
-                        rowSpan={null}
-                        style={{}}
-                      >
-                        <p
-                          className="Technique__name-column-style"
-                        >
-                          0
-                        </p>
-                      </td>
-                      <td
-                        className="ant-table-cell"
-                        colSpan={null}
-                        onMouseEnter={[Function]}
-                        onMouseLeave={[Function]}
-                        rowSpan={null}
-                        style={{}}
-                      >
-                        <div
-                          style={
-                            {
-                              "alignItems": "center",
-                              "display": "flex",
-                              "justifyContent": "right",
-                            }
-                          }
-                        >
-                          <p
-                            className="Technique__name-column-style-text"
-                          >
                             0
                           </p>
-                          <a
-                            href="/profile-technique/94"
-                            onClick={[Function]}
-                            onMouseEnter={[Function]}
-                            onMouseLeave={[Function]}
-                            onPointerEnter={[Function]}
-                            onPointerLeave={[Function]}
-                          >
-                            <button
-                              className="ant-btn css-dev-only-do-not-override-fpg3f5 ant-btn-text"
-                              disabled={false}
-                              onClick={[Function]}
-                              style={{}}
-                              type="button"
-                            >
-                              <span
-                                aria-label="eye"
-                                className="anticon anticon-eye"
-                                role="img"
-                                style={
-                                  {
-                                    "color": "#1358bf",
-                                    "fontSize": "27px",
-                                  }
-                                }
-                              >
-                                <svg
-                                  aria-hidden="true"
-                                  data-icon="eye"
-                                  fill="currentColor"
-                                  focusable="false"
-                                  height="1em"
-                                  viewBox="64 64 896 896"
-                                  width="1em"
-                                >
-                                  <path
-                                    d="M942.2 486.2C847.4 286.5 704.1 186 512 186c-192.2 0-335.4 100.5-430.2 300.3a60.3 60.3 0 000 51.5C176.6 737.5 319.9 838 512 838c192.2 0 335.4-100.5 430.2-300.3 7.7-16.2 7.7-35 0-51.5zM512 766c-161.3 0-279.4-81.8-362.7-254C232.6 339.8 350.7 258 512 258c161.3 0 279.4 81.8 362.7 254C791.5 684.2 673.4 766 512 766zm-4-430c-97.2 0-176 78.8-176 176s78.8 176 176 176 176-78.8 176-176-78.8-176-176-176zm0 288c-61.9 0-112-50.1-112-112s50.1-112 112-112 112 50.1 112 112-50.1 112-112 112z"
-                                  />
-                                </svg>
-                              </span>
-                            </button>
-                          </a>
-                          <a
-                            href="/open-map/94/local-tractor/"
-                            onClick={[Function]}
-                            onMouseEnter={[Function]}
-                            onMouseLeave={[Function]}
-                            onPointerEnter={[Function]}
-                            onPointerLeave={[Function]}
-                          >
-                            <button
-                              className="ant-btn css-dev-only-do-not-override-fpg3f5 ant-btn-text"
-                              disabled={false}
-                              onClick={[Function]}
-                              style={
-                                {
-                                  "alignItems": "center",
-                                  "display": "flex",
-                                }
+                        </td>
+                        <td
+                          className="ant-table-cell"
+                          colSpan={null}
+                          onMouseEnter={[Function]}
+                          onMouseLeave={[Function]}
+                          rowSpan={null}
+                          style={{}}
+                        >
+                          <div
+                            style={
+                              {
+                                "alignItems": "center",
+                                "display": "flex",
+                                "justifyContent": "right",
                               }
-                              type="button"
+                            }
+                          >
+                            <p
+                              className="Technique__name-column-style-text"
                             >
-                              <img
-                                alt="tractorBlue"
-                                src={
-                                  {
-                                    "process": [Function],
+                              0
+                            </p>
+                            <a
+                              href="/profile-technique/94"
+                              onClick={[Function]}
+                              onMouseEnter={[Function]}
+                              onMouseLeave={[Function]}
+                              onPointerEnter={[Function]}
+                              onPointerLeave={[Function]}
+                            >
+                              <button
+                                className="ant-btn css-dev-only-do-not-override-fpg3f5 ant-btn-text"
+                                disabled={false}
+                                onClick={[Function]}
+                                style={{}}
+                                type="button"
+                              >
+                                <span
+                                  aria-label="eye"
+                                  className="anticon anticon-eye"
+                                  role="img"
+                                  style={
+                                    {
+                                      "color": "#1358bf",
+                                      "fontSize": "27px",
+                                    }
                                   }
-                                }
+                                >
+                                  <svg
+                                    aria-hidden="true"
+                                    data-icon="eye"
+                                    fill="currentColor"
+                                    focusable="false"
+                                    height="1em"
+                                    viewBox="64 64 896 896"
+                                    width="1em"
+                                  >
+                                    <path
+                                      d="M942.2 486.2C847.4 286.5 704.1 186 512 186c-192.2 0-335.4 100.5-430.2 300.3a60.3 60.3 0 000 51.5C176.6 737.5 319.9 838 512 838c192.2 0 335.4-100.5 430.2-300.3 7.7-16.2 7.7-35 0-51.5zM512 766c-161.3 0-279.4-81.8-362.7-254C232.6 339.8 350.7 258 512 258c161.3 0 279.4 81.8 362.7 254C791.5 684.2 673.4 766 512 766zm-4-430c-97.2 0-176 78.8-176 176s78.8 176 176 176 176-78.8 176-176-78.8-176-176-176zm0 288c-61.9 0-112-50.1-112-112s50.1-112 112-112 112 50.1 112 112-50.1 112-112 112z"
+                                    />
+                                  </svg>
+                                </span>
+                              </button>
+                            </a>
+                            <a
+                              href="/open-map/94/local-tractor/"
+                              onClick={[Function]}
+                              onMouseEnter={[Function]}
+                              onMouseLeave={[Function]}
+                              onPointerEnter={[Function]}
+                              onPointerLeave={[Function]}
+                            >
+                              <button
+                                className="ant-btn css-dev-only-do-not-override-fpg3f5 ant-btn-text"
+                                disabled={false}
+                                onClick={[Function]}
                                 style={
                                   {
-                                    "width": 27,
+                                    "alignItems": "center",
+                                    "display": "flex",
                                   }
                                 }
-                              />
-                            </button>
-                          </a>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+                                type="button"
+                              >
+                                <img
+                                  alt="tractorBlue"
+                                  src={
+                                    {
+                                      "process": [Function],
+                                    }
+                                  }
+                                  style={
+                                    {
+                                      "width": 27,
+                                    }
+                                  }
+                                />
+                              </button>
+                            </a>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <div
-      className="pagination"
-    >
       <div
-        className="pagination__pagination_show"
+        className="pagination"
       >
         <div
-          className="glav_pagination"
+          className="pagination__pagination_show"
         >
           <div
-            className="next_table"
+            className="glav_pagination"
           >
-            <button
-              className="ant-btn css-dev-only-do-not-override-fpg3f5 ant-btn-default ant-btn-icon-only pagination_buttons pagination_buttons-prev"
-              disabled={true}
-              onClick={[Function]}
-              style={{}}
-              type="button"
+            <div
+              className="next_table"
             >
-              <span
-                className="ant-btn-icon"
+              <button
+                className="ant-btn css-dev-only-do-not-override-fpg3f5 ant-btn-default ant-btn-icon-only pagination_buttons pagination_buttons-prev"
+                disabled={true}
+                onClick={[Function]}
                 style={{}}
+                type="button"
               >
-                <img
-                  alt="backIcons"
-                  src={
-                    {
-                      "process": [Function],
+                <span
+                  className="ant-btn-icon"
+                  style={{}}
+                >
+                  <img
+                    alt="backIcons"
+                    src={
+                      {
+                        "process": [Function],
+                      }
                     }
-                  }
-                />
-              </span>
-            </button>
-            <button
-              className="ant-btn css-dev-only-do-not-override-fpg3f5 ant-btn-default ant-btn-icon-only pagination_buttons pagination_buttons-next"
-              disabled={true}
-              onClick={[Function]}
-              role="button"
-              style={{}}
-              type="button"
-            >
-              <span
-                className="ant-btn-icon"
+                  />
+                </span>
+              </button>
+              <button
+                className="ant-btn css-dev-only-do-not-override-fpg3f5 ant-btn-default ant-btn-icon-only pagination_buttons pagination_buttons-next"
+                disabled={true}
+                onClick={[Function]}
+                role="button"
                 style={{}}
+                type="button"
               >
-                <img
-                  alt="nextIcons"
-                  src={
-                    {
-                      "process": [Function],
+                <span
+                  className="ant-btn-icon"
+                  style={{}}
+                >
+                  <img
+                    alt="nextIcons"
+                    src={
+                      {
+                        "process": [Function],
+                      }
                     }
-                  }
-                />
-              </span>
-            </button>
+                  />
+                </span>
+              </button>
+            </div>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+  <div
+    className="Technique__table_mobile"
+  >
+    <div>
+      <div
+        className="table_img"
+      >
+        <div>
+          <img
+            alt="/media/files/inquiries/219/.jpeg"
+            src="https://localhost:8000/media/files/inquiries/219/.jpeg"
+          />
+        </div>
+        <div
+          className="text_table"
+        >
+          <p>
+            <b>
+              Название техники
+            </b>
+          </p>
+          <p>
+            P4L7SG518
+          </p>
+          <p>
+            Задачи 
+            <b>
+              0
+            </b>
+          </p>
+        </div>
+      </div>
+      <div
+        className="Technique__btn_click"
+      >
+        <button
+          className="ant-btn css-dev-only-do-not-override-fpg3f5 ant-btn-default"
+          disabled={false}
+          onClick={[Function]}
+          style={{}}
+          type="button"
+        >
+          <img
+            alt="tractor"
+            src={
+              {
+                "process": [Function],
+              }
+            }
+          />
+        </button>
+        <button
+          className="ant-btn css-dev-only-do-not-override-fpg3f5 ant-btn-default"
+          disabled={false}
+          onClick={[Function]}
+          style={{}}
+          type="button"
+        >
+          <img
+            alt="tractor"
+            src={
+              {
+                "process": [Function],
+              }
+            }
+          />
+        </button>
       </div>
     </div>
   </div>

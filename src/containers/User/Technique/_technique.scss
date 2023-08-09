@@ -44,6 +44,10 @@
     justify-content: space-between;
   }
 
+  &__table_mobile {
+    display: none;
+  }
+
   &__card-style-cloud {
     background: themes.$cloud-color;
   }
@@ -103,6 +107,10 @@
   }
 
   &__cloud_block_style {
+    display: none;
+  }
+
+  &__mobile_data {
     display: none;
   }
 }
@@ -245,6 +253,10 @@
 
     &__title {
       display: block;
+      padding-left: 10px;
+      > h3 {
+        margin-left: -10px;
+      }
     }
 
     &__btn_title {
@@ -253,6 +265,23 @@
         width: 242px;
         height: 40px;
         border-radius: 8px;
+        border: none;
+        box-shadow: none;
+      }
+    }
+
+    &__btn_click {
+      display: flex;
+      margin-top: 5px;
+      > button {
+        background-color: transparent;
+        border: none;
+        padding: 0;
+        margin-right: 10px;
+        > img {
+          width: 36px;
+          height: 36px;
+        }
       }
     }
 
@@ -266,62 +295,166 @@
   }
 }
 
-@media screen and (max-width: 600px) {
-  .Technique__title {
-    > h3 {
-      width: 100%;
-    }
-    > div {
-      display: block;
-      > button {
-        float: right;
-        margin-right: 0px!important;
-        margin-bottom: 10px;
-      }
-      > a {
-        float: right;
-      }
-    }
-  }
-
-  .Technique__card-style-blocks {
-   flex-wrap: wrap;
-  }
-}
-
-@media screen and (max-width: 560px) {
-  .Technique__card-style-blocks {
-    justify-content: center;
-  }
-
-  .Technique__card-content {
-    justify-content: center;
-  }
-}
-@media screen and (max-width: 400px) {
-  .Technique__title {
-    display: block;
-    > h3 {
-      text-align: center;
+@media screen and (max-width: 540px) {
+  .Technique {
+    &__logo {
+      display: none;
     }
 
-    > div {
-      height: 76px;
-      > button {
-        margin-top: 10px;
+    &__card-technique-block {
+      display: none;
+    }
+
+    &__card-style-blocks {
+      position: absolute;
+      top: 70px;
+      width: 100% !important;
+      left: 0;
+      right: 0;
+      > div {
         width: 100%;
+        margin-right: 20px;
+        margin-left: 20px;
       }
+    }
 
-      > a {
-        float: initial;
-        > button {
-          width: 100%;
+    &__card-style-cloud {
+      width: 100% !important;
+    }
+
+    &__card-block {
+      height: 326px;
+    }
+    &__title {
+      display: none;
+    }
+    &__mobile_data {
+      display: block;
+      .tractor {
+        border-bottom: 1px solid #F5F7FA;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        padding-bottom: 10px;
+        margin-top: 0;
+        .text_mobile_header {
+          padding-left: 10px;
+          color: #6C7994;
+          font-size: 11px;
+          > b {
+            font-size: 14px;
+          }
         }
       }
     }
-  }
 
-  .Technique__card-style-cloud-blocks {
-    justify-content: center;
+    &__btn_mobile {
+      margin-top: 84px;
+      > h3 {
+        font-weight: 500;
+      }
+
+      > div {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-column-gap: 10px;
+        grid-row-gap: 10px;
+        > button {
+          border: none;
+          width: 100%;
+          height: 104px;
+          text-align: left;
+          background-color: #F8F8F8;
+          border-radius: 12px;
+          padding: 14px;
+          > p {
+            margin-top: 0px;
+            font-weight: 500;
+          }
+        }
+      }
+    }
+
+    &__table {
+      display: none;
+    }
+
+    &__card-style-cloud-button {
+      top: 10px;
+      left: 34px;
+    }
+
+    &__cloudy_img {
+      margin-top: -3px;
+    }
+
+    &__card-style-cloud-button_meteo {
+      top: 32px;
+      left: 32px;
+    }
+
+    &__card-style-cloud {
+      height: 62px!important;
+    }
+
+    .meteo-title_cloudy {
+      position: absolute;
+      top: 0;
+      left: 57px;
+    }
+
+    .meteo-title {
+      position: absolute;
+      top: 36px;
+      left: 57px;
+    }
+
+    &__card-style-cloud-button_meteo:disabled {
+      position: absolute;
+      top: 30px;
+      left: 32px;
+    }
+
+    &__cloudy_img_not {
+      top: 16px;
+    }
+    &__table_mobile {
+      margin-left: 20px;
+      margin-right: 20px;
+      display: block;
+
+      > div {
+        width: 100%;
+        background-color: #FFFFFF;
+        padding: 16px;
+        margin-bottom: 10px;
+        border-radius: 12px;
+
+        .table_img {
+          display: flex;
+          > div {
+            > img {
+              width: 32px;
+              height: 37px;
+              border-radius: 8px;
+            }
+          }
+
+          .text_table {
+            line-height: 0.5;
+            margin-top: -10px;
+            padding-left: 15px;
+            > p {
+              > b {
+                font-weight: 500;
+                color: #161A24;
+              }
+
+              color: #79859E;
+            }
+          }
+        }
+      }
+    }
   }
 }
