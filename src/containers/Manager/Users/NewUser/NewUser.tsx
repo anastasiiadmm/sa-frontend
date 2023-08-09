@@ -1,4 +1,4 @@
-import { Button, Col, Form, message, Typography } from 'antd';
+import { Button, Col, Drawer, Form, message, Typography } from 'antd';
 import bem from 'easy-bem';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
@@ -7,6 +7,7 @@ import Errors from 'components/Errors/Errors';
 import FormField from 'components/FormField/FormField';
 import CreateNewUserCredentials from 'components/ModalComponent/ModalChildrenComponents/CreateNewUserCredentials/CreateNewUserCredentials';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
+import useWindowWidth from 'hooks/useWindowWidth';
 import { IUserAdd } from 'interfaces';
 import { accountsSelector } from 'redux/accounts/accountsSlice';
 import { companiesSelector, userCreate } from 'redux/companies/companiesSlice';
@@ -22,19 +23,31 @@ const NewUser: React.FC = () => {
   const dispatch = useAppDispatch();
   const [form] = Form.useForm();
   const history = useNavigate();
+  const windowWidth = useWindowWidth();
   const { fetchErrorAccount } = useAppSelector(accountsSelector);
   const { userCreateLoading, userCreate: userCreateData } = useAppSelector(companiesSelector);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formValid, setFormValid] = useState(true);
+  const [openDraw, setOpenDraw] = useState(false);
 
   const showModal = () => {
-    setIsModalOpen(true);
+    if (windowWidth < 550) {
+      setOpenDraw(true);
+    } else {
+      setIsModalOpen(true);
+    }
   };
 
   const handleOkCancel = async () => {
-    setIsModalOpen(!isModalOpen);
-    history('/');
-    await message.success('Новый пользователь успешно создан!');
+    if (windowWidth < 550) {
+      setOpenDraw(!openDraw);
+      history('/');
+      await message.success('Новый пользователь успешно создан!');
+    } else {
+      setIsModalOpen(!isModalOpen);
+      history('/');
+      await message.success('Новый пользователь успешно создан!');
+    }
   };
 
   const onFinish = async (values: IUserAdd) => {
@@ -63,7 +76,7 @@ const NewUser: React.FC = () => {
           md={{ span: 20, offset: 2 }}
           lg={{ span: 11, offset: 1 }}
         >
-          <Title level={3} data-testid='new_user_test'>
+          <Title level={3} data-testid='new_user_test' className={b('title')}>
             Добавить нового пользователя
           </Title>
           <p className={b('subtext')}>Создать учетную запись нового пользователя и добавить его</p>
@@ -156,17 +169,21 @@ const NewUser: React.FC = () => {
               placeholder='Регион расположения'
               rules={[{ required: true, message: 'Введите регион расположения' }]}
             />
-
-            <Button
-              disabled={formValid}
-              type='primary'
-              htmlType='submit'
-              loading={userCreateLoading}
-              style={{ width: '100%', borderRadius: 4 }}
-              className={b('login-form-button')}
-            >
-              Добавить нового пользователя
-            </Button>
+            <div className={b('btn')}>
+              <Button className={b('cancel')} onClick={() => history(-1)}>
+                Отмена
+              </Button>
+              <Button
+                disabled={formValid}
+                type='primary'
+                htmlType='submit'
+                loading={userCreateLoading}
+                style={{ width: '100%', borderRadius: 4 }}
+                className={b('login-form-button')}
+              >
+                {windowWidth < 990 ? 'Добавить' : 'Добавить нового пользователя'}
+              </Button>
+            </div>
           </Form>
         </Col>
       </div>
@@ -181,6 +198,22 @@ const NewUser: React.FC = () => {
       >
         <CreateNewUserCredentials handleOkCancel={handleOkCancel} userCreateData={userCreateData} />
       </ModalComponent>
+      <Drawer
+        open={openDraw}
+        closable={false}
+        onClose={() => setOpenDraw(false)}
+        placement='bottom'
+        footer={false}
+        title='Логин и пароль'
+        height={360}
+      >
+        <div className={b('drawer_password')}>
+          <CreateNewUserCredentials
+            handleOkCancel={handleOkCancel}
+            userCreateData={userCreateData}
+          />
+        </div>
+      </Drawer>
     </>
   );
 };
