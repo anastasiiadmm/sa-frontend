@@ -31,6 +31,7 @@ exports[`<FieldClimateDashboard /> FieldClimateDashboard map component should be
             aria-controls="undefined_list"
             aria-expanded={false}
             aria-haspopup="listbox"
+            aria-label="Search"
             aria-owns="undefined_list"
             autoComplete="off"
             className="ant-select-selection-search-input"
