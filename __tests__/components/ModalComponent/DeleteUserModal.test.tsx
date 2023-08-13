@@ -19,6 +19,8 @@ describe('DeleteUserModal', () => {
                 handleDeleteCancel={handleDeleteCancel}
                 deleteUserHandler={deleteUserHandler}
                 loading={false}
+                title='Вы уверены, что хотите удалить пользователя?'
+                text='Test'
             />
         );
 
