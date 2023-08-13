@@ -9,7 +9,9 @@ import lockIcon from 'assets/images/icons/lock-round.svg';
 import phone from 'assets/images/icons/mobile-phone.svg';
 import notification from 'assets/images/icons/notification.svg';
 import pen from 'assets/images/icons/pen-green.svg';
+import tractorActive from 'assets/images/icons/tracktor-active-menu.svg';
 import tractorGreen from 'assets/images/icons/tractor-green.svg';
+import tractorMenu from 'assets/images/icons/tractor-menu.svg';
 import users from 'assets/images/icons/users.svg';
 
 export const climateOptions = [
@@ -93,6 +95,7 @@ export const routesTitles: { [key: string]: string } = {
   '/user-profile/': 'Данные о клиенте',
   '/add-new-user': 'Добавить нового пользователя',
   '/manager-profile': 'Профиль',
+  '/user-profile-view': 'Профиль',
   '/profile-technique/': 'Информация о технике',
   '/edit-user/': 'Редактирование профиля пользователя',
   '/user-technique/': 'Техника пользователя',
@@ -139,7 +142,7 @@ export const buttonsDataUser = [
   {
     key: '/',
     text: 'Техника',
-    icon: <img src={users} alt='users' />,
-    activeIcon: <img src={activeUsers} alt='users' />,
+    icon: <img src={tractorMenu} alt='tractorMenu' />,
+    activeIcon: <img src={tractorActive} alt='tractorActive' />,
   },
 ];

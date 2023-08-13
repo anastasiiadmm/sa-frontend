@@ -8,6 +8,7 @@ import { Routes } from 'react-router-dom';
 import arrowLeft from 'assets/images/icons/arrow_left.svg';
 import NotFound from 'components/Errors/NotFound/NotFound';
 import FieldClimateSideBar from 'components/FieldClimateSideBar/FieldClimateSideBar';
+import MenuMobileComponent from 'components/MenuMobileComponent/MenuMobileComponent';
 import OpenMapComponent from 'components/OpenMapComponent/OpenMapComponent';
 import SliderMenu from 'components/SliderMenu/SliderMenu';
 import Converter from 'containers/Converter/Converter';
@@ -91,22 +92,29 @@ const AppRouter: React.FC = () => {
             </Title>
           </div>
         </div>
-      ) : tokens?.is_manager ? (
-        buttonsDataManager.map((button) =>
-          pathname === button?.key ? (
-            <Title level={4} key={button.key} className={b('title-mobile')}>
-              {button.text}
-            </Title>
-          ) : null,
-        )
       ) : (
-        buttonsDataUser.map((button) =>
-          pathname === button?.key ? (
-            <Title level={4} key={button.key} className={b('title-mobile')}>
-              {button.text}
+        <>
+          {pathname === '/menu-mobile' && (
+            <Title level={4} className={b('title-mobile')}>
+              Меню
             </Title>
-          ) : null,
-        )
+          )}
+          {tokens?.is_manager
+            ? buttonsDataManager.map((button) =>
+                pathname === button?.key ? (
+                  <Title level={4} key={button.key} className={b('title-mobile')}>
+                    {button.text}
+                  </Title>
+                ) : null,
+              )
+            : buttonsDataUser.map((button) =>
+                pathname === button?.key ? (
+                  <Title level={4} key={button.key} className={b('title-mobile')}>
+                    {button.text}
+                  </Title>
+                ) : null,
+              )}
+        </>
       )
     ) : (
       <>
@@ -167,6 +175,7 @@ const AppRouter: React.FC = () => {
                   ) : null}
                 </>
               )}
+              <Route path='/menu-mobile' element={<MenuMobileComponent />} />
               <Route path='/open-map/:id/:field_name/:code?' element={<OpenMapComponent />} />
               <Route path='/technique-map/:techniqueId' element={<TechniqueMap />} />
               <Route path='/profile-technique/:vehicleId' element={<ProfileTechnique />} />

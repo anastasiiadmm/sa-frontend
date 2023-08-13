@@ -14,6 +14,7 @@ import { Link, NavLink } from 'react-router-dom';
 
 import cancel from 'assets/images/icons/cancel.svg';
 import meteo from 'assets/images/icons/cloud-tablet.svg';
+import menuActive from 'assets/images/icons/menu-button-active.svg';
 import more from 'assets/images/icons/more.svg';
 import star from 'assets/images/icons/star.svg';
 import logo from 'assets/images/logo.png';
@@ -237,7 +238,18 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
 
   const shouldRenderMobile =
     isPathInButtonsData(location.pathname, buttonsDataManager) ||
-    isPathInButtonsData(location.pathname, buttonsDataUser);
+    isPathInButtonsData(location.pathname, buttonsDataUser) ||
+    location.pathname === '/menu-mobile';
+
+  const handleButtonClick = () => {
+    const componentPath = '/menu-mobile';
+
+    if (windowWidth >= 601) {
+      showDrawer();
+    } else {
+      push(componentPath);
+    }
+  };
 
   const renderMobile = shouldRenderMobile ? (
     <div className={b('mobile-menu')}>
@@ -252,10 +264,16 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
         <Button
           style={{ marginTop: tokens?.is_manager ? 59 : 18 }}
           type='link'
-          icon={<img src={more} alt='more' />}
+          icon={
+            location.pathname === '/menu-mobile' ? (
+              <img src={menuActive} alt='menuActive' />
+            ) : (
+              <img src={more} alt='more' />
+            )
+          }
           className={b('link-button margin-top')}
           size='small'
-          onClick={showDrawer}
+          onClick={handleButtonClick}
         >
           Еще
         </Button>
@@ -304,7 +322,6 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
       <div className={b('logo')}>
         <img src={logo} alt='logo' />
       </div>
-      {}
       <Menu
         className='menu-items'
         mode='inline'

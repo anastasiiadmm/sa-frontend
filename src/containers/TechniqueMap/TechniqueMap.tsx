@@ -341,6 +341,7 @@ const TechniqueMap = () => {
 
       <DrawerComponent open={open} placement='right'>
         <Button
+          data-testid='close-button-test'
           onClick={() => {
             setOpen(!open);
             setVehicleActive(null);

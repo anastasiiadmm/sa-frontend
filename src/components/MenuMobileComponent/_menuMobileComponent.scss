@@ -1,0 +1,35 @@
+@use 'assets/scss/_themes.scss';
+
+.MenuMobileComponent {
+  height: 100%;
+  background: themes.$white-color;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+
+  &__cards-links {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  &__card-block {
+    background: themes.$gray-bg;
+    > div {
+      padding: 8px !important;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-evenly;
+      gap: 12px;
+    }
+  }
+
+  &__info-block {
+    flex-grow: 1;
+  }
+
+  &__title {
+    margin: 0 !important;
+  }
+}
