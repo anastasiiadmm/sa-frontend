@@ -290,6 +290,36 @@
     &__subtitle {
       padding-left: 0;
     }
+
+    &__delete_mobile {
+      > div {
+        > img {
+          width: 56px;
+          height: 56px;
+        }
+      }
+
+      > h4 {
+        margin-top: 10px;
+        font-size: 18px;
+        font-weight: 500;
+      }
+
+      > p {
+        font-size: 14px;
+        margin-top: -15px;
+        padding-bottom: 10px;
+      }
+
+    > button {
+      display: block;
+      height: 44px;
+      width: 100%;
+      margin-top: 10px;
+      border: none;
+      border-radius: 8px;
+    }
+    }
   }
 
   .ant-typography h3 {
