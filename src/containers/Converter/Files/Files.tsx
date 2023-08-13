@@ -52,7 +52,7 @@ const Files = () => {
       >
         <DeleteUserModal
           title='Удалить?'
-          text='Вы уверены, что хотите удалить файл?'
+          fullName='файл'
           handleDeleteCancel={handleDeleteOkCancel}
         />
       </ModalComponent>

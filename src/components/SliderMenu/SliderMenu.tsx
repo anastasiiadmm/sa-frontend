@@ -70,14 +70,6 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
   const dispatch = useAppDispatch();
   const location = useLocation();
   const { tokens } = useAppSelector(authSelector);
-import {
-  CloudOutlined,
-  HomeOutlined,
-  ImportOutlined,
-  RetweetOutlined,
-  UserOutlined,
-} from '@ant-design/icons';
-import { Avatar, Button, Layout, Menu, Skeleton } from 'antd';
   const { account, apk, apkLoading, fetchLoadingAccount } = useAppSelector(accountsSelector);
   const windowWidth = useWindowWidth();
   const [open, setOpen] = useState(false);
@@ -136,43 +128,43 @@ import { Avatar, Button, Layout, Menu, Skeleton } from 'antd';
     { type: 'divider' },
     account?.is_manager
       ? getItem(
-        '',
-        'grp',
-        null,
-        [
-          getItem('Пользователи', '/', <div className='icon-styles users-icon' />),
-          getItem(
-            'Добавить нового пользователя',
-            '/add-new-user',
-            <div className='icon-styles add-icon' />,
-          ),
-          getItem('Запросы', '/user-requests', <div className='icon-styles request-icon' />),
-          getItem(
-            <p>
-              Список версий <b>apk</b>
-            </p>,
-            '/apks',
-            <div className='icon-styles phone-icon' />,
-          ),
-        ],
-        'group',
-      )
+          '',
+          'grp',
+          null,
+          [
+            getItem('Пользователи', '/', <div className='icon-styles users-icon' />),
+            getItem(
+              'Добавить нового пользователя',
+              '/add-new-user',
+              <div className='icon-styles add-icon' />,
+            ),
+            getItem('Запросы', '/user-requests', <div className='icon-styles request-icon' />),
+            getItem(
+              <p>
+                Список версий <b>apk</b>
+              </p>,
+              '/apks',
+              <div className='icon-styles phone-icon' />,
+            ),
+          ],
+          'group',
+        )
       : getItem(
-        '',
-        'grp',
-        null,
-        [
-          getItem('Техника', '/', <div className='icon-styles technics-icon' />),
-          account?.company?.weather_service
-            ? getItem(
-              'FieldClimate',
-              '/field-climate',
-              <CloudOutlined style={{ fontSize: 23 }} />,
-            )
-            : null,
-        ],
-        'group',
-      ),
+          '',
+          'grp',
+          null,
+          [
+            getItem('Техника', '/', <div className='icon-styles technics-icon' />),
+            account?.company?.weather_service
+              ? getItem(
+                  'FieldClimate',
+                  '/field-climate',
+                  <CloudOutlined style={{ fontSize: 23 }} />,
+                )
+              : null,
+          ],
+          'group',
+        ),
     getItem('Конвертер', '/converter', <div className='icon-styles converter-icon' />),
   ];
 
