@@ -30,7 +30,7 @@ exports[`<ProfileTechnique /> Users table component should be in the document 1`
           />
         </button>
         <h3
-          className="ant-typography ProfileTechnique__title css-dev-only-do-not-override-15rg2km"
+          className="ant-typography ProfileTechnique__title css-dev-only-do-not-override-fpg3f5"
           style={
             {
               "WebkitLineClamp": undefined,
@@ -49,13 +49,15 @@ exports[`<ProfileTechnique /> Users table component should be in the document 1`
           onClick={[Function]}
         >
           <button
-            className="ant-btn css-dev-only-do-not-override-15rg2km ant-btn-link ant-btn-lg ProfileTechnique__open-map"
+            className="ant-btn css-dev-only-do-not-override-fpg3f5 ant-btn-link ant-btn-lg ProfileTechnique__open-map"
             disabled={false}
             onClick={[Function]}
+            style={{}}
             type="button"
           >
             <span
               className="ant-btn-icon"
+              style={{}}
             >
               <img
                 alt="Техника на карте"
@@ -78,37 +80,53 @@ exports[`<ProfileTechnique /> Users table component should be in the document 1`
       className="ProfileTechnique__technique-profile-info"
     >
       <div
-        className="ant-image css-dev-only-do-not-override-15rg2km"
-        style={
-          {
-            "height": undefined,
-            "width": 242,
-          }
-        }
+        className="ProfileTechnique__images_tractor"
       >
-        <img
-          className="ant-image-img ProfileTechnique__technique-image"
-          onLoad={[Function]}
-          src="https://localhost:8000test/photos"
+        <div
+          className="ant-image css-dev-only-do-not-override-fpg3f5"
           style={
             {
-              "borderRadius": 4,
               "height": undefined,
+              "width": 242,
             }
           }
-          width={242}
-        />
+        >
+          <img
+            className="ant-image-img ProfileTechnique__technique-image css-dev-only-do-not-override-fpg3f5"
+            onLoad={[Function]}
+            src="https://localhost:8000test/photos"
+            style={
+              {
+                "borderRadius": 4,
+                "height": undefined,
+              }
+            }
+            width={242}
+          />
+        </div>
+        <button
+          className="ant-btn css-dev-only-do-not-override-fpg3f5 ant-btn-default"
+          disabled={false}
+          onClick={[Function]}
+          style={{}}
+          type="button"
+        >
+          <span>
+            Техника на карте
+          </span>
+        </button>
       </div>
       <div
         className="ProfileTechnique__profile-info"
       >
         <form
-          className="ant-form ant-form-vertical css-dev-only-do-not-override-15rg2km"
+          className="ant-form ant-form-vertical css-dev-only-do-not-override-fpg3f5"
           onReset={[Function]}
           onSubmit={[Function]}
+          style={{}}
         >
           <h5
-            className="ant-typography ProfileTechnique__profile-title css-dev-only-do-not-override-15rg2km"
+            className="ant-typography ProfileTechnique__profile-title css-dev-only-do-not-override-fpg3f5"
             style={
               {
                 "WebkitLineClamp": undefined,
@@ -121,14 +139,14 @@ exports[`<ProfileTechnique /> Users table component should be in the document 1`
             className="ProfileTechnique__form-block"
           >
             <div
-              className="ant-form-item css-dev-only-do-not-override-15rg2km"
+              className="ant-form-item css-dev-only-do-not-override-fpg3f5"
             >
               <div
-                className="ant-row ant-form-item-row css-dev-only-do-not-override-15rg2km"
+                className="ant-row ant-form-item-row css-dev-only-do-not-override-fpg3f5"
                 style={{}}
               >
                 <div
-                  className="ant-col ant-form-item-label css-dev-only-do-not-override-15rg2km"
+                  className="ant-col ant-form-item-label css-dev-only-do-not-override-fpg3f5"
                   style={{}}
                 >
                   <label
@@ -140,7 +158,7 @@ exports[`<ProfileTechnique /> Users table component should be in the document 1`
                   </label>
                 </div>
                 <div
-                  className="ant-col ant-form-item-control css-dev-only-do-not-override-15rg2km"
+                  className="ant-col ant-form-item-control css-dev-only-do-not-override-fpg3f5"
                   style={{}}
                 >
                   <div
@@ -150,7 +168,7 @@ exports[`<ProfileTechnique /> Users table component should be in the document 1`
                       className="ant-form-item-control-input-content"
                     >
                       <input
-                        className="ant-input ant-input-borderless css-dev-only-do-not-override-15rg2km input-styles undefined"
+                        className="ant-input ant-input-borderless css-dev-only-do-not-override-fpg3f5 input-styles undefined"
                         disabled={false}
                         id="description"
                         name="description"
@@ -170,14 +188,14 @@ exports[`<ProfileTechnique /> Users table component should be in the document 1`
               </div>
             </div>
             <div
-              className="ant-form-item css-dev-only-do-not-override-15rg2km"
+              className="ant-form-item css-dev-only-do-not-override-fpg3f5"
             >
               <div
-                className="ant-row ant-form-item-row css-dev-only-do-not-override-15rg2km"
+                className="ant-row ant-form-item-row css-dev-only-do-not-override-fpg3f5"
                 style={{}}
               >
                 <div
-                  className="ant-col ant-form-item-label css-dev-only-do-not-override-15rg2km"
+                  className="ant-col ant-form-item-label css-dev-only-do-not-override-fpg3f5"
                   style={{}}
                 >
                   <label
@@ -189,7 +207,7 @@ exports[`<ProfileTechnique /> Users table component should be in the document 1`
                   </label>
                 </div>
                 <div
-                  className="ant-col ant-form-item-control css-dev-only-do-not-override-15rg2km"
+                  className="ant-col ant-form-item-control css-dev-only-do-not-override-fpg3f5"
                   style={{}}
                 >
                   <div
@@ -199,7 +217,7 @@ exports[`<ProfileTechnique /> Users table component should be in the document 1`
                       className="ant-form-item-control-input-content"
                     >
                       <input
-                        className="ant-input ant-input-borderless css-dev-only-do-not-override-15rg2km input-styles undefined"
+                        className="ant-input ant-input-borderless css-dev-only-do-not-override-fpg3f5 input-styles undefined"
                         disabled={false}
                         id="license_plate"
                         name="license_plate"
@@ -219,14 +237,14 @@ exports[`<ProfileTechnique /> Users table component should be in the document 1`
               </div>
             </div>
             <div
-              className="ant-form-item css-dev-only-do-not-override-15rg2km"
+              className="ant-form-item css-dev-only-do-not-override-fpg3f5"
             >
               <div
-                className="ant-row ant-form-item-row css-dev-only-do-not-override-15rg2km"
+                className="ant-row ant-form-item-row css-dev-only-do-not-override-fpg3f5"
                 style={{}}
               >
                 <div
-                  className="ant-col ant-form-item-label css-dev-only-do-not-override-15rg2km"
+                  className="ant-col ant-form-item-label css-dev-only-do-not-override-fpg3f5"
                   style={{}}
                 >
                   <label
@@ -238,7 +256,7 @@ exports[`<ProfileTechnique /> Users table component should be in the document 1`
                   </label>
                 </div>
                 <div
-                  className="ant-col ant-form-item-control css-dev-only-do-not-override-15rg2km"
+                  className="ant-col ant-form-item-control css-dev-only-do-not-override-fpg3f5"
                   style={{}}
                 >
                   <div
@@ -248,7 +266,7 @@ exports[`<ProfileTechnique /> Users table component should be in the document 1`
                       className="ant-form-item-control-input-content"
                     >
                       <input
-                        className="ant-input ant-input-borderless css-dev-only-do-not-override-15rg2km input-styles undefined"
+                        className="ant-input ant-input-borderless css-dev-only-do-not-override-fpg3f5 input-styles undefined"
                         disabled={false}
                         id="vin"
                         name="vin"
@@ -269,7 +287,7 @@ exports[`<ProfileTechnique /> Users table component should be in the document 1`
             </div>
           </div>
           <h5
-            className="ant-typography ProfileTechnique__profile-title css-dev-only-do-not-override-15rg2km"
+            className="ant-typography ProfileTechnique__profile-title css-dev-only-do-not-override-fpg3f5"
             style={
               {
                 "WebkitLineClamp": undefined,
@@ -282,14 +300,14 @@ exports[`<ProfileTechnique /> Users table component should be in the document 1`
             className="ProfileTechnique__form-block"
           >
             <div
-              className="ant-form-item css-dev-only-do-not-override-15rg2km"
+              className="ant-form-item css-dev-only-do-not-override-fpg3f5"
             >
               <div
-                className="ant-row ant-form-item-row css-dev-only-do-not-override-15rg2km"
+                className="ant-row ant-form-item-row css-dev-only-do-not-override-fpg3f5"
                 style={{}}
               >
                 <div
-                  className="ant-col ant-form-item-label css-dev-only-do-not-override-15rg2km"
+                  className="ant-col ant-form-item-label css-dev-only-do-not-override-fpg3f5"
                   style={{}}
                 >
                   <label
@@ -301,7 +319,7 @@ exports[`<ProfileTechnique /> Users table component should be in the document 1`
                   </label>
                 </div>
                 <div
-                  className="ant-col ant-form-item-control css-dev-only-do-not-override-15rg2km"
+                  className="ant-col ant-form-item-control css-dev-only-do-not-override-fpg3f5"
                   style={{}}
                 >
                   <div
@@ -311,7 +329,7 @@ exports[`<ProfileTechnique /> Users table component should be in the document 1`
                       className="ant-form-item-control-input-content"
                     >
                       <input
-                        className="ant-input ant-input-borderless css-dev-only-do-not-override-15rg2km input-styles undefined"
+                        className="ant-input ant-input-borderless css-dev-only-do-not-override-fpg3f5 input-styles undefined"
                         disabled={false}
                         id="operator_last_name"
                         name={
@@ -336,14 +354,14 @@ exports[`<ProfileTechnique /> Users table component should be in the document 1`
               </div>
             </div>
             <div
-              className="ant-form-item css-dev-only-do-not-override-15rg2km"
+              className="ant-form-item css-dev-only-do-not-override-fpg3f5"
             >
               <div
-                className="ant-row ant-form-item-row css-dev-only-do-not-override-15rg2km"
+                className="ant-row ant-form-item-row css-dev-only-do-not-override-fpg3f5"
                 style={{}}
               >
                 <div
-                  className="ant-col ant-form-item-label css-dev-only-do-not-override-15rg2km"
+                  className="ant-col ant-form-item-label css-dev-only-do-not-override-fpg3f5"
                   style={{}}
                 >
                   <label
@@ -355,7 +373,7 @@ exports[`<ProfileTechnique /> Users table component should be in the document 1`
                   </label>
                 </div>
                 <div
-                  className="ant-col ant-form-item-control css-dev-only-do-not-override-15rg2km"
+                  className="ant-col ant-form-item-control css-dev-only-do-not-override-fpg3f5"
                   style={{}}
                 >
                   <div
@@ -365,7 +383,7 @@ exports[`<ProfileTechnique /> Users table component should be in the document 1`
                       className="ant-form-item-control-input-content"
                     >
                       <input
-                        className="ant-input ant-input-borderless css-dev-only-do-not-override-15rg2km input-styles undefined"
+                        className="ant-input ant-input-borderless css-dev-only-do-not-override-fpg3f5 input-styles undefined"
                         disabled={false}
                         id="operator_first_name"
                         name={
@@ -390,14 +408,14 @@ exports[`<ProfileTechnique /> Users table component should be in the document 1`
               </div>
             </div>
             <div
-              className="ant-form-item css-dev-only-do-not-override-15rg2km"
+              className="ant-form-item css-dev-only-do-not-override-fpg3f5"
             >
               <div
-                className="ant-row ant-form-item-row css-dev-only-do-not-override-15rg2km"
+                className="ant-row ant-form-item-row css-dev-only-do-not-override-fpg3f5"
                 style={{}}
               >
                 <div
-                  className="ant-col ant-form-item-label css-dev-only-do-not-override-15rg2km"
+                  className="ant-col ant-form-item-label css-dev-only-do-not-override-fpg3f5"
                   style={{}}
                 >
                   <label
@@ -409,7 +427,7 @@ exports[`<ProfileTechnique /> Users table component should be in the document 1`
                   </label>
                 </div>
                 <div
-                  className="ant-col ant-form-item-control css-dev-only-do-not-override-15rg2km"
+                  className="ant-col ant-form-item-control css-dev-only-do-not-override-fpg3f5"
                   style={{}}
                 >
                   <div
@@ -419,7 +437,7 @@ exports[`<ProfileTechnique /> Users table component should be in the document 1`
                       className="ant-form-item-control-input-content"
                     >
                       <input
-                        className="ant-input ant-input-borderless css-dev-only-do-not-override-15rg2km input-styles undefined"
+                        className="ant-input ant-input-borderless css-dev-only-do-not-override-fpg3f5 input-styles undefined"
                         disabled={false}
                         id="operator_middle_name"
                         name={
@@ -448,16 +466,17 @@ exports[`<ProfileTechnique /> Users table component should be in the document 1`
       </div>
     </div>
     <div
-      className="ant-table-wrapper css-dev-only-do-not-override-15rg2km"
+      className="ant-table-wrapper css-dev-only-do-not-override-fpg3f5"
+      style={{}}
     >
       <div
-        className="ant-spin-nested-loading css-dev-only-do-not-override-15rg2km"
+        className="ant-spin-nested-loading css-dev-only-do-not-override-fpg3f5"
       >
         <div
           className="ant-spin-container"
         >
           <div
-            className="ant-table ant-table-empty ant-table-scroll-horizontal"
+            className="ant-table ant-table-scroll-horizontal"
           >
             <div
               className="ant-table-container"
@@ -806,32 +825,313 @@ exports[`<ProfileTechnique /> Users table component should be in the document 1`
                       </td>
                     </tr>
                     <tr
-                      className="ant-table-placeholder"
-                      style={
-                        {
-                          "display": null,
-                        }
-                      }
+                      className="ant-table-row ant-table-row-level-0"
+                      data-row-key={88}
+                      onClick={[Function]}
+                      style={{}}
                     >
                       <td
                         className="ant-table-cell"
-                        colSpan={8}
+                        colSpan={null}
+                        onMouseEnter={[Function]}
+                        onMouseLeave={[Function]}
+                        rowSpan={null}
+                        style={{}}
+                      >
+                        <p
+                          className="text_hidden"
+                          onMouseEnter={[Function]}
+                          onMouseLeave={[Function]}
+                          onPointerEnter={[Function]}
+                          onPointerLeave={[Function]}
+                        >
+                          FieldThree
+                        </p>
+                      </td>
+                      <td
+                        className="ant-table-cell"
+                        colSpan={null}
+                        onMouseEnter={[Function]}
+                        onMouseLeave={[Function]}
+                        rowSpan={null}
+                        style={{}}
+                      >
+                        <p
+                          className="ProfileTechnique__name-column-style"
+                        >
+                          None
+                        </p>
+                      </td>
+                      <td
+                        className="ant-table-cell"
+                        colSpan={null}
+                        onMouseEnter={[Function]}
+                        onMouseLeave={[Function]}
+                        rowSpan={null}
+                        style={{}}
+                      >
+                        <p
+                          className="ProfileTechnique__name-column-style"
+                        >
+                          0
+                        </p>
+                      </td>
+                      <td
+                        className="ant-table-cell"
+                        colSpan={null}
+                        onMouseEnter={[Function]}
+                        onMouseLeave={[Function]}
+                        rowSpan={null}
+                        style={{}}
+                      >
+                        <p
+                          className="ProfileTechnique__name-column-style"
+                        >
+                          0
+                        </p>
+                      </td>
+                      <td
+                        className="ant-table-cell"
+                        colSpan={null}
+                        onMouseEnter={[Function]}
+                        onMouseLeave={[Function]}
+                        rowSpan={null}
+                        style={{}}
+                      >
+                        <p
+                          className="ProfileTechnique__name-column-style"
+                        >
+                          0
+                        </p>
+                      </td>
+                      <td
+                        className="ant-table-cell"
+                        colSpan={null}
+                        onMouseEnter={[Function]}
+                        onMouseLeave={[Function]}
+                        rowSpan={null}
+                        style={{}}
+                      >
+                        <p
+                          className="ProfileTechnique__name-column-style"
+                        >
+                          0.0
+                        </p>
+                      </td>
+                      <td
+                        className="ant-table-cell"
+                        colSpan={null}
+                        onMouseEnter={[Function]}
+                        onMouseLeave={[Function]}
+                        rowSpan={null}
+                        style={{}}
+                      >
+                        <p
+                          className="ProfileTechnique__name-column-style"
+                        >
+                          527.006
+                        </p>
+                      </td>
+                      <td
+                        className="ant-table-cell"
+                        colSpan={null}
                         onMouseEnter={[Function]}
                         onMouseLeave={[Function]}
                         rowSpan={null}
                         style={{}}
                       >
                         <div
-                          className="ant-table-expanded-row-fixed"
                           style={
                             {
-                              "left": 0,
-                              "overflow": "hidden",
-                              "position": "sticky",
-                              "width": 0,
+                              "display": "flex",
+                              "gap": 37,
+                              "justifyContent": "right",
                             }
                           }
-                        />
+                        >
+                          <a
+                            className="ProfileTechnique__profile-link"
+                            href="/open-map/undefined/88/undefined"
+                            onClick={[Function]}
+                            onMouseEnter={[Function]}
+                            onMouseLeave={[Function]}
+                            onPointerEnter={[Function]}
+                            onPointerLeave={[Function]}
+                          >
+                            <button
+                              className="ant-btn css-dev-only-do-not-override-fpg3f5 ant-btn-text"
+                              disabled={false}
+                              onClick={[Function]}
+                              style={{}}
+                              type="button"
+                            >
+                              <img
+                                alt="Просмотреть на карте"
+                                src={
+                                  {
+                                    "process": [Function],
+                                  }
+                                }
+                                width={40}
+                              />
+                            </button>
+                          </a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr
+                      className="ant-table-row ant-table-row-level-0 blue-row"
+                      data-row-key={86}
+                      onClick={[Function]}
+                      style={{}}
+                    >
+                      <td
+                        className="ant-table-cell"
+                        colSpan={null}
+                        onMouseEnter={[Function]}
+                        onMouseLeave={[Function]}
+                        rowSpan={null}
+                        style={{}}
+                      >
+                        <p
+                          className="text_hidden"
+                          onMouseEnter={[Function]}
+                          onMouseLeave={[Function]}
+                          onPointerEnter={[Function]}
+                          onPointerLeave={[Function]}
+                        >
+                          send by almaz
+                        </p>
+                      </td>
+                      <td
+                        className="ant-table-cell"
+                        colSpan={null}
+                        onMouseEnter={[Function]}
+                        onMouseLeave={[Function]}
+                        rowSpan={null}
+                        style={{}}
+                      >
+                        <p
+                          className="ProfileTechnique__name-column-style"
+                        >
+                          Борона 24 метра
+                        </p>
+                      </td>
+                      <td
+                        className="ant-table-cell"
+                        colSpan={null}
+                        onMouseEnter={[Function]}
+                        onMouseLeave={[Function]}
+                        rowSpan={null}
+                        style={{}}
+                      >
+                        <p
+                          className="ProfileTechnique__name-column-style"
+                        >
+                          12
+                        </p>
+                      </td>
+                      <td
+                        className="ant-table-cell"
+                        colSpan={null}
+                        onMouseEnter={[Function]}
+                        onMouseLeave={[Function]}
+                        rowSpan={null}
+                        style={{}}
+                      >
+                        <p
+                          className="ProfileTechnique__name-column-style"
+                        >
+                          -0.3
+                        </p>
+                      </td>
+                      <td
+                        className="ant-table-cell"
+                        colSpan={null}
+                        onMouseEnter={[Function]}
+                        onMouseLeave={[Function]}
+                        rowSpan={null}
+                        style={{}}
+                      >
+                        <p
+                          className="ProfileTechnique__name-column-style"
+                        >
+                          11.7
+                        </p>
+                      </td>
+                      <td
+                        className="ant-table-cell"
+                        colSpan={null}
+                        onMouseEnter={[Function]}
+                        onMouseLeave={[Function]}
+                        rowSpan={null}
+                        style={{}}
+                      >
+                        <p
+                          className="ProfileTechnique__name-column-style"
+                        >
+                          0.0
+                        </p>
+                      </td>
+                      <td
+                        className="ant-table-cell"
+                        colSpan={null}
+                        onMouseEnter={[Function]}
+                        onMouseLeave={[Function]}
+                        rowSpan={null}
+                        style={{}}
+                      >
+                        <p
+                          className="ProfileTechnique__name-column-style"
+                        >
+                          927.006
+                        </p>
+                      </td>
+                      <td
+                        className="ant-table-cell"
+                        colSpan={null}
+                        onMouseEnter={[Function]}
+                        onMouseLeave={[Function]}
+                        rowSpan={null}
+                        style={{}}
+                      >
+                        <div
+                          style={
+                            {
+                              "display": "flex",
+                              "gap": 37,
+                              "justifyContent": "right",
+                            }
+                          }
+                        >
+                          <a
+                            className="ProfileTechnique__profile-link"
+                            href="/open-map/undefined/86/undefined"
+                            onClick={[Function]}
+                            onMouseEnter={[Function]}
+                            onMouseLeave={[Function]}
+                            onPointerEnter={[Function]}
+                            onPointerLeave={[Function]}
+                          >
+                            <button
+                              className="ant-btn css-dev-only-do-not-override-fpg3f5 ant-btn-text"
+                              disabled={false}
+                              onClick={[Function]}
+                              style={{}}
+                              type="button"
+                            >
+                              <img
+                                alt="Просмотреть на карте"
+                                src={
+                                  {
+                                    "process": [Function],
+                                  }
+                                }
+                                width={40}
+                              />
+                            </button>
+                          </a>
+                        </div>
                       </td>
                     </tr>
                   </tbody>
@@ -855,13 +1155,15 @@ exports[`<ProfileTechnique /> Users table component should be in the document 1`
             className="next_table"
           >
             <button
-              className="ant-btn css-dev-only-do-not-override-15rg2km ant-btn-default ant-btn-icon-only pagination_buttons pagination_buttons-prev"
+              className="ant-btn css-dev-only-do-not-override-fpg3f5 ant-btn-default ant-btn-icon-only pagination_buttons pagination_buttons-prev"
               disabled={true}
               onClick={[Function]}
+              style={{}}
               type="button"
             >
               <span
                 className="ant-btn-icon"
+                style={{}}
               >
                 <img
                   alt="backIcons"
@@ -874,14 +1176,16 @@ exports[`<ProfileTechnique /> Users table component should be in the document 1`
               </span>
             </button>
             <button
-              className="ant-btn css-dev-only-do-not-override-15rg2km ant-btn-default ant-btn-icon-only pagination_buttons pagination_buttons-next"
+              className="ant-btn css-dev-only-do-not-override-fpg3f5 ant-btn-default ant-btn-icon-only pagination_buttons pagination_buttons-next"
               disabled={true}
               onClick={[Function]}
               role="button"
+              style={{}}
               type="button"
             >
               <span
                 className="ant-btn-icon"
+                style={{}}
               >
                 <img
                   alt="nextIcons"

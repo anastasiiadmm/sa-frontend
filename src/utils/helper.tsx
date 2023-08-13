@@ -326,3 +326,11 @@ export const isPathInButtonsData = (
 ) => {
   return buttonsData.some((item) => item.key === pathname);
 };
+
+export function capitalizeFirstLetter(str: string | undefined) {
+  if (str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+
+  return str;
+}

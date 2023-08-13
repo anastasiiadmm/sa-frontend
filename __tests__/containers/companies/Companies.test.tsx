@@ -31,7 +31,8 @@ const data = {
   middle_name: "Петрович",
   state_number: "01KG123RRR",
   vehicle_fields_data: { field_count: 1, processed_area: 3708.024 },
-  vin_code: "FDG445"
+  vin_code: "FDG445",
+  vehicleList: []
 };
 
 const userDataInfo = {
@@ -68,7 +69,8 @@ const UserTechniqueList = {
     field_count: 0,
     processed_area: null
   },
-  vin_code: "FDG445we"
+  vin_code: "FDG445we",
+  vehicleList: []
 };
 
 describe("<Users />", () => {

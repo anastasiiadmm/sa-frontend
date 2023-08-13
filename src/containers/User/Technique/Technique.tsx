@@ -3,11 +3,20 @@ import { Button, Card, message, Spin, Tooltip, Typography } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import bem from 'easy-bem';
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
 
 import cloudy from 'assets/images/icons/cloudy.svg';
+import geolocationIcon from 'assets/images/icons/newIcon/geolocation.svg';
+
+import group from 'assets/images/icons/newIcon/group.svg';
+import map from 'assets/images/icons/newIcon/mapFons.svg';
+import tractorNew from 'assets/images/icons/newIcon/tractor.svg';
+import tractorIcons from 'assets/images/icons/newIcon/tractorBlue.svg';
+import tractorFons from 'assets/images/icons/newIcon/tractorFons.svg';
 import tractorBlue from 'assets/images/icons/tractor-blue.svg';
 import tractor from 'assets/images/icons/tractor-image.svg';
+import logo from 'assets/images/logo.svg';
 import Errors from 'components/Errors/Errors';
 import AddUpdateTechnique from 'components/ModalComponent/ModalChildrenComponents/AddUpdateTechnique/AddUpdateTechnique';
 import RequestModal from 'components/ModalComponent/ModalChildrenComponents/DeleteTechniqueModal/RequestModal';
@@ -23,6 +32,7 @@ import {
 } from 'redux/accounts/accountsSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { apiUrlCrop } from 'utils/config';
+import { urlFormat } from 'utils/files/files';
 import { getPageNumber, getPageNumberPrevious } from 'utils/helper';
 
 import 'containers/User/Technique/_technique.scss';
@@ -42,6 +52,7 @@ const Technique = () => {
     inquiriesError,
   } = useAppSelector(accountsSelector);
   const dispatch = useAppDispatch();
+  const push = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalFieldClimateOpen, setIsModalFieldClimateOpen] = useState(false);
   const [filters, setFilters] = useState({
@@ -55,13 +66,13 @@ const Technique = () => {
   };
 
   useEffect(() => {
-    if (account?.company.id) {
+    if (account?.company?.id) {
       const data = {
         query: {
           page: filters?.page || 1,
         },
       };
-      dispatch(fetchUserVehicles({ id: account?.company.id, page: data.query.page }));
+      dispatch(fetchUserVehicles({ id: account?.company?.id, page: data.query.page }));
     }
   }, [dispatch, account?.company?.id, filters]);
 
@@ -82,13 +93,13 @@ const Technique = () => {
   };
 
   const pagePrevHandler = () => {
-    if (account?.company.id) {
+    if (account?.company?.id) {
       setFilters({ ...filters, page: filters.page - 1 });
     }
   };
 
   const pageNextHandler = () => {
-    if (account?.company.id) {
+    if (account?.company?.id) {
       setFilters({ ...filters, page: filters.page + 1 });
     }
   };
@@ -184,10 +195,13 @@ const Technique = () => {
   return (
     <>
       <div className={b()} data-testid='technique-id'>
+        <div className={b('logo')}>
+          <img src={logo} alt='logo' />
+        </div>
         <div className={b('card-block')}>
           <Card className={b('card-style')} bordered={false}>
             <div className={b('card-style-blocks')}>
-              <div>
+              <div className={b('card-technique')}>
                 <Title className={b('card-title')}>Количество техники</Title>
                 {fetchLoadingAccount ? (
                   <SkeletonBlock active={fetchLoadingAccount} num={1} titleBool />
@@ -198,7 +212,84 @@ const Technique = () => {
                   </div>
                 )}
               </div>
-              <div>
+              <div className={b('card-technique-block')}>
+                <div className='logo_mobile'>
+                  <img src={tractorNew} alt='group' />
+                </div>
+                <p>Кол-во техники</p>
+                {fetchLoadingAccount ? (
+                  <SkeletonBlock active={fetchLoadingAccount} num={1} titleBool />
+                ) : (
+                  <div className={b('card-content')}>
+                    <p>{userVehiclesPagination?.count}</p>
+                  </div>
+                )}
+              </div>
+              <div className={b('cloud_block_style')}>
+                <Card
+                  style={{
+                    ...cardStyle,
+                    width: 214,
+                    height: 94,
+                    borderRadius: 12,
+                  }}
+                  className={b('card-style-cloud')}
+                  bordered={false}
+                >
+                  <div className={b('card-style-cloud-blocks')}>
+                    <div>
+                      {fetchLoadingAccount ? (
+                        <Spin className={b('card-style-cloud-button')} />
+                      ) : account?.company?.meteo_requested ? (
+                        <div className={b('')}>
+                          <div className={b('cloudy_img_not')}>
+                            <img src={group} alt='cloudy' />
+                          </div>
+                          <p className='meteo-title_cloudy'>Все про погоду и почву</p>
+                          <p className='meteo-title'>Подключите метеосервис</p>
+                          <Button
+                            disabled
+                            type='primary'
+                            danger
+                            className={b('card-style-cloud-button_meteo')}
+                          >
+                            Запрос на рассмотрении
+                          </Button>
+                        </div>
+                      ) : account?.company?.weather_service ? (
+                        <>
+                          <div className={b('cloudy_img')}>
+                            <img src={group} alt='cloudy' />
+                          </div>
+                          <Button
+                            icon={<CheckOutlined />}
+                            disabled
+                            type='dashed'
+                            className={b('card-style-cloud-button')}
+                          >
+                            Метеостанция подключена
+                          </Button>
+                        </>
+                      ) : (
+                        <div className={b('')}>
+                          <div className={b('cloudy_img_not')}>
+                            <img src={group} alt='cloudy' />
+                          </div>
+                          <p className='meteo-title_cloudy'>Все про погоду и почву</p>
+                          <p className='meteo-title'>Подключите метеосервис</p>
+                          <Button
+                            className={b('card-style-cloud-button_meteo')}
+                            onClick={showFieldClimateModal}
+                          >
+                            Отправить запрос
+                          </Button>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </Card>
+              </div>
+              <div className={b('cloud_block')}>
                 <Card style={cardStyle} className={b('card-style-cloud')} bordered={false}>
                   <div className={b('card-style-cloud-blocks')}>
                     <div>
@@ -246,6 +337,40 @@ const Technique = () => {
                 </Card>
               </div>
             </div>
+            <div className={b('mobile_data')}>
+              <div className='tractor'>
+                <div>
+                  <img src={tractorIcons} alt='tractorNew' />
+                </div>
+                <div className='text_mobile_header'>
+                  Ваша техника <br />
+                  <b>{userVehiclesPagination?.count}</b>
+                </div>
+              </div>
+              <div className={b('btn_mobile')}>
+                <h3>Техника</h3>
+                <div>
+                  <Button onClick={showModal}>
+                    <div>
+                      <img src={tractorFons} alt='tractor' />
+                    </div>
+                    <p>
+                      Запрос на <br />
+                      добавление техники
+                    </p>
+                  </Button>
+                  <Button onClick={() => push(`/technique-map/${account?.company?.id}`)}>
+                    <div>
+                      <img src={geolocationIcon} alt='geolocationIcon' />
+                    </div>
+                    <p>
+                      Посмотреть всю <br />
+                      технику
+                    </p>
+                  </Button>
+                </div>
+              </div>
+            </div>
           </Card>
         </div>
         <div className={b('table')}>
@@ -254,7 +379,7 @@ const Technique = () => {
               Техника
             </Title>
 
-            <div>
+            <div className={b('btn_title')}>
               <Button type='primary' onClick={showModal} style={{ marginRight: 15 }}>
                 Запрос на добавление техники
               </Button>
@@ -265,20 +390,55 @@ const Technique = () => {
               </Link>
             </div>
           </div>
-
-          <TableComponent
-            loading={fetchUserVehiclesLoading}
-            columns={columns}
-            data={userVehicles}
-            rowKey={(record) => record.id as number}
-            params={
-              fetchUserVehiclesLoading
-                ? { previous: null, next: null, count: 0 }
-                : userVehiclesPagination
-            }
-            pagePrevHandler={pagePrevHandler}
-            pageNextHandler={pageNextHandler}
-          />
+          <div className={b('table')}>
+            <TableComponent
+              loading={fetchUserVehiclesLoading}
+              columns={columns}
+              data={userVehicles}
+              rowKey={(record) => record.id as number}
+              params={
+                fetchUserVehiclesLoading
+                  ? { previous: null, next: null, count: 0 }
+                  : userVehiclesPagination
+              }
+              pagePrevHandler={pagePrevHandler}
+              pageNextHandler={pageNextHandler}
+            />
+          </div>
+        </div>
+        <div className={b('table_mobile')}>
+          {userVehicles?.length ? (
+            userVehicles?.map((item) => {
+              return (
+                <div key={item.id}>
+                  <div className='table_img'>
+                    <div>
+                      <img src={urlFormat(item.image)} alt={item.image} />
+                    </div>
+                    <div className='text_table'>
+                      <p>
+                        <b>Название техники</b>
+                      </p>
+                      <p>{item.code}</p>
+                      <p>
+                        Задачи <b>{item.jobs_number}</b>
+                      </p>
+                    </div>
+                  </div>
+                  <div className={b('btn_click')}>
+                    <Button onClick={() => push(`/profile-technique/${item.id}`)}>
+                      <img src={tractorIcons} alt='tractor' />
+                    </Button>
+                    <Button onClick={() => push(`/open-map/${item.id}/local-tractor/`)}>
+                      <img src={map} alt='tractor' />
+                    </Button>
+                  </div>
+                </div>
+              );
+            })
+          ) : (
+            <Errors status={undefined} detail='Данные отсутствуют' />
+          )}
         </div>
       </div>
 

@@ -1,16 +1,16 @@
-import { Button, Card, Col, Divider, Form, message, Typography } from 'antd';
+import { Button, Card, Col, Divider, Drawer, Form, message, Typography } from 'antd';
 
 import bem from 'easy-bem';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { Link, useParams } from 'react-router-dom';
 
-import arrowLeft from 'assets/images/icons/arrow-left.svg';
 import arrowRight from 'assets/images/icons/arrow-right.svg';
+import deleteIcon from 'assets/images/icons/newIcon/warning.svg';
 import tractorBlue from 'assets/images/icons/tractor-blue.svg';
 import Errors from 'components/Errors/Errors';
 import FormField from 'components/FormField/FormField';
-import DeleteUserModal from 'components/ModalComponent/ModalChildrenComponents/DeleteModal/DeleteModal';
+import DeleteUserModal from 'components/ModalComponent/ModalChildrenComponents/DeleteUserModal/DeleteUserModal';
 import EditUserProfileModal from 'components/ModalComponent/ModalChildrenComponents/EditUserProfileModal/EditUserProfileModal';
 import GeneratedPasswordModal from 'components/ModalComponent/ModalChildrenComponents/GeneratedPasswordModal/GeneratedPasswordModal';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
@@ -28,7 +28,8 @@ import {
 } from 'redux/companies/companiesSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { buttonsMenu } from 'utils/constants';
-import { getErrorMessage, inputChangeFormHandler } from 'utils/helper';
+import { capitalizeFirstLetter, getErrorMessage, inputChangeFormHandler } from 'utils/helper';
+
 import 'containers/Manager/Users/UserProfile/_UserProfile.scss';
 
 const { Title } = Typography;
@@ -53,6 +54,7 @@ const UserProfile: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
   const [isModalPasswordOpen, setIsModalPasswordOpen] = useState(false);
+  const [openDrawerDelete, setOpenDraweDelete] = useState(false);
   const [userInfoData, setUserInfoData] = useState<IAccount>({
     coords_timeout: 0,
     email: '',
@@ -104,7 +106,11 @@ const UserProfile: React.FC = () => {
   }, [userInfoByManager, dispatch]);
 
   const showDeleteModal = () => {
-    setIsModalDeleteOpen(true);
+    if (windowWidth < 500) {
+      setOpenDraweDelete(true);
+    } else {
+      setIsModalDeleteOpen(true);
+    }
   };
 
   const handleDeleteOkCancel = () => {
@@ -170,6 +176,7 @@ const UserProfile: React.FC = () => {
   const formItem = (
     <Form
       form={form}
+      className={b('form_block_2')}
       initialValues={{ userInfoData }}
       onFinish={onFinish}
       autoComplete='off'
@@ -185,56 +192,52 @@ const UserProfile: React.FC = () => {
           name='username'
           placeholder='Username'
         />
-        <div className={b('form-block')}>
-          <FormField
-            readOnly
-            data-testid='last_name_id'
-            id='last_name_id'
-            label='Фамилия'
-            name='last_name'
-            placeholder='Фамилия'
-            inputClassName={b('username-info')}
-          />
-          <FormField
-            readOnly
-            data-testid='first_name_id'
-            id='first_name_id'
-            label='Имя'
-            name='first_name'
-            placeholder='Имя'
-            inputClassName={b('username-info')}
-          />
-          <FormField
-            readOnly
-            data-testid='middle_name_id'
-            id='middle_name_id'
-            label='Отчество'
-            name='middle_name'
-            placeholder='Отчество'
-            inputClassName={b('username-info')}
-          />
-        </div>
-        <div className={b('form-block')}>
-          <FormField
-            readOnly
-            data-testid='email_id_login'
-            type='email'
-            id='email_id'
-            label='Email'
-            name='email'
-            placeholder='Email'
-            inputClassName={b('username-info')}
-          />
+        <FormField
+          readOnly
+          data-testid='last_name_id'
+          id='last_name_id'
+          label='Фамилия'
+          name='last_name'
+          placeholder='Фамилия'
+          inputClassName={b('username-info')}
+        />
+        <FormField
+          readOnly
+          data-testid='first_name_id'
+          id='first_name_id'
+          label='Имя'
+          name='first_name'
+          placeholder='Имя'
+          inputClassName={b('username-info')}
+        />
+        <FormField
+          readOnly
+          data-testid='middle_name_id'
+          id='middle_name_id'
+          label='Отчество'
+          name='middle_name'
+          placeholder='Отчество'
+          inputClassName={b('username-info')}
+        />
+        <FormField
+          readOnly
+          data-testid='email_id_login'
+          type='email'
+          id='email_id'
+          label='Email'
+          name='email'
+          placeholder='Email'
+          inputClassName={b('username-info')}
+        />
 
-          <FormField
-            readOnly
-            type='phone'
-            name='phone'
-            label='Номер телефона'
-            placeholder='Номер телефона'
-            inputClassName={b('username-info')}
-          />
-        </div>
+        <FormField
+          readOnly
+          type='phone'
+          name='phone'
+          label='Номер телефона'
+          placeholder='Номер телефона'
+          inputClassName={b('username-info')}
+        />
         <FormField
           readOnly
           data-testid='name_id'
@@ -340,7 +343,9 @@ const UserProfile: React.FC = () => {
                           {button?.text}
                         </Title>
                       </div>
-                      {windowWidth <= 601 ? <img src={arrowRight} alt='arrowRight' /> : null}
+                      {windowWidth <= 601 ? (
+                        <img src={arrowRight} alt='arrowRight' className={b('right_float')} />
+                      ) : null}
                     </>
                   ) : (
                     <Link
@@ -361,7 +366,9 @@ const UserProfile: React.FC = () => {
                           {button?.text}
                         </Title>
                       </div>
-                      {windowWidth <= 601 ? <img src={arrowRight} alt='arrowRight' /> : null}
+                      {windowWidth <= 601 ? (
+                        <img src={arrowRight} alt='arrowRight' className={b('right_float')} />
+                      ) : null}
                     </Link>
                   )}
                 </Card>
@@ -382,29 +389,107 @@ const UserProfile: React.FC = () => {
             ) : (
               <>
                 <div className={b('header-title')}>
-                  <Link to='/'>
-                    <img className={b('arrow-left')} src={arrowLeft} alt='arrow' />
-                  </Link>
                   <Title level={3} data-testid='sign_in_test' className='title'>
-                    {userInfoByManager?.last_name} {userInfoByManager?.first_name?.charAt(0)}.{' '}
+                    {capitalizeFirstLetter(userInfoByManager?.last_name)}{' '}
+                    {userInfoByManager?.first_name?.charAt(0)?.toUpperCase()}.{' '}
                     {userInfoByManager?.middle_name === ''
                       ? null
-                      : `${userInfoByManager?.middle_name.charAt(0)}.`}
+                      : `${userInfoByManager?.middle_name.charAt(0)?.toUpperCase()}.`}
                   </Title>
                 </div>
 
                 <Link to={`/user-technique/${id}/${userInfoByManager?.company?.id}`}>
-                  <Card className={b('user-card-style')} bordered={false} style={{ width: '100%' }}>
-                    <img src={tractorBlue} alt='tractorBlue' />
+                  <div className={b('user-card-style')} style={{ width: '100%' }}>
+                    <img src={tractorBlue} alt='tractorBlue' className={b('icons_tractor')} />
                     <div className={b('card-content')}>
-                      <Title level={4} style={{ margin: 5 }} data-testid='sign_in_test'>
-                        Техника пользователя
-                      </Title>
+                      <div data-testid='sign_in_test' className={b('user-card-style-title')}>
+                        <p className='user-card-style-1'>Техника пользователя</p>
+                        <p className='user-card-style-2'>Добавить или удалить технику</p>
+                      </div>
                     </div>
-                  </Card>
+                  </div>
                 </Link>
-
-                {formItem}
+                <div className={b('form_info')}>
+                  <div className='info_data'>
+                    <p className='title_info'>Username</p>
+                    <p className='text_info'>{userInfoData?.username}</p>
+                  </div>
+                  <div className={b('flex_info')}>
+                    <div className='info_data'>
+                      <p className='title_info'>Фамилия</p>
+                      <p className='text_info'>{capitalizeFirstLetter(userInfoData?.last_name)}</p>
+                    </div>
+                    <div className='info_data'>
+                      <p className='title_info'>Имя</p>
+                      <p className='text_info'>{capitalizeFirstLetter(userInfoData?.first_name)}</p>
+                    </div>
+                    <div className='info_data'>
+                      <p className='title_info'>Отчество</p>
+                      <p className='text_info'>
+                        {capitalizeFirstLetter(userInfoData?.middle_name)}
+                      </p>
+                    </div>
+                  </div>
+                  <div className={b('flex_info')}>
+                    <div className='info_data'>
+                      <p className='title_info'>Email</p>
+                      <p className='text_info'>{userInfoData?.email}</p>
+                    </div>
+                    <div className='info_data'>
+                      <p className='title_info'>Номер телефона</p>
+                      <p className='text_info'>{userInfoData?.phone}</p>
+                    </div>
+                  </div>
+                  <div className='info_data'>
+                    <p className='title_info'>Название колхоза/фермы/компании</p>
+                    <p className='text_info'>
+                      {capitalizeFirstLetter(userInfoData?.company?.name)}
+                    </p>
+                  </div>
+                  <div className='info_data'>
+                    <p className='title_info'>Регион расположения</p>
+                    <p className='text_info'>
+                      {capitalizeFirstLetter(userInfoData?.company?.location)}
+                    </p>
+                  </div>
+                  <div className='info_data'>
+                    <p className='title_info'>Количество оплаченных блоков автопилота</p>
+                    <p className='text_info'>{userInfoData?.company?.autopilots_amount}</p>
+                  </div>
+                </div>
+                <div
+                  style={{
+                    marginTop: 30,
+                  }}
+                >
+                  <Button
+                    type='text'
+                    className={b('password-button')}
+                    onClick={generatePassword}
+                    loading={generatePasswordLoading}
+                  >
+                    Сгенерировать пароль
+                  </Button>
+                  <Divider />
+                  <div className={b('profile-buttons')}>
+                    <Button
+                      type='primary'
+                      style={{ width: '100%', borderRadius: 4 }}
+                      className={b('delete-profile-button')}
+                      onClick={showDeleteModal}
+                    >
+                      Удалить
+                    </Button>
+                    <Button
+                      type='primary'
+                      style={{ width: '100%', borderRadius: 4 }}
+                      className={b('edit-profile-button')}
+                      onClick={showModal}
+                    >
+                      Редактировать
+                    </Button>
+                  </div>
+                </div>
               </>
             )}
           </Col>
@@ -414,8 +499,10 @@ const UserProfile: React.FC = () => {
       <ModalComponent
         title='Редактирование профиля пользователя'
         open={isModalOpen}
+        width={572}
         handleOk={handleOkCancel}
         handleCancel={handleOkCancel}
+        className={b('fons_none')}
       >
         <EditUserProfileModal
           updateUserData={updateUserData}
@@ -436,8 +523,11 @@ const UserProfile: React.FC = () => {
         handleCancel={handleDeleteOkCancel}
       >
         <DeleteUserModal
-          title='Удалить профиль?'
-          text='Вы уверены, что хотите удалить пользователя?'
+          fullName={`${capitalizeFirstLetter(
+            userInfoByManager?.last_name,
+          )} ${userInfoByManager?.first_name
+            ?.charAt(0)
+            ?.toUpperCase()}.${userInfoByManager?.middle_name.charAt(0)?.toUpperCase()}`}
           handleDeleteCancel={handleDeleteOkCancel}
           deleteUserHandler={deleteUserHandler}
           loading={deleteUserInfoLoading}
@@ -458,6 +548,38 @@ const UserProfile: React.FC = () => {
           onClose={closePasswordModal}
         />
       </ModalComponent>
+      <Drawer
+        height={320}
+        placement='bottom'
+        closable={false}
+        onClose={() => setOpenDraweDelete(false)}
+        open={openDrawerDelete}
+      >
+        <div className={b('delete_mobile')}>
+          <img className={b('delete-image')} src={deleteIcon} alt='deleteIcon' />
+          <p className='title_delete'>Удалить профиль?</p>
+          <p className='text_delete'>
+            Вы уверены, что хотите удалить <br />{' '}
+            <b>{`${capitalizeFirstLetter(
+              userInfoByManager?.last_name,
+            )} ${userInfoByManager?.first_name
+              ?.charAt(0)
+              ?.toUpperCase()}.${userInfoByManager?.middle_name.charAt(0)?.toUpperCase()}`}</b>
+          </p>
+          <Button
+            className='delete'
+            onClick={() => {
+              deleteUserHandler();
+              setOpenDraweDelete(false);
+            }}
+          >
+            Удалить
+          </Button>
+          <Button className='cancel' onClick={() => setOpenDraweDelete(false)}>
+            Отменить
+          </Button>
+        </div>
+      </Drawer>
     </>
   );
 };

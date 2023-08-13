@@ -1,0 +1,35 @@
+.HeaderMobile {
+  display: none;
+  background-color: #ffffff;
+  height: 52px;
+  border-bottom: 1px solid #EBF3FF;
+  width: 100%;
+  > span {
+    display: block;
+    text-align: center;
+    font-weight: 500;
+    margin-top: -20px;
+  }
+
+  > button {
+    background-color: transparent;
+    border: none;
+    display: block;
+    padding-top: 18px;
+    padding-left: 10px;
+  }
+}
+
+
+@media screen and (max-width: 990px) {
+  .HeaderMobile {
+    display: block;
+  }
+
+  .btn_block {
+    display: none;
+  }
+  .header_none {
+    display: none;
+  }
+}

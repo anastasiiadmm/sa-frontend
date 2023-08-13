@@ -108,7 +108,7 @@
 
   .checkbox-styles {
     > div {
-      background-color: transparent;
+      background-color: transparent !important;
       padding: 0 !important;
     }
   }
@@ -131,6 +131,20 @@
   }
   .input-styles:hover {
     border-color: transparent !important;
+  }
+
+  .ant-form-vertical .ant-form-item-row {
+    background: #F6F6F6;
+    border-radius: 8px;
+    margin-top: 24px;
+  }
+
+  .ant-input {
+    background-color: transparent !important;
+    border-color: transparent !important;
+  }
+  :where(.css-dev-only-do-not-override-1ffqmss).ant-input-lg {
+    padding: 7px 0;
   }
 
   .ant-input-affix-wrapper {

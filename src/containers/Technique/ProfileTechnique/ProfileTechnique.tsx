@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router';
 import { Link, useParams } from 'react-router-dom';
 
 import arrowLeft from 'assets/images/icons/arrow-left.svg';
-import planet from 'assets/images/icons/planet.svg';
+import planet from 'assets/images/icons/newIcon/mapFons.svg';
 import tractorBlue from 'assets/images/icons/tractor-blue.svg';
 import Errors from 'components/Errors/Errors';
 import FormField from 'components/FormField/FormField';
@@ -150,7 +150,7 @@ const ProfileTechnique = () => {
                 to={`/open-map/${vehicleId}/${record.id}/${userVehicleInfo?.vehicle?.code}`}
               >
                 <Button type='text'>
-                  <img src={planet} alt='Просмотреть на карте' width={20} />
+                  <img src={planet} alt='Просмотреть на карте' width={40} />
                 </Button>
               </Link>
             </Tooltip>
@@ -217,13 +217,22 @@ const ProfileTechnique = () => {
         </div>
         {!userVehicleInfoLoading ? (
           <div className={b('technique-profile-info')}>
-            <Image
-              preview={false}
-              className={b('technique-image')}
-              src={urlFormat(userVehicleInfo?.vehicle.image)}
-              width={242}
-              style={{ borderRadius: 4 }}
-            />
+            <div className={b('images_tractor')}>
+              <Image
+                preview={false}
+                className={b('technique-image')}
+                src={urlFormat(userVehicleInfo?.vehicle.image)}
+                width={242}
+                style={{ borderRadius: 4 }}
+              />
+              <Button
+                onClick={() =>
+                  history(`/open-map/${vehicleId}/local-tractor/${userVehicleInfo?.vehicle?.code}`)
+                }
+              >
+                Техника на карте
+              </Button>
+            </div>
             <div className={b('profile-info')}>
               <Form form={form} initialValues={{ ...userVehicleInfo?.vehicle }} layout='vertical'>
                 <Title level={5} className={b('profile-title')}>
@@ -303,7 +312,55 @@ const ProfileTechnique = () => {
         <TableComponent
           rowKey={(record) => record.id as number}
           loading={userVehicleInfoLoading}
-          columns={columns}
+          columns={
+            // eslint-disable-next-line no-restricted-globals
+            innerWidth > 580
+              ? columns
+              : [
+                  {
+                    key: 'processing_data',
+                    title: 'Задача на обработку',
+                    dataIndex: 'readable_id',
+                    width: '20%',
+                  },
+                  {
+                    key: 'description',
+                    title: 'Инструмент',
+                    dataIndex: 'description',
+                    filterSearch: true,
+                    width: '20%',
+                    render: (text: string, record: { tool: string }) => {
+                      return <p className={b('name-column-style')}>{record?.tool}</p>;
+                    },
+                  },
+                  {
+                    dataIndex: 'profile',
+                    filterSearch: true,
+                    width: '18%',
+                    render: (_: string, record: Result) => {
+                      return (
+                        <div style={{ display: 'flex', gap: 37, justifyContent: 'right' }}>
+                          <Tooltip
+                            title='Просмотреть на карте'
+                            color='#BBBBBB'
+                            overlayInnerStyle={{ padding: '5px 15px', borderRadius: 15 }}
+                            placement='topRight'
+                          >
+                            <Link
+                              className={b('profile-link')}
+                              to={`/open-map/${vehicleId}/${record.id}/${userVehicleInfo?.vehicle?.code}`}
+                            >
+                              <Button type='text'>
+                                <img src={planet} alt='Просмотреть на карте' width={40} />
+                              </Button>
+                            </Link>
+                          </Tooltip>
+                        </div>
+                      );
+                    },
+                  },
+                ]
+          }
           data={fields}
           disabledButton
           pagePrevHandler={pagePrevHandler}
