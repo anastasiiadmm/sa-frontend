@@ -100,6 +100,12 @@
     left: 43%;
   }
 
+  &__drawer-block {
+    display: flex;
+    padding: 25px;
+    justify-content: space-evenly;
+  }
+
   @include mixins.bp(desktop) {
     &__mobile-block {
       justify-content: space-evenly;
@@ -166,6 +172,10 @@
 .phone-icon {
   vertical-align: 0.6em !important;
   background: url('../../assets/images/icons/phone.svg') no-repeat;
+}
+
+.converter-icon {
+  background: url('../../assets/images/icons/converter.svg') no-repeat;
 }
 
 :where(.css-dev-only-do-not-override-sk7ap8).ant-layout .ant-layout-header {

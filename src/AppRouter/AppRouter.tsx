@@ -8,8 +8,12 @@ import { Routes } from 'react-router-dom';
 import arrowLeft from 'assets/images/icons/arrow_left.svg';
 import NotFound from 'components/Errors/NotFound/NotFound';
 import FieldClimateSideBar from 'components/FieldClimateSideBar/FieldClimateSideBar';
+import MenuMobileComponent from 'components/MenuMobileComponent/MenuMobileComponent';
 import OpenMapComponent from 'components/OpenMapComponent/OpenMapComponent';
 import SliderMenu from 'components/SliderMenu/SliderMenu';
+import Converter from 'containers/Converter/Converter';
+import ConverterList from 'containers/Converter/ConverterList/ConverterList';
+import Files from 'containers/Converter/Files/Files';
 import FieldClimateConfigurations from 'containers/FieldClimate/FieldClimateConfigurations/FieldClimateConfigurations';
 import FieldClimateDashboard from 'containers/FieldClimate/FieldClimateDashboard';
 import FieldClimateStation from 'containers/FieldClimate/FieldClimateStation/FieldClimateStation';
@@ -30,8 +34,7 @@ import useWindowWidth from 'hooks/useWindowWidth';
 import { accountsSelector } from 'redux/accounts/accountsSlice';
 import { authSelector } from 'redux/auth/authSlice';
 import { useAppSelector } from 'redux/hooks';
-import { routesTitles } from 'utils/constants';
-import { buttonsDataManager } from 'utils/helper';
+import { buttonsDataManager, buttonsDataUser, routesTitles } from 'utils/constants';
 
 import 'AppRouter/appRouter.scss';
 
@@ -90,13 +93,28 @@ const AppRouter: React.FC = () => {
           </div>
         </div>
       ) : (
-        buttonsDataManager.map((button) =>
-          pathname === button?.key && tokens?.is_manager ? (
-            <Title level={4} key={button.key} className={b('title-mobile')}>
-              {button.text}
+        <>
+          {pathname === '/menu-mobile' && (
+            <Title level={4} className={b('title-mobile')}>
+              Меню
             </Title>
-          ) : null,
-        )
+          )}
+          {tokens?.is_manager
+            ? buttonsDataManager.map((button) =>
+                pathname === button?.key ? (
+                  <Title level={4} key={button.key} className={b('title-mobile')}>
+                    {button.text}
+                  </Title>
+                ) : null,
+              )
+            : buttonsDataUser.map((button) =>
+                pathname === button?.key ? (
+                  <Title level={4} key={button.key} className={b('title-mobile')}>
+                    {button.text}
+                  </Title>
+                ) : null,
+              )}
+        </>
       )
     ) : (
       <>
@@ -132,7 +150,7 @@ const AppRouter: React.FC = () => {
               pathname.includes('/technique-map')
                 ? 0
                 : windowWidth <= 990
-                ? '0 0 71px 0'
+                ? '0 0 5px 0'
                 : '24px 16px',
             padding: 24,
             minHeight: 280,
@@ -169,9 +187,13 @@ const AppRouter: React.FC = () => {
                   ) : null}
                 </>
               )}
+              <Route path='/menu-mobile' element={<MenuMobileComponent />} />
               <Route path='/open-map/:id/:field_name/:code?' element={<OpenMapComponent />} />
               <Route path='/technique-map/:techniqueId' element={<TechniqueMap />} />
               <Route path='/profile-technique/:vehicleId' element={<ProfileTechnique />} />
+              <Route path='/converter' element={<Converter />} />
+              <Route path='/files' element={<Files />} />
+              <Route path='/converter-list' element={<ConverterList />} />
               <Route
                 path='*'
                 element={

@@ -135,6 +135,14 @@ button:disabled {
   }
 }
 
+.button-style {
+  background: themes.$light-gray-color;
+  color: themes.$primary-color;
+  border: none;
+  width: 100%;
+  box-shadow: 0 0 0 0 rgba(55, 81, 13, 0.19);
+}
+
 .blue-row {
   background-color: themes.$light-blue-bg;
 }

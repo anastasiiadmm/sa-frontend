@@ -21,8 +21,7 @@ exports[`<Technique /> Users table component should be in the document 1`] = `
     className="Technique__card-block"
   >
     <div
-      className="ant-card Technique__card-style css-dev-only-do-not-override-fpg3f5"
-      style={{}}
+      className="ant-card Technique__card-style css-dev-only-do-not-override-15rg2km"
     >
       <div
         className="ant-card-body"
@@ -35,7 +34,7 @@ exports[`<Technique /> Users table component should be in the document 1`] = `
             className="Technique__card-technique"
           >
             <h1
-              className="ant-typography Technique__card-title css-dev-only-do-not-override-fpg3f5"
+              className="ant-typography Technique__card-title css-dev-only-do-not-override-15rg2km"
               style={
                 {
                   "WebkitLineClamp": undefined,
@@ -86,7 +85,7 @@ exports[`<Technique /> Users table component should be in the document 1`] = `
             className="Technique__cloud_block_style"
           >
             <div
-              className="ant-card Technique__card-style-cloud css-dev-only-do-not-override-fpg3f5"
+              className="ant-card Technique__card-style-cloud css-dev-only-do-not-override-15rg2km"
               style={
                 {
                   "borderRadius": 12,
@@ -129,10 +128,9 @@ exports[`<Technique /> Users table component should be in the document 1`] = `
                         Подключите метеосервис
                       </p>
                       <button
-                        className="ant-btn css-dev-only-do-not-override-fpg3f5 ant-btn-default Technique__card-style-cloud-button_meteo"
+                        className="ant-btn css-dev-only-do-not-override-15rg2km ant-btn-default Technique__card-style-cloud-button_meteo"
                         disabled={false}
                         onClick={[Function]}
-                        style={{}}
                         type="button"
                       >
                         <span>
@@ -149,7 +147,7 @@ exports[`<Technique /> Users table component should be in the document 1`] = `
             className="Technique__cloud_block"
           >
             <div
-              className="ant-card Technique__card-style-cloud css-dev-only-do-not-override-fpg3f5"
+              className="ant-card Technique__card-style-cloud css-dev-only-do-not-override-15rg2km"
               style={
                 {
                   "width": 300,
@@ -175,7 +173,7 @@ exports[`<Technique /> Users table component should be in the document 1`] = `
                   </div>
                   <div>
                     <h1
-                      className="ant-typography Technique__card-title meteo-h1 css-dev-only-do-not-override-fpg3f5"
+                      className="ant-typography Technique__card-title meteo-h1 css-dev-only-do-not-override-15rg2km"
                       style={
                         {
                           "WebkitLineClamp": undefined,
@@ -190,10 +188,9 @@ exports[`<Technique /> Users table component should be in the document 1`] = `
                       Все про погоду и почву
                     </p>
                     <button
-                      className="ant-btn css-dev-only-do-not-override-fpg3f5 ant-btn-default Technique__card-style-cloud-button"
+                      className="ant-btn css-dev-only-do-not-override-15rg2km ant-btn-default Technique__card-style-cloud-button"
                       disabled={false}
                       onClick={[Function]}
-                      style={{}}
                       type="button"
                     >
                       <span>
@@ -238,10 +235,9 @@ exports[`<Technique /> Users table component should be in the document 1`] = `
             </h3>
             <div>
               <button
-                className="ant-btn css-dev-only-do-not-override-fpg3f5 ant-btn-default"
+                className="ant-btn css-dev-only-do-not-override-15rg2km ant-btn-default"
                 disabled={false}
                 onClick={[Function]}
-                style={{}}
                 type="button"
               >
                 <div>
@@ -261,10 +257,9 @@ exports[`<Technique /> Users table component should be in the document 1`] = `
                 </p>
               </button>
               <button
-                className="ant-btn css-dev-only-do-not-override-fpg3f5 ant-btn-default"
+                className="ant-btn css-dev-only-do-not-override-15rg2km ant-btn-default"
                 disabled={false}
                 onClick={[Function]}
-                style={{}}
                 type="button"
               >
                 <div>
@@ -296,7 +291,7 @@ exports[`<Technique /> Users table component should be in the document 1`] = `
       className="Technique__title"
     >
       <h3
-        className="ant-typography Technique__title css-dev-only-do-not-override-fpg3f5"
+        className="ant-typography Technique__title css-dev-only-do-not-override-15rg2km"
         data-testid="sign_in_test"
         style={
           {
@@ -310,7 +305,7 @@ exports[`<Technique /> Users table component should be in the document 1`] = `
         className="Technique__btn_title"
       >
         <button
-          className="ant-btn css-dev-only-do-not-override-fpg3f5 ant-btn-primary"
+          className="ant-btn css-dev-only-do-not-override-15rg2km ant-btn-primary"
           disabled={false}
           onClick={[Function]}
           style={
@@ -329,10 +324,9 @@ exports[`<Technique /> Users table component should be in the document 1`] = `
           onClick={[Function]}
         >
           <button
-            className="ant-btn css-dev-only-do-not-override-fpg3f5 ant-btn-default Technique__view-button"
+            className="ant-btn css-dev-only-do-not-override-15rg2km ant-btn-default Technique__view-button"
             disabled={false}
             onClick={[Function]}
-            style={{}}
             type="button"
           >
             <span>
@@ -346,11 +340,10 @@ exports[`<Technique /> Users table component should be in the document 1`] = `
       className="Technique__table"
     >
       <div
-        className="ant-table-wrapper css-dev-only-do-not-override-fpg3f5"
-        style={{}}
+        className="ant-table-wrapper css-dev-only-do-not-override-15rg2km"
       >
         <div
-          className="ant-spin-nested-loading css-dev-only-do-not-override-fpg3f5"
+          className="ant-spin-nested-loading css-dev-only-do-not-override-15rg2km"
         >
           <div
             className="ant-spin-container"
@@ -639,14 +632,11 @@ exports[`<Technique /> Users table component should be in the document 1`] = `
                               onClick={[Function]}
                               onMouseEnter={[Function]}
                               onMouseLeave={[Function]}
-                              onPointerEnter={[Function]}
-                              onPointerLeave={[Function]}
                             >
                               <button
-                                className="ant-btn css-dev-only-do-not-override-fpg3f5 ant-btn-text"
+                                className="ant-btn css-dev-only-do-not-override-15rg2km ant-btn-text"
                                 disabled={false}
                                 onClick={[Function]}
-                                style={{}}
                                 type="button"
                               >
                                 <span
@@ -681,11 +671,9 @@ exports[`<Technique /> Users table component should be in the document 1`] = `
                               onClick={[Function]}
                               onMouseEnter={[Function]}
                               onMouseLeave={[Function]}
-                              onPointerEnter={[Function]}
-                              onPointerLeave={[Function]}
                             >
                               <button
-                                className="ant-btn css-dev-only-do-not-override-fpg3f5 ant-btn-text"
+                                className="ant-btn css-dev-only-do-not-override-15rg2km ant-btn-text"
                                 disabled={false}
                                 onClick={[Function]}
                                 style={
@@ -735,15 +723,13 @@ exports[`<Technique /> Users table component should be in the document 1`] = `
               className="next_table"
             >
               <button
-                className="ant-btn css-dev-only-do-not-override-fpg3f5 ant-btn-default ant-btn-icon-only pagination_buttons pagination_buttons-prev"
+                className="ant-btn css-dev-only-do-not-override-15rg2km ant-btn-default ant-btn-icon-only pagination_buttons pagination_buttons-prev"
                 disabled={true}
                 onClick={[Function]}
-                style={{}}
                 type="button"
               >
                 <span
                   className="ant-btn-icon"
-                  style={{}}
                 >
                   <img
                     alt="backIcons"
@@ -756,16 +742,14 @@ exports[`<Technique /> Users table component should be in the document 1`] = `
                 </span>
               </button>
               <button
-                className="ant-btn css-dev-only-do-not-override-fpg3f5 ant-btn-default ant-btn-icon-only pagination_buttons pagination_buttons-next"
+                className="ant-btn css-dev-only-do-not-override-15rg2km ant-btn-default ant-btn-icon-only pagination_buttons pagination_buttons-next"
                 disabled={true}
                 onClick={[Function]}
                 role="button"
-                style={{}}
                 type="button"
               >
                 <span
                   className="ant-btn-icon"
-                  style={{}}
                 >
                   <img
                     alt="nextIcons"
@@ -819,10 +803,9 @@ exports[`<Technique /> Users table component should be in the document 1`] = `
         className="Technique__btn_click"
       >
         <button
-          className="ant-btn css-dev-only-do-not-override-fpg3f5 ant-btn-default"
+          className="ant-btn css-dev-only-do-not-override-15rg2km ant-btn-default"
           disabled={false}
           onClick={[Function]}
-          style={{}}
           type="button"
         >
           <img
@@ -835,10 +818,9 @@ exports[`<Technique /> Users table component should be in the document 1`] = `
           />
         </button>
         <button
-          className="ant-btn css-dev-only-do-not-override-fpg3f5 ant-btn-default"
+          className="ant-btn css-dev-only-do-not-override-15rg2km ant-btn-default"
           disabled={false}
           onClick={[Function]}
-          style={{}}
           type="button"
         >
           <img
