@@ -1,4 +1,4 @@
-import { Button, message, Skeleton, Tooltip, Typography } from 'antd';
+import { Button, Drawer, message, Skeleton, Tooltip, Typography } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import bem from 'easy-bem';
 import React, { useEffect, useState } from 'react';
@@ -8,11 +8,13 @@ import { Link, useParams } from 'react-router-dom';
 import arrowLeft from 'assets/images/icons/arrow-left.svg';
 import mapProfileIcon from 'assets/images/icons/mapProfile.svg';
 import deleteIcon from 'assets/images/icons/newIcon/delete.svg';
+import deleteIconDrawer from 'assets/images/icons/newIcon/deleteIcons.svg';
 import edit from 'assets/images/icons/newIcon/edit.svg';
 import mapIcon from 'assets/images/icons/newIcon/map.svg';
 import tractorBlue from 'assets/images/icons/newIcon/tractor.svg';
 import successIcon from 'assets/images/icons/success.svg';
 import tractor from 'assets/images/icons/tractor-image.svg';
+
 import tractorProfileIcon from 'assets/images/icons/tratorProfile.svg';
 import Errors from 'components/Errors/Errors';
 import HeaderMobile from 'components/HeaderMobile/HeaderMobile';
@@ -36,6 +38,7 @@ import { apiUrlCrop } from 'utils/config';
 import { urlFormat } from 'utils/files/files';
 
 import { getErrorMessage, getPageNumber, getPageNumberPrevious } from 'utils/helper';
+
 import 'containers/Manager/Users/UserTechnique/_userTechnique.scss';
 
 const { Title, Text } = Typography;
@@ -61,6 +64,8 @@ const UserTechnique: React.FC = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteEditModalOpen] = useState(false);
   const [vehicleId, setVehicleId] = useState<string | null>(null);
+  const [mobileEditOpen, setMobileEditOpen] = useState(false);
+  const [mobileDeleteOpen, setMobileDeleteOpen] = useState(false);
   const push = useNavigate();
   const [filters, setFilters] = useState({
     page: vehicleListPagination?.next
@@ -116,11 +121,19 @@ const UserTechnique: React.FC = () => {
   };
 
   const handleEditOkCancel = () => {
-    setIsEditModalOpen(!isEditModalOpen);
+    if (windowWidth < 990) {
+      setMobileEditOpen(false);
+    } else {
+      setIsEditModalOpen(!isEditModalOpen);
+    }
   };
 
   const showDeleteModal = () => {
-    setIsDeleteEditModalOpen(true);
+    if (windowWidth < 620) {
+      setMobileDeleteOpen(true);
+    } else {
+      setIsDeleteEditModalOpen(true);
+    }
   };
 
   const handleDeleteOkCancel = () => {
@@ -138,7 +151,11 @@ const UserTechnique: React.FC = () => {
   const deleteTechniqueHandler = async () => {
     try {
       await dispatch(deleteUserVehicle(vehicleId)).unwrap();
-      await handleDeleteOkCancel();
+      if (windowWidth < 620) {
+        await setMobileDeleteOpen(false);
+      } else {
+        await handleDeleteOkCancel();
+      }
     } catch (e) {
       const errorMessage = getErrorMessage(e as ErrorObject, 'username');
       await message.error(`${errorMessage}`);
@@ -159,9 +176,13 @@ const UserTechnique: React.FC = () => {
   };
 
   const editHandler = (id: string) => {
-    showEditModal();
     setVehicleId(id);
     dispatch(fetchUserVehicleInfo(id));
+    if (windowWidth < 990) {
+      setMobileEditOpen(true);
+    } else {
+      showEditModal();
+    }
   };
 
   const overlayInnerStyle = { padding: '5px 15px', borderRadius: 15 };
@@ -301,6 +322,7 @@ const UserTechnique: React.FC = () => {
       );
     });
   };
+  const findVehicle = vehicleList.find((item) => item.id === Number(vehicleId));
 
   return (
     <>
@@ -433,7 +455,7 @@ const UserTechnique: React.FC = () => {
         <RequestModal
           title='Удалить?'
           textCancel='Удалить'
-          subTitle='Вы уверены, что хотите удалить'
+          subTitle={`Вы уверены, что хотите удалить ${findVehicle?.description}`}
           loading={deleteUserVehicleLoading}
           handleDeleteCancel={handleDeleteOkCancel}
           requestHandler={deleteTechniqueHandler}
@@ -454,6 +476,69 @@ const UserTechnique: React.FC = () => {
           Хорошо
         </Button>
       </ModalComponent>
+      <Drawer
+        open={mobileEditOpen}
+        width='100%'
+        title={
+          <p
+            style={{
+              textAlign: 'center',
+              padding: 0,
+              margin: 0,
+              fontWeight: 500,
+            }}
+          >
+            Редактировать технику
+          </p>
+        }
+        onClose={() => setMobileEditOpen(false)}
+      >
+        <AddUpdateTechnique
+          isEdit
+          userId={id}
+          mobileBtn
+          onCancel={() => setMobileEditOpen(false)}
+          vehicleId={vehicleId}
+          titleBool={false}
+          handleEditOkCancel={handleEditOkCancel}
+        />
+      </Drawer>
+      <Drawer
+        open={mobileDeleteOpen}
+        onClose={() => setMobileDeleteOpen(false)}
+        placement='bottom'
+        closable={false}
+        height={290}
+      >
+        <div className={b('delete_mobile')}>
+          <div>
+            <img src={deleteIconDrawer} alt='deleteIconDrawer' />
+          </div>
+          <h4>Удалить?</h4>
+          <p>
+            Вы уверены, что хотите удалить <b>{findVehicle?.description}</b>
+          </p>
+          <Button
+            loading={deleteUserVehicleLoading}
+            onClick={deleteTechniqueHandler}
+            style={{
+              backgroundColor: '#B80B0B',
+              color: '#ffffff',
+            }}
+          >
+            Удалить
+          </Button>
+          <Button
+            onClick={() => setMobileDeleteOpen(false)}
+            style={{
+              backgroundColor: '#F8F8F8',
+              color: '#689F3A',
+            }}
+          >
+            Отмена
+          </Button>
+        </div>
+      </Drawer>
     </>
   );
 };

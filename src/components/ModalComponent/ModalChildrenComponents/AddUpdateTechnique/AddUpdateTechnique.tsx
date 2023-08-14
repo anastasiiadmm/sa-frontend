@@ -29,6 +29,8 @@ interface Props {
   isRequest?: boolean;
   handleEditOkCancel?: () => void;
   titleBool?: boolean;
+  mobileBtn?: boolean;
+  onCancel?: () => void;
 }
 
 const AddUpdateTechnique: React.FC<Props> = ({
@@ -37,6 +39,8 @@ const AddUpdateTechnique: React.FC<Props> = ({
   vehicleId,
   handleEditOkCancel,
   titleBool = true,
+  mobileBtn,
+  onCancel,
 }) => {
   const b = bem('AddUpdateTechnique');
   const dispatch = useAppDispatch();
@@ -178,6 +182,9 @@ const AddUpdateTechnique: React.FC<Props> = ({
     return <SkeletonBlock active num={1} titleBool />;
   }
 
+  const loading =
+    vehicleCreateLoading || patchUserVehicleInfoLoading || vehicleCreateRequestLoading;
+
   return (
     <Col
       className={b('')}
@@ -281,22 +288,44 @@ const AddUpdateTechnique: React.FC<Props> = ({
           placeholder='Отчество'
           rules={[{ required: true, message: 'Введите отчество' }]}
         />
-
-        <div className={b('profile-buttons')}>
-          <Button
-            data-testid='button_id'
-            disabled={formValid}
-            type='primary'
-            htmlType='submit'
-            loading={
-              vehicleCreateLoading || patchUserVehicleInfoLoading || vehicleCreateRequestLoading
-            }
-            style={{ width: '100%', borderRadius: 4 }}
-            className={b('save-button')}
-          >
-            {isEdit ? 'Редактировать технику' : 'Добавить технику'}
-          </Button>
-        </div>
+        {mobileBtn ? (
+          <div className={b('btn_mobile')}>
+            <Button
+              onClick={onCancel}
+              style={{
+                backgroundColor: '#F8F8F8',
+                color: '#689F3A',
+              }}
+            >
+              Отменить
+            </Button>
+            <Button
+              htmlType='submit'
+              style={{
+                backgroundColor: '#689F3A',
+                color: '#ffffff',
+              }}
+              loading={loading}
+            >
+              Сохранить
+            </Button>
+          </div>
+        ) : null}
+        {mobileBtn ? null : (
+          <div className={b('profile-buttons')}>
+            <Button
+              data-testid='button_id'
+              disabled={formValid}
+              type='primary'
+              htmlType='submit'
+              loading={loading}
+              style={{ width: '100%', borderRadius: 4 }}
+              className={b('save-button')}
+            >
+              {isEdit ? 'Редактировать технику' : 'Добавить технику'}
+            </Button>
+          </div>
+        )}
       </Form>
     </Col>
   );

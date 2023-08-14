@@ -6,14 +6,21 @@
     gap: 12px;
     padding-bottom: 6px;
     margin-top: 20px;
+    height: 36px;
   }
 
   &__cancel-profile-button {
-    background: #EAEAED !important;
+    height: 36px;
+    background: #F8F8F8 !important;
     border: none;
-    color: themes.$primary-color;
+    color: themes.$primary-color!important;
     box-shadow: none;
     border-radius: 4px;
+  }
+
+  &__delete_btn {
+    height: 36px;
+    background-color: #B80B0B!important;
   }
 
   &__delete-profile-button {
