@@ -3,29 +3,31 @@ import bem from 'easy-bem';
 import React from 'react';
 
 import deleteIcon from 'assets/images/icons/newIcon/warning.svg';
-import 'components/ModalComponent/ModalChildrenComponents/DeleteUserModal/_deleteUserModal.scss';
+import 'components/ModalComponent/ModalChildrenComponents/DeleteModal/_DeleteModal.scss';
 
 interface Props {
   handleDeleteCancel?: () => void;
   deleteUserHandler?: () => void;
   loading?: boolean | { delay?: number | undefined } | undefined;
+  title?: string;
   fullName: string;
 }
 
 const { Title, Text } = Typography;
 
-const DeleteUserModal: React.FC<Props> = ({
+const DeleteModal: React.FC<Props> = ({
   handleDeleteCancel,
   deleteUserHandler,
   loading,
   fullName,
+  title,
 }) => {
-  const b = bem('DeleteUserModal');
+  const b = bem('DeleteModal');
 
   return (
     <div className={b('delete-container')}>
       <img className={b('delete-image')} src={deleteIcon} alt='deleteIcon' />
-      <Title level={4}>Удалить профиль?</Title>
+      <Title level={4}>{title}</Title>
       <Text
         style={{
           textAlign: 'center',
@@ -57,4 +59,4 @@ const DeleteUserModal: React.FC<Props> = ({
   );
 };
 
-export default DeleteUserModal;
+export default DeleteModal;

@@ -23,6 +23,7 @@ import RequestModal from 'components/ModalComponent/ModalChildrenComponents/Dele
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import SkeletonBlock from 'components/SkeletonBlock/SkeletonBlock';
 import TableComponent from 'components/TableComponent/TableComponent';
+import useWindowWidth from 'hooks/useWindowWidth';
 import { userVehicles } from 'interfaces';
 import {
   accountsSelector,
@@ -41,6 +42,7 @@ const { Title } = Typography;
 
 const Technique = () => {
   const b = bem('Technique');
+  const windowWidth = useWindowWidth();
   const {
     fetchLoadingAccount,
     account,
@@ -195,9 +197,11 @@ const Technique = () => {
   return (
     <>
       <div className={b()} data-testid='technique-id'>
-        <div className={b('logo')}>
-          <img src={logo} alt='logo' />
-        </div>
+        {windowWidth >= 991 ? (
+          <div className={b('logo')}>
+            <img src={logo} alt='logo' />
+          </div>
+        ) : null}
         <div className={b('card-block')}>
           <Card className={b('card-style')} bordered={false}>
             <div className={b('card-style-blocks')}>

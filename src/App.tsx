@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 import { Route } from 'react-router';
 import { Routes } from 'react-router-dom';
 
@@ -7,7 +6,7 @@ import AppRouter from 'AppRouter/AppRouter';
 import SignIn from 'containers/SignIn/SignIn';
 import { IListener } from 'interfaces';
 import { authSelector, checkForTokens, clearTokens, logoutUser } from 'redux/auth/authSlice';
-import { useAppSelector } from 'redux/hooks';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { deleteCookie, getCookie, nameRefreshCookies } from 'utils/addCookies/addCookies';
 import {
   logoutLocalStorage,
@@ -17,7 +16,7 @@ import {
 
 const App: React.FC = () => {
   const { tokens } = useAppSelector(authSelector);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const tokensLocal = userLocalStorage(getCookie(nameRefreshCookies));

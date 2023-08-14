@@ -108,7 +108,7 @@
 
   .checkbox-styles {
     > div {
-      background-color: transparent!important;
+      background-color: transparent !important;
       padding: 0 !important;
     }
   }
@@ -145,5 +145,9 @@
   }
   :where(.css-dev-only-do-not-override-1ffqmss).ant-input-lg {
     padding: 7px 0;
+  }
+
+  .ant-input-affix-wrapper {
+    border-color: transparent !important;
   }
 }

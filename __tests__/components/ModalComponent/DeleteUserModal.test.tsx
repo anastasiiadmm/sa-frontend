@@ -1,10 +1,9 @@
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import '../../../__mocks__/matchMedia.mock';
-import DeleteUserModal
-    from "../../../src/components/ModalComponent/ModalChildrenComponents/DeleteUserModal/DeleteUserModal";
+import DeleteModal from "../../../src/components/ModalComponent/ModalChildrenComponents/DeleteModal/DeleteModal";
 
-describe('DeleteUserModal', () => {
+describe('DeleteModal', () => {
     let handleDeleteCancel: jest.Mock;
     let deleteUserHandler: jest.Mock;
 
@@ -14,21 +13,23 @@ describe('DeleteUserModal', () => {
     });
 
     it('renders alert message', () => {
-        const { getByText } = render(
-            <DeleteUserModal
-                fullName=''
-                handleDeleteCancel={handleDeleteCancel}
-                deleteUserHandler={deleteUserHandler}
-                loading={false}
-            />
+        const { queryByText } = render(
+          <DeleteModal
+            handleDeleteCancel={handleDeleteCancel}
+            deleteUserHandler={deleteUserHandler}
+            loading={false}
+            title='Вы уверены, что хотите удалить пользователя?'
+            fullName='Test'
+          />
         );
 
-        expect(getByText(/Вы уверены, что хотите удалить/i)).toBeInTheDocument();
+        expect(queryByText(/Вы уверены, что хотите удалить пользователя?/i)).toBeInTheDocument();
+        expect(queryByText('Test')).toBeInTheDocument();
     });
 
     it('triggers handleDeleteCancel on cancel button click', async () => {
         const { getByText } = render(
-            <DeleteUserModal
+            <DeleteModal
                 fullName=''
                 handleDeleteCancel={handleDeleteCancel}
                 deleteUserHandler={deleteUserHandler}
@@ -42,7 +43,7 @@ describe('DeleteUserModal', () => {
 
     it('triggers deleteUserHandler on delete button click', async () => {
         const { getByText } = render(
-            <DeleteUserModal
+            <DeleteModal
                 fullName=''
                 handleDeleteCancel={handleDeleteCancel}
                 deleteUserHandler={deleteUserHandler}

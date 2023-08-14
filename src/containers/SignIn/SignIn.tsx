@@ -44,7 +44,7 @@ const SignIn: React.FC = () => {
     try {
       await dispatch(loginUser(values)).unwrap();
     } catch (e) {
-      await message.error(e?.detail);
+      await message.error(e?.detail ? e?.detail : 'Ошибка авторизации');
     }
   };
 

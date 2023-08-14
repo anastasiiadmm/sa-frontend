@@ -1,3 +1,5 @@
+@use 'assets/scss/_themes.scss';
+
 .TechniqueMap {
   &__card-block {
     position: fixed;
@@ -43,7 +45,7 @@
   &__title-info {
     > span > strong {
       font-size: 15px;
-      line-height: 0.7!important;
+      line-height: 0.7 !important;
     }
   }
 
@@ -56,6 +58,85 @@
     align-items: center;
     gap: 7px;
     font-size: 12px;
+  }
+
+  &__drawer-block {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__info-block {
+    display: flex;
+    flex-direction: column;
+    margin: 26px;
+  }
+
+  &__form-block {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+
+    > div {
+      width: 150px;
+    }
+  }
+
+  &__profile-title {
+    margin: 12px 0;
+  }
+
+  &__view-button {
+    background: #ecf4ff;
+    border: none;
+    color: #1358bf;
+    font-weight: 700;
+    font-size: 14px;
+  }
+
+  &__close-button {
+    padding: 0;
+    background: none;
+    position: absolute;
+    left: -84px;
+    top: 20px;
+    width: 40px;
+    height: 40px;
+    &:active {
+      background-color: transparent;
+    }
+    &:hover {
+      background-color: transparent !important;
+    }
+  }
+
+  &__active-buttons-block {
+    display: flex;
+    gap: 12px;
+  }
+
+  .cursor {
+    cursor: default;
+  }
+
+  &__active-button {
+    border-radius: 26px;
+    width: 130px;
+    &:hover {
+      background-color: themes.$primary-color !important;
+    }
+  }
+
+  &__speed-button {
+    border-radius: 26px;
+    width: 130px;
+    background-color: themes.$orange;
+    &:hover {
+      background-color: themes.$orange !important;
+    }
+  }
+
+  .input-styles {
+    padding: 0;
   }
 
   .ant-card .ant-card-body {
@@ -123,11 +204,11 @@
     }
 
     &__card-style {
-      box-shadow: 0 0 0 0 #ffffff!important;
+      box-shadow: 0 0 0 0 #ffffff !important;
     }
 
     &__subtitle {
-      font-size: 14px!important;
+      font-size: 14px !important;
       padding-left: 0;
       padding-right: 0;
 
@@ -147,11 +228,10 @@
   }
 
   .top_btn > div > div > p {
-    border-bottom: 1px solid #EBF3FF;
+    border-bottom: 1px solid #ebf3ff;
     padding-bottom: 12px;
   }
 }
-
 
 @media (max-width: 990px) {
   .TechniqueMap {
@@ -181,10 +261,10 @@
     top: -50px;
     left: 0;
     z-index: 100;
-    box-shadow: 0 0 0 0 #ffffff!important;
+    box-shadow: 0 0 0 0 #ffffff !important;
     > div {
       width: 100%;
-      padding: 0!important;
+      padding: 0 !important;
       > div > p {
         width: 100%;
         text-align: center;
@@ -213,11 +293,11 @@
     }
 
     &__card-style {
-      box-shadow: 0 0 0 0 #ffffff!important;
+      box-shadow: 0 0 0 0 #ffffff !important;
     }
 
     &__subtitle {
-      font-size: 14px!important;
+      font-size: 14px !important;
       padding-left: 0;
       padding-right: 0;
 
@@ -237,7 +317,7 @@
   }
 
   .top_btn > div > div > p {
-    border-bottom: 1px solid #EBF3FF;
+    border-bottom: 1px solid #ebf3ff;
     padding-bottom: 12px;
   }
 }
@@ -251,4 +331,3 @@
     }
   }
 }
-
