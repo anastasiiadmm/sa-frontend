@@ -34,9 +34,9 @@ const MenuMobileComponent = () => {
           icon={<UserOutlined />}
         />
       ),
-      title: `${account?.last_name || ''} ${
-        account?.first_name?.length ? `${account?.first_name?.charAt(0)}.` : ''
-      } ${account?.middle_name?.length ? `${account?.middle_name?.charAt(0)}.` : ''}`,
+      title: `${account?.last_name || ''} ${account?.first_name?.charAt(0)}. ${
+        account?.middle_name?.length ? `${account?.middle_name?.charAt(0)}.` : ''
+      }`,
       subTitle: account?.is_manager ? 'Менеджер' : 'Пользователь',
       icon: rightArrow,
       link: account?.is_manager ? '/manager-profile' : '/user-profile-view',
