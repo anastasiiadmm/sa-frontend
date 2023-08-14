@@ -322,6 +322,7 @@ const UserTechnique: React.FC = () => {
       );
     });
   };
+  const findVehicle = vehicleList.find((item) => item.id === Number(vehicleId));
 
   return (
     <>
@@ -454,7 +455,7 @@ const UserTechnique: React.FC = () => {
         <RequestModal
           title='Удалить?'
           textCancel='Удалить'
-          subTitle='Вы уверены, что хотите удалить'
+          subTitle={`Вы уверены, что хотите удалить ${findVehicle?.description}`}
           loading={deleteUserVehicleLoading}
           handleDeleteCancel={handleDeleteOkCancel}
           requestHandler={deleteTechniqueHandler}
@@ -515,7 +516,7 @@ const UserTechnique: React.FC = () => {
           </div>
           <h4>Удалить?</h4>
           <p>
-            Вы уверены, что хотите удалить <b>Камаз</b>
+            Вы уверены, что хотите удалить <b>{findVehicle?.description}</b>
           </p>
           <Button
             loading={deleteUserVehicleLoading}
