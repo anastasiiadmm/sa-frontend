@@ -35,7 +35,7 @@ const MenuMobileComponent = () => {
         />
       ),
       title: `${account?.last_name} ${account?.first_name?.charAt(0)}. ${
-        account?.middle_name === '' ? '' : `${account?.middle_name.charAt(0)}.`
+        account?.middle_name.length ? account?.middle_name.charAt(0) + '.' : ''
       }`,
       subTitle: account?.is_manager ? 'Менеджер' : 'Пользователь',
       icon: rightArrow,
