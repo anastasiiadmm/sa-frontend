@@ -335,4 +335,3 @@ export function capitalizeFirstLetter(str: string | undefined) {
 
   return str;
 }
-
