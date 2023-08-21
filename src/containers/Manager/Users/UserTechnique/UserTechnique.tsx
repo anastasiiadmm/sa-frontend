@@ -11,8 +11,8 @@ import deleteIcon from 'assets/images/icons/newIcon/delete.svg';
 import deleteIconDrawer from 'assets/images/icons/newIcon/deleteIcons.svg';
 import edit from 'assets/images/icons/newIcon/edit.svg';
 import mapIcon from 'assets/images/icons/newIcon/map.svg';
+import successIcon from 'assets/images/icons/newIcon/success.svg';
 import tractorBlue from 'assets/images/icons/newIcon/tractor.svg';
-import successIcon from 'assets/images/icons/success.svg';
 import tractor from 'assets/images/icons/tractor-image.svg';
 
 import tractorProfileIcon from 'assets/images/icons/tratorProfile.svg';
@@ -66,6 +66,8 @@ const UserTechnique: React.FC = () => {
   const [vehicleId, setVehicleId] = useState<string | null>(null);
   const [mobileEditOpen, setMobileEditOpen] = useState(false);
   const [mobileDeleteOpen, setMobileDeleteOpen] = useState(false);
+  const [openAddTechnique, setOpenAddTechnique] = useState(false);
+  const [openDrawerSuccess, setOpenDrawerSuccess] = useState(false);
   const push = useNavigate();
   const [filters, setFilters] = useState({
     page: vehicleListPagination?.next
@@ -88,9 +90,19 @@ const UserTechnique: React.FC = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (vehicleCreateSuccess) {
+    if (vehicleCreateSuccess && windowWidth > 990) {
       showCreateSuccessModal();
       handleOkCancel();
+    }
+
+    if (vehicleCreateSuccess && windowWidth < 990 && windowWidth > 620) {
+      setOpenAddTechnique(false);
+      showCreateSuccessModal();
+    }
+
+    if (vehicleCreateSuccess && windowWidth < 620) {
+      setOpenAddTechnique(false);
+      setOpenDrawerSuccess(true);
     }
   }, [vehicleCreateSuccess]);
 
@@ -109,7 +121,11 @@ const UserTechnique: React.FC = () => {
   };
 
   const showModal = () => {
-    setIsModalOpen(true);
+    if (windowWidth < 990) {
+      setOpenAddTechnique(true);
+    } else {
+      setIsModalOpen(true);
+    }
   };
 
   const handleOkCancel = () => {
@@ -173,6 +189,18 @@ const UserTechnique: React.FC = () => {
 
     dispatch(fetchUserVehicleList({ data }));
     dispatch(setNullReducerVehicleCreate());
+  };
+
+  const successHandler = () => {
+    const data = {
+      idVehicle,
+      query: {
+        page: filters?.page,
+      },
+    };
+    dispatch(fetchUserVehicleList({ data }));
+    dispatch(setNullReducerVehicleCreate());
+    setOpenDrawerSuccess(false);
   };
 
   const editHandler = (id: string) => {
@@ -428,7 +456,7 @@ const UserTechnique: React.FC = () => {
         handleOk={handleOkCancel}
         handleCancel={handleOkCancel}
       >
-        <AddUpdateTechnique userId={id} titleBool={false} />
+        <AddUpdateTechnique userId={id} titleBool={false} onCancel={handleOkCancel} />
       </ModalComponent>
 
       <ModalComponent
@@ -442,6 +470,7 @@ const UserTechnique: React.FC = () => {
           userId={id}
           vehicleId={vehicleId}
           titleBool={false}
+          onCancel={handleEditOkCancel}
           handleEditOkCancel={handleEditOkCancel}
         />
       </ModalComponent>
@@ -464,16 +493,16 @@ const UserTechnique: React.FC = () => {
 
       <ModalComponent dividerShow={false} open={isModalCreateOpen} closable={false}>
         <ResultComponent
-          icon={<img src={successIcon} alt='success' />}
+          icon={<img src={successIcon} alt='success' width='58px' height='58px' />}
           status='info'
           title='Техника добавлена'
         />
         <Button
           type='primary'
-          style={{ width: '100%', borderRadius: 4 }}
+          style={{ width: '100%', borderRadius: 8, height: 36, marginTop: 10 }}
           onClick={goToTechniqueListHandler}
         >
-          Хорошо
+          Готово
         </Button>
       </ModalComponent>
       <Drawer
@@ -536,6 +565,45 @@ const UserTechnique: React.FC = () => {
             }}
           >
             Отмена
+          </Button>
+        </div>
+      </Drawer>
+      <Drawer
+        open={openAddTechnique}
+        onClose={() => setOpenAddTechnique(false)}
+        width='100%'
+        title={
+          <p
+            style={{
+              textAlign: 'center',
+              padding: 0,
+              margin: 0,
+              fontWeight: 500,
+            }}
+          >
+            Добавить технику
+          </p>
+        }
+      >
+        <AddUpdateTechnique
+          userId={id}
+          titleBool={false}
+          mobileBtn
+          onCancel={() => setOpenAddTechnique(false)}
+        />
+      </Drawer>
+      <Drawer
+        open={openDrawerSuccess}
+        closable={false}
+        height={211}
+        onClose={() => setOpenDrawerSuccess(false)}
+        placement='bottom'
+      >
+        <div>
+          <img src={successIcon} width={56} height={56} alt='successIcon' />
+          <p className={b('title_drawer_success')}>Техника добавлена</p>
+          <Button className={b('btn_drawer_mobile_success')} onClick={successHandler}>
+            Готово
           </Button>
         </div>
       </Drawer>

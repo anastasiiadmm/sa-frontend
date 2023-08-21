@@ -30,7 +30,7 @@ interface Props {
   handleEditOkCancel?: () => void;
   titleBool?: boolean;
   mobileBtn?: boolean;
-  onCancel?: () => void;
+  onCancel: () => void;
 }
 
 const AddUpdateTechnique: React.FC<Props> = ({
