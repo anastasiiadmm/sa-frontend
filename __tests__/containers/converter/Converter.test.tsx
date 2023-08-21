@@ -1,11 +1,8 @@
 import { BrowserRouter } from "react-router-dom";
-import { screen, render, waitFor, cleanup, fireEvent } from "@testing-library/react";
-import { act } from 'react-dom/test-utils';
-import userEvent from '@testing-library/user-event';
+import { screen, render, waitFor, cleanup } from "@testing-library/react";
 import "../../../__mocks__/matchMedia.mock";
 import "@testing-library/jest-dom";
 import { mockedDispatch, mockedUseSelectors } from "../../../__mocks__/utils";
-import Users from "../../../src/containers/Manager/Users/Users";
 import Converter from "../../../src/containers/Converter/Converter";
 
 afterEach(cleanup);
