@@ -1,3 +1,4 @@
+import moment from 'moment';
 import React from 'react';
 
 import { ErrorObject, IAccount, SetUserInfoData, updateManagerDataMutation } from 'interfaces';
@@ -5,7 +6,7 @@ import { Locales, SensorDataEntry, stationInfo } from 'interfaces/IStation';
 import { apiUrlCrop } from 'utils/config';
 import { buttonsDataManager, dateMomentTypeString } from 'utils/constants';
 
-const moment = require('moment');
+export const dateWithTimeFormat = 'DD.MM.YYYY HH:mm';
 
 type IndexableObject = {
   [key: string]: unknown;
@@ -334,3 +335,4 @@ export function capitalizeFirstLetter(str: string | undefined) {
 
   return str;
 }
+

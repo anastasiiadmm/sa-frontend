@@ -3,6 +3,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { converterPagination, IConverter, IErrors } from 'interfaces';
 import { RootState } from 'redux/hooks';
 import axiosApi from 'utils/axios-api';
+import toQueryParams from '../../utils/toQueryParams';
 
 interface ConverterState {
   converterList: IConverter[] | null;
@@ -20,11 +21,24 @@ const INITIAL_STATE = {
   converterListError: null,
 } as ConverterState;
 
-export const fetchConverterList = createAsyncThunk<converterPagination, void>(
+interface fetchConverterParams {
+  data?: {
+    query?: {
+      page?: number | undefined;
+    };
+  };
+}
+
+export const fetchConverterList = createAsyncThunk<converterPagination, fetchConverterParams>(
   'accounts/fetchUsersList',
-  async (_, { rejectWithValue }) => {
+  async ({ data }, { rejectWithValue }) => {
     try {
-      const resp = await axiosApi.get<converterPagination | null>(`/common/converter/`);
+      let query = '';
+      if (data?.query) {
+        query = toQueryParams(data.query);
+      }
+
+      const resp = await axiosApi.get<converterPagination | null>(`/common/converter/${query}`);
       const converterList = resp.data;
 
       if (converterList === null) {
