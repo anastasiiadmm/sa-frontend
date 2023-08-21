@@ -63,7 +63,7 @@ const Converter = () => {
 
   return (
     <>
-      <div className={b('')}>
+      <div className={b('')} data-testid='converter-test-id'>
         <Card>
           <div className={b('converter-block')}>
             <div>
