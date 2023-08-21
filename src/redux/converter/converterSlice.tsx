@@ -3,7 +3,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { converterPagination, IConverter, IErrors } from 'interfaces';
 import { RootState } from 'redux/hooks';
 import axiosApi from 'utils/axios-api';
-import toQueryParams from '../../utils/toQueryParams';
+import toQueryParams from 'utils/toQueryParams';
 
 interface ConverterState {
   converterList: IConverter[] | null;
