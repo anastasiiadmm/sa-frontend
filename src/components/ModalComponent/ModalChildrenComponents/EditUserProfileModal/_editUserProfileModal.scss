@@ -38,15 +38,11 @@
   }
 
   &__profile-buttons {
-    padding: 20px;
     width: 100%;
     background-color: #FFFFFF;
     display: flex;
     justify-content: center;
     align-items: center;
-    position: fixed;
-    bottom: 0;
-    left: 0;
 
     > button {
       height: 36px;
@@ -89,6 +85,25 @@
   font-size: 18px !important;
   font-weight: 700 !important;
   color: themes.$font-title-color !important;
+}
+
+@media screen and (max-width: 990px) {
+  .EditUserProfileModal {
+    &__profile-buttons {
+      padding: 20px;
+      width: 100%;
+      background-color: #FFFFFF;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      > button {
+        height: 36px;
+      }
+    }
+  }
 }
 
 @media screen and (max-width: 500px) {

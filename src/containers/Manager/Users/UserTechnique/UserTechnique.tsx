@@ -572,18 +572,7 @@ const UserTechnique: React.FC = () => {
         open={openAddTechnique}
         onClose={() => setOpenAddTechnique(false)}
         width='100%'
-        title={
-          <p
-            style={{
-              textAlign: 'center',
-              padding: 0,
-              margin: 0,
-              fontWeight: 500,
-            }}
-          >
-            Добавить технику
-          </p>
-        }
+        title={<p className={b('text_add_drawer')}>Добавить технику</p>}
       >
         <AddUpdateTechnique
           userId={id}
