@@ -25,7 +25,7 @@ const DeleteModal: React.FC<Props> = ({
   const b = bem('DeleteModal');
 
   return (
-    <div className={b('delete-container')}>
+    <div className={b('delete-container delete-drawer-block')}>
       <img className={b('delete-image')} src={deleteIcon} alt='deleteIcon' />
       <Title level={4}>{title}</Title>
       <Text

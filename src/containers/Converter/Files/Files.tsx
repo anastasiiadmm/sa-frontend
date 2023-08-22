@@ -1,15 +1,21 @@
-import { Button, Card, Spin, Typography } from 'antd';
+import { Button, Card, message, Spin, Typography } from 'antd';
 import bem from 'easy-bem';
 import moment from 'moment/moment';
 import React, { useEffect, useState } from 'react';
 
 import close from 'assets/images/icons/close.svg';
+import DrawerComponent from 'components/DrawerComponent/DrawerComponent';
 import Errors from 'components/Errors/Errors';
-import DeleteUserModal from 'components/ModalComponent/ModalChildrenComponents/DeleteModal/DeleteModal';
+import DeleteModal from 'components/ModalComponent/ModalChildrenComponents/DeleteModal/DeleteModal';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import PaginationComponent from 'components/TableComponent/PaginationComponent/PaginationComponent';
+import useWindowWidth from 'hooks/useWindowWidth';
 import { IConverter } from 'interfaces/IConverter';
-import { converterSelector, fetchConverterList } from 'redux/converter/converterSlice';
+import {
+  converterSelector,
+  deleteConverter,
+  fetchConverterList,
+} from 'redux/converter/converterSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { dateWithTimeFormat, getPageNumber, getPageNumberPrevious } from 'utils/helper';
 import 'containers/Converter/Files/_files.scss';
@@ -20,12 +26,24 @@ const Files = () => {
   const b = bem('Files');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const dispatch = useAppDispatch();
-  const { converterList, converterListPagination, converterListLoading, converterListError } =
-    useAppSelector(converterSelector);
+  const [open, setOpen] = useState(false);
+  const {
+    converterList,
+    converterListPagination,
+    converterListLoading,
+    converterListError,
+    deleteConverterLoading,
+    deleteConverterError,
+  } = useAppSelector(converterSelector);
+  const windowWidth = useWindowWidth();
   const [filters, setFilters] = useState({
     page: converterListPagination?.next
       ? Number(getPageNumber(converterListPagination?.next))
       : Number(getPageNumberPrevious(converterListPagination?.previous)),
+  });
+  const [fileName, setFileName] = useState<{ id: number | null; name: string }>({
+    id: null,
+    name: '',
   });
 
   useEffect(() => {
@@ -37,11 +55,16 @@ const Files = () => {
     dispatch(fetchConverterList({ data }));
   }, [dispatch, filters]);
 
-  const showDeleteModal = () => {
-    setIsModalOpen(true);
+  const showDeleteHandler = (id: number, name: string) => {
+    if (windowWidth <= 600) {
+      setOpen(true);
+    } else {
+      setIsModalOpen(true);
+    }
+    setFileName({ id, name });
   };
 
-  const handleDeleteOkCancel = () => {
+  const handleDeleteModalOkCancel = () => {
     setIsModalOpen(!isModalOpen);
   };
 
@@ -53,7 +76,25 @@ const Files = () => {
     setFilters({ ...filters, page: filters.page + 1 });
   };
 
-  if (converterListError) {
+  const onClose = () => {
+    setOpen(false);
+  };
+
+  const deleteHandler = async () => {
+    try {
+      await dispatch(deleteConverter(fileName?.id)).unwrap();
+      setFileName({ id: null, name: '' });
+      if (windowWidth <= 600) {
+        setOpen(false);
+      } else {
+        setIsModalOpen(!isModalOpen);
+      }
+    } catch (e) {
+      await message.error(`${e?.detail}`);
+    }
+  };
+
+  if (converterListError || deleteConverterError) {
     return <Errors status={converterListError?.status} detail={converterListError?.detail} />;
   }
 
@@ -62,7 +103,7 @@ const Files = () => {
       {converterListLoading ? (
         <Spin className='spin' />
       ) : (
-        <div>
+        <>
           <div className={b('history-list')}>
             {converterList?.map((converter: IConverter) => {
               return (
@@ -83,7 +124,7 @@ const Files = () => {
                         </Text>
                       </div>
                       <Button
-                        onClick={showDeleteModal}
+                        onClick={() => showDeleteHandler(converter?.id, converter?.task_UID)}
                         className={b('close-button')}
                         icon={<img src={close} alt={close} />}
                       />
@@ -95,6 +136,7 @@ const Files = () => {
             })}
           </div>
           <PaginationComponent
+            paginationFilesBlock='pagination-bg'
             params={
               converterListLoading
                 ? { previous: null, next: null, count: 0 }
@@ -103,21 +145,33 @@ const Files = () => {
             pagePrevHandler={pagePrevHandler}
             pageNextHandler={pageNextHandler}
           />
-        </div>
+        </>
       )}
 
       <ModalComponent
         dividerShow={false}
         open={isModalOpen}
-        handleOk={handleDeleteOkCancel}
-        handleCancel={handleDeleteOkCancel}
+        handleOk={handleDeleteModalOkCancel}
+        handleCancel={handleDeleteModalOkCancel}
       >
-        <DeleteUserModal
+        <DeleteModal
           title='Удалить?'
-          fullName='файл'
-          handleDeleteCancel={handleDeleteOkCancel}
+          loading={deleteConverterLoading}
+          fullName={fileName?.name}
+          handleDeleteCancel={handleDeleteModalOkCancel}
+          deleteButtonHandler={deleteHandler}
         />
       </ModalComponent>
+
+      <DrawerComponent open={open} onClose={onClose} placement='bottom' height='auto'>
+        <DeleteModal
+          title='Удалить?'
+          loading={deleteConverterLoading}
+          fullName={fileName?.name}
+          handleDeleteCancel={onClose}
+          deleteButtonHandler={deleteHandler}
+        />
+      </DrawerComponent>
     </>
   );
 };
