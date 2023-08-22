@@ -8,6 +8,7 @@ import Errors from 'components/Errors/Errors';
 import DeleteUserModal from 'components/ModalComponent/ModalChildrenComponents/DeleteModal/DeleteModal';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import PaginationComponent from 'components/TableComponent/PaginationComponent/PaginationComponent';
+import { IConverter } from 'interfaces/IConverter';
 import { converterSelector, fetchConverterList } from 'redux/converter/converterSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { dateWithTimeFormat, getPageNumber, getPageNumberPrevious } from 'utils/helper';
@@ -63,7 +64,7 @@ const Files = () => {
       ) : (
         <div>
           <div className={b('history-list')}>
-            {converterList?.map((converter) => {
+            {converterList?.map((converter: IConverter) => {
               return (
                 <Card className={b('card-file-block')} key={converter?.id}>
                   <div className={b('converter-card')}>
