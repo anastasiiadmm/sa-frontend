@@ -1,15 +1,18 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-import { converterPagination, IConverter, IErrors } from 'interfaces';
+import { converterPagination, IConverter } from 'interfaces/IConverter';
+import { IErrors } from 'interfaces/IErrors';
 import { RootState } from 'redux/hooks';
 import axiosApi from 'utils/axios-api';
 import toQueryParams from 'utils/toQueryParams';
 
 interface ConverterState {
-  converterList: IConverter[] | null;
+  converterList: IConverter[] | null | undefined;
   converterListPagination: converterPagination | null;
   converterListLoading: boolean;
   converterListError: IErrors | null;
+  deleteConverterLoading: boolean;
+  deleteConverterError: IErrors | null;
 }
 
 const nameSpace = 'converter';
@@ -19,6 +22,8 @@ const INITIAL_STATE = {
   converterListPagination: null,
   converterListLoading: false,
   converterListError: null,
+  deleteConverterLoading: false,
+  deleteConverterError: null,
 } as ConverterState;
 
 interface fetchConverterParams {
@@ -30,7 +35,7 @@ interface fetchConverterParams {
 }
 
 export const fetchConverterList = createAsyncThunk<converterPagination, fetchConverterParams>(
-  'accounts/fetchUsersList',
+  `${nameSpace}/fetchConverterList`,
   async ({ data }, { rejectWithValue }) => {
     try {
       let query = '';
@@ -46,6 +51,21 @@ export const fetchConverterList = createAsyncThunk<converterPagination, fetchCon
       }
 
       return converterList;
+    } catch (e) {
+      return rejectWithValue({
+        detail: e?.response?.data?.detail,
+        status: e?.response?.status,
+      });
+    }
+  },
+);
+
+export const deleteConverter = createAsyncThunk(
+  `${nameSpace}/deleteConverter`,
+  async (id: number | null, { rejectWithValue }) => {
+    try {
+      await axiosApi.delete(`/common/converter/${id}/`);
+      return id;
     } catch (e) {
       return rejectWithValue({
         detail: e?.response?.data?.detail,
@@ -80,6 +100,25 @@ const converterSlice = createSlice({
       if (payload && typeof payload === 'object' && 'detail' in payload && 'status' in payload) {
         state.converterListError = {
           ...state.converterListError,
+          detail: payload.detail as string | null,
+          status: payload.status as number | null,
+        };
+      }
+    });
+
+    builder.addCase(deleteConverter.pending, (state) => {
+      state.deleteConverterLoading = true;
+      state.deleteConverterError = null;
+    });
+    builder.addCase(deleteConverter.fulfilled, (state, { payload }) => {
+      state.deleteConverterLoading = false;
+      state.converterList = state.converterList?.filter((item) => item.id !== Number(payload));
+    });
+    builder.addCase(deleteConverter.rejected, (state, { payload }) => {
+      state.deleteConverterLoading = false;
+      if (payload && typeof payload === 'object' && 'detail' in payload && 'status' in payload) {
+        state.deleteConverterError = {
+          ...state.deleteConverterError,
           detail: payload.detail as string | null,
           status: payload.status as number | null,
         };

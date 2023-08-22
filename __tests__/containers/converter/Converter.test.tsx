@@ -1,9 +1,10 @@
 import { BrowserRouter } from "react-router-dom";
-import { screen, render, waitFor, cleanup } from "@testing-library/react";
+import { screen, render, waitFor, cleanup, fireEvent } from "@testing-library/react";
 import "../../../__mocks__/matchMedia.mock";
 import "@testing-library/jest-dom";
 import { mockedDispatch, mockedUseSelectors } from "../../../__mocks__/utils";
 import Converter from "../../../src/containers/Converter/Converter";
+import DeleteModal from "../../../src/components/ModalComponent/ModalChildrenComponents/DeleteModal/DeleteModal";
 
 afterEach(cleanup);
 
@@ -23,6 +24,14 @@ const data = [
 ];
 
 describe("<Converter />", () => {
+  let handleDeleteCancel: jest.Mock;
+  let deleteUserHandler: jest.Mock;
+
+  beforeEach(() => {
+    handleDeleteCancel = jest.fn();
+    deleteUserHandler = jest.fn();
+  });
+
   test("Converter list component should be in the document", async () => {
     mockedUseSelectors.mockReturnValue(data);
     const dispatch = jest.fn();
@@ -53,5 +62,19 @@ describe("<Converter />", () => {
     );
 
     expect(utils).toMatchSnapshot();
+  });
+
+  test("Converted file should set to modal form success", async () => {
+    const { getByText } = render(
+      <DeleteModal
+        fullName='21/08/2023 16:11:30+0600'
+        handleDeleteCancel={handleDeleteCancel}
+        deleteButtonHandler={deleteUserHandler}
+        loading={false}
+      />
+    );
+
+    fireEvent.click(getByText('Удалить'));
+    await waitFor(() => expect(deleteUserHandler).toHaveBeenCalledTimes(1));
   });
 });

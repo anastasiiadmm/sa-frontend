@@ -158,7 +158,7 @@ interface fetchCompaniesParams {
 }
 
 export const fetchUsersList = createAsyncThunk<IAccount, fetchCompaniesParams>(
-  'accounts/fetchUsersList',
+  `${nameSpace}/fetchUsersList`,
   async ({ data }, { rejectWithValue }) => {
     try {
       let query = '';
@@ -207,7 +207,7 @@ interface fetchCompanyParams {
 }
 
 export const fetchUserInfo = createAsyncThunk<RequestType, fetchCompanyParams>(
-  'accounts/fetchUserInfo',
+  `${nameSpace}/fetchUserInfo`,
   async ({ id }, { rejectWithValue }) => {
     try {
       const resp = await axiosApi.get<RequestType | null>(`/common/inquiries/${id}/`);
@@ -232,7 +232,7 @@ interface fetchUserInfoByManagerParams {
 }
 
 export const fetchUserInfoByManager = createAsyncThunk<IAccount, fetchUserInfoByManagerParams>(
-  'accounts/fetchUserInfoByManager',
+  `${nameSpace}/fetchUserInfoByManager`,
   async ({ id }, { rejectWithValue }) => {
     try {
       const resp = await axiosApi.get<IAccount | null>(`/accounts/users/${id}/`);
@@ -301,7 +301,7 @@ interface fetchVehicleParams {
 }
 
 export const fetchUserVehicleList = createAsyncThunk<companiesList, fetchVehicleParams>(
-  'accounts/fetchUserVehicleList',
+  `${nameSpace}/fetchUserVehicleList`,
   async ({ data }, { rejectWithValue }) => {
     try {
       let query = '';

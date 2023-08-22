@@ -1,4 +1,4 @@
-import { Button, Card, Spin, Typography } from 'antd';
+import { Button, Card, message, Spin, Typography } from 'antd';
 import bem from 'easy-bem';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
@@ -8,11 +8,16 @@ import arrowDown from 'assets/images/icons/arrow-down.svg';
 import converterFile from 'assets/images/icons/converter-file.svg';
 import Errors from 'components/Errors/Errors';
 import FormField from 'components/FormField/FormField';
-import DeleteUserModal from 'components/ModalComponent/ModalChildrenComponents/DeleteModal/DeleteModal';
+import DeleteModal from 'components/ModalComponent/ModalChildrenComponents/DeleteModal/DeleteModal';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import PaginationComponent from 'components/TableComponent/PaginationComponent/PaginationComponent';
 import useWindowWidth from 'hooks/useWindowWidth';
-import { converterSelector, fetchConverterList } from 'redux/converter/converterSlice';
+import { IConverter } from 'interfaces/IConverter';
+import {
+  converterSelector,
+  deleteConverter,
+  fetchConverterList,
+} from 'redux/converter/converterSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { dateWithTimeFormat, getPageNumber, getPageNumberPrevious } from 'utils/helper';
 import 'containers/Converter/_converter.scss';
@@ -22,14 +27,24 @@ const { Title, Text } = Typography;
 const Converter = () => {
   const b = bem('Converter');
   const dispatch = useAppDispatch();
-  const { converterList, converterListPagination, converterListLoading, converterListError } =
-    useAppSelector(converterSelector);
+  const {
+    converterList,
+    converterListPagination,
+    converterListLoading,
+    converterListError,
+    deleteConverterLoading,
+    deleteConverterError,
+  } = useAppSelector(converterSelector);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const windowWidth = useWindowWidth();
   const [filters, setFilters] = useState({
     page: converterListPagination?.next
       ? Number(getPageNumber(converterListPagination?.next))
       : Number(getPageNumberPrevious(converterListPagination?.previous)),
+  });
+  const [fileName, setFileName] = useState<{ id: number | null; name: string }>({
+    id: null,
+    name: '',
   });
 
   useEffect(() => {
@@ -41,14 +56,6 @@ const Converter = () => {
     dispatch(fetchConverterList({ data }));
   }, [dispatch, filters]);
 
-  const showDeleteModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleDeleteOkCancel = () => {
-    setIsModalOpen(!isModalOpen);
-  };
-
   const pagePrevHandler = () => {
     setFilters({ ...filters, page: filters.page - 1 });
   };
@@ -57,7 +64,26 @@ const Converter = () => {
     setFilters({ ...filters, page: filters.page + 1 });
   };
 
-  if (windowWidth >= 990 && converterListError) {
+  const showDeleteModal = (id: number, name: string) => {
+    setIsModalOpen(true);
+    setFileName({ id, name });
+  };
+
+  const handleDeleteOkCancel = () => {
+    setIsModalOpen(!isModalOpen);
+  };
+
+  const deleteHandler = async () => {
+    try {
+      await dispatch(deleteConverter(fileName?.id)).unwrap();
+      setFileName({ id: null, name: '' });
+      setIsModalOpen(!isModalOpen);
+    } catch (e) {
+      await message.error(`${e?.detail}`);
+    }
+  };
+
+  if (windowWidth >= 990 && (converterListError || deleteConverterError)) {
     return <Errors status={converterListError?.status} detail={converterListError?.detail} />;
   }
 
@@ -112,7 +138,7 @@ const Converter = () => {
             ) : (
               <div>
                 <div className={b('history-list')}>
-                  {converterList?.map((converter) => {
+                  {converterList?.map((converter: IConverter) => {
                     return (
                       <Card className={b('card-file-block')} key={converter?.id}>
                         <div className={b('converter-card')}>
@@ -131,7 +157,7 @@ const Converter = () => {
                           <Button
                             className='button-style button-width'
                             danger
-                            onClick={showDeleteModal}
+                            onClick={() => showDeleteModal(converter?.id, converter?.task_UID)}
                           >
                             Удалить
                           </Button>
@@ -161,10 +187,12 @@ const Converter = () => {
         handleOk={handleDeleteOkCancel}
         handleCancel={handleDeleteOkCancel}
       >
-        <DeleteUserModal
+        <DeleteModal
           title='Удалить?'
-          fullName='файл'
+          loading={deleteConverterLoading}
+          fullName={fileName?.name}
           handleDeleteCancel={handleDeleteOkCancel}
+          deleteButtonHandler={deleteHandler}
         />
       </ModalComponent>
     </>
