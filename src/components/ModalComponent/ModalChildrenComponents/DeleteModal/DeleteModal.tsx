@@ -7,7 +7,7 @@ import 'components/ModalComponent/ModalChildrenComponents/DeleteModal/_DeleteMod
 
 interface Props {
   handleDeleteCancel?: () => void;
-  deleteUserHandler?: () => void;
+  deleteButtonHandler?: () => void;
   loading?: boolean | { delay?: number | undefined } | undefined;
   title?: string;
   fullName: string;
@@ -17,7 +17,7 @@ const { Title, Text } = Typography;
 
 const DeleteModal: React.FC<Props> = ({
   handleDeleteCancel,
-  deleteUserHandler,
+  deleteButtonHandler,
   loading,
   fullName,
   title,
@@ -50,7 +50,7 @@ const DeleteModal: React.FC<Props> = ({
           htmlType='submit'
           style={{ width: '100%', borderRadius: 4 }}
           className={b('delete-profile-button')}
-          onClick={deleteUserHandler}
+          onClick={deleteButtonHandler}
         >
           Удалить
         </Button>

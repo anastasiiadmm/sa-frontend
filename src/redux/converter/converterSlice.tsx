@@ -35,7 +35,7 @@ interface fetchConverterParams {
 }
 
 export const fetchConverterList = createAsyncThunk<converterPagination, fetchConverterParams>(
-  'accounts/fetchConverterList',
+  `${nameSpace}/fetchConverterList`,
   async ({ data }, { rejectWithValue }) => {
     try {
       let query = '';
@@ -61,11 +61,11 @@ export const fetchConverterList = createAsyncThunk<converterPagination, fetchCon
 );
 
 interface deleteConverterParams {
-  id: number;
+  id: number | null;
 }
 
 export const deleteConverter = createAsyncThunk<void, deleteConverterParams>(
-  'accounts/deleteConverter',
+  `${nameSpace}/deleteConverter`,
   async ({ id }, { rejectWithValue }) => {
     try {
       const resp = await axiosApi.delete(`/common/converter/${id}/`);

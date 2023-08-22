@@ -10,7 +10,7 @@ import deleteIcon from 'assets/images/icons/newIcon/warning.svg';
 import tractorBlue from 'assets/images/icons/tractor-blue.svg';
 import Errors from 'components/Errors/Errors';
 import FormField from 'components/FormField/FormField';
-import DeleteUserModal from 'components/ModalComponent/ModalChildrenComponents/DeleteModal/DeleteModal';
+import DeleteModal from 'components/ModalComponent/ModalChildrenComponents/DeleteModal/DeleteModal';
 import EditUserProfileModal from 'components/ModalComponent/ModalChildrenComponents/EditUserProfileModal/EditUserProfileModal';
 import GeneratedPasswordModal from 'components/ModalComponent/ModalChildrenComponents/GeneratedPasswordModal/GeneratedPasswordModal';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
@@ -522,7 +522,7 @@ const UserProfile: React.FC = () => {
         handleOk={handleDeleteOkCancel}
         handleCancel={handleDeleteOkCancel}
       >
-        <DeleteUserModal
+        <DeleteModal
           title='Удалить профиль?'
           fullName={`${capitalizeFirstLetter(
             userInfoByManager?.last_name,
@@ -530,7 +530,7 @@ const UserProfile: React.FC = () => {
             ?.charAt(0)
             ?.toUpperCase()}.${userInfoByManager?.middle_name.charAt(0)?.toUpperCase()}`}
           handleDeleteCancel={handleDeleteOkCancel}
-          deleteUserHandler={deleteUserHandler}
+          deleteButtonHandler={deleteUserHandler}
           loading={deleteUserInfoLoading}
         />
       </ModalComponent>

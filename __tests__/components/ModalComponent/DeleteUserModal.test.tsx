@@ -16,7 +16,7 @@ describe('DeleteModal', () => {
         const { queryByText } = render(
           <DeleteModal
             handleDeleteCancel={handleDeleteCancel}
-            deleteUserHandler={deleteUserHandler}
+            deleteButtonHandler={deleteUserHandler}
             loading={false}
             title='Вы уверены, что хотите удалить пользователя?'
             fullName='Test'
@@ -32,7 +32,7 @@ describe('DeleteModal', () => {
             <DeleteModal
                 fullName=''
                 handleDeleteCancel={handleDeleteCancel}
-                deleteUserHandler={deleteUserHandler}
+                deleteButtonHandler={deleteUserHandler}
                 loading={false}
             />
         );
@@ -46,7 +46,7 @@ describe('DeleteModal', () => {
             <DeleteModal
                 fullName=''
                 handleDeleteCancel={handleDeleteCancel}
-                deleteUserHandler={deleteUserHandler}
+                deleteButtonHandler={deleteUserHandler}
                 loading={false}
             />
         );
