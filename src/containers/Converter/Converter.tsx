@@ -56,10 +56,6 @@ const Converter = () => {
     dispatch(fetchConverterList({ data }));
   }, [dispatch, filters]);
 
-  useEffect(() => {
-    setFileName({ id: null, name: '' });
-  }, [converterList]);
-
   const pagePrevHandler = () => {
     setFilters({ ...filters, page: filters.page - 1 });
   };
