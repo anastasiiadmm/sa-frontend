@@ -1,4 +1,4 @@
-import { Button, Card, Spin, Typography } from 'antd';
+import { Button, Card, message, Spin, Typography } from 'antd';
 import bem from 'easy-bem';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
@@ -8,7 +8,7 @@ import arrowDown from 'assets/images/icons/arrow-down.svg';
 import converterFile from 'assets/images/icons/converter-file.svg';
 import Errors from 'components/Errors/Errors';
 import FormField from 'components/FormField/FormField';
-import DeleteUserModal from 'components/ModalComponent/ModalChildrenComponents/DeleteModal/DeleteModal';
+import DeleteModal from 'components/ModalComponent/ModalChildrenComponents/DeleteModal/DeleteModal';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import PaginationComponent from 'components/TableComponent/PaginationComponent/PaginationComponent';
 import useWindowWidth from 'hooks/useWindowWidth';
@@ -77,8 +77,14 @@ const Converter = () => {
     setIsModalOpen(!isModalOpen);
   };
 
-  const deleteHandler = () => {
-    dispatch(deleteConverter({ id: fileName?.id }));
+  const deleteHandler = async () => {
+    try {
+      await dispatch(deleteConverter(fileName?.id)).unwrap();
+      setFileName({ id: null, name: '' });
+      setIsModalOpen(!isModalOpen);
+    } catch (e) {
+      await message.error(`${e?.detail}`);
+    }
   };
 
   if (windowWidth >= 990 && (converterListError || deleteConverterError)) {
@@ -185,7 +191,7 @@ const Converter = () => {
         handleOk={handleDeleteOkCancel}
         handleCancel={handleDeleteOkCancel}
       >
-        <DeleteUserModal
+        <DeleteModal
           title='Удалить?'
           loading={deleteConverterLoading}
           fullName={fileName?.name}

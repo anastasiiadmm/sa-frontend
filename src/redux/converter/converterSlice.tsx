@@ -7,7 +7,7 @@ import axiosApi from 'utils/axios-api';
 import toQueryParams from 'utils/toQueryParams';
 
 interface ConverterState {
-  converterList: IConverter[] | null;
+  converterList: IConverter[] | null | undefined;
   converterListPagination: converterPagination | null;
   converterListLoading: boolean;
   converterListError: IErrors | null;
@@ -60,17 +60,12 @@ export const fetchConverterList = createAsyncThunk<converterPagination, fetchCon
   },
 );
 
-interface deleteConverterParams {
-  id: number | null;
-}
-
-export const deleteConverter = createAsyncThunk<void, deleteConverterParams>(
+export const deleteConverter = createAsyncThunk(
   `${nameSpace}/deleteConverter`,
-  async ({ id }, { rejectWithValue }) => {
+  async (id: number | null, { rejectWithValue }) => {
     try {
-      const resp = await axiosApi.delete(`/common/converter/${id}/`);
-
-      return resp.data;
+      await axiosApi.delete(`/common/converter/${id}/`);
+      return id;
     } catch (e) {
       return rejectWithValue({
         detail: e?.response?.data?.detail,
@@ -115,8 +110,9 @@ const converterSlice = createSlice({
       state.deleteConverterLoading = true;
       state.deleteConverterError = null;
     });
-    builder.addCase(deleteConverter.fulfilled, (state) => {
+    builder.addCase(deleteConverter.fulfilled, (state, { payload }) => {
       state.deleteConverterLoading = false;
+      state.converterList = state.converterList?.filter((item) => item.id !== Number(payload));
     });
     builder.addCase(deleteConverter.rejected, (state, { payload }) => {
       state.deleteConverterLoading = false;
