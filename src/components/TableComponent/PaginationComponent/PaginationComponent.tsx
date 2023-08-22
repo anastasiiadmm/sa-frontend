@@ -10,13 +10,19 @@ interface Props {
   params: pagination | null | undefined;
   pagePrevHandler?: () => void;
   pageNextHandler?: () => void;
+  paginationFilesBlock?: string;
 }
 
-const PaginationComponent: React.FC<Props> = ({ params, pagePrevHandler, pageNextHandler }) => {
+const PaginationComponent: React.FC<Props> = ({
+  params,
+  pagePrevHandler,
+  pageNextHandler,
+  paginationFilesBlock,
+}) => {
   const b = bem('pagination');
 
   return (
-    <div className={b()}>
+    <div className={`${b('')} ${paginationFilesBlock}`}>
       <div className={b('pagination_show')}>
         <div className='glav_pagination'>
           <div className='next_table'>

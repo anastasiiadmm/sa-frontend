@@ -154,7 +154,7 @@ exports[`<Converter /> render component toMatchSnapshot() 1`] = `
             class="Converter__history-list"
           />
           <div
-            class="pagination"
+            class="pagination undefined"
           >
             <div
               class="pagination__pagination_show"
@@ -352,7 +352,7 @@ exports[`<Converter /> render component toMatchSnapshot() 1`] = `
           class="Converter__history-list"
         />
         <div
-          class="pagination"
+          class="pagination undefined"
         >
           <div
             class="pagination__pagination_show"

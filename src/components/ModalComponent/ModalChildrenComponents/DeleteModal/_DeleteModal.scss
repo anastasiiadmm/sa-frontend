@@ -1,4 +1,5 @@
-@use "assets/scss/_themes.scss";
+@use 'assets/scss/_themes.scss';
+@use 'assets/scss/_mixins.scss';
 
 .DeleteModal {
   &__delete-container {
@@ -11,6 +12,7 @@
   &__delete-modal-buttons {
     margin-top: 25px;
     display: flex;
+    flex-direction: row;
     gap: 10px;
     width: 100%;
   }
@@ -25,5 +27,17 @@
   &__delete-image {
     width: 48px;
     height: 48px;
+  }
+
+  @include mixins.bp(mobile) {
+    &__delete-modal-buttons {
+      flex-direction: column;
+    }
+  }
+}
+
+@include mixins.bp(mobile) {
+  .delete-drawer-block {
+    padding: 30px;
   }
 }

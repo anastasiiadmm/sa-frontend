@@ -1128,7 +1128,7 @@ exports[`<ProfileTechnique /> Users table component should be in the document 1`
       </div>
     </div>
     <div
-      className="pagination"
+      className="pagination undefined"
     >
       <div
         className="pagination__pagination_show"

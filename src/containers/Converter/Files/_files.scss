@@ -1,3 +1,5 @@
+@use "assets/scss/_themes.scss";
+
 .Files {
   &__history-list {
     margin: 24px;
@@ -38,5 +40,8 @@
     }
     box-shadow: 0 0 0 rgba(0, 0, 0, 0.02);
   }
+}
 
+.pagination-bg {
+  background: transparent;
 }
