@@ -1,4 +1,5 @@
 @use "assets/scss/_themes.scss";
+@use "assets/scss/_mixins.scss";
 
 .Converter {
   display: flex;
@@ -12,7 +13,7 @@
   }
 
   &__card-file-block {
-    width: 580px;
+    width: 100%;
 
     > div {
       padding: 12px !important;
@@ -21,7 +22,9 @@
 
   &__converter-card {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
     gap: 16px;
   }
 
@@ -45,16 +48,18 @@
   &__history-list {
     display: flex;
     flex-wrap: wrap;
+    background: themes.$white-color;
+    width: 100%;
+    border-radius: themes.$border-radius;
   }
 
   &__heading {
     margin: 0 !important;
+    flex-grow: 1;
   }
 
-  &__info {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
+  &__subtitle {
+    flex-grow: 1;
   }
 
   &__close-button {
@@ -90,4 +95,18 @@
     margin-top: 12px;
     padding-left: 2px;
   }
+
+  @include mixins.bp(desktop) {
+    &__history-list {
+      display: flex;
+      flex-wrap: wrap;
+      background: none;
+      width: auto;
+      border-radius: initial;
+    }
+  }
+}
+
+.button-width {
+  width: auto !important;
 }

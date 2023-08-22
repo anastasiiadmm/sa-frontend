@@ -192,7 +192,7 @@ const Users: React.FC = () => {
                 >
                   <Title level={3} style={{ margin: 0 }}>
                     {comp?.last_name} {comp?.first_name?.charAt(0)}.{' '}
-                    {comp?.middle_name === '' ? null : `${comp?.middle_name.charAt(0)}.`}
+                    {comp?.middle_name === '' ? null : `${comp?.middle_name?.charAt(0)}.`}
                   </Title>
                   <div className={b('card-content-mobile')}>
                     <div className={b('mobile-titles-block')}>

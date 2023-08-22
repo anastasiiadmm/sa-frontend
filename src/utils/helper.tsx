@@ -1,3 +1,4 @@
+import moment from 'moment';
 import React from 'react';
 
 import { ErrorObject, IAccount, SetUserInfoData, updateManagerDataMutation } from 'interfaces';
@@ -5,7 +6,7 @@ import { Locales, SensorDataEntry, stationInfo } from 'interfaces/IStation';
 import { apiUrlCrop } from 'utils/config';
 import { buttonsDataManager, dateMomentTypeString } from 'utils/constants';
 
-const moment = require('moment');
+export const dateWithTimeFormat = 'DD.MM.YYYY HH:mm';
 
 type IndexableObject = {
   [key: string]: unknown;
@@ -193,7 +194,7 @@ export const calculateDateRange = (value: string, sensorData: stationInfo | null
   return { fromDate, toDate };
 };
 
-export function getPageNumber(url: string | undefined | null): string | number {
+export const getPageNumber = (url: string | undefined | null): string | number => {
   if (url) {
     const regex = /page=(\d+)/;
     const match = url.match(regex);
@@ -201,9 +202,9 @@ export function getPageNumber(url: string | undefined | null): string | number {
   }
 
   return 1;
-}
+};
 
-export function getPageNumberPrevious(url: string | undefined | null): string | number {
+export const getPageNumberPrevious = (url: string | undefined | null): string | number => {
   if (url) {
     const regex = /page=(\d+)/;
     const match = url.match(regex);
@@ -211,7 +212,7 @@ export function getPageNumberPrevious(url: string | undefined | null): string | 
   }
 
   return 1;
-}
+};
 
 export const unixTimestamp = moment().unix();
 
@@ -224,14 +225,14 @@ export const updateDataNames = (data: SensorDataEntry[], jsonData: Locales) => {
   });
 };
 
-export function getPageParam(url: string | undefined | null): string | null {
+export const getPageParam = (url: string | undefined | null): string | null => {
   if (url) {
     const urlParams = new URLSearchParams(url.split('?')[1]);
     return urlParams.get('page');
   }
 
   return '';
-}
+};
 
 export const isEmptyObject = (data: any) => {
   return Object.keys(data).length === 0;
@@ -327,10 +328,6 @@ export const isPathInButtonsData = (
   return buttonsData.some((item) => item.key === pathname);
 };
 
-export function capitalizeFirstLetter(str: string | undefined) {
-  if (str) {
-    return str.charAt(0).toUpperCase() + str.slice(1);
-  }
-
-  return str;
-}
+export const capitalizeFirstLetter = (str: string | undefined) => {
+  return str ? str.charAt(0).toUpperCase() + str.slice(1) : str;
+};
