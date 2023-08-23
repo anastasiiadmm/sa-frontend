@@ -31,6 +31,7 @@ interface Props {
   titleBool?: boolean;
   mobileBtn?: boolean;
   onCancel: () => void;
+  textBtn?: string;
 }
 
 const AddUpdateTechnique: React.FC<Props> = ({
@@ -41,6 +42,7 @@ const AddUpdateTechnique: React.FC<Props> = ({
   titleBool = true,
   mobileBtn,
   onCancel,
+  textBtn = 'Сохранить',
 }) => {
   const b = bem('AddUpdateTechnique');
   const dispatch = useAppDispatch();
@@ -203,7 +205,7 @@ const AddUpdateTechnique: React.FC<Props> = ({
         }
       >
         {titleBool ? (
-          <Title level={3} className={b('title')}>
+          <Title level={3} className={`${b('title')} ${b('title_mobile')}`}>
             Фото техники
           </Title>
         ) : null}
@@ -307,7 +309,7 @@ const AddUpdateTechnique: React.FC<Props> = ({
               }}
               loading={loading}
             >
-              Сохранить
+              {textBtn}
             </Button>
           </div>
         ) : null}

@@ -1,5 +1,5 @@
 import { CheckOutlined, EyeOutlined } from '@ant-design/icons';
-import { Button, Card, message, Spin, Tooltip, Typography } from 'antd';
+import { Button, Card, Drawer, message, Spin, Tooltip, Typography } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import bem from 'easy-bem';
 import React, { useEffect, useState } from 'react';
@@ -57,6 +57,7 @@ const Technique = () => {
   const push = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalFieldClimateOpen, setIsModalFieldClimateOpen] = useState(false);
+  const [openDrawerTechnique, setOpenDrawerTechnique] = useState(false);
   const [filters, setFilters] = useState({
     page: userVehiclesPagination?.next
       ? Number(getPageNumber(userVehiclesPagination?.next))
@@ -79,11 +80,19 @@ const Technique = () => {
   }, [dispatch, account?.company?.id, filters]);
 
   const showModal = () => {
-    setIsModalOpen(true);
+    if (windowWidth <= 990) {
+      setOpenDrawerTechnique(true);
+    } else {
+      setIsModalOpen(true);
+    }
   };
 
   const handleOkCancel = () => {
-    setIsModalOpen(!isModalOpen);
+    if (windowWidth <= 990) {
+      setOpenDrawerTechnique(false);
+    } else {
+      setIsModalOpen(!isModalOpen);
+    }
   };
 
   const showFieldClimateModal = () => {
@@ -475,6 +484,21 @@ const Technique = () => {
           requestHandler={postInquiriesHandler}
         />
       </ModalComponent>
+      <Drawer
+        open={openDrawerTechnique}
+        title={<p className={b('title_drawer')}>Запрос на добавление техники</p>}
+        onClose={() => setOpenDrawerTechnique(false)}
+        width='100%'
+      >
+        <AddUpdateTechnique
+          userId={null}
+          isRequest
+          mobileBtn
+          textBtn='Отправить запрос'
+          handleEditOkCancel={handleOkCancel}
+          onCancel={handleOkCancel}
+        />
+      </Drawer>
     </>
   );
 };
