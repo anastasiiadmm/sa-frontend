@@ -72,7 +72,12 @@ const data = {
             }
         ],
         vehicle: {
-            image: 'test/photos'
+            image: 'test/photos',
+            operator: {
+                last_name: 'test',
+                first_name: 'test',
+                middle_name: 'test'
+            }
         }
     }
 };

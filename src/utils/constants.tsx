@@ -96,7 +96,7 @@ export const routesTitles: { [key: string]: string } = {
   '/add-new-user': 'Добавить нового пользователя',
   '/manager-profile': 'Профиль',
   '/user-profile-view': 'Профиль',
-  '/profile-technique/': 'Информация о технике',
+  '/profile-technique/': 'Техника пользователя',
   '/edit-user/': 'Редактирование профиля пользователя',
   '/user-technique/': 'Техника пользователя',
   '/converter': 'Конвертер',

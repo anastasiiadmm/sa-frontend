@@ -1,11 +1,13 @@
-import { Upload } from 'antd';
+import { Button, Upload } from 'antd';
 import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
 import ImgCrop from 'antd-img-crop';
 import bem from 'easy-bem';
 import React from 'react';
 
 import plug from 'assets/images/icons/image-plug.svg';
+import tractorIcons from 'assets/images/icons/newIcon/tractorIcons.svg';
 import 'components/UploadImageComponent/_uploadImageComponent.scss';
+import useWindowWidth from 'hooks/useWindowWidth';
 
 interface Props {
   fileList: UploadFile[] | [];
@@ -13,6 +15,7 @@ interface Props {
 }
 
 const UploadImageComponent: React.FC<Props> = ({ fileList, setFileList }) => {
+  const windowWidth = useWindowWidth();
   const b = bem('UploadImageComponent');
   const onChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
     setFileList(newFileList);
@@ -33,8 +36,31 @@ const UploadImageComponent: React.FC<Props> = ({ fileList, setFileList }) => {
     imgWindow?.document.write(image.outerHTML);
   };
 
+  const renderPhotos = () => {
+    if (fileList.length < 1 && windowWidth >= 990) {
+      return <img src={plug} alt='plug' />;
+    }
+
+    if (fileList.length < 1 && windowWidth <= 990) {
+      return (
+        <div className={b('add_mobile_photos')}>
+          <div>
+            <img src={tractorIcons} alt='tractorIcons' />
+            <p>Загрузите фотографию</p>
+            <Button>Загрузить</Button>
+          </div>
+        </div>
+      );
+    }
+
+    return null;
+  };
   return (
-    <div style={fileList.length ? { margin: 0 } : { margin: '51px 0px 45px 66px' }}>
+    <div
+      style={
+        fileList.length || windowWidth <= 990 ? { margin: 0 } : { margin: '51px 0px 45px 66px' }
+      }
+    >
       <ImgCrop aspect={233 / 162}>
         <Upload
           data-testid='image-upload'
@@ -50,7 +76,7 @@ const UploadImageComponent: React.FC<Props> = ({ fileList, setFileList }) => {
           }}
           accept='image/png, image/jpeg'
         >
-          {fileList.length < 1 && <img src={plug} alt='plug' />}
+          {renderPhotos()}
         </Upload>
       </ImgCrop>
     </div>

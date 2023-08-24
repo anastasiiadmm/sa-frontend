@@ -1,4 +1,5 @@
 @use 'assets/scss/_themes.scss';
+@use 'assets/scss/_mixins.scss';
 
 .Technique {
   &__table {
@@ -124,7 +125,7 @@
   background: #0078a8;
 }
 
-@media screen and (max-width: 990px) {
+@include mixins.bp(desktop) {
   .Technique {
     &__card-style-blocks {
       justify-content: left;
@@ -144,7 +145,7 @@
     }
 
     &__card-technique {
-     display: none;
+      display: none;
     }
 
     &__card-technique-block {
@@ -292,10 +293,19 @@
       border-radius: 8px;
       color: #689F3A;
     }
+
+    &__title_drawer {
+      font-weight: 500;
+      font-size: 15px;
+      color: #1D2024;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
   }
 }
 
-@media screen and (max-width: 540px) {
+@include mixins.bp(mobile) {
   .Technique {
     &__logo {
       display: none;

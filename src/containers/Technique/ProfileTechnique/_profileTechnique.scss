@@ -114,12 +114,31 @@
 
     &__form-block {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(2, 1fr);
       grid-column-gap: 10px;
       grid-row-gap: 10px;
+      gap: 0;
+
+      > div {
+        height: 44px;
+      }
     }
 
-    &__profile-title {
+    &__profile-info {
+      width: 100%;
+    }
+
+    .ant-form-item .ant-form-item-label > label {
+      color: #7E8697;
+      font-size: 12px;
+      font-weight: 400;
+    }
+
+    .ant-form-vertical .ant-form-item-row {
+      margin-top: -10px;
+    }
+
+      &__profile-title {
       margin-left: 14px;
     }
 
@@ -130,7 +149,7 @@
       object-fit: cover;
     }
     &__images_tractor {
-      width: 242px;
+      width: 500px;
       height: 260px;
       background-color: #F9F9F9;
       padding-top: 20px;
@@ -150,33 +169,6 @@
         border: none;
         color: #689F3A;
       }
-    }
-  }
-}
-
-@media screen and (max-width: 800px) {
-  .ProfileTechnique {
-    &__form-block {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      grid-column-gap: 10px;
-      grid-row-gap: 10px;
-    }
-    &__profile-title {
-      margin-left: 0;
-    }
-
-    &__images_tractor {
-      height: 400px;
-    }
-
-    &__images_tractor {
-      > button {
-        margin-top: 20px;
-      }
-    }
-    .ant-form-vertical .ant-form-item-row {
-      padding: 0;
     }
   }
 }
@@ -203,12 +195,15 @@
     }
 
     &__profile-title {
-      margin-top: 10px!important;
-      margin-bottom: 10px!important;
+      margin-top: 22px !important;
+      margin-bottom: -2px !important;
     }
 
     &__form-block {
       grid-template-columns: repeat(1, 1fr);
+      > div {
+        margin-top: 30px;
+      }
     }
 
     .ant-form-vertical .ant-form-item-row {

@@ -11,12 +11,13 @@ import tractorBlue from 'assets/images/icons/tractor-blue.svg';
 import Errors from 'components/Errors/Errors';
 import FormField from 'components/FormField/FormField';
 import TableComponent from 'components/TableComponent/TableComponent';
+import useWindowWidth from 'hooks/useWindowWidth';
 import { Result } from 'interfaces';
 import { accountsSelector, fetchVehicleInfo } from 'redux/accounts/accountsSlice';
 import { companiesSelector } from 'redux/companies/companiesSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { urlFormat } from 'utils/files/files';
-import { getPageParam } from 'utils/helper';
+import { capitalizeFirstLetter, getPageParam } from 'utils/helper';
 
 import 'containers/Technique/ProfileTechnique/_profileTechnique.scss';
 
@@ -27,7 +28,7 @@ const ProfileTechnique = () => {
   const dispatch = useAppDispatch();
   const { vehicleId } = useParams() as { vehicleId: string };
   const history = useNavigate();
-
+  const windowWidth = useWindowWidth();
   const userVehicleInfoState = useAppSelector(companiesSelector);
   const { userVehicleInfo, userVehicleInfoLoading, userVehicleInfoError } =
     useAppSelector(accountsSelector);
@@ -174,6 +175,12 @@ const ProfileTechnique = () => {
     history(-1);
   };
 
+  const firstName = `${capitalizeFirstLetter(
+    userVehicleInfo?.vehicle.operator.last_name,
+  )} ${capitalizeFirstLetter(userVehicleInfo?.vehicle.operator.first_name)} ${capitalizeFirstLetter(
+    userVehicleInfo?.vehicle.operator.middle_name,
+  )}`;
+
   if (userVehicleInfoError || userVehicleInfoState.userVehicleInfoError) {
     return (
       <Errors
@@ -234,7 +241,19 @@ const ProfileTechnique = () => {
               </Button>
             </div>
             <div className={b('profile-info')}>
-              <Form form={form} initialValues={{ ...userVehicleInfo?.vehicle }} layout='vertical'>
+              <Form
+                form={form}
+                initialValues={{
+                  ...userVehicleInfo?.vehicle,
+                }}
+                fields={[
+                  {
+                    name: 'fullName',
+                    value: firstName,
+                  },
+                ]}
+                layout='vertical'
+              >
                 <Title level={5} className={b('profile-title')}>
                   Информация о технике
                 </Title>
@@ -267,31 +286,43 @@ const ProfileTechnique = () => {
                 <Title level={5} className={b('profile-title')}>
                   Информация о механизаторе
                 </Title>
-                <div className={b('form-block')}>
-                  <FormField
-                    readOnly
-                    id='last_name'
-                    label='Фамилия'
-                    name={['operator', 'last_name']}
-                    placeholder='Фамилия'
-                  />
+                {windowWidth >= 990 || windowWidth <= 550 ? (
+                  <div className={b('form-block')}>
+                    <FormField
+                      readOnly
+                      id='last_name'
+                      label='Фамилия'
+                      name={['operator', 'last_name']}
+                      placeholder='Фамилия'
+                    />
 
-                  <FormField
-                    readOnly
-                    id='first_name_id'
-                    label='Имя'
-                    name={['operator', 'first_name']}
-                    placeholder='Имя'
-                  />
+                    <FormField
+                      readOnly
+                      id='first_name_id'
+                      label='Имя'
+                      name={['operator', 'first_name']}
+                      placeholder='Имя'
+                    />
 
-                  <FormField
-                    readOnly
-                    id='middle_name_id'
-                    label='Отчество'
-                    name={['operator', 'middle_name']}
-                    placeholder='Отчество'
-                  />
-                </div>
+                    <FormField
+                      readOnly
+                      id='middle_name_id'
+                      label='Отчество'
+                      name={['operator', 'middle_name']}
+                      placeholder='Отчество'
+                    />
+                  </div>
+                ) : (
+                  <div className={b('form-block')}>
+                    <FormField
+                      readOnly
+                      id='fullName'
+                      label='ФИО'
+                      name='fullName'
+                      placeholder='ФИО'
+                    />
+                  </div>
+                )}
               </Form>
             </div>
           </div>

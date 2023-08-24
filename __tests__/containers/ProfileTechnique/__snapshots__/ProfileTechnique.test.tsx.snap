@@ -342,7 +342,7 @@ exports[`<ProfileTechnique /> Users table component should be in the document 1`
                         readOnly={true}
                         style={{}}
                         type="text"
-                        value=""
+                        value="test"
                       />
                     </div>
                   </div>
@@ -396,7 +396,7 @@ exports[`<ProfileTechnique /> Users table component should be in the document 1`
                         readOnly={true}
                         style={{}}
                         type="text"
-                        value=""
+                        value="test"
                       />
                     </div>
                   </div>
@@ -450,7 +450,7 @@ exports[`<ProfileTechnique /> Users table component should be in the document 1`
                         readOnly={true}
                         style={{}}
                         type="text"
-                        value=""
+                        value="test"
                       />
                     </div>
                   </div>

@@ -1,9 +1,56 @@
+@use 'assets/scss/_themes.scss';
+@use 'assets/scss/_mixins.scss';
+
 .UploadImageComponent {
   &__upload-field {
     > div > div {
       width: 300px;
       height: 300px;
     }
+  }
+}
+
+@include mixins.bp(desktop) {
+  .UploadImageComponent {
+    &__add_mobile_photos {
+      display: flex;
+      justify-content: center;
+      background-color: #F1F9FF;
+      > div {
+        > img {
+          width: 41px;
+          height: 41px;
+        }
+
+        > p {
+          font-size: 14px;
+          font-weight: bold;
+          margin-top: 0;
+        }
+
+        > button {
+          background-color: #FFFFFF;
+          width: 178px;
+          height: 32px;
+          border: none;
+          color: #689F3A!important;
+        }
+      }
+    }
+  }
+
+
+  .ant-upload-wrapper.ant-upload-picture-card-wrapper .ant-upload.ant-upload-select, :where(.css-dev-only-do-not-override-160lua5).ant-upload-wrapper.ant-upload-picture-circle-wrapper .ant-upload.ant-upload-select {
+    width: 333px;
+    height: 238px;
+    background-color: #F1F9FF;
+    border: none;
+  }
+
+  .ant-upload-wrapper .ant-upload-list {
+    display: flex;
+    justify-content: center;
+    margin-bottom: -30px;
   }
 }
 
