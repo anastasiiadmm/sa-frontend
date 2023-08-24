@@ -19,7 +19,12 @@ import {
   fetchConverterList,
 } from 'redux/converter/converterSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { dateWithTimeFormat, getPageNumber, getPageNumberPrevious } from 'utils/helper';
+import {
+  dateWithTimeFormat,
+  downloadConvertedFileHandler,
+  getPageNumber,
+  getPageNumberPrevious,
+} from 'utils/helper';
 import 'containers/Converter/_converter.scss';
 
 const { Title, Text } = Typography;
@@ -46,6 +51,7 @@ const Converter = () => {
     id: null,
     name: '',
   });
+  const [isLoading, setIsLoading] = useState<{ [key: string]: boolean }>({});
 
   useEffect(() => {
     const data = {
@@ -62,6 +68,13 @@ const Converter = () => {
 
   const pageNextHandler = () => {
     setFilters({ ...filters, page: filters.page + 1 });
+  };
+
+  const handleDownloadClick = (file: string) => {
+    setIsLoading((prevIsLoading) => ({ ...prevIsLoading, [file]: true }));
+    downloadConvertedFileHandler(file, () =>
+      setIsLoading((prevIsLoading) => ({ ...prevIsLoading, [file]: false })),
+    );
   };
 
   const showDeleteModal = (id: number, name: string) => {
@@ -139,6 +152,8 @@ const Converter = () => {
               <div>
                 <div className={b('history-list')}>
                   {converterList?.map((converter: IConverter) => {
+                    const isLoadingState = isLoading[converter?.file];
+
                     return (
                       <Card className={b('card-file-block')} key={converter?.id}>
                         <div className={b('converter-card')}>
@@ -153,7 +168,13 @@ const Converter = () => {
                               dateWithTimeFormat,
                             )}
                           </Text>
-                          <Button className='button-style button-width'>Скачать</Button>
+                          <Button
+                            className='button-style button-width'
+                            loading={isLoadingState}
+                            onClick={() => handleDownloadClick(converter?.file)}
+                          >
+                            Скачать
+                          </Button>
                           <Button
                             className='button-style button-width'
                             danger

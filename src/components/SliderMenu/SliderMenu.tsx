@@ -36,7 +36,7 @@ import { deleteCookie, nameRefreshCookies } from 'utils/addCookies/addCookies';
 import { logoutLocalStorage } from 'utils/addLocalStorage/addLocalStorage';
 import { buttonsDataManager, buttonsDataUser } from 'utils/constants';
 import { urlFormat } from 'utils/files/files';
-import { downloadApkFileHandler, isPathInButtonsData } from 'utils/helper';
+import { downloadFileHandler, isPathInButtonsData } from 'utils/helper';
 
 import 'components/SliderMenu/_sliderMenu.scss';
 
@@ -89,7 +89,7 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
 
   const handleDownloadClick = async (file: string) => {
     setIsLoadingMap((prevIsLoadingMap) => ({ ...prevIsLoadingMap, [file]: true }));
-    await downloadApkFileHandler(file, () =>
+    await downloadFileHandler(file, () =>
       setIsLoadingMap((prevIsLoadingMap) => ({ ...prevIsLoadingMap, [file]: false })),
     );
     await dispatch(postNotificationRequest());
