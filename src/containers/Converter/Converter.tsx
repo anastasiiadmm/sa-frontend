@@ -53,7 +53,6 @@ const Converter = () => {
   });
   const [isLoading, setIsLoading] = useState<{ [key: string]: boolean }>({});
   const [file, setFile] = useState<File | null>(null);
-  console.log('file', file);
 
   useEffect(() => {
     const data = {
