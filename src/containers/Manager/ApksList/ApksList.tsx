@@ -21,7 +21,7 @@ import { accountsSelector, fetchApks } from 'redux/accounts/accountsSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import {
   deleteEmptyQueryStrings,
-  downloadApkFileHandler,
+  downloadFileHandler,
   getPageNumber,
   getPageNumberPrevious,
 } from 'utils/helper';
@@ -111,7 +111,7 @@ const ApksList = () => {
 
   const handleDownloadClick = (file: string) => {
     setIsLoadingMap((prevIsLoadingMap) => ({ ...prevIsLoadingMap, [file]: true }));
-    downloadApkFileHandler(file, () =>
+    downloadFileHandler(file, () =>
       setIsLoadingMap((prevIsLoadingMap) => ({ ...prevIsLoadingMap, [file]: false })),
     );
   };

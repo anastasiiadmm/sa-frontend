@@ -17,7 +17,12 @@ import {
   fetchConverterList,
 } from 'redux/converter/converterSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { dateWithTimeFormat, getPageNumber, getPageNumberPrevious } from 'utils/helper';
+import {
+  dateWithTimeFormat,
+  downloadConvertedFileHandler,
+  getPageNumber,
+  getPageNumberPrevious,
+} from 'utils/helper';
 import 'containers/Converter/Files/_files.scss';
 
 const { Title, Text } = Typography;
@@ -45,6 +50,7 @@ const Files = () => {
     id: null,
     name: '',
   });
+  const [isLoading, setIsLoading] = useState<{ [key: string]: boolean }>({});
 
   useEffect(() => {
     const data = {
@@ -62,6 +68,13 @@ const Files = () => {
       setIsModalOpen(true);
     }
     setFileName({ id, name });
+  };
+
+  const handleDownloadClick = (file: string) => {
+    setIsLoading((prevIsLoading) => ({ ...prevIsLoading, [file]: true }));
+    downloadConvertedFileHandler(file, () =>
+      setIsLoading((prevIsLoading) => ({ ...prevIsLoading, [file]: false })),
+    );
   };
 
   const handleDeleteModalOkCancel = () => {
@@ -106,6 +119,8 @@ const Files = () => {
         <>
           <div className={b('history-list')}>
             {converterList?.map((converter: IConverter) => {
+              const isLoadingState = isLoading[converter?.file];
+
               return (
                 <Card className={b('card-file-block')} key={converter?.id}>
                   <div className={b('converter-card')}>
@@ -129,7 +144,13 @@ const Files = () => {
                         icon={<img src={close} alt={close} />}
                       />
                     </div>
-                    <Button className='button-style'>Скачать</Button>
+                    <Button
+                      className='button-style'
+                      loading={isLoadingState}
+                      onClick={() => handleDownloadClick(converter?.file)}
+                    >
+                      Скачать
+                    </Button>
                   </div>
                 </Card>
               );

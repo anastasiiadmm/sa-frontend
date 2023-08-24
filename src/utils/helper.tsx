@@ -276,13 +276,41 @@ export const appendDataFieldsAndDeleteEmptyKeys = (
   }
 };
 
-export const downloadApkFileHandler = (file: string, setIsLoadingCallback: () => void) => {
+export const downloadFileHandler = (file: string, setIsLoadingCallback: () => void) => {
   const link = document.createElement('a');
   link.href = `${apiUrlCrop}${file}`;
   link.setAttribute('download', '');
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
+
+  setTimeout(() => {
+    setIsLoadingCallback();
+  }, 1000);
+};
+
+export const downloadConvertedFileHandler = async (
+  file: string,
+  setIsLoadingCallback: () => void,
+) => {
+  const link = document.createElement('a');
+  link.href = `${apiUrlCrop}${file}`;
+  link.setAttribute('download', '');
+  document.body.appendChild(link);
+
+  fetch(link.href)
+    .then((response) => response.blob())
+    .then((blob) => {
+      const objectURL = URL.createObjectURL(blob);
+      link.href = objectURL;
+      link.click();
+      URL.revokeObjectURL(objectURL);
+
+      document.body.removeChild(link);
+    })
+    .catch((error) => {
+      return error;
+    });
 
   setTimeout(() => {
     setIsLoadingCallback();
