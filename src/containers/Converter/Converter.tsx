@@ -52,6 +52,8 @@ const Converter = () => {
     name: '',
   });
   const [isLoading, setIsLoading] = useState<{ [key: string]: boolean }>({});
+  const [file, setFile] = useState<File | null>(null);
+  console.log('file', file);
 
   useEffect(() => {
     const data = {
@@ -84,6 +86,13 @@ const Converter = () => {
 
   const handleDeleteOkCancel = () => {
     setIsModalOpen(!isModalOpen);
+  };
+
+  const onFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (files) {
+      setFile(files[0]);
+    }
   };
 
   const deleteHandler = async () => {
@@ -130,6 +139,14 @@ const Converter = () => {
                 />
               </div>
               <Button className='button-style'>Выбрать файл</Button>
+
+              <input
+                data-testid='image-input'
+                id='image-input'
+                type='file'
+                onChange={onFileChange}
+                accept='image/png, image/gif, image/jpeg'
+              />
             </div>
           </div>
         </Card>

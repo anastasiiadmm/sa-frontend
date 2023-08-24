@@ -13,6 +13,9 @@ interface ConverterState {
   converterListError: IErrors | null;
   deleteConverterLoading: boolean;
   deleteConverterError: IErrors | null;
+  convertFileLoading: boolean;
+  convertFileSuccess: boolean;
+  convertFileError: IErrors | null;
 }
 
 const nameSpace = 'converter';
@@ -24,6 +27,9 @@ const INITIAL_STATE = {
   converterListError: null,
   deleteConverterLoading: false,
   deleteConverterError: null,
+  convertFileLoading: false,
+  convertFileSuccess: false,
+  convertFileError: null,
 } as ConverterState;
 
 interface fetchConverterParams {
@@ -75,6 +81,25 @@ export const deleteConverter = createAsyncThunk(
   },
 );
 
+interface convertFileParams {
+  data: IConverter;
+}
+
+export const convertFile = createAsyncThunk<void, convertFileParams>(
+  `${nameSpace}/convertFile`,
+  async (data, { rejectWithValue }) => {
+    try {
+      const resp = await axiosApi.post(`/common/converter/`, data?.data);
+      return resp.data;
+    } catch (e) {
+      return rejectWithValue({
+        detail: e?.response?.data,
+        status: e?.response?.status,
+      });
+    }
+  },
+);
+
 const converterSlice = createSlice({
   name: nameSpace,
   initialState: INITIAL_STATE,
@@ -119,6 +144,28 @@ const converterSlice = createSlice({
       if (payload && typeof payload === 'object' && 'detail' in payload && 'status' in payload) {
         state.deleteConverterError = {
           ...state.deleteConverterError,
+          detail: payload.detail as string | null,
+          status: payload.status as number | null,
+        };
+      }
+    });
+
+    builder.addCase(convertFile.pending, (state) => {
+      state.convertFileLoading = true;
+      state.convertFileSuccess = false;
+      state.convertFileError = null;
+    });
+    builder.addCase(convertFile.fulfilled, (state) => {
+      state.convertFileLoading = false;
+      state.convertFileSuccess = true;
+      state.convertFileError = null;
+    });
+    builder.addCase(convertFile.rejected, (state, { payload }) => {
+      state.convertFileLoading = false;
+      state.convertFileSuccess = false;
+      if (payload && typeof payload === 'object' && 'detail' in payload && 'status' in payload) {
+        state.convertFileError = {
+          ...state.convertFileError,
           detail: payload.detail as string | null,
           status: payload.status as number | null,
         };

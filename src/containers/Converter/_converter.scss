@@ -30,6 +30,9 @@
 
   &__convert-item {
     width: 230px;
+    > input {
+      display: none;
+    }
   }
 
   &__title {
