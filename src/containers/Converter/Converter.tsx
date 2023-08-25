@@ -209,7 +209,6 @@ const Converter = () => {
                 data-testid='image-input'
                 id='image-input'
                 type='file'
-                accept='.zip'
                 onChange={onFileChange}
               />
             </div>
