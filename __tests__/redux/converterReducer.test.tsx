@@ -10,23 +10,12 @@ jest.mock('../../src/redux/store');
 
 describe('reducer converter testings', () => {
   const state = {
-    converterList: null,
-    converterListPagination: null,
-    converterListLoading: false,
-    converterListError: null,
-    deleteConverterLoading: false,
-    deleteConverterError: null,
-    convertFileLoading: false,
-    convertFileSuccess: false,
-    convertFileError: null,
+    ...INITIAL_STATE,
   };
 
   test('should handle initial state', () => {
-    const initialState = {
-      ...INITIAL_STATE,
-    };
     const action = { type: deleteConverter.rejected.type }
-    expect(converterSlice(initialState, action)).toEqual(initialState)
+    expect(converterSlice(state, action)).toEqual(state)
   });
 
   it('clearConvertFileSuccess', () => {
