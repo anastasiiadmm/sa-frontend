@@ -20,7 +20,7 @@ interface ConverterState {
 
 const nameSpace = 'converter';
 
-const INITIAL_STATE = {
+export const INITIAL_STATE = {
   converterList: null,
   converterListPagination: null,
   converterListLoading: false,

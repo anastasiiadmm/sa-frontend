@@ -1,5 +1,5 @@
 import { BrowserRouter } from "react-router-dom";
-import { screen, render, waitFor, cleanup, fireEvent } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import "../../../__mocks__/matchMedia.mock";
 import "@testing-library/jest-dom";
 import { mockedDispatch, mockedUseSelectors } from "../../../__mocks__/utils";
