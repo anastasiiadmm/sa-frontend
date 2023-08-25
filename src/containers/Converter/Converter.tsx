@@ -15,6 +15,7 @@ import PaginationComponent from 'components/TableComponent/PaginationComponent/P
 import useWindowWidth from 'hooks/useWindowWidth';
 import { IConverter } from 'interfaces/IConverter';
 import {
+  clearConvertFileSuccess,
   converterSelector,
   convertFile,
   deleteConverter,
@@ -43,6 +44,7 @@ const Converter = () => {
     converterListError,
     deleteConverterLoading,
     deleteConverterError,
+    convertFileSuccess,
   } = useAppSelector(converterSelector);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const windowWidth = useWindowWidth();
@@ -57,6 +59,12 @@ const Converter = () => {
   });
   const [isLoading, setIsLoading] = useState<{ [key: string]: boolean }>({});
   const [file, setFile] = useState<File | null>(null);
+
+  useEffect(() => {
+    return () => {
+      dispatch(clearConvertFileSuccess());
+    };
+  }, [dispatch, convertFileSuccess]);
 
   useEffect(() => {
     const data = {
@@ -104,6 +112,13 @@ const Converter = () => {
     }
   };
 
+  const clearFileHandle = () => {
+    setFile(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
+
   const handleConvertHandler = async () => {
     try {
       const formData = new FormData();
@@ -111,6 +126,8 @@ const Converter = () => {
         formData.append('file', file);
       }
       await dispatch(convertFile(formData)).unwrap();
+      await clearFileHandle();
+      message.success('Конвертация файла произошла успешно.');
     } catch (e) {
       if (e?.detail?.non_field_errors) {
         const errorMessage = e?.detail?.non_field_errors[0];
@@ -174,16 +191,7 @@ const Converter = () => {
               {file ? (
                 <div className={b('file-info-block')}>
                   <Text strong>{file?.name}</Text>
-                  <Button
-                    size='small'
-                    icon={<CloseOutlined />}
-                    onClick={() => {
-                      setFile(null);
-                      if (fileInputRef.current) {
-                        fileInputRef.current.value = '';
-                      }
-                    }}
-                  />
+                  <Button size='small' icon={<CloseOutlined />} onClick={clearFileHandle} />
                 </div>
               ) : null}
               {file ? (

@@ -99,7 +99,11 @@ export const convertFile = createAsyncThunk<void, FormData>(
 const converterSlice = createSlice({
   name: nameSpace,
   initialState: INITIAL_STATE,
-  reducers: {},
+  reducers: {
+    clearConvertFileSuccess: (state) => {
+      state.convertFileSuccess = false;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchConverterList.pending, (state) => {
       state.converterListLoading = true;
@@ -170,5 +174,6 @@ const converterSlice = createSlice({
   },
 });
 
+export const { clearConvertFileSuccess } = converterSlice.actions;
 export const converterSelector = (state: RootState) => state.converter;
 export default converterSlice.reducer;
