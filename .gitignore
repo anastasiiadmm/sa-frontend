@@ -3,6 +3,7 @@
 .idea
 yarn.lock
 package-lock.json
+.env
 
 # dependencies
 /node_modules

@@ -25,6 +25,11 @@ export const climateOptions = [
   { value: 'battery', label: 'Батарея' },
 ];
 
+export const convertOptions = [
+  { value: 'zip', label: '.zip' },
+  { value: 'txt', label: '.txt' },
+];
+
 export const climateColors = {
   red: '%23ca3a3c',
   green: '%23107934',

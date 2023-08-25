@@ -5,6 +5,7 @@
   background: themes.$white-color;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   padding: 20px;
 
   &__cards-links {
@@ -31,5 +32,9 @@
 
   &__title {
     margin: 0 !important;
+  }
+
+  &__logout-block {
+    margin-bottom: 65px;
   }
 }

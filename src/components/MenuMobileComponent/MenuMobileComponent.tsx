@@ -2,27 +2,41 @@ import { UserOutlined } from '@ant-design/icons';
 import { Avatar, Card, Typography } from 'antd';
 import bem from 'easy-bem';
 import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
 
 import rightArrow from 'assets/images/icons/arrow-right.svg';
 import cloud from 'assets/images/icons/cloud-tablet.svg';
 import converter from 'assets/images/icons/converter.svg';
+import logout from 'assets/images/icons/logout.svg';
 import SkeletonBlock from 'components/SkeletonBlock/SkeletonBlock';
 import { accountsSelector, fetchAccount } from 'redux/accounts/accountsSlice';
+import { logoutUser } from 'redux/auth/authSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import 'components/MenuMobileComponent/_menuMobileComponent.scss';
+import { deleteCookie, nameRefreshCookies } from 'utils/addCookies/addCookies';
+import { logoutLocalStorage } from 'utils/addLocalStorage/addLocalStorage';
 import { apiUrlCrop } from 'utils/config';
+import 'components/MenuMobileComponent/_menuMobileComponent.scss';
 
 const { Title, Text } = Typography;
 
 const MenuMobileComponent = () => {
   const b = bem('MenuMobileComponent');
   const dispatch = useAppDispatch();
+  const push = useNavigate();
   const { account, fetchLoadingAccount } = useAppSelector(accountsSelector);
 
   useEffect(() => {
     dispatch(fetchAccount());
   }, [dispatch]);
+
+  const logoutHandler = () => {
+    push('/');
+    logoutLocalStorage();
+    deleteCookie(nameRefreshCookies);
+    dispatch(logoutUser());
+    window.location.reload();
+  };
 
   const cardData = [
     {
@@ -78,6 +92,21 @@ const MenuMobileComponent = () => {
             </Link>
           ))
         )}
+      </div>
+      <div className={b('logout-block')}>
+        <Card className={b('card-block')} hoverable onClick={logoutHandler}>
+          <div>
+            <img src={logout} alt='logout' />
+          </div>
+          <div className={b('info-block')}>
+            <Title level={5} className={b('title')}>
+              Выйти из аккаунта
+            </Title>
+          </div>
+          <div>
+            <img src={rightArrow} alt='rightArrow' />
+          </div>
+        </Card>
       </div>
     </div>
   );

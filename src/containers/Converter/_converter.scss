@@ -30,6 +30,9 @@
 
   &__convert-item {
     width: 230px;
+    > input {
+      display: none;
+    }
   }
 
   &__title {
@@ -94,6 +97,13 @@
   .title-heading {
     margin-top: 12px;
     padding-left: 2px;
+  }
+
+  &__file-info-block {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 19px 0;
   }
 
   @include mixins.bp(desktop) {

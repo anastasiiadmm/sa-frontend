@@ -31,7 +31,7 @@
   }
 
   &__image-upload {
-    >input {
+    > input {
       display: none;
     }
   }
@@ -54,12 +54,10 @@
     &__avatar_block {
       margin-left: 0;
       > span {
-        width: 89px!important;
-        height: 89px!important;
+        width: 89px !important;
+        height: 89px !important;
         border: 5px solid #F5F8FF;
 
-        > img {
-        }
       }
     }
 
