@@ -1,7 +1,8 @@
+import { CloseOutlined } from '@ant-design/icons';
 import { Button, Card, message, Spin, Typography } from 'antd';
 import bem from 'easy-bem';
 import moment from 'moment';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import arrowDown from 'assets/images/icons/arrow-down.svg';
@@ -15,10 +16,12 @@ import useWindowWidth from 'hooks/useWindowWidth';
 import { IConverter } from 'interfaces/IConverter';
 import {
   converterSelector,
+  convertFile,
   deleteConverter,
   fetchConverterList,
 } from 'redux/converter/converterSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { convertOptions } from 'utils/constants';
 import {
   dateWithTimeFormat,
   downloadConvertedFileHandler,
@@ -32,6 +35,7 @@ const { Title, Text } = Typography;
 const Converter = () => {
   const b = bem('Converter');
   const dispatch = useAppDispatch();
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
   const {
     converterList,
     converterListPagination,
@@ -71,6 +75,12 @@ const Converter = () => {
     setFilters({ ...filters, page: filters.page + 1 });
   };
 
+  const handleButtonClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+
   const handleDownloadClick = (file: string) => {
     setIsLoading((prevIsLoading) => ({ ...prevIsLoading, [file]: true }));
     downloadConvertedFileHandler(file, () =>
@@ -91,6 +101,26 @@ const Converter = () => {
     const files = event.target.files;
     if (files) {
       setFile(files[0]);
+    }
+  };
+
+  const handleConvertHandler = async () => {
+    try {
+      const formData = new FormData();
+      if (file) {
+        formData.append('file', file);
+      }
+      await dispatch(convertFile(formData)).unwrap();
+    } catch (e) {
+      if (e?.detail?.non_field_errors) {
+        const errorMessage = e?.detail?.non_field_errors[0];
+
+        if (errorMessage === 'Archive file does not contain supported file format') {
+          await message.error('Архивный файл не содержит поддерживаемого формата файла.');
+        }
+      } else {
+        await message.error('Произошла ошибка.');
+      }
     }
   };
 
@@ -124,6 +154,8 @@ const Converter = () => {
               <div className={b('select-block')}>
                 из{' '}
                 <FormField
+                  dropdownStyle={{ display: 'none' }}
+                  defaultValue={convertOptions[0]}
                   className={b('select-field')}
                   type='select'
                   customStyle='80px'
@@ -131,20 +163,46 @@ const Converter = () => {
                 />{' '}
                 в{' '}
                 <FormField
+                  dropdownStyle={{ display: 'none' }}
+                  defaultValue={convertOptions[1]}
                   className={b('select-field')}
                   type='select'
                   customStyle='80px'
                   suffixIcon={<img src={arrowDown} alt='arrowDown' />}
                 />
               </div>
-              <Button className='button-style'>Выбрать файл</Button>
+              {file ? (
+                <div className={b('file-info-block')}>
+                  <Text strong>{file?.name}</Text>
+                  <Button
+                    size='small'
+                    icon={<CloseOutlined />}
+                    onClick={() => {
+                      setFile(null);
+                      if (fileInputRef.current) {
+                        fileInputRef.current.value = '';
+                      }
+                    }}
+                  />
+                </div>
+              ) : null}
+              {file ? (
+                <Button type='primary' className='button-style' onClick={handleConvertHandler}>
+                  Конвертировать
+                </Button>
+              ) : (
+                <Button className='button-style' onClick={handleButtonClick}>
+                  Выбрать файл
+                </Button>
+              )}
 
               <input
+                ref={fileInputRef}
                 data-testid='image-input'
                 id='image-input'
                 type='file'
+                accept='.zip'
                 onChange={onFileChange}
-                accept='image/png, image/gif, image/jpeg'
               />
             </div>
           </div>

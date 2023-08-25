@@ -81,15 +81,11 @@ export const deleteConverter = createAsyncThunk(
   },
 );
 
-interface convertFileParams {
-  data: IConverter;
-}
-
-export const convertFile = createAsyncThunk<void, convertFileParams>(
+export const convertFile = createAsyncThunk<void, FormData>(
   `${nameSpace}/convertFile`,
   async (data, { rejectWithValue }) => {
     try {
-      const resp = await axiosApi.post(`/common/converter/`, data?.data);
+      const resp = await axiosApi.post(`/common/converter/`, data);
       return resp.data;
     } catch (e) {
       return rejectWithValue({

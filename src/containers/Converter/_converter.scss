@@ -99,6 +99,13 @@
     padding-left: 2px;
   }
 
+  &__file-info-block {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 19px 0;
+  }
+
   @include mixins.bp(desktop) {
     &__history-list {
       display: flex;

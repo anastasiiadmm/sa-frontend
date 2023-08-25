@@ -1,5 +1,5 @@
 import { Select } from 'antd';
-import React from 'react';
+import React, { CSSProperties } from 'react';
 
 import { climateOptions } from 'interfaces';
 
@@ -10,6 +10,7 @@ interface Props {
   customStyle?: string;
   className?: string;
   suffixIcon?: React.ReactNode;
+  dropdownStyle?: CSSProperties | undefined;
   options?: climateOptions[];
 }
 
@@ -21,6 +22,7 @@ const SelectField: React.FC<Props> = ({
   customStyle,
   className,
   suffixIcon,
+  dropdownStyle,
 }) => {
   return (
     <Select
@@ -31,6 +33,7 @@ const SelectField: React.FC<Props> = ({
       onChange={handleChange}
       options={options}
       suffixIcon={suffixIcon}
+      dropdownStyle={dropdownStyle}
     />
   );
 };
