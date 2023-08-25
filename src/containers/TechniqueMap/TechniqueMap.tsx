@@ -72,7 +72,7 @@ const TechniqueMap = () => {
 
   useEffect(() => {
     if (markerRef.current && socketMap?.online_vehicle_ids && socketMap?.all_vehicles_info) {
-      socketMap.all_vehicles_info.forEach((vehicleData) => {
+      socketMap?.all_vehicles_info?.forEach((vehicleData) => {
         const activeVehicleData = socketMap?.online_vehicle_ids?.find(
           (item) => item[vehicleData.id],
         );
