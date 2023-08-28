@@ -7,6 +7,7 @@ import { apiUrlCrop } from 'utils/config';
 import { buttonsDataManager, dateMomentTypeString } from 'utils/constants';
 
 export const dateWithTimeFormat = 'DD.MM.YYYY HH:mm';
+export const dateOnly = 'DD.MM.YYYY';
 
 type IndexableObject = {
   [key: string]: unknown;

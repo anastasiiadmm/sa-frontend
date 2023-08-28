@@ -12,6 +12,7 @@ import { ColumnsType } from 'antd/es/table';
 import { FilterValue, SorterResult } from 'antd/es/table/interface';
 import { Spin } from 'antd/lib';
 import bem from 'easy-bem';
+import moment from 'moment/moment';
 import React, { useEffect, useState } from 'react';
 
 import TableComponent from 'components/TableComponent/TableComponent';
@@ -20,6 +21,7 @@ import { IApk } from 'interfaces';
 import { accountsSelector, fetchApks } from 'redux/accounts/accountsSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import {
+  dateOnly,
   deleteEmptyQueryStrings,
   downloadFileHandler,
   getPageNumber,
@@ -153,6 +155,9 @@ const ApksList = () => {
       sorter: true,
       sortDirections: ['descend', 'ascend'],
       width: 170,
+      render: (text) => {
+        return <p>ver {moment(text, 'DD/MM/YYYY HH:mm:ssZ').format(dateOnly)}</p>;
+      },
     },
     {
       key: 'version',
