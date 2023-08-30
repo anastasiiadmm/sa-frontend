@@ -574,8 +574,8 @@ const accountsSlice = createSlice({
         state.apksPagination = {
           ...state.apksPagination,
           count: payload.count,
-          next: payload.links?.next || null,
-          previous: payload.links?.previous || null,
+          next: payload?.next || null,
+          previous: payload?.previous || null,
         } as apksPagination;
       })
       .addCase(fetchApks.rejected, (state, { payload }) => {
