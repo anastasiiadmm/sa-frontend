@@ -8,6 +8,7 @@ import { buttonsDataManager, dateMomentTypeString } from 'utils/constants';
 
 export const dateWithTimeFormat = 'DD.MM.YYYY HH:mm';
 export const dateOnly = 'DD.MM.YYYY';
+export const dateWithTimeSecFormat = 'DD/MM/YYYY HH:mm:ssZ';
 
 type IndexableObject = {
   [key: string]: unknown;

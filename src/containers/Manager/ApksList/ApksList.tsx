@@ -22,6 +22,7 @@ import { accountsSelector, fetchApks } from 'redux/accounts/accountsSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import {
   dateOnly,
+  dateWithTimeSecFormat,
   deleteEmptyQueryStrings,
   downloadFileHandler,
   getPageNumber,
@@ -171,7 +172,7 @@ const ApksList = () => {
       sortDirections: ['descend', 'ascend'],
       width: 170,
       render: (text) => {
-        return <p>ver {moment(text, 'DD/MM/YYYY HH:mm:ssZ').format(dateOnly)}</p>;
+        return <p>ver {moment(text, dateWithTimeSecFormat).format(dateOnly)}</p>;
       },
     },
     {
@@ -256,7 +257,7 @@ const ApksList = () => {
                   ver {apk?.version}
                 </Text>
                 <Text type='secondary'>
-                  {moment(apk?.created_at, 'DD/MM/YYYY HH:mm:ssZ').format(dateOnly)}
+                  {moment(apk?.created_at, dateWithTimeSecFormat).format(dateOnly)}
                 </Text>
                 <Divider style={{ margin: '10px 0' }} />
                 <Text type='secondary'>Изменения</Text>

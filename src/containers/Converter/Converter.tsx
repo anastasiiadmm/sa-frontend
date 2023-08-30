@@ -25,6 +25,7 @@ import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { convertOptions } from 'utils/constants';
 import {
   dateWithTimeFormat,
+  dateWithTimeSecFormat,
   downloadConvertedFileHandler,
   getPageNumber,
   getPageNumberPrevious,
@@ -246,7 +247,7 @@ const Converter = () => {
                               : converter?.task_UID}
                           </Title>
                           <Text type='secondary' className={b('subtitle')}>
-                            {moment(converter?.created_at, 'DD/MM/YYYY HH:mm:ssZ').format(
+                            {moment(converter?.created_at, dateWithTimeSecFormat).format(
                               dateWithTimeFormat,
                             )}
                           </Text>
