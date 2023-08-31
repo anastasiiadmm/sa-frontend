@@ -1,12 +1,12 @@
 import { useEffect, useRef } from 'react';
 
 import useWindowWidth from 'hooks/useWindowWidth';
-import { apksPagination, IAccount, IApk, pagination } from 'interfaces';
+import { apksPagination, IAccount, IApk, pagination, Requestor } from 'interfaces';
 
 interface UseInfiniteScrollProps {
   pageNextHandler: () => void;
   pagination: apksPagination | pagination | null;
-  allItems: IApk[] | IAccount[];
+  allItems: IApk[] | IAccount[] | Requestor[];
 }
 
 const useInfiniteScroll = ({ pageNextHandler, pagination, allItems }: UseInfiniteScrollProps) => {
