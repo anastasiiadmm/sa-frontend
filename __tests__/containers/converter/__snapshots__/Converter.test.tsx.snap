@@ -147,7 +147,6 @@ exports[`<Converter /> render component toMatchSnapshot() 1`] = `
                   </span>
                 </button>
                 <input
-                  accept=".zip"
                   data-testid="image-input"
                   id="image-input"
                   type="file"
@@ -357,7 +356,6 @@ exports[`<Converter /> render component toMatchSnapshot() 1`] = `
                 </span>
               </button>
               <input
-                accept=".zip"
                 data-testid="image-input"
                 id="image-input"
                 type="file"

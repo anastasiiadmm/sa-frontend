@@ -3,7 +3,7 @@ import { Button, Card, Tooltip, Typography } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { Spin } from 'antd/lib';
 import bem from 'easy-bem';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 
 import addedTechnique from 'assets/images/icons/added-technique.svg';
@@ -13,12 +13,12 @@ import tractorBlue from 'assets/images/icons/tractor-blue.svg';
 import notFoundImages from 'assets/images/notFound.svg';
 import Errors from 'components/Errors/Errors';
 import TableComponent from 'components/TableComponent/TableComponent';
+import useInfiniteScroll from 'hooks/useInfiniteScroll';
 import useWindowWidth from 'hooks/useWindowWidth';
 import { IAccount } from 'interfaces';
 import { companiesSelector, fetchUsersList } from 'redux/companies/companiesSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { getPageNumber, getPageNumberPrevious } from 'utils/helper';
-
 import 'containers/Manager/Users/_users.scss';
 
 const { Title, Text } = Typography;
@@ -35,6 +35,16 @@ const Users: React.FC = () => {
       ? Number(getPageNumber(companiesListPagination?.next))
       : Number(getPageNumberPrevious(companiesListPagination?.previous)),
   });
+  const [allUsers, setAllUsers] = useState<IAccount[]>([]);
+
+  useLayoutEffect(() => {
+    if (
+      companies &&
+      JSON.stringify(allUsers.slice(-companies.length)) !== JSON.stringify(companies)
+    ) {
+      setAllUsers((prevUsers) => [...prevUsers, ...companies]);
+    }
+  }, [companies, allUsers]);
 
   useEffect(() => {
     const data = {
@@ -59,6 +69,12 @@ const Users: React.FC = () => {
       page: Number(getPageNumber(companiesListPagination?.next)) + 1,
     });
   };
+
+  useInfiniteScroll({
+    pageNextHandler,
+    pagination: companiesListPagination,
+    allItems: allUsers,
+  });
 
   const nextBrowserUserInfoHandler = (id: number) => {
     push(`/user-profile/${id}/`);
@@ -177,11 +193,11 @@ const Users: React.FC = () => {
       {windowWidth <= 990 ? (
         fetchCompaniesLoading ? (
           <Spin className='spin' />
-        ) : companies?.length === 0 ? (
+        ) : allUsers?.length === 0 ? (
           <img src={notFoundImages} alt='notFoundImages' />
         ) : (
           <div className={b('list-block')}>
-            {companies?.map((comp) => {
+            {allUsers?.map((comp) => {
               return (
                 <Card
                   hoverable

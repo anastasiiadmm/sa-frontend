@@ -97,6 +97,7 @@
       justify-content: center;
       gap: 12px;
       flex-wrap: wrap;
+      margin: 38px 20px 106px 20px;
       > div {
         width: 250px;
       }
@@ -138,6 +139,7 @@
       display: flex;
       flex-direction: column;
       gap: 12px;
+      margin: 0 0 60px 0;
     }
 
     &__card-content-mobile {
