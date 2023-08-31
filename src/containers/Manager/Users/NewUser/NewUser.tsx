@@ -13,7 +13,6 @@ import { accountsSelector } from 'redux/accounts/accountsSlice';
 import { companiesSelector, userCreate } from 'redux/companies/companiesSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { getErrorMessage, removeEmptyValuesFromObject } from 'utils/helper';
-
 import 'containers/Manager/Users/NewUser/_NewUser.scss';
 
 const { Title } = Typography;

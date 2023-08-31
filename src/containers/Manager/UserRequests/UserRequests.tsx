@@ -1,19 +1,10 @@
 import { EyeOutlined } from '@ant-design/icons';
-import {
-  Button,
-  Card,
-  Divider,
-  message,
-  Spin,
-  TablePaginationConfig,
-  Tooltip,
-  Typography,
-} from 'antd';
+import { Button, Card, Divider, message, TablePaginationConfig, Tooltip, Typography } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { FilterValue, SorterResult } from 'antd/es/table/interface';
 import bem from 'easy-bem';
 import moment from 'moment';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 
 import changeProfile from 'assets/images/icons/change-profile-mobile.svg';
 import newTechnique from 'assets/images/icons/new-technique-mobile.svg';
@@ -33,6 +24,7 @@ import RequestAddTechnique from 'components/ModalComponent/ModalChildrenComponen
 import RequestRegisterUser from 'components/ModalComponent/ModalChildrenComponents/RequestsModals/RequestRegisterUser/RequestRegisterUser';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import TableComponent from 'components/TableComponent/TableComponent';
+import useInfiniteScroll from 'hooks/useInfiniteScroll';
 import useWindowWidth from 'hooks/useWindowWidth';
 import { IMyData, IMyDataApi, Requestor } from 'interfaces';
 import {
@@ -113,6 +105,16 @@ const UserRequests = () => {
     deleted_image: null,
   });
   const [orderSort, setOrderSort] = useState({ ordering: '' });
+  const [allRequests, setAllRequests] = useState<Requestor[]>([]);
+
+  useLayoutEffect(() => {
+    if (
+      requests &&
+      JSON.stringify(allRequests.slice(-requests.length)) !== JSON.stringify(requests)
+    ) {
+      setAllRequests((prevRequests) => [...prevRequests, ...requests]);
+    }
+  }, [requests, allRequests]);
 
   useEffect(() => {
     const queryObj = {
@@ -256,6 +258,12 @@ const UserRequests = () => {
       page: Number(getPageNumber(requestsPagination?.next)) + 1,
     });
   };
+
+  useInfiniteScroll({
+    pageNextHandler,
+    pagination: requestsPagination,
+    allItems: allRequests,
+  });
 
   const onClick = () => {
     setIsModalRequestOpen(false);
@@ -484,12 +492,10 @@ const UserRequests = () => {
     <>
       <div className={b()} data-testid='requests-id'>
         {windowWidth <= 601 ? (
-          fetchRequestsLoading ? (
-            <Spin className='spin' />
-          ) : requests?.length === 0 ? (
+          requests?.length === 0 ? (
             <img src={notFoundImages} alt='notFoundImages' />
           ) : (
-            requests?.map((request) => {
+            allRequests?.map((request) => {
               const { imageSrc, requestTitle } = getRequestData(request);
 
               return (
