@@ -1,5 +1,14 @@
 import { EyeOutlined } from '@ant-design/icons';
-import { Button, Card, Divider, message, TablePaginationConfig, Tooltip, Typography } from 'antd';
+import {
+  Button,
+  Card,
+  Divider,
+  message,
+  Spin,
+  TablePaginationConfig,
+  Tooltip,
+  Typography,
+} from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { FilterValue, SorterResult } from 'antd/es/table/interface';
 import bem from 'easy-bem';
@@ -495,40 +504,45 @@ const UserRequests = () => {
           requests?.length === 0 ? (
             <img src={notFoundImages} alt='notFoundImages' />
           ) : (
-            allRequests?.map((request) => {
-              const { imageSrc, requestTitle } = getRequestData(request);
+            <>
+              {allRequests?.map((request) => {
+                const { imageSrc, requestTitle } = getRequestData(request);
 
-              return (
-                <Card
-                  hoverable
-                  className={b('card-style-mobile')}
-                  bordered={false}
-                  key={request?.id}
-                  onClick={() => confirmationTypeHandler(request)}
-                >
-                  <div className={b('image-request')}>
-                    <img src={imageSrc} alt='request' />
-                  </div>
-                  <div className={b('request-block')}>
-                    <div>
-                      <Title level={4} className={b('request-title')}>
-                        {requestTitle}
-                      </Title>
-                      <Text type='secondary'>
-                        {moment(request?.created_at, dateMomentTypeDash).format(dateMomentTypeDash)}
-                      </Text>
+                return (
+                  <Card
+                    hoverable
+                    className={b('card-style-mobile')}
+                    bordered={false}
+                    key={request?.id}
+                    onClick={() => confirmationTypeHandler(request)}
+                  >
+                    <div className={b('image-request')}>
+                      <img src={imageSrc} alt='request' />
                     </div>
-                    <Divider style={{ margin: 0 }} />
-                    <div className={b('request-info')}>
-                      <Text type='secondary'>Источник запроса</Text>
-                      <Text strong>
-                        {request?.requestor === null ? 'Не указан' : request?.requestor}
-                      </Text>
+                    <div className={b('request-block')}>
+                      <div>
+                        <Title level={4} className={b('request-title')}>
+                          {requestTitle}
+                        </Title>
+                        <Text type='secondary'>
+                          {moment(request?.created_at, dateMomentTypeDash).format(
+                            dateMomentTypeDash,
+                          )}
+                        </Text>
+                      </div>
+                      <Divider style={{ margin: 0 }} />
+                      <div className={b('request-info')}>
+                        <Text type='secondary'>Источник запроса</Text>
+                        <Text strong>
+                          {request?.requestor === null ? 'Не указан' : request?.requestor}
+                        </Text>
+                      </div>
                     </div>
-                  </div>
-                </Card>
-              );
-            })
+                  </Card>
+                );
+              })}
+              {fetchRequestsLoading && <Spin className='spin-mobile' />}
+            </>
           )
         ) : (
           <div className={b('table')}>

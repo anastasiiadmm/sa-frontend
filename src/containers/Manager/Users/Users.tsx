@@ -1,5 +1,5 @@
 import { EyeOutlined } from '@ant-design/icons';
-import { Button, Card, Tooltip, Typography } from 'antd';
+import { Button, Card, Spin, Tooltip, Typography } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import bem from 'easy-bem';
 import React, { useEffect, useLayoutEffect, useState } from 'react';
@@ -226,6 +226,7 @@ const Users: React.FC = () => {
                 </Card>
               );
             })}
+            {fetchCompaniesLoading && <Spin className='spin-mobile' />}
           </div>
         )
       ) : (
