@@ -19,6 +19,7 @@ import {
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import {
   dateWithTimeFormat,
+  dateWithTimeSecFormat,
   downloadConvertedFileHandler,
   getPageNumber,
   getPageNumberPrevious,
@@ -133,7 +134,7 @@ const Files = () => {
                             : converter?.task_UID}
                         </Title>
                         <Text type='secondary'>
-                          {moment(converter?.created_at, 'DD/MM/YYYY HH:mm:ssZ').format(
+                          {moment(converter?.created_at, dateWithTimeSecFormat).format(
                             dateWithTimeFormat,
                           )}
                         </Text>

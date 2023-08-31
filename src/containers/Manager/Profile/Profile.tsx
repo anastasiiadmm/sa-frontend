@@ -2,7 +2,6 @@ import { UserOutlined } from '@ant-design/icons';
 import { Avatar, Button, Col, Form, message, Typography } from 'antd';
 import bem from 'easy-bem';
 import React, { useEffect, useState } from 'react';
-
 import { useNavigate } from 'react-router';
 
 import blockIcon from 'assets/images/icons/newIcon/block.svg';
