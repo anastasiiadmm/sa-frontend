@@ -26,7 +26,6 @@ const useInfiniteScroll = ({ pageNextHandler, pagination, allItems }: UseInfinit
       if (
         scrollTop > lastScrollTop.current &&
         scrollHeight - scrollTop <= clientHeight + threshold &&
-        pagination &&
         pagination?.next
       ) {
         loadMoreItems();
