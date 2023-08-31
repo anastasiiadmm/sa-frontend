@@ -1,4 +1,5 @@
 @use 'assets/scss/_themes.scss';
+@use 'assets/scss/_mixins.scss';
 
 .ApksList {
   &__table {
@@ -8,6 +9,7 @@
 
   &__apks-list-block {
     display: flex;
+    flex-direction: row;
     gap: 16px;
     flex-wrap: wrap;
     align-items: center;
@@ -40,5 +42,11 @@
   &__apks-button {
     margin: 15px 0;
     color: #689f3a;
+  }
+
+  @include mixins.bp(mobile) {
+    &__apks-list-block {
+      flex-direction: column;
+    }
   }
 }

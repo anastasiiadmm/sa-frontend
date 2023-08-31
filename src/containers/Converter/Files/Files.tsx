@@ -1,14 +1,14 @@
 import { Button, Card, message, Spin, Typography } from 'antd';
 import bem from 'easy-bem';
 import moment from 'moment/moment';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 
 import close from 'assets/images/icons/close.svg';
 import DrawerComponent from 'components/DrawerComponent/DrawerComponent';
 import Errors from 'components/Errors/Errors';
 import DeleteModal from 'components/ModalComponent/ModalChildrenComponents/DeleteModal/DeleteModal';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
-import PaginationComponent from 'components/TableComponent/PaginationComponent/PaginationComponent';
+import useInfiniteScroll from 'hooks/useInfiniteScroll';
 import useWindowWidth from 'hooks/useWindowWidth';
 import { IConverter } from 'interfaces/IConverter';
 import {
@@ -52,6 +52,16 @@ const Files = () => {
     name: '',
   });
   const [isLoading, setIsLoading] = useState<{ [key: string]: boolean }>({});
+  const [allFiles, setAllFiles] = useState<IConverter[]>([]);
+
+  useLayoutEffect(() => {
+    if (
+      converterList &&
+      JSON.stringify(allFiles.slice(-converterList.length)) !== JSON.stringify(converterList)
+    ) {
+      setAllFiles((prevFiles) => [...prevFiles, ...converterList]);
+    }
+  }, [converterList, allFiles]);
 
   useEffect(() => {
     const data = {
@@ -82,13 +92,15 @@ const Files = () => {
     setIsModalOpen(!isModalOpen);
   };
 
-  const pagePrevHandler = () => {
-    setFilters({ ...filters, page: filters.page - 1 });
-  };
-
   const pageNextHandler = () => {
     setFilters({ ...filters, page: filters.page + 1 });
   };
+
+  useInfiniteScroll({
+    pageNextHandler,
+    pagination: converterListPagination,
+    allItems: allFiles,
+  });
 
   const onClose = () => {
     setOpen(false);
@@ -114,61 +126,46 @@ const Files = () => {
 
   return (
     <>
-      {converterListLoading ? (
-        <Spin className='spin' />
-      ) : (
-        <>
-          <div className={b('history-list')}>
-            {converterList?.map((converter: IConverter) => {
-              const isLoadingState = isLoading[converter?.file];
+      <div className={b('history-list')}>
+        {allFiles?.map((converter: IConverter) => {
+          const isLoadingState = isLoading[converter?.file];
 
-              return (
-                <Card className={b('card-file-block')} key={converter?.id}>
-                  <div className={b('converter-card')}>
-                    <div className={b('info')}>
-                      <div>
-                        <Title className={b('heading')} level={5}>
-                          {converter?.task_UID && converter?.file
-                            ? converter.task_UID +
-                              converter.file.substring(converter.file.lastIndexOf('.'))
-                            : converter?.task_UID}
-                        </Title>
-                        <Text type='secondary'>
-                          {moment(converter?.created_at, dateWithTimeSecFormat).format(
-                            dateWithTimeFormat,
-                          )}
-                        </Text>
-                      </div>
-                      <Button
-                        onClick={() => showDeleteHandler(converter?.id, converter?.task_UID)}
-                        className={b('close-button')}
-                        icon={<img src={close} alt={close} />}
-                      />
-                    </div>
-                    <Button
-                      className='button-style'
-                      loading={isLoadingState}
-                      onClick={() => handleDownloadClick(converter?.file)}
-                    >
-                      Скачать
-                    </Button>
+          return (
+            <Card className={b('card-file-block')} key={converter?.id}>
+              <div className={b('converter-card')}>
+                <div className={b('info')}>
+                  <div>
+                    <Title className={b('heading')} level={5}>
+                      {converter?.task_UID && converter?.file
+                        ? converter.task_UID +
+                          converter.file.substring(converter.file.lastIndexOf('.'))
+                        : converter?.task_UID}
+                    </Title>
+                    <Text type='secondary'>
+                      {moment(converter?.created_at, dateWithTimeSecFormat).format(
+                        dateWithTimeFormat,
+                      )}
+                    </Text>
                   </div>
-                </Card>
-              );
-            })}
-          </div>
-          <PaginationComponent
-            paginationFilesBlock='pagination-bg'
-            params={
-              converterListLoading
-                ? { previous: null, next: null, count: 0 }
-                : converterListPagination
-            }
-            pagePrevHandler={pagePrevHandler}
-            pageNextHandler={pageNextHandler}
-          />
-        </>
-      )}
+                  <Button
+                    onClick={() => showDeleteHandler(converter?.id, converter?.task_UID)}
+                    className={b('close-button')}
+                    icon={<img src={close} alt={close} />}
+                  />
+                </div>
+                <Button
+                  className='button-style'
+                  loading={isLoadingState}
+                  onClick={() => handleDownloadClick(converter?.file)}
+                >
+                  Скачать
+                </Button>
+              </div>
+            </Card>
+          );
+        })}
+      </div>
+      {converterListLoading && <Spin className='spin-mobile' />}
 
       <ModalComponent
         dividerShow={false}
