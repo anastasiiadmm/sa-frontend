@@ -10,16 +10,19 @@ import {
 } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { FilterValue, SorterResult } from 'antd/es/table/interface';
-import { Spin } from 'antd/lib';
 import bem from 'easy-bem';
-import React, { useEffect, useState } from 'react';
+import moment from 'moment/moment';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 
 import TableComponent from 'components/TableComponent/TableComponent';
+import useInfiniteScroll from 'hooks/useInfiniteScroll';
 import useWindowWidth from 'hooks/useWindowWidth';
 import { IApk } from 'interfaces';
 import { accountsSelector, fetchApks } from 'redux/accounts/accountsSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import {
+  dateOnly,
+  dateWithTimeSecFormat,
   deleteEmptyQueryStrings,
   downloadFileHandler,
   getPageNumber,
@@ -42,12 +45,21 @@ const ApksList = () => {
   const [orderSort, setOrderSort] = useState({ ordering: '' });
   const [isLoadingMap, setIsLoadingMap] = useState<{ [key: string]: boolean }>({});
   const [statusMap, setStatusMap] = useState<{ [key: string]: string }>({});
+  const [allApks, setAllApks] = useState<IApk[]>([]);
+
+  useLayoutEffect(() => {
+    if (apk && JSON.stringify(allApks.slice(-apk.length)) !== JSON.stringify(apk)) {
+      setAllApks((prevApks) => [...prevApks, ...apk]);
+    }
+  }, [apk, allApks]);
 
   useEffect(() => {
     const newStatusMap: { [key: string]: string } = {};
 
-    if (apk && apk?.length > 0) {
-      const sortedApk = [...apk].sort((a, b) => String(a.version).localeCompare(String(b.version)));
+    if (allApks && allApks?.length > 0) {
+      const sortedApk = [...allApks].sort((a, b) =>
+        String(a.version).localeCompare(String(b.version)),
+      );
 
       for (let i = 0; i < sortedApk.length; i++) {
         const version = sortedApk[i].version;
@@ -97,6 +109,12 @@ const ApksList = () => {
       page: Number(getPageNumber(apksPagination?.next)) + 1,
     });
   };
+
+  useInfiniteScroll({
+    pageNextHandler,
+    pagination: apksPagination,
+    allItems: allApks,
+  });
 
   const handleTableSortChange = (
     pagination: TablePaginationConfig,
@@ -153,6 +171,9 @@ const ApksList = () => {
       sorter: true,
       sortDirections: ['descend', 'ascend'],
       width: 170,
+      render: (text) => {
+        return <p>ver {moment(text, dateWithTimeSecFormat).format(dateOnly)}</p>;
+      },
     },
     {
       key: 'version',
@@ -199,65 +220,63 @@ const ApksList = () => {
   return (
     <div className={b()} data-testid='apks-id'>
       {windowWidth <= 990 ? (
-        apkLoading ? (
-          <Spin className='spin' />
-        ) : (
-          <div className={b('apks-list-block')}>
-            {apk?.map((apk: IApk) => {
-              const status = statusMap[apk?.version];
+        <div className={b('apks-list-block')}>
+          {allApks?.map((apk: IApk) => {
+            const status = statusMap[apk?.version];
 
-              let tagColor: string;
-              let badgeColor: string;
-              let tagLabel: string;
+            let tagColor: string;
+            let badgeColor: string;
+            let tagLabel: string;
 
-              switch (status) {
-                case 'Актуальное':
-                  tagColor = 'green';
-                  badgeColor = '#689F3A';
-                  tagLabel = 'Актуальное';
-                  break;
+            switch (status) {
+              case 'Актуальное':
+                tagColor = 'green';
+                badgeColor = '#689F3A';
+                tagLabel = 'Актуальное';
+                break;
 
-                case 'Стабильное':
-                  tagColor = 'geekblue';
-                  badgeColor = '#3A629F';
-                  tagLabel = 'Стабильное';
-                  break;
+              case 'Стабильное':
+                tagColor = 'geekblue';
+                badgeColor = '#3A629F';
+                tagLabel = 'Стабильное';
+                break;
 
-                default:
-                  tagColor = 'orange';
-                  badgeColor = '#FAC473';
-                  tagLabel = 'Архив';
-                  break;
-              }
+              default:
+                tagColor = 'orange';
+                badgeColor = '#FAC473';
+                tagLabel = 'Архив';
+                break;
+            }
 
-              return (
-                <Card bordered={false} key={apk?.version} className={b('apks-block')}>
-                  <Tag color={tagColor} style={{ width: 115 }}>
-                    <Badge color={badgeColor} /> {tagLabel}
-                  </Tag>
-                  <Text strong style={{ fontSize: 20 }}>
-                    ver {apk?.version}
+            return (
+              <Card bordered={false} key={apk?.version} className={b('apks-block')}>
+                <Tag color={tagColor} style={{ width: 115 }}>
+                  <Badge color={badgeColor} /> {tagLabel}
+                </Tag>
+                <Text strong style={{ fontSize: 20 }}>
+                  ver {apk?.version}
+                </Text>
+                <Text type='secondary'>
+                  {moment(apk?.created_at, dateWithTimeSecFormat).format(dateOnly)}
+                </Text>
+                <Divider style={{ margin: '10px 0' }} />
+                <Text type='secondary'>Изменения</Text>
+                <Tooltip placement='top' title={apk?.description}>
+                  <Text type='secondary' className={b('apk-description')}>
+                    {apk?.description}
                   </Text>
-                  <Text type='secondary'>ver {apk?.created_at}</Text>
-                  <Divider style={{ margin: '10px 0' }} />
-                  <Text type='secondary'>Изменения</Text>
-                  <Tooltip placement='top' title={apk?.description}>
-                    <Text type='secondary' className={b('apk-description')}>
-                      {apk?.description}
-                    </Text>
-                  </Tooltip>
-                  <Button
-                    type='default'
-                    className={b('apks-button')}
-                    onClick={() => handleDownloadClick(apk?.file)}
-                  >
-                    Скачать
-                  </Button>
-                </Card>
-              );
-            })}
-          </div>
-        )
+                </Tooltip>
+                <Button
+                  type='default'
+                  className={b('apks-button')}
+                  onClick={() => handleDownloadClick(apk?.file)}
+                >
+                  Скачать
+                </Button>
+              </Card>
+            );
+          })}
+        </div>
       ) : (
         <div className={b('table')}>
           <Title level={3} data-testid='sign_in_test' className={b('title')}>
