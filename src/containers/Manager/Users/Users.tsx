@@ -1,7 +1,6 @@
 import { EyeOutlined } from '@ant-design/icons';
 import { Button, Card, Tooltip, Typography } from 'antd';
 import { ColumnsType } from 'antd/es/table';
-import { Spin } from 'antd/lib';
 import bem from 'easy-bem';
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
@@ -191,9 +190,7 @@ const Users: React.FC = () => {
         )}
       </div>
       {windowWidth <= 990 ? (
-        fetchCompaniesLoading ? (
-          <Spin className='spin' />
-        ) : allUsers?.length === 0 ? (
+        allUsers?.length === 0 ? (
           <img src={notFoundImages} alt='notFoundImages' />
         ) : (
           <div className={b('list-block')}>
