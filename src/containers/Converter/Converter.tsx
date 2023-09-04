@@ -124,7 +124,8 @@ const Converter = () => {
     try {
       const formData = new FormData();
       if (file) {
-        formData.append('file', file);
+        const blob = new Blob([file], { type: 'application/zip' });
+        formData.append('file', blob, file?.name);
       }
       // eslint-disable-next-line no-console
       console.log('file', file);
