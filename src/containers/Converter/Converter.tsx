@@ -126,6 +126,8 @@ const Converter = () => {
       if (file) {
         formData.append('file', file);
       }
+      // eslint-disable-next-line no-console
+      console.log('file', file);
       await dispatch(convertFile(formData)).unwrap();
       await clearFileHandle();
       message.success('Файл успешно сконвертирован');
