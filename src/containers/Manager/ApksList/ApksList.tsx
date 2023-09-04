@@ -203,26 +203,22 @@ const ApksList = () => {
       filterSearch: true,
       render: (text, record) => {
         const isLoading = isLoadingMap[record?.file];
+        const commonButtonProps = {
+          role: 'button',
+          'data-testid': 'download-button',
+          loading: isLoading,
+          onClick: () => handleDownloadClick(record?.file),
+        };
 
         return windowWidth <= 990 ? (
           <Button
-            icon={<img src={downloadButton} alt='downloadButton' />}
-            role='button'
-            data-testid='download-button'
             type='default'
+            icon={<img src={downloadButton} alt='downloadButton' />}
             className={b('download-icon-button')}
-            loading={isLoading}
-            onClick={() => handleDownloadClick(record?.file)}
+            {...commonButtonProps}
           />
         ) : (
-          <Button
-            role='button'
-            data-testid='download-button'
-            type='default'
-            className={b('download-button')}
-            loading={isLoading}
-            onClick={() => handleDownloadClick(record?.file)}
-          >
+          <Button type='default' className={b('download-button')} {...commonButtonProps}>
             Скачать
           </Button>
         );
