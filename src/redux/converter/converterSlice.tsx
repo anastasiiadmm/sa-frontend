@@ -85,7 +85,11 @@ export const convertFile = createAsyncThunk<void, FormData>(
   `${nameSpace}/convertFile`,
   async (data, { rejectWithValue }) => {
     try {
-      const resp = await axiosApi.post(`/common/converter/`, data);
+      const resp = await axiosApi.post(`/common/converter/`, data, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
       return resp.data;
     } catch (e) {
       return rejectWithValue({
