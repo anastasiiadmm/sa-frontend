@@ -126,18 +126,20 @@ const Converter = () => {
       if (file) {
         formData.append('file', file);
       }
+      // eslint-disable-next-line no-console
+      console.log('file', file);
       await dispatch(convertFile(formData)).unwrap();
       await clearFileHandle();
-      message.success('Конвертация файла произошла успешно.');
+      message.success('Файл успешно сконвертирован');
     } catch (e) {
       if (e?.detail?.non_field_errors) {
         const errorMessage = e?.detail?.non_field_errors[0];
 
         if (errorMessage === 'Archive file does not contain supported file format') {
-          await message.error('Архивный файл не содержит поддерживаемого формата файла.');
+          await message.error('Архивный файл не содержит поддерживаемого формата файла');
         }
       } else {
-        await message.error('Произошла ошибка.');
+        await message.error('Произошла ошибка');
       }
     }
   };
@@ -239,31 +241,39 @@ const Converter = () => {
                     return (
                       <Card className={b('card-file-block')} key={converter?.id}>
                         <div className={b('converter-card')}>
-                          <Title className={b('heading')} level={5}>
-                            {converter?.task_UID && converter?.file
-                              ? converter.task_UID +
-                                converter.file.substring(converter.file.lastIndexOf('.'))
-                              : converter?.task_UID}
-                          </Title>
-                          <Text type='secondary' className={b('subtitle')}>
-                            {moment(converter?.created_at, dateWithTimeSecFormat).format(
-                              dateWithTimeFormat,
-                            )}
-                          </Text>
-                          <Button
-                            className='button-style button-width'
-                            loading={isLoadingState}
-                            onClick={() => handleDownloadClick(converter?.file)}
-                          >
-                            Скачать
-                          </Button>
-                          <Button
-                            className='button-style button-width'
-                            danger
-                            onClick={() => showDeleteModal(converter?.id, converter?.task_UID)}
-                          >
-                            Удалить
-                          </Button>
+                          <div className={b('info-column')}>
+                            <Title className={b('heading')} level={5}>
+                              {converter?.task_UID && converter?.file
+                                ? converter.task_UID +
+                                  converter.file.substring(converter.file.lastIndexOf('.'))
+                                : converter?.task_UID}
+                            </Title>
+                          </div>
+                          <div className={b('info-column')}>
+                            <div className={b('info-item')}>
+                              <Text type='secondary' className={b('subtitle')}>
+                                {moment(converter?.created_at, dateWithTimeSecFormat).format(
+                                  dateWithTimeFormat,
+                                )}
+                              </Text>
+                            </div>
+                            <div className={b('info-item')}>
+                              <Button
+                                className='button-style button-width'
+                                loading={isLoadingState}
+                                onClick={() => handleDownloadClick(converter?.file)}
+                              >
+                                Скачать
+                              </Button>
+                              <Button
+                                className='button-style button-width'
+                                danger
+                                onClick={() => showDeleteModal(converter?.id, converter?.task_UID)}
+                              >
+                                Удалить
+                              </Button>
+                            </div>
+                          </div>
                         </div>
                       </Card>
                     );
