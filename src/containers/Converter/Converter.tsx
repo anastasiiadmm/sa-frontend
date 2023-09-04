@@ -127,8 +127,6 @@ const Converter = () => {
         const blob = new Blob([file], { type: 'application/zip' });
         formData.append('file', blob, file?.name);
       }
-      // eslint-disable-next-line no-console
-      console.log('file', file);
       await dispatch(convertFile(formData)).unwrap();
       await clearFileHandle();
       message.success('Файл успешно сконвертирован');
