@@ -1,6 +1,8 @@
 import { renderHook, act } from '@testing-library/react-hooks';
-import useWindowWidth from "../../src/hooks/useWindowWidth";
 import useInfiniteScroll from "../../src/hooks/useInfiniteScroll";
+import "@testing-library/jest-dom";
+import { IAccount, IApk, IConverter, Requestor } from "../../src/interfaces";
+import useWindowWidth from "../../src/hooks/useWindowWidth";
 
 jest.mock('../../src/hooks/useWindowWidth');
 
@@ -19,9 +21,9 @@ describe('useInfiniteScroll', () => {
   it('should call pageNextHandler when scrolled to bottom', () => {
     const mockPageNextHandler = jest.fn();
     const mockPagination = {
-      next: 'some-value',
+      next: 2,
     };
-    const mockAllItems = [];
+    const mockAllItems: IApk[] | IAccount[] | Requestor[] | IConverter[] = [];
 
     useWindowWidth.mockReturnValue(980);
 
@@ -29,6 +31,7 @@ describe('useInfiniteScroll', () => {
       pageNextHandler: mockPageNextHandler,
       pagination: mockPagination,
       allItems: mockAllItems,
+      widthNumber: 980,
     }));
 
     const element = document.querySelector('.ant-layout-content');
@@ -47,4 +50,3 @@ describe('useInfiniteScroll', () => {
     }
   });
 });
-

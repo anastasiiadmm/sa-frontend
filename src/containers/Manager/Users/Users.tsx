@@ -73,6 +73,7 @@ const Users: React.FC = () => {
     pageNextHandler,
     pagination: companiesListPagination,
     allItems: allUsers,
+    width: 601,
   });
 
   const nextBrowserUserInfoHandler = (id: number) => {
@@ -189,7 +190,7 @@ const Users: React.FC = () => {
           </>
         )}
       </div>
-      {windowWidth <= 990 ? (
+      {windowWidth <= 601 ? (
         allUsers?.length === 0 ? (
           <img src={notFoundImages} alt='notFoundImages' />
         ) : (
