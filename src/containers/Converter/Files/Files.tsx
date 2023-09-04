@@ -100,7 +100,7 @@ const Files = () => {
     pageNextHandler,
     pagination: converterListPagination,
     allItems: allFiles,
-    width: 990,
+    widthNumber: 990,
   });
 
   const onClose = () => {

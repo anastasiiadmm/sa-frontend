@@ -116,7 +116,7 @@ const ApksList = () => {
     pageNextHandler,
     pagination: apksPagination,
     allItems: allApks,
-    width: 601,
+    widthNumber: 601,
   });
 
   const handleTableSortChange = (

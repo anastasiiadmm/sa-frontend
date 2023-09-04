@@ -272,7 +272,7 @@ const UserRequests = () => {
     pageNextHandler,
     pagination: requestsPagination,
     allItems: allRequests,
-    width: 601,
+    widthNumber: 601,
   });
 
   const onClick = () => {

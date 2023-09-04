@@ -73,7 +73,7 @@ const Users: React.FC = () => {
     pageNextHandler,
     pagination: companiesListPagination,
     allItems: allUsers,
-    width: 601,
+    widthNumber: 601,
   });
 
   const nextBrowserUserInfoHandler = (id: number) => {
