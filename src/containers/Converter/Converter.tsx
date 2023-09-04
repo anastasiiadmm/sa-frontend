@@ -128,16 +128,16 @@ const Converter = () => {
       }
       await dispatch(convertFile(formData)).unwrap();
       await clearFileHandle();
-      message.success('Конвертация файла произошла успешно.');
+      message.success('Файл успешно сконвертирован');
     } catch (e) {
       if (e?.detail?.non_field_errors) {
         const errorMessage = e?.detail?.non_field_errors[0];
 
         if (errorMessage === 'Archive file does not contain supported file format') {
-          await message.error('Архивный файл не содержит поддерживаемого формата файла.');
+          await message.error('Архивный файл не содержит поддерживаемого формата файла');
         }
       } else {
-        await message.error('Произошла ошибка.');
+        await message.error('Произошла ошибка');
       }
     }
   };
