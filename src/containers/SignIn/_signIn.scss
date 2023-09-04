@@ -99,7 +99,13 @@
     -webkit-text-fill-color: black;
     -webkit-box-shadow: 0 0 0 1000px transparent inset;
     transition: background-color 5000s ease-in-out 0s;
-    background: -webkit-linear-gradient(top,  rgba(231, 240, 254, 0) 0%, rgba(231, 240, 254, 0) 50%, rgba(231, 240, 254, 0) 51%, rgba(231, 240, 254, 0) 100%);
+    background: -webkit-linear-gradient(
+      top,
+      rgba(231, 240, 254, 0) 0%,
+      rgba(231, 240, 254, 0) 50%,
+      rgba(231, 240, 254, 0) 51%,
+      rgba(231, 240, 254, 0) 100%
+    );
   }
 
   .ant-form-item {
@@ -134,7 +140,7 @@
   }
 
   .ant-form-vertical .ant-form-item-row {
-    background: #F6F6F6;
+    background: #f6f6f6;
     border-radius: 8px;
     margin-top: 24px;
   }
@@ -150,5 +156,10 @@
 
   .ant-input-affix-wrapper {
     border-color: transparent !important;
+  }
+
+  .ant-input:focus,
+  .ant-input-focused {
+    box-shadow: 0 0 0 0 rgba(55, 81, 13, 0.19);
   }
 }
