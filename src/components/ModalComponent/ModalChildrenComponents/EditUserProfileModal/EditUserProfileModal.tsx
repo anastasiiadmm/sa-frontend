@@ -342,7 +342,6 @@ const EditUserProfileModal: React.FC<Props> = ({
                   onClick={prevButtonHandler}
                   type='primary'
                   htmlType='submit'
-                  loading={loading}
                   className={b('cancel-profile-button')}
                 >
                   Отменить
