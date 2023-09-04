@@ -25,6 +25,7 @@ import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { convertOptions } from 'utils/constants';
 import {
   dateWithTimeFormat,
+  dateWithTimeSecFormat,
   downloadConvertedFileHandler,
   getPageNumber,
   getPageNumberPrevious,
@@ -238,39 +239,31 @@ const Converter = () => {
                     return (
                       <Card className={b('card-file-block')} key={converter?.id}>
                         <div className={b('converter-card')}>
-                          <div className={b('info-column')}>
-                            <Title className={b('heading')} level={5}>
-                              {converter?.task_UID && converter?.file
-                                ? converter.task_UID +
-                                  converter.file.substring(converter.file.lastIndexOf('.'))
-                                : converter?.task_UID}
-                            </Title>
-                          </div>
-                          <div className={b('info-column')}>
-                            <div className={b('info-item')}>
-                              <Text type='secondary' className={b('subtitle')}>
-                                {moment(converter?.created_at, 'DD/MM/YYYY HH:mm:ssZ').format(
-                                  dateWithTimeFormat,
-                                )}
-                              </Text>
-                            </div>
-                            <div className={b('info-item')}>
-                              <Button
-                                className='button-style button-width'
-                                loading={isLoadingState}
-                                onClick={() => handleDownloadClick(converter?.file)}
-                              >
-                                Скачать
-                              </Button>
-                              <Button
-                                className='button-style button-width'
-                                danger
-                                onClick={() => showDeleteModal(converter?.id, converter?.task_UID)}
-                              >
-                                Удалить
-                              </Button>
-                            </div>
-                          </div>
+                          <Title className={b('heading')} level={5}>
+                            {converter?.task_UID && converter?.file
+                              ? converter.task_UID +
+                                converter.file.substring(converter.file.lastIndexOf('.'))
+                              : converter?.task_UID}
+                          </Title>
+                          <Text type='secondary' className={b('subtitle')}>
+                            {moment(converter?.created_at, dateWithTimeSecFormat).format(
+                              dateWithTimeFormat,
+                            )}
+                          </Text>
+                          <Button
+                            className='button-style button-width'
+                            loading={isLoadingState}
+                            onClick={() => handleDownloadClick(converter?.file)}
+                          >
+                            Скачать
+                          </Button>
+                          <Button
+                            className='button-style button-width'
+                            danger
+                            onClick={() => showDeleteModal(converter?.id, converter?.task_UID)}
+                          >
+                            Удалить
+                          </Button>
                         </div>
                       </Card>
                     );

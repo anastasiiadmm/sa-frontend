@@ -4,9 +4,10 @@ import { Routes } from 'react-router-dom';
 
 import AppRouter from 'AppRouter/AppRouter';
 import SignIn from 'containers/SignIn/SignIn';
+import { useTokenConfigs } from 'hooks/useTokensConfigs';
 import { IListener } from 'interfaces';
-import { authSelector, checkForTokens, clearTokens, logoutUser } from 'redux/auth/authSlice';
-import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { checkForTokens, clearTokens, logoutUser } from 'redux/auth/authSlice';
+import { useAppDispatch } from 'redux/hooks';
 import { deleteCookie, getCookie, nameRefreshCookies } from 'utils/addCookies/addCookies';
 import {
   logoutLocalStorage,
@@ -15,8 +16,8 @@ import {
 } from 'utils/addLocalStorage/addLocalStorage';
 
 const App: React.FC = () => {
-  const { tokens } = useAppSelector(authSelector);
   const dispatch = useAppDispatch();
+  const tokenConfigs = useTokenConfigs();
 
   useEffect(() => {
     const tokensLocal = userLocalStorage(getCookie(nameRefreshCookies));
@@ -49,12 +50,10 @@ const App: React.FC = () => {
       }
     }
   };
-  return tokens?.access && tokens?.refresh ? (
+  return tokenConfigs ? (
     <AppRouter />
   ) : (
-    <Routes>
-      {tokens?.access && tokens?.refresh ? null : <Route path='*' element={<SignIn />} />}
-    </Routes>
+    <Routes>{tokenConfigs ? null : <Route path='*' element={<SignIn />} />}</Routes>
   );
 };
 

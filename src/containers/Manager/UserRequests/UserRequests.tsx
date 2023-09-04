@@ -13,7 +13,7 @@ import { ColumnsType } from 'antd/es/table';
 import { FilterValue, SorterResult } from 'antd/es/table/interface';
 import bem from 'easy-bem';
 import moment from 'moment';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 
 import changeProfile from 'assets/images/icons/change-profile-mobile.svg';
 import newTechnique from 'assets/images/icons/new-technique-mobile.svg';
@@ -33,6 +33,7 @@ import RequestAddTechnique from 'components/ModalComponent/ModalChildrenComponen
 import RequestRegisterUser from 'components/ModalComponent/ModalChildrenComponents/RequestsModals/RequestRegisterUser/RequestRegisterUser';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import TableComponent from 'components/TableComponent/TableComponent';
+import useInfiniteScroll from 'hooks/useInfiniteScroll';
 import useWindowWidth from 'hooks/useWindowWidth';
 import { IMyData, IMyDataApi, Requestor } from 'interfaces';
 import {
@@ -113,6 +114,16 @@ const UserRequests = () => {
     deleted_image: null,
   });
   const [orderSort, setOrderSort] = useState({ ordering: '' });
+  const [allRequests, setAllRequests] = useState<Requestor[]>([]);
+
+  useLayoutEffect(() => {
+    if (
+      requests &&
+      JSON.stringify(allRequests.slice(-requests.length)) !== JSON.stringify(requests)
+    ) {
+      setAllRequests((prevRequests) => [...prevRequests, ...requests]);
+    }
+  }, [requests, allRequests]);
 
   useEffect(() => {
     const queryObj = {
@@ -256,6 +267,12 @@ const UserRequests = () => {
       page: Number(getPageNumber(requestsPagination?.next)) + 1,
     });
   };
+
+  useInfiniteScroll({
+    pageNextHandler,
+    pagination: requestsPagination,
+    allItems: allRequests,
+  });
 
   const onClick = () => {
     setIsModalRequestOpen(false);
@@ -484,45 +501,48 @@ const UserRequests = () => {
     <>
       <div className={b()} data-testid='requests-id'>
         {windowWidth <= 601 ? (
-          fetchRequestsLoading ? (
-            <Spin className='spin' />
-          ) : requests?.length === 0 ? (
+          requests?.length === 0 ? (
             <img src={notFoundImages} alt='notFoundImages' />
           ) : (
-            requests?.map((request) => {
-              const { imageSrc, requestTitle } = getRequestData(request);
+            <>
+              {allRequests?.map((request) => {
+                const { imageSrc, requestTitle } = getRequestData(request);
 
-              return (
-                <Card
-                  hoverable
-                  className={b('card-style-mobile')}
-                  bordered={false}
-                  key={request?.id}
-                  onClick={() => confirmationTypeHandler(request)}
-                >
-                  <div className={b('image-request')}>
-                    <img src={imageSrc} alt='request' />
-                  </div>
-                  <div className={b('request-block')}>
-                    <div>
-                      <Title level={4} className={b('request-title')}>
-                        {requestTitle}
-                      </Title>
-                      <Text type='secondary'>
-                        {moment(request?.created_at, dateMomentTypeDash).format(dateMomentTypeDash)}
-                      </Text>
+                return (
+                  <Card
+                    hoverable
+                    className={b('card-style-mobile')}
+                    bordered={false}
+                    key={request?.id}
+                    onClick={() => confirmationTypeHandler(request)}
+                  >
+                    <div className={b('image-request')}>
+                      <img src={imageSrc} alt='request' />
                     </div>
-                    <Divider style={{ margin: 0 }} />
-                    <div className={b('request-info')}>
-                      <Text type='secondary'>Источник запроса</Text>
-                      <Text strong>
-                        {request?.requestor === null ? 'Не указан' : request?.requestor}
-                      </Text>
+                    <div className={b('request-block')}>
+                      <div>
+                        <Title level={4} className={b('request-title')}>
+                          {requestTitle}
+                        </Title>
+                        <Text type='secondary'>
+                          {moment(request?.created_at, dateMomentTypeDash).format(
+                            dateMomentTypeDash,
+                          )}
+                        </Text>
+                      </div>
+                      <Divider style={{ margin: 0 }} />
+                      <div className={b('request-info')}>
+                        <Text type='secondary'>Источник запроса</Text>
+                        <Text strong>
+                          {request?.requestor === null ? 'Не указан' : request?.requestor}
+                        </Text>
+                      </div>
                     </div>
-                  </div>
-                </Card>
-              );
-            })
+                  </Card>
+                );
+              })}
+              {fetchRequestsLoading && <Spin className='spin-mobile' />}
+            </>
           )
         ) : (
           <div className={b('table')}>
