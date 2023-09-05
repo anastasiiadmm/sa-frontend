@@ -91,6 +91,7 @@ const UserProfileTablet = () => {
     try {
       if (values) {
         await dispatch(updateUserInfo({ id, data: values })).unwrap();
+        await history(`/user-profile/${id}`);
       }
     } catch (e) {
       const errorMessage = getErrorMessage(e, 'username');
