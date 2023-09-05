@@ -55,19 +55,21 @@ const MenuMobileComponent = () => {
       icon: rightArrow,
       link: account?.is_manager ? '/manager-profile' : '/user-profile-view',
     },
-    {
-      image: <img src={cloud} alt='cloud' />,
-      title: 'Метеосервис',
-      icon: rightArrow,
-      link: '/field-climate',
-    },
+    account?.company?.weather_service
+      ? {
+          image: <img src={cloud} alt='cloud' />,
+          title: 'Метеосервис',
+          icon: rightArrow,
+          link: '/field-climate',
+        }
+      : undefined,
     {
       image: <img src={converter} alt='converter' />,
       title: 'Конвертер',
       icon: rightArrow,
       link: '/converter',
     },
-  ];
+  ].filter(Boolean);
 
   return (
     <div className={b('')}>
@@ -76,17 +78,17 @@ const MenuMobileComponent = () => {
           <SkeletonBlock active={fetchLoadingAccount} num={1} titleBool />
         ) : (
           cardData.map((item) => (
-            <Link to={item.link} key={item.link}>
+            <Link to={item?.link || '#'} key={item?.link}>
               <Card className={b('card-block')} hoverable>
-                <div>{item.image}</div>
+                <div>{item?.image}</div>
                 <div className={b('info-block')}>
                   <Title level={5} className={b('title')}>
-                    {item.title}
+                    {item?.title}
                   </Title>
-                  {item.subTitle && <Text type='secondary'>{item.subTitle}</Text>}
+                  {item?.subTitle && <Text type='secondary'>{item?.subTitle}</Text>}
                 </div>
                 <div>
-                  <img src={item.icon} alt='rightArrow' />
+                  <img src={item?.icon} alt='rightArrow' />
                 </div>
               </Card>
             </Link>
