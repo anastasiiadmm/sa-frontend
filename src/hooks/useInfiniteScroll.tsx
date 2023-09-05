@@ -7,9 +7,15 @@ interface UseInfiniteScrollProps {
   pageNextHandler: () => void;
   pagination: apksPagination | pagination | null;
   allItems: IApk[] | IAccount[] | Requestor[] | IConverter[];
+  widthNumber: number;
 }
 
-const useInfiniteScroll = ({ pageNextHandler, pagination, allItems }: UseInfiniteScrollProps) => {
+const useInfiniteScroll = ({
+  pageNextHandler,
+  pagination,
+  allItems,
+  widthNumber,
+}: UseInfiniteScrollProps) => {
   const lastScrollTop = useRef(0);
   const windowWidth = useWindowWidth();
 
@@ -36,7 +42,7 @@ const useInfiniteScroll = ({ pageNextHandler, pagination, allItems }: UseInfinit
   };
 
   useEffect(() => {
-    if (windowWidth <= 990) {
+    if (windowWidth <= widthNumber) {
       const element = document.querySelector('.ant-layout-content');
       if (element) {
         element.addEventListener('scroll', onScrollHandler);

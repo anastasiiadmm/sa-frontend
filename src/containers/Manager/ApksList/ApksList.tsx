@@ -15,6 +15,7 @@ import bem from 'easy-bem';
 import moment from 'moment/moment';
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 
+import downloadButton from 'assets/images/icons/download_button_desktop.svg';
 import TableComponent from 'components/TableComponent/TableComponent';
 import useInfiniteScroll from 'hooks/useInfiniteScroll';
 import useWindowWidth from 'hooks/useWindowWidth';
@@ -115,6 +116,7 @@ const ApksList = () => {
     pageNextHandler,
     pagination: apksPagination,
     allItems: allApks,
+    widthNumber: 601,
   });
 
   const handleTableSortChange = (
@@ -152,6 +154,7 @@ const ApksList = () => {
             style={{ width: 115 }}
           >
             <Badge
+              className={b('badge-styles')}
               color={
                 status === 'Актуальное'
                   ? '#689F3A'
@@ -200,16 +203,22 @@ const ApksList = () => {
       filterSearch: true,
       render: (text, record) => {
         const isLoading = isLoadingMap[record?.file];
+        const commonButtonProps = {
+          role: 'button',
+          'data-testid': 'download-button',
+          loading: isLoading,
+          onClick: () => handleDownloadClick(record?.file),
+        };
 
-        return (
+        return windowWidth <= 990 ? (
           <Button
-            role='button'
-            data-testid='download-button'
             type='default'
-            style={{ float: 'right' }}
-            loading={isLoading}
-            onClick={() => handleDownloadClick(record?.file)}
-          >
+            icon={<img src={downloadButton} alt='downloadButton' />}
+            className={b('download-icon-button')}
+            {...commonButtonProps}
+          />
+        ) : (
+          <Button type='default' className={b('download-button')} {...commonButtonProps}>
             Скачать
           </Button>
         );
@@ -220,7 +229,7 @@ const ApksList = () => {
 
   return (
     <div className={b()} data-testid='apks-id'>
-      {windowWidth <= 990 ? (
+      {windowWidth <= 601 ? (
         <>
           <div className={b('apks-list-block')}>
             {allApks?.map((apk: IApk) => {
