@@ -80,7 +80,8 @@ const UserRequests = () => {
   const { results, loading, errors } = useAppSelector(techniqueVehicleInfoSelector);
   const windowWidth = useWindowWidth();
   const [isModalTechniqueOpen, setIsModalTechniqueOpen] = useState(false);
-  const [isModalRegisterUserOpen, setIsModalRegisterUserTechniqueOpen] = useState(false);
+  const [isModalRegisterUserOpen, setIsModalRegisterUserOpen] = useState(false);
+  const [isDrawerRegisterUserOpen, setIsDrawerRegisterUserOpen] = useState(false);
   const [isModalRejectOpen, setIsModalRejectOpen] = useState(false);
   const [isModalRequestOpen, setIsModalRequestOpen] = useState(false);
   const [isModalFieldClimateRequestOpen, setIsModalFieldClimateRequestOpen] = useState(false);
@@ -183,14 +184,14 @@ const UserRequests = () => {
         await dispatch(deleteRequest({ id: String(id) })).unwrap();
         setIsModalTechniqueOpen(false);
         setIsModalRejectOpen(false);
-        setIsModalRegisterUserTechniqueOpen(false);
+        setIsModalRegisterUserOpen(false);
         setIsModalUserInfoRejectOpen(false);
         setIsModalFieldClimateRequestOpen(false);
       }
     } catch (e) {
       setIsModalTechniqueOpen(false);
       setIsModalRejectOpen(false);
-      setIsModalRegisterUserTechniqueOpen(false);
+      setIsModalRegisterUserOpen(false);
       setIsModalUserInfoRejectOpen(false);
       setIsModalFieldClimateRequestOpen(false);
       message.error('Не удалось удалить');
@@ -208,23 +209,19 @@ const UserRequests = () => {
   };
 
   const showRegisterUserModal = () => {
-    windowWidth <= 990
-      ? setIsDrawerUserInfoRejectOpen(true)
-      : setIsModalRegisterUserTechniqueOpen(true);
+    windowWidth <= 990 ? setIsDrawerRegisterUserOpen(true) : setIsModalRegisterUserOpen(true);
   };
 
   const handleOkRegisterUserCancel = () => {
-    windowWidth <= 990
-      ? setIsDrawerUserInfoRejectOpen(false)
-      : setIsModalRegisterUserTechniqueOpen(false);
+    windowWidth <= 990 ? setIsDrawerRegisterUserOpen(false) : setIsModalRegisterUserOpen(false);
   };
 
   const showUserInfoModal = () => {
-    setIsModalUserInfoRejectOpen(true);
+    windowWidth <= 990 ? setIsDrawerUserInfoRejectOpen(true) : setIsModalUserInfoRejectOpen(true);
   };
 
   const handleOkUserInfoCancel = () => {
-    setIsModalUserInfoRejectOpen(!isModalUserInfoOpen);
+    windowWidth <= 990 ? setIsDrawerUserInfoRejectOpen(false) : setIsModalUserInfoRejectOpen(false);
   };
 
   const showFieldClimateInfoModal = (row: Requestor) => {
@@ -357,9 +354,13 @@ const UserRequests = () => {
       };
 
       await dispatch(fetchRequests({ data: dataRequests }));
-      setIsModalUserInfoRejectOpen(false);
+      windowWidth <= 990
+        ? setIsDrawerUserInfoRejectOpen(false)
+        : setIsModalUserInfoRejectOpen(false);
     } catch (e) {
-      setIsModalUserInfoRejectOpen(false);
+      windowWidth <= 990
+        ? setIsDrawerUserInfoRejectOpen(false)
+        : setIsModalUserInfoRejectOpen(false);
       await message.error('Произошла ошибка.');
     }
   };
@@ -686,7 +687,7 @@ const UserRequests = () => {
         title='Запрос на регистрацию'
         width='100%'
         bodyStyle={{ padding: 20 }}
-        open={isDrawerUserInfoOpen}
+        open={isDrawerRegisterUserOpen}
         onClose={handleOkRegisterUserCancel}
         placement='right'
       >
@@ -701,6 +702,30 @@ const UserRequests = () => {
             showRejectModal={showRejectModal}
           />
         )}
+      </DrawerComponent>
+
+      <DrawerComponent
+        closable
+        title='Запрос на изменение личной информации'
+        width='100%'
+        bodyStyle={{ padding: 20 }}
+        open={isDrawerUserInfoOpen}
+        onClose={handleOkUserInfoCancel}
+        placement='right'
+      >
+        <EditUserProfileModal
+          handleOkCancel={handleOkUserInfoCancel}
+          showRejectModal={showRejectModal}
+          changeUserInfoRequest
+          userInfo={userInfo}
+          userId={id}
+          userInfoLoading={userInfoLoading}
+          inputChangeHandler={inputChangeHandler}
+          image={images?.image}
+          onFileChange={onFileChange}
+          loading={requestApproveChangeProfileLoading}
+          onClick={onClickApproveChangeProfileDataHandler}
+        />
       </DrawerComponent>
     </>
   );
