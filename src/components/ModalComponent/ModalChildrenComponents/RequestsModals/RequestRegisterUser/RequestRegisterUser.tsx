@@ -214,6 +214,7 @@ const RequestRegisterUser: React.FC<Props> = ({
             <div className={b('form-block info-block')}>
               <FormField
                 bordered
+                type='email'
                 data-testid='email_id'
                 id='email_id'
                 inputClassName={b('username-info')}
@@ -258,6 +259,7 @@ const RequestRegisterUser: React.FC<Props> = ({
 
             <div className={b('profile-buttons')}>
               <Button
+                size='large'
                 type='primary'
                 style={{ width: '100%', borderRadius: 4 }}
                 className={b('delete-button')}
@@ -266,10 +268,11 @@ const RequestRegisterUser: React.FC<Props> = ({
                   handleOkCancel();
                 }}
               >
-                Отклонить запрос
+                Отклонить
               </Button>
 
               <Button
+                size='large'
                 data-testid='approve-id-button'
                 type='primary'
                 htmlType='submit'
@@ -278,7 +281,7 @@ const RequestRegisterUser: React.FC<Props> = ({
                 className={b('save-button')}
                 onClick={agreeHandler}
               >
-                Подтвердить запрос
+                Подтвердить
               </Button>
             </div>
           </Form>

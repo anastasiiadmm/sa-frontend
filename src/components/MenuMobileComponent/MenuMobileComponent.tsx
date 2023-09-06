@@ -85,7 +85,7 @@ const MenuMobileComponent = () => {
                   <Title level={5} className={b('title')}>
                     {item?.title}
                   </Title>
-                  {item?.subTitle && <Text type='secondary'>{item?.subTitle}</Text>}
+                  {item?.subTitle && <Text type='secondary'>{item.subTitle}</Text>}
                 </div>
                 <div>
                   <img src={item?.icon} alt='rightArrow' />

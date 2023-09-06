@@ -10,7 +10,7 @@ exports[`<Converter /> render component toMatchSnapshot() 1`] = `
         data-testid="converter-test-id"
       >
         <div
-          class="ant-card ant-card-bordered css-dev-only-do-not-override-nnuwmp"
+          class="ant-card ant-card-bordered css-dev-only-do-not-override-15rg2km"
         >
           <div
             class="ant-card-body"
@@ -28,7 +28,7 @@ exports[`<Converter /> render component toMatchSnapshot() 1`] = `
                 class="Converter__convert-item"
               >
                 <h3
-                  class="ant-typography Converter__title css-dev-only-do-not-override-nnuwmp"
+                  class="ant-typography Converter__title css-dev-only-do-not-override-15rg2km"
                 >
                   Конвертер
                 </h3>
@@ -41,7 +41,7 @@ exports[`<Converter /> render component toMatchSnapshot() 1`] = `
                   из
                    
                   <div
-                    class="ant-select Converter__select-field css-dev-only-do-not-override-nnuwmp ant-select-single ant-select-show-arrow"
+                    class="ant-select Converter__select-field css-dev-only-do-not-override-15rg2km ant-select-single ant-select-show-arrow"
                     style="width: 80px;"
                   >
                     <div
@@ -51,11 +51,11 @@ exports[`<Converter /> render component toMatchSnapshot() 1`] = `
                         class="ant-select-selection-search"
                       >
                         <input
+                          aria-activedescendant="rc_select_TEST_OR_SSR_list_0"
                           aria-autocomplete="list"
                           aria-controls="rc_select_TEST_OR_SSR_list"
                           aria-expanded="false"
                           aria-haspopup="listbox"
-                          aria-label="Search"
                           aria-owns="rc_select_TEST_OR_SSR_list"
                           autocomplete="off"
                           class="ant-select-selection-search-input"
@@ -91,7 +91,7 @@ exports[`<Converter /> render component toMatchSnapshot() 1`] = `
                   в
                    
                   <div
-                    class="ant-select Converter__select-field css-dev-only-do-not-override-nnuwmp ant-select-single ant-select-show-arrow"
+                    class="ant-select Converter__select-field css-dev-only-do-not-override-15rg2km ant-select-single ant-select-show-arrow"
                     style="width: 80px;"
                   >
                     <div
@@ -101,11 +101,11 @@ exports[`<Converter /> render component toMatchSnapshot() 1`] = `
                         class="ant-select-selection-search"
                       >
                         <input
+                          aria-activedescendant="rc_select_TEST_OR_SSR_list_0"
                           aria-autocomplete="list"
                           aria-controls="rc_select_TEST_OR_SSR_list"
                           aria-expanded="false"
                           aria-haspopup="listbox"
-                          aria-label="Search"
                           aria-owns="rc_select_TEST_OR_SSR_list"
                           autocomplete="off"
                           class="ant-select-selection-search-input"
@@ -139,7 +139,7 @@ exports[`<Converter /> render component toMatchSnapshot() 1`] = `
                   </div>
                 </div>
                 <button
-                  class="ant-btn css-dev-only-do-not-override-nnuwmp ant-btn-default button-style"
+                  class="ant-btn css-dev-only-do-not-override-15rg2km ant-btn-default button-style"
                   type="button"
                 >
                   <span>
@@ -156,7 +156,7 @@ exports[`<Converter /> render component toMatchSnapshot() 1`] = `
           </div>
         </div>
         <span
-          class="ant-typography Converter__title title-heading css-dev-only-do-not-override-nnuwmp"
+          class="ant-typography Converter__title title-heading css-dev-only-do-not-override-15rg2km"
         >
           История конвертаций
         </span>
@@ -177,7 +177,7 @@ exports[`<Converter /> render component toMatchSnapshot() 1`] = `
                   class="next_table"
                 >
                   <button
-                    class="ant-btn css-dev-only-do-not-override-nnuwmp ant-btn-default ant-btn-icon-only pagination_buttons pagination_buttons-prev"
+                    class="ant-btn css-dev-only-do-not-override-15rg2km ant-btn-default ant-btn-icon-only pagination_buttons pagination_buttons-prev"
                     disabled=""
                     type="button"
                   >
@@ -191,7 +191,7 @@ exports[`<Converter /> render component toMatchSnapshot() 1`] = `
                     </span>
                   </button>
                   <button
-                    class="ant-btn css-dev-only-do-not-override-nnuwmp ant-btn-default ant-btn-icon-only pagination_buttons pagination_buttons-next"
+                    class="ant-btn css-dev-only-do-not-override-15rg2km ant-btn-default ant-btn-icon-only pagination_buttons pagination_buttons-next"
                     disabled=""
                     role="button"
                     type="button"
@@ -219,7 +219,7 @@ exports[`<Converter /> render component toMatchSnapshot() 1`] = `
       data-testid="converter-test-id"
     >
       <div
-        class="ant-card ant-card-bordered css-dev-only-do-not-override-nnuwmp"
+        class="ant-card ant-card-bordered css-dev-only-do-not-override-15rg2km"
       >
         <div
           class="ant-card-body"
@@ -237,7 +237,7 @@ exports[`<Converter /> render component toMatchSnapshot() 1`] = `
               class="Converter__convert-item"
             >
               <h3
-                class="ant-typography Converter__title css-dev-only-do-not-override-nnuwmp"
+                class="ant-typography Converter__title css-dev-only-do-not-override-15rg2km"
               >
                 Конвертер
               </h3>
@@ -250,7 +250,7 @@ exports[`<Converter /> render component toMatchSnapshot() 1`] = `
                 из
                  
                 <div
-                  class="ant-select Converter__select-field css-dev-only-do-not-override-nnuwmp ant-select-single ant-select-show-arrow"
+                  class="ant-select Converter__select-field css-dev-only-do-not-override-15rg2km ant-select-single ant-select-show-arrow"
                   style="width: 80px;"
                 >
                   <div
@@ -260,11 +260,11 @@ exports[`<Converter /> render component toMatchSnapshot() 1`] = `
                       class="ant-select-selection-search"
                     >
                       <input
+                        aria-activedescendant="rc_select_TEST_OR_SSR_list_0"
                         aria-autocomplete="list"
                         aria-controls="rc_select_TEST_OR_SSR_list"
                         aria-expanded="false"
                         aria-haspopup="listbox"
-                        aria-label="Search"
                         aria-owns="rc_select_TEST_OR_SSR_list"
                         autocomplete="off"
                         class="ant-select-selection-search-input"
@@ -300,7 +300,7 @@ exports[`<Converter /> render component toMatchSnapshot() 1`] = `
                 в
                  
                 <div
-                  class="ant-select Converter__select-field css-dev-only-do-not-override-nnuwmp ant-select-single ant-select-show-arrow"
+                  class="ant-select Converter__select-field css-dev-only-do-not-override-15rg2km ant-select-single ant-select-show-arrow"
                   style="width: 80px;"
                 >
                   <div
@@ -310,11 +310,11 @@ exports[`<Converter /> render component toMatchSnapshot() 1`] = `
                       class="ant-select-selection-search"
                     >
                       <input
+                        aria-activedescendant="rc_select_TEST_OR_SSR_list_0"
                         aria-autocomplete="list"
                         aria-controls="rc_select_TEST_OR_SSR_list"
                         aria-expanded="false"
                         aria-haspopup="listbox"
-                        aria-label="Search"
                         aria-owns="rc_select_TEST_OR_SSR_list"
                         autocomplete="off"
                         class="ant-select-selection-search-input"
@@ -348,7 +348,7 @@ exports[`<Converter /> render component toMatchSnapshot() 1`] = `
                 </div>
               </div>
               <button
-                class="ant-btn css-dev-only-do-not-override-nnuwmp ant-btn-default button-style"
+                class="ant-btn css-dev-only-do-not-override-15rg2km ant-btn-default button-style"
                 type="button"
               >
                 <span>
@@ -365,7 +365,7 @@ exports[`<Converter /> render component toMatchSnapshot() 1`] = `
         </div>
       </div>
       <span
-        class="ant-typography Converter__title title-heading css-dev-only-do-not-override-nnuwmp"
+        class="ant-typography Converter__title title-heading css-dev-only-do-not-override-15rg2km"
       >
         История конвертаций
       </span>
@@ -386,7 +386,7 @@ exports[`<Converter /> render component toMatchSnapshot() 1`] = `
                 class="next_table"
               >
                 <button
-                  class="ant-btn css-dev-only-do-not-override-nnuwmp ant-btn-default ant-btn-icon-only pagination_buttons pagination_buttons-prev"
+                  class="ant-btn css-dev-only-do-not-override-15rg2km ant-btn-default ant-btn-icon-only pagination_buttons pagination_buttons-prev"
                   disabled=""
                   type="button"
                 >
@@ -400,7 +400,7 @@ exports[`<Converter /> render component toMatchSnapshot() 1`] = `
                   </span>
                 </button>
                 <button
-                  class="ant-btn css-dev-only-do-not-override-nnuwmp ant-btn-default ant-btn-icon-only pagination_buttons pagination_buttons-next"
+                  class="ant-btn css-dev-only-do-not-override-15rg2km ant-btn-default ant-btn-icon-only pagination_buttons pagination_buttons-next"
                   disabled=""
                   role="button"
                   type="button"

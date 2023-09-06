@@ -24,6 +24,7 @@ import tractorRequest from 'assets/images/icons/tractor_request.svg';
 import user from 'assets/images/icons/user_request.svg';
 import newWeather from 'assets/images/icons/weather-mobile.svg';
 import notFoundImages from 'assets/images/notFound.svg';
+import DrawerComponent from 'components/DrawerComponent/DrawerComponent';
 import Errors from 'components/Errors/Errors';
 import RequestModal from 'components/ModalComponent/ModalChildrenComponents/DeleteTechniqueModal/RequestModal';
 import EditUserProfileModal from 'components/ModalComponent/ModalChildrenComponents/EditUserProfileModal/EditUserProfileModal';
@@ -84,6 +85,7 @@ const UserRequests = () => {
   const [isModalRequestOpen, setIsModalRequestOpen] = useState(false);
   const [isModalFieldClimateRequestOpen, setIsModalFieldClimateRequestOpen] = useState(false);
   const [isModalUserInfoOpen, setIsModalUserInfoRejectOpen] = useState(false);
+  const [isDrawerUserInfoOpen, setIsDrawerUserInfoRejectOpen] = useState(false);
   const [filters, setFilters] = useState({
     page: requestsPagination?.next
       ? Number(getPageNumber(requestsPagination?.next))
@@ -206,11 +208,15 @@ const UserRequests = () => {
   };
 
   const showRegisterUserModal = () => {
-    setIsModalRegisterUserTechniqueOpen(true);
+    windowWidth <= 990
+      ? setIsDrawerUserInfoRejectOpen(true)
+      : setIsModalRegisterUserTechniqueOpen(true);
   };
 
   const handleOkRegisterUserCancel = () => {
-    setIsModalRegisterUserTechniqueOpen(!isModalRegisterUserOpen);
+    windowWidth <= 990
+      ? setIsDrawerUserInfoRejectOpen(false)
+      : setIsModalRegisterUserTechniqueOpen(false);
   };
 
   const showUserInfoModal = () => {
@@ -674,6 +680,28 @@ const UserRequests = () => {
       >
         <RequestModals onClick={onClick} />
       </ModalComponent>
+
+      <DrawerComponent
+        closable
+        title='Запрос на регистрацию'
+        width='100%'
+        bodyStyle={{ padding: 20 }}
+        open={isDrawerUserInfoOpen}
+        onClose={handleOkRegisterUserCancel}
+        placement='right'
+      >
+        {userInfoError ? (
+          <Errors status={userInfoError.status} detail={userInfoError.detail} />
+        ) : (
+          <RequestRegisterUser
+            userInfo={userInfo}
+            userId={id}
+            userInfoLoading={userInfoLoading}
+            handleOkCancel={handleOkRegisterUserCancel}
+            showRejectModal={showRejectModal}
+          />
+        )}
+      </DrawerComponent>
     </>
   );
 };
