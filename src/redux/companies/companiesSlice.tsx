@@ -6,7 +6,6 @@ import {
   IAccount,
   ICompany,
   IErrors,
-  ITechniqueVehicleInfoPut,
   IVehicle,
   pagination,
   RequestType,
@@ -57,11 +56,6 @@ interface CompaniesState {
     results: IVehicle | null;
     loading: boolean;
     errors: IErrors | null;
-  };
-  techniqueVehicleUpdate: {
-    results: IVehicle | null;
-    loading: boolean;
-    errors: unknown;
   };
   userInfoByManager: IAccount | null;
   userInfoByManagerLoading: boolean;
@@ -129,11 +123,6 @@ const INITIAL_STATE = {
   deleteUserVehicleLoading: false,
   deleteUserVehicleError: null,
   techniqueVehicleInfo: {
-    results: null,
-    loading: false,
-    errors: null,
-  },
-  techniqueVehicleUpdate: {
     results: null,
     loading: false,
     errors: null,
@@ -412,21 +401,6 @@ export const techniqueVehicleInfo = createAsyncThunk(
     } catch (e) {
       return rejectWithValue({
         detail: e?.response?.data?.detail,
-        status: e?.response?.status,
-      });
-    }
-  },
-);
-
-export const techniqueVehicleInfoPut = createAsyncThunk(
-  `${nameSpace}/techniqueVehicleInfoPut`,
-  async ({ id, formData }: ITechniqueVehicleInfoPut, { rejectWithValue }) => {
-    try {
-      const response = await axiosApi.post(`/common/inquiries/${id}/`, formData);
-      return response.data;
-    } catch (e) {
-      return rejectWithValue({
-        detail: e?.response?.data,
         status: e?.response?.status,
       });
     }
@@ -728,20 +702,6 @@ const companiesSlice = createSlice({
         };
       }
     });
-
-    builder.addCase(techniqueVehicleInfoPut.pending, (state) => {
-      state.techniqueVehicleUpdate.loading = true;
-      state.techniqueVehicleUpdate.errors = null;
-    });
-    builder.addCase(techniqueVehicleInfoPut.fulfilled, (state, action: PayloadAction<IVehicle>) => {
-      state.techniqueVehicleUpdate.results = action.payload;
-      state.techniqueVehicleUpdate.loading = false;
-      state.techniqueVehicleUpdate.errors = null;
-    });
-    builder.addCase(techniqueVehicleInfoPut.rejected, (state, { payload }) => {
-      state.techniqueVehicleUpdate.loading = false;
-      state.techniqueVehicleUpdate.errors = payload;
-    });
   },
 });
 
@@ -754,6 +714,4 @@ export const {
 export const companiesSelector = (state: RootState) => state.companies;
 export const techniqueVehicleInfoSelector = (state: RootState) =>
   state.companies.techniqueVehicleInfo;
-export const techniqueVehicleUpdateSelector = (state: RootState) =>
-  state.companies.techniqueVehicleUpdate;
 export default companiesSlice.reducer;

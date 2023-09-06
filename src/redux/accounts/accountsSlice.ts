@@ -9,7 +9,9 @@ import {
   IApk,
   IErrors,
   IMyData,
+  ITechniqueVehicleInfoPut,
   IUpdateManagerDataMutation,
+  IVehicle,
   pagination,
   Requestor,
   RequestType,
@@ -79,6 +81,11 @@ interface AccountsState {
   requestApproveChangeProfileError: IErrors | null;
   postNotificationRequestLoading: boolean;
   postNotificationRequestError: IErrors | null;
+  techniqueVehicleUpdate: {
+    results: IVehicle | null;
+    loading: boolean;
+    errors: unknown;
+  };
 }
 
 const INITIAL_STATE = {
@@ -159,6 +166,12 @@ const INITIAL_STATE = {
 
   postNotificationRequestLoading: false,
   postNotificationRequestError: null,
+
+  techniqueVehicleUpdate: {
+    results: null,
+    loading: false,
+    errors: null,
+  },
 } as AccountsState;
 
 interface fetchApksParams {
@@ -523,6 +536,21 @@ export const postNotificationRequest = createAsyncThunk(
     try {
       const res = await axiosApi.post(`/accounts/latest-version/`);
       return res?.data;
+    } catch (e) {
+      return rejectWithValue({
+        detail: e?.response?.data,
+        status: e?.response?.status,
+      });
+    }
+  },
+);
+
+export const techniqueVehicleInfoPut = createAsyncThunk(
+  `${nameSpace}/techniqueVehicleInfoPut`,
+  async ({ id, formData }: ITechniqueVehicleInfoPut, { rejectWithValue }) => {
+    try {
+      const response = await axiosApi.post(`/common/inquiries/${id}/`, formData);
+      return response.data.id;
     } catch (e) {
       return rejectWithValue({
         detail: e?.response?.data,
@@ -927,6 +955,25 @@ const accountsSlice = createSlice({
           };
         }
       });
+
+    builder.addCase(techniqueVehicleInfoPut.pending, (state) => {
+      state.techniqueVehicleUpdate.loading = true;
+      state.techniqueVehicleUpdate.errors = null;
+    });
+    builder.addCase(techniqueVehicleInfoPut.fulfilled, (state, action) => {
+      if (state.requests?.length) {
+        state.requests = state.requests.filter((item) => {
+          return item.id !== Number(action.payload);
+        });
+      }
+      state.techniqueVehicleUpdate.results = action.payload;
+      state.techniqueVehicleUpdate.loading = false;
+      state.techniqueVehicleUpdate.errors = null;
+    });
+    builder.addCase(techniqueVehicleInfoPut.rejected, (state, { payload }) => {
+      state.techniqueVehicleUpdate.loading = false;
+      state.techniqueVehicleUpdate.errors = payload;
+    });
   },
 });
 
@@ -939,3 +986,5 @@ export const {
 export const accountsSelector = (state: RootState) => state.accounts;
 
 export default accountsSlice.reducer;
+export const techniqueVehicleUpdateSelector = (state: RootState) =>
+  state.accounts.techniqueVehicleUpdate;

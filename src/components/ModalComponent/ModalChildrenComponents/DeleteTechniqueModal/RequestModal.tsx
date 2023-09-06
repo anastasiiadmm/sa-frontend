@@ -2,7 +2,7 @@ import { Button } from 'antd';
 import bem from 'easy-bem';
 import React from 'react';
 
-import deleteIcon from 'assets/images/icons/newIcon/deleteIcons.svg';
+import warning from 'assets/images/icons/notification-round.svg';
 import ResultComponent from 'components/ResultComponent/ResultComponent';
 import 'components/ModalComponent/ModalChildrenComponents/DeleteTechniqueModal/_requestModal.scss';
 
@@ -29,12 +29,13 @@ const RequestModal: React.FC<Props> = ({
     <>
       <ResultComponent
         status='error'
-        icon={<img src={deleteIcon} alt='warning' />}
+        icon={<img src={warning} alt='warning' />}
         title={title}
         subTitle={subTitle}
       />
       <div className={b('delete-modal-buttons')}>
         <Button
+          size='large'
           type='primary'
           style={{ width: '100%', borderRadius: 8 }}
           className={b('cancel-profile-button')}
@@ -43,10 +44,10 @@ const RequestModal: React.FC<Props> = ({
           Отменить
         </Button>
         <Button
+          size='large'
           type='primary'
           loading={loading}
           style={{ width: '100%', borderRadius: 8 }}
-          className={b('delete_btn')}
           onClick={requestHandler}
         >
           {textCancel}

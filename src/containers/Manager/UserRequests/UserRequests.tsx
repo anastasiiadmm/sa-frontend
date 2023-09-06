@@ -80,6 +80,7 @@ const UserRequests = () => {
   const { results, loading, errors } = useAppSelector(techniqueVehicleInfoSelector);
   const windowWidth = useWindowWidth();
   const [isModalTechniqueOpen, setIsModalTechniqueOpen] = useState(false);
+  const [isDrawerTechniqueOpen, setIsDrawerTechniqueOpen] = useState(false);
   const [isModalRegisterUserOpen, setIsModalRegisterUserOpen] = useState(false);
   const [isDrawerRegisterUserOpen, setIsDrawerRegisterUserOpen] = useState(false);
   const [isModalRejectOpen, setIsModalRejectOpen] = useState(false);
@@ -118,15 +119,15 @@ const UserRequests = () => {
   });
   const [orderSort, setOrderSort] = useState({ ordering: '' });
   const [allRequests, setAllRequests] = useState<Requestor[]>([]);
-
   useLayoutEffect(() => {
     if (
       requests &&
+      windowWidth <= 601 &&
       JSON.stringify(allRequests.slice(-requests.length)) !== JSON.stringify(requests)
     ) {
       setAllRequests((prevRequests) => [...prevRequests, ...requests]);
     }
-  }, [requests, allRequests]);
+  }, [requests]);
 
   useEffect(() => {
     const queryObj = {
@@ -201,11 +202,11 @@ const UserRequests = () => {
   const showTechniqueModal = (row: Requestor) => {
     dispatch(clearUserInfo());
     dispatch(techniqueVehicleInfo(row.id));
-    setIsModalTechniqueOpen(true);
+    windowWidth <= 990 ? setIsDrawerTechniqueOpen(true) : setIsModalTechniqueOpen(true);
   };
 
   const handleOkTechniqueCancel = () => {
-    setIsModalTechniqueOpen(!isModalTechniqueOpen);
+    windowWidth <= 990 ? setIsDrawerTechniqueOpen(false) : setIsModalTechniqueOpen(false);
   };
 
   const showRegisterUserModal = () => {
@@ -278,24 +279,8 @@ const UserRequests = () => {
     widthNumber: 601,
   });
 
-  const onClick = () => {
-    setIsModalRequestOpen(false);
-    const data = {
-      query: {
-        page: filters?.page,
-      },
-    };
-    dispatch(fetchRequests({ data }));
-  };
-
   const handleOkCancel = () => {
     setIsModalRequestOpen(false);
-    const data = {
-      query: {
-        page: filters?.page,
-      },
-    };
-    dispatch(fetchRequests({ data }));
   };
 
   const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -346,13 +331,11 @@ const UserRequests = () => {
       }
 
       await dispatch(requestApproveChangeProfile({ id: userInfo?.id, data: formData })).unwrap();
-
       const dataRequests = {
         query: {
           page: 1,
         },
       };
-
       await dispatch(fetchRequests({ data: dataRequests }));
       windowWidth <= 990
         ? setIsDrawerUserInfoRejectOpen(false)
@@ -591,7 +574,7 @@ const UserRequests = () => {
           <RequestAddTechnique
             loading={loading}
             modalOpen={() => {
-              setIsModalRequestOpen(!isModalRequestOpen);
+              setIsModalRequestOpen(true);
               setIsModalTechniqueOpen(!isModalTechniqueOpen);
             }}
             resultsTechnique={results}
@@ -673,13 +656,8 @@ const UserRequests = () => {
         />
       </ModalComponent>
 
-      <ModalComponent
-        dividerShow={false}
-        closable={false}
-        open={isModalRequestOpen}
-        handleCancel={handleOkCancel}
-      >
-        <RequestModals onClick={onClick} />
+      <ModalComponent dividerShow={false} closable={false} open={isModalRequestOpen}>
+        <RequestModals onClick={handleOkCancel} />
       </ModalComponent>
 
       <DrawerComponent
@@ -726,6 +704,31 @@ const UserRequests = () => {
           loading={requestApproveChangeProfileLoading}
           onClick={onClickApproveChangeProfileDataHandler}
         />
+      </DrawerComponent>
+
+      <DrawerComponent
+        closable
+        title='Запрос на добавление техники'
+        width='100%'
+        bodyStyle={{ padding: 20 }}
+        open={isDrawerTechniqueOpen}
+        onClose={handleOkTechniqueCancel}
+        placement='right'
+      >
+        {errors ? (
+          <Errors status={errors.status} detail={errors.detail} />
+        ) : (
+          <RequestAddTechnique
+            loading={loading}
+            modalOpen={() => {
+              setIsModalRequestOpen(true);
+              setIsDrawerTechniqueOpen(false);
+            }}
+            resultsTechnique={results}
+            handleOkCancel={handleOkTechniqueCancel}
+            showRejectModal={showRejectModal}
+          />
+        )}
       </DrawerComponent>
     </>
   );
