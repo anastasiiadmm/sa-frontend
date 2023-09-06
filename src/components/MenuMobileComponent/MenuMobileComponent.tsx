@@ -1,7 +1,7 @@
 import { UserOutlined } from '@ant-design/icons';
 import { Avatar, Card, Typography } from 'antd';
 import bem from 'easy-bem';
-import React, { useEffect } from 'react';
+import React, { ReactNode, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
 
@@ -55,7 +55,7 @@ const MenuMobileComponent = () => {
       icon: rightArrow,
       link: account?.is_manager ? '/manager-profile' : '/user-profile-view',
     },
-    {
+    account?.company?.weather_service && {
       image: <img src={cloud} alt='cloud' />,
       title: 'Метеосервис',
       icon: rightArrow,
@@ -67,7 +67,13 @@ const MenuMobileComponent = () => {
       icon: rightArrow,
       link: '/converter',
     },
-  ];
+  ].filter(Boolean) as {
+    image: ReactNode;
+    title: string;
+    subTitle?: string;
+    icon: string;
+    link: string;
+  }[];
 
   return (
     <div className={b('')}>
@@ -76,17 +82,17 @@ const MenuMobileComponent = () => {
           <SkeletonBlock active={fetchLoadingAccount} num={1} titleBool />
         ) : (
           cardData.map((item) => (
-            <Link to={item.link} key={item.link}>
+            <Link to={item?.link || '#'} key={item.link}>
               <Card className={b('card-block')} hoverable>
-                <div>{item.image}</div>
+                <div>{item?.image}</div>
                 <div className={b('info-block')}>
                   <Title level={5} className={b('title')}>
-                    {item.title}
+                    {item?.title}
                   </Title>
-                  {item.subTitle && <Text type='secondary'>{item.subTitle}</Text>}
+                  {item?.subTitle && <Text type='secondary'>{item.subTitle}</Text>}
                 </div>
                 <div>
-                  <img src={item.icon} alt='rightArrow' />
+                  <img src={item?.icon} alt='rightArrow' />
                 </div>
               </Card>
             </Link>

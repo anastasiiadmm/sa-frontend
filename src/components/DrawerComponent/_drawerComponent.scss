@@ -1,6 +1,10 @@
 @use 'assets/scss/_themes.scss';
 
 .DrawerComponent {
+  .ant-drawer-title {
+    text-align: center;
+  }
+
   .ant-drawer-body {
     padding: 0;
   }

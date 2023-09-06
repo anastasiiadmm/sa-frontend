@@ -24,6 +24,7 @@ import tractorRequest from 'assets/images/icons/tractor_request.svg';
 import user from 'assets/images/icons/user_request.svg';
 import newWeather from 'assets/images/icons/weather-mobile.svg';
 import notFoundImages from 'assets/images/notFound.svg';
+import DrawerComponent from 'components/DrawerComponent/DrawerComponent';
 import Errors from 'components/Errors/Errors';
 import RequestModal from 'components/ModalComponent/ModalChildrenComponents/DeleteTechniqueModal/RequestModal';
 import EditUserProfileModal from 'components/ModalComponent/ModalChildrenComponents/EditUserProfileModal/EditUserProfileModal';
@@ -79,11 +80,14 @@ const UserRequests = () => {
   const { results, loading, errors } = useAppSelector(techniqueVehicleInfoSelector);
   const windowWidth = useWindowWidth();
   const [isModalTechniqueOpen, setIsModalTechniqueOpen] = useState(false);
-  const [isModalRegisterUserOpen, setIsModalRegisterUserTechniqueOpen] = useState(false);
+  const [isDrawerTechniqueOpen, setIsDrawerTechniqueOpen] = useState(false);
+  const [isModalRegisterUserOpen, setIsModalRegisterUserOpen] = useState(false);
+  const [isDrawerRegisterUserOpen, setIsDrawerRegisterUserOpen] = useState(false);
   const [isModalRejectOpen, setIsModalRejectOpen] = useState(false);
   const [isModalRequestOpen, setIsModalRequestOpen] = useState(false);
   const [isModalFieldClimateRequestOpen, setIsModalFieldClimateRequestOpen] = useState(false);
   const [isModalUserInfoOpen, setIsModalUserInfoRejectOpen] = useState(false);
+  const [isDrawerUserInfoOpen, setIsDrawerUserInfoRejectOpen] = useState(false);
   const [filters, setFilters] = useState({
     page: requestsPagination?.next
       ? Number(getPageNumber(requestsPagination?.next))
@@ -115,15 +119,15 @@ const UserRequests = () => {
   });
   const [orderSort, setOrderSort] = useState({ ordering: '' });
   const [allRequests, setAllRequests] = useState<Requestor[]>([]);
-
   useLayoutEffect(() => {
     if (
       requests &&
+      windowWidth <= 601 &&
       JSON.stringify(allRequests.slice(-requests.length)) !== JSON.stringify(requests)
     ) {
       setAllRequests((prevRequests) => [...prevRequests, ...requests]);
     }
-  }, [requests, allRequests]);
+  }, [requests]);
 
   useEffect(() => {
     const queryObj = {
@@ -181,14 +185,14 @@ const UserRequests = () => {
         await dispatch(deleteRequest({ id: String(id) })).unwrap();
         setIsModalTechniqueOpen(false);
         setIsModalRejectOpen(false);
-        setIsModalRegisterUserTechniqueOpen(false);
+        setIsModalRegisterUserOpen(false);
         setIsModalUserInfoRejectOpen(false);
         setIsModalFieldClimateRequestOpen(false);
       }
     } catch (e) {
       setIsModalTechniqueOpen(false);
       setIsModalRejectOpen(false);
-      setIsModalRegisterUserTechniqueOpen(false);
+      setIsModalRegisterUserOpen(false);
       setIsModalUserInfoRejectOpen(false);
       setIsModalFieldClimateRequestOpen(false);
       message.error('Не удалось удалить');
@@ -198,27 +202,27 @@ const UserRequests = () => {
   const showTechniqueModal = (row: Requestor) => {
     dispatch(clearUserInfo());
     dispatch(techniqueVehicleInfo(row.id));
-    setIsModalTechniqueOpen(true);
+    windowWidth <= 990 ? setIsDrawerTechniqueOpen(true) : setIsModalTechniqueOpen(true);
   };
 
   const handleOkTechniqueCancel = () => {
-    setIsModalTechniqueOpen(!isModalTechniqueOpen);
+    windowWidth <= 990 ? setIsDrawerTechniqueOpen(false) : setIsModalTechniqueOpen(false);
   };
 
   const showRegisterUserModal = () => {
-    setIsModalRegisterUserTechniqueOpen(true);
+    windowWidth <= 990 ? setIsDrawerRegisterUserOpen(true) : setIsModalRegisterUserOpen(true);
   };
 
   const handleOkRegisterUserCancel = () => {
-    setIsModalRegisterUserTechniqueOpen(!isModalRegisterUserOpen);
+    windowWidth <= 990 ? setIsDrawerRegisterUserOpen(false) : setIsModalRegisterUserOpen(false);
   };
 
   const showUserInfoModal = () => {
-    setIsModalUserInfoRejectOpen(true);
+    windowWidth <= 990 ? setIsDrawerUserInfoRejectOpen(true) : setIsModalUserInfoRejectOpen(true);
   };
 
   const handleOkUserInfoCancel = () => {
-    setIsModalUserInfoRejectOpen(!isModalUserInfoOpen);
+    windowWidth <= 990 ? setIsDrawerUserInfoRejectOpen(false) : setIsModalUserInfoRejectOpen(false);
   };
 
   const showFieldClimateInfoModal = (row: Requestor) => {
@@ -275,24 +279,8 @@ const UserRequests = () => {
     widthNumber: 601,
   });
 
-  const onClick = () => {
-    setIsModalRequestOpen(false);
-    const data = {
-      query: {
-        page: filters?.page,
-      },
-    };
-    dispatch(fetchRequests({ data }));
-  };
-
   const handleOkCancel = () => {
     setIsModalRequestOpen(false);
-    const data = {
-      query: {
-        page: filters?.page,
-      },
-    };
-    dispatch(fetchRequests({ data }));
   };
 
   const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -343,17 +331,19 @@ const UserRequests = () => {
       }
 
       await dispatch(requestApproveChangeProfile({ id: userInfo?.id, data: formData })).unwrap();
-
       const dataRequests = {
         query: {
           page: 1,
         },
       };
-
       await dispatch(fetchRequests({ data: dataRequests }));
-      setIsModalUserInfoRejectOpen(false);
+      windowWidth <= 990
+        ? setIsDrawerUserInfoRejectOpen(false)
+        : setIsModalUserInfoRejectOpen(false);
     } catch (e) {
-      setIsModalUserInfoRejectOpen(false);
+      windowWidth <= 990
+        ? setIsDrawerUserInfoRejectOpen(false)
+        : setIsModalUserInfoRejectOpen(false);
       await message.error('Произошла ошибка.');
     }
   };
@@ -584,7 +574,7 @@ const UserRequests = () => {
           <RequestAddTechnique
             loading={loading}
             modalOpen={() => {
-              setIsModalRequestOpen(!isModalRequestOpen);
+              setIsModalRequestOpen(true);
               setIsModalTechniqueOpen(!isModalTechniqueOpen);
             }}
             resultsTechnique={results}
@@ -666,14 +656,80 @@ const UserRequests = () => {
         />
       </ModalComponent>
 
-      <ModalComponent
-        dividerShow={false}
-        closable={false}
-        open={isModalRequestOpen}
-        handleCancel={handleOkCancel}
-      >
-        <RequestModals onClick={onClick} />
+      <ModalComponent dividerShow={false} closable={false} open={isModalRequestOpen}>
+        <RequestModals onClick={handleOkCancel} />
       </ModalComponent>
+
+      <DrawerComponent
+        closable
+        title='Запрос на регистрацию'
+        width='100%'
+        bodyStyle={{ padding: 20 }}
+        open={isDrawerRegisterUserOpen}
+        onClose={handleOkRegisterUserCancel}
+        placement='right'
+      >
+        {userInfoError ? (
+          <Errors status={userInfoError.status} detail={userInfoError.detail} />
+        ) : (
+          <RequestRegisterUser
+            userInfo={userInfo}
+            userId={id}
+            userInfoLoading={userInfoLoading}
+            handleOkCancel={handleOkRegisterUserCancel}
+            showRejectModal={showRejectModal}
+          />
+        )}
+      </DrawerComponent>
+
+      <DrawerComponent
+        closable
+        title='Запрос на изменение личной информации'
+        width='100%'
+        bodyStyle={{ padding: 20 }}
+        open={isDrawerUserInfoOpen}
+        onClose={handleOkUserInfoCancel}
+        placement='right'
+      >
+        <EditUserProfileModal
+          handleOkCancel={handleOkUserInfoCancel}
+          showRejectModal={showRejectModal}
+          changeUserInfoRequest
+          userInfo={userInfo}
+          userId={id}
+          userInfoLoading={userInfoLoading}
+          inputChangeHandler={inputChangeHandler}
+          image={images?.image}
+          onFileChange={onFileChange}
+          loading={requestApproveChangeProfileLoading}
+          onClick={onClickApproveChangeProfileDataHandler}
+        />
+      </DrawerComponent>
+
+      <DrawerComponent
+        closable
+        title='Запрос на добавление техники'
+        width='100%'
+        bodyStyle={{ padding: 20 }}
+        open={isDrawerTechniqueOpen}
+        onClose={handleOkTechniqueCancel}
+        placement='right'
+      >
+        {errors ? (
+          <Errors status={errors.status} detail={errors.detail} />
+        ) : (
+          <RequestAddTechnique
+            loading={loading}
+            modalOpen={() => {
+              setIsModalRequestOpen(true);
+              setIsDrawerTechniqueOpen(false);
+            }}
+            resultsTechnique={results}
+            handleOkCancel={handleOkTechniqueCancel}
+            showRejectModal={showRejectModal}
+          />
+        )}
+      </DrawerComponent>
     </>
   );
 };

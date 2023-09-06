@@ -307,6 +307,7 @@ const EditUserProfileModal: React.FC<Props> = ({
           {changeUserInfoRequest ? (
             <>
               <Button
+                size='large'
                 type='primary'
                 style={{ width: '100%', borderRadius: 4 }}
                 className={b('delete-button')}
@@ -319,10 +320,11 @@ const EditUserProfileModal: React.FC<Props> = ({
                   }
                 }}
               >
-                Отклонить запрос
+                Отклонить
               </Button>
 
               <Button
+                size='large'
                 data-testid='approve_button_id'
                 onClick={onClick}
                 type='primary'
@@ -331,7 +333,7 @@ const EditUserProfileModal: React.FC<Props> = ({
                 style={{ width: '100%', borderRadius: 4 }}
                 className={b('save-button')}
               >
-                Подтвердить запрос
+                Подтвердить
               </Button>
             </>
           ) : (

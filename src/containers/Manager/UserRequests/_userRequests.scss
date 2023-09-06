@@ -58,5 +58,7 @@
   @include mixins.bp(mobile) {
     margin: 20px 0 100px 0;
     flex-direction: column;
+    gap: 17px;
+    height: auto;
   }
 }

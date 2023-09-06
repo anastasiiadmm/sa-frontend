@@ -231,7 +231,7 @@ const Technique = () => {
                 </div>
                 <p>Кол-во техники</p>
                 {fetchLoadingAccount ? (
-                  <SkeletonBlock active={fetchLoadingAccount} num={1} titleBool />
+                  <Spin style={{ padding: '0 10px 10px' }} />
                 ) : (
                   <div className={b('card-content')}>
                     <p>{userVehiclesPagination?.count}</p>
