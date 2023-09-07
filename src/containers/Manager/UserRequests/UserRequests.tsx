@@ -84,6 +84,7 @@ const UserRequests = () => {
   const [isModalRegisterUserOpen, setIsModalRegisterUserOpen] = useState(false);
   const [isDrawerRegisterUserOpen, setIsDrawerRegisterUserOpen] = useState(false);
   const [isModalRejectOpen, setIsModalRejectOpen] = useState(false);
+  const [isDrawerRejectOpen, setIsDrawerRejectOpen] = useState(false);
   const [isModalRequestOpen, setIsModalRequestOpen] = useState(false);
   const [isModalFieldClimateRequestOpen, setIsModalFieldClimateRequestOpen] = useState(false);
   const [isDrawerFieldClimateRequestOpen, setIsDrawerFieldClimateRequestOpen] = useState(false);
@@ -173,29 +174,41 @@ const UserRequests = () => {
   };
 
   const showRejectModal = () => {
-    setIsModalRejectOpen(!isModalRejectOpen);
+    windowWidth <= 601
+      ? setIsDrawerRejectOpen(!isDrawerRejectOpen)
+      : setIsModalRejectOpen(!isModalRejectOpen);
   };
 
   const handleOkRejectCancel = () => {
-    setIsModalRejectOpen(!isModalRejectOpen);
+    windowWidth <= 601
+      ? setIsDrawerRejectOpen(!isDrawerRejectOpen)
+      : setIsModalRejectOpen(!isModalRejectOpen);
   };
 
   const rejectHandler = async () => {
     try {
       if (id) {
         await dispatch(deleteRequest({ id: String(id) })).unwrap();
-        setIsModalTechniqueOpen(false);
-        setIsModalRejectOpen(false);
-        setIsModalRegisterUserOpen(false);
-        setIsModalUserInfoRejectOpen(false);
-        setIsModalFieldClimateRequestOpen(false);
+        windowWidth <= 601 ? setIsDrawerTechniqueOpen(false) : setIsModalTechniqueOpen(false);
+        windowWidth <= 601 ? setIsDrawerRejectOpen(false) : setIsModalRejectOpen(false);
+        windowWidth <= 601 ? setIsDrawerRegisterUserOpen(false) : setIsModalRegisterUserOpen(false);
+        windowWidth <= 601
+          ? setIsDrawerUserInfoRejectOpen(false)
+          : setIsModalUserInfoRejectOpen(false);
+        windowWidth <= 601
+          ? setIsDrawerFieldClimateRequestOpen(false)
+          : setIsModalFieldClimateRequestOpen(false);
       }
     } catch (e) {
-      setIsModalTechniqueOpen(false);
-      setIsModalRejectOpen(false);
-      setIsModalRegisterUserOpen(false);
-      setIsModalUserInfoRejectOpen(false);
-      setIsModalFieldClimateRequestOpen(false);
+      windowWidth <= 601 ? setIsDrawerTechniqueOpen(false) : setIsModalTechniqueOpen(false);
+      windowWidth <= 601 ? setIsDrawerRejectOpen(false) : setIsModalRejectOpen(false);
+      windowWidth <= 601 ? setIsDrawerRegisterUserOpen(false) : setIsModalRegisterUserOpen(false);
+      windowWidth <= 601
+        ? setIsDrawerUserInfoRejectOpen(false)
+        : setIsModalUserInfoRejectOpen(false);
+      windowWidth <= 601
+        ? setIsDrawerFieldClimateRequestOpen(false)
+        : setIsModalFieldClimateRequestOpen(false);
       message.error('Не удалось удалить');
     }
   };
@@ -751,6 +764,23 @@ const UserRequests = () => {
           fieldClimateData={fieldClimateData}
           sendApprovedHandler={sendApprovedHandler}
           handleOkCancel={showRejectModal}
+        />
+      </DrawerComponent>
+
+      <DrawerComponent
+        bodyStyle={{ padding: '10px 20px 20px 20px' }}
+        open={isDrawerRejectOpen}
+        onClose={handleOkRejectCancel}
+        placement='bottom'
+        height={231}
+      >
+        <RequestModal
+          title='Отклонить?'
+          textCancel='Отклонить'
+          loading={vehicleDeleteLoading}
+          subTitle='Вы уверены, что хотите отклонить запрос'
+          handleDeleteCancel={handleOkRejectCancel}
+          requestHandler={rejectHandler}
         />
       </DrawerComponent>
     </>
