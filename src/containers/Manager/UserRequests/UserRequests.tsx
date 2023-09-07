@@ -189,26 +189,34 @@ const UserRequests = () => {
     try {
       if (id) {
         await dispatch(deleteRequest({ id: String(id) })).unwrap();
-        windowWidth <= 601 ? setIsDrawerTechniqueOpen(false) : setIsModalTechniqueOpen(false);
-        windowWidth <= 601 ? setIsDrawerRejectOpen(false) : setIsModalRejectOpen(false);
-        windowWidth <= 601 ? setIsDrawerRegisterUserOpen(false) : setIsModalRegisterUserOpen(false);
-        windowWidth <= 601
-          ? setIsDrawerUserInfoRejectOpen(false)
-          : setIsModalUserInfoRejectOpen(false);
-        windowWidth <= 601
-          ? setIsDrawerFieldClimateRequestOpen(false)
-          : setIsModalFieldClimateRequestOpen(false);
+        if (windowWidth <= 601) {
+          setIsDrawerTechniqueOpen(false);
+          setIsDrawerRejectOpen(false);
+          setIsDrawerRegisterUserOpen(false);
+          setIsDrawerUserInfoRejectOpen(false);
+          setIsDrawerFieldClimateRequestOpen(false);
+        } else {
+          setIsModalTechniqueOpen(false);
+          setIsModalRejectOpen(false);
+          setIsModalRegisterUserOpen(false);
+          setIsModalUserInfoRejectOpen(false);
+          setIsModalFieldClimateRequestOpen(false);
+        }
       }
     } catch (e) {
-      windowWidth <= 601 ? setIsDrawerTechniqueOpen(false) : setIsModalTechniqueOpen(false);
-      windowWidth <= 601 ? setIsDrawerRejectOpen(false) : setIsModalRejectOpen(false);
-      windowWidth <= 601 ? setIsDrawerRegisterUserOpen(false) : setIsModalRegisterUserOpen(false);
-      windowWidth <= 601
-        ? setIsDrawerUserInfoRejectOpen(false)
-        : setIsModalUserInfoRejectOpen(false);
-      windowWidth <= 601
-        ? setIsDrawerFieldClimateRequestOpen(false)
-        : setIsModalFieldClimateRequestOpen(false);
+      if (windowWidth <= 601) {
+        setIsDrawerTechniqueOpen(false);
+        setIsDrawerRejectOpen(false);
+        setIsDrawerRegisterUserOpen(false);
+        setIsDrawerUserInfoRejectOpen(false);
+        setIsDrawerFieldClimateRequestOpen(false);
+      } else {
+        setIsModalTechniqueOpen(false);
+        setIsModalRejectOpen(false);
+        setIsModalRegisterUserOpen(false);
+        setIsModalUserInfoRejectOpen(false);
+        setIsModalFieldClimateRequestOpen(false);
+      }
       message.error('Не удалось удалить');
     }
   };
