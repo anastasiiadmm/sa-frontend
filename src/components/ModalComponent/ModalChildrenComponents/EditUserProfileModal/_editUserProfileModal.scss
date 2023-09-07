@@ -90,6 +90,16 @@
     }
   }
 
+  @include mixins.bp(mobile) {
+    &__form-modal-block {
+      flex-direction: column;
+      gap: initial;
+      > div {
+        margin-bottom: 5px;
+      }
+    }
+  }
+
   :where(.css-dev-only-do-not-override-sk7ap8).ant-form-vertical .ant-form-item-label,
   :where(.css-dev-only-do-not-override-sk7ap8).ant-col-24.ant-form-item-label,
   :where(.css-dev-only-do-not-override-sk7ap8).ant-col-xl-24.ant-form-item-label {

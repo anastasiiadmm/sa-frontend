@@ -4,6 +4,7 @@ import moment from 'moment/moment';
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 
 import close from 'assets/images/icons/close.svg';
+import notFoundImg from 'assets/images/notFound.svg';
 import DrawerComponent from 'components/DrawerComponent/DrawerComponent';
 import Errors from 'components/Errors/Errors';
 import DeleteModal from 'components/ModalComponent/ModalChildrenComponents/DeleteModal/DeleteModal';
@@ -123,6 +124,15 @@ const Files = () => {
 
   if (converterListError || deleteConverterError) {
     return <Errors status={converterListError?.status} detail={converterListError?.detail} />;
+  }
+
+  if (!allFiles?.length) {
+    return (
+      <div className={b('history-list')}>
+        <img src={notFoundImg} alt='notFound' />
+        <h3>Данные отсутствуют</h3>
+      </div>
+    );
   }
 
   return (

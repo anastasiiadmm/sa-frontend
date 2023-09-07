@@ -1,12 +1,14 @@
-import { Button, Col, Form, message } from 'antd';
+import { Button, Col, Form, message, Typography } from 'antd';
 import bem from 'easy-bem';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 
+import DrawerComponent from 'components/DrawerComponent/DrawerComponent';
 import FormField from 'components/FormField/FormField';
 import CreateNewUserCredentials from 'components/ModalComponent/ModalChildrenComponents/CreateNewUserCredentials/CreateNewUserCredentials';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import SkeletonBlock from 'components/SkeletonBlock/SkeletonBlock';
+import useWindowWidth from 'hooks/useWindowWidth';
 import { RequestType } from 'interfaces';
 import {
   accountManagerConfirmationRequest,
@@ -25,6 +27,8 @@ interface Props {
   showRejectModal: () => void;
 }
 
+const { Text } = Typography;
+
 const RequestRegisterUser: React.FC<Props> = ({
   userInfo,
   userId,
@@ -34,11 +38,13 @@ const RequestRegisterUser: React.FC<Props> = ({
 }) => {
   const b = bem('RequestRegisterUser');
   const [form] = Form.useForm();
+  const windowWidth = useWindowWidth();
   const history = useNavigate();
   const dispatch = useAppDispatch();
   const { accountManagerConfirmation, accountManagerConfirmationLoading } =
     useAppSelector(accountsSelector);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [openDraw, setOpenDraw] = useState(false);
   const [userData, setUserData] = useState<RequestType>({
     category: 0,
     created_at: '',
@@ -88,12 +94,12 @@ const RequestRegisterUser: React.FC<Props> = ({
   }, [userInfo]);
 
   const showAgreeModal = () => {
-    setIsModalOpen(true);
+    windowWidth <= 601 ? setOpenDraw(true) : setIsModalOpen(true);
     handleOkCancel();
   };
 
   const handleAgreeOkCancel = async () => {
-    await setIsModalOpen(!isModalOpen);
+    windowWidth <= 601 ? setOpenDraw(false) : setIsModalOpen(false);
     history('/user-requests');
     const data = {
       query: {
@@ -173,6 +179,11 @@ const RequestRegisterUser: React.FC<Props> = ({
         md={{ span: 24, offset: 0 }}
         lg={{ span: 24, offset: 0 }}
       >
+        {windowWidth <= 601 && (
+          <Text style={{ marginBottom: 20, display: 'block' }}>
+            Создать учетную запись нового пользователя и добавить его.
+          </Text>
+        )}
         {userInfoLoading ? (
           <SkeletonBlock active={userInfoLoading} num={1} titleBool />
         ) : (
@@ -301,6 +312,19 @@ const RequestRegisterUser: React.FC<Props> = ({
           requestRegisterUserData={accountManagerConfirmation}
         />
       </ModalComponent>
+
+      <DrawerComponent
+        title='Логин и пароль'
+        open={openDraw}
+        onClose={() => setOpenDraw(false)}
+        placement='bottom'
+        height={370}
+      >
+        <CreateNewUserCredentials
+          handleOkCancel={handleAgreeOkCancel}
+          requestRegisterUserData={accountManagerConfirmation}
+        />
+      </DrawerComponent>
     </>
   );
 };

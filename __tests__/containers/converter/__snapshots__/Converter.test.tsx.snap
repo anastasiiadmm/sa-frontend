@@ -20,7 +20,7 @@ exports[`<Converter /> render component toMatchSnapshot() 1`] = `
             >
               <div>
                 <img
-                  alt="[object Object]"
+                  alt="files"
                   src="[object Object]"
                 />
               </div>
@@ -229,7 +229,7 @@ exports[`<Converter /> render component toMatchSnapshot() 1`] = `
           >
             <div>
               <img
-                alt="[object Object]"
+                alt="files"
                 src="[object Object]"
               />
             </div>

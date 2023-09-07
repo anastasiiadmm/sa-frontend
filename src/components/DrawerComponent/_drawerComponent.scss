@@ -1,6 +1,11 @@
 @use 'assets/scss/_themes.scss';
 
 .DrawerComponent {
+  &__border-placement {
+    border-top-right-radius: 19px;
+    border-top-left-radius: 19px;
+  }
+
   .ant-drawer-title {
     text-align: center;
   }

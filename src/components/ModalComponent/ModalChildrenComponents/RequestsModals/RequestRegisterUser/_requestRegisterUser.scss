@@ -1,4 +1,5 @@
 @use 'assets/scss/_themes.scss';
+@use 'assets/scss/_mixins.scss';
 
 .RequestRegisterUser {
   &__form-block {
@@ -23,6 +24,16 @@
 
   &__save-button {
     background: themes.$primary-color;
+  }
+
+  @include mixins.bp(mobile) {
+    &__form-block {
+      flex-direction: column;
+      gap: initial;
+      > div {
+        margin-bottom: 5px;
+      }
+    }
   }
 }
 

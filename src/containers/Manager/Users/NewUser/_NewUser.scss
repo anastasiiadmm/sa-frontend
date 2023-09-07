@@ -1,3 +1,5 @@
+@use 'assets/scss/_mixins.scss';
+
 .NewUser {
   &__subtext {
     padding-bottom: 12px;
@@ -14,10 +16,8 @@
   &__cancel {
     display: none;
   }
-}
 
-@media screen and (max-width: 990px) {
-  .NewUser {
+  @include mixins.bp(desktop) {
     padding-top: 20px;
     margin-bottom: 150px;
 
@@ -49,10 +49,8 @@
       color: #689F3A;
     }
   }
-}
 
-@media screen and (max-width: 550px) {
-  .NewUser {
+  @include mixins.bp(mobile) {
     margin-bottom: 150px;
 
     &__form-block {
@@ -84,3 +82,4 @@
     }
   }
 }
+
