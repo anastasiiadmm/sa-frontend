@@ -6,9 +6,11 @@ import { useNavigate } from 'react-router';
 
 import logo from 'assets/images/logo.png';
 import tractor from 'assets/images/tracktor.png';
+import DrawerComponent from 'components/DrawerComponent/DrawerComponent';
 import FormField from 'components/FormField/FormField';
 import RequestRegisterModal from 'components/ModalComponent/ModalChildrenComponents/RequestRegisterModal/RequestRegisterModal';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
+import useWindowWidth from 'hooks/useWindowWidth';
 import { userMutation } from 'interfaces';
 import { inquiriesSuccessNull } from 'redux/accounts/accountsSlice';
 import { authSelector, loginUser } from 'redux/auth/authSlice';
@@ -21,23 +23,21 @@ const { Title, Text } = Typography;
 const SignIn: React.FC = () => {
   const b = bem('SignIn');
   const dispatch = useAppDispatch();
+  const windowWidth = useWindowWidth();
   const [form] = Form.useForm();
   const { success, loading, user } = useAppSelector(authSelector);
   const history = useNavigate();
   const [checked, setChecked] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const showModal = () => {
-    setIsModalOpen(true);
+    windowWidth <= 990 ? setIsDrawerOpen(true) : setIsModalOpen(true);
     dispatch(inquiriesSuccessNull());
   };
 
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
-
   const handleCancel = () => {
-    setIsModalOpen(false);
+    windowWidth <= 990 ? setIsDrawerOpen(false) : setIsModalOpen(false);
   };
 
   const onFinish = async (values: userMutation) => {
@@ -154,11 +154,22 @@ const SignIn: React.FC = () => {
         dividerShow={false}
         title='Отправить запрос на регистрацию'
         open={isModalOpen}
-        handleOk={handleOk}
         handleCancel={handleCancel}
       >
-        <RequestRegisterModal onClose={() => setIsModalOpen(false)} />
+        <RequestRegisterModal onClose={handleCancel} />
       </ModalComponent>
+
+      <DrawerComponent
+        closable
+        title='Отправить запрос на регистрацию'
+        width='100%'
+        bodyStyle={{ padding: 20 }}
+        open={isDrawerOpen}
+        onClose={handleCancel}
+        placement='right'
+      >
+        <RequestRegisterModal onClose={handleCancel} />
+      </DrawerComponent>
     </>
   );
 };
