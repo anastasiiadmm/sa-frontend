@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react';
 import FormField from 'components/FormField/FormField';
 import SkeletonBlock from 'components/SkeletonBlock/SkeletonBlock';
 import UploadImageComponent from 'components/UploadImageComponent/UploadImageComponent';
+import useWindowWidth from 'hooks/useWindowWidth';
 import { IValueRequest, IVehicle } from 'interfaces';
 import {
   techniqueVehicleInfoPut,
@@ -35,6 +36,7 @@ const RequestAddTechnique: React.FC<Props> = ({
 }) => {
   const b = bem('RequestAddTechnique');
   const dispatch = useAppDispatch();
+  const windowWidth = useWindowWidth();
   const techniqueVehicleUpdate = useAppSelector(techniqueVehicleUpdateSelector);
   const [images, setImages] = useState<UploadFile[]>([]);
   const [form] = Form.useForm();
@@ -272,7 +274,7 @@ ${resultsTechnique?.data.operator.middle_name}`;
           data-testid='surname_id'
           id='middle_name_id'
           inputClassName={b('username')}
-          className='form-fields'
+          className={windowWidth >= 601 && 'form-fields'}
           label='Отчество'
           rules={[
             {
