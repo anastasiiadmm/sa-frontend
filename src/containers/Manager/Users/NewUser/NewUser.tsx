@@ -1,8 +1,9 @@
-import { Button, Col, Drawer, Form, message, Typography } from 'antd';
+import { Button, Col, Form, message, Typography } from 'antd';
 import bem from 'easy-bem';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
 
+import DrawerComponent from 'components/DrawerComponent/DrawerComponent';
 import Errors from 'components/Errors/Errors';
 import FormField from 'components/FormField/FormField';
 import CreateNewUserCredentials from 'components/ModalComponent/ModalChildrenComponents/CreateNewUserCredentials/CreateNewUserCredentials';
@@ -197,12 +198,11 @@ const NewUser: React.FC = () => {
       >
         <CreateNewUserCredentials handleOkCancel={handleOkCancel} userCreateData={userCreateData} />
       </ModalComponent>
-      <Drawer
+
+      <DrawerComponent
         open={openDraw}
-        closable={false}
         onClose={() => setOpenDraw(false)}
         placement='bottom'
-        footer={false}
         title='Логин и пароль'
         height={360}
       >
@@ -212,7 +212,7 @@ const NewUser: React.FC = () => {
             userCreateData={userCreateData}
           />
         </div>
-      </Drawer>
+      </DrawerComponent>
     </>
   );
 };
