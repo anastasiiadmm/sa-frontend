@@ -35,7 +35,7 @@ const DrawerComponent: React.FC<Props> = ({
       bodyStyle={bodyStyle}
       width={width}
       height={height}
-      className={b('')}
+      className={b(`${placement === 'bottom' ? 'border-placement' : ''}`)}
       placement={placement}
       closable={closable}
       onClose={onClose}
