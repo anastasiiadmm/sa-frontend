@@ -1,4 +1,4 @@
-import { Button, Col, Form, message } from 'antd';
+import { Button, Col, Form, message, Typography } from 'antd';
 import bem from 'easy-bem';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
@@ -7,6 +7,7 @@ import FormField from 'components/FormField/FormField';
 import CreateNewUserCredentials from 'components/ModalComponent/ModalChildrenComponents/CreateNewUserCredentials/CreateNewUserCredentials';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import SkeletonBlock from 'components/SkeletonBlock/SkeletonBlock';
+import useWindowWidth from 'hooks/useWindowWidth';
 import { RequestType } from 'interfaces';
 import {
   accountManagerConfirmationRequest,
@@ -25,6 +26,8 @@ interface Props {
   showRejectModal: () => void;
 }
 
+const { Text } = Typography;
+
 const RequestRegisterUser: React.FC<Props> = ({
   userInfo,
   userId,
@@ -34,6 +37,7 @@ const RequestRegisterUser: React.FC<Props> = ({
 }) => {
   const b = bem('RequestRegisterUser');
   const [form] = Form.useForm();
+  const windowWidth = useWindowWidth();
   const history = useNavigate();
   const dispatch = useAppDispatch();
   const { accountManagerConfirmation, accountManagerConfirmationLoading } =
@@ -173,6 +177,11 @@ const RequestRegisterUser: React.FC<Props> = ({
         md={{ span: 24, offset: 0 }}
         lg={{ span: 24, offset: 0 }}
       >
+        {windowWidth <= 601 && (
+          <Text style={{ marginBottom: 20, display: 'block' }}>
+            Создать учетную запись нового пользователя и добавить его.
+          </Text>
+        )}
         {userInfoLoading ? (
           <SkeletonBlock active={userInfoLoading} num={1} titleBool />
         ) : (
