@@ -31,23 +31,13 @@ const NewUser: React.FC = () => {
   const [openDraw, setOpenDraw] = useState(false);
 
   const showModal = () => {
-    if (windowWidth < 550) {
-      setOpenDraw(true);
-    } else {
-      setIsModalOpen(true);
-    }
+    windowWidth <= 601 ? setOpenDraw(true) : setIsModalOpen(true);
   };
 
   const handleOkCancel = async () => {
-    if (windowWidth < 550) {
-      setOpenDraw(!openDraw);
-      history('/');
-      await message.success('Новый пользователь успешно создан!');
-    } else {
-      setIsModalOpen(!isModalOpen);
-      history('/');
-      await message.success('Новый пользователь успешно создан!');
-    }
+    windowWidth <= 601 ? setOpenDraw(false) : setIsModalOpen(false);
+    history('/');
+    await message.success('Новый пользователь успешно создан!');
   };
 
   const onFinish = async (values: IUserAdd) => {

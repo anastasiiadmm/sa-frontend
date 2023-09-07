@@ -71,8 +71,9 @@ const CreateNewUserCredentials: React.FC<Props> = ({
 
       <div className={b('profile-buttons')}>
         <Button
+          size='large'
           type='primary'
-          style={{ width: '100%', borderRadius: 6 }}
+          style={{ width: '100%', borderRadius: 6, marginTop: 10 }}
           className={b('save-button')}
           onClick={handleOkCancel}
         >
