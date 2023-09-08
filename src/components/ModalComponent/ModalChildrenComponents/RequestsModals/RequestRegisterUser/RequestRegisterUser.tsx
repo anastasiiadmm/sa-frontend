@@ -101,12 +101,6 @@ const RequestRegisterUser: React.FC<Props> = ({
   const handleAgreeOkCancel = async () => {
     windowWidth <= 601 ? setOpenDraw(false) : setIsModalOpen(false);
     history('/user-requests');
-    const data = {
-      query: {
-        page: 1,
-      },
-    };
-    await dispatch(fetchRequests({ data }));
     message.success('Новый пользователь успешно зарегистирирован!');
   };
 

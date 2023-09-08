@@ -272,14 +272,6 @@ const UserRequests = () => {
       windowWidth <= 990
         ? setIsDrawerFieldClimateRequestOpen(false)
         : setIsModalFieldClimateRequestOpen(false);
-
-      const dataRequests = {
-        query: {
-          page: 1,
-        },
-      };
-
-      await dispatch(fetchRequests({ data: dataRequests }));
     } catch (e) {
       message.error('Не удалось принять запрос');
       windowWidth <= 990

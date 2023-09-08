@@ -770,7 +770,12 @@ const accountsSlice = createSlice({
       state.approveRequestError = null;
       state.approveRequestSuccess = false;
     });
-    builder.addCase(approveRequest.fulfilled, (state) => {
+    builder.addCase(approveRequest.fulfilled, (state, action) => {
+      if (state.requests?.length) {
+        state.requests = state.requests.filter((item) => {
+          return item.id !== Number(action.payload);
+        });
+      }
       state.approveRequestLoading = false;
       state.approveRequestError = null;
       state.approveRequestSuccess = true;
@@ -858,6 +863,11 @@ const accountsSlice = createSlice({
     builder.addCase(
       accountManagerConfirmationRequest.fulfilled,
       (state, { payload: accountManagerConfirmation }) => {
+        if (state.requests?.length) {
+          state.requests = state.requests.filter((item) => {
+            return item.id !== Number(accountManagerConfirmation.id);
+          });
+        }
         state.accountManagerConfirmationLoading = false;
         state.accountManagerConfirmation = accountManagerConfirmation;
       },
