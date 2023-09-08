@@ -361,12 +361,7 @@ const UserRequests = () => {
       }
 
       await dispatch(requestApproveChangeProfile({ id: userInfo?.id, data: formData })).unwrap();
-      const dataRequests = {
-        query: {
-          page: 1,
-        },
-      };
-      await dispatch(fetchRequests({ data: dataRequests }));
+
       windowWidth <= 990
         ? setIsDrawerUserInfoRejectOpen(false)
         : setIsModalUserInfoRejectOpen(false);
