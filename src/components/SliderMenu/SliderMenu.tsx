@@ -279,7 +279,13 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
         </Button>
       </div>
 
-      <DrawerComponent open={open} onClose={onClose} placement='bottom' height={85}>
+      <DrawerComponent
+        open={open}
+        onClose={onClose}
+        placement='bottom'
+        height={85}
+        bodyStyle={{ padding: 0 }}
+      >
         <div className={b('drawer-block')}>
           {menuDropdown?.map((item) => (
             <React.Fragment key={item.key}>

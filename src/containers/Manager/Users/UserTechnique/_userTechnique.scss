@@ -94,6 +94,7 @@
   @include mixins.bp(tablet) {
     &__title {
       display: block;
+      margin: 40px 0;
     }
 
     &__subtitle {
@@ -137,7 +138,7 @@
     }
     &__title {
       display: block;
-      margin-top: 12px;
+      margin: 12px 0;
     }
     &__subtitle {
       padding-left: 0;

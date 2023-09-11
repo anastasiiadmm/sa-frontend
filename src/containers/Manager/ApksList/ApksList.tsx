@@ -77,7 +77,7 @@ const ApksList = () => {
 
     setStatusMap((prevStatusMap: { [key: string]: string }) => {
       const updatedStatusMap = { ...prevStatusMap };
-      Object.keys(updatedStatusMap).forEach((version) => {
+      Object.keys(updatedStatusMap)?.forEach((version) => {
         if (!Object.prototype.hasOwnProperty.call(newStatusMap, version)) {
           delete updatedStatusMap[version];
         }
