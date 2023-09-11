@@ -28,9 +28,9 @@
   }
 
   &__view-button {
-    background: #ECF4FF;
+    background: #ecf4ff;
     border: none;
-    color: #1358BF;
+    color: #1358bf;
     font-weight: 700;
     font-size: 14px;
   }
@@ -115,19 +115,165 @@
   &__mobile_data {
     display: none;
   }
-}
 
-.meteo-h1 {
-  margin: 0 !important;
-  padding: 0;
-}
+  @include mixins.bp(mobile) {
+    &__logo {
+      display: none;
+    }
 
-.send-button {
-  background: #0078a8;
-}
+    &__card-technique-block {
+      display: none;
+    }
 
-@include mixins.bp(desktop) {
-  .Technique {
+    &__card-style-blocks {
+      position: absolute;
+      top: 70px;
+      width: 100% !important;
+      left: 0;
+      right: 0;
+      > div {
+        width: 100%;
+        margin-right: 10px;
+        margin-left: 10px;
+        height: 94px;
+      }
+    }
+
+    &__card-style-cloud {
+      width: 100% !important;
+    }
+
+    &__title {
+      display: none;
+    }
+    &__mobile_data {
+      display: block;
+      .tractor {
+        border-bottom: 1px solid #f5f7fa;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        padding-bottom: 10px;
+        margin-top: 0;
+        .text_mobile_header {
+          padding-left: 10px;
+          color: #6c7994;
+          font-size: 11px;
+          > b {
+            font-size: 14px;
+          }
+        }
+      }
+    }
+
+    &__btn_mobile {
+      margin-top: 84px;
+      > h3 {
+        font-weight: 500;
+      }
+
+      > div {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+
+        > button {
+          border: none;
+          max-width: 190px;
+          width: 100%;
+          height: 104px;
+          text-align: left;
+          background-color: #f8f8f8;
+          border-radius: 12px;
+          padding: 14px;
+          > p {
+            margin-top: 0px;
+            font-weight: 500;
+          }
+        }
+      }
+    }
+
+    &__table {
+      display: none;
+    }
+
+    &__card-style-cloud-button {
+      top: 10px;
+      left: 34px;
+    }
+
+    &__cloudy_img {
+      margin-top: -3px;
+    }
+
+    &__card-style-cloud-button_meteo {
+      top: 32px;
+      left: 32px;
+    }
+
+    .meteo-title_cloudy {
+      position: absolute;
+      top: 0;
+      left: 57px;
+    }
+
+    .meteo-title {
+      position: absolute;
+      top: 36px;
+      left: 57px;
+    }
+
+    &__card-style-cloud-button_meteo:disabled {
+      position: absolute;
+      top: 30px;
+      left: 32px;
+    }
+
+    &__cloudy_img_not {
+      top: 16px;
+    }
+    &__table_mobile {
+      margin-left: 20px;
+      margin-right: 20px;
+      display: block;
+
+      > div {
+        width: 100%;
+        background-color: #ffffff;
+        padding: 16px;
+        margin-bottom: 10px;
+        border-radius: 12px;
+
+        .table_img {
+          display: flex;
+          > div {
+            > img {
+              width: 32px;
+              height: 37px;
+              border-radius: 8px;
+            }
+          }
+
+          .text_table {
+            line-height: 0.5;
+            margin-top: -10px;
+            padding-left: 15px;
+            > p {
+              > b {
+                font-weight: 500;
+                color: #161a24;
+              }
+
+              color: #79859e;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @include mixins.bp(desktop) {
     &__card-style-blocks {
       justify-content: left;
     }
@@ -152,7 +298,7 @@
     &__card-technique-block {
       display: block;
       width: 214px;
-      background-color: #F5F6FF;
+      background-color: #f5f6ff;
       padding: 14px 16px 0px 12px;
       border-radius: 12px;
       margin-right: 20px;
@@ -191,7 +337,7 @@
     }
 
     &__card-style-cloud {
-      background: linear-gradient(103.37deg, #3D9FFF 2.9%, #1785F0 64.65%);
+      background: linear-gradient(103.37deg, #3d9fff 2.9%, #1785f0 64.65%);
     }
     &__cloudy_img_not {
       position: absolute;
@@ -200,7 +346,7 @@
     }
 
     .meteo-title_cloudy {
-      color: #FFFFFF;
+      color: #ffffff;
       font-weight: 400;
       font-size: 12px;
       margin-left: -10px;
@@ -222,9 +368,9 @@
       position: absolute;
       left: 0;
       bottom: 2px;
-      background: transparent!important;
+      background: transparent !important;
       border: none;
-      color: #FFFFFF;
+      color: #ffffff;
       font-weight: 500;
       font-size: 12px;
     }
@@ -233,9 +379,9 @@
       position: absolute;
       left: 0;
       bottom: 2px;
-      background: transparent!important;
+      background: transparent !important;
       border: none;
-      color: #FFFFFF;
+      color: #ffffff;
       font-weight: 500;
       font-size: 12px;
     }
@@ -244,12 +390,12 @@
       position: absolute;
       left: 0;
       top: 40px;
-      background: transparent!important;
+      background: transparent !important;
       font-size: 11px;
     }
 
     &__card-style-cloud-button:disabled {
-      background: transparent!important;
+      background: transparent !important;
       color: #ffffff;
     }
 
@@ -290,15 +436,15 @@
     &__view-button {
       width: 242px;
       height: 40px;
-      background-color: #F8F8F8;
+      background-color: #f8f8f8;
       border-radius: 8px;
-      color: #689F3A;
+      color: #689f3a;
     }
 
     &__title_drawer {
       font-weight: 500;
       font-size: 15px;
-      color: #1D2024;
+      color: #1d2024;
       text-align: center;
       margin: 0;
       padding: 0;
@@ -306,166 +452,11 @@
   }
 }
 
-@include mixins.bp(mobile) {
-  .Technique {
-    &__logo {
-      display: none;
-    }
+.meteo-h1 {
+  margin: 0 !important;
+  padding: 0;
+}
 
-    &__card-technique-block {
-      display: none;
-    }
-
-    &__card-style-blocks {
-      position: absolute;
-      top: 70px;
-      width: 100% !important;
-      left: 0;
-      right: 0;
-      > div {
-        width: 100%;
-        margin-right: 20px;
-        margin-left: 20px;
-      }
-    }
-
-    &__card-style-cloud {
-      width: 100% !important;
-    }
-
-    &__card-block {
-      height: 326px;
-    }
-    &__title {
-      display: none;
-    }
-    &__mobile_data {
-      display: block;
-      .tractor {
-        border-bottom: 1px solid #F5F7FA;
-        height: 32px;
-        display: flex;
-        align-items: center;
-        padding-bottom: 10px;
-        margin-top: 0;
-        .text_mobile_header {
-          padding-left: 10px;
-          color: #6C7994;
-          font-size: 11px;
-          > b {
-            font-size: 14px;
-          }
-        }
-      }
-    }
-
-    &__btn_mobile {
-      margin-top: 84px;
-      > h3 {
-        font-weight: 500;
-      }
-
-      > div {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        grid-column-gap: 10px;
-        grid-row-gap: 10px;
-        > button {
-          border: none;
-          width: 100%;
-          height: 104px;
-          text-align: left;
-          background-color: #F8F8F8;
-          border-radius: 12px;
-          padding: 14px;
-          > p {
-            margin-top: 0px;
-            font-weight: 500;
-          }
-        }
-      }
-    }
-
-    &__table {
-      display: none;
-    }
-
-    &__card-style-cloud-button {
-      top: 10px;
-      left: 34px;
-    }
-
-    &__cloudy_img {
-      margin-top: -3px;
-    }
-
-    &__card-style-cloud-button_meteo {
-      top: 32px;
-      left: 32px;
-    }
-
-    &__card-style-cloud {
-      height: 62px!important;
-    }
-
-    .meteo-title_cloudy {
-      position: absolute;
-      top: 0;
-      left: 57px;
-    }
-
-    .meteo-title {
-      position: absolute;
-      top: 36px;
-      left: 57px;
-    }
-
-    &__card-style-cloud-button_meteo:disabled {
-      position: absolute;
-      top: 30px;
-      left: 32px;
-    }
-
-    &__cloudy_img_not {
-      top: 16px;
-    }
-    &__table_mobile {
-      margin-left: 20px;
-      margin-right: 20px;
-      display: block;
-
-      > div {
-        width: 100%;
-        background-color: #FFFFFF;
-        padding: 16px;
-        margin-bottom: 10px;
-        border-radius: 12px;
-
-        .table_img {
-          display: flex;
-          > div {
-            > img {
-              width: 32px;
-              height: 37px;
-              border-radius: 8px;
-            }
-          }
-
-          .text_table {
-            line-height: 0.5;
-            margin-top: -10px;
-            padding-left: 15px;
-            > p {
-              > b {
-                font-weight: 500;
-                color: #161A24;
-              }
-
-              color: #79859E;
-            }
-          }
-        }
-      }
-    }
-  }
+.send-button {
+  background: #0078a8;
 }
