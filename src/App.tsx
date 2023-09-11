@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react';
-import { Route } from 'react-router';
-import { Routes } from 'react-router-dom';
+import React, { useCallback, useEffect } from 'react';
+import { Route, Routes } from 'react-router-dom';
 
 import AppRouter from 'AppRouter/AppRouter';
 import SignIn from 'containers/SignIn/SignIn';
@@ -19,7 +18,7 @@ const App: React.FC = () => {
   const dispatch = useAppDispatch();
   const tokenConfigs = useTokenConfigs();
 
-  useEffect(() => {
+  const initializeApp = useCallback(() => {
     const tokensLocal = userLocalStorage(getCookie(nameRefreshCookies));
     if (tokensLocal?.access && tokensLocal?.refresh) {
       dispatch(checkForTokens(tokensLocal));
@@ -30,30 +29,40 @@ const App: React.FC = () => {
     }
   }, [dispatch]);
 
+  const handleStorageEvent = useCallback(
+    ({ key, newValue }: IListener) => {
+      if (key === nameLocalStorage) {
+        if (newValue === '{"user":null,"token":null}' || newValue === null) {
+          dispatch(logoutUser());
+          logoutLocalStorage();
+        } else {
+          const tokensCopy = JSON.parse(newValue);
+          tokensCopy.refresh = getCookie(nameRefreshCookies);
+          dispatch(checkForTokens(tokensCopy));
+        }
+      }
+    },
+    [dispatch],
+  );
+
   useEffect(() => {
-    window.addEventListener('storage', listener);
+    initializeApp();
+  }, [initializeApp]);
+
+  useEffect(() => {
+    window.addEventListener('storage', handleStorageEvent);
 
     return () => {
-      window.removeEventListener('storage', listener);
+      window.removeEventListener('storage', handleStorageEvent);
     };
-  }, []);
+  }, [handleStorageEvent]);
 
-  const listener = ({ key, newValue }: IListener) => {
-    if (key === nameLocalStorage) {
-      if (newValue === '{"user":null,"token":null}' || newValue === null) {
-        dispatch(logoutUser());
-        logoutLocalStorage();
-      } else {
-        const tokensCopy = JSON.parse(newValue);
-        tokensCopy.refresh = getCookie(nameRefreshCookies);
-        dispatch(checkForTokens(tokensCopy));
-      }
-    }
-  };
   return tokenConfigs ? (
     <AppRouter />
   ) : (
-    <Routes>{tokenConfigs ? null : <Route path='*' element={<SignIn />} />}</Routes>
+    <Routes>
+      <Route path='*' element={<SignIn />} />
+    </Routes>
   );
 };
 
