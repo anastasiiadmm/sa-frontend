@@ -36,9 +36,7 @@ import {
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { apiUrlCrop } from 'utils/config';
 import { urlFormat } from 'utils/files/files';
-
 import { getErrorMessage, getPageNumber, getPageNumberPrevious } from 'utils/helper';
-
 import 'containers/Manager/Users/UserTechnique/_userTechnique.scss';
 
 const { Title, Text } = Typography;
@@ -370,7 +368,7 @@ const UserTechnique: React.FC = () => {
             ) : (
               <div className={b('header-title')}>
                 {windowWidth <= 990 ? (
-                  <Title level={3} className={b('title')}>
+                  <div className={b('title')}>
                     <h3 className={b('subtitle')}>
                       {userInfoByManager?.last_name} {userInfoByManager?.first_name?.charAt(0)}.{' '}
                       {userInfoByManager?.middle_name === ''
@@ -378,7 +376,7 @@ const UserTechnique: React.FC = () => {
                         : `${userInfoByManager?.middle_name.charAt(0)}.`}
                     </h3>
                     <Text className={b('subtitle')}>Техника пользователя</Text>
-                  </Title>
+                  </div>
                 ) : (
                   <>
                     <Link to={`/user-profile/${id}`}>

@@ -13,7 +13,7 @@ import { ColumnsType } from 'antd/es/table';
 import { FilterValue, SorterResult } from 'antd/es/table/interface';
 import bem from 'easy-bem';
 import moment from 'moment';
-import React, { useEffect, useLayoutEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import changeProfile from 'assets/images/icons/change-profile-mobile.svg';
 import newTechnique from 'assets/images/icons/new-technique-mobile.svg';
@@ -121,13 +121,13 @@ const UserRequests = () => {
   });
   const [orderSort, setOrderSort] = useState({ ordering: '' });
   const [allRequests, setAllRequests] = useState<Requestor[]>([]);
-  useLayoutEffect(() => {
+
+  useEffect(() => {
     if (
       requests &&
-      windowWidth <= 601 &&
       JSON.stringify(allRequests.slice(-requests.length)) !== JSON.stringify(requests)
     ) {
-      setAllRequests((prevRequests) => [...prevRequests, ...requests]);
+      setAllRequests((prevAllRequests) => [...prevAllRequests, ...requests]);
     }
   }, [requests]);
 

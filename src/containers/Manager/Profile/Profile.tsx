@@ -130,8 +130,8 @@ const Profile: React.FC = () => {
     <div className='layout' data-testid='accounts-id'>
       <Col
         className={b('')}
-        xs={{ span: 18, offset: 2 }}
-        md={{ span: 18, offset: 2 }}
+        xs={{ span: 20, offset: 2 }}
+        md={{ span: 20, offset: 2 }}
         lg={{ span: 11, offset: 1 }}
       >
         {fetchLoadingAccount ? (
