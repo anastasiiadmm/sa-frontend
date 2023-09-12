@@ -17,13 +17,10 @@
     line-height: 1.9;
   }
 
-  &__block_form {
-    width: 600px;
-  }
-
   &__main-colum-styles {
     margin: 0 auto;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: initial;
   }
@@ -44,8 +41,6 @@
   }
 
   &__buttons-row {
-    position: absolute;
-    bottom: 53px;
     width: 100%;
     text-align: center;
 
@@ -84,6 +79,18 @@
   @include mixins.bp(desktop) {
     &__image-block {
       display: none;
+    }
+  }
+
+  @include mixins.bp(mobile) {
+    overflow: initial;
+
+    &__login-form-button {
+      margin-top: 6px;
+    }
+
+    &__register-button {
+      margin-bottom: 20px;
     }
   }
 
