@@ -132,6 +132,7 @@ const SignIn: React.FC = () => {
               />
 
               <Button
+                size={windowWidth <= 601 ? 'small' : 'middle'}
                 type='primary'
                 htmlType='submit'
                 loading={!!loading}
@@ -140,13 +141,18 @@ const SignIn: React.FC = () => {
                 Войти
               </Button>
             </Form>
-            <Row className={b('buttons-row')}>
-              <p style={{ margin: '17px auto' }}>Хотите стать клиентом?</p>
-              <Button size='large' type='primary' onClick={showModal}>
-                Зарегистрироваться
-              </Button>
-            </Row>
           </div>
+          <Row className={b('buttons-row')}>
+            <p style={{ margin: '17px auto' }}>Хотите стать клиентом?</p>
+            <Button
+              size={windowWidth <= 601 ? 'small' : 'middle'}
+              type='primary'
+              className={b('register-button')}
+              onClick={showModal}
+            >
+              Зарегистрироваться
+            </Button>
+          </Row>
         </Col>
       </Row>
 
