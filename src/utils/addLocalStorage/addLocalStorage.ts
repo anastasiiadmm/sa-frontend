@@ -2,7 +2,7 @@ import { ILocalStorage } from 'interfaces';
 import { deleteCookie, nameRefreshCookies } from 'utils/addCookies/addCookies';
 
 export const nameLocalStorage = 'infoLocalStorage';
-
+export const defaultLocalStorage = { user: null, token: null };
 export const userLocalStorage = (refresh = '') => {
   try {
     const tokenLocal = JSON.parse(localStorage.getItem(nameLocalStorage) || '');
@@ -18,7 +18,7 @@ export const userLocalStorage = (refresh = '') => {
 
 export const logoutLocalStorage = () => {
   deleteCookie(nameRefreshCookies);
-  localStorage.setItem(nameLocalStorage, JSON.stringify({ user: null, token: null }));
+  localStorage.setItem(nameLocalStorage, JSON.stringify(defaultLocalStorage));
 };
 
 export const addLocalStorage = (login: ILocalStorage) => {

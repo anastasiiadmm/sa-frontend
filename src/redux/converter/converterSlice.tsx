@@ -113,7 +113,7 @@ const converterSlice = createSlice({
       state.converterListLoading = true;
       state.converterListError = null;
     });
-    builder.addCase(fetchConverterList.fulfilled, (state, { payload }: any) => {
+    builder.addCase(fetchConverterList.fulfilled, (state, { payload }) => {
       state.converterListLoading = false;
       state.converterListError = null;
       state.converterList = payload.results;

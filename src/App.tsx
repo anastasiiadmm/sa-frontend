@@ -9,6 +9,7 @@ import { checkForTokens, clearTokens, logoutUser } from 'redux/auth/authSlice';
 import { useAppDispatch } from 'redux/hooks';
 import { deleteCookie, getCookie, nameRefreshCookies } from 'utils/addCookies/addCookies';
 import {
+  defaultLocalStorage,
   logoutLocalStorage,
   nameLocalStorage,
   userLocalStorage,
@@ -32,7 +33,7 @@ const App: React.FC = () => {
   const handleStorageEvent = useCallback(
     ({ key, newValue }: IListener) => {
       if (key === nameLocalStorage) {
-        if (newValue === '{"user":null,"token":null}' || newValue === null) {
+        if (newValue === JSON.stringify(defaultLocalStorage) || newValue === null) {
           dispatch(logoutUser());
           logoutLocalStorage();
         } else {
