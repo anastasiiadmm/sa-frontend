@@ -253,7 +253,7 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
           </div>
         </div>
         <button
-          className="ant-btn css-dev-only-do-not-override-18iikkb ant-btn-primary ant-btn-lg SignIn__login-form-button"
+          className="ant-btn css-dev-only-do-not-override-15rg2km ant-btn-primary SignIn__login-form-button"
           disabled={false}
           onClick={[Function]}
           style={{}}
@@ -264,35 +264,30 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
           </span>
         </button>
       </form>
-      <div
-        className="ant-row SignIn__buttons-row css-dev-only-do-not-override-18iikkb"
+    </div>
+    <div
+      className="ant-row SignIn__buttons-row css-dev-only-do-not-override-15rg2km"
+      style={{}}
+    >
+      <p
         style={
           {
-            "rowGap": undefined,
+            "margin": "17px auto",
           }
         }
       >
-        <p
-          style={
-            {
-              "margin": "17px auto",
-            }
-          }
-        >
-          Хотите стать клиентом?
-        </p>
-        <button
-          className="ant-btn css-dev-only-do-not-override-18iikkb ant-btn-primary ant-btn-lg"
-          disabled={false}
-          onClick={[Function]}
-          style={{}}
-          type="button"
-        >
-          <span>
-            Зарегистрироваться
-          </span>
-        </button>
-      </div>
+        Хотите стать клиентом?
+      </p>
+      <button
+        className="ant-btn css-dev-only-do-not-override-15rg2km ant-btn-primary SignIn__register-button"
+        disabled={false}
+        onClick={[Function]}
+        type="button"
+      >
+        <span>
+          Зарегистрироваться
+        </span>
+      </button>
     </div>
   </div>
 </div>

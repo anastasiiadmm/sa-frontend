@@ -21,7 +21,6 @@ import Errors from 'components/Errors/Errors';
 import AddUpdateTechnique from 'components/ModalComponent/ModalChildrenComponents/AddUpdateTechnique/AddUpdateTechnique';
 import RequestModal from 'components/ModalComponent/ModalChildrenComponents/DeleteTechniqueModal/RequestModal';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
-import SkeletonBlock from 'components/SkeletonBlock/SkeletonBlock';
 import TableComponent from 'components/TableComponent/TableComponent';
 import useWindowWidth from 'hooks/useWindowWidth';
 import { userVehicles } from 'interfaces';
@@ -215,27 +214,31 @@ const Technique = () => {
           <Card className={b('card-style')} bordered={false}>
             <div className={b('card-style-blocks')}>
               <div className={b('card-technique')}>
-                <Title className={b('card-title')}>Количество техники</Title>
-                {fetchLoadingAccount ? (
-                  <SkeletonBlock active={fetchLoadingAccount} num={1} titleBool />
-                ) : (
-                  <div className={b('card-content')}>
-                    <img src={tractorBlue} alt='group' />
-                    <p>{userVehiclesPagination?.count}</p>
-                  </div>
-                )}
-              </div>
-              <div className={b('card-technique-block')}>
-                <div className='logo_mobile'>
-                  <img src={tractorNew} alt='group' />
-                </div>
-                <p>Кол-во техники</p>
                 {fetchLoadingAccount ? (
                   <Spin style={{ padding: '0 10px 10px' }} />
                 ) : (
-                  <div className={b('card-content')}>
-                    <p>{userVehiclesPagination?.count}</p>
-                  </div>
+                  <>
+                    <Title className={b('card-title')}>Количество техники</Title>
+                    <div className={b('card-content')}>
+                      <img src={tractorBlue} alt='group' />
+                      <p>{userVehiclesPagination?.count}</p>
+                    </div>
+                  </>
+                )}
+              </div>
+              <div className={b('card-technique-block')}>
+                {fetchLoadingAccount ? (
+                  <Spin style={{ padding: '0 10px 10px' }} />
+                ) : (
+                  <>
+                    <div className='logo_mobile'>
+                      <img src={tractorNew} alt='group' />
+                    </div>
+                    <p>Кол-во техники</p>
+                    <div className={b('card-content')}>
+                      <p>{userVehiclesPagination?.count}</p>
+                    </div>
+                  </>
                 )}
               </div>
               <div className={b('cloud_block_style')}>
