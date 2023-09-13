@@ -58,9 +58,8 @@ const RequestAddTechnique: React.FC<Props> = ({
     const fullName = `${capitalizeFirstLetter(
       resultsTechnique?.data.operator?.last_name,
     )} ${resultsTechnique?.data.operator?.first_name?.charAt(0)?.toUpperCase()}. ${
-      resultsTechnique?.data.operator?.middle_name === ''
-        ? null
-        : resultsTechnique?.data.operator?.middle_name.charAt(0)?.toUpperCase()
+      resultsTechnique?.data.operator?.middle_name &&
+      resultsTechnique?.data.operator?.middle_name.charAt(0)?.toUpperCase()
     }`;
     form.setFieldsValue({
       fullName,
