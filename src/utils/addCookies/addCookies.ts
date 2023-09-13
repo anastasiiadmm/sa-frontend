@@ -22,6 +22,4 @@ export const getCookie = (name: string): string | undefined => {
       return cookie.substring(name.length + 1, cookie.length);
     }
   }
-
-  return undefined;
 };

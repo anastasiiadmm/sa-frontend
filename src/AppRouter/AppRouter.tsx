@@ -125,6 +125,55 @@ const AppRouter: React.FC = () => {
       </>
     );
 
+  const renderAppRouterWrapper = (
+    <AppRouterWrapper>
+      <Routes>
+        {tokens?.is_manager ? (
+          <>
+            <Route path='/' index element={<Users />} />
+            <Route path='/add-new-user' element={<NewUser />} />
+            <Route path='/manager-profile' element={<ManagerProfile />} />
+            <Route path='/user-profile/:id' element={<UserProfile />} />
+            <Route path='/edit-user/:id' element={<UserProfileTablet />} />
+            <Route path='/user-technique/:id/:idVehicle' element={<UserTechnique />} />
+            <Route path='/user-requests' element={<UserRequests />} />
+            <Route path='/apks' element={<ApksList />} />
+          </>
+        ) : (
+          <>
+            <Route path='/' index element={<Technique />} />
+            <Route path='/user-profile-view' element={<Profile />} />
+            {account?.company?.weather_service ? (
+              <>
+                <Route path='/field-climate' element={<FieldClimateDashboard />} />
+                <Route path='/field-climate/station/:id' element={<FieldClimateStation />} />
+                <Route path='/field-climate/config/:id' element={<FieldClimateConfigurations />} />
+                <Route path='/field-climate/sensor-names/:id' element={<SensorsAndNodes />} />
+              </>
+            ) : null}
+          </>
+        )}
+        <Route path='/menu-mobile' element={<MenuMobileComponent />} />
+        <Route path='/open-map/:id/:field_name/:code?' element={<OpenMapComponent />} />
+        <Route path='/technique-map/:techniqueId' element={<TechniqueMap />} />
+        <Route path='/profile-technique/:vehicleId' element={<ProfileTechnique />} />
+        <Route path='/converter' element={<Converter />} />
+        <Route path='/files' element={<Files />} />
+        <Route path='/converter-list' element={<ConverterList />} />
+        <Route
+          path='*'
+          element={
+            <NotFound
+              showButton
+              title='Страница не найдена'
+              text='Попробуйте перейти на главную страницу или любую интересующую вас'
+            />
+          }
+        />
+      </Routes>
+    </AppRouterWrapper>
+  );
+
   return (
     <Layout style={{ height: '100vh' }} className={b('')} data-testid='app-router'>
       <SliderMenu collapsed={collapsed} />
@@ -156,55 +205,7 @@ const AppRouter: React.FC = () => {
             background: 'none',
           }}
         >
-          <AppRouterWrapper>
-            <Routes>
-              {tokens?.is_manager ? (
-                <>
-                  <Route path='/' index element={<Users />} />
-                  <Route path='/add-new-user' element={<NewUser />} />
-                  <Route path='/manager-profile' element={<ManagerProfile />} />
-                  <Route path='/user-profile/:id' element={<UserProfile />} />
-                  <Route path='/edit-user/:id' element={<UserProfileTablet />} />
-                  <Route path='/user-technique/:id/:idVehicle' element={<UserTechnique />} />
-                  <Route path='/user-requests' element={<UserRequests />} />
-                  <Route path='/apks' element={<ApksList />} />
-                </>
-              ) : (
-                <>
-                  <Route path='/' index element={<Technique />} />
-                  <Route path='/user-profile-view' element={<Profile />} />
-                  {account?.company?.weather_service ? (
-                    <>
-                      <Route path='/field-climate' element={<FieldClimateDashboard />} />
-                      <Route path='/field-climate/station/:id' element={<FieldClimateStation />} />
-                      <Route
-                        path='/field-climate/config/:id'
-                        element={<FieldClimateConfigurations />}
-                      />
-                      <Route path='/field-climate/sensor-names/:id' element={<SensorsAndNodes />} />
-                    </>
-                  ) : null}
-                </>
-              )}
-              <Route path='/menu-mobile' element={<MenuMobileComponent />} />
-              <Route path='/open-map/:id/:field_name/:code?' element={<OpenMapComponent />} />
-              <Route path='/technique-map/:techniqueId' element={<TechniqueMap />} />
-              <Route path='/profile-technique/:vehicleId' element={<ProfileTechnique />} />
-              <Route path='/converter' element={<Converter />} />
-              <Route path='/files' element={<Files />} />
-              <Route path='/converter-list' element={<ConverterList />} />
-              <Route
-                path='*'
-                element={
-                  <NotFound
-                    showButton
-                    title='Страница не найдена'
-                    text='Попробуйте перейти на главную страницу или любую интересующую вас'
-                  />
-                }
-              />
-            </Routes>
-          </AppRouterWrapper>
+          {renderAppRouterWrapper}
         </Content>
       </Layout>
     </Layout>

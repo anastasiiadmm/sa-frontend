@@ -88,7 +88,7 @@ interface AccountsState {
   };
 }
 
-const INITIAL_STATE = {
+export const INITIAL_STATE = {
   apk: null,
   apksPagination: null,
   apkLoading: false,

@@ -62,7 +62,7 @@ interface CompaniesState {
   userInfoByManagerError: IErrors | null;
 }
 
-const INITIAL_STATE = {
+export const INITIAL_STATE = {
   companies: null,
   fetchCompaniesLoading: false,
   fetchCompaniesError: null,
@@ -132,7 +132,6 @@ const INITIAL_STATE = {
     loading: false,
     errors: null,
   },
-
   userInfoByManager: null,
   userInfoByManagerLoading: false,
   userInfoByManagerError: null,
@@ -411,24 +410,26 @@ const companiesSlice = createSlice({
   name: nameSpace,
   initialState: INITIAL_STATE,
   reducers: {
-    setChangeUserProfile: (state: any, action: PayloadAction<IAccount>) => {
-      state.updateUserData.coords_timeout = action.payload.coords_timeout;
-      state.updateUserData.email = action.payload.email;
-      state.updateUserData.first_name = action.payload.first_name;
-      state.updateUserData.image = action.payload.image;
-      state.updateUserData.is_manager = action.payload.is_manager;
-      state.updateUserData.last_name = action.payload.last_name;
-      state.updateUserData.middle_name = action.payload.middle_name;
-      state.updateUserData.phone = action.payload.phone;
-      state.updateUserData.username = action.payload.username;
-      state.updateUserData.company = {
-        autopilots_amount: action?.payload?.company?.autopilots_amount,
-        location: action?.payload?.company?.location,
-        meteo_requested: action?.payload?.company?.meteo_requested,
-        name: action?.payload?.company?.name,
-        vehicles_number: action?.payload?.company?.vehicles_number,
-        weather_service: action?.payload?.company?.weather_service,
-      };
+    setChangeUserProfile: (state, action: PayloadAction<IAccount>) => {
+      if (state.updateUserData) {
+        state.updateUserData.coords_timeout = action.payload.coords_timeout;
+        state.updateUserData.email = action.payload.email;
+        state.updateUserData.first_name = action.payload.first_name;
+        state.updateUserData.image = action.payload.image;
+        state.updateUserData.is_manager = action.payload.is_manager;
+        state.updateUserData.last_name = action.payload.last_name;
+        state.updateUserData.middle_name = action.payload.middle_name;
+        state.updateUserData.phone = action.payload.phone;
+        state.updateUserData.username = action.payload.username;
+        state.updateUserData.company = {
+          autopilots_amount: action?.payload?.company?.autopilots_amount,
+          location: action?.payload?.company?.location,
+          meteo_requested: action?.payload?.company?.meteo_requested,
+          name: action?.payload?.company?.name,
+          vehicles_number: action?.payload?.company?.vehicles_number,
+          weather_service: action?.payload?.company?.weather_service,
+        };
+      }
     },
     setNullReducerVehicleCreate: (state) => {
       state.vehicleCreateSuccess = false;

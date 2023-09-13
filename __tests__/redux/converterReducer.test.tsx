@@ -9,18 +9,15 @@ import converterSlice, {
 jest.mock('../../src/redux/store');
 
 describe('reducer converter testings', () => {
-  const state = {
-    ...INITIAL_STATE,
-  };
 
   test('should handle initial state', () => {
     const action = { type: deleteConverter.rejected.type }
-    expect(converterSlice(state, action)).toEqual(state)
+    expect(converterSlice(INITIAL_STATE, action)).toEqual(INITIAL_STATE)
   });
 
   it('clearConvertFileSuccess', () => {
     const action = { type: clearConvertFileSuccess.type, payload: { convertFileSuccess: false } };
-    const stateResults = converterSlice(state, action);
+    const stateResults = converterSlice(INITIAL_STATE, action);
     expect(stateResults.convertFileSuccess).toBe(false);
   });
 

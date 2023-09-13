@@ -21,7 +21,7 @@ interface AuthState {
 
 const nameSpace = 'auth';
 
-const INITIAL_STATE = {
+export const INITIAL_STATE = {
   user: null,
   tokens: {
     access: '',
