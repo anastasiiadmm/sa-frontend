@@ -69,6 +69,10 @@ code {
   display: none;
 }
 
+.ant-form-item-required::before {
+  display: none!important;
+}
+
 
 .layout {
   width: 100%;

@@ -343,55 +343,7 @@ const ProfileTechnique = () => {
         <TableComponent
           rowKey={(record) => record.id as number}
           loading={userVehicleInfoLoading}
-          columns={
-            // eslint-disable-next-line no-restricted-globals
-            innerWidth > 580
-              ? columns
-              : [
-                  {
-                    key: 'processing_data',
-                    title: 'Задача на обработку',
-                    dataIndex: 'readable_id',
-                    width: '20%',
-                  },
-                  {
-                    key: 'description',
-                    title: 'Инструмент',
-                    dataIndex: 'description',
-                    filterSearch: true,
-                    width: '20%',
-                    render: (text: string, record: { tool: string }) => {
-                      return <p className={b('name-column-style')}>{record?.tool}</p>;
-                    },
-                  },
-                  {
-                    dataIndex: 'profile',
-                    filterSearch: true,
-                    width: '18%',
-                    render: (_: string, record: Result) => {
-                      return (
-                        <div style={{ display: 'flex', gap: 37, justifyContent: 'right' }}>
-                          <Tooltip
-                            title='Просмотреть на карте'
-                            color='#BBBBBB'
-                            overlayInnerStyle={{ padding: '5px 15px', borderRadius: 15 }}
-                            placement='topRight'
-                          >
-                            <Link
-                              className={b('profile-link')}
-                              to={`/open-map/${vehicleId}/${record.id}/${userVehicleInfo?.vehicle?.code}`}
-                            >
-                              <Button type='text'>
-                                <img src={planet} alt='Просмотреть на карте' width={40} />
-                              </Button>
-                            </Link>
-                          </Tooltip>
-                        </div>
-                      );
-                    },
-                  },
-                ]
-          }
+          columns={columns}
           data={fields}
           disabledButton
           pagePrevHandler={pagePrevHandler}
