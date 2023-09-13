@@ -1,24 +1,12 @@
 import '@testing-library/jest-dom';
 
 import authSlice, {
-  logoutUser, checkForTokens
+  logoutUser, checkForTokens, INITIAL_STATE
 } from '../../src/redux/auth/authSlice';
 
 jest.mock('../../src/redux/store');
 
 describe('reducer auth testings', () => {
-  const state = {
-    user: null,
-    tokens: {
-      access: '',
-      refresh: '',
-      is_manager: false,
-    },
-    errors: null,
-    commonError: null,
-    success: null,
-    loading: false,
-  };
 
   it('logoutUserReducer', () => {
     const action = { type: logoutUser.type, payload: {
@@ -34,7 +22,7 @@ describe('reducer auth testings', () => {
         loading: false,
       }
     };
-    const stateResults = authSlice(state, action);
+    const stateResults = authSlice(INITIAL_STATE, action);
     expect(stateResults).toStrictEqual({
       user: null,
       tokens: {
@@ -56,7 +44,7 @@ describe('reducer auth testings', () => {
         is_manager: false,
       }
     };
-    const stateResults = authSlice(state, action);
+    const stateResults = authSlice(INITIAL_STATE, action);
     expect(stateResults.tokens.access).toBe('dkjSADH234Mnasmxc');
     expect(stateResults.tokens.refresh).toBe('dkjSADH234MnasmxKSDB236475');
     expect(stateResults.tokens.is_manager).toEqual(false);

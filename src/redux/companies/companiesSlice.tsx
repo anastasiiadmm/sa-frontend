@@ -62,7 +62,7 @@ interface CompaniesState {
   userInfoByManagerError: IErrors | null;
 }
 
-const INITIAL_STATE = {
+export const INITIAL_STATE = {
   companies: null,
   fetchCompaniesLoading: false,
   fetchCompaniesError: null,

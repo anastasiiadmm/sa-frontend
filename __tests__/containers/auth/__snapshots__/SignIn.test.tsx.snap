@@ -2,12 +2,16 @@
 
 exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
 <div
-  className="ant-row ant-row-space-between SignIn css-dev-only-do-not-override-15rg2km"
+  className="ant-row ant-row-space-between SignIn css-dev-only-do-not-override-18iikkb"
   data-testid="sign-in"
-  style={{}}
+  style={
+    {
+      "rowGap": undefined,
+    }
+  }
 >
   <div
-    className="ant-col SignIn__image-block ant-col-xs-24 ant-col-xs-offset-0 ant-col-md-24 ant-col-md-offset-0 ant-col-lg-12 ant-col-lg-offset-0 css-dev-only-do-not-override-15rg2km"
+    className="ant-col SignIn__image-block ant-col-xs-24 ant-col-xs-offset-0 ant-col-md-24 ant-col-md-offset-0 ant-col-lg-12 ant-col-lg-offset-0 css-dev-only-do-not-override-18iikkb"
     style={{}}
   >
     <img
@@ -21,7 +25,7 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
     />
   </div>
   <div
-    className="ant-col SignIn__main-colum-styles ant-col-xs-16 ant-col-xs-offset-5 ant-col-md-13 ant-col-md-offset-5 ant-col-lg-7 ant-col-lg-offset-1 css-dev-only-do-not-override-15rg2km"
+    className="ant-col SignIn__main-colum-styles ant-col-xs-16 ant-col-xs-offset-5 ant-col-md-13 ant-col-md-offset-5 ant-col-lg-7 ant-col-lg-offset-1 css-dev-only-do-not-override-18iikkb"
     style={{}}
   >
     <div
@@ -37,7 +41,7 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
         }
       />
       <div
-        className="ant-divider css-dev-only-do-not-override-15rg2km ant-divider-horizontal"
+        className="ant-divider css-dev-only-do-not-override-18iikkb ant-divider-horizontal"
         role="separator"
         style={
           {
@@ -46,7 +50,7 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
         }
       />
       <span
-        className="ant-typography ant-typography-secondary css-dev-only-do-not-override-15rg2km"
+        className="ant-typography ant-typography-secondary css-dev-only-do-not-override-18iikkb"
         style={
           {
             "WebkitLineClamp": undefined,
@@ -56,7 +60,7 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
         Рады вас видеть
       </span>
       <h1
-        className="ant-typography SignIn__title-text css-dev-only-do-not-override-15rg2km"
+        className="ant-typography SignIn__title-text css-dev-only-do-not-override-18iikkb"
         data-testid="sign_in_test"
         style={
           {
@@ -68,19 +72,24 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
       </h1>
       <form
         autoComplete="off"
-        className="ant-form ant-form-vertical ant-form-large css-dev-only-do-not-override-15rg2km login-form"
+        className="ant-form ant-form-vertical ant-form-large css-dev-only-do-not-override-18iikkb login-form"
         onReset={[Function]}
         onSubmit={[Function]}
+        style={{}}
       >
         <div
-          className="ant-form-item css-dev-only-do-not-override-15rg2km"
+          className="ant-form-item css-dev-only-do-not-override-18iikkb"
         >
           <div
-            className="ant-row ant-form-item-row css-dev-only-do-not-override-15rg2km"
-            style={{}}
+            className="ant-row ant-form-item-row css-dev-only-do-not-override-18iikkb"
+            style={
+              {
+                "rowGap": undefined,
+              }
+            }
           >
             <div
-              className="ant-col ant-form-item-control css-dev-only-do-not-override-15rg2km"
+              className="ant-col ant-form-item-control css-dev-only-do-not-override-18iikkb"
               style={{}}
             >
               <div
@@ -91,7 +100,7 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
                 >
                   <input
                     aria-required="true"
-                    className="ant-input ant-input-lg css-dev-only-do-not-override-15rg2km input-styles SignIn__sign-in-input"
+                    className="ant-input ant-input-lg css-dev-only-do-not-override-18iikkb input-styles SignIn__sign-in-input"
                     disabled={false}
                     id="username"
                     name="username"
@@ -111,14 +120,18 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
           </div>
         </div>
         <div
-          className="ant-form-item PasswordField css-dev-only-do-not-override-15rg2km"
+          className="ant-form-item PasswordField css-dev-only-do-not-override-18iikkb"
         >
           <div
-            className="ant-row ant-form-item-row css-dev-only-do-not-override-15rg2km"
-            style={{}}
+            className="ant-row ant-form-item-row css-dev-only-do-not-override-18iikkb"
+            style={
+              {
+                "rowGap": undefined,
+              }
+            }
           >
             <div
-              className="ant-col ant-form-item-control css-dev-only-do-not-override-15rg2km"
+              className="ant-col ant-form-item-control css-dev-only-do-not-override-18iikkb"
               style={{}}
             >
               <div
@@ -128,7 +141,7 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
                   className="ant-form-item-control-input-content"
                 >
                   <span
-                    className="ant-input-affix-wrapper ant-input-password input-styles SignIn__sign-in-input ant-input-affix-wrapper-lg css-dev-only-do-not-override-15rg2km"
+                    className="ant-input-affix-wrapper ant-input-password input-styles SignIn__sign-in-input ant-input-affix-wrapper-lg css-dev-only-do-not-override-18iikkb"
                     onClick={[Function]}
                     style={
                       {
@@ -139,7 +152,7 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
                     <input
                       aria-required="true"
                       autoComplete="off"
-                      className="ant-input ant-input-lg css-dev-only-do-not-override-15rg2km"
+                      className="ant-input ant-input-lg css-dev-only-do-not-override-18iikkb"
                       data-testid="works"
                       disabled={false}
                       hidden={null}
@@ -191,14 +204,18 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
           </div>
         </div>
         <div
-          className="ant-form-item checkbox-styles css-dev-only-do-not-override-15rg2km"
+          className="ant-form-item checkbox-styles css-dev-only-do-not-override-18iikkb"
         >
           <div
-            className="ant-row ant-form-item-row css-dev-only-do-not-override-15rg2km"
-            style={{}}
+            className="ant-row ant-form-item-row css-dev-only-do-not-override-18iikkb"
+            style={
+              {
+                "rowGap": undefined,
+              }
+            }
           >
             <div
-              className="ant-col ant-col-16 ant-form-item-control css-dev-only-do-not-override-15rg2km"
+              className="ant-col ant-col-16 ant-form-item-control css-dev-only-do-not-override-18iikkb"
               style={{}}
             >
               <div
@@ -208,10 +225,11 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
                   className="ant-form-item-control-input-content"
                 >
                   <label
-                    className="ant-checkbox-wrapper ant-checkbox-wrapper-checked ant-checkbox-wrapper-in-form-item css-dev-only-do-not-override-15rg2km"
+                    className="ant-checkbox-wrapper ant-checkbox-wrapper-checked ant-checkbox-wrapper-in-form-item css-dev-only-do-not-override-18iikkb"
+                    style={{}}
                   >
                     <span
-                      className="ant-checkbox css-dev-only-do-not-override-15rg2km ant-checkbox-checked"
+                      className="ant-checkbox ant-wave-target css-dev-only-do-not-override-18iikkb ant-checkbox-checked"
                     >
                       <input
                         checked={true}
@@ -235,9 +253,10 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
           </div>
         </div>
         <button
-          className="ant-btn css-dev-only-do-not-override-15rg2km ant-btn-primary ant-btn-lg SignIn__login-form-button"
+          className="ant-btn css-dev-only-do-not-override-18iikkb ant-btn-primary ant-btn-lg SignIn__login-form-button"
           disabled={false}
           onClick={[Function]}
+          style={{}}
           type="submit"
         >
           <span>
@@ -246,8 +265,12 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
         </button>
       </form>
       <div
-        className="ant-row SignIn__buttons-row css-dev-only-do-not-override-15rg2km"
-        style={{}}
+        className="ant-row SignIn__buttons-row css-dev-only-do-not-override-18iikkb"
+        style={
+          {
+            "rowGap": undefined,
+          }
+        }
       >
         <p
           style={
@@ -259,9 +282,10 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
           Хотите стать клиентом?
         </p>
         <button
-          className="ant-btn css-dev-only-do-not-override-15rg2km ant-btn-primary ant-btn-lg"
+          className="ant-btn css-dev-only-do-not-override-18iikkb ant-btn-primary ant-btn-lg"
           disabled={false}
           onClick={[Function]}
+          style={{}}
           type="button"
         >
           <span>

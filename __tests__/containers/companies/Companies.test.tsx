@@ -154,7 +154,7 @@ describe("<Users />", () => {
     render(
       <BrowserRouter>
         <ModalComponent open>
-          <AddUpdateTechnique userId={userId} />
+          <AddUpdateTechnique onCancel={() => {}} userId={userId} />
         </ModalComponent>
       </BrowserRouter>,
     );
@@ -186,7 +186,7 @@ describe("<Users />", () => {
     render(
       <BrowserRouter>
         <ModalComponent open>
-          <AddUpdateTechnique userId={userId} />
+          <AddUpdateTechnique onCancel={() => {}} userId={userId} />
         </ModalComponent>
       </BrowserRouter>,
     );

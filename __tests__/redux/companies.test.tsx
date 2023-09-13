@@ -4,93 +4,12 @@ import companiesSlice, {
   setChangeUserProfile,
   setNullReducerVehicleCreate,
   clearUserInfo,
-  clearCompaniesPagination,
+  clearCompaniesPagination, INITIAL_STATE,
 } from '../../src/redux/companies/companiesSlice';
 
 jest.mock('../../src/redux/store');
 
 describe('reducer auth testings', () => {
-  const state = {
-    companies: null,
-    fetchCompaniesLoading: false,
-    fetchCompaniesError: null,
-    companiesListPagination: null,
-
-    userCreate: null,
-    userCreateLoading: false,
-    userCreateError: null,
-
-    userInfo: null,
-    userInfoLoading: false,
-    userInfoError: null,
-
-    updateUserInfoLoading: false,
-    updateUserInfoError: null,
-
-    updateUserData: {
-      username: '',
-      password: '',
-      first_name: '',
-      middle_name: '',
-      image: '',
-      is_manager: false,
-      last_name: '',
-      email: '',
-      phone: '',
-      coords_timeout: 0,
-      company: {
-        autopilots_amount: 0,
-        vehicles_number: 0,
-        location: '',
-        meteo_requested: false,
-        name: '',
-        weather_service: false,
-      }
-    },
-    updateUserDataLoading: false,
-    updateUserDataError: null,
-
-    deleteUserInfoLoading: false,
-    deleteUserInfoError: null,
-
-    vehicleList: [],
-    fetchVehicleListLoading: false,
-    fetchVehicleListError: null,
-    vehicleListPagination: null,
-
-    userVehicleInfo: null,
-    userVehicleInfoLoading: false,
-    userVehicleInfoError: null,
-
-    vehicleCreateLoading: false,
-    vehicleCreateSuccess: false,
-    vehicleCreateError: null,
-
-    patchUserVehicleInfoLoading: false,
-    patchUserVehicleInfoError: null,
-
-    deleteUserVehicleLoading: false,
-    deleteUserVehicleError: null,
-    techniqueVehicleInfo: {
-      results: null,
-      loading: false,
-      errors: null,
-    },
-    techniqueVehicleUpdate: {
-      results: null,
-      loading: false,
-      errors: null,
-    },
-    saveTechniqueVehicle: {
-      results: null,
-      loading: false,
-      errors: null,
-    },
-
-    userInfoByManager: null,
-    userInfoByManagerLoading: false,
-    userInfoByManagerError: null,
-  };
 
   it('setChangeUserProfileReducer', () => {
     const action = { type: setChangeUserProfile.type, payload: {
@@ -113,7 +32,7 @@ describe('reducer auth testings', () => {
       },
       }
     };
-    const stateResults = companiesSlice(state, action);
+    const stateResults = companiesSlice(INITIAL_STATE, action);
     expect(stateResults.updateUserData?.username).toEqual('username');
     expect(stateResults.updateUserData?.first_name).toEqual('test');
     expect(stateResults.updateUserData?.middle_name).toEqual('test');
@@ -131,19 +50,19 @@ describe('reducer auth testings', () => {
 
   it('setNullReducerVehicleCreateReducer', () => {
     const action = { type: setNullReducerVehicleCreate.type, payload: { vehicleCreateSuccess: false } };
-    const stateResults = companiesSlice(state, action);
+    const stateResults = companiesSlice(INITIAL_STATE, action);
     expect(stateResults.vehicleCreateSuccess).toBe(false);
   });
 
   it('clearUserInfoReducer', () => {
     const action = { type: clearUserInfo.type, payload: { userInfo: null } };
-    const stateResults = companiesSlice(state, action);
+    const stateResults = companiesSlice(INITIAL_STATE, action);
     expect(stateResults.userInfo).toBe(null);
   });
 
   it('clearCompaniesPaginationReducer', () => {
     const action = { type: clearCompaniesPagination.type, payload: { companiesListPagination: null, vehicleListPagination: null } };
-    const stateResults = companiesSlice(state, action);
+    const stateResults = companiesSlice(INITIAL_STATE, action);
     expect(stateResults.companiesListPagination).toEqual(null);
     expect(stateResults.vehicleListPagination).toEqual(null);
   });
