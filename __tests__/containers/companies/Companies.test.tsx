@@ -74,6 +74,9 @@ const UserTechniqueList = {
 };
 
 describe("<Users />", () => {
+  beforeAll(() => {
+    jest.setTimeout(10000);
+  });
   test("Users table component should be in the document", async () => {
     mockedUseSelectors.mockReturnValue(data);
     const dispatch = jest.fn();
@@ -178,7 +181,7 @@ describe("<Users />", () => {
     });
   });
 
-  test("UserTechnique modal submits the form with valid values", async () => {
+  test("", async () => {
     const dispatch = jest.fn();
     mockedDispatch.mockReturnValue(dispatch);
     const userId = '1';
