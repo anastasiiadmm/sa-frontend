@@ -14,7 +14,7 @@ import {
 } from 'redux/accounts/accountsSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { getFilenameFromPath, urlFormat } from 'utils/files/files';
-import { getErrorMessage } from 'utils/helper';
+import { capitalizeFirstLetter, getErrorMessage } from 'utils/helper';
 import 'components/ModalComponent/ModalChildrenComponents/RequestsModals/RequestAddTechnique/_requestAddTechnique.scss';
 
 const { Title } = Typography;
@@ -55,9 +55,12 @@ const RequestAddTechnique: React.FC<Props> = ({
   }, [resultsTechnique]);
 
   useEffect(() => {
-    const fullName = `${resultsTechnique?.data.operator.last_name} 
-${resultsTechnique?.data.operator.first_name} 
-${resultsTechnique?.data.operator.middle_name}`;
+    const fullName = `${capitalizeFirstLetter(
+      resultsTechnique?.data.operator?.last_name,
+    )} ${resultsTechnique?.data.operator?.first_name?.charAt(0)?.toUpperCase()}. ${
+      resultsTechnique?.data.operator?.middle_name &&
+      resultsTechnique?.data.operator?.middle_name.charAt(0)?.toUpperCase()
+    }`;
     form.setFieldsValue({
       fullName,
       ...resultsTechnique?.data.vehicle,

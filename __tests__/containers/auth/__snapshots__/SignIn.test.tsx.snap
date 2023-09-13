@@ -253,7 +253,7 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
           </div>
         </div>
         <button
-          className="ant-btn css-dev-only-do-not-override-15rg2km ant-btn-primary SignIn__login-form-button"
+          className="ant-btn css-dev-only-do-not-override-18iikkb ant-btn-primary SignIn__login-form-button"
           disabled={false}
           onClick={[Function]}
           style={{}}
@@ -266,8 +266,12 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
       </form>
     </div>
     <div
-      className="ant-row SignIn__buttons-row css-dev-only-do-not-override-15rg2km"
-      style={{}}
+      className="ant-row SignIn__buttons-row css-dev-only-do-not-override-18iikkb"
+      style={
+        {
+          "rowGap": undefined,
+        }
+      }
     >
       <p
         style={
@@ -279,9 +283,10 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
         Хотите стать клиентом?
       </p>
       <button
-        className="ant-btn css-dev-only-do-not-override-15rg2km ant-btn-primary SignIn__register-button"
+        className="ant-btn css-dev-only-do-not-override-18iikkb ant-btn-primary SignIn__register-button"
         disabled={false}
         onClick={[Function]}
+        style={{}}
         type="button"
       >
         <span>
