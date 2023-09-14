@@ -38,9 +38,11 @@ describe("<Converter />", () => {
     mockedDispatch.mockReturnValue(dispatch);
 
     render(
-      <BrowserRouter>
-        <Converter />
-      </BrowserRouter>
+        <>
+          <BrowserRouter>
+            <Converter />
+          </BrowserRouter>
+        </>
     );
 
     const converterListComponent = screen.getByTestId("converter-test-id");
