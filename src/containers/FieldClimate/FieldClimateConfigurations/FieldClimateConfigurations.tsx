@@ -9,6 +9,7 @@ import marker from 'assets/images/icons/location-marker.png';
 import FormField from 'components/FormField/FormField';
 import Spinner from 'components/Spinner/Spinner';
 import FieldClimateSettingsDashboard from 'containers/FieldClimate/FieldClimateSettingsDashboard/FieldClimateSettingsDashboard';
+import useWindowWidth from 'hooks/useWindowWidth';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import {
   fetchStationInfo,
@@ -82,6 +83,7 @@ const FieldClimateConfigurations = () => {
   const { stationInfo, isWeatherLoading, sensorPutLoading, timezone, location, locationLoading } =
     useAppSelector(stationsSelector);
   const dispatch = useAppDispatch();
+  const windowWidth = useWindowWidth();
   const FormName = Form.useForm()[0];
   const FormLocationSearch = Form.useForm()[0];
   const FormLocationSet = Form.useForm()[0];
@@ -307,7 +309,7 @@ const FieldClimateConfigurations = () => {
                   scrollWheelZoom
                   bounds={latLngBounds}
                   maxBounds={latLngBounds}
-                  style={{ width: '60%', height: '400px', zIndex: 2 }}
+                  style={{ width: windowWidth <= 990 ? '100%' : '60%', height: '400px', zIndex: 2 }}
                 >
                   <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

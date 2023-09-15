@@ -22,6 +22,7 @@ import AddUpdateTechnique from 'components/ModalComponent/ModalChildrenComponent
 import RequestModal from 'components/ModalComponent/ModalChildrenComponents/DeleteTechniqueModal/RequestModal';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import TableComponent from 'components/TableComponent/TableComponent';
+import useInfiniteScroll from 'hooks/useInfiniteScroll';
 import useWindowWidth from 'hooks/useWindowWidth';
 import { userVehicles } from 'interfaces';
 import {
@@ -34,7 +35,6 @@ import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { apiUrlCrop } from 'utils/config';
 import { urlFormat } from 'utils/files/files';
 import { getPageNumber, getPageNumberPrevious } from 'utils/helper';
-
 import 'containers/User/Technique/_technique.scss';
 
 const { Title } = Typography;
@@ -62,6 +62,16 @@ const Technique = () => {
       ? Number(getPageNumber(userVehiclesPagination?.next))
       : Number(getPageNumberPrevious(userVehiclesPagination?.previous)),
   });
+  const [allVehicles, setAllVehicles] = useState<userVehicles[]>([]);
+
+  useEffect(() => {
+    if (
+      userVehicles &&
+      JSON.stringify(allVehicles.slice(-userVehicles.length)) !== JSON.stringify(userVehicles)
+    ) {
+      setAllVehicles((prevVehicles) => [...prevVehicles, ...userVehicles]);
+    }
+  }, [userVehicles]);
 
   const cardStyle = {
     width: account?.company?.meteo_requested ? 300 : account?.company?.weather_service ? 340 : 300,
@@ -113,6 +123,13 @@ const Technique = () => {
       setFilters({ ...filters, page: filters.page + 1 });
     }
   };
+
+  useInfiniteScroll({
+    pageNextHandler,
+    pagination: userVehiclesPagination,
+    allItems: allVehicles,
+    widthNumber: 601,
+  });
 
   const postInquiriesHandler = async () => {
     try {
@@ -202,6 +219,7 @@ const Technique = () => {
       />
     );
   }
+
   return (
     <>
       <div className={b()} data-testid='technique-id'>
@@ -424,7 +442,7 @@ const Technique = () => {
         </div>
         <div className={b('table_mobile')}>
           {userVehicles?.length ? (
-            userVehicles?.map((item) => {
+            allVehicles?.map((item) => {
               return (
                 <div key={item.id}>
                   <div className='table_img'>
@@ -455,6 +473,7 @@ const Technique = () => {
           ) : (
             <Errors status={undefined} detail='Данные отсутствуют' />
           )}
+          {fetchUserVehiclesLoading && <Spin className='spin-mobile' />}
         </div>
       </div>
 

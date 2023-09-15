@@ -1,3 +1,5 @@
+@use 'assets/scss/_mixins.scss';
+
 .FieldClimateConfigurations {
   margin-top: 15px;
   display: flex;
@@ -28,5 +30,32 @@
 
   &__input-info-styles {
     cursor: default;
+  }
+
+  @include mixins.bp(desktop) {
+    &__map-block-inner {
+      margin-top: 16px;
+      align-items: baseline;
+    }
+
+    &__map-block {
+      flex-direction: column;
+      gap: initial;
+      > div {
+        width: 100%;
+      }
+    }
+  }
+
+  @include mixins.bp(mobile) {
+    &__map-block-inner {
+      gap: 4px;
+      align-items: baseline;
+      flex-direction: column;
+
+      > * {
+        width: 100%;
+      }
+    }
   }
 }

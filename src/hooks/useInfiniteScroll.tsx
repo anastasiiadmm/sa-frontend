@@ -1,12 +1,20 @@
 import { useEffect, useRef } from 'react';
 
 import useWindowWidth from 'hooks/useWindowWidth';
-import { apksPagination, IAccount, IApk, IConverter, pagination, Requestor } from 'interfaces';
+import {
+  apksPagination,
+  IAccount,
+  IApk,
+  IConverter,
+  pagination,
+  Requestor,
+  userVehicles,
+} from 'interfaces';
 
 interface UseInfiniteScrollProps {
   pageNextHandler: () => void;
   pagination: apksPagination | pagination | null;
-  allItems: IApk[] | IAccount[] | Requestor[] | IConverter[];
+  allItems: IApk[] | IAccount[] | Requestor[] | IConverter[] | userVehicles[];
   widthNumber: number;
 }
 
