@@ -178,7 +178,7 @@ const Converter = () => {
                   className={b('select-field')}
                   type='select'
                   customStyle='80px'
-                  suffixIcon={<img src={arrowDown} alt='arrowDown' />}
+                  suffixIconData={<img src={arrowDown} alt='arrowDown' />}
                 />{' '}
                 в{' '}
                 <FormField

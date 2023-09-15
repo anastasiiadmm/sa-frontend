@@ -24,7 +24,7 @@ const data = {
 
 
 describe("<Technique />", () => {
-    test("Users table component should be in the document", async () => {
+    test("Users table component should be in the document",  () => {
         mockedUseSelectors.mockReturnValue(data);
         const dispatch = jest.fn();
         mockedDispatch.mockReturnValue(dispatch);

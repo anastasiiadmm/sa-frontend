@@ -83,6 +83,13 @@ const UserProfile: React.FC = () => {
 
   useEffect(() => {
     if (userInfoByManager) {
+      dispatch(setChangeUserProfile(userInfoByManager));
+      setUserInfoData(userInfoByManager);
+    }
+  }, [userInfoByManager, dispatch]);
+
+  useEffect(() => {
+    if (userInfoByManager && windowWidth < 990) {
       form.setFieldsValue({
         username: userInfoByManager?.username,
         last_name: userInfoByManager?.last_name,
@@ -96,14 +103,7 @@ const UserProfile: React.FC = () => {
         autopilots_amount: userInfoByManager?.company?.autopilots_amount,
       });
     }
-  }, [userInfoByManager, form]);
-
-  useEffect(() => {
-    if (userInfoByManager) {
-      dispatch(setChangeUserProfile(userInfoByManager));
-      setUserInfoData(userInfoByManager);
-    }
-  }, [userInfoByManager, dispatch]);
+  }, [userInfoByManager, form, windowWidth]);
 
   const showDeleteModal = () => {
     if (windowWidth < 500) {

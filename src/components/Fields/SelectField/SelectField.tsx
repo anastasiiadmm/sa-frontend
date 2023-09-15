@@ -9,7 +9,7 @@ interface Props {
   disabled?: boolean;
   customStyle?: string;
   className?: string;
-  suffixIcon?: React.ReactNode;
+  suffixIconData?: React.ReactNode;
   dropdownStyle?: CSSProperties | undefined;
   options?: climateOptions[];
 }
@@ -21,7 +21,7 @@ const SelectField: React.FC<Props> = ({
   options,
   customStyle,
   className,
-  suffixIcon,
+  suffixIconData,
   dropdownStyle,
 }) => {
   return (
@@ -32,7 +32,7 @@ const SelectField: React.FC<Props> = ({
       className={className}
       onChange={handleChange}
       options={options}
-      suffixIcon={suffixIcon}
+      suffixIcon={suffixIconData}
       dropdownStyle={dropdownStyle}
     />
   );

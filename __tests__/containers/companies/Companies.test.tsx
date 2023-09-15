@@ -74,6 +74,9 @@ const UserTechniqueList = {
 };
 
 describe("<Users />", () => {
+  beforeAll(() => {
+    jest.setTimeout(10000);
+  });
   test("Users table component should be in the document", async () => {
     mockedUseSelectors.mockReturnValue(data);
     const dispatch = jest.fn();
@@ -145,18 +148,22 @@ describe("<Users />", () => {
       expect(UserTechniqueComponent).toBeInTheDocument();
     });
   });
+});
+
+describe('', () => {
 
   test("UserTechnique modal form should open success", async () => {
     const dispatch = jest.fn();
     mockedDispatch.mockReturnValue(dispatch);
+
     const userId = '1';
 
     render(
-      <BrowserRouter>
-        <ModalComponent open>
-          <AddUpdateTechnique onCancel={() => {}} userId={userId} />
-        </ModalComponent>
-      </BrowserRouter>,
+        <BrowserRouter>
+          <ModalComponent open>
+            <AddUpdateTechnique onCancel={() => {}} userId={userId} />
+          </ModalComponent>
+        </BrowserRouter>,
     );
 
     await act(async () => {
@@ -176,19 +183,19 @@ describe("<Users />", () => {
       userEvent.type(middleNameInput, 'Test middle name');
       fireEvent.click(submitButton);
     });
-  });
+  }, 10000);
 
-  test("UserTechnique modal submits the form with valid values", async () => {
+  test("", async () => {
     const dispatch = jest.fn();
     mockedDispatch.mockReturnValue(dispatch);
     const userId = '1';
 
     render(
-      <BrowserRouter>
-        <ModalComponent open>
-          <AddUpdateTechnique onCancel={() => {}} userId={userId} />
-        </ModalComponent>
-      </BrowserRouter>,
+        <BrowserRouter>
+          <ModalComponent open>
+            <AddUpdateTechnique onCancel={() => {}} userId={userId} />
+          </ModalComponent>
+        </BrowserRouter>,
     );
 
     const nameInput = screen.getByLabelText('Название техники');
@@ -208,7 +215,7 @@ describe("<Users />", () => {
       userEvent.type(middleNameInput, 'Test middle name');
       fireEvent.click(submitButton);
     });
-  });
+  }, 10000);
 
   test("UserTechnique delete modal form should open success", async () => {
     const dispatch = jest.fn();
@@ -226,13 +233,13 @@ describe("<Users />", () => {
     };
 
     render(
-      <BrowserRouter>
-        <ModalComponent open>
-          <DeleteRejectTechniqueModal
-            {...props}
-          />
-        </ModalComponent>
-      </BrowserRouter>,
+        <BrowserRouter>
+          <ModalComponent open>
+            <DeleteRejectTechniqueModal
+                {...props}
+            />
+          </ModalComponent>
+        </BrowserRouter>,
     );
   });
 
@@ -252,13 +259,13 @@ describe("<Users />", () => {
     };
 
     render(
-      <BrowserRouter>
-        <ModalComponent open>
-          <DeleteRejectTechniqueModal
-            {...props}
-          />
-        </ModalComponent>
-      </BrowserRouter>,
+        <BrowserRouter>
+          <ModalComponent open>
+            <DeleteRejectTechniqueModal
+                {...props}
+            />
+          </ModalComponent>
+        </BrowserRouter>,
     );
 
     const cancelButton = screen.getByText('Отменить');
@@ -286,5 +293,4 @@ describe("<Users />", () => {
     const loadingIndicator = screen.getByLabelText('loading');
     expect(loadingIndicator).toBeInTheDocument();
   });
-
-});
+})

@@ -1,24 +1,78 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`SelectField Component should render with default value 1`] = `
-<select
-  defaultValue="Continental"
-  options={
-    [
-      {
-        "label": "Tropical",
-        "value": "Tropical",
-      },
-      {
-        "label": "Continental",
-        "value": "Continental",
-      },
-    ]
-  }
+<div
+  className="ant-select css-dev-only-do-not-override-18iikkb ant-select-single ant-select-show-arrow"
+  onBlur={[Function]}
+  onFocus={[Function]}
+  onKeyDown={[Function]}
+  onKeyUp={[Function]}
+  onMouseDown={[Function]}
   style={
     {
       "width": "220px",
     }
   }
-/>
+>
+  <div
+    className="ant-select-selector"
+    onClick={[Function]}
+    onMouseDown={[Function]}
+  >
+    <span
+      className="ant-select-selection-search"
+    >
+      <input
+        aria-autocomplete="list"
+        aria-controls="undefined_list"
+        aria-expanded={false}
+        aria-haspopup="listbox"
+        aria-label="Search"
+        aria-owns="undefined_list"
+        autoComplete="off"
+        className="ant-select-selection-search-input"
+        disabled={false}
+        onChange={[Function]}
+        onCompositionEnd={[Function]}
+        onCompositionStart={[Function]}
+        onKeyDown={[Function]}
+        onMouseDown={[Function]}
+        onPaste={[Function]}
+        readOnly={true}
+        role="combobox"
+        style={
+          {
+            "opacity": 0,
+          }
+        }
+        type="search"
+        unselectable="on"
+        value=""
+      />
+    </span>
+    <span
+      className="ant-select-selection-item"
+      title="Continental"
+    >
+      Continental
+    </span>
+  </div>
+  <span
+    aria-hidden={true}
+    className="ant-select-arrow"
+    onMouseDown={[Function]}
+    style={
+      {
+        "WebkitUserSelect": "none",
+        "userSelect": "none",
+      }
+    }
+    unselectable="on"
+  >
+    <img
+      alt="arrowDown"
+      src="test.jpg"
+    />
+  </span>
+</div>
 `;
