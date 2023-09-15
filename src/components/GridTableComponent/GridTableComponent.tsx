@@ -38,6 +38,7 @@ const GridTableComponent: React.FC<Props> = ({ data }) => {
           dataIndex: child.field,
           key: child.field,
           ellipsis: true,
+          responsive: ['md'],
         }));
         columns.push({
           title: header.headerName,

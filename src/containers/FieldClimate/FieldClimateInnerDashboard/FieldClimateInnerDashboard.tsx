@@ -4,6 +4,7 @@ import { Content, Header } from 'antd/lib/layout/layout';
 import bem from 'easy-bem';
 import React, { useState } from 'react';
 
+import useWindowWidth from 'hooks/useWindowWidth';
 import 'containers/FieldClimate/FieldClimateInnerDashboard/_fieldClimateInnerDashboard.scss';
 
 const { Sider } = Layout;
@@ -18,7 +19,8 @@ const FieldClimateInnerDashboard: React.FC<Props> = ({ children, childrenSider }
   const {
     token: { colorBgContainer },
   } = theme.useToken();
-  const [collapsed, setCollapsed] = useState(false);
+  const windowWidth = useWindowWidth();
+  const [collapsed, setCollapsed] = useState(windowWidth <= 990);
 
   return (
     <Layout style={{ height: '85vh', marginTop: 47 }} className={b('')}>
