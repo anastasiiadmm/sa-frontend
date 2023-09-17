@@ -3,6 +3,7 @@ import {
   Button,
   Card,
   Divider,
+  Skeleton,
   Spin,
   TablePaginationConfig,
   Tag,
@@ -13,10 +14,9 @@ import { ColumnsType } from 'antd/es/table';
 import { FilterValue, SorterResult } from 'antd/es/table/interface';
 import bem from 'easy-bem';
 import moment from 'moment/moment';
-import React, { useEffect, useLayoutEffect, useState } from 'react';
+import React, { lazy, Suspense, useEffect, useLayoutEffect, useState } from 'react';
 
 import downloadButton from 'assets/images/icons/download_button_desktop.svg';
-import TableComponent from 'components/TableComponent/TableComponent';
 import useInfiniteScroll from 'hooks/useInfiniteScroll';
 import useWindowWidth from 'hooks/useWindowWidth';
 import { IApk } from 'interfaces';
@@ -31,6 +31,8 @@ import {
   getPageNumberPrevious,
 } from 'utils/helper';
 import 'containers/Manager/ApksList/_apksList.scss';
+
+const TableComponent = lazy(() => import('components/TableComponent/TableComponent'));
 
 const { Title, Text } = Typography;
 
@@ -295,17 +297,18 @@ const ApksList = () => {
           <Title level={3} data-testid='sign_in_test' className={b('title')}>
             Версии приложения
           </Title>
-
-          <TableComponent
-            loading={apkLoading}
-            columns={columns}
-            data={apk}
-            onChange={handleTableSortChange}
-            rowKey={(record) => record?.version}
-            params={apkLoading ? { previous: null, next: null, count: 0 } : apksPagination}
-            pagePrevHandler={pagePrevHandler}
-            pageNextHandler={pageNextHandler}
-          />
+          <Suspense fallback={<Skeleton active />}>
+            <TableComponent
+              loading={apkLoading}
+              columns={columns}
+              data={apk}
+              onChange={handleTableSortChange}
+              rowKey={(record) => record?.version}
+              params={apkLoading ? { previous: null, next: null, count: 0 } : apksPagination}
+              pagePrevHandler={pagePrevHandler}
+              pageNextHandler={pageNextHandler}
+            />
+          </Suspense>
         </div>
       )}
     </div>

@@ -19,7 +19,6 @@ import tractorProfileIcon from 'assets/images/icons/tratorProfile.svg';
 import Errors from 'components/Errors/Errors';
 import HeaderMobile from 'components/HeaderMobile/HeaderMobile';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
-import TableComponent from 'components/TableComponent/TableComponent';
 import useWindowWidth from 'hooks/useWindowWidth';
 import { ErrorObject, userVehicles, VehicleList } from 'interfaces';
 import {
@@ -46,6 +45,8 @@ const RequestModal = lazy(
   () =>
     import('components/ModalComponent/ModalChildrenComponents/DeleteTechniqueModal/RequestModal'),
 );
+
+const TableComponent = lazy(() => import('components/TableComponent/TableComponent'));
 
 const ResultComponent = lazy(() => import('components/ResultComponent/ResultComponent'));
 const { Title, Text } = Typography;
@@ -439,19 +440,21 @@ const UserTechnique: React.FC = () => {
             <Errors status={null} detail='Техники нет' />
           ) : null}
           <div className={b('table_list')}>
-            <TableComponent
-              rowKey={(record) => record.id as number}
-              loading={fetchVehicleListLoading}
-              columns={columns}
-              data={vehicleList}
-              params={
-                fetchVehicleListLoading
-                  ? { previous: null, next: null, count: 0 }
-                  : vehicleListPagination
-              }
-              pagePrevHandler={pagePrevHandler}
-              pageNextHandler={pageNextHandler}
-            />
+            <Suspense fallback={<Skeleton />}>
+              <TableComponent
+                rowKey={(record) => record.id as number}
+                loading={fetchVehicleListLoading}
+                columns={columns}
+                data={vehicleList}
+                params={
+                  fetchVehicleListLoading
+                    ? { previous: null, next: null, count: 0 }
+                    : vehicleListPagination
+                }
+                pagePrevHandler={pagePrevHandler}
+                pageNextHandler={pageNextHandler}
+              />
+            </Suspense>
           </div>
         </div>
         <div className={b('list_table_mobile')}>{renderMobileTable()}</div>

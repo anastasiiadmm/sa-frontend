@@ -28,7 +28,6 @@ import notFoundImages from 'assets/images/notFound.svg';
 import DrawerComponent from 'components/DrawerComponent/DrawerComponent';
 import Errors from 'components/Errors/Errors';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
-import TableComponent from 'components/TableComponent/TableComponent';
 import useInfiniteScroll from 'hooks/useInfiniteScroll';
 import useWindowWidth from 'hooks/useWindowWidth';
 import { IMyData, IMyDataApi, Requestor } from 'interfaces';
@@ -91,6 +90,8 @@ const FieldClimateModal = lazy(
 const RequestModals = lazy(
   () => import('components/ModalComponent/ModalChildrenComponents/RequestModals/RequestModals'),
 );
+
+const TableComponent = lazy(() => import('components/TableComponent/TableComponent'));
 const { Title, Text } = Typography;
 
 const UserRequests = () => {
@@ -588,21 +589,24 @@ const UserRequests = () => {
                 Запросы
               </Title>
             )}
-
-            <TableComponent
-              scroll={windowWidth <= 990 ? { x: '100%' } : undefined}
-              rowClickHandler={rowClickHandler}
-              loading={fetchRequestsLoading}
-              columns={columns}
-              onChange={handleTableSortChange}
-              data={requests}
-              rowKey={(record) => record.id as number}
-              params={
-                fetchRequestsLoading ? { previous: null, next: null, count: 0 } : requestsPagination
-              }
-              pagePrevHandler={pagePrevHandler}
-              pageNextHandler={pageNextHandler}
-            />
+            <Suspense fallback={<Skeleton active />}>
+              <TableComponent
+                scroll={windowWidth <= 990 ? { x: '100%' } : undefined}
+                rowClickHandler={rowClickHandler}
+                loading={fetchRequestsLoading}
+                columns={columns}
+                onChange={handleTableSortChange}
+                data={requests}
+                rowKey={(record) => record.id as number}
+                params={
+                  fetchRequestsLoading
+                    ? { previous: null, next: null, count: 0 }
+                    : requestsPagination
+                }
+                pagePrevHandler={pagePrevHandler}
+                pageNextHandler={pageNextHandler}
+              />
+            </Suspense>
           </div>
         )}
       </div>
