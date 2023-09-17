@@ -30,7 +30,9 @@ import {
   getPageNumber,
   getPageNumberPrevious,
 } from 'utils/helper';
+
 import 'containers/Converter/_converter.scss';
+import NotFound from '../../components/Errors/NotFound/NotFound';
 
 const { Title, Text } = Typography;
 
@@ -234,49 +236,55 @@ const Converter = () => {
             ) : (
               <div>
                 <div className={b('history-list')}>
-                  {converterList?.map((converter: IConverter) => {
-                    const isLoadingState = isLoading[converter?.file];
+                  {converterList?.length ? (
+                    converterList?.map((converter: IConverter) => {
+                      const isLoadingState = isLoading[converter?.file];
 
-                    return (
-                      <Card className={b('card-file-block')} key={converter?.id}>
-                        <div className={b('converter-card')}>
-                          <div className={b('info-column')}>
-                            <Title className={b('heading')} level={5}>
-                              {converter?.task_UID && converter?.file
-                                ? converter.task_UID +
-                                  converter.file.substring(converter.file.lastIndexOf('.'))
-                                : converter?.task_UID}
-                            </Title>
-                          </div>
-                          <div className={b('info-column')}>
-                            <div className={b('info-item')}>
-                              <Text type='secondary' className={b('subtitle')}>
-                                {moment(converter?.created_at, dateWithTimeSecFormat).format(
-                                  dateWithTimeFormat,
-                                )}
-                              </Text>
+                      return (
+                        <Card className={b('card-file-block')} key={converter?.id}>
+                          <div className={b('converter-card')}>
+                            <div className={b('info-column')}>
+                              <Title className={b('heading')} level={5}>
+                                {converter?.task_UID && converter?.file
+                                  ? converter.task_UID +
+                                    converter.file.substring(converter.file.lastIndexOf('.'))
+                                  : converter?.task_UID}
+                              </Title>
                             </div>
-                            <div className={b('info-item')}>
-                              <Button
-                                className='button-style button-width'
-                                loading={isLoadingState}
-                                onClick={() => handleDownloadClick(converter?.file)}
-                              >
-                                Скачать
-                              </Button>
-                              <Button
-                                className='button-style button-width'
-                                danger
-                                onClick={() => showDeleteModal(converter?.id, converter?.task_UID)}
-                              >
-                                Удалить
-                              </Button>
+                            <div className={b('info-column')}>
+                              <div className={b('info-item')}>
+                                <Text type='secondary' className={b('subtitle')}>
+                                  {moment(converter?.created_at, dateWithTimeSecFormat).format(
+                                    dateWithTimeFormat,
+                                  )}
+                                </Text>
+                              </div>
+                              <div className={b('info-item')}>
+                                <Button
+                                  className='button-style button-width'
+                                  loading={isLoadingState}
+                                  onClick={() => handleDownloadClick(converter?.file)}
+                                >
+                                  Скачать
+                                </Button>
+                                <Button
+                                  className='button-style button-width'
+                                  danger
+                                  onClick={() =>
+                                    showDeleteModal(converter?.id, converter?.task_UID)
+                                  }
+                                >
+                                  Удалить
+                                </Button>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      </Card>
-                    );
-                  })}
+                        </Card>
+                      );
+                    })
+                  ) : (
+                    <NotFound title='Данные отсутствуют' showButton={false} />
+                  )}
                 </div>
                 <PaginationComponent
                   params={

@@ -1,16 +1,15 @@
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
-import { Button, Layout, theme, Typography } from 'antd';
+import { Button, Layout, Skeleton, theme, Typography } from 'antd';
 import bem from 'easy-bem';
-import React, { PropsWithChildren, useState } from 'react';
+import React, { lazy, PropsWithChildren, Suspense, useState } from 'react';
 import { Route, useLocation, useNavigate } from 'react-router';
 import { Routes } from 'react-router-dom';
 
 import arrowLeft from 'assets/images/icons/arrow_left.svg';
-import NotFound from 'components/Errors/NotFound/NotFound';
 import FieldClimateSideBar from 'components/FieldClimateSideBar/FieldClimateSideBar';
 import MenuMobileComponent from 'components/MenuMobileComponent/MenuMobileComponent';
 import OpenMapComponent from 'components/OpenMapComponent/OpenMapComponent';
-import SliderMenu from 'components/SliderMenu/SliderMenu';
+import Spinner from 'components/Spinner/Spinner';
 import Converter from 'containers/Converter/Converter';
 import ConverterList from 'containers/Converter/ConverterList/ConverterList';
 import Files from 'containers/Converter/Files/Files';
@@ -19,10 +18,7 @@ import FieldClimateDashboard from 'containers/FieldClimate/FieldClimateDashboard
 import FieldClimateStation from 'containers/FieldClimate/FieldClimateStation/FieldClimateStation';
 import SensorsAndNodes from 'containers/FieldClimate/SensorsAndNodes/SensorsAndNodes';
 import ApksList from 'containers/Manager/ApksList/ApksList';
-import ManagerProfile from 'containers/Manager/Profile/Profile';
 import UserRequests from 'containers/Manager/UserRequests/UserRequests';
-import NewUser from 'containers/Manager/Users/NewUser/NewUser';
-import UserProfile from 'containers/Manager/Users/UserProfile/UserProfile';
 import UserProfileTablet from 'containers/Manager/Users/UserProfile/UserProfileTablet/UserProfileTablet';
 import Users from 'containers/Manager/Users/Users';
 import UserTechnique from 'containers/Manager/Users/UserTechnique/UserTechnique';
@@ -38,6 +34,11 @@ import { buttonsDataManager, buttonsDataUser, routesTitles } from 'utils/constan
 
 import 'AppRouter/appRouter.scss';
 
+const NewUser = lazy(() => import('containers/Manager/Users/NewUser/NewUser'));
+const ManagerProfile = lazy(() => import('containers/Manager/Profile/Profile'));
+const SliderMenu = lazy(() => import('components/SliderMenu/SliderMenu'));
+const NotFound = lazy(() => import('components/Errors/NotFound/NotFound'));
+const UserProfile = lazy(() => import('containers/Manager/Users/UserProfile/UserProfile'));
 const { Header, Content } = Layout;
 const { Title } = Typography;
 
@@ -125,58 +126,11 @@ const AppRouter: React.FC = () => {
       </>
     );
 
-  const renderAppRouterWrapper = (
-    <AppRouterWrapper>
-      <Routes>
-        {tokens?.is_manager ? (
-          <>
-            <Route path='/' index element={<Users />} />
-            <Route path='/add-new-user' element={<NewUser />} />
-            <Route path='/manager-profile' element={<ManagerProfile />} />
-            <Route path='/user-profile/:id' element={<UserProfile />} />
-            <Route path='/edit-user/:id' element={<UserProfileTablet />} />
-            <Route path='/user-technique/:id/:idVehicle' element={<UserTechnique />} />
-            <Route path='/user-requests' element={<UserRequests />} />
-            <Route path='/apks' element={<ApksList />} />
-          </>
-        ) : (
-          <>
-            <Route path='/' index element={<Technique />} />
-            <Route path='/user-profile-view' element={<Profile />} />
-            {account?.company?.weather_service ? (
-              <>
-                <Route path='/field-climate' element={<FieldClimateDashboard />} />
-                <Route path='/field-climate/station/:id' element={<FieldClimateStation />} />
-                <Route path='/field-climate/config/:id' element={<FieldClimateConfigurations />} />
-                <Route path='/field-climate/sensor-names/:id' element={<SensorsAndNodes />} />
-              </>
-            ) : null}
-          </>
-        )}
-        <Route path='/menu-mobile' element={<MenuMobileComponent />} />
-        <Route path='/open-map/:id/:field_name/:code?' element={<OpenMapComponent />} />
-        <Route path='/technique-map/:techniqueId' element={<TechniqueMap />} />
-        <Route path='/profile-technique/:vehicleId' element={<ProfileTechnique />} />
-        <Route path='/converter' element={<Converter />} />
-        <Route path='/files' element={<Files />} />
-        <Route path='/converter-list' element={<ConverterList />} />
-        <Route
-          path='*'
-          element={
-            <NotFound
-              showButton
-              title='Страница не найдена'
-              text='Попробуйте перейти на главную страницу или любую интересующую вас'
-            />
-          }
-        />
-      </Routes>
-    </AppRouterWrapper>
-  );
-
   return (
     <Layout style={{ height: '100vh' }} className={b('')} data-testid='app-router'>
-      <SliderMenu collapsed={collapsed} />
+      <Suspense fallback={<Skeleton />}>
+        <SliderMenu collapsed={collapsed} />
+      </Suspense>
       <Layout className='site-layout'>
         <Header
           style={{ padding: 0, background: colorBgContainer }}
@@ -205,7 +159,78 @@ const AppRouter: React.FC = () => {
             background: 'none',
           }}
         >
-          {renderAppRouterWrapper}
+          <AppRouterWrapper>
+            <Routes>
+              {tokens?.is_manager ? (
+                <>
+                  <Route path='/' index element={<Users />} />
+                  <Route
+                    path='/add-new-user'
+                    element={
+                      <Suspense fallback={<Spinner />}>
+                        <NewUser />
+                      </Suspense>
+                    }
+                  />
+                  <Route
+                    path='/manager-profile'
+                    element={
+                      <Suspense fallback={<Spinner />}>
+                        <ManagerProfile />
+                      </Suspense>
+                    }
+                  />
+                  <Route
+                    path='/user-profile/:id'
+                    element={
+                      <Suspense fallback={<Spinner />}>
+                        <UserProfile />{' '}
+                      </Suspense>
+                    }
+                  />
+                  <Route path='/edit-user/:id' element={<UserProfileTablet />} />
+                  <Route path='/user-technique/:id/:idVehicle' element={<UserTechnique />} />
+                  <Route path='/user-requests' element={<UserRequests />} />
+                  <Route path='/apks' element={<ApksList />} />
+                </>
+              ) : (
+                <>
+                  <Route path='/' index element={<Technique />} />
+                  <Route path='/user-profile-view' element={<Profile />} />
+                  {account?.company?.weather_service ? (
+                    <>
+                      <Route path='/field-climate' element={<FieldClimateDashboard />} />
+                      <Route path='/field-climate/station/:id' element={<FieldClimateStation />} />
+                      <Route
+                        path='/field-climate/config/:id'
+                        element={<FieldClimateConfigurations />}
+                      />
+                      <Route path='/field-climate/sensor-names/:id' element={<SensorsAndNodes />} />
+                    </>
+                  ) : null}
+                </>
+              )}
+              <Route path='/menu-mobile' element={<MenuMobileComponent />} />
+              <Route path='/open-map/:id/:field_name/:code?' element={<OpenMapComponent />} />
+              <Route path='/technique-map/:techniqueId' element={<TechniqueMap />} />
+              <Route path='/profile-technique/:vehicleId' element={<ProfileTechnique />} />
+              <Route path='/converter' element={<Converter />} />
+              <Route path='/files' element={<Files />} />
+              <Route path='/converter-list' element={<ConverterList />} />
+              <Route
+                path='*'
+                element={
+                  <Suspense fallback={<Spinner />}>
+                    <NotFound
+                      showButton
+                      title='Страница не найдена'
+                      text='Попробуйте перейти на главную страницу или любую интересующую вас'
+                    />
+                  </Suspense>
+                }
+              />
+            </Routes>
+          </AppRouterWrapper>
         </Content>
       </Layout>
     </Layout>

@@ -1,8 +1,8 @@
 import { EyeOutlined } from '@ant-design/icons';
-import { Button, Card, Spin, Tooltip, Typography } from 'antd';
+import { Button, Card, Skeleton, Spin, Tooltip, Typography } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import bem from 'easy-bem';
-import React, { useEffect, useLayoutEffect, useState } from 'react';
+import React, { lazy, Suspense, useEffect, useLayoutEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 
 import addedTechnique from 'assets/images/icons/added-technique.svg';
@@ -11,7 +11,6 @@ import people from 'assets/images/icons/group-active.svg';
 import tractorBlue from 'assets/images/icons/tractor-blue.svg';
 import notFoundImages from 'assets/images/notFound.svg';
 import Errors from 'components/Errors/Errors';
-import TableComponent from 'components/TableComponent/TableComponent';
 import useInfiniteScroll from 'hooks/useInfiniteScroll';
 import useWindowWidth from 'hooks/useWindowWidth';
 import { IAccount } from 'interfaces';
@@ -20,6 +19,7 @@ import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { getPageNumber, getPageNumberPrevious } from 'utils/helper';
 import 'containers/Manager/Users/_users.scss';
 
+const TableComponent = lazy(() => import('components/TableComponent/TableComponent'));
 const { Title, Text } = Typography;
 
 const Users: React.FC = () => {
@@ -235,19 +235,21 @@ const Users: React.FC = () => {
           <Title level={3} data-testid='sign_in_test' className={b('title')}>
             Пользователи
           </Title>
-          <TableComponent
-            rowKey={(record) => record.id as number}
-            loading={fetchCompaniesLoading}
-            columns={columns}
-            data={companies}
-            params={
-              fetchCompaniesLoading
-                ? { previous: null, next: null, count: 0 }
-                : companiesListPagination
-            }
-            pagePrevHandler={pagePrevHandler}
-            pageNextHandler={pageNextHandler}
-          />
+          <Suspense fallback={<Skeleton active />}>
+            <TableComponent
+              rowKey={(record) => record.id as number}
+              loading={fetchCompaniesLoading}
+              columns={columns}
+              data={companies}
+              params={
+                fetchCompaniesLoading
+                  ? { previous: null, next: null, count: 0 }
+                  : companiesListPagination
+              }
+              pagePrevHandler={pagePrevHandler}
+              pageNextHandler={pageNextHandler}
+            />
+          </Suspense>
         </div>
       )}
     </div>

@@ -1,7 +1,7 @@
 import { Button, Drawer, message, Skeleton, Tooltip, Typography } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import bem from 'easy-bem';
-import React, { useEffect, useState } from 'react';
+import React, { lazy, Suspense, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { Link, useParams } from 'react-router-dom';
 
@@ -18,10 +18,7 @@ import tractor from 'assets/images/icons/tractor-image.svg';
 import tractorProfileIcon from 'assets/images/icons/tratorProfile.svg';
 import Errors from 'components/Errors/Errors';
 import HeaderMobile from 'components/HeaderMobile/HeaderMobile';
-import AddUpdateTechnique from 'components/ModalComponent/ModalChildrenComponents/AddUpdateTechnique/AddUpdateTechnique';
-import RequestModal from 'components/ModalComponent/ModalChildrenComponents/DeleteTechniqueModal/RequestModal';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
-import ResultComponent from 'components/ResultComponent/ResultComponent';
 import TableComponent from 'components/TableComponent/TableComponent';
 import useWindowWidth from 'hooks/useWindowWidth';
 import { ErrorObject, userVehicles, VehicleList } from 'interfaces';
@@ -39,6 +36,18 @@ import { urlFormat } from 'utils/files/files';
 import { getErrorMessage, getPageNumber, getPageNumberPrevious } from 'utils/helper';
 import 'containers/Manager/Users/UserTechnique/_userTechnique.scss';
 
+const AddUpdateTechnique = lazy(
+  () =>
+    import(
+      'components/ModalComponent/ModalChildrenComponents/AddUpdateTechnique/AddUpdateTechnique'
+    ),
+);
+const RequestModal = lazy(
+  () =>
+    import('components/ModalComponent/ModalChildrenComponents/DeleteTechniqueModal/RequestModal'),
+);
+
+const ResultComponent = lazy(() => import('components/ResultComponent/ResultComponent'));
 const { Title, Text } = Typography;
 
 const UserTechnique: React.FC = () => {
@@ -454,7 +463,9 @@ const UserTechnique: React.FC = () => {
         handleOk={handleOkCancel}
         handleCancel={handleOkCancel}
       >
-        <AddUpdateTechnique userId={id} titleBool={false} onCancel={handleOkCancel} />
+        <Suspense fallback={<Skeleton />}>
+          <AddUpdateTechnique userId={id} titleBool={false} onCancel={handleOkCancel} />
+        </Suspense>
       </ModalComponent>
 
       <ModalComponent
@@ -463,14 +474,16 @@ const UserTechnique: React.FC = () => {
         handleOk={handleEditOkCancel}
         handleCancel={handleEditOkCancel}
       >
-        <AddUpdateTechnique
-          isEdit
-          userId={id}
-          vehicleId={vehicleId}
-          titleBool={false}
-          onCancel={handleEditOkCancel}
-          handleEditOkCancel={handleEditOkCancel}
-        />
+        <Suspense fallback={<Skeleton />}>
+          <AddUpdateTechnique
+            isEdit
+            userId={id}
+            vehicleId={vehicleId}
+            titleBool={false}
+            onCancel={handleEditOkCancel}
+            handleEditOkCancel={handleEditOkCancel}
+          />
+        </Suspense>
       </ModalComponent>
 
       <ModalComponent
@@ -479,22 +492,26 @@ const UserTechnique: React.FC = () => {
         handleOk={handleDeleteOkCancel}
         handleCancel={handleDeleteOkCancel}
       >
-        <RequestModal
-          title='Удалить?'
-          textCancel='Удалить'
-          subTitle={`Вы уверены, что хотите удалить ${findVehicle?.description}`}
-          loading={deleteUserVehicleLoading}
-          handleDeleteCancel={handleDeleteOkCancel}
-          requestHandler={deleteTechniqueHandler}
-        />
+        <Suspense fallback={<Skeleton />}>
+          <RequestModal
+            title='Удалить?'
+            textCancel='Удалить'
+            subTitle={`Вы уверены, что хотите удалить ${findVehicle?.description}`}
+            loading={deleteUserVehicleLoading}
+            handleDeleteCancel={handleDeleteOkCancel}
+            requestHandler={deleteTechniqueHandler}
+          />
+        </Suspense>
       </ModalComponent>
 
       <ModalComponent dividerShow={false} open={isModalCreateOpen} closable={false}>
-        <ResultComponent
-          icon={<img src={successIcon} alt='success' width='58px' height='58px' />}
-          status='info'
-          title='Техника добавлена'
-        />
+        <Suspense fallback={<Skeleton active />}>
+          <ResultComponent
+            icon={<img src={successIcon} alt='success' width='58px' height='58px' />}
+            status='info'
+            title='Техника добавлена'
+          />
+        </Suspense>
         <Button
           type='primary'
           style={{ width: '100%', borderRadius: 8, height: 36, marginTop: 10 }}
@@ -520,15 +537,17 @@ const UserTechnique: React.FC = () => {
         }
         onClose={() => setMobileEditOpen(false)}
       >
-        <AddUpdateTechnique
-          isEdit
-          userId={id}
-          mobileBtn
-          onCancel={() => setMobileEditOpen(false)}
-          vehicleId={vehicleId}
-          titleBool={false}
-          handleEditOkCancel={handleEditOkCancel}
-        />
+        <Suspense fallback={<Skeleton />}>
+          <AddUpdateTechnique
+            isEdit
+            userId={id}
+            mobileBtn
+            onCancel={() => setMobileEditOpen(false)}
+            vehicleId={vehicleId}
+            titleBool={false}
+            handleEditOkCancel={handleEditOkCancel}
+          />
+        </Suspense>
       </Drawer>
       <Drawer
         open={mobileDeleteOpen}
@@ -572,12 +591,14 @@ const UserTechnique: React.FC = () => {
         width='100%'
         title={<p className={b('text_add_drawer')}>Добавить технику</p>}
       >
-        <AddUpdateTechnique
-          userId={id}
-          titleBool={false}
-          mobileBtn
-          onCancel={() => setOpenAddTechnique(false)}
-        />
+        <Suspense fallback={<Skeleton />}>
+          <AddUpdateTechnique
+            userId={id}
+            titleBool={false}
+            mobileBtn
+            onCancel={() => setOpenAddTechnique(false)}
+          />
+        </Suspense>
       </Drawer>
       <Drawer
         open={openDrawerSuccess}
