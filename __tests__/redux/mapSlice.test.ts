@@ -42,7 +42,6 @@ describe('mapSlice extraReducers', () => {
             "tool_width": "12",
             "job_id": 85
         };
-        // @ts-ignore
         store.dispatch(obtainingCoordinate.fulfilled(payload));
         const actions = store.getActions();
         const expectedAction = {
@@ -55,7 +54,6 @@ describe('mapSlice extraReducers', () => {
 
     it('', () => {
         const payload = { detail: 'Error detail', status: 404 };
-        // @ts-ignore
         store.dispatch(obtainingCoordinate.rejected(payload));
         const actions = store.getActions();
         const expectedAction = {

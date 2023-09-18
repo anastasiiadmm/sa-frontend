@@ -1,20 +1,17 @@
-import React from 'react';
 import { render, act } from '@testing-library/react';
 import "@testing-library/jest-dom";
 import UseWindowWidth from "../../src/hooks/useWindowWidth";
 jest.mock('../../src/redux/store');
 
-// @ts-ignore
 (global as any).innerWidth = 500;
 const resizeWindow = (x: number) => {
-    // @ts-ignore
     (global as any).innerWidth = x;
     window.dispatchEvent(new Event('resize'));
 };
 
 describe('UseWindowWidth', () => {
     it('returns initial window width', () => {
-        let result: any;
+        let result: number;
         function TestComponent() {
             result = UseWindowWidth();
             return null;
@@ -26,7 +23,7 @@ describe('UseWindowWidth', () => {
     });
 
     it('updates width after window resize', () => {
-        let result: any;
+        let result: number;
         function TestComponent() {
             result = UseWindowWidth();
             return null;
