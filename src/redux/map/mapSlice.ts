@@ -6,7 +6,7 @@ import axiosApi from 'utils/axios-api';
 
 const nameSpace = 'map';
 
-const initialState = {
+export const initialState = {
   field: {
     loading: false,
     errors: null,
@@ -55,11 +55,7 @@ export const obtainingCoordinate = createAsyncThunk(
 const mapSlice = createSlice({
   name: 'map',
   initialState,
-  reducers: {
-    clearField: (state) => {
-      state.field = initialState.field;
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder.addCase(obtainingCoordinate.pending, (state) => {
       state.field.loading = true;
