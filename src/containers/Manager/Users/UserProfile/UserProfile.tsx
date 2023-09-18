@@ -1,7 +1,7 @@
-import { Button, Card, Col, Divider, Drawer, Form, message, Typography } from 'antd';
+import { Button, Card, Col, Divider, Drawer, Form, message, Skeleton, Typography } from 'antd';
 
 import bem from 'easy-bem';
-import React, { useEffect, useState } from 'react';
+import React, { lazy, Suspense, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { Link, useParams } from 'react-router-dom';
 
@@ -10,9 +10,6 @@ import deleteIcon from 'assets/images/icons/newIcon/warning.svg';
 import tractorBlue from 'assets/images/icons/tractor-blue.svg';
 import Errors from 'components/Errors/Errors';
 import FormField from 'components/FormField/FormField';
-import DeleteModal from 'components/ModalComponent/ModalChildrenComponents/DeleteModal/DeleteModal';
-import EditUserProfileModal from 'components/ModalComponent/ModalChildrenComponents/EditUserProfileModal/EditUserProfileModal';
-import GeneratedPasswordModal from 'components/ModalComponent/ModalChildrenComponents/GeneratedPasswordModal/GeneratedPasswordModal';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import SkeletonBlock from 'components/SkeletonBlock/SkeletonBlock';
 import useWindowWidth from 'hooks/useWindowWidth';
@@ -29,8 +26,25 @@ import {
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { buttonsMenu } from 'utils/constants';
 import { capitalizeFirstLetter, getErrorMessage, inputChangeFormHandler } from 'utils/helper';
-
 import 'containers/Manager/Users/UserProfile/_UserProfile.scss';
+
+const EditUserProfileModal = lazy(
+  () =>
+    import(
+      'components/ModalComponent/ModalChildrenComponents/EditUserProfileModal/EditUserProfileModal'
+    ),
+);
+
+const GeneratedPasswordModal = lazy(
+  () =>
+    import(
+      'components/ModalComponent/ModalChildrenComponents/GeneratedPasswordModal/GeneratedPasswordModal'
+    ),
+);
+
+const DeleteModal = lazy(
+  () => import('components/ModalComponent/ModalChildrenComponents/DeleteModal/DeleteModal'),
+);
 
 const { Title } = Typography;
 
@@ -504,16 +518,18 @@ const UserProfile: React.FC = () => {
         handleCancel={handleOkCancel}
         className={b('fons_none')}
       >
-        <EditUserProfileModal
-          updateUserData={updateUserData}
-          onFinish={onFinish}
-          inputChangeHandler={inputChangeHandler}
-          loading={updateUserInfoLoading}
-          formValid={formValid}
-          onValuesChange={() =>
-            setFormValid(form.getFieldsError().some((item) => item.errors.length > 0))
-          }
-        />
+        <Suspense fallback={<Skeleton active />}>
+          <EditUserProfileModal
+            updateUserData={updateUserData}
+            onFinish={onFinish}
+            inputChangeHandler={inputChangeHandler}
+            loading={updateUserInfoLoading}
+            formValid={formValid}
+            onValuesChange={() =>
+              setFormValid(form.getFieldsError().some((item) => item.errors.length > 0))
+            }
+          />
+        </Suspense>
       </ModalComponent>
 
       <ModalComponent
@@ -522,17 +538,19 @@ const UserProfile: React.FC = () => {
         handleOk={handleDeleteOkCancel}
         handleCancel={handleDeleteOkCancel}
       >
-        <DeleteModal
-          title='Удалить профиль?'
-          fullName={`${capitalizeFirstLetter(
-            userInfoByManager?.last_name,
-          )} ${userInfoByManager?.first_name
-            ?.charAt(0)
-            ?.toUpperCase()}.${userInfoByManager?.middle_name.charAt(0)?.toUpperCase()}`}
-          handleDeleteCancel={handleDeleteOkCancel}
-          deleteButtonHandler={deleteUserHandler}
-          loading={deleteUserInfoLoading}
-        />
+        <Suspense fallback={<Skeleton active />}>
+          <DeleteModal
+            title='Удалить профиль?'
+            fullName={`${capitalizeFirstLetter(
+              userInfoByManager?.last_name,
+            )} ${userInfoByManager?.first_name
+              ?.charAt(0)
+              ?.toUpperCase()}.${userInfoByManager?.middle_name.charAt(0)?.toUpperCase()}`}
+            handleDeleteCancel={handleDeleteOkCancel}
+            deleteButtonHandler={deleteUserHandler}
+            loading={deleteUserInfoLoading}
+          />
+        </Suspense>
       </ModalComponent>
 
       <ModalComponent
@@ -543,11 +561,13 @@ const UserProfile: React.FC = () => {
         handleCancel={closePasswordModal}
         classNameTitle='title_signIn'
       >
-        <GeneratedPasswordModal
-          subtitle='Новый пароль пользователя'
-          generatedPassword={generatedPassword}
-          onClose={closePasswordModal}
-        />
+        <Suspense fallback={<Skeleton />}>
+          <GeneratedPasswordModal
+            subtitle='Новый пароль пользователя'
+            generatedPassword={generatedPassword}
+            onClose={closePasswordModal}
+          />
+        </Suspense>
       </ModalComponent>
       <Drawer
         height={320}

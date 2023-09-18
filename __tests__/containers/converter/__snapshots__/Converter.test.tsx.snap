@@ -178,7 +178,32 @@ exports[`<Converter /> render component toMatchSnapshot() 1`] = `
         <div>
           <div
             class="Converter__history-list"
-          />
+          >
+            <div
+              class="NotFound"
+            >
+              <div>
+                <div
+                  class="NotFound__img"
+                >
+                  <img
+                    alt="notFound"
+                    src="[object Object]"
+                  />
+                </div>
+                <div
+                  class="NotFound__btn"
+                >
+                  <div>
+                    <h3>
+                      Данные отсутствуют
+                    </h3>
+                    <p />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
           <div
             class="pagination undefined"
           >
@@ -402,7 +427,32 @@ exports[`<Converter /> render component toMatchSnapshot() 1`] = `
       <div>
         <div
           class="Converter__history-list"
-        />
+        >
+          <div
+            class="NotFound"
+          >
+            <div>
+              <div
+                class="NotFound__img"
+              >
+                <img
+                  alt="notFound"
+                  src="[object Object]"
+                />
+              </div>
+              <div
+                class="NotFound__btn"
+              >
+                <div>
+                  <h3>
+                    Данные отсутствуют
+                  </h3>
+                  <p />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         <div
           class="pagination undefined"
         >

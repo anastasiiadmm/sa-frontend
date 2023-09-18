@@ -1,7 +1,7 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { lazy, Suspense, useCallback, useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
-import AppRouter from 'AppRouter/AppRouter';
+import Spinner from 'components/Spinner/Spinner';
 import SignIn from 'containers/SignIn/SignIn';
 import { useTokenConfigs } from 'hooks/useTokensConfigs';
 import { IListener } from 'interfaces';
@@ -15,6 +15,7 @@ import {
   userLocalStorage,
 } from 'utils/addLocalStorage/addLocalStorage';
 
+const AppRouter = lazy(() => import('AppRouter/AppRouter'));
 const App: React.FC = () => {
   const dispatch = useAppDispatch();
   const tokenConfigs = useTokenConfigs();
@@ -59,7 +60,9 @@ const App: React.FC = () => {
   }, [handleStorageEvent]);
 
   return tokenConfigs ? (
-    <AppRouter />
+    <Suspense fallback={<Spinner />}>
+      <AppRouter />
+    </Suspense>
   ) : (
     <Routes>
       <Route path='*' element={<SignIn />} />

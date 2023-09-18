@@ -1,7 +1,7 @@
 import { Button, Form, Image, Skeleton, Tooltip, Typography } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import bem from 'easy-bem';
-import React, { useEffect, useState } from 'react';
+import React, { lazy, Suspense, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { Link, useParams } from 'react-router-dom';
 
@@ -10,7 +10,6 @@ import planet from 'assets/images/icons/newIcon/mapFons.svg';
 import tractorBlue from 'assets/images/icons/tractor-blue.svg';
 import Errors from 'components/Errors/Errors';
 import FormField from 'components/FormField/FormField';
-import TableComponent from 'components/TableComponent/TableComponent';
 import useWindowWidth from 'hooks/useWindowWidth';
 import { Result } from 'interfaces';
 import { accountsSelector, fetchVehicleInfo } from 'redux/accounts/accountsSlice';
@@ -20,6 +19,8 @@ import { urlFormat } from 'utils/files/files';
 import { capitalizeFirstLetter, getPageParam } from 'utils/helper';
 
 import 'containers/Technique/ProfileTechnique/_profileTechnique.scss';
+
+const TableComponent = lazy(() => import('components/TableComponent/TableComponent'));
 
 const { Title } = Typography;
 
@@ -339,21 +340,22 @@ const ProfileTechnique = () => {
             <Skeleton active={userVehicleInfoLoading} />
           </div>
         )}
-
-        <TableComponent
-          rowKey={(record) => record.id as number}
-          loading={userVehicleInfoLoading}
-          columns={columns}
-          data={fields}
-          disabledButton
-          pagePrevHandler={pagePrevHandler}
-          pageNextHandler={pageNextHandler}
-          params={{
-            count: userVehicleInfo?.count,
-            next: userVehicleInfo?.next,
-            previous: userVehicleInfo?.previous,
-          }}
-        />
+        <Suspense fallback={<Skeleton />}>
+          <TableComponent
+            rowKey={(record) => record.id as number}
+            loading={userVehicleInfoLoading}
+            columns={columns}
+            data={fields}
+            disabledButton
+            pagePrevHandler={pagePrevHandler}
+            pageNextHandler={pageNextHandler}
+            params={{
+              count: userVehicleInfo?.count,
+              next: userVehicleInfo?.next,
+              previous: userVehicleInfo?.previous,
+            }}
+          />
+        </Suspense>
       </div>
     </div>
   );

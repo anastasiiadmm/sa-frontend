@@ -73,9 +73,9 @@ const AddUpdateTechnique: React.FC<Props> = ({
         description: userVehicleInfo?.description,
         state_number: userVehicleInfo?.license_plate,
         vin_code: userVehicleInfo?.vin,
-        last_name: userVehicleInfo?.operator.last_name,
-        first_name: userVehicleInfo?.operator.first_name,
-        middle_name: userVehicleInfo?.operator.middle_name,
+        last_name: userVehicleInfo?.operator?.last_name,
+        first_name: userVehicleInfo?.operator?.first_name,
+        middle_name: userVehicleInfo?.operator?.middle_name,
       });
     }
   }, [userVehicleInfo, form]);
@@ -93,9 +93,9 @@ const AddUpdateTechnique: React.FC<Props> = ({
                 license_plate: data.state_number,
                 description: data.description,
                 operator: {
-                  first_name: data.first_name,
-                  last_name: data.last_name,
-                  middle_name: data.middle_name,
+                  first_name: data?.first_name,
+                  last_name: data?.last_name,
+                  middle_name: data?.middle_name,
                 },
               },
             }),
@@ -106,14 +106,14 @@ const AddUpdateTechnique: React.FC<Props> = ({
         } else if (isRequest) {
           const obj = {
             vehicle: {
-              vin: data.vin_code,
-              description: data.description,
-              license_plate: data.state_number,
+              vin: data?.vin_code,
+              description: data?.description,
+              license_plate: data?.state_number,
             },
             operator: {
-              first_name: data.first_name,
-              last_name: data.last_name,
-              middle_name: data.middle_name,
+              first_name: data?.first_name,
+              last_name: data?.last_name,
+              middle_name: data?.middle_name,
             },
           };
           const formData = new FormData();
