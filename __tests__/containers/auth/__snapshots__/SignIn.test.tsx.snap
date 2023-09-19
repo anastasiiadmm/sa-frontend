@@ -120,7 +120,7 @@ exports[`<SignIn /> Render component toMatchSnapshot() 1`] = `
           </div>
         </div>
         <div
-          className="ant-form-item PasswordField css-dev-only-do-not-override-i0102m"
+          className="ant-form-item SignIn__password_input css-dev-only-do-not-override-i0102m"
         >
           <div
             className="ant-row ant-form-item-row css-dev-only-do-not-override-i0102m"

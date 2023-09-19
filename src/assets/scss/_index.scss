@@ -367,6 +367,17 @@ button:disabled {
   :where(.css-dev-only-do-not-override-1ffqmss).ant-form-vertical .ant-form-item-label, :where(.css-dev-only-do-not-override-1ffqmss).ant-col-24.ant-form-item-label, :where(.css-dev-only-do-not-override-1ffqmss).ant-col-xl-24.ant-form-item-label {
     padding: 0 0 0;
   }
+  :where(.css-dev-only-do-not-override-1c7xii0).ant-form-vertical .ant-form-item-label, :where(.css-dev-only-do-not-override-1c7xii0).ant-col-24.ant-form-item-label, :where(.css-dev-only-do-not-override-1c7xii0).ant-col-xl-24.ant-form-item-label {
+    padding: 0 0 0!important;
+  }
+
+  :where(.css-dev-only-do-not-override-1c7xii0).ant-form-item .ant-form-item-control-input {
+    min-height: 22px;
+  }
+
+  :where(.css-dev-only-do-not-override-1c7xii0).ant-form-item {
+    margin-bottom: 8px;
+  }
 
   .ant-input {
     padding: 0;

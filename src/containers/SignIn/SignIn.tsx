@@ -119,6 +119,7 @@ const SignIn: React.FC = () => {
 
               <FormField
                 bordered
+                className={b('password_input')}
                 data-testid='password_id'
                 type='password'
                 name='password'

@@ -356,10 +356,10 @@ const EditUserProfileModal: React.FC<Props> = ({
                 type='primary'
                 htmlType='submit'
                 loading={loading}
-                style={{ width: '100%', borderRadius: 4 }}
+                style={{ width: '100%', borderRadius: 12 }}
                 className={b('save-button')}
               >
-                Сохранить изменения
+                Сохранить
               </Button>
             </>
           )}
