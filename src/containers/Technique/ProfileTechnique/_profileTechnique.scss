@@ -152,11 +152,11 @@
       width: 500px;
       height: 260px;
       background-color: #F9F9F9;
-      padding-top: 20px;
+      padding-top: 10px;
       padding-left: 10px;
       padding-right: 10px;
       border-radius: 12px;
-
+      margin-bottom: -10px;
       .ant-image {
         width: 100% !important;
       }
@@ -180,29 +180,38 @@
     }
 
     &__technique-image {
-      height: 260px!important;
+      height: 181px!important;
+      border-radius: 8px;
     }
 
     &__images_tractor {
       > button {
+        font-weight: 600;
         margin-top: 15px;
+        font-size: 13px;
       }
     }
     &__images_tractor {
       width: 100%;
       height: 100%;
-      padding-bottom: 20px;
+      padding-bottom: 10px;
+      > div {
+        height: 181px;
+      }
     }
 
     &__profile-title {
-      margin-top: 22px !important;
-      margin-bottom: -2px !important;
+      margin-top: 24px !important;
+      margin-bottom: 0px !important;
+      font-size: 16px;
+      margin-left: 0;
     }
 
     &__form-block {
       grid-template-columns: repeat(1, 1fr);
+      margin-top: -10px;
       > div {
-        margin-top: 30px;
+        margin-top: 32px;
       }
     }
 

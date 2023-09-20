@@ -71,13 +71,21 @@
     margin: 26px;
   }
 
+  &__status_btn {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+  }
+
   &__form-block {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-column-gap: 10px;
+    grid-row-gap: 10px;
 
     > div {
-      width: 150px;
+      width: 100%;
+      margin-bottom: 0px;
     }
   }
 
@@ -86,11 +94,15 @@
   }
 
   &__view-button {
-    background: #ecf4ff;
+    width: 100%;
+    height: 44px;
+    background: #689F3A;
     border: none;
-    color: #1358bf;
-    font-weight: 700;
+    border-radius: 12px;
+    color: #FFFFFF!important;
+    font-weight: 600;
     font-size: 14px;
+    margin-top: 16px;
   }
 
   &__close-button {
@@ -111,7 +123,7 @@
 
   &__active-buttons-block {
     display: flex;
-    gap: 12px;
+    gap: 5px;
   }
 
   .cursor {
@@ -187,6 +199,15 @@
   }
 }
 
+.btn_status_active {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  width: 110px;
+  font-size: 12px;
+  font-weight: 500;
+}
 @media (max-width: 720px) {
   .TechniqueMap {
     &__card-block {
@@ -310,6 +331,27 @@
       margin: -3px 5px 0px -6px;
       width: 23px;
     }
+
+    &__mobile_header {
+      width: 100%;
+      height: 44px;
+      align-items: center;
+      display: flex;
+      background-color: #FFFFFF;
+      > button {
+        top: 9px;
+        position: absolute;
+        background-color: transparent;
+        border: none;
+      }
+      > p {
+        width: 100%;
+        font-size: 13px;
+        font-weight: 500;
+        margin-top: 11px;
+        text-align: center;
+      }
+    }
   }
 
   .img-tractor {
@@ -322,12 +364,17 @@
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 500px) {
   .TechniqueMap {
     &__card-block-info {
       justify-content: space-around;
-      flex-wrap: wrap;
       padding-right: 0;
+    }
+    &__info-block {
+      margin: 0 16px 0 16px;
+    }
+    &__status_btn {
+      top: 54px;
     }
   }
 }

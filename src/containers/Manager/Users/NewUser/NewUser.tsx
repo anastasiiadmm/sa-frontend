@@ -66,9 +66,11 @@ const NewUser: React.FC = () => {
           md={{ span: 20, offset: 2 }}
           lg={{ span: 11, offset: 1 }}
         >
-          <Title level={3} data-testid='new_user_test' className={b('title')}>
-            Добавить нового пользователя
-          </Title>
+          {windowWidth > 600 && (
+            <Title level={3} data-testid='new_user_test' className={b('title')}>
+              Добавить нового пользователя
+            </Title>
+          )}
           <p className={b('subtext')}>Создать учетную запись нового пользователя и добавить его</p>
 
           <Form

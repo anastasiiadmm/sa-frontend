@@ -531,8 +531,9 @@ const UserTechnique: React.FC = () => {
             style={{
               textAlign: 'center',
               padding: 0,
-              margin: 0,
+              margin: '0px 0px 0px -40px',
               fontWeight: 500,
+              fontSize: 13,
             }}
           >
             Редактировать технику
