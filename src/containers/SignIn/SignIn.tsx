@@ -1,14 +1,13 @@
-import { Button, Col, Divider, Form, message, Row, Typography } from 'antd';
+import { Button, Col, Divider, Form, message, Row, Skeleton, Typography } from 'antd';
 import { CheckboxChangeEvent } from 'antd/es/checkbox';
 import bem from 'easy-bem';
-import React, { useEffect, useState } from 'react';
+import React, { lazy, Suspense, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 
 import logo from 'assets/images/logo.png';
 import tractor from 'assets/images/tracktor.png';
 import DrawerComponent from 'components/DrawerComponent/DrawerComponent';
 import FormField from 'components/FormField/FormField';
-import RequestRegisterModal from 'components/ModalComponent/ModalChildrenComponents/RequestRegisterModal/RequestRegisterModal';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import useWindowWidth from 'hooks/useWindowWidth';
 import { userMutation } from 'interfaces';
@@ -18,6 +17,12 @@ import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { userLocalStorage } from 'utils/addLocalStorage/addLocalStorage';
 import 'containers/SignIn/_signIn.scss';
 
+const RequestRegisterModal = lazy(
+  () =>
+    import(
+      'components/ModalComponent/ModalChildrenComponents/RequestRegisterModal/RequestRegisterModal'
+    ),
+);
 const { Title, Text } = Typography;
 
 const SignIn: React.FC = () => {
@@ -162,7 +167,9 @@ const SignIn: React.FC = () => {
         open={isModalOpen}
         handleCancel={handleCancel}
       >
-        <RequestRegisterModal onClose={handleCancel} />
+        <Suspense fallback={<Skeleton active />}>
+          <RequestRegisterModal onClose={handleCancel} />
+        </Suspense>
       </ModalComponent>
 
       <DrawerComponent
@@ -174,7 +181,9 @@ const SignIn: React.FC = () => {
         onClose={handleCancel}
         placement='right'
       >
-        <RequestRegisterModal onClose={handleCancel} />
+        <Suspense fallback={<Skeleton active />}>
+          <RequestRegisterModal onClose={handleCancel} />
+        </Suspense>
       </DrawerComponent>
     </>
   );

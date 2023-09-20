@@ -4,6 +4,7 @@ import {
   Card,
   Divider,
   message,
+  Skeleton,
   Spin,
   TablePaginationConfig,
   Tooltip,
@@ -13,7 +14,7 @@ import { ColumnsType } from 'antd/es/table';
 import { FilterValue, SorterResult } from 'antd/es/table/interface';
 import bem from 'easy-bem';
 import moment from 'moment';
-import React, { useEffect, useState } from 'react';
+import React, { lazy, Suspense, useEffect, useState } from 'react';
 
 import changeProfile from 'assets/images/icons/change-profile-mobile.svg';
 import newTechnique from 'assets/images/icons/new-technique-mobile.svg';
@@ -26,14 +27,7 @@ import newWeather from 'assets/images/icons/weather-mobile.svg';
 import notFoundImages from 'assets/images/notFound.svg';
 import DrawerComponent from 'components/DrawerComponent/DrawerComponent';
 import Errors from 'components/Errors/Errors';
-import RequestModal from 'components/ModalComponent/ModalChildrenComponents/DeleteTechniqueModal/RequestModal';
-import EditUserProfileModal from 'components/ModalComponent/ModalChildrenComponents/EditUserProfileModal/EditUserProfileModal';
-import FieldClimateModal from 'components/ModalComponent/ModalChildrenComponents/FieldClimateModal/FieldClimateModal';
-import RequestModals from 'components/ModalComponent/ModalChildrenComponents/RequestModals/RequestModals';
-import RequestAddTechnique from 'components/ModalComponent/ModalChildrenComponents/RequestsModals/RequestAddTechnique/RequestAddTechnique';
-import RequestRegisterUser from 'components/ModalComponent/ModalChildrenComponents/RequestsModals/RequestRegisterUser/RequestRegisterUser';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
-import TableComponent from 'components/TableComponent/TableComponent';
 import useInfiniteScroll from 'hooks/useInfiniteScroll';
 import useWindowWidth from 'hooks/useWindowWidth';
 import { IMyData, IMyDataApi, Requestor } from 'interfaces';
@@ -62,6 +56,42 @@ import {
 import { fileSizeValidate, fileValidateImg } from 'utils/validate/validate';
 import 'containers/Manager/UserRequests/_userRequests.scss';
 
+const RequestAddTechnique = lazy(
+  () =>
+    import(
+      'components/ModalComponent/ModalChildrenComponents/RequestsModals/RequestAddTechnique/RequestAddTechnique'
+    ),
+);
+
+const RequestRegisterUser = lazy(
+  () =>
+    import(
+      'components/ModalComponent/ModalChildrenComponents/RequestsModals/RequestRegisterUser/RequestRegisterUser'
+    ),
+);
+
+const EditUserProfileModal = lazy(
+  () =>
+    import(
+      'components/ModalComponent/ModalChildrenComponents/EditUserProfileModal/EditUserProfileModal'
+    ),
+);
+
+const RequestModal = lazy(
+  () =>
+    import('components/ModalComponent/ModalChildrenComponents/DeleteTechniqueModal/RequestModal'),
+);
+
+const FieldClimateModal = lazy(
+  () =>
+    import('components/ModalComponent/ModalChildrenComponents/FieldClimateModal/FieldClimateModal'),
+);
+
+const RequestModals = lazy(
+  () => import('components/ModalComponent/ModalChildrenComponents/RequestModals/RequestModals'),
+);
+
+const TableComponent = lazy(() => import('components/TableComponent/TableComponent'));
 const { Title, Text } = Typography;
 
 const UserRequests = () => {
@@ -559,21 +589,24 @@ const UserRequests = () => {
                 Запросы
               </Title>
             )}
-
-            <TableComponent
-              scroll={windowWidth <= 990 ? { x: '100%' } : undefined}
-              rowClickHandler={rowClickHandler}
-              loading={fetchRequestsLoading}
-              columns={columns}
-              onChange={handleTableSortChange}
-              data={requests}
-              rowKey={(record) => record.id as number}
-              params={
-                fetchRequestsLoading ? { previous: null, next: null, count: 0 } : requestsPagination
-              }
-              pagePrevHandler={pagePrevHandler}
-              pageNextHandler={pageNextHandler}
-            />
+            <Suspense fallback={<Skeleton active />}>
+              <TableComponent
+                scroll={windowWidth <= 990 ? { x: '100%' } : undefined}
+                rowClickHandler={rowClickHandler}
+                loading={fetchRequestsLoading}
+                columns={columns}
+                onChange={handleTableSortChange}
+                data={requests}
+                rowKey={(record) => record.id as number}
+                params={
+                  fetchRequestsLoading
+                    ? { previous: null, next: null, count: 0 }
+                    : requestsPagination
+                }
+                pagePrevHandler={pagePrevHandler}
+                pageNextHandler={pageNextHandler}
+              />
+            </Suspense>
           </div>
         )}
       </div>
@@ -588,16 +621,18 @@ const UserRequests = () => {
         {errors ? (
           <Errors status={errors.status} detail={errors.detail} />
         ) : (
-          <RequestAddTechnique
-            loading={loading}
-            modalOpen={() => {
-              setIsModalRequestOpen(true);
-              setIsModalTechniqueOpen(!isModalTechniqueOpen);
-            }}
-            resultsTechnique={results}
-            handleOkCancel={handleOkTechniqueCancel}
-            showRejectModal={showRejectModal}
-          />
+          <Suspense fallback={<Skeleton active />}>
+            <RequestAddTechnique
+              loading={loading}
+              modalOpen={() => {
+                setIsModalRequestOpen(true);
+                setIsModalTechniqueOpen(!isModalTechniqueOpen);
+              }}
+              resultsTechnique={results}
+              handleOkCancel={handleOkTechniqueCancel}
+              showRejectModal={showRejectModal}
+            />
+          </Suspense>
         )}
       </ModalComponent>
 
@@ -611,13 +646,15 @@ const UserRequests = () => {
         {userInfoError ? (
           <Errors status={userInfoError.status} detail={userInfoError.detail} />
         ) : (
-          <RequestRegisterUser
-            userInfo={userInfo}
-            userId={id}
-            userInfoLoading={userInfoLoading}
-            handleOkCancel={handleOkRegisterUserCancel}
-            showRejectModal={showRejectModal}
-          />
+          <Suspense fallback={<Skeleton active />}>
+            <RequestRegisterUser
+              userInfo={userInfo}
+              userId={id}
+              userInfoLoading={userInfoLoading}
+              handleOkCancel={handleOkRegisterUserCancel}
+              showRejectModal={showRejectModal}
+            />
+          </Suspense>
         )}
       </ModalComponent>
 
@@ -628,19 +665,25 @@ const UserRequests = () => {
         handleOk={handleOkUserInfoCancel}
         handleCancel={handleOkUserInfoCancel}
       >
-        <EditUserProfileModal
-          handleOkCancel={handleOkUserInfoCancel}
-          showRejectModal={showRejectModal}
-          changeUserInfoRequest
-          userInfo={userInfo}
-          userId={id}
-          userInfoLoading={userInfoLoading}
-          inputChangeHandler={inputChangeHandler}
-          image={images?.image}
-          onFileChange={onFileChange}
-          loading={requestApproveChangeProfileLoading}
-          onClick={onClickApproveChangeProfileDataHandler}
-        />
+        {userInfoLoading ? (
+          <Skeleton />
+        ) : (
+          <Suspense fallback={<Skeleton active />}>
+            <EditUserProfileModal
+              handleOkCancel={handleOkUserInfoCancel}
+              showRejectModal={showRejectModal}
+              changeUserInfoRequest
+              userInfo={userInfo}
+              userId={id}
+              userInfoLoading={userInfoLoading}
+              inputChangeHandler={inputChangeHandler}
+              image={images?.image}
+              onFileChange={onFileChange}
+              loading={requestApproveChangeProfileLoading}
+              onClick={onClickApproveChangeProfileDataHandler}
+            />
+          </Suspense>
+        )}
       </ModalComponent>
 
       <ModalComponent
@@ -649,12 +692,14 @@ const UserRequests = () => {
         handleOk={handleOkFieldClimateInfoCancel}
         handleCancel={handleOkFieldClimateInfoCancel}
       >
-        <FieldClimateModal
-          approveRequestLoading={approveRequestLoading}
-          fieldClimateData={fieldClimateData}
-          sendApprovedHandler={sendApprovedHandler}
-          handleOkCancel={showRejectModal}
-        />
+        <Suspense fallback={<Skeleton active />}>
+          <FieldClimateModal
+            approveRequestLoading={approveRequestLoading}
+            fieldClimateData={fieldClimateData}
+            sendApprovedHandler={sendApprovedHandler}
+            handleOkCancel={showRejectModal}
+          />
+        </Suspense>
       </ModalComponent>
 
       <ModalComponent
@@ -663,18 +708,22 @@ const UserRequests = () => {
         handleOk={handleOkRejectCancel}
         handleCancel={handleOkRejectCancel}
       >
-        <RequestModal
-          title='Отклонить?'
-          textCancel='Отклонить'
-          loading={vehicleDeleteLoading}
-          subTitle='Вы уверены, что хотите отклонить запрос'
-          handleDeleteCancel={handleOkRejectCancel}
-          requestHandler={rejectHandler}
-        />
+        <Suspense fallback={<Skeleton active />}>
+          <RequestModal
+            title='Отклонить?'
+            textCancel='Отклонить'
+            loading={vehicleDeleteLoading}
+            subTitle='Вы уверены, что хотите отклонить запрос'
+            handleDeleteCancel={handleOkRejectCancel}
+            requestHandler={rejectHandler}
+          />
+        </Suspense>
       </ModalComponent>
 
       <ModalComponent dividerShow={false} closable={false} open={isModalRequestOpen}>
-        <RequestModals onClick={handleOkCancel} />
+        <Suspense fallback={<Skeleton />}>
+          <RequestModals onClick={handleOkCancel} />
+        </Suspense>
       </ModalComponent>
 
       <DrawerComponent
@@ -689,13 +738,15 @@ const UserRequests = () => {
         {userInfoError ? (
           <Errors status={userInfoError.status} detail={userInfoError.detail} />
         ) : (
-          <RequestRegisterUser
-            userInfo={userInfo}
-            userId={id}
-            userInfoLoading={userInfoLoading}
-            handleOkCancel={handleOkRegisterUserCancel}
-            showRejectModal={showRejectModal}
-          />
+          <Suspense fallback={<Skeleton />}>
+            <RequestRegisterUser
+              userInfo={userInfo}
+              userId={id}
+              userInfoLoading={userInfoLoading}
+              handleOkCancel={handleOkRegisterUserCancel}
+              showRejectModal={showRejectModal}
+            />
+          </Suspense>
         )}
       </DrawerComponent>
 
@@ -708,19 +759,25 @@ const UserRequests = () => {
         onClose={handleOkUserInfoCancel}
         placement='right'
       >
-        <EditUserProfileModal
-          handleOkCancel={handleOkUserInfoCancel}
-          showRejectModal={showRejectModal}
-          changeUserInfoRequest
-          userInfo={userInfo}
-          userId={id}
-          userInfoLoading={userInfoLoading}
-          inputChangeHandler={inputChangeHandler}
-          image={images?.image}
-          onFileChange={onFileChange}
-          loading={requestApproveChangeProfileLoading}
-          onClick={onClickApproveChangeProfileDataHandler}
-        />
+        {userInfoLoading ? (
+          <Skeleton active />
+        ) : (
+          <Suspense fallback={<Skeleton />}>
+            <EditUserProfileModal
+              handleOkCancel={handleOkUserInfoCancel}
+              showRejectModal={showRejectModal}
+              changeUserInfoRequest
+              userInfo={userInfo}
+              userId={id}
+              userInfoLoading={userInfoLoading}
+              inputChangeHandler={inputChangeHandler}
+              image={images?.image}
+              onFileChange={onFileChange}
+              loading={requestApproveChangeProfileLoading}
+              onClick={onClickApproveChangeProfileDataHandler}
+            />
+          </Suspense>
+        )}
       </DrawerComponent>
 
       <DrawerComponent
@@ -735,16 +792,18 @@ const UserRequests = () => {
         {errors ? (
           <Errors status={errors.status} detail={errors.detail} />
         ) : (
-          <RequestAddTechnique
-            loading={loading}
-            modalOpen={() => {
-              setIsModalRequestOpen(true);
-              setIsDrawerTechniqueOpen(false);
-            }}
-            resultsTechnique={results}
-            handleOkCancel={handleOkTechniqueCancel}
-            showRejectModal={showRejectModal}
-          />
+          <Suspense fallback={<Skeleton active />}>
+            <RequestAddTechnique
+              loading={loading}
+              modalOpen={() => {
+                setIsModalRequestOpen(true);
+                setIsDrawerTechniqueOpen(false);
+              }}
+              resultsTechnique={results}
+              handleOkCancel={handleOkTechniqueCancel}
+              showRejectModal={showRejectModal}
+            />
+          </Suspense>
         )}
       </DrawerComponent>
 
@@ -754,12 +813,14 @@ const UserRequests = () => {
         onClose={handleOkFieldClimateInfoCancel}
         placement='bottom'
       >
-        <FieldClimateModal
-          approveRequestLoading={approveRequestLoading}
-          fieldClimateData={fieldClimateData}
-          sendApprovedHandler={sendApprovedHandler}
-          handleOkCancel={showRejectModal}
-        />
+        <Suspense fallback={<Skeleton active />}>
+          <FieldClimateModal
+            approveRequestLoading={approveRequestLoading}
+            fieldClimateData={fieldClimateData}
+            sendApprovedHandler={sendApprovedHandler}
+            handleOkCancel={showRejectModal}
+          />
+        </Suspense>
       </DrawerComponent>
 
       <DrawerComponent
@@ -769,14 +830,16 @@ const UserRequests = () => {
         placement='bottom'
         height={231}
       >
-        <RequestModal
-          title='Отклонить?'
-          textCancel='Отклонить'
-          loading={vehicleDeleteLoading}
-          subTitle='Вы уверены, что хотите отклонить запрос'
-          handleDeleteCancel={handleOkRejectCancel}
-          requestHandler={rejectHandler}
-        />
+        <Suspense fallback={<Skeleton active />}>
+          <RequestModal
+            title='Отклонить?'
+            textCancel='Отклонить'
+            loading={vehicleDeleteLoading}
+            subTitle='Вы уверены, что хотите отклонить запрос'
+            handleDeleteCancel={handleOkRejectCancel}
+            requestHandler={rejectHandler}
+          />
+        </Suspense>
       </DrawerComponent>
     </>
   );

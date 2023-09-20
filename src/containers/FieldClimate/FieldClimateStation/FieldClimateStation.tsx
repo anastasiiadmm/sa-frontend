@@ -207,7 +207,7 @@ const FieldClimateStation = () => {
           )}
         </div>
       ) : (
-        <NotFound showButton title='Нет данных для выбранной станции' />
+        <NotFound showButton={false} title='Нет данных для выбранной станции' />
       )}
     </FieldClimateInnerDashboard>
   );

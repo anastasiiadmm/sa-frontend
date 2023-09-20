@@ -1,8 +1,8 @@
 import { CheckOutlined, EyeOutlined } from '@ant-design/icons';
-import { Button, Card, Drawer, message, Spin, Tooltip, Typography } from 'antd';
+import { Button, Card, Drawer, message, Skeleton, Spin, Tooltip, Typography } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import bem from 'easy-bem';
-import React, { useEffect, useState } from 'react';
+import React, { lazy, Suspense, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
 
@@ -18,8 +18,6 @@ import tractorBlue from 'assets/images/icons/tractor-blue.svg';
 import tractor from 'assets/images/icons/tractor-image.svg';
 import logo from 'assets/images/logo.svg';
 import Errors from 'components/Errors/Errors';
-import AddUpdateTechnique from 'components/ModalComponent/ModalChildrenComponents/AddUpdateTechnique/AddUpdateTechnique';
-import RequestModal from 'components/ModalComponent/ModalChildrenComponents/DeleteTechniqueModal/RequestModal';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import TableComponent from 'components/TableComponent/TableComponent';
 import useInfiniteScroll from 'hooks/useInfiniteScroll';
@@ -37,6 +35,16 @@ import { urlFormat } from 'utils/files/files';
 import { getPageNumber, getPageNumberPrevious } from 'utils/helper';
 import 'containers/User/Technique/_technique.scss';
 
+const AddUpdateTechnique = lazy(
+  () =>
+    import(
+      'components/ModalComponent/ModalChildrenComponents/AddUpdateTechnique/AddUpdateTechnique'
+    ),
+);
+const RequestModal = lazy(
+  () =>
+    import('components/ModalComponent/ModalChildrenComponents/DeleteTechniqueModal/RequestModal'),
+);
 const { Title } = Typography;
 
 const Technique = () => {
@@ -483,12 +491,14 @@ const Technique = () => {
         handleOk={handleOkCancel}
         handleCancel={handleOkCancel}
       >
-        <AddUpdateTechnique
-          userId={null}
-          isRequest
-          handleEditOkCancel={handleOkCancel}
-          onCancel={handleOkCancel}
-        />
+        <Suspense fallback={<Skeleton active />}>
+          <AddUpdateTechnique
+            userId={null}
+            isRequest
+            handleEditOkCancel={handleOkCancel}
+            onCancel={handleOkCancel}
+          />
+        </Suspense>
       </ModalComponent>
 
       <ModalComponent
@@ -497,14 +507,16 @@ const Technique = () => {
         handleOk={handleFieldClimateOkCancel}
         handleCancel={handleFieldClimateOkCancel}
       >
-        <RequestModal
-          title='Запрос на подключение метеостанции'
-          textCancel='Отправить'
-          subTitle='Отправить запрос на подключение метеостанции?'
-          handleDeleteCancel={handleFieldClimateOkCancel}
-          loading={inquiriesLoading}
-          requestHandler={postInquiriesHandler}
-        />
+        <Suspense fallback={<Skeleton active />}>
+          <RequestModal
+            title='Запрос на подключение метеостанции'
+            textCancel='Отправить'
+            subTitle='Отправить запрос на подключение метеостанции?'
+            handleDeleteCancel={handleFieldClimateOkCancel}
+            loading={inquiriesLoading}
+            requestHandler={postInquiriesHandler}
+          />
+        </Suspense>
       </ModalComponent>
       <Drawer
         open={openDrawerTechnique}
@@ -512,14 +524,16 @@ const Technique = () => {
         onClose={() => setOpenDrawerTechnique(false)}
         width='100%'
       >
-        <AddUpdateTechnique
-          userId={null}
-          isRequest
-          mobileBtn
-          textBtn='Отправить запрос'
-          handleEditOkCancel={handleOkCancel}
-          onCancel={handleOkCancel}
-        />
+        <Suspense fallback={<Skeleton active />}>
+          <AddUpdateTechnique
+            userId={null}
+            isRequest
+            mobileBtn
+            textBtn='Отправить запрос'
+            handleEditOkCancel={handleOkCancel}
+            onCancel={handleOkCancel}
+          />
+        </Suspense>
       </Drawer>
     </>
   );
