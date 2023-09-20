@@ -66,6 +66,13 @@ export interface VehicleData {
   online_vehicle_ids?: Array<ITechniquesMapActive> | null;
 }
 
+export interface VehicleLatLanData {
+  status: string;
+  latitude: string;
+  longitude: string;
+  speed: number;
+}
+
 export interface ITechniquesMap {
   description: string;
   id: number;

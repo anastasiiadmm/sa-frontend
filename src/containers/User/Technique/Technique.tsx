@@ -463,7 +463,7 @@ const Technique = () => {
                     <Button onClick={() => push(`/profile-technique/${item.id}`)}>
                       <img src={tractorIcons} alt='tractor' />
                     </Button>
-                    <Button onClick={() => push(`/open-map/${item.id}/local-tractor/`)}>
+                    <Button onClick={() => push(`/open-map/${item.id}/local-tractor/${item?.code}`)}>
                       <img src={map} alt='tractor' />
                     </Button>
                   </div>

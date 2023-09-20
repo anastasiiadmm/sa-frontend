@@ -34,6 +34,7 @@ const ProfileTechnique = () => {
     useAppSelector(accountsSelector);
   const [form] = Form.useForm();
   const [fields, setFields] = useState<Result[]>([]);
+  console.log('userVehicleInfo', userVehicleInfo);
 
   useEffect(() => {
     dispatch(fetchVehicleInfo({ vehicleId, pageUrl: '1' }));
@@ -176,10 +177,10 @@ const ProfileTechnique = () => {
   };
 
   const firstName = `${capitalizeFirstLetter(
-    userVehicleInfo?.vehicle.operator.last_name,
-  )} ${capitalizeFirstLetter(userVehicleInfo?.vehicle.operator.first_name)} ${capitalizeFirstLetter(
-    userVehicleInfo?.vehicle.operator.middle_name,
-  )}`;
+    userVehicleInfo?.vehicle.operator?.last_name,
+  )} ${capitalizeFirstLetter(
+    userVehicleInfo?.vehicle.operator?.first_name,
+  )} ${capitalizeFirstLetter(userVehicleInfo?.vehicle.operator?.middle_name)}`;
 
   if (userVehicleInfoError || userVehicleInfoState.userVehicleInfoError) {
     return (
