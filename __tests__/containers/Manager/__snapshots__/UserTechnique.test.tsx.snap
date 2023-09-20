@@ -50,7 +50,7 @@ exports[`<UserTechnique /> Users table component should be in the document 1`] =
           />
         </a>
         <h3
-          className="ant-typography UserTechnique__title css-dev-only-do-not-override-15rg2km"
+          className="ant-typography UserTechnique__title css-dev-only-do-not-override-1vr7spz"
           style={
             {
               "WebkitLineClamp": undefined,
@@ -73,9 +73,10 @@ exports[`<UserTechnique /> Users table component should be in the document 1`] =
         className="UserTechnique__mobile_block"
       >
         <button
-          className="ant-btn css-dev-only-do-not-override-15rg2km ant-btn-default"
+          className="ant-btn css-dev-only-do-not-override-1vr7spz ant-btn-default"
           disabled={false}
           onClick={[Function]}
+          style={{}}
           type="button"
         >
           <div>
@@ -95,9 +96,10 @@ exports[`<UserTechnique /> Users table component should be in the document 1`] =
           </div>
         </button>
         <button
-          className="ant-btn css-dev-only-do-not-override-15rg2km ant-btn-default"
+          className="ant-btn css-dev-only-do-not-override-1vr7spz ant-btn-default"
           disabled={false}
           onClick={[Function]}
+          style={{}}
           type="button"
         >
           <div>
@@ -123,9 +125,10 @@ exports[`<UserTechnique /> Users table component should be in the document 1`] =
         className="UserTechnique__btn_handler"
       >
         <button
-          className="ant-btn css-dev-only-do-not-override-15rg2km ant-btn-primary"
+          className="ant-btn css-dev-only-do-not-override-1vr7spz ant-btn-primary"
           disabled={false}
           onClick={[Function]}
+          style={{}}
           type="button"
         >
           <span>
@@ -137,9 +140,10 @@ exports[`<UserTechnique /> Users table component should be in the document 1`] =
           onClick={[Function]}
         >
           <button
-            className="ant-btn css-dev-only-do-not-override-15rg2km ant-btn-default UserTechnique__view-button"
+            className="ant-btn css-dev-only-do-not-override-1vr7spz ant-btn-default UserTechnique__view-button"
             disabled={false}
             onClick={[Function]}
+            style={{}}
             type="button"
           >
             <span>
@@ -153,7 +157,8 @@ exports[`<UserTechnique /> Users table component should be in the document 1`] =
       className="UserTechnique__table_list"
     >
       <div
-        className="ant-skeleton css-dev-only-do-not-override-15rg2km"
+        className="ant-skeleton css-dev-only-do-not-override-1vr7spz"
+        style={{}}
       >
         <div
           className="ant-skeleton-content"
@@ -241,11 +246,14 @@ exports[`<UserTechnique /> Users table component should be in the document 1`] =
         }
       >
         <button
-          className="ant-btn css-dev-only-do-not-override-15rg2km ant-btn-text UserTechnique__btn_table"
+          className="ant-btn css-dev-only-do-not-override-1vr7spz ant-btn-text UserTechnique__btn_table"
           disabled={false}
           onClick={[Function]}
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
+          onPointerEnter={[Function]}
+          onPointerLeave={[Function]}
+          style={{}}
           type="button"
         >
           <img
@@ -263,11 +271,14 @@ exports[`<UserTechnique /> Users table component should be in the document 1`] =
           onClick={[Function]}
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
+          onPointerEnter={[Function]}
+          onPointerLeave={[Function]}
         >
           <button
-            className="ant-btn css-dev-only-do-not-override-15rg2km ant-btn-text UserTechnique__btn_table"
+            className="ant-btn css-dev-only-do-not-override-1vr7spz ant-btn-text UserTechnique__btn_table"
             disabled={false}
             onClick={[Function]}
+            style={{}}
             type="button"
           >
             <img
@@ -286,11 +297,14 @@ exports[`<UserTechnique /> Users table component should be in the document 1`] =
           onClick={[Function]}
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
+          onPointerEnter={[Function]}
+          onPointerLeave={[Function]}
         >
           <button
-            className="ant-btn css-dev-only-do-not-override-15rg2km ant-btn-text UserTechnique__btn_table"
+            className="ant-btn css-dev-only-do-not-override-1vr7spz ant-btn-text UserTechnique__btn_table"
             disabled={false}
             onClick={[Function]}
+            style={{}}
             type="button"
           >
             <img
@@ -305,11 +319,14 @@ exports[`<UserTechnique /> Users table component should be in the document 1`] =
           </button>
         </a>
         <button
-          className="ant-btn css-dev-only-do-not-override-15rg2km ant-btn-text UserTechnique__btn_table UserTechnique__deleteBg"
+          className="ant-btn css-dev-only-do-not-override-1vr7spz ant-btn-text UserTechnique__btn_table UserTechnique__deleteBg"
           disabled={false}
           onClick={[Function]}
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
+          onPointerEnter={[Function]}
+          onPointerLeave={[Function]}
+          style={{}}
           type="button"
         >
           <img
