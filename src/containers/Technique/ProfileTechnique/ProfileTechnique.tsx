@@ -35,7 +35,6 @@ const ProfileTechnique = () => {
     useAppSelector(accountsSelector);
   const [form] = Form.useForm();
   const [fields, setFields] = useState<Result[]>([]);
-  console.log('userVehicleInfo', userVehicleInfo);
 
   useEffect(() => {
     dispatch(fetchVehicleInfo({ vehicleId, pageUrl: '1' }));
