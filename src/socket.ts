@@ -15,16 +15,16 @@ const useWebSocket = (
   const initialState =
     kind === 'ping'
       ? {
-        status: '',
-        latitude: '',
-        longitude: '',
-        speed: 0,
-      }
+          status: '',
+          latitude: '',
+          longitude: '',
+          speed: 0,
+        }
       : {
-        status: '',
-        online_vehicle_ids: null,
-        all_vehicles_info: null,
-      };
+          status: '',
+          online_vehicle_ids: null,
+          all_vehicles_info: null,
+        };
 
   const [socketMap, setSocketMap] = useState<VehicleData | VehicleLatLanData | null>(initialState);
   const [socketLoading, setSocketLoading] = useState(false);
