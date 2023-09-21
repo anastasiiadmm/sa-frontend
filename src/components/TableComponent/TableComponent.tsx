@@ -23,10 +23,9 @@ interface Props {
   pageNextHandler?: () => void;
   rowClickHandler?: (record: Requestor) => void;
   disabledButton?: boolean;
-  scroll?:
-    | { x?: string | number; y?: string | number } & {
-        scrollToFirstRowOnChange?: boolean;
-      };
+  scroll?: { x?: string | number; y?: string | number } & {
+    scrollToFirstRowOnChange?: boolean;
+  };
 }
 
 const TableComponent: React.FC<Props> = ({
