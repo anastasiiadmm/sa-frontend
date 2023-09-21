@@ -153,11 +153,8 @@ const UserRequests = () => {
   const [allRequests, setAllRequests] = useState<Requestor[]>([]);
 
   useEffect(() => {
-    if (
-      requests &&
-      JSON.stringify(allRequests.slice(-requests.length)) !== JSON.stringify(requests)
-    ) {
-      setAllRequests((prevAllRequests) => [...prevAllRequests, ...requests]);
+    if (requests) {
+      setAllRequests(requests);
     }
   }, [requests]);
 
