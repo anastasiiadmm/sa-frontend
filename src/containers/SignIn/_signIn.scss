@@ -78,14 +78,18 @@
 
   @include mixins.bp(desktop) {
     background-color: #F6F6F6;
+    position: relative;
     > div {
       width: 368px;
       background-color: #FFFFFF;
-      padding-right: 20px;
-      padding-left: 20px;
       margin-top: 20px;
       margin-bottom: 20px;
       border-radius: 16px;
+    }
+
+    &__form_desktop {
+      padding-right: 20px;
+      padding-left: 20px;
     }
     &__image-block {
       display: none;
@@ -98,13 +102,12 @@
     > div {
       width: 100%;
       background-color: #FFFFFF;
-      padding-right: 20px;
-      padding-left: 20px;
-      margin-top: 20px;
       margin-bottom: 20px;
       border-radius: 16px;
+      justify-content: normal;
       max-width: 100% !important;
       flex: auto!important;
+      margin-top: 0;
     }
     &__login-form-button {
       margin-top: 6px;
@@ -116,6 +119,10 @@
 
     &__register-button {
       margin-bottom: 20px;
+    }
+
+    &__buttons-row {
+      margin-top: 20px;
     }
 
     .ant-input {

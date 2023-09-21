@@ -86,79 +86,81 @@ const SignIn: React.FC = () => {
         >
           <div className={b('block_form')}>
             <img src={logo} alt='logo' className={b('logo-image')} />
-            <Divider style={{ margin: '34px 0' }} />
-            <Text type='secondary'>Рады вас видеть</Text>
-            <Title data-testid='sign_in_test' className={b('title-text')}>
-              Войдите в аккаунт
-            </Title>
+            <Divider style={{ margin: '20px 0' }} />
+            <div className={b('form_desktop')}>
+              <Text type='secondary'>Рады вас видеть</Text>
+              <Title data-testid='sign_in_test' className={b('title-text')}>
+                Войдите в аккаунт
+              </Title>
 
-            <Form
-              form={form}
-              initialValues={{ remember: true }}
-              onFinish={onFinish}
-              className='login-form'
-              autoComplete='off'
-              layout='vertical'
-              size='large'
-            >
-              <FormField
-                bordered
-                data-testid='email_id_login'
-                type='email'
-                id='email_id'
-                name='username'
-                rules={[
-                  {
-                    required: true,
-                    message: 'Заполните логин',
-                  },
-                ]}
-                placeholder='Логин'
-                inputClassName={b('sign-in-input')}
-              />
-
-              <FormField
-                bordered
-                className={b('password_input')}
-                data-testid='password_id'
-                type='password'
-                name='password'
-                placeholder='Пароль'
-                inputClassName={b('sign-in-input')}
-              />
-
-              <FormField
-                className='checkbox-styles'
-                id='remember_id'
-                type='checkbox'
-                label='Запомнить меня'
-                valuePropName='password'
-                checked={checked}
-                onChange={onChangeCheckbox}
-              />
-
-              <Button
-                size={windowWidth <= 601 ? 'small' : 'middle'}
-                type='primary'
-                htmlType='submit'
-                loading={!!loading}
-                className={b('login-form-button')}
+              <Form
+                form={form}
+                initialValues={{ remember: true }}
+                onFinish={onFinish}
+                className='login-form'
+                autoComplete='off'
+                layout='vertical'
+                size='large'
               >
-                Войти
-              </Button>
-            </Form>
+                <FormField
+                  bordered
+                  data-testid='email_id_login'
+                  type='email'
+                  id='email_id'
+                  name='username'
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Заполните логин',
+                    },
+                  ]}
+                  placeholder='Логин'
+                  inputClassName={b('sign-in-input')}
+                />
+
+                <FormField
+                  bordered
+                  className={b('password_input')}
+                  data-testid='password_id'
+                  type='password'
+                  name='password'
+                  placeholder='Пароль'
+                  inputClassName={b('sign-in-input')}
+                />
+
+                <FormField
+                  className='checkbox-styles'
+                  id='remember_id'
+                  type='checkbox'
+                  label={<span style={{ color: '#59647A' }}>Запомнить меня</span>}
+                  valuePropName='password'
+                  checked={checked}
+                  onChange={onChangeCheckbox}
+                />
+
+                <Button
+                  size={windowWidth <= 601 ? 'small' : 'middle'}
+                  type='primary'
+                  htmlType='submit'
+                  loading={!!loading}
+                  className={b('login-form-button')}
+                >
+                  Войти
+                </Button>
+              </Form>
+              <Row className={b('buttons-row')}>
+                <p style={{ margin: '17px auto' }}>Хотите стать клиентом?</p>
+                <Button
+                  size={windowWidth <= 601 ? 'small' : 'middle'}
+                  type='primary'
+                  className={b('register-button')}
+                  onClick={showModal}
+                >
+                  Зарегистрироваться
+                </Button>
+              </Row>
+            </div>
           </div>
-          <Row className={b('buttons-row')}>
-            <p style={{ margin: '17px auto' }}>Хотите стать клиентом?</p>
-            <Button
-              size={windowWidth <= 601 ? 'small' : 'middle'}
-              type='primary'
-              className={b('register-button')}
-              onClick={showModal}
-            >
-              Зарегистрироваться
-            </Button>
-          </Row>
         </Col>
       </Row>
 

@@ -14,6 +14,7 @@ interface Props {
   placement: DrawerProps['placement'];
   open: boolean;
   children: React.ReactNode;
+  className?: string;
 }
 
 const DrawerComponent: React.FC<Props> = ({
@@ -26,6 +27,7 @@ const DrawerComponent: React.FC<Props> = ({
   width,
   bodyStyle,
   title,
+  className,
 }) => {
   const b = bem('DrawerComponent');
 
@@ -35,7 +37,7 @@ const DrawerComponent: React.FC<Props> = ({
       bodyStyle={bodyStyle}
       width={width}
       height={height}
-      className={b(`${placement === 'bottom' ? 'border-placement' : ''}`)}
+      className={b(`${placement === 'bottom' ? `border-placement ${className}` : ''}`)}
       placement={placement}
       closable={closable}
       onClose={onClose}
