@@ -35,8 +35,16 @@ const FieldClimateModal: React.FC<Props> = ({
 
   return (
     <div>
-      <img src={sun} alt='sun' style={{ width: 83, height: 83 }} />
-      <Title level={3}>Запрос на подключение метеосервиса</Title>
+      <img src={sun} alt='sun' style={{ width: 56, height: 56 }} />
+      <Title
+        level={3}
+        style={{
+          fontSize: 18,
+          fontWeight: 600,
+        }}
+      >
+        Запрос на подключение метеосервиса
+      </Title>
 
       <Form form={form} initialValues={{ remember: true }} autoComplete='off' layout='vertical'>
         <div className={b('form-modal-block')}>

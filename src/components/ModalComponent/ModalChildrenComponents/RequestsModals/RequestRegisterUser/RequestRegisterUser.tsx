@@ -173,7 +173,7 @@ const RequestRegisterUser: React.FC<Props> = ({
         md={{ span: 24, offset: 0 }}
         lg={{ span: 24, offset: 0 }}
       >
-        {windowWidth <= 601 && (
+        {windowWidth >= 601 && (
           <Text style={{ marginBottom: 20, display: 'block' }}>
             Создать учетную запись нового пользователя и добавить его.
           </Text>

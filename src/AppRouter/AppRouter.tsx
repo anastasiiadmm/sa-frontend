@@ -104,7 +104,19 @@ const AppRouter: React.FC = () => {
             ? buttonsDataManager.map((button) =>
                 pathname === button?.key ? (
                   <Title level={4} key={button.key} className={b('title-mobile')}>
-                    {button.text}
+                    {pathname.includes('/user-requests') ? (
+                      <span
+                        style={{
+                          fontSize: 20,
+                          fontWeight: 500,
+                          color: '#1D2024',
+                        }}
+                      >
+                        {button.text}
+                      </span>
+                    ) : (
+                      button.text
+                    )}
                   </Title>
                 ) : null,
               )
@@ -133,7 +145,10 @@ const AppRouter: React.FC = () => {
       </Suspense>
       <Layout className='site-layout'>
         <Header
-          style={{ padding: 0, background: colorBgContainer }}
+          style={{
+            padding: 0,
+            background: pathname.includes('user-requests') ? '#f5f5f5' : colorBgContainer,
+          }}
           className={
             pathname.includes('user-technique') ||
             pathname.includes('user-profile-view') ||

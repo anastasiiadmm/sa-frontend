@@ -29,7 +29,7 @@ const RequestModal: React.FC<Props> = ({
     <>
       <ResultComponent
         status='error'
-        icon={<img src={warning} alt='warning' />}
+        icon={<img src={warning} alt='warning' className={b('icons')} />}
         title={title}
         subTitle={subTitle}
       />

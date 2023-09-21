@@ -1,5 +1,5 @@
 @use 'assets/scss/_themes.scss';
-
+@use 'assets/scss/_mixins.scss';
 .RequestModal {
   &__delete-modal-buttons {
     display: flex;

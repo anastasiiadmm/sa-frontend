@@ -1,5 +1,5 @@
 @use "assets/scss/_themes.scss";
-
+@use 'assets/scss/_mixins.scss';
 .FieldClimateModal {
   &__form-modal-block {
     display: flex;
@@ -31,5 +31,26 @@
 
   &__username-info {
     padding: 0;
+  }
+  @include mixins.bp(desktop) {
+    &__form-modal-block {
+      > div > div {
+        background-color: #FFFFFF!important;
+      }
+    }
+    &__profile-buttons {
+      margin-top: 20px;
+      > button {
+        height: 44px;
+        font-size: 13px;
+        font-weight: 600;
+        margin-bottom: 12px;
+      }
+    }
+  }
+  @include mixins.bp(mobile) {
+    &__profile-buttons {
+      display: block;
+    }
   }
 }
