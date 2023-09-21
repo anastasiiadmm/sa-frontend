@@ -1,9 +1,7 @@
 import { AimOutlined } from '@ant-design/icons';
 import { Button, Card, Spin, Tooltip, Typography } from 'antd';
-import { AES, enc, mode } from 'crypto-js';
 import bem from 'easy-bem';
 import L, { LatLngExpression } from 'leaflet';
-import moment from 'moment';
 import React, { useEffect, useRef, useState } from 'react';
 import { CircleMarker, MapContainer, Marker, Polyline, Popup, TileLayer } from 'react-leaflet';
 import { useNavigate, useParams } from 'react-router';
@@ -13,11 +11,12 @@ import localeRound from 'assets/images/icons/field-location.svg';
 import speedRound from 'assets/images/icons/speed-round.svg';
 import tractorBlue from 'assets/images/icons/traktor-round.svg';
 import Errors from 'components/Errors/Errors';
+import { VehicleLatLanData } from 'interfaces';
 import { accountsSelector, fetchConfigs, fetchVehicleInfo } from 'redux/accounts/accountsSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { mapSelector, obtainingCoordinate } from 'redux/map/mapSlice';
-import { socketApiSocket } from 'utils/config';
 import 'components/OpenMapComponent/_openMapComponent.scss';
+import useWebSocket from 'socket';
 import { activeIcon, duckIconEnd, duckIconStart, inactiveIcon } from 'utils/constantMap';
 
 const { Title } = Typography;
@@ -110,84 +109,25 @@ const OpenMapComponent = () => {
   ]);
   const dispatch = useAppDispatch();
   const history = useNavigate();
-  const [socketMap, setSocketMap] = useState({
-    status: '',
-    latitude: '',
-    longitude: '',
-    speed: 0,
-  });
   const { userVehicleInfo, userVehicleInfoLoading } = useAppSelector(accountsSelector);
   const [loadingMap, setLoadingMap] = useState(false);
   const [loadingMapUpdate, setLoadingMapUpdate] = useState(false);
-  const [socketLoading, setSocketLoading] = useState(false);
 
   const moveSpeed = account?.coords_timeout ? account.coords_timeout * 1000 + 200 : 0;
 
-  const connectWebSocket = (time: number, secret: string) => {
-    let connectionID = '';
-    const message = moment().format('YYYY-MM-DD');
-    const key = enc.Utf8.parse(secret);
-    const encrypted = AES.encrypt(message, key, { mode: mode.ECB }).toString();
-    const encodedEncrypted = encodeURIComponent(encrypted);
+  const { socketMap, socketLoading } = useWebSocket(
+    account?.coords_timeout ?? 0,
+    configs?.websocket_auth_secret_key ?? '',
+    code,
+    null,
+    'ping',
+  );
 
-    const connect = () => {
-      const socket = new WebSocket(`${socketApiSocket}?Authentication=${encodedEncrypted}`);
-
-      socket.onopen = () => {
-        setSocketLoading(true);
-      };
-
-      socket.onmessage = (event) => {
-        setSocketLoading(false);
-        const messageData = JSON.parse(event.data);
-        connectionID = messageData.connection_id;
-        setSocketMap({ ...socketMap, status: messageData.kind });
-        if (messageData?.data?.latitude && messageData?.data?.longitude) {
-          setSocketMap({ ...socketMap, ...messageData.data });
-        }
-      };
-
-      socket.onclose = (event) => {
-        if (event.code === 1000) {
-          socket.close();
-        } else {
-          connect();
-        }
-      };
-
-      socket.onopen = () => {
-        socket.send(
-          JSON.stringify({
-            kind: 'ping',
-            timeout: time,
-            vehicle_code: code,
-            connection_id: connectionID,
-          }),
-        );
-      };
-
-      return socket;
-    };
-
-    return connect();
-  };
+  const latLanData = socketMap as VehicleLatLanData;
 
   useEffect(() => {
     dispatch(fetchConfigs());
   }, [dispatch]);
-
-  useEffect(() => {
-    if (account?.coords_timeout && configs?.websocket_auth_secret_key) {
-      const socket = connectWebSocket(
-        account?.coords_timeout ?? 0,
-        configs?.websocket_auth_secret_key ?? '',
-      );
-
-      return () => {
-        socket.close();
-      };
-    }
-  }, [account?.coords_timeout, configs?.websocket_auth_secret_key]);
 
   useEffect(() => {
     dispatch(fetchVehicleInfo({ vehicleId: String(id), pageUrl: '1' }));
@@ -210,11 +150,11 @@ const OpenMapComponent = () => {
   useEffect(() => {
     if (
       markerRef.current &&
-      socketMap.latitude &&
-      socketMap.longitude &&
-      Number(socketMap?.speed) >= 2
+      latLanData?.latitude &&
+      latLanData?.longitude &&
+      Number(latLanData?.speed) >= 2
     ) {
-      const newPosition = [Number(socketMap.latitude), Number(socketMap.longitude)];
+      const newPosition = [Number(latLanData?.latitude), Number(latLanData?.longitude)];
       const start = markerPosition || newPosition;
       const end = newPosition;
 
@@ -239,7 +179,7 @@ const OpenMapComponent = () => {
 
       return () => clearInterval(timer);
     }
-  }, [socketMap.latitude, socketMap.longitude, socketMap.speed]);
+  }, [socketMap]);
 
   useEffect(() => {
     if (loadingMapUpdate) {
@@ -248,8 +188,8 @@ const OpenMapComponent = () => {
   }, [loadingMapUpdate]);
 
   const centerMap = () => {
-    if (socketMap.latitude && socketMap.longitude) {
-      return [Number(socketMap.latitude), Number(socketMap.longitude)];
+    if (latLanData.latitude && latLanData.longitude) {
+      return [Number(latLanData.latitude), Number(latLanData.longitude)];
     }
     if (field?.results?.last_latitude && field?.results?.last_longitude) {
       return [Number(field?.results?.last_latitude), Number(field?.results?.last_longitude)];
@@ -386,8 +326,8 @@ const OpenMapComponent = () => {
               <Title level={3} className={b('title')}>
                 <img src={speedRound} alt='speedRound' className={b('img-title img-tractor')} />
                 <p className={b('subtitle')}>
-                  {socketMap.status !== 'no_geo' && Number(socketMap?.speed) >= 2
-                    ? Math.floor(Number(socketMap?.speed))
+                  {latLanData.status !== 'no_geo' && Number(latLanData?.speed) >= 2
+                    ? Math.floor(Number(latLanData?.speed))
                     : 0}{' '}
                   км/ч
                 </p>
@@ -425,7 +365,7 @@ const OpenMapComponent = () => {
                 markerPosition !== null ? markerPosition : (centerMap() as LatLngExpression)
               }
               icon={
-                socketMap?.latitude === '' && socketMap?.longitude === ''
+                latLanData?.latitude === '' && latLanData?.longitude === ''
                   ? inactiveIcon
                   : activeIcon
               }
