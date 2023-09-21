@@ -1,8 +1,6 @@
 import { Button, Card, Form, Spin, Typography } from 'antd';
-import { AES, enc, mode } from 'crypto-js';
 import bem from 'easy-bem';
 import { DivIcon, Icon, IconOptions, LatLngExpression } from 'leaflet';
-import moment from 'moment/moment';
 import React, { useEffect, useRef, useState } from 'react';
 import { CircleMarker, MapContainer, Marker, TileLayer } from 'react-leaflet';
 import { useNavigate } from 'react-router';
@@ -25,12 +23,11 @@ import {
   ITechniquesMap,
   ITechniquesMapActive,
   ITechniquesMapActiveButton,
-  ITechniquesMapActiveButtonState,
   VehicleData,
 } from 'interfaces';
 import { accountsSelector, fetchConfigs } from 'redux/accounts/accountsSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { socketApiSocket } from 'utils/config';
+import useWebSocket from 'socket';
 import { activeIcon, inactiveIcon } from 'utils/constantMap';
 
 import 'containers/TechniqueMap/_techniqueMap.scss';
@@ -62,24 +59,25 @@ const TechniqueMap = () => {
   const windowWidth = useWindowWidth();
 
   const [speedStatus, setSpeedStatus] = useState('');
-  const [socketLoading, setSocketLoading] = useState(false);
-  const [socketMap, setSocketMap] = useState<VehicleData | null>({
-    status: '',
-    online_vehicle_ids: null,
-    all_vehicles_info: null,
-  });
   const [vehicle, setVehicle] = useState<ITechniquesMap | null>(null);
-  const [latestSocketData, setLatestSocketData] = useState<ITechniquesMapActiveButtonState | null>(
-    null,
-  );
   const [vehicleActive, setVehicleActive] = useState<ITechniquesMapActiveButton | null>(null);
   const [markerPosition, setMarkerPosition] = useState<[number, number] | null>(null);
   const moveSpeed = account?.coords_timeout ? account.coords_timeout * 1000 + 200 : 0;
 
+  const { socketMap, socketLoading, latestSocketData } = useWebSocket(
+    account?.coords_timeout ?? 0,
+    configs?.websocket_auth_secret_key ?? '',
+    null,
+    techniqueId,
+    'info',
+  );
+
+  const latLanData = socketMap as VehicleData;
+
   useEffect(() => {
-    if (markerRef.current && socketMap?.online_vehicle_ids && socketMap?.all_vehicles_info) {
-      socketMap?.all_vehicles_info?.forEach((vehicleData) => {
-        const activeVehicleData = socketMap?.online_vehicle_ids?.find(
+    if (markerRef.current && latLanData?.online_vehicle_ids && latLanData?.all_vehicles_info) {
+      latLanData?.all_vehicles_info?.forEach((vehicleData) => {
+        const activeVehicleData = latLanData?.online_vehicle_ids?.find(
           (item) => item[vehicleData.id],
         );
         if (activeVehicleData) {
@@ -113,7 +111,7 @@ const TechniqueMap = () => {
         }
       });
     }
-  }, [socketMap?.online_vehicle_ids, socketMap?.all_vehicles_info]);
+  }, [latLanData?.online_vehicle_ids, latLanData?.all_vehicles_info]);
 
   useEffect(() => {
     if (vehicle && latestSocketData) {
@@ -128,72 +126,9 @@ const TechniqueMap = () => {
     }
   }, [vehicle, latestSocketData]);
 
-  const connectWebSocket = (time: number, secret: string) => {
-    let connectionID = '';
-    const message = moment().format('YYYY-MM-DD');
-    const key = enc.Utf8.parse(secret);
-    const encrypted = AES.encrypt(message, key, { mode: mode.ECB }).toString();
-    const encodedEncrypted = encodeURIComponent(encrypted);
-
-    const connect = () => {
-      const socket = new WebSocket(`${socketApiSocket}?Authentication=${encodedEncrypted}`);
-
-      socket.onopen = () => {
-        setSocketLoading(true);
-      };
-
-      socket.onmessage = (event) => {
-        setSocketLoading(false);
-        const messageData = JSON.parse(event.data);
-        connectionID = messageData.connection_id;
-        setSocketMap({ ...socketMap, status: messageData.kind });
-        if (Object.keys(messageData?.data || {})?.length) {
-          setSocketMap({ ...socketMap, ...messageData.data });
-          setLatestSocketData(messageData?.data);
-        }
-      };
-
-      socket.onclose = (event) => {
-        if (event.code === 1000) {
-          socket.close();
-        } else {
-          connect();
-        }
-      };
-
-      socket.onopen = () => {
-        socket.send(
-          JSON.stringify({
-            kind: 'info',
-            timeout: time,
-            company_id: techniqueId,
-            connection_id: connectionID,
-          }),
-        );
-      };
-
-      return socket;
-    };
-
-    return connect();
-  };
-
   useEffect(() => {
     dispatch(fetchConfigs());
   }, [dispatch]);
-
-  useEffect(() => {
-    if (account?.coords_timeout && configs?.websocket_auth_secret_key) {
-      const socket = connectWebSocket(
-        account?.coords_timeout ?? 0,
-        configs?.websocket_auth_secret_key ?? '',
-      );
-
-      return () => {
-        socket.close();
-      };
-    }
-  }, [account?.coords_timeout, configs?.websocket_auth_secret_key]);
 
   useEffect(() => {
     if (vehicle) {
@@ -271,8 +206,8 @@ const TechniqueMap = () => {
   };
 
   const { activeVehiclesCount: activeCount, inactiveVehiclesCount: inactiveCount } = countVehicles(
-    socketMap?.all_vehicles_info,
-    socketMap?.online_vehicle_ids,
+    latLanData?.all_vehicles_info,
+    latLanData?.online_vehicle_ids,
   );
 
   if (socketLoading) {
@@ -303,7 +238,7 @@ const TechniqueMap = () => {
             <CardBlock
               image={tractorBlue}
               title='Всего техники'
-              value={socketMap?.all_vehicles_info?.length || 0}
+              value={latLanData?.all_vehicles_info?.length || 0}
             />
             <CardBlock image={active} title='Активны' value={activeCount} />
             <CardBlock image={inactive} title='Неактивны' value={inactiveCount} />
@@ -323,8 +258,8 @@ const TechniqueMap = () => {
               attribution='&copy; <a href="https://www.esri.com/">Esri</a>'
               url='https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'
             />
-            {socketMap?.all_vehicles_info?.map((vehicle) => {
-              const vehicleInOnlineVehicles = socketMap?.online_vehicle_ids?.find(
+            {latLanData?.all_vehicles_info?.map((vehicle) => {
+              const vehicleInOnlineVehicles = latLanData?.online_vehicle_ids?.find(
                 (item) => item[vehicle?.id],
               );
 
