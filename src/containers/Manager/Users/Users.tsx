@@ -5,10 +5,8 @@ import bem from 'easy-bem';
 import React, { lazy, Suspense, useEffect, useLayoutEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 
-import people from 'assets/images/icons/group-active.svg';
 import addedTechnique from 'assets/images/icons/newIcon/tractorMain.svg';
 import addedUsers from 'assets/images/icons/newIcon/user.svg';
-import tractorBlue from 'assets/images/icons/tractor-blue.svg';
 import notFoundImages from 'assets/images/notFound.svg';
 import Errors from 'components/Errors/Errors';
 import useInfiniteScroll from 'hooks/useInfiniteScroll';
@@ -176,14 +174,14 @@ const Users: React.FC = () => {
             <Card className={b('card-style')} bordered={false}>
               <Title className={b('card-title')}>Добавлено пользователей</Title>
               <div className={b('card-content')}>
-                <img src={people} alt='group' />
+                <img src={addedUsers} alt='group' />
                 <p>{companiesListPagination?.count || 0}</p>
               </div>
             </Card>
             <Card className={b('card-style')} bordered={false}>
               <Title className={b('card-title')}>Добавлено Техники</Title>
               <div className={b('card-content')}>
-                <img src={tractorBlue} alt='group' />
+                <img src={addedTechnique} alt='group' />
                 <p>{companiesListPagination?.vehicles_count}</p>
               </div>
             </Card>
