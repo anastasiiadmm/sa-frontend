@@ -77,6 +77,20 @@
   }
 
   @include mixins.bp(desktop) {
+    background-color: #F6F6F6;
+    position: relative;
+    > div {
+      width: 368px;
+      background-color: #FFFFFF;
+      margin-top: 20px;
+      margin-bottom: 20px;
+      border-radius: 16px;
+    }
+
+    &__form_desktop {
+      padding-right: 20px;
+      padding-left: 20px;
+    }
     &__image-block {
       display: none;
     }
@@ -84,13 +98,50 @@
 
   @include mixins.bp(mobile) {
     overflow: initial;
-
+    background-color: #FFFFFF;
+    > div {
+      width: 100%;
+      background-color: #FFFFFF;
+      margin-bottom: 20px;
+      border-radius: 16px;
+      justify-content: normal;
+      max-width: 100% !important;
+      flex: auto!important;
+      margin-top: 0;
+    }
     &__login-form-button {
       margin-top: 6px;
+      height: 40px!important;
+      font-weight: 600!important;
+      border-radius: 8px!important;
+      box-shadow: none!important;
     }
 
     &__register-button {
       margin-bottom: 20px;
+    }
+
+    &__buttons-row {
+      margin-top: 20px;
+    }
+
+    .ant-input {
+      font-weight: 400;
+      font-size: 13px!important;
+    }
+
+    &__password_input {
+      margin-top: -15px;
+    }
+
+   .ant-input-affix-wrapper {
+     font-size: 10px;
+   }
+
+    &__buttons-row > button {
+      height: 44px!important;
+      font-weight: 600;
+      border-radius: 12px!important;
     }
   }
 

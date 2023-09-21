@@ -66,9 +66,11 @@ const NewUser: React.FC = () => {
           md={{ span: 20, offset: 2 }}
           lg={{ span: 11, offset: 1 }}
         >
-          <Title level={3} data-testid='new_user_test' className={b('title')}>
-            Добавить нового пользователя
-          </Title>
+          {windowWidth > 600 && (
+            <Title level={3} data-testid='new_user_test' className={b('title')}>
+              Добавить нового пользователя
+            </Title>
+          )}
           <p className={b('subtext')}>Создать учетную запись нового пользователя и добавить его</p>
 
           <Form
@@ -168,7 +170,7 @@ const NewUser: React.FC = () => {
                 type='primary'
                 htmlType='submit'
                 loading={userCreateLoading}
-                style={{ width: '100%', borderRadius: 4 }}
+                style={{ width: '100%', borderRadius: 8, boxShadow: 'none' }}
                 className={b('login-form-button')}
               >
                 {windowWidth < 990 ? 'Добавить' : 'Добавить нового пользователя'}
@@ -193,10 +195,12 @@ const NewUser: React.FC = () => {
         open={openDraw}
         onClose={() => setOpenDraw(false)}
         placement='bottom'
-        title='Логин и пароль'
-        height={360}
+        className={b('scroll_hidden_mobile')}
+        title=''
+        height={330}
       >
         <div className={b('drawer_password')}>
+          <h2 className={b('title_user_mobile')}>Логин и пароль</h2>
           <CreateNewUserCredentials
             handleOkCancel={handleOkCancel}
             userCreateData={userCreateData}

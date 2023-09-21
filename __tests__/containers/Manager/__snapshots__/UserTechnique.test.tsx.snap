@@ -50,7 +50,7 @@ exports[`<UserTechnique /> Users table component should be in the document 1`] =
           />
         </a>
         <h3
-          className="ant-typography UserTechnique__title css-dev-only-do-not-override-1vr7spz"
+          className="ant-typography UserTechnique__title css-dev-only-do-not-override-i0102m"
           style={
             {
               "WebkitLineClamp": undefined,
@@ -73,7 +73,7 @@ exports[`<UserTechnique /> Users table component should be in the document 1`] =
         className="UserTechnique__mobile_block"
       >
         <button
-          className="ant-btn css-dev-only-do-not-override-1vr7spz ant-btn-default"
+          className="ant-btn css-dev-only-do-not-override-i0102m ant-btn-default"
           disabled={false}
           onClick={[Function]}
           style={{}}
@@ -96,7 +96,7 @@ exports[`<UserTechnique /> Users table component should be in the document 1`] =
           </div>
         </button>
         <button
-          className="ant-btn css-dev-only-do-not-override-1vr7spz ant-btn-default"
+          className="ant-btn css-dev-only-do-not-override-i0102m ant-btn-default"
           disabled={false}
           onClick={[Function]}
           style={{}}
@@ -125,7 +125,7 @@ exports[`<UserTechnique /> Users table component should be in the document 1`] =
         className="UserTechnique__btn_handler"
       >
         <button
-          className="ant-btn css-dev-only-do-not-override-1vr7spz ant-btn-primary"
+          className="ant-btn css-dev-only-do-not-override-i0102m ant-btn-primary"
           disabled={false}
           onClick={[Function]}
           style={{}}
@@ -140,7 +140,7 @@ exports[`<UserTechnique /> Users table component should be in the document 1`] =
           onClick={[Function]}
         >
           <button
-            className="ant-btn css-dev-only-do-not-override-1vr7spz ant-btn-default UserTechnique__view-button"
+            className="ant-btn css-dev-only-do-not-override-i0102m ant-btn-default UserTechnique__view-button"
             disabled={false}
             onClick={[Function]}
             style={{}}
@@ -157,7 +157,7 @@ exports[`<UserTechnique /> Users table component should be in the document 1`] =
       className="UserTechnique__table_list"
     >
       <div
-        className="ant-skeleton css-dev-only-do-not-override-1vr7spz"
+        className="ant-skeleton css-dev-only-do-not-override-i0102m"
         style={{}}
       >
         <div
@@ -246,7 +246,7 @@ exports[`<UserTechnique /> Users table component should be in the document 1`] =
         }
       >
         <button
-          className="ant-btn css-dev-only-do-not-override-1vr7spz ant-btn-text UserTechnique__btn_table"
+          className="ant-btn css-dev-only-do-not-override-i0102m ant-btn-text UserTechnique__btn_table"
           disabled={false}
           onClick={[Function]}
           onMouseEnter={[Function]}
@@ -275,7 +275,7 @@ exports[`<UserTechnique /> Users table component should be in the document 1`] =
           onPointerLeave={[Function]}
         >
           <button
-            className="ant-btn css-dev-only-do-not-override-1vr7spz ant-btn-text UserTechnique__btn_table"
+            className="ant-btn css-dev-only-do-not-override-i0102m ant-btn-text UserTechnique__btn_table"
             disabled={false}
             onClick={[Function]}
             style={{}}
@@ -301,7 +301,7 @@ exports[`<UserTechnique /> Users table component should be in the document 1`] =
           onPointerLeave={[Function]}
         >
           <button
-            className="ant-btn css-dev-only-do-not-override-1vr7spz ant-btn-text UserTechnique__btn_table"
+            className="ant-btn css-dev-only-do-not-override-i0102m ant-btn-text UserTechnique__btn_table"
             disabled={false}
             onClick={[Function]}
             style={{}}
@@ -319,7 +319,7 @@ exports[`<UserTechnique /> Users table component should be in the document 1`] =
           </button>
         </a>
         <button
-          className="ant-btn css-dev-only-do-not-override-1vr7spz ant-btn-text UserTechnique__btn_table UserTechnique__deleteBg"
+          className="ant-btn css-dev-only-do-not-override-i0102m ant-btn-text UserTechnique__btn_table UserTechnique__deleteBg"
           disabled={false}
           onClick={[Function]}
           onMouseEnter={[Function]}

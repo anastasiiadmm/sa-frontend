@@ -18,7 +18,7 @@
   }
 
   @include mixins.bp(desktop) {
-    padding-top: 20px;
+    margin-top: -10px;
     margin-bottom: 150px;
 
     &__btn {
@@ -38,6 +38,9 @@
       padding-right: 20px;
       > button {
         height: 36px;
+        border-radius: 8px;
+        box-shadow: none;
+        font-weight: 600;
       }
     }
 
@@ -47,6 +50,12 @@
       background-color: #F8F8F8;
       border: none;
       color: #689F3A;
+    }
+
+    &__subtext {
+      font-size: 13px;
+      font-weight: 400;
+      color: #525660;
     }
   }
 
@@ -62,6 +71,16 @@
           margin-bottom: 10px!important;
 
         }
+      }
+    }
+
+    &__title_user_mobile {
+      margin-top: 0;
+      font-size: 18px;
+    }
+    &__scroll_hidden_mobile {
+      > div > div {
+        overflow: hidden!important;
       }
     }
 
