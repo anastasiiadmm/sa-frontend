@@ -165,7 +165,7 @@ const Files = () => {
                   />
                 </div>
                 <Button
-                  className='button-style'
+                  className={`button-style ${b('btn_file_download')}`}
                   loading={isLoadingState}
                   onClick={() => handleDownloadClick(converter?.file)}
                 >
@@ -193,7 +193,13 @@ const Files = () => {
         />
       </ModalComponent>
 
-      <DrawerComponent open={open} onClose={onClose} placement='bottom' height='auto'>
+      <DrawerComponent
+        open={open}
+        onClose={onClose}
+        placement='bottom'
+        height='auto'
+        className={b('delete_apk')}
+      >
         <DeleteModal
           title='Удалить?'
           loading={deleteConverterLoading}

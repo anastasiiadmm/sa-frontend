@@ -37,20 +37,20 @@ const RequestModal: React.FC<Props> = ({
         <Button
           size='large'
           type='primary'
-          style={{ width: '100%', borderRadius: 8 }}
-          className={b('cancel-profile-button')}
-          onClick={handleDeleteCancel}
-        >
-          Отменить
-        </Button>
-        <Button
-          size='large'
-          type='primary'
           loading={loading}
           style={{ width: '100%', borderRadius: 8 }}
           onClick={requestHandler}
         >
           {textCancel}
+        </Button>
+        <Button
+          size='large'
+          type='primary'
+          style={{ width: '100%', borderRadius: 8 }}
+          className={b('cancel-profile-button')}
+          onClick={handleDeleteCancel}
+        >
+          Отменить
         </Button>
       </div>
     </>

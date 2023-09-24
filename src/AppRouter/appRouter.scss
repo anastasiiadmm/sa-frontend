@@ -49,6 +49,9 @@
       margin-left: -18px;
     }
   }
+  header{
+    height: auto;
+  }
 
   @include mixins.bp(mobile) {
     position: relative;

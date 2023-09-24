@@ -137,7 +137,6 @@ const AppRouter: React.FC = () => {
         })}
       </>
     );
-
   return (
     <Layout style={{ height: '100vh' }} className={b('')} data-testid='app-router'>
       <Suspense fallback={<Skeleton />}>
@@ -148,6 +147,8 @@ const AppRouter: React.FC = () => {
           style={{
             padding: 0,
             background: pathname.includes('user-requests') ? '#f5f5f5' : colorBgContainer,
+            borderBottomRightRadius: pathname.includes('apks') ? 14 : 0,
+            borderBottomLeftRadius: pathname.includes('apks') ? 14 : 0,
           }}
           className={
             pathname.includes('user-technique') ||

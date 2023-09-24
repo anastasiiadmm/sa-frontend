@@ -63,15 +63,6 @@ const FieldClimateModal: React.FC<Props> = ({
       <div className={b('profile-buttons')}>
         <Button
           type='primary'
-          style={{ width: '100%', borderRadius: 6 }}
-          className={b('delete-button')}
-          onClick={handleOkCancel}
-        >
-          Отклонить запрос
-        </Button>
-
-        <Button
-          type='primary'
           htmlType='submit'
           loading={approveRequestLoading}
           style={{ width: '100%', borderRadius: 6 }}
@@ -79,6 +70,14 @@ const FieldClimateModal: React.FC<Props> = ({
           onClick={sendApprovedHandler}
         >
           Принять
+        </Button>
+        <Button
+          type='primary'
+          style={{ width: '100%', borderRadius: 6 }}
+          className={b('delete-button')}
+          onClick={handleOkCancel}
+        >
+          Отклонить запрос
         </Button>
       </div>
     </div>

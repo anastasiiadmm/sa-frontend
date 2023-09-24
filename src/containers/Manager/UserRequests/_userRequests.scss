@@ -67,5 +67,19 @@
     &__scroll_hidden > div > div {
       overflow: hidden!important;
     }
+
+    &__mobile_cancel {
+      .ant-result-title {
+        text-align: left;
+        font-size: 18px;
+        font-weight: 600;
+        margin-top: -14px!important;
+      }
+
+      .ant-result-subtitle {
+        text-align: left;
+        font-size: 14px;
+      }
+    }
   }
 }

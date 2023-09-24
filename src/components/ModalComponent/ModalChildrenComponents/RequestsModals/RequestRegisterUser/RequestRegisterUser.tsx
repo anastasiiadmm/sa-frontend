@@ -308,11 +308,11 @@ const RequestRegisterUser: React.FC<Props> = ({
       </ModalComponent>
 
       <DrawerComponent
-        title='Логин и пароль'
+        title={windowWidth > 600 ? 'Логин и пароль' : ''}
         open={openDraw}
         onClose={() => setOpenDraw(false)}
         placement='bottom'
-        height={370}
+        height={windowWidth < 600 ? 320 : 370}
       >
         <CreateNewUserCredentials
           handleOkCancel={handleAgreeOkCancel}

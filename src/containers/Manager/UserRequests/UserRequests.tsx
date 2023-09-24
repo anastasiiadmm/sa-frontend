@@ -814,7 +814,7 @@ const UserRequests = () => {
         onClose={handleOkFieldClimateInfoCancel}
         placement='bottom'
         className={b('scroll_hidden')}
-        height={360}
+        height={windowWidth > 600 ? 290 : 350}
       >
         <Suspense fallback={<Skeleton active />}>
           <FieldClimateModal
@@ -831,7 +831,8 @@ const UserRequests = () => {
         open={isDrawerRejectOpen}
         onClose={handleOkRejectCancel}
         placement='bottom'
-        height={231}
+        className={b('mobile_cancel')}
+        height={284}
       >
         <Suspense fallback={<Skeleton active />}>
           <RequestModal
