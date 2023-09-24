@@ -2,6 +2,8 @@ import { Form, Input } from 'antd';
 import React from 'react';
 import InputMask from 'react-input-mask';
 
+interface InputPropsType extends React.InputHTMLAttributes<HTMLInputElement> {}
+
 interface Rule {}
 
 interface Props {
@@ -45,9 +47,20 @@ const PhoneField: React.FC<Props> = ({
         readOnly={readOnly}
         mask='+7 (999) 999-99-99'
         autoComplete='off'
-        data-testid='phone-field-input'
       >
-        <Input className={inputClassName} bordered={bordered} placeholder={placeholder} />
+        {(inputProps: InputPropsType) => {
+          const { size, ...restInputProps } = inputProps;
+
+          return (
+            <Input
+              {...restInputProps}
+              className={inputClassName}
+              bordered={bordered}
+              placeholder={placeholder}
+              data-testid='phone-field-input'
+            />
+          );
+        }}
       </InputMask>
     </Form.Item>
   );
