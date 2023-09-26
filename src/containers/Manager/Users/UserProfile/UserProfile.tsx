@@ -68,6 +68,7 @@ const UserProfile: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
   const [isModalPasswordOpen, setIsModalPasswordOpen] = useState(false);
+  const [isDrawerPasswordOpen, setIsDrawerPasswordOpen] = useState(false);
   const [openDrawerDelete, setOpenDraweDelete] = useState(false);
   const [userInfoData, setUserInfoData] = useState<IAccount>({
     coords_timeout: 0,
@@ -142,7 +143,11 @@ const UserProfile: React.FC = () => {
   const generatePassword = async () => {
     try {
       await dispatch(generateNewPassword({ user_id: userInfoByManager?.id })).unwrap();
-      setIsModalPasswordOpen(true);
+      if (windowWidth > 520) {
+        setIsModalPasswordOpen(true);
+      } else {
+        setIsDrawerPasswordOpen(true);
+      }
     } catch (e) {
       await message.error('Ошибка не получилось сменить пароль');
     }
@@ -572,12 +577,22 @@ const UserProfile: React.FC = () => {
       <Drawer
         height={320}
         placement='bottom'
+        style={{
+          borderTopRightRadius: 12,
+          borderTopLeftRadius: 12,
+        }}
         closable={false}
         onClose={() => setOpenDraweDelete(false)}
         open={openDrawerDelete}
       >
         <div className={b('delete_mobile')}>
-          <img className={b('delete-image')} src={deleteIcon} alt='deleteIcon' />
+          <img
+            className={b('delete-image')}
+            src={deleteIcon}
+            alt='deleteIcon'
+            width={56}
+            height={56}
+          />
           <p className='title_delete'>Удалить профиль?</p>
           <p className='text_delete'>
             Вы уверены, что хотите удалить <br />{' '}
@@ -599,6 +614,31 @@ const UserProfile: React.FC = () => {
           <Button className='cancel' onClick={() => setOpenDraweDelete(false)}>
             Отменить
           </Button>
+        </div>
+      </Drawer>
+      <Drawer
+        height={235}
+        placement='bottom'
+        style={{
+          borderTopRightRadius: 12,
+          borderTopLeftRadius: 12,
+        }}
+        closable={false}
+        onClose={() => setIsDrawerPasswordOpen(false)}
+        open={isDrawerPasswordOpen}
+      >
+        <div className={b('generator_mobile_password')}>
+          <h2>Пароль</h2>
+          <p>Новый пароль пользователя</p>
+          <div>
+            <div>
+              <p>Пароль</p>
+              <p>
+                <b>{generatedPassword}</b>
+              </p>
+            </div>
+          </div>
+          <Button onClick={() => setIsDrawerPasswordOpen(false)}>Готова</Button>
         </div>
       </Drawer>
     </>

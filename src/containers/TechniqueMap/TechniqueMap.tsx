@@ -1,34 +1,35 @@
 import { Button, Card, Form, Spin, Typography } from 'antd';
-import { AES, enc, mode } from 'crypto-js';
 import bem from 'easy-bem';
 import { DivIcon, Icon, IconOptions, LatLngExpression } from 'leaflet';
-import moment from 'moment/moment';
 import React, { useEffect, useRef, useState } from 'react';
 import { CircleMarker, MapContainer, Marker, TileLayer } from 'react-leaflet';
 import { useNavigate } from 'react-router';
 import { Link, useParams } from 'react-router-dom';
 
-import active from 'assets/images/icons/active_tracktor.svg';
 import arrowLeft from 'assets/images/icons/arrow-left.svg';
 import close from 'assets/images/icons/close_button.svg';
-import inactive from 'assets/images/icons/inactive_tracktor.svg';
-import speed from 'assets/images/icons/speedometer.svg';
+import speed from 'assets/images/icons/newIcon/speed.svg';
+import tractorGreen from 'assets/images/icons/newIcon/tractor85.svg';
+import tractorRed from 'assets/images/icons/newIcon/tractorDanger.svg';
+import active from 'assets/images/icons/newIcon/tractorIcon.svg';
+import inactive from 'assets/images/icons/newIcon/tractorRed.svg';
 import tractorWhite from 'assets/images/icons/technique-white.svg';
 import tractorBlue from 'assets/images/icons/traktor-round.svg';
 import tractor from 'assets/images/technique.jpg';
 import DrawerComponent from 'components/DrawerComponent/DrawerComponent';
 import FormField from 'components/FormField/FormField';
+import useWindowWidth from 'hooks/useWindowWidth';
 import {
   ITechniquesMap,
   ITechniquesMapActive,
   ITechniquesMapActiveButton,
-  ITechniquesMapActiveButtonState,
   VehicleData,
 } from 'interfaces';
 import { accountsSelector, fetchConfigs } from 'redux/accounts/accountsSlice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { socketApiSocket } from 'utils/config';
+import useWebSocket from 'socket';
 import { activeIcon, inactiveIcon } from 'utils/constantMap';
+
 import 'containers/TechniqueMap/_techniqueMap.scss';
 
 const { Text, Title } = Typography;
@@ -55,25 +56,28 @@ const TechniqueMap = () => {
   const { account, configs } = useAppSelector(accountsSelector);
   const [open, setOpen] = useState(false);
   const [form] = Form.useForm();
+  const windowWidth = useWindowWidth();
+
   const [speedStatus, setSpeedStatus] = useState('');
-  const [socketLoading, setSocketLoading] = useState(false);
-  const [socketMap, setSocketMap] = useState<VehicleData | null>({
-    status: '',
-    online_vehicle_ids: null,
-    all_vehicles_info: null,
-  });
   const [vehicle, setVehicle] = useState<ITechniquesMap | null>(null);
-  const [latestSocketData, setLatestSocketData] = useState<ITechniquesMapActiveButtonState | null>(
-    null,
-  );
   const [vehicleActive, setVehicleActive] = useState<ITechniquesMapActiveButton | null>(null);
   const [markerPosition, setMarkerPosition] = useState<[number, number] | null>(null);
   const moveSpeed = account?.coords_timeout ? account.coords_timeout * 1000 + 200 : 0;
 
+  const { socketMap, socketLoading, latestSocketData } = useWebSocket(
+    account?.coords_timeout ?? 0,
+    configs?.websocket_auth_secret_key ?? '',
+    null,
+    techniqueId,
+    'info',
+  );
+
+  const latLanData = socketMap as VehicleData;
+
   useEffect(() => {
-    if (markerRef.current && socketMap?.online_vehicle_ids && socketMap?.all_vehicles_info) {
-      socketMap?.all_vehicles_info?.forEach((vehicleData) => {
-        const activeVehicleData = socketMap?.online_vehicle_ids?.find(
+    if (markerRef.current && latLanData?.online_vehicle_ids && latLanData?.all_vehicles_info) {
+      latLanData?.all_vehicles_info?.forEach((vehicleData) => {
+        const activeVehicleData = latLanData?.online_vehicle_ids?.find(
           (item) => item[vehicleData.id],
         );
         if (activeVehicleData) {
@@ -107,7 +111,7 @@ const TechniqueMap = () => {
         }
       });
     }
-  }, [socketMap?.online_vehicle_ids, socketMap?.all_vehicles_info]);
+  }, [latLanData?.online_vehicle_ids, latLanData?.all_vehicles_info]);
 
   useEffect(() => {
     if (vehicle && latestSocketData) {
@@ -122,72 +126,9 @@ const TechniqueMap = () => {
     }
   }, [vehicle, latestSocketData]);
 
-  const connectWebSocket = (time: number, secret: string) => {
-    let connectionID = '';
-    const message = moment().format('YYYY-MM-DD');
-    const key = enc.Utf8.parse(secret);
-    const encrypted = AES.encrypt(message, key, { mode: mode.ECB }).toString();
-    const encodedEncrypted = encodeURIComponent(encrypted);
-
-    const connect = () => {
-      const socket = new WebSocket(`${socketApiSocket}?Authentication=${encodedEncrypted}`);
-
-      socket.onopen = () => {
-        setSocketLoading(true);
-      };
-
-      socket.onmessage = (event) => {
-        setSocketLoading(false);
-        const messageData = JSON.parse(event.data);
-        connectionID = messageData.connection_id;
-        setSocketMap({ ...socketMap, status: messageData.kind });
-        if (Object.keys(messageData?.data || {})?.length) {
-          setSocketMap({ ...socketMap, ...messageData.data });
-          setLatestSocketData(messageData?.data);
-        }
-      };
-
-      socket.onclose = (event) => {
-        if (event.code === 1000) {
-          socket.close();
-        } else {
-          connect();
-        }
-      };
-
-      socket.onopen = () => {
-        socket.send(
-          JSON.stringify({
-            kind: 'info',
-            timeout: time,
-            company_id: techniqueId,
-            connection_id: connectionID,
-          }),
-        );
-      };
-
-      return socket;
-    };
-
-    return connect();
-  };
-
   useEffect(() => {
     dispatch(fetchConfigs());
   }, [dispatch]);
-
-  useEffect(() => {
-    if (account?.coords_timeout && configs?.websocket_auth_secret_key) {
-      const socket = connectWebSocket(
-        account?.coords_timeout ?? 0,
-        configs?.websocket_auth_secret_key ?? '',
-      );
-
-      return () => {
-        socket.close();
-      };
-    }
-  }, [account?.coords_timeout, configs?.websocket_auth_secret_key]);
 
   useEffect(() => {
     if (vehicle) {
@@ -265,8 +206,8 @@ const TechniqueMap = () => {
   };
 
   const { activeVehiclesCount: activeCount, inactiveVehiclesCount: inactiveCount } = countVehicles(
-    socketMap?.all_vehicles_info,
-    socketMap?.online_vehicle_ids,
+    latLanData?.all_vehicles_info,
+    latLanData?.online_vehicle_ids,
   );
 
   if (socketLoading) {
@@ -297,7 +238,7 @@ const TechniqueMap = () => {
             <CardBlock
               image={tractorBlue}
               title='Всего техники'
-              value={socketMap?.all_vehicles_info?.length || 0}
+              value={latLanData?.all_vehicles_info?.length || 0}
             />
             <CardBlock image={active} title='Активны' value={activeCount} />
             <CardBlock image={inactive} title='Неактивны' value={inactiveCount} />
@@ -317,8 +258,8 @@ const TechniqueMap = () => {
               attribution='&copy; <a href="https://www.esri.com/">Esri</a>'
               url='https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'
             />
-            {socketMap?.all_vehicles_info?.map((vehicle) => {
-              const vehicleInOnlineVehicles = socketMap?.online_vehicle_ids?.find(
+            {latLanData?.all_vehicles_info?.map((vehicle) => {
+              const vehicleInOnlineVehicles = latLanData?.online_vehicle_ids?.find(
                 (item) => item[vehicle?.id],
               );
 
@@ -339,7 +280,16 @@ const TechniqueMap = () => {
         </div>
       </div>
 
-      <DrawerComponent open={open} placement='right'>
+      <DrawerComponent open={open} placement='right' width={windowWidth < 500 ? '100%' : 374}>
+        {windowWidth < 500 && (
+          <div className={b('mobile_header')}>
+            <Button className='mobile_header_left' onClick={() => setOpen(false)}>
+              <img src={arrowLeft} width='16' height='16' alt='arrowLeft' />
+            </Button>
+            <p>Информация о технике</p>
+          </div>
+        )}
+
         <Button
           data-testid='close-button-test'
           onClick={() => {
@@ -354,37 +304,64 @@ const TechniqueMap = () => {
         />
         <div className={b('drawer-block')}>
           <div>
-            <img src={tractor} alt='tractor' />
+            <img
+              src={tractor}
+              alt='tractor'
+              style={{
+                width: '100%',
+                borderRadius: 0,
+              }}
+            />
           </div>
           <div className={b('info-block')}>
-            {speedStatus === 'Неактивен' ? (
-              <Button
-                type='primary'
-                danger
-                className='cursor'
-                icon={<img src={tractorWhite} alt={tractorWhite} />}
-                style={{ borderRadius: 26, width: 130 }}
-              >
-                Неактивен
-              </Button>
-            ) : (
-              <div className={b('active-buttons-block')}>
+            <div className={b('status_btn')}>
+              {speedStatus === 'Неактивен' ? (
                 <Button
                   type='primary'
-                  icon={<img src={tractorWhite} alt={tractorWhite} />}
-                  className={b('active-button cursor')}
+                  className='cursor btn_status_active'
+                  style={{
+                    color: '#FF1E1E',
+                    backgroundColor: '#FFCFCF',
+                  }}
                 >
-                  Активен
+                  <img
+                    src={tractorRed}
+                    alt={tractorRed}
+                    width={16}
+                    height={16}
+                    style={{
+                      paddingRight: 5,
+                    }}
+                  />{' '}
+                  Неактивен
                 </Button>
-                <Button
-                  className={b('speed-button cursor')}
-                  type='primary'
-                  icon={<img src={speed} alt={speed} />}
-                >
-                  {`${Number(speedStatus) >= 2 ? Math.floor(Number(speedStatus)) : 0} км/ч`}
-                </Button>
-              </div>
-            )}
+              ) : (
+                <div className={b('active-buttons-block')}>
+                  <Button
+                    type='primary'
+                    style={{
+                      backgroundColor: '#EDFFDE',
+                      color: '#689F3A',
+                    }}
+                    icon={<img src={tractorGreen} alt={tractorWhite} />}
+                    className={b('active-button cursor btn_status_active')}
+                  >
+                    Активен
+                  </Button>
+                  <Button
+                    className={b('speed-button cursor btn_status_active')}
+                    type='primary'
+                    style={{
+                      backgroundColor: '#FFEEDF',
+                      color: '#FF8A1E',
+                    }}
+                    icon={<img src={speed} alt={speed} />}
+                  >
+                    {`${Number(speedStatus) >= 2 ? Math.floor(Number(speedStatus)) : 0} км/ч`}
+                  </Button>
+                </div>
+              )}
+            </div>
 
             <div className={b('profile-info')}>
               <Form layout='vertical' form={form}>

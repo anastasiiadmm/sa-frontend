@@ -12,6 +12,7 @@ interface Props {
   columns: any | null;
   rowKey: (record: any) => Key;
   loading: boolean;
+  paginationActive?: boolean;
   onChange?: (
     pagination: TablePaginationConfig,
     filters: Record<string, FilterValue | null>,
@@ -39,6 +40,7 @@ const TableComponent: React.FC<Props> = ({
   pagePrevHandler,
   pageNextHandler,
   rowClickHandler,
+  paginationActive,
 }) => {
   const rowClassName = (record: Requestor, index: number) => {
     if (index % 2 === 0) {
@@ -75,11 +77,13 @@ const TableComponent: React.FC<Props> = ({
         pagination={false}
         rowClassName={rowClassName}
       />
-      <PaginationComponent
-        params={params}
-        pagePrevHandler={pagePrevHandler}
-        pageNextHandler={pageNextHandler}
-      />
+      {!paginationActive && (
+        <PaginationComponent
+          params={params}
+          pagePrevHandler={pagePrevHandler}
+          pageNextHandler={pageNextHandler}
+        />
+      )}
     </>
   );
 };

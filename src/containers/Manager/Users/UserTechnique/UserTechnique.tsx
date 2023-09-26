@@ -379,13 +379,13 @@ const UserTechnique: React.FC = () => {
               <div className={b('header-title')}>
                 {windowWidth <= 990 ? (
                   <div className={b('title')}>
-                    <h3 className={b('subtitle')}>
+                    <h3 className={b('sub_title_name')}>
                       {userInfoByManager?.last_name} {userInfoByManager?.first_name?.charAt(0)}.{' '}
                       {userInfoByManager?.middle_name === ''
                         ? null
                         : `${userInfoByManager?.middle_name.charAt(0)}.`}
                     </h3>
-                    <Text className={b('subtitle')}>Техника пользователя</Text>
+                    <Text className={b('subtitle_text')}>Техника пользователя</Text>
                   </div>
                 ) : (
                   <>
@@ -531,8 +531,9 @@ const UserTechnique: React.FC = () => {
             style={{
               textAlign: 'center',
               padding: 0,
-              margin: 0,
+              margin: '0px 0px 0px -40px',
               fontWeight: 500,
+              fontSize: 13,
             }}
           >
             Редактировать технику

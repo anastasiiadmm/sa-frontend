@@ -17,6 +17,15 @@ jest.mock('react-leaflet', () => ({
   TileLayer: jest.fn()
 }));
 
+const WebSocketMock: jest.Mock = jest.fn(() => ({
+  addEventListener: jest.fn(),
+  removeEventListener: jest.fn(),
+  send: jest.fn(),
+  close: jest.fn(),
+}));
+
+globalThis.WebSocket = WebSocketMock as any;
+
 const mapErrors = {
   vehicle: {
     results: {

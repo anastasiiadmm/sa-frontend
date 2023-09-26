@@ -5,10 +5,8 @@ import bem from 'easy-bem';
 import React, { lazy, Suspense, useEffect, useLayoutEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 
-import addedTechnique from 'assets/images/icons/added-technique.svg';
-import addedUsers from 'assets/images/icons/added-users.svg';
-import people from 'assets/images/icons/group-active.svg';
-import tractorBlue from 'assets/images/icons/tractor-blue.svg';
+import addedTechnique from 'assets/images/icons/newIcon/tractorMain.svg';
+import addedUsers from 'assets/images/icons/newIcon/user.svg';
 import notFoundImages from 'assets/images/notFound.svg';
 import Errors from 'components/Errors/Errors';
 import useInfiniteScroll from 'hooks/useInfiniteScroll';
@@ -150,10 +148,10 @@ const Users: React.FC = () => {
   return (
     <div className={b()} data-testid='companies-id'>
       <div className={b('card-block')}>
-        {windowWidth <= 990 && windowWidth >= 600 ? (
+        {windowWidth <= 990 ? (
           <>
             <Card className={b('card-style-desk')} bordered={false}>
-              <img src={addedUsers} alt='addedUsers' />
+              <img src={addedUsers} alt='addedUsers' width={28} height={28} />
               <div className={b('card-content-desk')}>
                 <Text type='secondary'>Добавлено клиентов</Text>
                 <Title style={{ margin: 0 }} level={4}>
@@ -161,8 +159,8 @@ const Users: React.FC = () => {
                 </Title>
               </div>
             </Card>
-            <Card className={b('card-style-desk')} bordered={false}>
-              <img src={addedTechnique} alt='addedTechnique' />
+            <Card className={`${b('card-style-desk')} ${b('line_left')}`} bordered={false}>
+              <img src={addedTechnique} alt='addedTechnique' width={28} height={28} />
               <div className={b('card-content-desk')}>
                 <Text type='secondary'>Добавлено Техники</Text>
                 <Title style={{ margin: 0 }} level={4}>
@@ -176,14 +174,14 @@ const Users: React.FC = () => {
             <Card className={b('card-style')} bordered={false}>
               <Title className={b('card-title')}>Добавлено пользователей</Title>
               <div className={b('card-content')}>
-                <img src={people} alt='group' />
+                <img src={addedUsers} alt='group' />
                 <p>{companiesListPagination?.count || 0}</p>
               </div>
             </Card>
             <Card className={b('card-style')} bordered={false}>
               <Title className={b('card-title')}>Добавлено Техники</Title>
               <div className={b('card-content')}>
-                <img src={tractorBlue} alt='group' />
+                <img src={addedTechnique} alt='group' />
                 <p>{companiesListPagination?.vehicles_count}</p>
               </div>
             </Card>
@@ -204,23 +202,65 @@ const Users: React.FC = () => {
                   key={comp?.id}
                   onClick={() => nextBrowserUserInfoHandler(comp?.id as number)}
                 >
-                  <Title level={3} style={{ margin: 0 }}>
+                  <Title level={3} style={{ margin: 0, fontSize: 16 }}>
                     {comp?.last_name} {comp?.first_name?.charAt(0)}.{' '}
                     {comp?.middle_name === '' ? null : `${comp?.middle_name?.charAt(0)}.`}
                   </Title>
                   <div className={b('card-content-mobile')}>
                     <div className={b('mobile-titles-block')}>
-                      <Text type='secondary'>Название компании</Text>
-                      <Text strong>{comp?.company?.name}</Text>
+                      <Text
+                        type='secondary'
+                        style={{
+                          fontSize: 11,
+                        }}
+                      >
+                        Название компании
+                      </Text>
+                      <Text
+                        strong
+                        style={{
+                          fontSize: 12,
+                        }}
+                      >
+                        {comp?.company?.name}
+                      </Text>
                     </div>
                     <div className={b('mobile-info-block')}>
                       <div className={b('mobile-titles-block')}>
-                        <Text type='secondary'>Номер телефона</Text>
-                        <Text strong>{comp?.phone}</Text>
+                        <Text
+                          type='secondary'
+                          style={{
+                            fontSize: 11,
+                          }}
+                        >
+                          Номер телефона
+                        </Text>
+                        <Text
+                          strong
+                          style={{
+                            fontSize: 12,
+                          }}
+                        >
+                          {comp?.phone}
+                        </Text>
                       </div>
                       <div className={b('mobile-titles-block')}>
-                        <Text type='secondary'>Блоки автопилота</Text>
-                        <Text strong>{comp?.company?.autopilots_amount}</Text>
+                        <Text
+                          type='secondary'
+                          style={{
+                            fontSize: 11,
+                          }}
+                        >
+                          Блоки автопилота
+                        </Text>
+                        <Text
+                          strong
+                          style={{
+                            fontSize: 12,
+                          }}
+                        >
+                          {comp?.company?.autopilots_amount}
+                        </Text>
                       </div>
                     </div>
                   </div>
