@@ -2,9 +2,10 @@ import { BrowserRouter } from "react-router-dom";
 import { cleanup } from "@testing-library/react";
 import "../../../__mocks__/matchMedia.mock";
 import "@testing-library/jest-dom";
+import renderer from "react-test-renderer";
+import { act } from "react-test-renderer";
 import { mockedDispatch, mockedUseSelectors } from "../../../__mocks__/utils";
 import FieldClimateDashboard from "../../../src/containers/FieldClimate/FieldClimateDashboard";
-import renderer from "react-test-renderer";
 
 afterEach(cleanup);
 
@@ -22,13 +23,16 @@ describe("<FieldClimateDashboard />", () => {
     const dispatch = jest.fn();
     mockedDispatch.mockReturnValue(dispatch);
 
-    const tree = renderer
-      .create(
-        <BrowserRouter>
-          <FieldClimateDashboard />
-        </BrowserRouter>,
-      )
-      .toJSON();
+    let tree;
+    await act(async () => {
+      tree = renderer
+        .create(
+          <BrowserRouter>
+            <FieldClimateDashboard />
+          </BrowserRouter>
+        )
+        .toJSON();
+    });
 
     expect(tree).toMatchSnapshot();
   });

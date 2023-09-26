@@ -1,10 +1,12 @@
 import { renderHook, act } from '@testing-library/react-hooks';
 import useInfiniteScroll from "../../src/hooks/useInfiniteScroll";
 import "@testing-library/jest-dom";
-import { IAccount, IApk, IConverter, Requestor } from "../../src/interfaces";
+import { apksPagination, IAccount, IApk, IConverter, pagination, Requestor } from "../../src/interfaces";
 import useWindowWidth from "../../src/hooks/useWindowWidth";
+import React from "react";
 
 jest.mock('../../src/hooks/useWindowWidth');
+jest.spyOn(React, 'useRef').mockReturnValue({ current: 0 });
 
 describe('useInfiniteScroll', () => {
 
@@ -20,8 +22,10 @@ describe('useInfiniteScroll', () => {
 
   it('should call pageNextHandler when scrolled to bottom', () => {
     const mockPageNextHandler = jest.fn();
-    const mockPagination = {
-      next: 2,
+    const mockPagination: apksPagination | pagination | null = {
+      next: '2',
+      count: 10,
+      previous: null,
     };
     const mockAllItems: IApk[] | IAccount[] | Requestor[] | IConverter[] = [];
 

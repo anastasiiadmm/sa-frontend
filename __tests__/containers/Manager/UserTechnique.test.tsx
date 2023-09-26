@@ -2,10 +2,10 @@ import { BrowserRouter } from "react-router-dom";
 import { cleanup } from "@testing-library/react";
 import "../../../__mocks__/matchMedia.mock";
 import "@testing-library/jest-dom";
+import { render } from "@testing-library/react";
 import { mockedDispatch, mockedUseSelectors } from "../../../__mocks__/utils";
 
 import UserTechnique from "../../../src/containers/Manager/Users/UserTechnique/UserTechnique";
-import renderer from "react-test-renderer";
 
 afterEach(cleanup);
 
@@ -29,13 +29,12 @@ describe("<UserTechnique />", () => {
         const dispatch = jest.fn();
         mockedDispatch.mockReturnValue(dispatch);
 
-        const tree = renderer
-            .create(
-                <BrowserRouter>
-                    <UserTechnique />
-                </BrowserRouter>,
-            )
-            .toJSON();
-        expect(tree).toMatchSnapshot();
+        const { asFragment } = render(
+          <BrowserRouter>
+              <UserTechnique />
+          </BrowserRouter>
+        );
+
+        expect(asFragment()).toMatchSnapshot();
     });
 });

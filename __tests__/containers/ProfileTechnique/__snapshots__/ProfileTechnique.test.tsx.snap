@@ -1,507 +1,375 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<ProfileTechnique /> Users table component should be in the document 1`] = `
-<div
-  className="ProfileTechnique"
-  data-testid="profile-technique-id"
->
+<DocumentFragment>
   <div
-    className="ProfileTechnique__table"
+    class="ProfileTechnique"
+    data-testid="profile-technique-id"
   >
     <div
-      className="ProfileTechnique__header"
+      class="ProfileTechnique__table"
     >
       <div
-        className="ProfileTechnique__header-title"
+        class="ProfileTechnique__header"
       >
-        <button
-          className="ProfileTechnique__back_handler"
-          onClick={[Function]}
-          type="button"
-        >
-          <img
-            alt="arrow"
-            className="ProfileTechnique__arrow-left"
-            src={
-              {
-                "process": [Function],
-              }
-            }
-          />
-        </button>
-        <h3
-          className="ant-typography ProfileTechnique__title css-dev-only-do-not-override-15rg2km"
-          style={
-            {
-              "WebkitLineClamp": undefined,
-            }
-          }
-        >
-          Профиль техники - 
-           -
-           
-           
-        </h3>
-      </div>
-      <div>
-        <a
-          href="/open-map/undefined/local-tractor/undefined"
-          onClick={[Function]}
+        <div
+          class="ProfileTechnique__header-title"
         >
           <button
-            className="ant-btn css-dev-only-do-not-override-15rg2km ant-btn-link ant-btn-lg ProfileTechnique__open-map"
-            disabled={false}
-            onClick={[Function]}
+            class="ProfileTechnique__back_handler"
             type="button"
           >
-            <span
-              className="ant-btn-icon"
+            <img
+              alt="arrow"
+              class="ProfileTechnique__arrow-left"
+              src="[object Object]"
+            />
+          </button>
+          <h3
+            class="ant-typography ProfileTechnique__title css-dev-only-do-not-override-1vr7spz"
+          >
+            Профиль техники -  -  
+          </h3>
+        </div>
+        <div>
+          <a
+            href="/open-map/undefined/local-tractor/undefined"
+          >
+            <button
+              class="ant-btn css-dev-only-do-not-override-1vr7spz ant-btn-link ant-btn-lg ProfileTechnique__open-map"
+              type="button"
             >
-              <img
-                alt="Техника на карте"
-                src={
-                  {
-                    "process": [Function],
-                  }
-                }
-                width={18}
-              />
-            </span>
+              <span
+                class="ant-btn-icon"
+              >
+                <img
+                  alt="Техника на карте"
+                  src="[object Object]"
+                  width="18"
+                />
+              </span>
+              <span>
+                Техника на карте
+              </span>
+            </button>
+          </a>
+        </div>
+      </div>
+      <div
+        class="ProfileTechnique__technique-profile-info"
+      >
+        <div
+          class="ProfileTechnique__images_tractor"
+        >
+          <div
+            class="ant-image css-dev-only-do-not-override-1vr7spz"
+            style="width: 242px;"
+          >
+            <img
+              class="ant-image-img ProfileTechnique__technique-image css-dev-only-do-not-override-1vr7spz"
+              src="https://localhost:8000test/photos"
+              style="border-radius: 4px;"
+              width="242"
+            />
+          </div>
+          <button
+            class="ant-btn css-dev-only-do-not-override-1vr7spz ant-btn-default"
+            type="button"
+          >
             <span>
               Техника на карте
             </span>
           </button>
-        </a>
+        </div>
+        <div
+          class="ProfileTechnique__profile-info"
+        >
+          <form
+            class="ant-form ant-form-vertical css-dev-only-do-not-override-1vr7spz"
+          >
+            <h5
+              class="ant-typography ProfileTechnique__profile-title css-dev-only-do-not-override-1vr7spz"
+            >
+              Информация о технике
+            </h5>
+            <div
+              class="ProfileTechnique__form-block"
+            >
+              <div
+                class="ant-form-item css-dev-only-do-not-override-1vr7spz"
+              >
+                <div
+                  class="ant-row ant-form-item-row css-dev-only-do-not-override-1vr7spz"
+                >
+                  <div
+                    class="ant-col ant-form-item-label css-dev-only-do-not-override-1vr7spz"
+                  >
+                    <label
+                      class=""
+                      for="description"
+                      title="Название техники"
+                    >
+                      Название техники
+                    </label>
+                  </div>
+                  <div
+                    class="ant-col ant-form-item-control css-dev-only-do-not-override-1vr7spz"
+                  >
+                    <div
+                      class="ant-form-item-control-input"
+                    >
+                      <div
+                        class="ant-form-item-control-input-content"
+                      >
+                        <input
+                          class="ant-input ant-input-borderless css-dev-only-do-not-override-1vr7spz input-styles undefined"
+                          id="description"
+                          name="description"
+                          placeholder="Название техники"
+                          readonly=""
+                          type="text"
+                          value=""
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="ant-form-item css-dev-only-do-not-override-1vr7spz"
+              >
+                <div
+                  class="ant-row ant-form-item-row css-dev-only-do-not-override-1vr7spz"
+                >
+                  <div
+                    class="ant-col ant-form-item-label css-dev-only-do-not-override-1vr7spz"
+                  >
+                    <label
+                      class=""
+                      for="license_plate"
+                      title="Гос номер"
+                    >
+                      Гос номер
+                    </label>
+                  </div>
+                  <div
+                    class="ant-col ant-form-item-control css-dev-only-do-not-override-1vr7spz"
+                  >
+                    <div
+                      class="ant-form-item-control-input"
+                    >
+                      <div
+                        class="ant-form-item-control-input-content"
+                      >
+                        <input
+                          class="ant-input ant-input-borderless css-dev-only-do-not-override-1vr7spz input-styles undefined"
+                          id="license_plate"
+                          name="license_plate"
+                          placeholder="Гос номер"
+                          readonly=""
+                          type="text"
+                          value=""
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="ant-form-item css-dev-only-do-not-override-1vr7spz"
+              >
+                <div
+                  class="ant-row ant-form-item-row css-dev-only-do-not-override-1vr7spz"
+                >
+                  <div
+                    class="ant-col ant-form-item-label css-dev-only-do-not-override-1vr7spz"
+                  >
+                    <label
+                      class=""
+                      for="vin"
+                      title="VIN код"
+                    >
+                      VIN код
+                    </label>
+                  </div>
+                  <div
+                    class="ant-col ant-form-item-control css-dev-only-do-not-override-1vr7spz"
+                  >
+                    <div
+                      class="ant-form-item-control-input"
+                    >
+                      <div
+                        class="ant-form-item-control-input-content"
+                      >
+                        <input
+                          class="ant-input ant-input-borderless css-dev-only-do-not-override-1vr7spz input-styles undefined"
+                          id="vin"
+                          name="vin"
+                          placeholder="VIN код"
+                          readonly=""
+                          type="text"
+                          value=""
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <h5
+              class="ant-typography ProfileTechnique__profile-title css-dev-only-do-not-override-1vr7spz"
+            >
+              Информация о механизаторе
+            </h5>
+            <div
+              class="ProfileTechnique__form-block"
+            >
+              <div
+                class="ant-form-item css-dev-only-do-not-override-1vr7spz"
+              >
+                <div
+                  class="ant-row ant-form-item-row css-dev-only-do-not-override-1vr7spz"
+                >
+                  <div
+                    class="ant-col ant-form-item-label css-dev-only-do-not-override-1vr7spz"
+                  >
+                    <label
+                      class=""
+                      for="operator_last_name"
+                      title="Фамилия"
+                    >
+                      Фамилия
+                    </label>
+                  </div>
+                  <div
+                    class="ant-col ant-form-item-control css-dev-only-do-not-override-1vr7spz"
+                  >
+                    <div
+                      class="ant-form-item-control-input"
+                    >
+                      <div
+                        class="ant-form-item-control-input-content"
+                      >
+                        <input
+                          class="ant-input ant-input-borderless css-dev-only-do-not-override-1vr7spz input-styles undefined"
+                          id="operator_last_name"
+                          name="operator,last_name"
+                          placeholder="Фамилия"
+                          readonly=""
+                          type="text"
+                          value="test"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="ant-form-item css-dev-only-do-not-override-1vr7spz"
+              >
+                <div
+                  class="ant-row ant-form-item-row css-dev-only-do-not-override-1vr7spz"
+                >
+                  <div
+                    class="ant-col ant-form-item-label css-dev-only-do-not-override-1vr7spz"
+                  >
+                    <label
+                      class=""
+                      for="operator_first_name"
+                      title="Имя"
+                    >
+                      Имя
+                    </label>
+                  </div>
+                  <div
+                    class="ant-col ant-form-item-control css-dev-only-do-not-override-1vr7spz"
+                  >
+                    <div
+                      class="ant-form-item-control-input"
+                    >
+                      <div
+                        class="ant-form-item-control-input-content"
+                      >
+                        <input
+                          class="ant-input ant-input-borderless css-dev-only-do-not-override-1vr7spz input-styles undefined"
+                          id="operator_first_name"
+                          name="operator,first_name"
+                          placeholder="Имя"
+                          readonly=""
+                          type="text"
+                          value="test"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="ant-form-item css-dev-only-do-not-override-1vr7spz"
+              >
+                <div
+                  class="ant-row ant-form-item-row css-dev-only-do-not-override-1vr7spz"
+                >
+                  <div
+                    class="ant-col ant-form-item-label css-dev-only-do-not-override-1vr7spz"
+                  >
+                    <label
+                      class=""
+                      for="operator_middle_name"
+                      title="Отчество"
+                    >
+                      Отчество
+                    </label>
+                  </div>
+                  <div
+                    class="ant-col ant-form-item-control css-dev-only-do-not-override-1vr7spz"
+                  >
+                    <div
+                      class="ant-form-item-control-input"
+                    >
+                      <div
+                        class="ant-form-item-control-input-content"
+                      >
+                        <input
+                          class="ant-input ant-input-borderless css-dev-only-do-not-override-1vr7spz input-styles undefined"
+                          id="operator_middle_name"
+                          name="operator,middle_name"
+                          placeholder="Отчество"
+                          readonly=""
+                          type="text"
+                          value="test"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
       </div>
-    </div>
-    <div
-      className="ProfileTechnique__technique-profile-info"
-    >
       <div
-        className="ProfileTechnique__images_tractor"
+        class="ant-skeleton css-dev-only-do-not-override-1vr7spz"
       >
         <div
-          className="ant-image css-dev-only-do-not-override-15rg2km"
-          style={
-            {
-              "height": undefined,
-              "width": 242,
-            }
-          }
+          class="ant-skeleton-content"
         >
-          <img
-            className="ant-image-img ProfileTechnique__technique-image"
-            onLoad={[Function]}
-            src="https://localhost:8000test/photos"
-            style={
-              {
-                "borderRadius": 4,
-                "height": undefined,
-              }
-            }
-            width={242}
+          <h3
+            class="ant-skeleton-title"
+            style="width: 38%;"
           />
+          <ul
+            class="ant-skeleton-paragraph"
+          >
+            <li />
+            <li />
+            <li
+              style="width: 61%;"
+            />
+          </ul>
         </div>
-        <button
-          className="ant-btn css-dev-only-do-not-override-15rg2km ant-btn-default"
-          disabled={false}
-          onClick={[Function]}
-          type="button"
-        >
-          <span>
-            Техника на карте
-          </span>
-        </button>
-      </div>
-      <div
-        className="ProfileTechnique__profile-info"
-      >
-        <form
-          className="ant-form ant-form-vertical css-dev-only-do-not-override-15rg2km"
-          onReset={[Function]}
-          onSubmit={[Function]}
-        >
-          <h5
-            className="ant-typography ProfileTechnique__profile-title css-dev-only-do-not-override-15rg2km"
-            style={
-              {
-                "WebkitLineClamp": undefined,
-              }
-            }
-          >
-            Информация о технике
-          </h5>
-          <div
-            className="ProfileTechnique__form-block"
-          >
-            <div
-              className="ant-form-item css-dev-only-do-not-override-15rg2km"
-            >
-              <div
-                className="ant-row ant-form-item-row css-dev-only-do-not-override-15rg2km"
-                style={{}}
-              >
-                <div
-                  className="ant-col ant-form-item-label css-dev-only-do-not-override-15rg2km"
-                  style={{}}
-                >
-                  <label
-                    className=""
-                    htmlFor="description"
-                    title="Название техники"
-                  >
-                    Название техники
-                  </label>
-                </div>
-                <div
-                  className="ant-col ant-form-item-control css-dev-only-do-not-override-15rg2km"
-                  style={{}}
-                >
-                  <div
-                    className="ant-form-item-control-input"
-                  >
-                    <div
-                      className="ant-form-item-control-input-content"
-                    >
-                      <input
-                        className="ant-input ant-input-borderless css-dev-only-do-not-override-15rg2km input-styles undefined"
-                        disabled={false}
-                        id="description"
-                        name="description"
-                        onBlur={[Function]}
-                        onChange={[Function]}
-                        onFocus={[Function]}
-                        onKeyDown={[Function]}
-                        placeholder="Название техники"
-                        readOnly={true}
-                        style={{}}
-                        type="text"
-                        value=""
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              className="ant-form-item css-dev-only-do-not-override-15rg2km"
-            >
-              <div
-                className="ant-row ant-form-item-row css-dev-only-do-not-override-15rg2km"
-                style={{}}
-              >
-                <div
-                  className="ant-col ant-form-item-label css-dev-only-do-not-override-15rg2km"
-                  style={{}}
-                >
-                  <label
-                    className=""
-                    htmlFor="license_plate"
-                    title="Гос номер"
-                  >
-                    Гос номер
-                  </label>
-                </div>
-                <div
-                  className="ant-col ant-form-item-control css-dev-only-do-not-override-15rg2km"
-                  style={{}}
-                >
-                  <div
-                    className="ant-form-item-control-input"
-                  >
-                    <div
-                      className="ant-form-item-control-input-content"
-                    >
-                      <input
-                        className="ant-input ant-input-borderless css-dev-only-do-not-override-15rg2km input-styles undefined"
-                        disabled={false}
-                        id="license_plate"
-                        name="license_plate"
-                        onBlur={[Function]}
-                        onChange={[Function]}
-                        onFocus={[Function]}
-                        onKeyDown={[Function]}
-                        placeholder="Гос номер"
-                        readOnly={true}
-                        style={{}}
-                        type="text"
-                        value=""
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              className="ant-form-item css-dev-only-do-not-override-15rg2km"
-            >
-              <div
-                className="ant-row ant-form-item-row css-dev-only-do-not-override-15rg2km"
-                style={{}}
-              >
-                <div
-                  className="ant-col ant-form-item-label css-dev-only-do-not-override-15rg2km"
-                  style={{}}
-                >
-                  <label
-                    className=""
-                    htmlFor="vin"
-                    title="VIN код"
-                  >
-                    VIN код
-                  </label>
-                </div>
-                <div
-                  className="ant-col ant-form-item-control css-dev-only-do-not-override-15rg2km"
-                  style={{}}
-                >
-                  <div
-                    className="ant-form-item-control-input"
-                  >
-                    <div
-                      className="ant-form-item-control-input-content"
-                    >
-                      <input
-                        className="ant-input ant-input-borderless css-dev-only-do-not-override-15rg2km input-styles undefined"
-                        disabled={false}
-                        id="vin"
-                        name="vin"
-                        onBlur={[Function]}
-                        onChange={[Function]}
-                        onFocus={[Function]}
-                        onKeyDown={[Function]}
-                        placeholder="VIN код"
-                        readOnly={true}
-                        style={{}}
-                        type="text"
-                        value=""
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <h5
-            className="ant-typography ProfileTechnique__profile-title css-dev-only-do-not-override-15rg2km"
-            style={
-              {
-                "WebkitLineClamp": undefined,
-              }
-            }
-          >
-            Информация о механизаторе
-          </h5>
-          <div
-            className="ProfileTechnique__form-block"
-          >
-            <div
-              className="ant-form-item css-dev-only-do-not-override-15rg2km"
-            >
-              <div
-                className="ant-row ant-form-item-row css-dev-only-do-not-override-15rg2km"
-                style={{}}
-              >
-                <div
-                  className="ant-col ant-form-item-label css-dev-only-do-not-override-15rg2km"
-                  style={{}}
-                >
-                  <label
-                    className=""
-                    htmlFor="operator_last_name"
-                    title="Фамилия"
-                  >
-                    Фамилия
-                  </label>
-                </div>
-                <div
-                  className="ant-col ant-form-item-control css-dev-only-do-not-override-15rg2km"
-                  style={{}}
-                >
-                  <div
-                    className="ant-form-item-control-input"
-                  >
-                    <div
-                      className="ant-form-item-control-input-content"
-                    >
-                      <input
-                        className="ant-input ant-input-borderless css-dev-only-do-not-override-15rg2km input-styles undefined"
-                        disabled={false}
-                        id="operator_last_name"
-                        name={
-                          [
-                            "operator",
-                            "last_name",
-                          ]
-                        }
-                        onBlur={[Function]}
-                        onChange={[Function]}
-                        onFocus={[Function]}
-                        onKeyDown={[Function]}
-                        placeholder="Фамилия"
-                        readOnly={true}
-                        style={{}}
-                        type="text"
-                        value="test"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              className="ant-form-item css-dev-only-do-not-override-15rg2km"
-            >
-              <div
-                className="ant-row ant-form-item-row css-dev-only-do-not-override-15rg2km"
-                style={{}}
-              >
-                <div
-                  className="ant-col ant-form-item-label css-dev-only-do-not-override-15rg2km"
-                  style={{}}
-                >
-                  <label
-                    className=""
-                    htmlFor="operator_first_name"
-                    title="Имя"
-                  >
-                    Имя
-                  </label>
-                </div>
-                <div
-                  className="ant-col ant-form-item-control css-dev-only-do-not-override-15rg2km"
-                  style={{}}
-                >
-                  <div
-                    className="ant-form-item-control-input"
-                  >
-                    <div
-                      className="ant-form-item-control-input-content"
-                    >
-                      <input
-                        className="ant-input ant-input-borderless css-dev-only-do-not-override-15rg2km input-styles undefined"
-                        disabled={false}
-                        id="operator_first_name"
-                        name={
-                          [
-                            "operator",
-                            "first_name",
-                          ]
-                        }
-                        onBlur={[Function]}
-                        onChange={[Function]}
-                        onFocus={[Function]}
-                        onKeyDown={[Function]}
-                        placeholder="Имя"
-                        readOnly={true}
-                        style={{}}
-                        type="text"
-                        value="test"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              className="ant-form-item css-dev-only-do-not-override-15rg2km"
-            >
-              <div
-                className="ant-row ant-form-item-row css-dev-only-do-not-override-15rg2km"
-                style={{}}
-              >
-                <div
-                  className="ant-col ant-form-item-label css-dev-only-do-not-override-15rg2km"
-                  style={{}}
-                >
-                  <label
-                    className=""
-                    htmlFor="operator_middle_name"
-                    title="Отчество"
-                  >
-                    Отчество
-                  </label>
-                </div>
-                <div
-                  className="ant-col ant-form-item-control css-dev-only-do-not-override-15rg2km"
-                  style={{}}
-                >
-                  <div
-                    className="ant-form-item-control-input"
-                  >
-                    <div
-                      className="ant-form-item-control-input-content"
-                    >
-                      <input
-                        className="ant-input ant-input-borderless css-dev-only-do-not-override-15rg2km input-styles undefined"
-                        disabled={false}
-                        id="operator_middle_name"
-                        name={
-                          [
-                            "operator",
-                            "middle_name",
-                          ]
-                        }
-                        onBlur={[Function]}
-                        onChange={[Function]}
-                        onFocus={[Function]}
-                        onKeyDown={[Function]}
-                        placeholder="Отчество"
-                        readOnly={true}
-                        style={{}}
-                        type="text"
-                        value="test"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </form>
-      </div>
-    </div>
-    <div
-      className="ant-skeleton css-dev-only-do-not-override-15rg2km"
-    >
-      <div
-        className="ant-skeleton-content"
-      >
-        <h3
-          className="ant-skeleton-title"
-          style={
-            {
-              "width": "38%",
-            }
-          }
-        />
-        <ul
-          className="ant-skeleton-paragraph"
-        >
-          <li
-            style={
-              {
-                "width": undefined,
-              }
-            }
-          />
-          <li
-            style={
-              {
-                "width": undefined,
-              }
-            }
-          />
-          <li
-            style={
-              {
-                "width": "61%",
-              }
-            }
-          />
-        </ul>
       </div>
     </div>
   </div>
-</div>
+</DocumentFragment>
 `;
