@@ -3,7 +3,9 @@ import bem from 'easy-bem';
 import React, { useEffect } from 'react';
 
 import FormField from 'components/FormField/FormField';
+import useWindowWidth from 'hooks/useWindowWidth';
 import { accountsManagerConfirmation, userMutation } from 'interfaces';
+
 import 'components/ModalComponent/ModalChildrenComponents/CreateNewUserCredentials/_createNewUserCredentials.scss';
 
 interface Props {
@@ -19,7 +21,7 @@ const CreateNewUserCredentials: React.FC<Props> = ({
 }) => {
   const b = bem('CreateNewUserCredentials');
   const [form] = Form.useForm();
-
+  const windowWidth = useWindowWidth();
   useEffect(() => {
     if (userCreateData) {
       form.setFieldsValue({
@@ -37,7 +39,8 @@ const CreateNewUserCredentials: React.FC<Props> = ({
   }, [userCreateData, requestRegisterUserData, form]);
 
   return (
-    <div>
+    <div className={b()}>
+      {windowWidth < 600 && <h3>Логин и пароль</h3>}
       <p className={b('text')}>Пожалуйста отправьте эти данные пользователю</p>
 
       <Form

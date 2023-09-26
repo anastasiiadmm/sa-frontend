@@ -1,4 +1,4 @@
-import { CloseOutlined } from '@ant-design/icons';
+import { CloseOutlined, RightOutlined } from '@ant-design/icons';
 import { Button, Card, message, Spin, Typography } from 'antd';
 import bem from 'easy-bem';
 import moment from 'moment';
@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import arrowDown from 'assets/images/icons/arrow-down.svg';
 import converterFile from 'assets/images/icons/converter-file.svg';
 import Errors from 'components/Errors/Errors';
+import NotFound from 'components/Errors/NotFound/NotFound';
 import FormField from 'components/FormField/FormField';
 import DeleteModal from 'components/ModalComponent/ModalChildrenComponents/DeleteModal/DeleteModal';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
@@ -32,7 +33,6 @@ import {
 } from 'utils/helper';
 
 import 'containers/Converter/_converter.scss';
-import NotFound from '../../components/Errors/NotFound/NotFound';
 
 const { Title, Text } = Typography;
 
@@ -203,7 +203,7 @@ const Converter = () => {
                   Конвертировать
                 </Button>
               ) : (
-                <Button className='button-style' onClick={handleButtonClick}>
+                <Button className={`button-style ${b('update_file')}`} onClick={handleButtonClick}>
                   Выбрать файл
                 </Button>
               )}
@@ -222,10 +222,22 @@ const Converter = () => {
         {windowWidth <= 990 ? (
           <Link to='/files'>
             <Card hoverable style={{ width: 170 }}>
-              <div className={b('files-link-block')}>
-                <img src={converterFile} alt='converterFile' className={b('link-img')} />
-                <Text strong>Мои файлы</Text>
-              </div>
+              {windowWidth < 600 ? (
+                <div className={b('files-link-block_mobile')}>
+                  <div>
+                    <img src={converterFile} alt='converterFile' className={b('link-img')} />
+                  </div>
+                  <p>Мои файлы</p>
+                  <div className='next_icons'>
+                    <RightOutlined />
+                  </div>
+                </div>
+              ) : (
+                <div className={b('files-link-block')}>
+                  <img src={converterFile} alt='converterFile' className={b('link-img')} />
+                  <Text strong>Мои файлы</Text>
+                </div>
+              )}
             </Card>
           </Link>
         ) : (

@@ -16,6 +16,7 @@ import bem from 'easy-bem';
 import moment from 'moment';
 import React, { lazy, Suspense, useEffect, useState } from 'react';
 
+import arrowLeft from 'assets/images/icons/arrow_left.svg';
 import changeProfile from 'assets/images/icons/change-profile-mobile.svg';
 import newTechnique from 'assets/images/icons/new-technique-mobile.svg';
 import newUserMobile from 'assets/images/icons/new-user-mobile.svg';
@@ -552,7 +553,7 @@ const UserRequests = () => {
                     onClick={() => confirmationTypeHandler(request)}
                   >
                     <div className={b('image-request')}>
-                      <img src={imageSrc} alt='request' />
+                      <img src={imageSrc} alt='request' width={28} height={28} />
                     </div>
                     <div className={b('request-block')}>
                       <div>
@@ -727,6 +728,7 @@ const UserRequests = () => {
         closable
         title='Запрос на регистрацию'
         width='100%'
+        closeIcon={<img src={arrowLeft} alt='arrowLeft' />}
         bodyStyle={{ padding: 20 }}
         open={isDrawerRegisterUserOpen}
         onClose={handleOkRegisterUserCancel}
@@ -751,6 +753,7 @@ const UserRequests = () => {
         closable
         title='Запрос на изменение личной информации'
         width='100%'
+        closeIcon={<img src={arrowLeft} alt='arrowLeft' />}
         bodyStyle={{ padding: 20 }}
         open={isDrawerUserInfoOpen}
         onClose={handleOkUserInfoCancel}
@@ -781,6 +784,7 @@ const UserRequests = () => {
         closable
         title='Запрос на добавление техники'
         width='100%'
+        closeIcon={<img src={arrowLeft} alt='arrowLeft' />}
         bodyStyle={{ padding: 20 }}
         open={isDrawerTechniqueOpen}
         onClose={handleOkTechniqueCancel}
@@ -809,6 +813,8 @@ const UserRequests = () => {
         open={isDrawerFieldClimateRequestOpen}
         onClose={handleOkFieldClimateInfoCancel}
         placement='bottom'
+        className={b('scroll_hidden')}
+        height={windowWidth > 600 ? 290 : 350}
       >
         <Suspense fallback={<Skeleton active />}>
           <FieldClimateModal
@@ -825,7 +831,8 @@ const UserRequests = () => {
         open={isDrawerRejectOpen}
         onClose={handleOkRejectCancel}
         placement='bottom'
-        height={231}
+        className={b('mobile_cancel')}
+        height={284}
       >
         <Suspense fallback={<Skeleton active />}>
           <RequestModal

@@ -263,13 +263,27 @@ const ApksList = () => {
 
               return (
                 <Card bordered={false} key={apk?.version} className={b('apks-block')}>
-                  <Tag color={tagColor} style={{ width: 115 }}>
-                    <Badge color={badgeColor} /> {tagLabel}
+                  <Tag
+                    color={tagColor}
+                    style={{
+                      width: 100,
+                      border: 'none',
+                      height: 24,
+                      display: 'flex',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <Badge color={badgeColor} /> <span style={{ marginLeft: 10 }}>{tagLabel}</span>
                   </Tag>
                   <Text strong style={{ fontSize: 20 }}>
                     ver {apk?.version}
                   </Text>
-                  <Text type='secondary'>
+                  <Text
+                    type='secondary'
+                    style={{
+                      fontSize: 12,
+                    }}
+                  >
                     {moment(apk?.created_at, dateWithTimeSecFormat).format(dateOnly)}
                   </Text>
                   <Divider style={{ margin: '10px 0' }} />

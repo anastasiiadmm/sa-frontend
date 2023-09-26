@@ -29,20 +29,11 @@ const RequestModal: React.FC<Props> = ({
     <>
       <ResultComponent
         status='error'
-        icon={<img src={warning} alt='warning' />}
+        icon={<img src={warning} alt='warning' className={b('icons')} />}
         title={title}
         subTitle={subTitle}
       />
       <div className={b('delete-modal-buttons')}>
-        <Button
-          size='large'
-          type='primary'
-          style={{ width: '100%', borderRadius: 8 }}
-          className={b('cancel-profile-button')}
-          onClick={handleDeleteCancel}
-        >
-          Отменить
-        </Button>
         <Button
           size='large'
           type='primary'
@@ -51,6 +42,15 @@ const RequestModal: React.FC<Props> = ({
           onClick={requestHandler}
         >
           {textCancel}
+        </Button>
+        <Button
+          size='large'
+          type='primary'
+          style={{ width: '100%', borderRadius: 8 }}
+          className={b('cancel-profile-button')}
+          onClick={handleDeleteCancel}
+        >
+          Отменить
         </Button>
       </div>
     </>

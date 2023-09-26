@@ -173,7 +173,7 @@ const RequestRegisterUser: React.FC<Props> = ({
         md={{ span: 24, offset: 0 }}
         lg={{ span: 24, offset: 0 }}
       >
-        {windowWidth <= 601 && (
+        {windowWidth >= 601 && (
           <Text style={{ marginBottom: 20, display: 'block' }}>
             Создать учетную запись нового пользователя и добавить его.
           </Text>
@@ -308,11 +308,11 @@ const RequestRegisterUser: React.FC<Props> = ({
       </ModalComponent>
 
       <DrawerComponent
-        title='Логин и пароль'
+        title={windowWidth > 600 ? 'Логин и пароль' : ''}
         open={openDraw}
         onClose={() => setOpenDraw(false)}
         placement='bottom'
-        height={370}
+        height={windowWidth < 600 ? 320 : 370}
       >
         <CreateNewUserCredentials
           handleOkCancel={handleAgreeOkCancel}

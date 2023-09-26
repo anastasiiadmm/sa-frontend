@@ -137,7 +137,7 @@ export const buttonsDataManager = [
   },
   {
     key: '/apks',
-    text: 'Приложение',
+    text: 'Версии приложения',
     icon: <img src={phone} alt='phone' />,
     activeIcon: <img src={activePhone} alt='activePhone' />,
   },

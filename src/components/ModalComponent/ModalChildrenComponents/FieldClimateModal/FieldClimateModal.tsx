@@ -35,8 +35,16 @@ const FieldClimateModal: React.FC<Props> = ({
 
   return (
     <div>
-      <img src={sun} alt='sun' style={{ width: 83, height: 83 }} />
-      <Title level={3}>Запрос на подключение метеосервиса</Title>
+      <img src={sun} alt='sun' style={{ width: 56, height: 56 }} />
+      <Title
+        level={3}
+        style={{
+          fontSize: 18,
+          fontWeight: 600,
+        }}
+      >
+        Запрос на подключение метеосервиса
+      </Title>
 
       <Form form={form} initialValues={{ remember: true }} autoComplete='off' layout='vertical'>
         <div className={b('form-modal-block')}>
@@ -55,15 +63,6 @@ const FieldClimateModal: React.FC<Props> = ({
       <div className={b('profile-buttons')}>
         <Button
           type='primary'
-          style={{ width: '100%', borderRadius: 6 }}
-          className={b('delete-button')}
-          onClick={handleOkCancel}
-        >
-          Отклонить запрос
-        </Button>
-
-        <Button
-          type='primary'
           htmlType='submit'
           loading={approveRequestLoading}
           style={{ width: '100%', borderRadius: 6 }}
@@ -71,6 +70,14 @@ const FieldClimateModal: React.FC<Props> = ({
           onClick={sendApprovedHandler}
         >
           Принять
+        </Button>
+        <Button
+          type='primary'
+          style={{ width: '100%', borderRadius: 6 }}
+          className={b('delete-button')}
+          onClick={handleOkCancel}
+        >
+          Отклонить запрос
         </Button>
       </div>
     </div>

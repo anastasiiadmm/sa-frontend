@@ -132,8 +132,20 @@
 
 @media screen and (max-width: 560px) {
   .Profile {
+    margin-bottom: 22px;
     &__form-header {
       text-align: center;
+    }
+
+    &__form-block {
+      display: block;
+    }
+
+    &__button_mobile {
+      padding: 10px 20px 10px 10px;
+      > button {
+        height: 36px;
+      }
     }
 
     &__block_generator_mobile {
