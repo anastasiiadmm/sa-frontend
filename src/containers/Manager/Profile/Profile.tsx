@@ -5,11 +5,13 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 
 import blockIcon from 'assets/images/icons/newIcon/block.svg';
+import DrawerComponent from 'components/DrawerComponent/DrawerComponent';
 import Errors from 'components/Errors/Errors';
 import FormField from 'components/FormField/FormField';
 import GeneratedPasswordModal from 'components/ModalComponent/ModalChildrenComponents/GeneratedPasswordModal/GeneratedPasswordModal';
 import ModalComponent from 'components/ModalComponent/ModalComponent';
 import SkeletonBlock from 'components/SkeletonBlock/SkeletonBlock';
+import useWindowWidth from 'hooks/useWindowWidth';
 import {
   accountsSelector,
   fetchAccount,
@@ -22,6 +24,7 @@ import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { apiUrlCrop } from 'utils/config';
 import { isObjectChangeValidate, removeEmptyValuesFromObject } from 'utils/helper';
 import { fileSizeValidate, fileValidateImg } from 'utils/validate/validate';
+
 import 'containers/Manager/Profile/_profile.scss';
 
 const { Title } = Typography;
@@ -39,6 +42,8 @@ const Profile: React.FC = () => {
     fetchErrorAccount,
   } = useAppSelector(accountsSelector);
   const dispatch = useAppDispatch();
+  const windowWidth = useWindowWidth();
+
   const [validateForm, setValidateForm] = useState(false);
   const [image, setImage] = useState<File | null>(null);
   const [isModalPasswordOpen, setIsModalPasswordOpen] = useState(false);
@@ -292,7 +297,7 @@ const Profile: React.FC = () => {
       </div>
       <ModalComponent
         title='Пароль'
-        open={isModalPasswordOpen}
+        open={windowWidth < 600 ? false : isModalPasswordOpen}
         dividerShow={false}
         handleOk={closePasswordModal}
         handleCancel={closePasswordModal}
@@ -304,6 +309,18 @@ const Profile: React.FC = () => {
           onClose={closePasswordModal}
         />
       </ModalComponent>
+      <DrawerComponent
+        placement='bottom'
+        height={200}
+        open={windowWidth < 600 ? isModalPasswordOpen : false}
+        onClose={() => setIsModalPasswordOpen(false)}
+      >
+        <GeneratedPasswordModal
+          subtitle='Ваш новый пароль'
+          generatedPassword={generatedPassword}
+          onClose={closePasswordModal}
+        />
+      </DrawerComponent>
     </div>
   );
 };
