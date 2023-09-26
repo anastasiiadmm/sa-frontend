@@ -116,6 +116,13 @@
     &__mobile-block {
       justify-content: center;
     }
+
+    &__mobile-block {
+      > a {
+        width: 68px;
+        margin: 0 auto;
+      }
+    }
   }
 }
 
@@ -206,15 +213,4 @@
 
 .margin-top {
   margin-top: 11px;
-}
-
-@media screen and (max-width: 360px) {
-  .SliderMenu {
-    &__mobile-block {
-      > a {
-        width: 68px;
-        margin: 0 auto;
-      }
-    }
-  }
 }
