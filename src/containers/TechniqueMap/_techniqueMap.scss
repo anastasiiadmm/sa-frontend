@@ -368,13 +368,18 @@
   .TechniqueMap {
     &__card-block-info {
       justify-content: space-around;
-      padding-right: 0;
+      padding-right: 5px;
+      padding-left: 5px;
     }
     &__info-block {
       margin: 0 16px 0 16px;
     }
     &__status_btn {
       top: 54px;
+    }
+
+    .ant-card .ant-card-body {
+      padding: 4px 0px 4px 0px;
     }
   }
 }

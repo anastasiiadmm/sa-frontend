@@ -73,10 +73,15 @@
       right: 0;
       > button {
         height: 36px;
+        border-radius: 8px!important;
       }
     }
     .form-fields {
       width: 100%;
+    }
+
+    &__btn_mobile {
+      height: 56px;
     }
   }
 }
