@@ -3,8 +3,8 @@ import {cleanup } from "@testing-library/react";
 import "../../../__mocks__/matchMedia.mock";
 import "@testing-library/jest-dom";
 import { mockedDispatch, mockedUseSelectors } from "../../../__mocks__/utils";
+import { render } from "@testing-library/react";
 
-import * as TestRenderer from 'react-test-renderer';
 import ProfileTechnique from "../../../src/containers/Technique/ProfileTechnique/ProfileTechnique";
 
 afterEach(cleanup);
@@ -82,20 +82,19 @@ const data = {
     }
 };
 
-
 describe("<ProfileTechnique />", () => {
     test("Users table component should be in the document", async () => {
         mockedUseSelectors.mockReturnValue(data);
         const dispatch = jest.fn();
         mockedDispatch.mockReturnValue(dispatch);
 
-        const tree = TestRenderer
-            .create(
-                <BrowserRouter>
-                    <ProfileTechnique />
-                </BrowserRouter>
-            )
-            .toJSON();
-        expect(tree).toMatchSnapshot();
+        const { asFragment } = render(
+          <BrowserRouter>
+              <ProfileTechnique />
+          </BrowserRouter>
+        );
+
+        expect(asFragment()).toMatchSnapshot();
     });
 });
+

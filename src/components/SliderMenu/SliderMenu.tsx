@@ -8,7 +8,7 @@ import {
 import { Avatar, Button, Layout, Menu, Skeleton } from 'antd';
 import type { MenuProps } from 'antd';
 import bem from 'easy-bem';
-import React, { useEffect, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 import { Link, NavLink } from 'react-router-dom';
 
@@ -179,7 +179,7 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
       icon: <RetweetOutlined style={{ fontSize: 20 }} />,
       name: 'Конвертер',
     },
-    {
+    account?.company?.weather_service && {
       key: '/field-climate',
       icon: <img src={meteo} alt='meteo' style={{ fontSize: 20 }} />,
       name: 'Метеосервис',
@@ -189,7 +189,11 @@ const SliderMenu: React.FC<Props> = ({ collapsed }) => {
       icon: <ImportOutlined style={{ fontSize: 20 }} />,
       name: 'Выход',
     },
-  ];
+  ].filter(Boolean) as {
+    icon: ReactNode;
+    key: string;
+    name: string;
+  }[];
 
   const pushLinks: MenuProps['onClick'] = (e) => {
     handleMenuClick(e.key);

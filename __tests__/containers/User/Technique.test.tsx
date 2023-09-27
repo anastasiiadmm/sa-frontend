@@ -1,11 +1,10 @@
 import { BrowserRouter } from "react-router-dom";
-import {cleanup} from "@testing-library/react";
+import {cleanup, render} from "@testing-library/react";
 import "../../../__mocks__/matchMedia.mock";
 import "@testing-library/jest-dom";
 import { mockedDispatch, mockedUseSelectors } from "../../../__mocks__/utils";
 
 import Technique from "../../../src/containers/User/Technique/Technique";
-import * as TestRenderer from 'react-test-renderer';
 
 afterEach(cleanup);
 
@@ -29,13 +28,12 @@ describe("<Technique />", () => {
         const dispatch = jest.fn();
         mockedDispatch.mockReturnValue(dispatch);
 
-        const tree = TestRenderer
-            .create(
+        const { asFragment } = render(
                 <BrowserRouter>
                     <Technique />
                 </BrowserRouter>
-            )
-            .toJSON();
-        expect(tree).toMatchSnapshot();
+            );
+
+        expect(asFragment).toMatchSnapshot();
     });
 });

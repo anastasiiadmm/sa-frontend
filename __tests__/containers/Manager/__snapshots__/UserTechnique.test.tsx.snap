@@ -1,43 +1,35 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<UserTechnique /> Users table component should be in the document 1`] = `
-<div
-  className="UserTechnique"
-  data-testid="user-technique-id"
->
+<DocumentFragment>
   <div
-    className="HeaderMobile"
-  >
-    <button
-      onClick={[Function]}
-      type="button"
-    >
-      <img
-        alt="arrow"
-        className="UserTechnique__arrow-left"
-        src={
-          {
-            "process": [Function],
-          }
-        }
-      />
-    </button>
-    <span>
-      Техника пользователя
-    </span>
-  </div>
-  <div
-    className="UserTechnique__table"
+    class="UserTechnique"
+    data-testid="user-technique-id"
   >
     <div
-      className="UserTechnique__header"
+      class="HeaderMobile"
+    >
+      <button
+        type="button"
+      >
+        <img
+          alt="arrow"
+          class="UserTechnique__arrow-left"
+          src="[object Object]"
+        />
+      </button>
+      <span>
+        Техника пользователя
+      </span>
+    </div>
+    <div
+      class="UserTechnique__table"
     >
       <div
-        className="UserTechnique__header-title"
+        class="UserTechnique__header"
       >
-        <a
-          href="/user-profile/undefined"
-          onClick={[Function]}
+        <div
+          class="UserTechnique__header-title"
         >
           <img
             alt="arrow"
@@ -147,55 +139,138 @@ exports[`<UserTechnique /> Users table component should be in the document 1`] =
             type="button"
           >
             <span>
-              Вся техника на карте
+              Добавить технику
             </span>
           </button>
-        </a>
+          <a
+            href="/technique-map/undefined"
+          >
+            <button
+              class="ant-btn css-dev-only-do-not-override-1vr7spz ant-btn-default UserTechnique__view-button"
+              type="button"
+            >
+              <span>
+                Вся техника на карте
+              </span>
+            </button>
+          </a>
+        </div>
+      </div>
+      <div
+        class="UserTechnique__table_list"
+      >
+        <div
+          class="ant-skeleton css-dev-only-do-not-override-1vr7spz"
+        >
+          <div
+            class="ant-skeleton-content"
+          >
+            <h3
+              class="ant-skeleton-title"
+              style="width: 38%;"
+            />
+            <ul
+              class="ant-skeleton-paragraph"
+            >
+              <li />
+              <li />
+              <li
+                style="width: 61%;"
+              />
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
     <div
-      className="UserTechnique__table_list"
+      class="UserTechnique__list_table_mobile"
     >
       <div
         className="ant-skeleton css-dev-only-do-not-override-1ck3jst"
         style={{}}
       >
         <div
-          className="ant-skeleton-content"
+          class="block_avatar"
         >
-          <h3
-            className="ant-skeleton-title"
-            style={
-              {
-                "width": "38%",
-              }
-            }
-          />
-          <ul
-            className="ant-skeleton-paragraph"
+          <div>
+            <img
+              src="https://localhost:8000/api/static/default_vehicle_image.jpg"
+            />
+          </div>
+          <div
+            class="block_title"
           >
-            <li
-              style={
-                {
-                  "width": undefined,
-                }
-              }
+            <p>
+              <b>
+                Название техники
+              </b>
+            </p>
+            <p
+              class="todo"
+            >
+              fbd
+            </p>
+            <p
+              class="todo"
+            >
+              Задачи 
+              <b>
+                1
+              </b>
+            </p>
+          </div>
+        </div>
+        <div
+          style="display: flex; margin-top: 10px;"
+        >
+          <button
+            class="ant-btn css-dev-only-do-not-override-1vr7spz ant-btn-text UserTechnique__btn_table"
+            type="button"
+          >
+            <img
+              alt="edit"
+              class="link-icons"
+              src="[object Object]"
             />
-            <li
-              style={
-                {
-                  "width": undefined,
-                }
-              }
+          </button>
+          <a
+            href="/profile-technique/91"
+          >
+            <button
+              class="ant-btn css-dev-only-do-not-override-1vr7spz ant-btn-text UserTechnique__btn_table"
+              type="button"
+            >
+              <img
+                alt="tractorBlue"
+                class="UserTechnique__tractor-blue link-icons"
+                src="[object Object]"
+              />
+            </button>
+          </a>
+          <a
+            href="/open-map/91/local-tractor/D8BN8TR61"
+          >
+            <button
+              class="ant-btn css-dev-only-do-not-override-1vr7spz ant-btn-text UserTechnique__btn_table"
+              type="button"
+            >
+              <img
+                alt="tractorBlue"
+                class="UserTechnique__tractor-blue link-icons"
+                src="[object Object]"
+              />
+            </button>
+          </a>
+          <button
+            class="ant-btn css-dev-only-do-not-override-1vr7spz ant-btn-text UserTechnique__btn_table UserTechnique__deleteBg"
+            type="button"
+          >
+            <img
+              alt="deleteIcon"
+              class="link-icons"
+              src="[object Object]"
             />
-            <li
-              style={
-                {
-                  "width": "61%",
-                }
-              }
-            />
-          </ul>
+          </button>
         </div>
       </div>
     </div>

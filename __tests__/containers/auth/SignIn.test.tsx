@@ -17,15 +17,13 @@ describe('<SignIn />', () => {
   test('Render component toMatchSnapshot()', () => {
     mockedUseSelectors.mockReturnValue([]);
 
-    const tree = renderer
-      .create(
+    const { asFragment } = render(
         <BrowserRouter>
           <SignIn />
         </BrowserRouter>,
-      )
-      .toJSON();
+      );
 
-    expect(tree).toMatchSnapshot();
+    expect(asFragment).toMatchSnapshot();
   });
 
   it("Opening a modal and closing it", () => {
