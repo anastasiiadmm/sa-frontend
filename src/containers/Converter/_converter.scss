@@ -124,6 +124,65 @@
       width: auto;
       border-radius: initial;
     }
+    > div > div {
+      padding: 12px!important;
+    }
+  }
+
+  @include mixins.bp(mobile) {
+
+    > a {
+      > div {
+        width: 100% !important;
+        > div {
+          padding: 0!important;
+          height: 48px;
+        }
+      }
+    }
+    &__converter-block{
+      height: 180px;
+      position: relative;
+    }
+
+    &__select-block {
+      display: flex;
+      width: 100%;
+      position: absolute;
+      bottom: 28px;
+      left: 0;
+    }
+
+    &__files-link-block_mobile {
+      display: flex;
+      width: 100%;
+      position: relative;
+      > div {
+        margin-top: 6px;
+        margin-left: 10px;
+      }
+      > p {
+        margin-left: 10px;
+      }
+
+      .next_icons {
+        position: absolute;
+        top: 8px;
+        right: 10px;
+      }
+    }
+
+    &__update_file {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 36px!important;
+      background-color: #689F3A;
+      box-shadow: none!important;
+      color: #FFFFFF!important;
+      font-weight: 600;
+      font-size: 13px;
+    }
   }
 }
 

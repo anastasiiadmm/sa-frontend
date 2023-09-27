@@ -18,6 +18,11 @@
     margin-top: 35px;
     display: flex;
     gap: 10px;
+    > button {
+      height: 36px;
+      border-radius: 8px!important;
+      box-shadow: none!important;
+    }
   }
 
   &__delete-button {
@@ -31,6 +36,7 @@
   }
 
   @include mixins.bp(mobile) {
+    margin-bottom: 50px;
     &__form-block {
       flex-direction: column;
       gap: initial;
@@ -41,6 +47,15 @@
       .form-fields {
         width: 100% !important;
       }
+    }
+    &__profile-buttons {
+      position: fixed;
+      height: 56px;
+      background-color: #FFFFFF;
+      align-items: center;
+      right: 10px;
+      left: 10px;
+      bottom: 0;
     }
   }
 }

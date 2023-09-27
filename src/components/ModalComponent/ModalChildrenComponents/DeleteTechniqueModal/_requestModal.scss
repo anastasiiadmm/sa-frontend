@@ -1,5 +1,5 @@
 @use 'assets/scss/_themes.scss';
-
+@use 'assets/scss/_mixins.scss';
 .RequestModal {
   &__delete-modal-buttons {
     display: flex;
@@ -27,6 +27,26 @@
     background: themes.$red-color !important;
     &:hover {
       background: rgba(193, 16, 48, 0.6) !important;
+    }
+  }
+
+  @include mixins.bp(mobile) {
+    &__delete-modal-buttons {
+      display: block;
+      > button {
+        margin-top: 10px;
+        font-weight: 600;
+        height: 44px;
+        border-radius: 8px!important;
+        box-shadow: none!important;
+        font-size: 13px!important;
+      }
+    }
+    &__icons {
+      display: flex;
+      justify-content: left;
+      width: 56px;
+      height: 56px;
     }
   }
 }

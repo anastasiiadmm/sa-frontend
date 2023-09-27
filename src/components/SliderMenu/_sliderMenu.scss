@@ -115,6 +115,11 @@
   @include mixins.bp(mobile) {
     &__mobile-block {
       justify-content: center;
+
+      > a {
+        width: 68px;
+        margin: 0 auto;
+      }
     }
   }
 }

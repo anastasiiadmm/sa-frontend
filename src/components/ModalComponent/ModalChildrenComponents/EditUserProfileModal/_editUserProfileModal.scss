@@ -46,6 +46,8 @@
 
     > button {
       height: 36px;
+      border-radius: 8px!important;
+      box-shadow: none!important;
     }
   }
 
@@ -103,6 +105,16 @@
       > div {
         margin-bottom: 5px;
       }
+    }
+    &__profile-buttons {
+      position: fixed;
+      height: 56px;
+      background-color: #FFFFFF;
+      align-items: center;
+      right: 10px;
+      width: auto;
+      left: 10px;
+      bottom: 0;
     }
   }
 

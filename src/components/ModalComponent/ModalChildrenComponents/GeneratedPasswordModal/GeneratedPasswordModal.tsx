@@ -18,7 +18,13 @@ const GeneratedPasswordModal: React.FC<Props> = ({ subtitle, generatedPassword, 
       <p data-testid='generated-password' className={b('new-password')}>
         {generatedPassword}
       </p>
-      <Button data-testid='ok-button' type='primary' style={{ width: '100%' }} onClick={onClose}>
+      <Button
+        data-testid='ok-button'
+        type='primary'
+        style={{ width: '100%' }}
+        onClick={onClose}
+        className={b('save_btn')}
+      >
         Готово
       </Button>
     </div>

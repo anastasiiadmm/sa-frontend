@@ -104,7 +104,19 @@ const AppRouter: React.FC = () => {
             ? buttonsDataManager.map((button) =>
                 pathname === button?.key ? (
                   <Title level={4} key={button.key} className={b('title-mobile')}>
-                    {button.text}
+                    {pathname.includes('/user-requests') ? (
+                      <span
+                        style={{
+                          fontSize: 20,
+                          fontWeight: 500,
+                          color: '#1D2024',
+                        }}
+                      >
+                        {button.text}
+                      </span>
+                    ) : (
+                      button.text
+                    )}
                   </Title>
                 ) : null,
               )
@@ -125,7 +137,6 @@ const AppRouter: React.FC = () => {
         })}
       </>
     );
-
   return (
     <Layout style={{ height: '100vh' }} className={b('')} data-testid='app-router'>
       <Suspense fallback={<Skeleton />}>
@@ -133,7 +144,12 @@ const AppRouter: React.FC = () => {
       </Suspense>
       <Layout className='site-layout'>
         <Header
-          style={{ padding: 0, background: colorBgContainer }}
+          style={{
+            padding: 0,
+            background: pathname.includes('user-requests') ? '#f5f5f5' : colorBgContainer,
+            borderBottomRightRadius: pathname.includes('apks') ? 14 : 0,
+            borderBottomLeftRadius: pathname.includes('apks') ? 14 : 0,
+          }}
           className={
             pathname.includes('user-technique') ||
             pathname.includes('user-profile-view') ||

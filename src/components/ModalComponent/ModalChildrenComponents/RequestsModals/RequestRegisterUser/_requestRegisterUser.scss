@@ -14,6 +14,10 @@
     margin-top: 35px;
     display: flex;
     gap: 10px;
+    > button {
+      border-radius: 8px!important;
+      box-shadow: none!important;
+    }
   }
 
   &__delete-button {
@@ -27,12 +31,23 @@
   }
 
   @include mixins.bp(mobile) {
+    margin-bottom: 50px;
     &__form-block {
       flex-direction: column;
       gap: initial;
       > div {
         margin-bottom: 5px;
       }
+    }
+    &__profile-buttons {
+      height: 56px;
+      display: flex;
+      align-items: center;
+      background-color: #FFFFFF;
+      left: 10px;
+      right: 10px;
+      position: fixed;
+      bottom: 0;
     }
   }
 }

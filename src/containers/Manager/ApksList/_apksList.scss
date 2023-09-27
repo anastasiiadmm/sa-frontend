@@ -67,5 +67,31 @@
     &__apks-list-block {
       flex-direction: column;
     }
+
+    &__apks-button {
+     height: 44px;
+     background-color: #F8F8F8;
+      color: #689F3A!important;
+      font-size: 14px;
+      font-weight: 600;
+      border: none;
+      border-radius: 12px;
+    }
+  }
+  .ant-badge.ant-badge-status .ant-badge-status-dot{
+    width: 8px!important;
+    height: 8px!important;
+  }
+
+  &__apks-list-block {
+    gap: 0;
+  }
+}
+
+@media screen and (max-width: 360px) {
+  .ApksList {
+    &__apks-block {
+      width: 290px;
+    }
   }
 }
