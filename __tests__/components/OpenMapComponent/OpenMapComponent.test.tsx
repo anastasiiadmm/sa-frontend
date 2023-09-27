@@ -2,7 +2,6 @@ import "@testing-library/jest-dom";
 import {mockedDispatch, mockedUseSelectors} from "../../../__mocks__/utils";
 import {screen, render, cleanup} from "@testing-library/react";
 import {BrowserRouter} from "react-router-dom";
-import * as TestRenderer from 'react-test-renderer';
 import "../../../__mocks__/matchMedia.mock";
 import OpenMapComponent from "../../../src/components/OpenMapComponent/OpenMapComponent";
 import TechniqueMap from "../../../src/containers/TechniqueMap/TechniqueMap";
@@ -141,15 +140,13 @@ describe('OpenMapComponents', () => {
     const dispatch = jest.fn();
     mockedDispatch.mockReturnValue(dispatch);
 
-    const tree = TestRenderer
-      .create(
+    const { asFragment } = render(
         <BrowserRouter>
           <OpenMapComponent />
         </BrowserRouter>,
-      )
-      .toJSON();
+      );
 
-    expect(tree).toMatchSnapshot();
+    expect(asFragment).toMatchSnapshot();
   })
 
   test('render technique map success', async () => {
@@ -157,14 +154,12 @@ describe('OpenMapComponents', () => {
     const dispatch = jest.fn();
     mockedDispatch.mockReturnValue(dispatch);
 
-    const tree = TestRenderer
-      .create(
+    const { asFragment } = render(
         <BrowserRouter>
           <TechniqueMap />
         </BrowserRouter>,
-      )
-      .toJSON();
+      );
 
-    expect(tree).toMatchSnapshot();
+    expect(asFragment).toMatchSnapshot();
   })
 })
