@@ -154,7 +154,7 @@ exports[`<Converter /> render component toMatchSnapshot() 1`] = `
                   </div>
                 </div>
                 <button
-                  class="ant-btn css-dev-only-do-not-override-1vr7spz ant-btn-default button-style"
+                  class="ant-btn css-dev-only-do-not-override-1vr7spz ant-btn-default button-style Converter__update_file"
                   type="button"
                 >
                   <span>
@@ -403,7 +403,7 @@ exports[`<Converter /> render component toMatchSnapshot() 1`] = `
                 </div>
               </div>
               <button
-                class="ant-btn css-dev-only-do-not-override-1vr7spz ant-btn-default button-style"
+                class="ant-btn css-dev-only-do-not-override-1vr7spz ant-btn-default button-style Converter__update_file"
                 type="button"
               >
                 <span>
