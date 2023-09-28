@@ -99,6 +99,12 @@
   }
 
   @include mixins.bp(mobile) {
+    &__form_block_edit{
+      margin-bottom: 70px;
+      margin-right: -2px;
+      margin-top: -20px;
+    }
+
     &__form-modal-block {
       flex-direction: column;
       gap: initial;

@@ -122,6 +122,7 @@ const EditUserProfileModal: React.FC<Props> = ({
         onFinish={onFinish}
         autoComplete='off'
         layout='vertical'
+        className={b('form_block_edit')}
         onValuesChange={onValuesChange}
       >
         {changeUserInfoRequest ? (
@@ -160,7 +161,12 @@ const EditUserProfileModal: React.FC<Props> = ({
           <div className={b('image-upload')}>
             <label htmlFor='image-input'>
               {image ? (
-                <Avatar size={64} src={URL.createObjectURL(image)} style={{ cursor: 'pointer' }} />
+                <Avatar
+                  size={64}
+                  src={URL.createObjectURL(image)}
+                  style={{ cursor: 'pointer' }}
+                  className={b('avatar')}
+                />
               ) : (
                 <Avatar
                   size={64}

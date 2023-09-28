@@ -76,6 +76,8 @@
       > button {
         background-color: transparent;
         border: none;
+        position: absolute;
+        z-index: 90;
         > img {
           width: 14px;
           height: 13px;
@@ -132,10 +134,18 @@
 
 @media screen and (max-width: 600px) {
   .Profile {
+    margin-inline-start: 0;
+    max-width: 100%;
+    margin-bottom: 30px;
     &__avatar_title {
       display: flex;
       justify-content: center;
       margin-left: 0;
+    }
+
+    &__next_icon {
+      position: absolute;
+      top: 19px;
     }
 
     &__title_first_name {
@@ -149,7 +159,19 @@
     }
 
     &__block_request_link {
-      margin: 20px;
+      position: fixed;
+      padding: 10px 20px;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      background-color: #ffffff;
+      > button {
+        height: 36px;
+        border: none;
+        font-weight: 600;
+        font-size: 12px;
+        border-radius: 8px;
+      }
     }
 
     &__request_link_mobiles {

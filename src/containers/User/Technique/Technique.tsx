@@ -252,7 +252,7 @@ const Technique = () => {
                   </>
                 )}
               </div>
-              <div className={b('card-technique-block')}>
+              <div className={`${b('card-technique-block')} ${b('card_btn_technique')}`}>
                 {fetchLoadingAccount ? (
                   <Spin style={{ padding: '0 10px 10px' }} />
                 ) : (
@@ -382,7 +382,7 @@ const Technique = () => {
             <div className={b('mobile_data')}>
               <div className='tractor'>
                 <div>
-                  <img src={tractorIcons} alt='tractorNew' />
+                  <img src={tractorIcons} alt='tractorNew' className={b('tractor_icon_mobile')} />
                 </div>
                 <div className='text_mobile_header'>
                   Ваша техника <br />

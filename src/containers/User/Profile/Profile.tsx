@@ -1,4 +1,4 @@
-import { Button, Col, Form, message, Typography } from 'antd';
+import { Button, Col, Drawer, Form, message, Typography } from 'antd';
 import bem from 'easy-bem';
 import React, { useEffect, useState } from 'react';
 
@@ -19,6 +19,7 @@ import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { urlFormat } from 'utils/files/files';
 import { appendDataFields } from 'utils/helper';
 import { fileSizeValidate, fileValidateImg } from 'utils/validate/validate';
+
 import 'containers/User/Profile/_profile.scss';
 
 const { Title } = Typography;
@@ -349,7 +350,7 @@ const Profile = () => {
       <ModalComponent
         dividerShow={false}
         title='Запрос на изменение личной информации'
-        open={isModalOpen}
+        open={windowWidth > 600 ? isModalOpen : false}
         handleOk={handleOkCancel}
         handleCancel={handleOkCancel}
       >
@@ -366,6 +367,39 @@ const Profile = () => {
           }
         />
       </ModalComponent>
+      <Drawer
+        placement='right'
+        open={windowWidth < 600 ? isModalOpen : false}
+        width='100%'
+        closeIcon={<img src={next} alt='next' className={b('next_icon')} />}
+        onClose={handleOkCancel}
+        title={
+          <p
+            style={{
+              width: '100%',
+              textAlign: 'center',
+              margin: 0,
+              fontWeight: 500,
+              fontSize: 13,
+            }}
+          >
+            Редактирование профиля
+          </p>
+        }
+      >
+        <EditUserProfileModal
+          onClick={onClickSendDataHandler}
+          account={account}
+          inputChangeHandler={inputChangeHandler}
+          loading={changeProfileLoading}
+          image={image}
+          onFileChange={onFileChange}
+          formValid={formValid}
+          onValuesChange={() =>
+            setFormValid(form.getFieldsError().some((item) => item.errors.length > 0))
+          }
+        />
+      </Drawer>
     </>
   );
 };
