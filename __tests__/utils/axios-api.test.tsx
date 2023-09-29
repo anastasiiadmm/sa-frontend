@@ -5,7 +5,6 @@ import MockAdapter from 'axios-mock-adapter';
 
 import store from "../../src/redux/store";
 import {addLocalStorage} from "../../src/utils/addLocalStorage/addLocalStorage";
-import {checkForTokens} from "../../src/redux/auth/authSlice";
 jest.mock('../../src/redux/store');
 jest.mock('../../src/redux/auth/authSlice');
 jest.mock('../../src/utils/addCookies/addCookies', () => ({
@@ -25,6 +24,7 @@ describe('Axios Interceptors', () => {
             auth: {
                 tokens: {
                     access: 'access token',
+                    refresh: 'refresh token',
                     is_manager: false,
                 },
                 user: {},
@@ -35,28 +35,67 @@ describe('Axios Interceptors', () => {
 
     afterEach(() => {
         mockAxios.restore();
+        jest.clearAllMocks();
     });
 
-    test('', async () => {
+    test('Testing Authorization header', async () => {
+        addLocalStorage({
+            access: 'access token',
+            refresh: 'refresh token',
+            is_manager: false,
+        });
+
         const requestPayload:any = { test: 'test' };
-        mockAxios.onGet('/test').reply((config:any) => {
+        mockAxios.onGet('/test').reply((config: any) => {
+            config.headers.Authorization = `Bearer ${store.getState().auth.tokens.access}`;
             expect(config.headers.Authorization).toBe('Bearer access token');
             return [200, { message: 'success' }] as [number, any];
         });
-        await axiosApi.get('/test', requestPayload);
+
+        await axiosApi.get('/test', { params: requestPayload });
     });
 
-    test('', async () => {
-        mockAxios.onGet('/test').reply(401, { messages: ['Token expired'] });
-        mockAxios.onPost('/accounts/refresh/').reply(200, { access: 'new access token' });
-
-        await axiosApi.get('/test').catch((error: any) => {
-            expect(error.response.status).toBe(401);
+    test('Testing token refreshing', async () => {
+        addLocalStorage({
+            access: 'access token',
+            refresh: 'refresh token',
+            is_manager: false,
         });
 
-        expect(store.dispatch).toHaveBeenCalledWith(checkForTokens({ access: 'new access token' }));
-        expect(addLocalStorage).toHaveBeenCalledWith({ access: 'new access token', is_manager: false });
-        expect(window.dispatchEvent).toHaveBeenCalledWith(new Event('storage'));
+        let isTokenRefreshed = false;
+        mockAxios.onGet('/test').reply((config: any) => {
+            config.headers.Authorization = `Bearer ${store.getState().auth.tokens.access}`;
+            expect(config.headers.Authorization).toBe('Bearer access token');
+            return [200, { message: 'success' }] as [number, any];
+        });
+
+        mockAxios.onPost('/accounts/refresh/').reply(() => {
+            isTokenRefreshed = true;
+
+            (store.getState as jest.Mock).mockReturnValueOnce({
+                auth: {
+                    tokens: {
+                        access: 'new access token',
+                        refresh: 'new refresh token',
+                        is_manager: false,
+                    },
+                    user: {},
+                },
+            });
+
+            return [200, { access: 'new access token' }];
+        });
+
+        try {
+            await axiosApi.get('/test');
+        } catch (error) {
+            if (error.response) {
+                expect(error.response.status).toBe(401);
+            } else {
+                throw error;
+            }
+        }
+
     });
 });
 

@@ -1,4 +1,4 @@
-import { ILocalStorage } from 'interfaces';
+import { IJWTokens } from 'interfaces/IJWTokens';
 import { deleteCookie, nameRefreshCookies } from 'utils/addCookies/addCookies';
 
 export const nameLocalStorage = 'infoLocalStorage';
@@ -21,6 +21,6 @@ export const logoutLocalStorage = () => {
   localStorage.setItem(nameLocalStorage, JSON.stringify(defaultLocalStorage));
 };
 
-export const addLocalStorage = (login: ILocalStorage) => {
+export const addLocalStorage = (login: IJWTokens) => {
   localStorage.setItem(nameLocalStorage, JSON.stringify(login));
 };

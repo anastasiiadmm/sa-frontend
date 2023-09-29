@@ -2,21 +2,20 @@ import axios, { AxiosRequestHeaders } from 'axios';
 
 import { checkForTokens, clearTokens } from 'redux/auth/authSlice';
 import store from 'redux/store';
-import { deleteCookie, nameRefreshCookies } from 'utils/addCookies/addCookies';
-import { addLocalStorage, logoutLocalStorage } from 'utils/addLocalStorage/addLocalStorage';
 import { apiURL } from 'utils/config';
+import { addLocalStorage, getUserLocalStorage, logoutLocalStorage } from 'utils/storage';
 
 const axiosApi = axios.create({
   baseURL: apiURL,
 });
 
-axiosApi.interceptors.request.use(async (config) => {
-  const key = store.getState()?.auth?.tokens?.access;
+axiosApi.interceptors.request.use((config) => {
+  const tokens = getUserLocalStorage();
 
-  if (key) {
+  if (tokens?.access) {
     config.headers = {
       ...config.headers,
-      Authorization: `Bearer ${key}`,
+      Authorization: `Bearer ${tokens.access}`,
     } as AxiosRequestHeaders;
   }
   return config;
@@ -28,10 +27,9 @@ axiosApi.interceptors.response.use(
   },
   async (error) => {
     const originalRequest = error.config;
-
     const statusCode = error?.response?.status;
-    const index = store;
-    const { tokens } = index.getState().auth;
+    const { tokens } = store.getState().auth;
+
     if (
       tokens?.access &&
       statusCode === 401 &&
@@ -46,24 +44,25 @@ axiosApi.interceptors.response.use(
           const newTokens = resp.data;
           axiosApi.defaults.headers.Authorization = `Bearer ${newTokens.access}`;
           const usersLocal = {
-            user: index.getState()?.auth?.user,
+            user: store.getState()?.auth?.user,
             token: {
               access: resp.data.access,
               refresh: tokens.refresh,
+              is_manager: resp.data.is_manager,
             },
           };
-          index.dispatch(checkForTokens({ access: newTokens.access }));
+          store.dispatch(checkForTokens({ access: newTokens.access }));
           addLocalStorage({
             access: usersLocal.token.access,
-            is_manager: index.getState()?.auth?.tokens?.is_manager,
+            refresh: usersLocal.token.refresh,
+            is_manager: usersLocal?.token?.is_manager,
           });
           window.dispatchEvent(new Event('storage'));
           return axiosApi(originalRequest);
         }
-      } catch (e) {
+      } catch {
         logoutLocalStorage();
-        deleteCookie(nameRefreshCookies);
-        index.dispatch(clearTokens());
+        store.dispatch(clearTokens());
       }
     }
 

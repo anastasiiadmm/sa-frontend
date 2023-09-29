@@ -7,13 +7,9 @@ import { useTokenConfigs } from 'hooks/useTokensConfigs';
 import { IListener } from 'interfaces';
 import { checkForTokens, clearTokens, logoutUser } from 'redux/auth/authSlice';
 import { useAppDispatch } from 'redux/hooks';
-import { deleteCookie, getCookie, nameRefreshCookies } from 'utils/addCookies/addCookies';
-import {
-  defaultLocalStorage,
-  logoutLocalStorage,
-  nameLocalStorage,
-  userLocalStorage,
-} from 'utils/addLocalStorage/addLocalStorage';
+import { defaultLocalStorage, logoutLocalStorage } from 'utils/addLocalStorage/addLocalStorage';
+import { tokensLocalStorage } from 'utils/config';
+import { getUserLocalStorage } from 'utils/storage';
 
 const AppRouter = lazy(() => import('AppRouter/AppRouter'));
 const App: React.FC = () => {
@@ -21,11 +17,10 @@ const App: React.FC = () => {
   const tokenConfigs = useTokenConfigs();
 
   const initializeApp = useCallback(() => {
-    const tokensLocal = userLocalStorage(getCookie(nameRefreshCookies));
+    const tokensLocal = getUserLocalStorage();
     if (tokensLocal?.access && tokensLocal?.refresh) {
       dispatch(checkForTokens(tokensLocal));
     } else {
-      deleteCookie(nameRefreshCookies);
       logoutLocalStorage();
       dispatch(clearTokens());
     }
@@ -33,15 +28,11 @@ const App: React.FC = () => {
 
   const handleStorageEvent = useCallback(
     ({ key, newValue }: IListener) => {
-      if (key === nameLocalStorage) {
-        if (newValue === JSON.stringify(defaultLocalStorage) || newValue === null) {
-          dispatch(logoutUser());
-          logoutLocalStorage();
-        } else {
-          const tokensCopy = JSON.parse(newValue);
-          tokensCopy.refresh = getCookie(nameRefreshCookies);
-          dispatch(checkForTokens(tokensCopy));
-        }
+      if (key === tokensLocalStorage && newValue === JSON.stringify(defaultLocalStorage)) {
+        dispatch(logoutUser());
+        logoutLocalStorage();
+      } else {
+        dispatch(checkForTokens(JSON.parse(newValue || '')));
       }
     },
     [dispatch],
