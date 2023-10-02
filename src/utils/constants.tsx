@@ -69,7 +69,7 @@ export const envs = {
 export const apiPath = '/api/v2';
 
 export const domains = {
-  [envs.local]: 'localhost',
+  [envs.local]: 'localhost:3000',
   [envs.development]: 'agri.ltestl.com',
   [envs.staging]: 'stage-agri.ltestl.com',
   [envs.production]: '',

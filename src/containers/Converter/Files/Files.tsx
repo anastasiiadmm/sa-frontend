@@ -128,7 +128,7 @@ const Files = () => {
 
   if (!allFiles?.length) {
     return (
-      <div className={b('history-list')}>
+      <div className={b('history-list')} data-testid='files-add'>
         <img src={notFoundImg} alt='notFound' />
         <h3>Данные отсутствуют</h3>
       </div>
