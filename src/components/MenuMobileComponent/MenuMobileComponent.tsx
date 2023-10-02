@@ -76,7 +76,7 @@ const MenuMobileComponent = () => {
   }[];
 
   return (
-    <div className={b('')}>
+    <div className={b('')} data-testid='mobile'>
       <div className={b('cards-links')}>
         {fetchLoadingAccount ? (
           <SkeletonBlock active={fetchLoadingAccount} num={1} titleBool />

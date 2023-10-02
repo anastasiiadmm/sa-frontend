@@ -12,45 +12,11 @@ exports[`<ProfileTechnique /> Users table component should be in the document 1`
       <div
         class="ProfileTechnique__header"
       >
-        <button
-          className="ProfileTechnique__back_handler"
-          onClick={[Function]}
-          type="button"
-        >
-          <img
-            alt="arrow"
-            className="ProfileTechnique__arrow-left"
-            src={
-              {
-                "process": [Function],
-              }
-            }
-          />
-        </button>
-        <h3
-          className="ant-typography ProfileTechnique__title css-dev-only-do-not-override-1ck3jst"
-          style={
-            {
-              "WebkitLineClamp": undefined,
-            }
-          }
-        >
-          Профиль техники - 
-           -
-           
-           
-        </h3>
-      </div>
-      <div>
-        <a
-          href="/open-map/undefined/local-tractor/undefined"
-          onClick={[Function]}
+        <div
+          class="ProfileTechnique__header-title"
         >
           <button
-            className="ant-btn css-dev-only-do-not-override-1ck3jst ant-btn-link ant-btn-lg ProfileTechnique__open-map"
-            disabled={false}
-            onClick={[Function]}
-            style={{}}
+            class="ProfileTechnique__back_handler"
             type="button"
           >
             <img
@@ -60,7 +26,7 @@ exports[`<ProfileTechnique /> Users table component should be in the document 1`
             />
           </button>
           <h3
-            class="ant-typography ProfileTechnique__title css-dev-only-do-not-override-1vr7spz"
+            class="ant-typography ProfileTechnique__title css-dev-only-do-not-override-pr0fja"
           >
             Профиль техники -  -  
           </h3>
@@ -70,7 +36,7 @@ exports[`<ProfileTechnique /> Users table component should be in the document 1`
             href="/open-map/undefined/local-tractor/undefined"
           >
             <button
-              class="ant-btn css-dev-only-do-not-override-1vr7spz ant-btn-link ant-btn-lg ProfileTechnique__open-map"
+              class="ant-btn css-dev-only-do-not-override-pr0fja ant-btn-link ant-btn-lg ProfileTechnique__open-map"
               type="button"
             >
               <span
@@ -96,18 +62,18 @@ exports[`<ProfileTechnique /> Users table component should be in the document 1`
           class="ProfileTechnique__images_tractor"
         >
           <div
-            class="ant-image css-dev-only-do-not-override-1vr7spz"
+            class="ant-image css-dev-only-do-not-override-pr0fja"
             style="width: 242px;"
           >
             <img
-              class="ant-image-img ProfileTechnique__technique-image css-dev-only-do-not-override-1vr7spz"
-              src="https://localhost:8000test/photos"
+              class="ant-image-img ProfileTechnique__technique-image css-dev-only-do-not-override-pr0fja"
+              src="https://localhost:3000:8000test/photos"
               style="border-radius: 4px;"
               width="242"
             />
           </div>
           <button
-            class="ant-btn css-dev-only-do-not-override-1vr7spz ant-btn-default"
+            class="ant-btn css-dev-only-do-not-override-pr0fja ant-btn-default"
             type="button"
           >
             <span>
@@ -119,10 +85,10 @@ exports[`<ProfileTechnique /> Users table component should be in the document 1`
           class="ProfileTechnique__profile-info"
         >
           <form
-            class="ant-form ant-form-vertical css-dev-only-do-not-override-1vr7spz"
+            class="ant-form ant-form-vertical css-dev-only-do-not-override-pr0fja"
           >
             <h5
-              class="ant-typography ProfileTechnique__profile-title css-dev-only-do-not-override-1vr7spz"
+              class="ant-typography ProfileTechnique__profile-title css-dev-only-do-not-override-pr0fja"
             >
               Информация о технике
             </h5>
@@ -130,13 +96,13 @@ exports[`<ProfileTechnique /> Users table component should be in the document 1`
               class="ProfileTechnique__form-block"
             >
               <div
-                class="ant-form-item css-dev-only-do-not-override-1vr7spz"
+                class="ant-form-item css-dev-only-do-not-override-pr0fja"
               >
                 <div
-                  class="ant-row ant-form-item-row css-dev-only-do-not-override-1vr7spz"
+                  class="ant-row ant-form-item-row css-dev-only-do-not-override-pr0fja"
                 >
                   <div
-                    class="ant-col ant-form-item-label css-dev-only-do-not-override-1vr7spz"
+                    class="ant-col ant-form-item-label css-dev-only-do-not-override-pr0fja"
                   >
                     <label
                       class=""
@@ -147,7 +113,7 @@ exports[`<ProfileTechnique /> Users table component should be in the document 1`
                     </label>
                   </div>
                   <div
-                    class="ant-col ant-form-item-control css-dev-only-do-not-override-1vr7spz"
+                    class="ant-col ant-form-item-control css-dev-only-do-not-override-pr0fja"
                   >
                     <div
                       class="ant-form-item-control-input"
@@ -156,7 +122,7 @@ exports[`<ProfileTechnique /> Users table component should be in the document 1`
                         class="ant-form-item-control-input-content"
                       >
                         <input
-                          class="ant-input ant-input-borderless css-dev-only-do-not-override-1vr7spz input-styles undefined"
+                          class="ant-input ant-input-borderless css-dev-only-do-not-override-pr0fja input-styles undefined"
                           id="description"
                           name="description"
                           placeholder="Название техники"
@@ -170,13 +136,13 @@ exports[`<ProfileTechnique /> Users table component should be in the document 1`
                 </div>
               </div>
               <div
-                class="ant-form-item css-dev-only-do-not-override-1vr7spz"
+                class="ant-form-item css-dev-only-do-not-override-pr0fja"
               >
                 <div
-                  class="ant-row ant-form-item-row css-dev-only-do-not-override-1vr7spz"
+                  class="ant-row ant-form-item-row css-dev-only-do-not-override-pr0fja"
                 >
                   <div
-                    class="ant-col ant-form-item-label css-dev-only-do-not-override-1vr7spz"
+                    class="ant-col ant-form-item-label css-dev-only-do-not-override-pr0fja"
                   >
                     <label
                       class=""
@@ -187,7 +153,7 @@ exports[`<ProfileTechnique /> Users table component should be in the document 1`
                     </label>
                   </div>
                   <div
-                    class="ant-col ant-form-item-control css-dev-only-do-not-override-1vr7spz"
+                    class="ant-col ant-form-item-control css-dev-only-do-not-override-pr0fja"
                   >
                     <div
                       class="ant-form-item-control-input"
@@ -196,7 +162,7 @@ exports[`<ProfileTechnique /> Users table component should be in the document 1`
                         class="ant-form-item-control-input-content"
                       >
                         <input
-                          class="ant-input ant-input-borderless css-dev-only-do-not-override-1vr7spz input-styles undefined"
+                          class="ant-input ant-input-borderless css-dev-only-do-not-override-pr0fja input-styles undefined"
                           id="license_plate"
                           name="license_plate"
                           placeholder="Гос номер"
@@ -210,13 +176,13 @@ exports[`<ProfileTechnique /> Users table component should be in the document 1`
                 </div>
               </div>
               <div
-                class="ant-form-item css-dev-only-do-not-override-1vr7spz"
+                class="ant-form-item css-dev-only-do-not-override-pr0fja"
               >
                 <div
-                  class="ant-row ant-form-item-row css-dev-only-do-not-override-1vr7spz"
+                  class="ant-row ant-form-item-row css-dev-only-do-not-override-pr0fja"
                 >
                   <div
-                    class="ant-col ant-form-item-label css-dev-only-do-not-override-1vr7spz"
+                    class="ant-col ant-form-item-label css-dev-only-do-not-override-pr0fja"
                   >
                     <label
                       class=""
@@ -227,7 +193,7 @@ exports[`<ProfileTechnique /> Users table component should be in the document 1`
                     </label>
                   </div>
                   <div
-                    class="ant-col ant-form-item-control css-dev-only-do-not-override-1vr7spz"
+                    class="ant-col ant-form-item-control css-dev-only-do-not-override-pr0fja"
                   >
                     <div
                       class="ant-form-item-control-input"
@@ -236,7 +202,7 @@ exports[`<ProfileTechnique /> Users table component should be in the document 1`
                         class="ant-form-item-control-input-content"
                       >
                         <input
-                          class="ant-input ant-input-borderless css-dev-only-do-not-override-1vr7spz input-styles undefined"
+                          class="ant-input ant-input-borderless css-dev-only-do-not-override-pr0fja input-styles undefined"
                           id="vin"
                           name="vin"
                           placeholder="VIN код"
@@ -251,7 +217,7 @@ exports[`<ProfileTechnique /> Users table component should be in the document 1`
               </div>
             </div>
             <h5
-              class="ant-typography ProfileTechnique__profile-title css-dev-only-do-not-override-1vr7spz"
+              class="ant-typography ProfileTechnique__profile-title css-dev-only-do-not-override-pr0fja"
             >
               Информация о механизаторе
             </h5>
@@ -259,13 +225,13 @@ exports[`<ProfileTechnique /> Users table component should be in the document 1`
               class="ProfileTechnique__form-block"
             >
               <div
-                class="ant-form-item css-dev-only-do-not-override-1vr7spz"
+                class="ant-form-item css-dev-only-do-not-override-pr0fja"
               >
                 <div
-                  class="ant-row ant-form-item-row css-dev-only-do-not-override-1vr7spz"
+                  class="ant-row ant-form-item-row css-dev-only-do-not-override-pr0fja"
                 >
                   <div
-                    class="ant-col ant-form-item-label css-dev-only-do-not-override-1vr7spz"
+                    class="ant-col ant-form-item-label css-dev-only-do-not-override-pr0fja"
                   >
                     <label
                       class=""
@@ -276,7 +242,7 @@ exports[`<ProfileTechnique /> Users table component should be in the document 1`
                     </label>
                   </div>
                   <div
-                    class="ant-col ant-form-item-control css-dev-only-do-not-override-1vr7spz"
+                    class="ant-col ant-form-item-control css-dev-only-do-not-override-pr0fja"
                   >
                     <div
                       class="ant-form-item-control-input"
@@ -285,7 +251,7 @@ exports[`<ProfileTechnique /> Users table component should be in the document 1`
                         class="ant-form-item-control-input-content"
                       >
                         <input
-                          class="ant-input ant-input-borderless css-dev-only-do-not-override-1vr7spz input-styles undefined"
+                          class="ant-input ant-input-borderless css-dev-only-do-not-override-pr0fja input-styles undefined"
                           id="operator_last_name"
                           name="operator,last_name"
                           placeholder="Фамилия"
@@ -299,13 +265,13 @@ exports[`<ProfileTechnique /> Users table component should be in the document 1`
                 </div>
               </div>
               <div
-                class="ant-form-item css-dev-only-do-not-override-1vr7spz"
+                class="ant-form-item css-dev-only-do-not-override-pr0fja"
               >
                 <div
-                  class="ant-row ant-form-item-row css-dev-only-do-not-override-1vr7spz"
+                  class="ant-row ant-form-item-row css-dev-only-do-not-override-pr0fja"
                 >
                   <div
-                    class="ant-col ant-form-item-label css-dev-only-do-not-override-1vr7spz"
+                    class="ant-col ant-form-item-label css-dev-only-do-not-override-pr0fja"
                   >
                     <label
                       class=""
@@ -316,7 +282,7 @@ exports[`<ProfileTechnique /> Users table component should be in the document 1`
                     </label>
                   </div>
                   <div
-                    class="ant-col ant-form-item-control css-dev-only-do-not-override-1vr7spz"
+                    class="ant-col ant-form-item-control css-dev-only-do-not-override-pr0fja"
                   >
                     <div
                       class="ant-form-item-control-input"
@@ -325,7 +291,7 @@ exports[`<ProfileTechnique /> Users table component should be in the document 1`
                         class="ant-form-item-control-input-content"
                       >
                         <input
-                          class="ant-input ant-input-borderless css-dev-only-do-not-override-1vr7spz input-styles undefined"
+                          class="ant-input ant-input-borderless css-dev-only-do-not-override-pr0fja input-styles undefined"
                           id="operator_first_name"
                           name="operator,first_name"
                           placeholder="Имя"
@@ -339,13 +305,13 @@ exports[`<ProfileTechnique /> Users table component should be in the document 1`
                 </div>
               </div>
               <div
-                class="ant-form-item css-dev-only-do-not-override-1vr7spz"
+                class="ant-form-item css-dev-only-do-not-override-pr0fja"
               >
                 <div
-                  class="ant-row ant-form-item-row css-dev-only-do-not-override-1vr7spz"
+                  class="ant-row ant-form-item-row css-dev-only-do-not-override-pr0fja"
                 >
                   <div
-                    class="ant-col ant-form-item-label css-dev-only-do-not-override-1vr7spz"
+                    class="ant-col ant-form-item-label css-dev-only-do-not-override-pr0fja"
                   >
                     <label
                       class=""
@@ -356,7 +322,7 @@ exports[`<ProfileTechnique /> Users table component should be in the document 1`
                     </label>
                   </div>
                   <div
-                    class="ant-col ant-form-item-control css-dev-only-do-not-override-1vr7spz"
+                    class="ant-col ant-form-item-control css-dev-only-do-not-override-pr0fja"
                   >
                     <div
                       class="ant-form-item-control-input"
@@ -365,7 +331,7 @@ exports[`<ProfileTechnique /> Users table component should be in the document 1`
                         class="ant-form-item-control-input-content"
                       >
                         <input
-                          class="ant-input ant-input-borderless css-dev-only-do-not-override-1vr7spz input-styles undefined"
+                          class="ant-input ant-input-borderless css-dev-only-do-not-override-pr0fja input-styles undefined"
                           id="operator_middle_name"
                           name="operator,middle_name"
                           placeholder="Отчество"
@@ -383,28 +349,14 @@ exports[`<ProfileTechnique /> Users table component should be in the document 1`
         </div>
       </div>
       <div
-        class="ant-skeleton css-dev-only-do-not-override-1vr7spz"
+        class="ant-skeleton css-dev-only-do-not-override-pr0fja"
       >
         <div
-          className="ant-image css-dev-only-do-not-override-1ck3jst"
-          style={
-            {
-              "height": undefined,
-              "width": 242,
-            }
-          }
+          class="ant-skeleton-content"
         >
-          <img
-            className="ant-image-img ProfileTechnique__technique-image css-dev-only-do-not-override-1ck3jst"
-            onLoad={[Function]}
-            src="https://localhost:8000test/photos"
-            style={
-              {
-                "borderRadius": 4,
-                "height": undefined,
-              }
-            }
-            width={242}
+          <h3
+            class="ant-skeleton-title"
+            style="width: 38%;"
           />
           <ul
             class="ant-skeleton-paragraph"
@@ -416,431 +368,6 @@ exports[`<ProfileTechnique /> Users table component should be in the document 1`
             />
           </ul>
         </div>
-        <button
-          className="ant-btn css-dev-only-do-not-override-1ck3jst ant-btn-default"
-          disabled={false}
-          onClick={[Function]}
-          style={{}}
-          type="button"
-        >
-          <span>
-            Техника на карте
-          </span>
-        </button>
-      </div>
-      <div
-        className="ProfileTechnique__profile-info"
-      >
-        <form
-          className="ant-form ant-form-vertical css-dev-only-do-not-override-1ck3jst"
-          onReset={[Function]}
-          onSubmit={[Function]}
-          style={{}}
-        >
-          <h5
-            className="ant-typography ProfileTechnique__profile-title css-dev-only-do-not-override-1ck3jst"
-            style={
-              {
-                "WebkitLineClamp": undefined,
-              }
-            }
-          >
-            Информация о технике
-          </h5>
-          <div
-            className="ProfileTechnique__form-block"
-          >
-            <div
-              className="ant-form-item css-dev-only-do-not-override-1ck3jst"
-            >
-              <div
-                className="ant-row ant-form-item-row css-dev-only-do-not-override-1ck3jst"
-                style={
-                  {
-                    "rowGap": undefined,
-                  }
-                }
-              >
-                <div
-                  className="ant-col ant-form-item-label css-dev-only-do-not-override-1ck3jst"
-                  style={{}}
-                >
-                  <label
-                    className=""
-                    htmlFor="description"
-                    title="Название техники"
-                  >
-                    Название техники
-                  </label>
-                </div>
-                <div
-                  className="ant-col ant-form-item-control css-dev-only-do-not-override-1ck3jst"
-                  style={{}}
-                >
-                  <div
-                    className="ant-form-item-control-input"
-                  >
-                    <div
-                      className="ant-form-item-control-input-content"
-                    >
-                      <input
-                        className="ant-input ant-input-borderless css-dev-only-do-not-override-1ck3jst input-styles undefined"
-                        disabled={false}
-                        id="description"
-                        name="description"
-                        onBlur={[Function]}
-                        onChange={[Function]}
-                        onFocus={[Function]}
-                        onKeyDown={[Function]}
-                        placeholder="Название техники"
-                        readOnly={true}
-                        style={{}}
-                        type="text"
-                        value=""
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              className="ant-form-item css-dev-only-do-not-override-1ck3jst"
-            >
-              <div
-                className="ant-row ant-form-item-row css-dev-only-do-not-override-1ck3jst"
-                style={
-                  {
-                    "rowGap": undefined,
-                  }
-                }
-              >
-                <div
-                  className="ant-col ant-form-item-label css-dev-only-do-not-override-1ck3jst"
-                  style={{}}
-                >
-                  <label
-                    className=""
-                    htmlFor="license_plate"
-                    title="Гос номер"
-                  >
-                    Гос номер
-                  </label>
-                </div>
-                <div
-                  className="ant-col ant-form-item-control css-dev-only-do-not-override-1ck3jst"
-                  style={{}}
-                >
-                  <div
-                    className="ant-form-item-control-input"
-                  >
-                    <div
-                      className="ant-form-item-control-input-content"
-                    >
-                      <input
-                        className="ant-input ant-input-borderless css-dev-only-do-not-override-1ck3jst input-styles undefined"
-                        disabled={false}
-                        id="license_plate"
-                        name="license_plate"
-                        onBlur={[Function]}
-                        onChange={[Function]}
-                        onFocus={[Function]}
-                        onKeyDown={[Function]}
-                        placeholder="Гос номер"
-                        readOnly={true}
-                        style={{}}
-                        type="text"
-                        value=""
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              className="ant-form-item css-dev-only-do-not-override-1ck3jst"
-            >
-              <div
-                className="ant-row ant-form-item-row css-dev-only-do-not-override-1ck3jst"
-                style={
-                  {
-                    "rowGap": undefined,
-                  }
-                }
-              >
-                <div
-                  className="ant-col ant-form-item-label css-dev-only-do-not-override-1ck3jst"
-                  style={{}}
-                >
-                  <label
-                    className=""
-                    htmlFor="vin"
-                    title="VIN код"
-                  >
-                    VIN код
-                  </label>
-                </div>
-                <div
-                  className="ant-col ant-form-item-control css-dev-only-do-not-override-1ck3jst"
-                  style={{}}
-                >
-                  <div
-                    className="ant-form-item-control-input"
-                  >
-                    <div
-                      className="ant-form-item-control-input-content"
-                    >
-                      <input
-                        className="ant-input ant-input-borderless css-dev-only-do-not-override-1ck3jst input-styles undefined"
-                        disabled={false}
-                        id="vin"
-                        name="vin"
-                        onBlur={[Function]}
-                        onChange={[Function]}
-                        onFocus={[Function]}
-                        onKeyDown={[Function]}
-                        placeholder="VIN код"
-                        readOnly={true}
-                        style={{}}
-                        type="text"
-                        value=""
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <h5
-            className="ant-typography ProfileTechnique__profile-title css-dev-only-do-not-override-1ck3jst"
-            style={
-              {
-                "WebkitLineClamp": undefined,
-              }
-            }
-          >
-            Информация о механизаторе
-          </h5>
-          <div
-            className="ProfileTechnique__form-block"
-          >
-            <div
-              className="ant-form-item css-dev-only-do-not-override-1ck3jst"
-            >
-              <div
-                className="ant-row ant-form-item-row css-dev-only-do-not-override-1ck3jst"
-                style={
-                  {
-                    "rowGap": undefined,
-                  }
-                }
-              >
-                <div
-                  className="ant-col ant-form-item-label css-dev-only-do-not-override-1ck3jst"
-                  style={{}}
-                >
-                  <label
-                    className=""
-                    htmlFor="operator_last_name"
-                    title="Фамилия"
-                  >
-                    Фамилия
-                  </label>
-                </div>
-                <div
-                  className="ant-col ant-form-item-control css-dev-only-do-not-override-1ck3jst"
-                  style={{}}
-                >
-                  <div
-                    className="ant-form-item-control-input"
-                  >
-                    <div
-                      className="ant-form-item-control-input-content"
-                    >
-                      <input
-                        className="ant-input ant-input-borderless css-dev-only-do-not-override-1ck3jst input-styles undefined"
-                        disabled={false}
-                        id="operator_last_name"
-                        name={
-                          [
-                            "operator",
-                            "last_name",
-                          ]
-                        }
-                        onBlur={[Function]}
-                        onChange={[Function]}
-                        onFocus={[Function]}
-                        onKeyDown={[Function]}
-                        placeholder="Фамилия"
-                        readOnly={true}
-                        style={{}}
-                        type="text"
-                        value="test"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              className="ant-form-item css-dev-only-do-not-override-1ck3jst"
-            >
-              <div
-                className="ant-row ant-form-item-row css-dev-only-do-not-override-1ck3jst"
-                style={
-                  {
-                    "rowGap": undefined,
-                  }
-                }
-              >
-                <div
-                  className="ant-col ant-form-item-label css-dev-only-do-not-override-1ck3jst"
-                  style={{}}
-                >
-                  <label
-                    className=""
-                    htmlFor="operator_first_name"
-                    title="Имя"
-                  >
-                    Имя
-                  </label>
-                </div>
-                <div
-                  className="ant-col ant-form-item-control css-dev-only-do-not-override-1ck3jst"
-                  style={{}}
-                >
-                  <div
-                    className="ant-form-item-control-input"
-                  >
-                    <div
-                      className="ant-form-item-control-input-content"
-                    >
-                      <input
-                        className="ant-input ant-input-borderless css-dev-only-do-not-override-1ck3jst input-styles undefined"
-                        disabled={false}
-                        id="operator_first_name"
-                        name={
-                          [
-                            "operator",
-                            "first_name",
-                          ]
-                        }
-                        onBlur={[Function]}
-                        onChange={[Function]}
-                        onFocus={[Function]}
-                        onKeyDown={[Function]}
-                        placeholder="Имя"
-                        readOnly={true}
-                        style={{}}
-                        type="text"
-                        value="test"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              className="ant-form-item css-dev-only-do-not-override-1ck3jst"
-            >
-              <div
-                className="ant-row ant-form-item-row css-dev-only-do-not-override-1ck3jst"
-                style={
-                  {
-                    "rowGap": undefined,
-                  }
-                }
-              >
-                <div
-                  className="ant-col ant-form-item-label css-dev-only-do-not-override-1ck3jst"
-                  style={{}}
-                >
-                  <label
-                    className=""
-                    htmlFor="operator_middle_name"
-                    title="Отчество"
-                  >
-                    Отчество
-                  </label>
-                </div>
-                <div
-                  className="ant-col ant-form-item-control css-dev-only-do-not-override-1ck3jst"
-                  style={{}}
-                >
-                  <div
-                    className="ant-form-item-control-input"
-                  >
-                    <div
-                      className="ant-form-item-control-input-content"
-                    >
-                      <input
-                        className="ant-input ant-input-borderless css-dev-only-do-not-override-1ck3jst input-styles undefined"
-                        disabled={false}
-                        id="operator_middle_name"
-                        name={
-                          [
-                            "operator",
-                            "middle_name",
-                          ]
-                        }
-                        onBlur={[Function]}
-                        onChange={[Function]}
-                        onFocus={[Function]}
-                        onKeyDown={[Function]}
-                        placeholder="Отчество"
-                        readOnly={true}
-                        style={{}}
-                        type="text"
-                        value="test"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </form>
-      </div>
-    </div>
-    <div
-      className="ant-skeleton css-dev-only-do-not-override-1ck3jst"
-      style={{}}
-    >
-      <div
-        className="ant-skeleton-content"
-      >
-        <h3
-          className="ant-skeleton-title"
-          style={
-            {
-              "width": "38%",
-            }
-          }
-        />
-        <ul
-          className="ant-skeleton-paragraph"
-        >
-          <li
-            style={
-              {
-                "width": undefined,
-              }
-            }
-          />
-          <li
-            style={
-              {
-                "width": undefined,
-              }
-            }
-          />
-          <li
-            style={
-              {
-                "width": "61%",
-              }
-            }
-          />
-        </ul>
       </div>
     </div>
   </div>

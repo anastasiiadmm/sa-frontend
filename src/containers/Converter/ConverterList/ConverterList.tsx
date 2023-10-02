@@ -18,7 +18,7 @@ const ConverterList = () => {
   const b = bem('ConverterList');
 
   return (
-    <div className={b('')}>
+    <div className={b('')} data-testid='converter-list'>
       <div className={b('list-block')}>
         <List
           className={b('files-item')}

@@ -31,111 +31,69 @@ exports[`<UserTechnique /> Users table component should be in the document 1`] =
         <div
           class="UserTechnique__header-title"
         >
-          <img
-            alt="arrow"
-            className="UserTechnique__arrow-left"
-            src={
-              {
-                "process": [Function],
-              }
-            }
-          />
-        </a>
-        <h3
-          className="ant-typography UserTechnique__title css-dev-only-do-not-override-1ck3jst"
-          style={
-            {
-              "WebkitLineClamp": undefined,
-            }
-          }
-        >
-          Техника пользователя -
-           
-          <p
-            className="UserTechnique__subtitle"
+          <a
+            href="/user-profile/undefined"
           >
-             
-            .
-             
-            undefined.
-          </p>
-        </h3>
-      </div>
-      <div
-        className="UserTechnique__mobile_block"
-      >
-        <button
-          className="ant-btn css-dev-only-do-not-override-1ck3jst ant-btn-default"
-          disabled={false}
-          onClick={[Function]}
-          style={{}}
-          type="button"
-        >
-          <div>
-            <p>
-              <img
-                alt="tractorProfileIcon"
-                src={
-                  {
-                    "process": [Function],
-                  }
-                }
-              />
+            <img
+              alt="arrow"
+              class="UserTechnique__arrow-left"
+              src="[object Object]"
+            />
+          </a>
+          <h3
+            class="ant-typography UserTechnique__title css-dev-only-do-not-override-pr0fja"
+          >
+            Техника пользователя - 
+            <p
+              class="UserTechnique__subtitle"
+            >
+               . undefined.
             </p>
-            <p>
-              Добавить технику
-            </p>
-          </div>
-        </button>
-        <button
-          className="ant-btn css-dev-only-do-not-override-1ck3jst ant-btn-default"
-          disabled={false}
-          onClick={[Function]}
-          style={{}}
-          type="button"
-        >
-          <div>
-            <p>
-              <img
-                alt="tractorProfileIcon"
-                src={
-                  {
-                    "process": [Function],
-                  }
-                }
-              />
-            </p>
-            <p>
-              Посмотреть всю 
-              <br />
-               технику
-            </p>
-          </div>
-        </button>
-      </div>
-      <div
-        className="UserTechnique__btn_handler"
-      >
-        <button
-          className="ant-btn css-dev-only-do-not-override-1ck3jst ant-btn-primary"
-          disabled={false}
-          onClick={[Function]}
-          style={{}}
-          type="button"
-        >
-          <span>
-            Добавить технику
-          </span>
-        </button>
-        <a
-          href="/technique-map/undefined"
-          onClick={[Function]}
+          </h3>
+        </div>
+        <div
+          class="UserTechnique__mobile_block"
         >
           <button
-            className="ant-btn css-dev-only-do-not-override-1ck3jst ant-btn-default UserTechnique__view-button"
-            disabled={false}
-            onClick={[Function]}
-            style={{}}
+            class="ant-btn css-dev-only-do-not-override-pr0fja ant-btn-default"
+            type="button"
+          >
+            <div>
+              <p>
+                <img
+                  alt="tractorProfileIcon"
+                  src="[object Object]"
+                />
+              </p>
+              <p>
+                Добавить технику
+              </p>
+            </div>
+          </button>
+          <button
+            class="ant-btn css-dev-only-do-not-override-pr0fja ant-btn-default"
+            type="button"
+          >
+            <div>
+              <p>
+                <img
+                  alt="tractorProfileIcon"
+                  src="[object Object]"
+                />
+              </p>
+              <p>
+                Посмотреть всю 
+                <br />
+                 технику
+              </p>
+            </div>
+          </button>
+        </div>
+        <div
+          class="UserTechnique__btn_handler"
+        >
+          <button
+            class="ant-btn css-dev-only-do-not-override-pr0fja ant-btn-primary"
             type="button"
           >
             <span>
@@ -146,7 +104,7 @@ exports[`<UserTechnique /> Users table component should be in the document 1`] =
             href="/technique-map/undefined"
           >
             <button
-              class="ant-btn css-dev-only-do-not-override-1vr7spz ant-btn-default UserTechnique__view-button"
+              class="ant-btn css-dev-only-do-not-override-pr0fja ant-btn-default UserTechnique__view-button"
               type="button"
             >
               <span>
@@ -160,7 +118,7 @@ exports[`<UserTechnique /> Users table component should be in the document 1`] =
         class="UserTechnique__table_list"
       >
         <div
-          class="ant-skeleton css-dev-only-do-not-override-1vr7spz"
+          class="ant-skeleton css-dev-only-do-not-override-pr0fja"
         >
           <div
             class="ant-skeleton-content"
@@ -186,15 +144,14 @@ exports[`<UserTechnique /> Users table component should be in the document 1`] =
       class="UserTechnique__list_table_mobile"
     >
       <div
-        className="ant-skeleton css-dev-only-do-not-override-1ck3jst"
-        style={{}}
+        class="UserTechnique__table_mobile"
       >
         <div
           class="block_avatar"
         >
           <div>
             <img
-              src="https://localhost:8000/api/static/default_vehicle_image.jpg"
+              src="https://localhost:3000:8000/api/static/default_vehicle_image.jpg"
             />
           </div>
           <div
@@ -224,7 +181,7 @@ exports[`<UserTechnique /> Users table component should be in the document 1`] =
           style="display: flex; margin-top: 10px;"
         >
           <button
-            class="ant-btn css-dev-only-do-not-override-1vr7spz ant-btn-text UserTechnique__btn_table"
+            class="ant-btn css-dev-only-do-not-override-pr0fja ant-btn-text UserTechnique__btn_table"
             type="button"
           >
             <img
@@ -237,7 +194,7 @@ exports[`<UserTechnique /> Users table component should be in the document 1`] =
             href="/profile-technique/91"
           >
             <button
-              class="ant-btn css-dev-only-do-not-override-1vr7spz ant-btn-text UserTechnique__btn_table"
+              class="ant-btn css-dev-only-do-not-override-pr0fja ant-btn-text UserTechnique__btn_table"
               type="button"
             >
               <img
@@ -251,7 +208,7 @@ exports[`<UserTechnique /> Users table component should be in the document 1`] =
             href="/open-map/91/local-tractor/D8BN8TR61"
           >
             <button
-              class="ant-btn css-dev-only-do-not-override-1vr7spz ant-btn-text UserTechnique__btn_table"
+              class="ant-btn css-dev-only-do-not-override-pr0fja ant-btn-text UserTechnique__btn_table"
               type="button"
             >
               <img
@@ -262,7 +219,7 @@ exports[`<UserTechnique /> Users table component should be in the document 1`] =
             </button>
           </a>
           <button
-            class="ant-btn css-dev-only-do-not-override-1vr7spz ant-btn-text UserTechnique__btn_table UserTechnique__deleteBg"
+            class="ant-btn css-dev-only-do-not-override-pr0fja ant-btn-text UserTechnique__btn_table UserTechnique__deleteBg"
             type="button"
           >
             <img
@@ -275,147 +232,5 @@ exports[`<UserTechnique /> Users table component should be in the document 1`] =
       </div>
     </div>
   </div>
-  <div
-    className="UserTechnique__list_table_mobile"
-  >
-    <div
-      className="UserTechnique__table_mobile"
-    >
-      <div
-        className="block_avatar"
-      >
-        <div>
-          <img
-            src="https://localhost:8000/api/static/default_vehicle_image.jpg"
-          />
-        </div>
-        <div
-          className="block_title"
-        >
-          <p>
-            <b>
-              Название техники
-            </b>
-          </p>
-          <p
-            className="todo"
-          >
-            fbd
-          </p>
-          <p
-            className="todo"
-          >
-            Задачи 
-            <b>
-              1
-            </b>
-          </p>
-        </div>
-      </div>
-      <div
-        style={
-          {
-            "display": "flex",
-            "marginTop": 10,
-          }
-        }
-      >
-        <button
-          className="ant-btn css-dev-only-do-not-override-1ck3jst ant-btn-text UserTechnique__btn_table"
-          disabled={false}
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
-          onPointerEnter={[Function]}
-          onPointerLeave={[Function]}
-          style={{}}
-          type="button"
-        >
-          <img
-            alt="edit"
-            className="link-icons"
-            src={
-              {
-                "process": [Function],
-              }
-            }
-          />
-        </button>
-        <a
-          href="/profile-technique/91"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
-          onPointerEnter={[Function]}
-          onPointerLeave={[Function]}
-        >
-          <button
-            className="ant-btn css-dev-only-do-not-override-1ck3jst ant-btn-text UserTechnique__btn_table"
-            disabled={false}
-            onClick={[Function]}
-            style={{}}
-            type="button"
-          >
-            <img
-              alt="tractorBlue"
-              className="UserTechnique__tractor-blue link-icons"
-              src={
-                {
-                  "process": [Function],
-                }
-              }
-            />
-          </button>
-        </a>
-        <a
-          href="/open-map/91/local-tractor/D8BN8TR61"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
-          onPointerEnter={[Function]}
-          onPointerLeave={[Function]}
-        >
-          <button
-            className="ant-btn css-dev-only-do-not-override-1ck3jst ant-btn-text UserTechnique__btn_table"
-            disabled={false}
-            onClick={[Function]}
-            style={{}}
-            type="button"
-          >
-            <img
-              alt="tractorBlue"
-              className="UserTechnique__tractor-blue link-icons"
-              src={
-                {
-                  "process": [Function],
-                }
-              }
-            />
-          </button>
-        </a>
-        <button
-          className="ant-btn css-dev-only-do-not-override-1ck3jst ant-btn-text UserTechnique__btn_table UserTechnique__deleteBg"
-          disabled={false}
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
-          onPointerEnter={[Function]}
-          onPointerLeave={[Function]}
-          style={{}}
-          type="button"
-        >
-          <img
-            alt="deleteIcon"
-            className="link-icons"
-            src={
-              {
-                "process": [Function],
-              }
-            }
-          />
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
+</DocumentFragment>
 `;
